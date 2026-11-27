@@ -1139,9 +1139,9 @@ export interface WebhooksDeliveryItem {
   event_at?: string | undefined;
   /** Event that triggered this delivery (e.g. `indexing.status_changed`). */
   event_type?: string | undefined;
-  /** Current processing state: `queued`, `processing`, `completed`, or `failed`. */
+  /** Indexing outcome: `completed` or `success` for success, `errored` for failure. Separate from delivery status. */
   indexing_status?: string | undefined;
-  /** Current delivery status (e.g. `completed`, `failed`, `permanently_failed`). */
+  /** Delivery state: `pending`, `sweeping`, `delivered`, `failed`, or `permanently_failed`. Separate from the indexing outcome. */
   status?: string | undefined;
   /** Deprecated: use `collection`. Same value. */
   sub_tenant_id?: string | undefined;

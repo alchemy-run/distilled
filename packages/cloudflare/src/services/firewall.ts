@@ -1828,6 +1828,49 @@ export type WafPackagesRulesEditResult =
   | WafPackagesRulesEditResultWAFManagedRulesTraditionalDenyRule
   | WafPackagesRulesEditResultWAFManagedRulesTraditionalAllowRule;
 export type PatchWafPackageRuleResponse = WafPackagesRulesEditResult;
+export interface PayloadLoggingDeleteForAccountRequest {
+  /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
+  accountId: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PayloadLoggingDeleteResponse {
+  /** Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads. */
+  publicKey: string;
+}
+export interface PayloadLoggingDeleteForZoneRequest {
+  /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
+  zoneId: string;
+}
+export interface PayloadLoggingGetForAccountRequest {
+  /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
+  accountId: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PayloadLoggingGetResponse {
+  /** Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads. */
+  publicKey: string;
+}
+export interface PayloadLoggingGetForZoneRequest {
+  /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
+  zoneId: string;
+}
+export interface PayloadLoggingUpdateForAccountRequest {
+  /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
+  accountId: string;
+  /** Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads. */
+  publicKey: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PayloadLoggingUpdateResponse {
+  /** Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads. */
+  publicKey: string;
+}
+export interface PayloadLoggingUpdateForZoneRequest {
+  /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
+  zoneId: string;
+  /** Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads. */
+  publicKey: string;
+}
 export type LockdownsUpdateRequestUrlsList = Array<string>;
 export interface UpdateLockdownRequest {
   /** Defines an identifier. */
@@ -2089,8 +2132,8 @@ export const bulkDeleteRules: API.PaginatedOperationMethod<
   RulesBulkDeleteResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(432, __c54, 0) as any as S.Schema<BulkDeleteRulesRequest>,
-    output: __S(436, __c54, 4) as any as S.Schema<BulkDeleteRulesResponse>,
+    input: __S(488, __c61, 0) as any as S.Schema<BulkDeleteRulesRequest>,
+    output: __S(492, __c61, 4) as any as S.Schema<BulkDeleteRulesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -2112,8 +2155,8 @@ export const bulkPatchRules: API.PaginatedOperationMethod<
   RulesBulkEditResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(448, __c56, 0) as any as S.Schema<BulkPatchRulesRequest>,
-    output: __S(452, __c56, 4) as any as S.Schema<BulkPatchRulesResponse>,
+    input: __S(504, __c63, 0) as any as S.Schema<BulkPatchRulesRequest>,
+    output: __S(508, __c63, 4) as any as S.Schema<BulkPatchRulesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -2135,8 +2178,8 @@ export const bulkPutRules: API.PaginatedOperationMethod<
   RulesBulkUpdateResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(456, __c57, 0) as any as S.Schema<BulkPutRulesRequest>,
-    output: __S(460, __c57, 4) as any as S.Schema<BulkPutRulesResponse>,
+    input: __S(512, __c64, 0) as any as S.Schema<BulkPutRulesRequest>,
+    output: __S(516, __c64, 4) as any as S.Schema<BulkPutRulesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -2865,6 +2908,114 @@ export const patchWafPackageRule: API.OperationMethod<
   span: "PatchWafPackageRule",
 }));
 
+export type PayloadLoggingDeleteForAccountError = CloudflareOpError;
+/** Deletes the payload logging public key of the account or zone. */
+export const payloadLoggingDeleteForAccount: API.OperationMethod<
+  PayloadLoggingDeleteForAccountRequest,
+  PayloadLoggingDeleteResponse,
+  PayloadLoggingDeleteForAccountError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(400, __c50, 0) as any as S.Schema<PayloadLoggingDeleteForAccountRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingDeleteResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingDeleteForAccount",
+}));
+
+export type PayloadLoggingDeleteForZoneError = CloudflareOpError;
+/** Deletes the payload logging public key of the account or zone. */
+export const payloadLoggingDeleteForZone: API.OperationMethod<
+  PayloadLoggingDeleteForZoneRequest,
+  PayloadLoggingDeleteResponse,
+  PayloadLoggingDeleteForZoneError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c52, 0) as any as S.Schema<PayloadLoggingDeleteForZoneRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingDeleteResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingDeleteForZone",
+}));
+
+export type PayloadLoggingGetForAccountError = CloudflareOpError;
+/** Fetches the public key that payload logging uses to encrypt matched payloads for the account or zone. */
+export const payloadLoggingGetForAccount: API.OperationMethod<
+  PayloadLoggingGetForAccountRequest,
+  PayloadLoggingGetResponse,
+  PayloadLoggingGetForAccountError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(424, __c53, 0) as any as S.Schema<PayloadLoggingGetForAccountRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingGetResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingGetForAccount",
+}));
+
+export type PayloadLoggingGetForZoneError = CloudflareOpError;
+/** Fetches the public key that payload logging uses to encrypt matched payloads for the account or zone. */
+export const payloadLoggingGetForZone: API.OperationMethod<
+  PayloadLoggingGetForZoneRequest,
+  PayloadLoggingGetResponse,
+  PayloadLoggingGetForZoneError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(432, __c54, 0) as any as S.Schema<PayloadLoggingGetForZoneRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingGetResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingGetForZone",
+}));
+
+export type PayloadLoggingUpdateForAccountError = CloudflareOpError;
+/** Creates or replaces the public key that payload logging uses to encrypt matched payloads for the account or zone. It applies to every zone in the account or zone that has no zone key. Requires a plan that includes payload logging (Enterprise); otherwise it returns 403. */
+export const payloadLoggingUpdateForAccount: API.OperationMethod<
+  PayloadLoggingUpdateForAccountRequest,
+  PayloadLoggingUpdateResponse,
+  PayloadLoggingUpdateForAccountError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(440, __c55, 0) as any as S.Schema<PayloadLoggingUpdateForAccountRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingUpdateResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingUpdateForAccount",
+}));
+
+export type PayloadLoggingUpdateForZoneError = CloudflareOpError;
+/** Creates or replaces the public key that payload logging uses to encrypt matched payloads for the account or zone. It applies to every zone in the account or zone that has no zone key. Requires a plan that includes payload logging (Enterprise); otherwise it returns 403. */
+export const payloadLoggingUpdateForZone: API.OperationMethod<
+  PayloadLoggingUpdateForZoneRequest,
+  PayloadLoggingUpdateResponse,
+  PayloadLoggingUpdateForZoneError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c56, 0) as any as S.Schema<PayloadLoggingUpdateForZoneRequest>,
+  output: __S(408, __c51, 0) as any as S.Schema<PayloadLoggingUpdateResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayloadLoggingUpdateForZone",
+}));
+
 export type UpdateLockdownError =
   | LockdownNotFound
   | DuplicateLockdown
@@ -2877,7 +3028,7 @@ export const updateLockdown: API.OperationMethod<
   UpdateLockdownError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<UpdateLockdownRequest>,
+  input: __S(456, __c57, 0) as any as S.Schema<UpdateLockdownRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateLockdownResponse>,
   errors: [LockdownNotFound, DuplicateLockdown, Forbidden],
   serviceErrors: CloudflareServiceErrors,
@@ -2895,8 +3046,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(410, __c51, 2) as any as S.Schema<UpdateRuleResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<UpdateRuleResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2913,7 +3064,7 @@ export const updateUaRule: API.OperationMethod<
   UpdateUaRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c52, 1) as any as S.Schema<UpdateUaRuleRequest>,
+  input: __S(473, __c59, 1) as any as S.Schema<UpdateUaRuleRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<UpdateUaRuleResponse>,
   errors: [UaRuleNotFound, DuplicateUaRule, Forbidden],
   serviceErrors: CloudflareServiceErrors,
@@ -2931,7 +3082,7 @@ export const updateWafOverride: API.OperationMethod<
   UpdateWafOverrideError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(425, __c53, 1) as any as S.Schema<UpdateWafOverrideRequest>,
+  input: __S(481, __c60, 1) as any as S.Schema<UpdateWafOverrideRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<UpdateWafOverrideResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -2995,7 +3146,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allowedModes: __S(440, __c55, 0).pipe(T.Body("allowed_modes")),
+          allowedModes: __S(496, __c62, 0).pipe(T.Body("allowed_modes")),
           configuration: __S(9, __c1, 1),
           mode: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
@@ -3123,7 +3274,7 @@ function __c8(j: number): any {
           filter: S.optional(S.NullOr(__S(65, __c8, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesCreateResultItem" });
@@ -3348,7 +3499,7 @@ function __c20(j: number): any {
           filter: S.optional(S.NullOr(__S(161, __c20, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteRuleResponse" });
@@ -3430,7 +3581,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allowedModes: __S(440, __c55, 0).pipe(T.Body("allowed_modes")),
+          allowedModes: __S(496, __c62, 0).pipe(T.Body("allowed_modes")),
           configuration: __S(192, __c24, 0),
           mode: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
@@ -3508,7 +3659,7 @@ function __c27(j: number): any {
           filter: S.optional(S.NullOr(__S(217, __c27, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRuleResponse" });
@@ -3664,7 +3815,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allowedModes: __S(440, __c55, 0).pipe(T.Body("allowed_modes")),
+          allowedModes: __S(496, __c62, 0).pipe(T.Body("allowed_modes")),
           configuration: __S(280, __c35, 0),
           mode: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
@@ -3787,7 +3938,7 @@ function __c38(j: number): any {
           filter: S.optional(S.NullOr(__S(305, __c38, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesListResultItem" });
@@ -3887,7 +4038,7 @@ function __c41(j: number): any {
           mode: S.String,
           name: S.String,
           rulesCount: S.Number.pipe(T.Body("rules_count")),
-          allowedModes: S.optional(S.NullOr(__S(440, __c55, 0)).pipe(T.Body("allowed_modes"))),
+          allowedModes: S.optional(S.NullOr(__S(496, __c62, 0)).pipe(T.Body("allowed_modes"))),
           modifiedRulesCount: S.optional(S.NullOr(S.Number).pipe(T.Body("modified_rules_count"))),
           packageId: S.optional(S.NullOr(S.String).pipe(T.Body("package_id"))),
         }),
@@ -4029,7 +4180,7 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allowedModes: __S(440, __c55, 0).pipe(T.Body("allowed_modes")),
+          allowedModes: __S(496, __c62, 0).pipe(T.Body("allowed_modes")),
           configuration: __S(361, __c45, 1),
           mode: S.String,
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
@@ -4095,7 +4246,7 @@ function __c47(j: number): any {
           filter: S.optional(S.NullOr(__S(377, __c47, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesEditResultItem" });
@@ -4178,6 +4329,126 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingDeleteForAccountRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          publicKey: S.String.pipe(T.Body("public_key")),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingDeleteResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/zones/{zone_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingDeleteForZoneRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingGetForAccountRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/zones/{zone_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingGetForZoneRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          publicKey: S.String.pipe(T.Body("public_key")),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingUpdateForAccountRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+          publicKey: S.String.pipe(T.Body("public_key")),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/zones/{zone_id}/firewall/payload_logging/key",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PayloadLoggingUpdateForZoneRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           lockDownsId: S.String.pipe(T.Label("lock_downs_id")),
           configurations: __S(49, __c6, 1),
@@ -4197,7 +4468,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateLockdownRequest" });
   }
 }
-function __c51(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4225,16 +4496,16 @@ function __c51(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           action: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          filter: S.optional(S.NullOr(__S(409, __c51, 1))),
+          filter: S.optional(S.NullOr(__S(465, __c58, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateRuleResponse" });
   }
 }
-function __c52(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -4254,7 +4525,7 @@ function __c52(j: number): any {
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           uaRuleId: S.String.pipe(T.Label("ua_rule_id")),
-          configuration: __S(416, __c52, 0),
+          configuration: __S(472, __c59, 0),
           mode: S.String,
           description: S.optional(S.String),
           paused: S.optional(S.Boolean),
@@ -4270,7 +4541,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateUaRuleRequest" });
   }
 }
-function __c53(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4288,7 +4559,7 @@ function __c53(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
           overridesId: S.String.pipe(T.Label("overrides_id")),
           id: S.String,
-          rewriteAction: __S(424, __c53, 0).pipe(T.Body("rewrite_action")),
+          rewriteAction: __S(480, __c60, 0).pipe(T.Body("rewrite_action")),
           rules: S.String,
           urls: __S(40, __c5, 0),
         })
@@ -4303,7 +4574,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateWafOverrideRequest" });
   }
 }
-function __c54(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4326,31 +4597,31 @@ function __c54(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           action: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          filter: S.optional(S.NullOr(__S(433, __c54, 1))),
+          filter: S.optional(S.NullOr(__S(489, __c61, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesBulkDeleteResultItem" });
     case 3:
-      return S.Array(__S(434, __c54, 2));
+      return S.Array(__S(490, __c61, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(435, __c54, 3).pipe(T.EnvelopePayload()),
+          result: __S(491, __c61, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "BulkDeleteRulesResponse" });
   }
 }
-function __c55(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c56(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4374,25 +4645,25 @@ function __c56(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           action: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          filter: S.optional(S.NullOr(__S(449, __c56, 1))),
+          filter: S.optional(S.NullOr(__S(505, __c63, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesBulkEditResultItem" });
     case 3:
-      return S.Array(__S(450, __c56, 2));
+      return S.Array(__S(506, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(451, __c56, 3).pipe(T.EnvelopePayload()),
+          result: __S(507, __c63, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "BulkPatchRulesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4416,19 +4687,19 @@ function __c57(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           action: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          filter: S.optional(S.NullOr(__S(457, __c57, 1))),
+          filter: S.optional(S.NullOr(__S(513, __c64, 1))),
           paused: S.optional(S.NullOr(S.Boolean)),
           priority: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(440, __c55, 0))),
+          products: S.optional(S.NullOr(__S(496, __c62, 0))),
           ref: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RulesBulkUpdateResultItem" });
     case 3:
-      return S.Array(__S(458, __c57, 2));
+      return S.Array(__S(514, __c64, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(459, __c57, 3).pipe(T.EnvelopePayload()),
+          result: __S(515, __c64, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "BulkPutRulesResponse" });

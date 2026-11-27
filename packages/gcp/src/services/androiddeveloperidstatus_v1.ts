@@ -72,10 +72,10 @@ export type PackageRegistrationStatusStateEnum =
 export interface PackageRegistrationStatus {
   /** Output only. The SHA-256 fingerprint of the public certificate represented as a 64-character lowercase hexadecimal string without any colons or separators (e.g., `d6ac89ed1d0a805aad4b087d06d5f41645b814480b133fbc867ef7498d069e06`). */
   certificateFingerprint?: string | undefined;
-  /** Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`). */
-  name?: string | undefined;
   /** Output only. Registration state of the package, or pair. */
   state?: PackageRegistrationStatusStateEnum | undefined;
+  /** Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`). */
+  name?: string | undefined;
 }
 export type CheckPackagesPackageRegistrationStatusError = NotFound | Forbidden | GcpOpError;
 /** Retrieves the Android Developer ID registration status for a given package. */
@@ -115,8 +115,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certificateFingerprint: S.optional(S.String),
-          name: S.optional(S.String),
           state: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PackageRegistrationStatus" });
   }

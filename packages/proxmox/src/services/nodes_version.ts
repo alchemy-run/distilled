@@ -29,6 +29,7 @@ export interface GetNodesByNodeVersionRequest {
 export interface GetNodesByNodeVersionResult {
   release: string;
   repoid: string;
+  "ui-version"?: string | undefined;
   version: string;
 }
 export type GetNodesByNodeVersionResponse = GetNodesByNodeVersionResult;
@@ -63,6 +64,7 @@ function __c0(j: number): any {
         S.Struct({
           release: S.String,
           repoid: S.String,
+          "ui-version": S.optional(S.String),
           version: S.String,
         }),
       ).annotate({ identifier: "GetNodesByNodeVersionResult" });

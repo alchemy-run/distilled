@@ -96,6 +96,8 @@ export interface RunnerFull {
   apiUrl?: string | undefined;
   /** The proxy URL of the runner */
   proxyUrl?: string | undefined;
+  /** The address of the runner SSH gateway; unset means the runner domain on the default port (2220) */
+  sshGatewayUrl?: string | undefined;
   /** The CPU capacity of the runner */
   cpu: number;
   /** The memory capacity of the runner in GiB */
@@ -174,6 +176,8 @@ export interface Runner {
   apiUrl?: string | undefined;
   /** The proxy URL of the runner */
   proxyUrl?: string | undefined;
+  /** The address of the runner SSH gateway; unset means the runner domain on the default port (2220) */
+  sshGatewayUrl?: string | undefined;
   /** The CPU capacity of the runner */
   cpu: number;
   /** The memory capacity of the runner in GiB */
@@ -266,6 +270,31 @@ export interface ListRunnersRequest {
 }
 export type ListRunnersResponseBodyList = Array<Runner>;
 export type ListRunnersResponse = ListRunnersResponseBodyList;
+export type RunnerFabricHealthTransport = "roce-v2";
+export interface RunnerFabricRail {
+  index: number;
+  pciAddress: string;
+  netdev: string;
+  rdmaDevice: string;
+  uverbsDevice: string;
+  address: string;
+  prefixLength: number;
+  macAddress?: string | undefined;
+}
+export type RunnerFabricHealthRailsList = Array<RunnerFabricRail>;
+export type RunnerFabricHealthTransportConfigMap = { [key: string]: unknown | undefined };
+export interface RunnerFabricHealth {
+  /** Physical fabric failure domain. */
+  domain: string;
+  transport: RunnerFabricHealthTransport | (string & {});
+  profileId: string;
+  /** True only after discovery, address, RDMA, and rail checks pass. */
+  healthy: boolean;
+  rails: RunnerFabricHealthRailsList;
+  transportConfig: RunnerFabricHealthTransportConfigMap;
+  gdrHint?: string | undefined;
+  errorReason?: string | undefined;
+}
 export interface RunnerHealthMetrics {
   /** Current CPU load average */
   currentCpuLoadAverage: number;
@@ -307,6 +336,7 @@ export interface RunnerServiceHealth {
 /** Health status of individual services on the runner */
 export type RunnerHealthcheckRequestServiceHealthList = Array<RunnerServiceHealth>;
 export interface RunnerHealthcheckRequest {
+  fabric?: RunnerFabricHealth | undefined;
   /** Runner metrics */
   metrics?: RunnerHealthMetrics | undefined;
   /** Health status of individual services on the runner */
@@ -317,6 +347,8 @@ export interface RunnerHealthcheckRequest {
   proxyUrl?: string | undefined;
   /** Runner API URL */
   apiUrl?: string | undefined;
+  /** Address the SSH gateway dials to reach the runner SSH gateway */
+  sshGatewayUrl?: string | undefined;
   /** Runner app version */
   appVersion: string;
 }
@@ -345,8 +377,8 @@ export const createRunner: API.OperationMethod<
   CreateRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CreateRunnerRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<CreateRunnerResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateRunnerRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CreateRunnerResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -363,8 +395,8 @@ export const deleteRunner: API.OperationMethod<
   DeleteRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DeleteRunnerRequest>,
-  output: __S(28, __c7, 0) as any as S.Schema<DeleteRunnerResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteRunnerRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteRunnerResponse>,
   errors: [RunnerNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -381,8 +413,8 @@ export const getInfoForAuthenticatedRunner: API.OperationMethod<
   GetInfoForAuthenticatedRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetInfoForAuthenticatedRunnerRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetInfoForAuthenticatedRunnerRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<RunnerFull>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -399,8 +431,8 @@ export const getRunner: API.OperationMethod<
   GetRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetRunnerRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<Runner>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetRunnerRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<Runner>,
   errors: [RunnerNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -417,8 +449,8 @@ export const getRunnerBySandboxId: API.OperationMethod<
   GetRunnerBySandboxIdError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetRunnerBySandboxIdRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetRunnerBySandboxIdRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<RunnerFull>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -435,8 +467,8 @@ export const getRunnerFullById: API.OperationMethod<
   GetRunnerFullByIdError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetRunnerFullByIdRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetRunnerFullByIdRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<RunnerFull>,
   errors: [RunnerNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -453,8 +485,8 @@ export const getRunnersBySnapshotRef: API.OperationMethod<
   GetRunnersBySnapshotRefError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetRunnersBySnapshotRefRequest>,
-  output: __S(59, __c14, 3) as any as S.Schema<GetRunnersBySnapshotRefResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetRunnersBySnapshotRefRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<GetRunnersBySnapshotRefResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -471,8 +503,8 @@ export const getSnapshotRefsForAuthenticatedRunner: API.OperationMethod<
   GetSnapshotRefsForAuthenticatedRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -507,8 +539,8 @@ export const runnerHealthcheck: API.OperationMethod<
   RunnerHealthcheckError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7, __c1, 3) as any as S.Schema<RunnerHealthcheckRequest>,
-  output: __S(28, __c7, 0) as any as S.Schema<RunnerHealthcheckResponse>,
+  input: __S(15, __c1, 7) as any as S.Schema<RunnerHealthcheckRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<RunnerHealthcheckResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -525,8 +557,8 @@ export const updateRunnerDraining: API.OperationMethod<
   UpdateRunnerDrainingError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<UpdateRunnerDrainingRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<Runner>,
+  input: __S(16, __c2, 0) as any as S.Schema<UpdateRunnerDrainingRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<Runner>,
   errors: [RunnerNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -543,8 +575,8 @@ export const updateRunnerScheduling: API.OperationMethod<
   UpdateRunnerSchedulingError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<UpdateRunnerSchedulingRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<Runner>,
+  input: __S(24, __c3, 0) as any as S.Schema<UpdateRunnerSchedulingRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<Runner>,
   errors: [RunnerNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -564,7 +596,7 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/runners", code: 200 })),
       ).annotate({ identifier: "ListRunnersRequest" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRunnersResponse",
@@ -574,6 +606,36 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.Number,
+          pciAddress: S.String,
+          netdev: S.String,
+          rdmaDevice: S.String,
+          uverbsDevice: S.String,
+          address: S.String,
+          prefixLength: S.Number,
+          macAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RunnerFabricRail" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          transport: S.String,
+          profileId: S.String,
+          healthy: S.Boolean,
+          rails: __S(9, __c1, 1),
+          transportConfig: __S(10, __c1, 2),
+          gdrHint: S.optional(S.String),
+          errorReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RunnerFabricHealth" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           currentCpuLoadAverage: S.Number,
@@ -592,7 +654,7 @@ function __c1(j: number): any {
           gpuType: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunnerHealthMetrics" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String,
@@ -600,16 +662,18 @@ function __c1(j: number): any {
           errorReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunnerServiceHealth" });
-    case 2:
-      return S.Array(__S(5, __c1, 1));
-    case 3:
+    case 6:
+      return S.Array(__S(13, __c1, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(4, __c1, 0)),
-          serviceHealth: S.optional(__S(6, __c1, 2)),
+          fabric: S.optional(__S(11, __c1, 3)),
+          metrics: S.optional(__S(12, __c1, 4)),
+          serviceHealth: S.optional(__S(14, __c1, 6)),
           domain: S.optional(S.String),
           proxyUrl: S.optional(S.String),
           apiUrl: S.optional(S.String),
+          sshGatewayUrl: S.optional(S.String),
           appVersion: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/runners/healthcheck", code: 200 })),
       ).annotate({ identifier: "RunnerHealthcheckRequest" });
@@ -647,7 +711,7 @@ function __c4(j: number): any {
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
           regionId: S.String,
           name: S.String,
-          tags: S.optional(__S(20, __c5, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           sandboxClass: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/runners", code: 200 })),
       ).annotate({ identifier: "CreateRunnerRequest" });
@@ -701,6 +765,7 @@ function __c9(j: number): any {
           domain: S.optional(S.String),
           apiUrl: S.optional(S.String),
           proxyUrl: S.optional(S.String),
+          sshGatewayUrl: S.optional(S.String),
           cpu: S.Number,
           memory: S.Number,
           disk: S.Number,
@@ -721,7 +786,7 @@ function __c9(j: number): any {
           state: S.String,
           lastChecked: S.optional(S.String),
           unschedulable: S.Boolean,
-          tags: __S(20, __c5, 0),
+          tags: __S(40, __c5, 0),
           createdAt: S.String,
           updatedAt: S.String,
           version: S.String,
@@ -755,6 +820,7 @@ function __c11(j: number): any {
           domain: S.optional(S.String),
           apiUrl: S.optional(S.String),
           proxyUrl: S.optional(S.String),
+          sshGatewayUrl: S.optional(S.String),
           cpu: S.Number,
           memory: S.Number,
           disk: S.Number,
@@ -775,7 +841,7 @@ function __c11(j: number): any {
           state: S.String,
           lastChecked: S.optional(S.String),
           unschedulable: S.Boolean,
-          tags: __S(20, __c5, 0),
+          tags: __S(40, __c5, 0),
           createdAt: S.String,
           updatedAt: S.String,
           version: S.String,
@@ -825,9 +891,9 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "RunnerSnapshotDto" });
     case 2:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
-      return S.suspend(() => __S(58, __c14, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(114, __c14, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRunnersBySnapshotRefResponse",
       });
   }
@@ -839,7 +905,7 @@ function __c15(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/runners/me/snapshots", code: 200 })),
       ).annotate({ identifier: "GetSnapshotRefsForAuthenticatedRunnerRequest" });
     case 1:
-      return S.suspend(() => __S(20, __c5, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(40, __c5, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSnapshotRefsForAuthenticatedRunnerResponse",
       });
   }

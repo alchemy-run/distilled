@@ -57,7 +57,7 @@ export interface CreateStreamRequest {
   /** Client-specified request token for idempotent retries. */
   s2RequestToken?: string | undefined;
   config?: StreamConfig | null | undefined;
-  /** Stream name that is unique to the basin. It can be between 1 and 512 bytes in length, and must not contain NUL bytes. */
+  /** Stream name that is unique to the basin. It can be between 1 and 253 bytes in length, and must not contain NUL bytes. */
   stream: string;
 }
 export type EncryptionAlgorithm = "aegis-256" | "aes-256-gcm";
@@ -155,7 +155,7 @@ export const deleteStream: API.OperationMethod<
 }));
 
 export type EnsureStreamError = S2OpError;
-/** Ensure a stream. */
+/** Ensure a stream. Creates the stream if it does not exist. If it already exists, sets its configuration to match the request, with omitted fields inheriting the basin's default stream configuration (unlike reconfigure, which leaves omitted fields unchanged). */
 export const ensureStream: API.OperationMethod<
   EnsureStreamRequest,
   StreamInfo,

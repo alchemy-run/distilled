@@ -82,6 +82,16 @@ export interface GetNodesByNodeScanNfsResultItem {
 }
 export type GetNodesByNodeScanNfsResult = Array<GetNodesByNodeScanNfsResultItem>;
 export type GetNodesByNodeScanNfsResponse = GetNodesByNodeScanNfsResult;
+export interface GetNodesByNodeScanNvmeofRequest {
+  node: string;
+  portal: string;
+}
+export interface GetNodesByNodeScanNvmeofResultItem {
+  portals: string;
+  subsysnqn: string;
+}
+export type GetNodesByNodeScanNvmeofResult = Array<GetNodesByNodeScanNvmeofResultItem>;
+export type GetNodesByNodeScanNvmeofResponse = GetNodesByNodeScanNvmeofResult;
 export interface GetNodesByNodeScanPbsRequest {
   fingerprint?: string | undefined;
   node: string;
@@ -206,6 +216,23 @@ export const getNodesByNodeScanNfs: API.OperationMethod<
   span: "GetNodesByNodeScanNfs",
 }));
 
+export type GetNodesByNodeScanNvmeofError = ProxmoxOpError;
+/** GET /nodes/{node}/scan/nvmeof */
+export const getNodesByNodeScanNvmeof: API.OperationMethod<
+  GetNodesByNodeScanNvmeofRequest,
+  GetNodesByNodeScanNvmeofResponse,
+  GetNodesByNodeScanNvmeofError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c6, 0) as any as S.Schema<GetNodesByNodeScanNvmeofRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<GetNodesByNodeScanNvmeofResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodesByNodeScanNvmeof",
+}));
+
 export type GetNodesByNodeScanPbsError = ProxmoxOpError;
 /** GET /nodes/{node}/scan/pbs */
 export const getNodesByNodeScanPbs: API.OperationMethod<
@@ -214,8 +241,8 @@ export const getNodesByNodeScanPbs: API.OperationMethod<
   GetNodesByNodeScanPbsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetNodesByNodeScanPbsRequest>,
-  output: __S(27, __c6, 3) as any as S.Schema<GetNodesByNodeScanPbsResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetNodesByNodeScanPbsRequest>,
+  output: __S(31, __c7, 3) as any as S.Schema<GetNodesByNodeScanPbsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -231,8 +258,8 @@ export const getNodesByNodeScanZfs: API.OperationMethod<
   GetNodesByNodeScanZfsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetNodesByNodeScanZfsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<GetNodesByNodeScanZfsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetNodesByNodeScanZfsRequest>,
+  output: __S(35, __c8, 3) as any as S.Schema<GetNodesByNodeScanZfsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -388,6 +415,30 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          node: S.String.pipe(T.Label()),
+          portal: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/scan/nvmeof", code: 200 })),
+      ).annotate({ identifier: "GetNodesByNodeScanNvmeofRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          portals: S.String,
+          subsysnqn: S.String,
+        }),
+      ).annotate({ identifier: "GetNodesByNodeScanNvmeofResultItem" });
+    case 2:
+      return S.Array(__S(25, __c6, 1));
+    case 3:
+      return S.suspend(() => __S(26, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNodesByNodeScanNvmeofResponse",
+      });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           node: S.String.pipe(T.Label()),
           password: S.String.pipe(T.Query(), T.SensitiveValue({})),
@@ -404,14 +455,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeScanPbsResultItem" });
     case 2:
-      return S.Array(__S(25, __c6, 1));
+      return S.Array(__S(29, __c7, 1));
     case 3:
-      return S.suspend(() => __S(26, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(30, __c7, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeScanPbsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -426,9 +477,9 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeScanZfsResultItem" });
     case 2:
-      return S.Array(__S(29, __c7, 1));
+      return S.Array(__S(33, __c8, 1));
     case 3:
-      return S.suspend(() => __S(30, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(34, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeScanZfsResponse",
       });
   }

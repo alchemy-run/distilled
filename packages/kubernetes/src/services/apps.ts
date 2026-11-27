@@ -600,6 +600,11 @@ export interface IoK8sApiCoreV1Capabilities {
   /** drop lists the capabilities to remove from the container. */
   drop?: IoK8sApiCoreV1CapabilitiesDropList | undefined;
 }
+/** CgroupOptions defines options for cgroup filesystem access. */
+export interface IoK8sApiCoreV1CgroupOptions {
+  /** mountMode controls how the cgroup filesystem is mounted in the container. Valid values are "ReadOnly" and "ReadWrite". If not specified, the container runtime's default mount mode is used. The kubelet refuses to create a container with an unrecognized value. "ReadOnly" cannot be set when the container's privileged field is true. "ReadWrite" cannot be set when spec.hostNetwork is true and spec.hostUsers is false. */
+  mountMode?: string | undefined;
+}
 /** SELinuxOptions are the labels to be applied to the container */
 export interface IoK8sApiCoreV1SELinuxOptions {
   /** level is SELinux level label that applies to the container. */
@@ -653,6 +658,8 @@ export interface IoK8sApiCoreV1SecurityContext {
   appArmorProfile?: IoK8sApiCoreV1AppArmorProfile | undefined;
   /** capabilities is the capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows. */
   capabilities?: IoK8sApiCoreV1Capabilities | undefined;
+  /** cgroupOptions holds the cgroup options for this container. If mountMode is specified, the scheduler only places the pod on a node whose status.declaredFeatures includes CgroupOptions. (Alpha) This field requires the CgroupOptions feature gate to be enabled. This field cannot be set for ephemeral containers or when spec.os.name is windows. */
+  cgroupOptions?: IoK8sApiCoreV1CgroupOptions | undefined;
   /** privileged indicates whether to run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows. */
   privileged?: boolean | undefined;
   /** procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. Note that this field cannot be set when spec.os.name is windows. */
@@ -714,6 +721,8 @@ export interface IoK8sApiCoreV1Container {
   env?: IoK8sApiCoreV1ContainerEnvList | undefined;
   /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
   envFrom?: IoK8sApiCoreV1ContainerEnvFromList | undefined;
+  /** hostCgroupNamespace specifies whether the container uses the host's cgroup namespace. If true, the container shares the cgroup namespace with the host, so cgroups other than the container's own cgroup are visible to the container. If false, a new cgroup namespace rooted at the container's own cgroup is created for the container. If unset, the container runtime selects the behavior. Must not be set to true when the pod uses user namespaces (spec.hostUsers is false). Must not be set to true with securityContext.cgroupOptions.mountMode set to ReadWrite, unless securityContext.privileged is true. Must not be set when spec.os.name is windows. The runtime handler must support cgroup namespaces, otherwise the container will fail to start. Cannot be updated. */
+  hostCgroupNamespace?: boolean | undefined;
   /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
   image?: string | undefined;
   /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
@@ -811,6 +820,8 @@ export interface IoK8sApiCoreV1EphemeralContainer {
   env?: IoK8sApiCoreV1EphemeralContainerEnvList | undefined;
   /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
   envFrom?: IoK8sApiCoreV1EphemeralContainerEnvFromList | undefined;
+  /** hostCgroupNamespace is not allowed for ephemeral containers. */
+  hostCgroupNamespace?: boolean | undefined;
   /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images */
   image?: string | undefined;
   /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
@@ -1650,7 +1661,7 @@ export interface IoK8sApiCoreV1PodSpec {
   hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList | undefined;
   /** hostIPC uses the host's ipc namespace. Optional: Default to false. */
   hostIPC?: boolean | undefined;
-  /** hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. */
+  /** hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. When true, podNetwork may not be set: the pod has no network namespace of its own. */
   hostNetwork?: boolean | undefined;
   /** hostPID uses the host's pid namespace. Optional: Default to false. */
   hostPID?: boolean | undefined;
@@ -1668,10 +1679,12 @@ export interface IoK8sApiCoreV1PodSpec {
   nodeName?: string | undefined;
   /** nodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
   nodeSelector?: IoK8sApiCoreV1PodSpecNodeSelectorMap | undefined;
-  /** os specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup */
+  /** os specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup - spec.containers[*].securityContext.cgroupOptions */
   os?: IoK8sApiCoreV1PodOS | undefined;
   /** overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
   overhead?: IoK8sApiCoreV1PodSpecOverheadMap | undefined;
+  /** podNetwork selects whether a non-hostNetwork pod is attached to the pod network. "Default" attaches the pod to the pod network. "Isolated" gives the pod an isolated network namespace with only the loopback interface configured, not attached to the pod network. This field must be unset if hostNetwork is true. For non-hostNetwork pods, this behaves as if it was set to "Default" if it is not set. If a pod is "Isolated", hostPort and network-based probes and lifecycle handlers are not allowed. This field is immutable on Pods. */
+  podNetwork?: string | undefined;
   /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. Defaults to PreemptLowerPriority if unset. */
   preemptionPolicy?: string | undefined;
   /** priority specifies the priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. */
@@ -1822,6 +1835,61 @@ export interface IoK8sApiAppsV1DaemonSet {
   /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1DaemonSetStatus | undefined;
 }
+/** WorkloadPodGroupDisruptionMode defines how individual pods within a group can be disrupted. Exactly one mode must be set. */
+export interface IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode {
+  /** all specifies that all pods in the group must be disrupted together. */
+  all?: unknown | undefined;
+  /** single specifies that pods can be disrupted independently from each other. */
+  single?: unknown | undefined;
+}
+/** WorkloadPodGroupResourceClaim references a dynamic resource claim that is shared across pods in the group. */
+export interface IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim {
+  /** name uniquely identifies this resource claim inside the group. This field is required. It must be a DNS_LABEL. */
+  name: string;
+  /** resourceClaimName is the name of a ResourceClaim object in the same namespace. This field is optional. If it is not specified, no resource claim is used. If set, it must be a DNS subdomain. */
+  resourceClaimName?: string | undefined;
+  /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace. This field is optional. If it is not specified, no resource claim template is used. If set, it must be a DNS subdomain. */
+  resourceClaimTemplateName?: string | undefined;
+}
+/** resourceClaims defines which ResourceClaims may be shared among Pods in the Deployment. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. */
+export type IoK8sApiAppsV1DeploymentSchedulingConfigurationResourceClaimsList =
+  Array<IoK8sApiSchedulingV1WorkloadPodGroupResourceClaim>;
+/** WorkloadTopologyConstraint defines a topology constraint for a group of pods managed by a workload controller. */
+export interface IoK8sApiSchedulingV1WorkloadTopologyConstraint {
+  /** key specifies the key of the node label representing the topology domain. All pods within the PodGroup (or CompositePodGroup) must be colocated within the same domain instance. Different groups can land on different domain instances even if they derive from the same template. Nodes where this label is missing or has an empty value do not belong to any domain instance, so pods within the PodGroup/CompositePodGroup cannot be scheduled onto them. Examples: "topology.kubernetes.io/rack" */
+  key: string;
+}
+/** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
+export type IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList =
+  Array<IoK8sApiSchedulingV1WorkloadTopologyConstraint>;
+/** WorkloadPodGroupSchedulingConstraints defines leaf-level scheduling constraints, such as topology. */
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints {
+  /** topology specifies desired topological placements for all pods within the pod group. If unset, no topology placement is requested. */
+  topology?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraintsTopologyList | undefined;
+}
+/** WorkloadPodGroupGangSchedulingPolicy defines the parameters for gang (all-or-nothing) scheduling. */
+export interface IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy {
+  /** minCount is the minimum number of pods that must be scheduled at the same time for the scheduler to admit the entire group. This field is optional. If it is not specified, the controller should inject a context-specific sane default (e.g., parallelism for a Job). If set, it must be a positive integer. */
+  minCount?: number | undefined;
+}
+/** WorkloadPodGroupSchedulingPolicy defines the scheduling policy for a group of pods managed by a workload controller. Exactly one policy must be set. */
+export interface IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy {
+  /** basic specifies that standard, pod-by-pod Kubernetes scheduling behavior should be used. */
+  basic?: unknown | undefined;
+  /** gang specifies all-or-nothing scheduling semantics. */
+  gang?: IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy | undefined;
+}
+/** DeploymentSchedulingConfiguration composes the reusable scheduling building blocks from scheduling.k8s.io for use on a Deployment. */
+export interface IoK8sApiAppsV1DeploymentSchedulingConfiguration {
+  /** disruptionMode defines the mode in which the Deployment's pods can be disrupted. One of Single or All. If omitted, standard per-pod disruption behavior is used. The All mode requires a gang schedulingPolicy. disruptionMode affects scheduler preemption only. It does not affect eviction or PodDisruptionBudgets. */
+  disruptionMode?: IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode | undefined;
+  /** resourceClaims defines which ResourceClaims may be shared among Pods in the Deployment. Pods consume the devices allocated to a PodGroup's claim by defining a claim in its own Spec.ResourceClaims that matches the PodGroup's claim exactly. The claim must have the same name and refer to the same ResourceClaim or ResourceClaimTemplate. At most 4 claims may be set, matching the limit on the resulting PodGroup. */
+  resourceClaims?: IoK8sApiAppsV1DeploymentSchedulingConfigurationResourceClaimsList | undefined;
+  /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for the Deployment's pods. */
+  schedulingConstraints?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints | undefined;
+  /** schedulingPolicy defines the scheduling policy for this Deployment. If spec.scheduling.schedulingPolicy is omitted, the Basic policy is used. Otherwise, exactly one of Basic or Gang must be set. For Gang, minCount may be omitted to derive it from replicas. */
+  schedulingPolicy?: IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy | undefined;
+}
 /** Spec to control the desired behavior of rolling update. */
 export interface IoK8sApiAppsV1RollingUpdateDeployment {
   /** maxSurge is the maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new ReplicaSet can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new ReplicaSet can be scaled up further, ensuring that total number of pods running at any time during the update is at most 130% of desired pods. */
@@ -1848,6 +1916,8 @@ export interface IoK8sApiAppsV1DeploymentSpec {
   replicas?: number | undefined;
   /** revisionHistoryLimit is the maximum number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10. */
   revisionHistoryLimit?: number | undefined;
+  /** scheduling defines the Workload-aware Scheduling configuration for this Deployment. When set, it specifies the scheduling policy (basic or gang), topology constraints, disruption mode, and shared resource claims. When spec.scheduling is omitted, no Workload or PodGroup is created and the Deployment uses standard pod-by-pod scheduling. This field is gated by the WorkloadWithDeployment feature gate. Once set, this field is immutable except for schedulingPolicy.gang.minCount. - The scheduling field can only be set when the Deployment is created. - A gang schedulingPolicy requires strategy.type Recreate. - When schedulingPolicy.gang.minCount is set, replicas must be 0 or at least minCount. - template.spec.schedulingGroup must be unset. */
+  scheduling?: IoK8sApiAppsV1DeploymentSchedulingConfiguration | undefined;
   /** selector is a label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels. */
   selector: IoK8sApimachineryPkgApisMetaV1LabelSelector;
   /** strategy to use to replace existing Deployment pods with new ones. */
@@ -4293,7 +4363,7 @@ export const createAppsV1NamespacedDeployment: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateAppsV1NamespacedDeploymentRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -4823,7 +4893,7 @@ export const patchAppsV1NamespacedDeployment: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<PatchAppsV1NamespacedDeploymentRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -4867,7 +4937,7 @@ export const patchAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<PatchAppsV1NamespacedDeploymentStatusRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -5071,7 +5141,7 @@ export const readAppsV1NamespacedDeployment: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ReadAppsV1NamespacedDeploymentRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -5107,7 +5177,7 @@ export const readAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ReadAppsV1NamespacedDeploymentStatusRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -5303,7 +5373,7 @@ export const replaceAppsV1NamespacedDeployment: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ReplaceAppsV1NamespacedDeploymentRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -5347,7 +5417,7 @@ export const replaceAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ReplaceAppsV1NamespacedDeploymentStatusRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<IoK8sApiAppsV1Deployment>,
+  output: __S(1931, __c60, 11) as any as S.Schema<IoK8sApiAppsV1Deployment>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -6162,7 +6232,7 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1924, __c60, 4));
+      return S.Array(__S(1931, __c60, 11));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6588,8 +6658,8 @@ function __c32(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: S.optional(__S(1920, __c60, 0)),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: S.optional(__S(1927, __c60, 7)),
+          status: S.optional(__S(1930, __c60, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6673,8 +6743,8 @@ function __c35(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: S.optional(__S(1920, __c60, 0)),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: S.optional(__S(1927, __c60, 7)),
+          status: S.optional(__S(1930, __c60, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6834,7 +6904,7 @@ function __c41(j: number): any {
           minReadySeconds: S.optional(S.Number),
           revisionHistoryLimit: S.optional(S.Number),
           selector: __S(1378, __c43, 2),
-          template: __S(1507, __c47, 3),
+          template: __S(1508, __c47, 4),
           updateStrategy: S.optional(__S(1345, __c42, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1DaemonSetSpec" });
@@ -7195,28 +7265,34 @@ function __c44(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
+          mountMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1CgroupOptions" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           level: S.optional(S.String),
           role: S.optional(S.String),
           type: S.optional(S.String),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SELinuxOptions" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           baseProfile: S.optional(__S(1422, __c44, 14)),
           ref: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityProfileOCI" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           localhostProfile: S.optional(S.String),
-          oci: S.optional(__S(1425, __c44, 17)),
+          oci: S.optional(__S(1426, __c44, 18)),
           type: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SeccompProfile" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           gmsaCredentialSpec: S.optional(S.String),
@@ -7225,33 +7301,34 @@ function __c44(j: number): any {
           runAsUserName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1WindowsSecurityContextOptions" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           allowPrivilegeEscalation: S.optional(S.Boolean),
           appArmorProfile: S.optional(__S(1422, __c44, 14)),
           capabilities: S.optional(__S(1423, __c44, 15)),
+          cgroupOptions: S.optional(__S(1424, __c44, 16)),
           privileged: S.optional(S.Boolean),
           procMount: S.optional(S.String),
           readOnlyRootFilesystem: S.optional(S.Boolean),
           runAsGroup: S.optional(S.Number),
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
-          seLinuxOptions: S.optional(__S(1424, __c44, 16)),
-          seccompProfile: S.optional(__S(1426, __c44, 18)),
-          windowsOptions: S.optional(__S(1427, __c44, 19)),
+          seLinuxOptions: S.optional(__S(1425, __c44, 17)),
+          seccompProfile: S.optional(__S(1427, __c44, 19)),
+          windowsOptions: S.optional(__S(1428, __c44, 20)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityContext" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           devicePath: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeDevice" });
-    case 22:
-      return S.Array(__S(1429, __c44, 21));
     case 23:
+      return S.Array(__S(1430, __c44, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           bindMountOptions: S.optional(__S(864, __c27, 0)),
@@ -7264,15 +7341,16 @@ function __c44(j: number): any {
           subPathExpr: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeMount" });
-    case 24:
-      return S.Array(__S(1431, __c44, 23));
     case 25:
+      return S.Array(__S(1432, __c44, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(864, __c27, 0)),
           command: S.optional(__S(864, __c27, 0)),
           env: S.optional(__S(1397, __c43, 21)),
           envFrom: S.optional(__S(1400, __c43, 24)),
+          hostCgroupNamespace: S.optional(S.Boolean),
           image: S.optional(S.String),
           imagePullPolicy: S.optional(S.String),
           lifecycle: S.optional(__S(1408, __c44, 0)),
@@ -7284,44 +7362,45 @@ function __c44(j: number): any {
           resources: S.optional(__S(1417, __c44, 9)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(1421, __c44, 13)),
-          securityContext: S.optional(__S(1428, __c44, 20)),
+          securityContext: S.optional(__S(1429, __c44, 21)),
           startupProbe: S.optional(__S(1410, __c44, 2)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(1430, __c44, 22)),
-          volumeMounts: S.optional(__S(1432, __c44, 24)),
+          volumeDevices: S.optional(__S(1431, __c44, 23)),
+          volumeMounts: S.optional(__S(1433, __c44, 25)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Container" });
-    case 26:
-      return S.Array(__S(1433, __c44, 25));
     case 27:
+      return S.Array(__S(1434, __c44, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfigOption" });
-    case 28:
-      return S.Array(__S(1435, __c44, 27));
     case 29:
+      return S.Array(__S(1436, __c44, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           nameservers: S.optional(__S(864, __c27, 0)),
-          options: S.optional(__S(1436, __c44, 28)),
+          options: S.optional(__S(1437, __c44, 29)),
           searches: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfig" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(__S(864, __c27, 0)),
           command: S.optional(__S(864, __c27, 0)),
           env: S.optional(__S(1397, __c43, 21)),
           envFrom: S.optional(__S(1400, __c43, 24)),
+          hostCgroupNamespace: S.optional(S.Boolean),
           image: S.optional(S.String),
           imagePullPolicy: S.optional(S.String),
           lifecycle: S.optional(__S(1408, __c44, 0)),
@@ -7333,7 +7412,7 @@ function __c44(j: number): any {
           resources: S.optional(__S(1417, __c44, 9)),
           restartPolicy: S.optional(S.String),
           restartPolicyRules: S.optional(__S(1421, __c44, 13)),
-          securityContext: S.optional(__S(1428, __c44, 20)),
+          securityContext: S.optional(__S(1429, __c44, 21)),
           startupProbe: S.optional(__S(1410, __c44, 2)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
@@ -7341,58 +7420,58 @@ function __c44(j: number): any {
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(1430, __c44, 22)),
-          volumeMounts: S.optional(__S(1432, __c44, 24)),
+          volumeDevices: S.optional(__S(1431, __c44, 23)),
+          volumeMounts: S.optional(__S(1433, __c44, 25)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralContainer" });
-    case 31:
-      return S.Array(__S(1438, __c44, 30));
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(1439, __c44, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           priority: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EvictionResponder" });
-    case 1:
-      return S.Array(__S(1440, __c45, 0));
     case 2:
+      return S.Array(__S(1441, __c45, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           hostnames: S.optional(__S(864, __c27, 0)),
           ip: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostAlias" });
-    case 3:
-      return S.Array(__S(1442, __c45, 2));
     case 4:
+      return S.Array(__S(1443, __c45, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
-    case 5:
-      return S.Array(__S(1444, __c45, 4));
     case 6:
+      return S.Array(__S(1445, __c45, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodOS" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           conditionType: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodReadinessGate" });
-    case 8:
-      return S.Array(__S(1447, __c45, 7));
     case 9:
+      return S.Array(__S(1448, __c45, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -7400,17 +7479,17 @@ function __c45(j: number): any {
           resourceClaimTemplateName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodResourceClaim" });
-    case 10:
-      return S.Array(__S(1449, __c45, 9));
     case 11:
-      return S.Array(__S(1446, __c45, 6));
+      return S.Array(__S(1450, __c45, 10));
     case 12:
+      return S.Array(__S(1447, __c45, 7));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           podGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSchedulingGroup" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           appArmorProfile: S.optional(__S(1422, __c44, 14)),
@@ -7420,15 +7499,15 @@ function __c45(j: number): any {
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
           seLinuxChangePolicy: S.optional(S.String),
-          seLinuxOptions: S.optional(__S(1424, __c44, 16)),
-          seccompProfile: S.optional(__S(1426, __c44, 18)),
+          seLinuxOptions: S.optional(__S(1425, __c44, 17)),
+          seccompProfile: S.optional(__S(1427, __c44, 19)),
           supplementalGroups: S.optional(__S(1418, __c44, 10)),
           supplementalGroupsPolicy: S.optional(S.String),
           sysctls: S.optional(__S(1403, __c43, 27)),
-          windowsOptions: S.optional(__S(1427, __c44, 19)),
+          windowsOptions: S.optional(__S(1428, __c44, 20)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSecurityContext" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
@@ -7438,9 +7517,9 @@ function __c45(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Toleration" });
-    case 15:
-      return S.Array(__S(1454, __c45, 14));
     case 16:
+      return S.Array(__S(1455, __c45, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(1378, __c43, 2)),
@@ -7453,9 +7532,9 @@ function __c45(j: number): any {
           whenUnsatisfiable: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TopologySpreadConstraint" });
-    case 17:
-      return S.Array(__S(1456, __c45, 16));
     case 18:
+      return S.Array(__S(1457, __c45, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7464,7 +7543,7 @@ function __c45(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AWSElasticBlockStoreVolumeSource" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           cachingMode: S.optional(S.String),
@@ -7475,7 +7554,7 @@ function __c45(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureDiskVolumeSource" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           readOnly: S.optional(S.Boolean),
@@ -7483,27 +7562,27 @@ function __c45(j: number): any {
           shareName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1AzureFileVolumeSource" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           monitors: __S(864, __c27, 0),
           path: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
           secretFile: S.optional(S.String),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CephFSVolumeSource" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CinderVolumeSource" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -7512,29 +7591,29 @@ function __c45(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1KeyToPath" });
-    case 24:
-      return S.Array(__S(1463, __c45, 23));
     case 25:
+      return S.Array(__S(1464, __c45, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(1464, __c45, 24)),
+          items: S.optional(__S(1465, __c45, 25)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapVolumeSource" });
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          nodePublishSecretRef: S.optional(__S(1444, __c45, 4)),
+          nodePublishSecretRef: S.optional(__S(1445, __c45, 5)),
           readOnly: S.optional(S.Boolean),
           volumeAttributes: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CSIVolumeSource" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           fieldRef: S.optional(__S(1392, __c43, 16)),
@@ -7544,17 +7623,17 @@ function __c45(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile" });
-    case 28:
-      return S.Array(__S(1467, __c45, 27));
     case 29:
+      return S.Array(__S(1468, __c45, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(1468, __c45, 28)),
+          items: S.optional(__S(1469, __c45, 29)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeSource" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           medium: S.optional(S.String),
@@ -7562,14 +7641,6 @@ function __c45(j: number): any {
           sizeLimit: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EmptyDirVolumeSource" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          apiGroup: S.optional(S.String),
-          kind: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1TypedLocalObjectReference" });
   }
 }
 function __c46(j: number): any {
@@ -7580,23 +7651,31 @@ function __c46(j: number): any {
           apiGroup: S.optional(S.String),
           kind: S.String,
           name: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1TypedLocalObjectReference" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiGroup: S.optional(S.String),
+          kind: S.String,
+          name: S.String,
           namespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TypedObjectReference" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           limits: S.optional(__S(896, __c28, 0)),
           requests: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeResourceRequirements" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           accessModes: S.optional(__S(864, __c27, 0)),
-          dataSource: S.optional(__S(1471, __c45, 31)),
-          dataSourceRef: S.optional(__S(1472, __c46, 0)),
-          resources: S.optional(__S(1473, __c46, 1)),
+          dataSource: S.optional(__S(1472, __c46, 0)),
+          dataSourceRef: S.optional(__S(1473, __c46, 1)),
+          resources: S.optional(__S(1474, __c46, 2)),
           selector: S.optional(__S(1378, __c43, 2)),
           storageClassName: S.optional(S.String),
           volumeAttributesClassName: S.optional(S.String),
@@ -7604,20 +7683,20 @@ function __c46(j: number): any {
           volumeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimSpec" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(901, __c28, 5)),
-          spec: __S(1474, __c46, 2),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimTemplate" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          volumeClaimTemplate: __S(1475, __c46, 3),
+          metadata: S.optional(__S(901, __c28, 5)),
+          spec: __S(1475, __c46, 3),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimTemplate" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          volumeClaimTemplate: __S(1476, __c46, 4),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralVolumeSource" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7627,24 +7706,24 @@ function __c46(j: number): any {
           wwids: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FCVolumeSource" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
           options: S.optional(__S(896, __c28, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlexVolumeSource" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           datasetName: S.optional(S.String),
           datasetUUID: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlockerVolumeSource" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7653,7 +7732,7 @@ function __c46(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GCEPersistentDiskVolumeSource" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           directory: S.optional(S.String),
@@ -7661,7 +7740,7 @@ function __c46(j: number): any {
           revision: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GitRepoVolumeSource" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           endpoints: S.String,
@@ -7669,21 +7748,21 @@ function __c46(j: number): any {
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1GlusterfsVolumeSource" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostPathVolumeSource" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           pullPolicy: S.optional(S.String),
           reference: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ImageVolumeSource" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           chapAuthDiscovery: S.optional(S.Boolean),
@@ -7695,11 +7774,11 @@ function __c46(j: number): any {
           lun: S.optional(S.Number),
           portals: S.optional(__S(864, __c27, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           targetPortal: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ISCSIVolumeSource" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
@@ -7707,21 +7786,21 @@ function __c46(j: number): any {
           server: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NFSVolumeSource" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           claimName: S.String,
           readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimVolumeSource" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           pdID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PhotonPersistentDiskVolumeSource" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7729,7 +7808,7 @@ function __c46(j: number): any {
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PortworxVolumeSource" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           labelSelector: S.optional(__S(1378, __c43, 2)),
@@ -7740,21 +7819,21 @@ function __c46(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ClusterTrustBundleProjection" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1464, __c45, 24)),
+          items: S.optional(__S(1465, __c45, 25)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapProjection" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1468, __c45, 28)),
+          items: S.optional(__S(1469, __c45, 29)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIProjection" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           certificateChainPath: S.optional(S.String),
@@ -7767,7 +7846,7 @@ function __c46(j: number): any {
           userAnnotations: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodCertificateProjection" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.String),
@@ -7776,28 +7855,28 @@ function __c46(j: number): any {
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          clusterTrustBundle: S.optional(__S(1490, __c46, 18)),
-          configMap: S.optional(__S(1491, __c46, 19)),
-          downwardAPI: S.optional(__S(1492, __c46, 20)),
-          podCertificate: S.optional(__S(1493, __c46, 21)),
-          secret: S.optional(__S(1491, __c46, 19)),
-          serviceAccountToken: S.optional(__S(1494, __c46, 22)),
+          clusterTrustBundle: S.optional(__S(1491, __c46, 19)),
+          configMap: S.optional(__S(1492, __c46, 20)),
+          downwardAPI: S.optional(__S(1493, __c46, 21)),
+          podCertificate: S.optional(__S(1494, __c46, 22)),
+          secret: S.optional(__S(1492, __c46, 20)),
+          serviceAccountToken: S.optional(__S(1495, __c46, 23)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeProjection" });
-    case 24:
-      return S.Array(__S(1495, __c46, 23));
     case 25:
+      return S.Array(__S(1496, __c46, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          sources: S.optional(__S(1496, __c46, 24)),
+          sources: S.optional(__S(1497, __c46, 25)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ProjectedVolumeSource" });
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
@@ -7808,7 +7887,7 @@ function __c46(j: number): any {
           volume: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1QuobyteVolumeSource" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7817,18 +7896,18 @@ function __c46(j: number): any {
           monitors: __S(864, __c27, 0),
           pool: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1RBDVolumeSource" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           gateway: S.String,
           protectionDomain: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           sslEnabled: S.optional(S.Boolean),
           storageMode: S.optional(S.String),
           storagePool: S.optional(S.String),
@@ -7836,27 +7915,31 @@ function __c46(j: number): any {
           volumeName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ScaleIOVolumeSource" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(1464, __c45, 24)),
+          items: S.optional(__S(1465, __c45, 25)),
           optional: S.optional(S.Boolean),
           secretName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecretVolumeSource" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(1444, __c45, 4)),
+          secretRef: S.optional(__S(1445, __c45, 5)),
           volumeName: S.String,
           volumeNamespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1StorageOSVolumeSource" });
-    case 31:
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           fsType: S.optional(S.String),
@@ -7865,101 +7948,98 @@ function __c46(j: number): any {
           volumePath: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VsphereVirtualDiskVolumeSource" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          awsElasticBlockStore: S.optional(__S(1458, __c45, 18)),
-          azureDisk: S.optional(__S(1459, __c45, 19)),
-          azureFile: S.optional(__S(1460, __c45, 20)),
-          cephfs: S.optional(__S(1461, __c45, 21)),
-          cinder: S.optional(__S(1462, __c45, 22)),
-          configMap: S.optional(__S(1465, __c45, 25)),
-          csi: S.optional(__S(1466, __c45, 26)),
-          downwardAPI: S.optional(__S(1469, __c45, 29)),
-          emptyDir: S.optional(__S(1470, __c45, 30)),
-          ephemeral: S.optional(__S(1476, __c46, 4)),
-          fc: S.optional(__S(1477, __c46, 5)),
-          flexVolume: S.optional(__S(1478, __c46, 6)),
-          flocker: S.optional(__S(1479, __c46, 7)),
-          gcePersistentDisk: S.optional(__S(1480, __c46, 8)),
-          gitRepo: S.optional(__S(1481, __c46, 9)),
-          glusterfs: S.optional(__S(1482, __c46, 10)),
-          hostPath: S.optional(__S(1483, __c46, 11)),
-          image: S.optional(__S(1484, __c46, 12)),
-          iscsi: S.optional(__S(1485, __c46, 13)),
+          awsElasticBlockStore: S.optional(__S(1459, __c45, 19)),
+          azureDisk: S.optional(__S(1460, __c45, 20)),
+          azureFile: S.optional(__S(1461, __c45, 21)),
+          cephfs: S.optional(__S(1462, __c45, 22)),
+          cinder: S.optional(__S(1463, __c45, 23)),
+          configMap: S.optional(__S(1466, __c45, 26)),
+          csi: S.optional(__S(1467, __c45, 27)),
+          downwardAPI: S.optional(__S(1470, __c45, 30)),
+          emptyDir: S.optional(__S(1471, __c45, 31)),
+          ephemeral: S.optional(__S(1477, __c46, 5)),
+          fc: S.optional(__S(1478, __c46, 6)),
+          flexVolume: S.optional(__S(1479, __c46, 7)),
+          flocker: S.optional(__S(1480, __c46, 8)),
+          gcePersistentDisk: S.optional(__S(1481, __c46, 9)),
+          gitRepo: S.optional(__S(1482, __c46, 10)),
+          glusterfs: S.optional(__S(1483, __c46, 11)),
+          hostPath: S.optional(__S(1484, __c46, 12)),
+          image: S.optional(__S(1485, __c46, 13)),
+          iscsi: S.optional(__S(1486, __c46, 14)),
           name: S.String,
-          nfs: S.optional(__S(1486, __c46, 14)),
-          persistentVolumeClaim: S.optional(__S(1487, __c46, 15)),
-          photonPersistentDisk: S.optional(__S(1488, __c46, 16)),
-          portworxVolume: S.optional(__S(1489, __c46, 17)),
-          projected: S.optional(__S(1497, __c46, 25)),
-          quobyte: S.optional(__S(1498, __c46, 26)),
-          rbd: S.optional(__S(1499, __c46, 27)),
-          scaleIO: S.optional(__S(1500, __c46, 28)),
-          secret: S.optional(__S(1501, __c46, 29)),
-          storageos: S.optional(__S(1502, __c46, 30)),
-          vsphereVolume: S.optional(__S(1503, __c46, 31)),
+          nfs: S.optional(__S(1487, __c46, 15)),
+          persistentVolumeClaim: S.optional(__S(1488, __c46, 16)),
+          photonPersistentDisk: S.optional(__S(1489, __c46, 17)),
+          portworxVolume: S.optional(__S(1490, __c46, 18)),
+          projected: S.optional(__S(1498, __c46, 26)),
+          quobyte: S.optional(__S(1499, __c46, 27)),
+          rbd: S.optional(__S(1500, __c46, 28)),
+          scaleIO: S.optional(__S(1501, __c46, 29)),
+          secret: S.optional(__S(1502, __c46, 30)),
+          storageos: S.optional(__S(1503, __c46, 31)),
+          vsphereVolume: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Volume" });
-    case 1:
-      return S.Array(__S(1504, __c47, 0));
     case 2:
+      return S.Array(__S(1505, __c47, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
           affinity: S.optional(__S(1390, __c43, 14)),
           automountServiceAccountToken: S.optional(S.Boolean),
-          containers: __S(1434, __c44, 26),
-          dnsConfig: S.optional(__S(1437, __c44, 29)),
+          containers: __S(1435, __c44, 27),
+          dnsConfig: S.optional(__S(1438, __c44, 30)),
           dnsPolicy: S.optional(S.String),
           enableServiceLinks: S.optional(S.Boolean),
-          ephemeralContainers: S.optional(__S(1439, __c44, 31)),
-          evictionResponders: S.optional(__S(1441, __c45, 1)),
-          hostAliases: S.optional(__S(1443, __c45, 3)),
+          ephemeralContainers: S.optional(__S(1440, __c45, 0)),
+          evictionResponders: S.optional(__S(1442, __c45, 2)),
+          hostAliases: S.optional(__S(1444, __c45, 4)),
           hostIPC: S.optional(S.Boolean),
           hostNetwork: S.optional(S.Boolean),
           hostPID: S.optional(S.Boolean),
           hostUsers: S.optional(S.Boolean),
           hostname: S.optional(S.String),
           hostnameOverride: S.optional(S.String),
-          imagePullSecrets: S.optional(__S(1445, __c45, 5)),
-          initContainers: S.optional(__S(1434, __c44, 26)),
+          imagePullSecrets: S.optional(__S(1446, __c45, 6)),
+          initContainers: S.optional(__S(1435, __c44, 27)),
           nodeName: S.optional(S.String),
           nodeSelector: S.optional(__S(896, __c28, 0)),
-          os: S.optional(__S(1446, __c45, 6)),
+          os: S.optional(__S(1447, __c45, 7)),
           overhead: S.optional(__S(896, __c28, 0)),
+          podNetwork: S.optional(S.String),
           preemptionPolicy: S.optional(S.String),
           priority: S.optional(S.Number),
           priorityClassName: S.optional(S.String),
-          readinessGates: S.optional(__S(1448, __c45, 8)),
-          resourceClaims: S.optional(__S(1450, __c45, 10)),
+          readinessGates: S.optional(__S(1449, __c45, 9)),
+          resourceClaims: S.optional(__S(1451, __c45, 11)),
           resources: S.optional(__S(1417, __c44, 9)),
           restartPolicy: S.optional(S.String),
           runtimeClassName: S.optional(S.String),
           schedulerName: S.optional(S.String),
-          schedulingGates: S.optional(__S(1451, __c45, 11)),
-          schedulingGroup: S.optional(__S(1452, __c45, 12)),
-          securityContext: S.optional(__S(1453, __c45, 13)),
+          schedulingGates: S.optional(__S(1452, __c45, 12)),
+          schedulingGroup: S.optional(__S(1453, __c45, 13)),
+          securityContext: S.optional(__S(1454, __c45, 14)),
           serviceAccount: S.optional(S.String),
           serviceAccountName: S.optional(S.String),
           setHostnameAsFQDN: S.optional(S.Boolean),
           shareProcessNamespace: S.optional(S.Boolean),
           subdomain: S.optional(S.String),
           terminationGracePeriodSeconds: S.optional(S.Number),
-          tolerations: S.optional(__S(1455, __c45, 15)),
-          topologySpreadConstraints: S.optional(__S(1457, __c45, 17)),
-          volumes: S.optional(__S(1505, __c47, 1)),
+          tolerations: S.optional(__S(1456, __c45, 16)),
+          topologySpreadConstraints: S.optional(__S(1458, __c45, 18)),
+          volumes: S.optional(__S(1506, __c47, 2)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSpec" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: S.optional(__S(1506, __c47, 2)),
+          spec: S.optional(__S(1507, __c47, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplateSpec" });
   }
@@ -8195,8 +8275,8 @@ function __c59(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: __S(1920, __c60, 0),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: __S(1927, __c60, 7),
+          status: S.optional(__S(1930, __c60, 10)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8212,17 +8292,61 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          all: S.optional(S.Unknown),
+          single: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupDisruptionMode" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadTopologyConstraint" });
+    case 2:
+      return S.Array(__S(1921, __c60, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          topology: S.optional(__S(1922, __c60, 2)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingConstraints" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          minCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupGangSchedulingPolicy" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          basic: S.optional(S.Unknown),
+          gang: S.optional(__S(1924, __c60, 4)),
+        }),
+      ).annotate({ identifier: "IoK8sApiSchedulingV1WorkloadPodGroupSchedulingPolicy" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          disruptionMode: S.optional(__S(1920, __c60, 0)),
+          resourceClaims: S.optional(__S(1451, __c45, 11)),
+          schedulingConstraints: S.optional(__S(1923, __c60, 3)),
+          schedulingPolicy: S.optional(__S(1925, __c60, 5)),
+        }),
+      ).annotate({ identifier: "IoK8sApiAppsV1DeploymentSchedulingConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           minReadySeconds: S.optional(S.Number),
           paused: S.optional(S.Boolean),
           progressDeadlineSeconds: S.optional(S.Number),
           replicas: S.optional(S.Number),
           revisionHistoryLimit: S.optional(S.Number),
+          scheduling: S.optional(__S(1926, __c60, 6)),
           selector: __S(1378, __c43, 2),
           strategy: S.optional(__S(1345, __c42, 1)),
-          template: __S(1507, __c47, 3),
+          template: __S(1508, __c47, 4),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1DeploymentSpec" });
-    case 1:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           lastTransitionTime: S.optional(S.String),
@@ -8233,14 +8357,14 @@ function __c60(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1DeploymentCondition" });
-    case 2:
-      return S.Array(__S(1921, __c60, 1));
-    case 3:
+    case 9:
+      return S.Array(__S(1928, __c60, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           availableReplicas: S.optional(S.Number),
           collisionCount: S.optional(S.Number),
-          conditions: S.optional(__S(1922, __c60, 2)),
+          conditions: S.optional(__S(1929, __c60, 9)),
           observedGeneration: S.optional(S.Number),
           readyReplicas: S.optional(S.Number),
           replicas: S.optional(S.Number),
@@ -8249,14 +8373,14 @@ function __c60(j: number): any {
           updatedReplicas: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1DeploymentStatus" });
-    case 4:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: __S(1920, __c60, 0),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: __S(1927, __c60, 7),
+          status: S.optional(__S(1930, __c60, 10)),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1Deployment" });
   }
@@ -8425,8 +8549,8 @@ function __c68(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: __S(1920, __c60, 0),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: __S(1927, __c60, 7),
+          status: S.optional(__S(1930, __c60, 10)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8477,8 +8601,8 @@ function __c70(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: __S(1920, __c60, 0),
-          status: S.optional(__S(1923, __c60, 3)),
+          spec: __S(1927, __c60, 7),
+          status: S.optional(__S(1930, __c60, 10)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8522,7 +8646,7 @@ function __c72(j: number): any {
           minReadySeconds: S.optional(S.Number),
           replicas: S.optional(S.Number),
           selector: __S(1378, __c43, 2),
-          template: S.optional(__S(1507, __c47, 3)),
+          template: S.optional(__S(1508, __c47, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiAppsV1ReplicaSetSpec" });
     case 1:
@@ -8921,7 +9045,7 @@ function __c85(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(901, __c28, 5)),
-          spec: S.optional(__S(1474, __c46, 2)),
+          spec: S.optional(__S(1475, __c46, 3)),
           status: S.optional(__S(2730, __c85, 10)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaim" });
@@ -8938,7 +9062,7 @@ function __c85(j: number): any {
           revisionHistoryLimit: S.optional(S.Number),
           selector: __S(1378, __c43, 2),
           serviceName: S.optional(S.String),
-          template: __S(1507, __c47, 3),
+          template: __S(1508, __c47, 4),
           updateStrategy: S.optional(__S(2723, __c85, 3)),
           volumeClaimTemplates: S.optional(__S(2732, __c85, 12)),
         }),

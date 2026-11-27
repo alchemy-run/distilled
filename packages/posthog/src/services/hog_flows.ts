@@ -81,16 +81,17 @@ export interface ConvertHogFlowToBroadcastRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
 }
-/** * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+/** * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
 export type HogFlowOriginProductEnum =
   | "loops"
   | "broadcasts"
   | "transactional_emails"
-  | "transactional_email_keys";
+  | "transactional_email_keys"
+  | "transactional_push";
 export interface HogFlowConvertedToBroadcast {
   /** Id of the workflow that is now a broadcast. */
   id: string;
-  /** The product that now owns the workflow. Always `broadcasts`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** The product that now owns the workflow. Always `broadcasts`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product: HogFlowOriginProductEnum;
 }
 /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
@@ -183,7 +184,7 @@ export interface HogFlowEdge {
 export type CreateHogFlowRequestEdgesList = Array<HogFlowEdge>;
 /** * `continue` - continue * `abort` - abort */
 export type OnErrorEnum = "continue" | "abort";
-/** * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
+/** * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit * `email_sandbox` - email_sandbox */
 export type HogFlowActionTypeEnum =
   | "trigger"
   | "function"
@@ -195,7 +196,8 @@ export type HogFlowActionTypeEnum =
   | "wait_until_time_window"
   | "conditional_branch"
   | "random_cohort_branch"
-  | "exit";
+  | "exit"
+  | "email_sandbox";
 /** Config for every action type except wait_until_condition -- see the field description for per-type shapes. */
 export type HogFlowActionConfigCase0Map = { [key: string]: unknown | undefined };
 /** Property-based wait condition; continues when the person matches. A condition with no property filters is ignored -- the wait then relies on 'events' and the max_wait_duration timeout. */
@@ -222,7 +224,7 @@ export interface HogFlowActionConfigCase1 {
   /** '<number><unit>' with unit s|m|h|d, e.g. '30m' (same rules as delay). */
   max_wait_duration: string;
 }
-/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). function_push also accepts sensitive?: <bool> (default false) - when true, the notification is still sent but PostHog keeps no copy of its title, subtitle, body or image, and the run keeps no variables, so it can't be rerun. Dictionary input values are template strings too -- write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date -- set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d, at most 365d, 24h, 60m or 60s. Fractions OK ('1.5d'=36h). A larger value is rejected. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, at most 365d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same format as delay, at most 30d). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). function_push also accepts sensitive?: <bool> (default false) - when true, the notification is still sent but PostHog keeps no copy of its title, subtitle, body or image, and the run keeps no variables, so it can't be rerun. email_sandbox: {message_category_id?, message_category_type?: marketing|transactional, inputs: {email: {templating: hog|liquid, value: {to: {email, name?}, subject, preheader?, text?, html?, design?}}}}. Sends from the PostHog test sender to members of the organization only, so it takes no sender, reply-to, template, headers or attachments. Needs text or html. Only workflows, not broadcasts or templates, can hold it. Dictionary input values are template strings too -- write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date -- set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d, at most 365d, 24h, 60m or 60s. Fractions OK ('1.5d'=36h). A larger value is rejected. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, at most 365d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same format as delay, at most 30d). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
 export type HogFlowActionConfig = HogFlowActionConfigCase0Map | HogFlowActionConfigCase1;
 export interface HogFlowAction {
   /** Unique node ID within the workflow. */
@@ -239,9 +241,9 @@ export interface HogFlowAction {
   updated_at?: number | undefined;
   /** Property filters gating this action. */
   filters?: HogFunctionFilters | null | undefined;
-  /** One of: trigger | function | function_email | function_sms | function_push | delay | wait_until_condition | wait_until_time_window | conditional_branch | random_cohort_branch | exit. * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
+  /** One of: trigger | function | function_email | function_sms | function_push | delay | wait_until_condition | wait_until_time_window | conditional_branch | random_cohort_branch | exit | email_sandbox. * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit * `email_sandbox` - email_sandbox */
   type?: HogFlowActionTypeEnum | (string & {}) | undefined;
-  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). function_push also accepts sensitive?: <bool> (default false) - when true, the notification is still sent but PostHog keeps no copy of its title, subtitle, body or image, and the run keeps no variables, so it can't be rerun. Dictionary input values are template strings too -- write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date -- set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d, at most 365d, 24h, 60m or 60s. Fractions OK ('1.5d'=36h). A larger value is rejected. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, at most 365d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same format as delay, at most 30d). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). function_push also accepts sensitive?: <bool> (default false) - when true, the notification is still sent but PostHog keeps no copy of its title, subtitle, body or image, and the run keeps no variables, so it can't be rerun. email_sandbox: {message_category_id?, message_category_type?: marketing|transactional, inputs: {email: {templating: hog|liquid, value: {to: {email, name?}, subject, preheader?, text?, html?, design?}}}}. Sends from the PostHog test sender to members of the organization only, so it takes no sender, reply-to, template, headers or attachments. Needs text or html. Only workflows, not broadcasts or templates, can hold it. Dictionary input values are template strings too -- write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date -- set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d, at most 365d, 24h, 60m or 60s. Fractions OK ('1.5d'=36h). A larger value is rejected. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, at most 365d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same format as delay, at most 30d). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
   config?: HogFlowActionConfig | undefined;
   /** Output variable for downstream actions: {key, result_path?, spread?, label?} or a list of those. */
   output_variable?: unknown | undefined;
@@ -263,7 +265,7 @@ export interface CreateHogFlowRequest {
   tags?: CreateHogFlowRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {}) | undefined;
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
   source_record?: string | null | undefined;
@@ -348,6 +350,16 @@ export interface HogFlowLastRun {
   /** When the run started, or when the task was created if it has no run yet. */
   ran_at: string;
 }
+/** * `test_sender_live` - Test sender live */
+export type HogFlowWarningCodeEnum = "test_sender_live";
+export interface HogFlowWarning {
+  /** test_sender_live: the workflow is enabled and at least one email step sends from the PostHog test sender. Those steps reach only verified members of the organization. * `test_sender_live` - Test sender live */
+  code: HogFlowWarningCodeEnum;
+  /** What to tell the user, with the link that fixes it. */
+  message: string;
+}
+/** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+export type HogFlowOutputWarningsList = Array<HogFlowWarning>;
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowOutput {
   id?: string | undefined;
@@ -360,7 +372,7 @@ export interface HogFlowOutput {
   version?: number | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | undefined;
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product?: HogFlowOriginProductEnum | null | undefined;
   created_at?: string | undefined;
   created_by?: UserBasic | null | undefined;
@@ -404,6 +416,8 @@ export interface HogFlowOutput {
   email_sending_resumed_at?: string | null | undefined;
   /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
   last_run?: HogFlowLastRun | null | undefined;
+  /** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+  warnings: HogFlowOutputWarningsList;
 }
 /** * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `partially_failed` - Partially failed * `cancelled` - Cancelled * `failed` - Failed */
 export type HogFlowBatchJobStateEnum =
@@ -451,26 +465,27 @@ export interface CreateHogFlowsDiscardDraftRequest {
   id: string;
 }
 /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-export type HogFlowInputTagsList = Array<string>;
+export type HogFlowTestConfigurationInputTagsList = Array<string>;
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-export type HogFlowInputEdgesList = Array<HogFlowEdge>;
+export type HogFlowTestConfigurationInputEdgesList = Array<HogFlowEdge>;
 /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-export type HogFlowInputActionsList = Array<HogFlowAction>;
+export type HogFlowTestConfigurationInputActionsList = Array<HogFlowAction>;
 /** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowInputVariablesItemMap = { [key: string]: string | undefined };
+export type HogFlowTestConfigurationInputVariablesItemMap = { [key: string]: string | undefined };
 /** Workflow vars (key, type, default). Total <5KB. */
-export type HogFlowInputVariablesList = Array<HogFlowInputVariablesItemMap>;
+export type HogFlowTestConfigurationInputVariablesList =
+  Array<HogFlowTestConfigurationInputVariablesItemMap>;
 /** Mixin for serializers to add user access control fields */
-export interface HogFlowInput {
+export interface HogFlowTestConfigurationInput {
   /** Workflow name. */
   name?: string | null | undefined;
   /** Optional description. */
   description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: HogFlowInputTagsList | undefined;
+  tags?: HogFlowTestConfigurationInputTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {}) | undefined;
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
   source_record?: string | null | undefined;
@@ -483,11 +498,11 @@ export interface HogFlowInput {
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
   email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowInputEdgesList | undefined;
+  edges?: HogFlowTestConfigurationInputEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowInputActionsList | undefined;
+  actions: HogFlowTestConfigurationInputActionsList;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowInputVariablesList | undefined;
+  variables?: HogFlowTestConfigurationInputVariablesList | undefined;
 }
 /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
 export type CreateHogFlowsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
@@ -497,7 +512,7 @@ export interface CreateHogFlowsInvocationRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Optional override; omit to use saved definition. */
-  configuration?: HogFlowInput | undefined;
+  configuration?: HogFlowTestConfigurationInput | undefined;
   /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
   globals?: CreateHogFlowsInvocationRequestGlobalsMap | undefined;
   /** True (default) mocks HTTP/email/SMS. False fires real side effects. */
@@ -533,6 +548,12 @@ export interface SuggestionsSample {
   /** When the live version was published. PostHog waits 48 hours before judging it. */
   version_live_since: string;
 }
+export interface SuggestionsSchedule {
+  /** Roughly when the project's suggestions scout last checked its workflows. Null before its first check. */
+  last_checked_at: string | null;
+  /** Roughly when the scout checks next. Null before its first check, or when a custom schedule or a backoff decides it. */
+  next_check_at: string | null;
+}
 export interface HogFlowOptimization {
   /** Whether PostHog may suggest changes to this workflow. */
   enabled: boolean;
@@ -540,6 +561,8 @@ export interface HogFlowOptimization {
   scout_status: SuggestionsScoutStatusEnum;
   /** How close the live version is to the sample PostHog needs before it suggests anything. Null while suggestions are on but the scout is not running, or when the workflow has no email step. */
   sample: SuggestionsSample | null;
+  /** When the project's suggestions scout last checked and checks next. Null unless the scout is running. */
+  schedule: SuggestionsSchedule | null;
 }
 /** Only the workflow content fields this proposal changes. Approving merges them over the live content to build the staged draft, so unrelated parts of the workflow stay as they are. In `actions`, send each step you change with its `id` and only the fields you change; they merge into the live step, and a null field deletes it. */
 export type CreateHogFlowsProposalRequestContentMap = { [key: string]: unknown | undefined };
@@ -689,6 +712,10 @@ export interface CreateHogFlowsUserBlastRadiusRequest {
   dedupe_key?: DedupeKeyEnum | (string & {}) | null | undefined;
   /** Whether the workflow contains an email step. The tiered audience limit only applies to email sends; SMS, push, and webhook batches keep the flat limit. Defaults to true. */
   sends_email?: boolean | undefined;
+  /** The workflow's email sending rate limit. A slow enough rate raises the email audience limit. The response's rate_limited field says which rates qualify. */
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
+  /** Count the audience now instead of reusing a count from the last few minutes. Set it when the count decides whether a send may go ahead. */
+  refresh?: boolean | undefined;
 }
 /** * `ready` - Ready * `building` - Building * `rebuilding` - Rebuilding * `needs_attention` - Needs attention */
 export type RealtimeAudienceCohortStateEnum =
@@ -712,6 +739,16 @@ export interface RealtimeCohortRef {
   /** Name of the realtime cohort. */
   name: string;
 }
+export interface RateLimitedAudience {
+  /** The fastest email sending rate limit that raises the audience limit. A faster rate keeps the normal limit. */
+  max_emails_per_hour: number;
+  /** The most days a rate-limited send may take to reach everyone. */
+  max_days: number;
+  /** The audience limit with a rate limit of max_emails_per_hour. A slower rate allows fewer people. */
+  limit: number;
+}
+/** Keys of the project's test account filters this audience leaves out because they only apply to events, such as event properties. Empty unless the audience filters out test accounts. */
+export type BlastRadiusSkippedTestAccountFiltersList = Array<string>;
 export interface BlastRadius {
   /** Number of users matching the filters */
   affected?: number | undefined;
@@ -727,6 +764,10 @@ export interface BlastRadius {
   realtime_cohort?: RealtimeCohortStatus | null | undefined;
   /** Set when a realtime cohort shares the audience with other conditions. Saving that audience fails: a realtime cohort has to be the only condition. */
   realtime_cohort_with_other_conditions?: RealtimeCohortRef | null | undefined;
+  /** Set when an email sending rate limit can raise 'limit'. A send at a slow enough rate leaves part of the project's daily email allowance to its other workflows, so it may reach more people over several days. */
+  rate_limited?: RateLimitedAudience | null | undefined;
+  /** Keys of the project's test account filters this audience leaves out because they only apply to events, such as event properties. Empty unless the audience filters out test accounts. */
+  skipped_test_account_filters?: BlastRadiusSkippedTestAccountFiltersList | undefined;
 }
 export interface GetHogFlowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1243,6 +1284,52 @@ export type TeamEmailReputationResponseIspsList = Array<IspSendingHealth>;
 export type TeamEmailReputationResponseIspSharedDomainsList = Array<string>;
 /** Sending domains left out of the breakdown because another project sends from them and the caller cannot access that project. Empty when nothing is withheld. */
 export type TeamEmailReputationResponseIspWithheldDomainsList = Array<string>;
+/** What the project needs to do for the daily tier check to raise its allowance one step. */
+export interface EmailSendingNextTier {
+  /** How many emails the next tier allows per day. */
+  emails_per_day: number;
+  /** Emails the project must send in a day for that day to count toward the next tier. */
+  daily_target: number;
+  /** Separate days the project must reach daily_target on. */
+  days_required: number;
+  /** Days since the last tier change the project reached daily_target on, up to days_required. */
+  days_reached: number;
+  /** The earliest time the next tier can be granted, counted from the last tier change or, before any change, from project creation. */
+  not_before: string;
+}
+/** Rates over the short window the daily tier check demotes on, with the limits it applies. */
+export interface EmailSendingRecentRates {
+  /** Days the rates cover. */
+  window_days: number;
+  /** Workflow emails sent in the window. */
+  emails_sent: number;
+  /** Hard bounces divided by emails sent, from 0 to 1. */
+  bounce_rate: number;
+  /** Spam complaints divided by emails sent, from 0 to 1. */
+  complaint_rate: number;
+  /** Spam complaints received in the window, including complaints about emails sent before it. */
+  complaints: number;
+  /** Bounce rate above which the allowance drops. */
+  max_bounce_rate: number;
+  /** Spam complaint rate above which the allowance drops. */
+  max_complaint_rate: number;
+  /** False when the daily check would lower the allowance because of bounces. A window with too few emails to judge counts as within limits. */
+  bounces_within_limits: boolean;
+  /** False when the daily check would lower the allowance because of spam complaints. A window with too few emails and complaints to judge counts as within limits. */
+  complaints_within_limits: boolean;
+}
+export interface EmailSendingAllowanceChange {
+  /** When the allowance changed. */
+  changed_at: string;
+  /** Emails allowed per day before the change. */
+  previous_emails_per_day: number;
+  /** Emails allowed per day after the change. */
+  emails_per_day: number;
+  /** Why the allowance changed. One of: clean_and_used, trusted_account, inactive, rates_above_threshold, workflow_auto_paused, ses_reputation_high, ses_tenant_paused, staff_suspension, staff_set. */
+  reason: string;
+}
+/** Allowance changes from the last 90 days, newest first, at most 5. */
+export type EmailSendingAllowanceRecentChangesList = Array<EmailSendingAllowanceChange>;
 /** How much workflow email this project may send, and how much of that it has used. */
 export interface EmailSendingAllowance {
   /** The project's current sending tier. Projects start at 0 and move up as they build a clean sending history. */
@@ -1257,6 +1344,23 @@ export interface EmailSendingAllowance {
   emails_sent_last_day: number;
   /** True when these allowances are applied to sends. False while they are only being measured. */
   enforced: boolean;
+  /** The largest audience a single email batch may reach when its sending rate limit is slow enough. Null when no rate limit raises max_batch_audience. */
+  rate_limited_max_batch_audience: number | null;
+  /** How to reach the next tier. Null at the top tier or when PostHog set the tier by hand. */
+  next_tier: EmailSendingNextTier | null;
+  /** The rates the daily tier check demotes on. Null when PostHog set the tier by hand. */
+  recent_rates: EmailSendingRecentRates | null;
+  /** Allowance changes from the last 90 days, newest first, at most 5. */
+  recent_changes: EmailSendingAllowanceRecentChangesList;
+}
+/** How email from every project in this PostHog region fared, from AWS SES's own delivery data. */
+export interface EmailInfrastructureHealth {
+  /** A lower bound on the emails sent during the window, rounded down to one significant figure (1,234,567 sent reads as 1,000,000). The exact count is not exposed. */
+  emails_sent_at_least: number;
+  /** Hard (permanent) bounces divided by emails sent (0-1), rounded up to 0.0001. */
+  bounce_rate: number;
+  /** Spam complaints divided by deliveries to mailbox providers that report complaints (0-1), rounded up to 0.0001. */
+  complaint_rate: number;
 }
 export interface TeamEmailReputationResponse {
   /** Sending health as judged and enforced by AWS SES for this project's tenant; null when the caller lacks project-wide workflow access, no tenant is provisioned, or AWS is unreachable. */
@@ -1279,6 +1383,8 @@ export interface TeamEmailReputationResponse {
   email_sending_suspension_reason: string;
   /** The project's sending tier, what it allows, and how much of it has been used; null when the caller lacks project-wide workflow access. Tiers grow on their own as the project builds a clean sending record. */
   sending_allowance: EmailSendingAllowance | null;
+  /** Sending health across every project in this PostHog region over the last 30 whole days, which all send through the same infrastructure. Null when AWS is unreachable or has no data, or while the feature is not yet released to this project. */
+  infrastructure: EmailInfrastructureHealth | null;
 }
 export interface GetHogFlowsRevisionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1362,7 +1468,7 @@ export interface HogFlowsBulkDeleteCreateRequest {
   tags?: HogFlowsBulkDeleteCreateRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {}) | undefined;
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
   source_record?: string | null | undefined;
@@ -1480,6 +1586,8 @@ export interface HogFlowsPublishCreateRequest {
   confirm?: boolean | undefined;
   /** From the preview response -- required when confirm=true. Expires after 15 minutes, and any draft edit invalidates it (409), so you always publish the exact draft you previewed. */
   confirm_token?: string | Redacted.Redacted<string> | undefined;
+  /** With confirm=true, whether the preview's moves_to_sandbox_sender warning was shown. False refuses the publish (409) when the live workflow changed so that it now moves steps onto the PostHog test sender. Omit it to skip that check. */
+  sandbox_sender_warned?: boolean | null | undefined;
 }
 export interface HogFlowPublishImpactMoveTarget {
   /** Id of the surviving step runs will continue at. */
@@ -1544,6 +1652,8 @@ export interface HogFlowPublishResponseOutput {
   confirm_token: string | Redacted.Redacted<string> | null;
   /** What publishing does to people in-flight. Only set on previews; counts are approximate. */
   impact: HogFlowPublishImpact | null;
+  /** Whether publishing moves email steps of the enabled workflow onto the PostHog test sender, which reaches only verified members of the organization. Only set on previews. */
+  moves_to_sandbox_sender: boolean | null;
   /** The workflow after publishing (only set when published=true). */
   workflow?: HogFlowOutput | null | undefined;
 }
@@ -1572,6 +1682,8 @@ export interface HogFlowsSendCalendarRetrieveRequest {
   project_id: string;
   /** End of the shown range, exclusive, as an ISO 8601 datetime. At most 92 days after start. */
   end: string;
+  /** Comma-separated workflow IDs, at most 200. Only these workflows are returned. */
+  ids?: string | undefined;
   /** Start of the shown range, inclusive, as an ISO 8601 datetime. */
   start: string;
 }
@@ -1596,7 +1708,7 @@ export interface SendCalendarFlow {
   id: string;
   /** Name of the workflow. */
   name: string | null;
-  /** The product surface that owns the workflow, such as broadcasts. Null for a plain workflow. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** The product surface that owns the workflow, such as broadcasts. Null for a plain workflow. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product: HogFlowOriginProductEnum | null;
   /** User who created the workflow. */
   created_by: UserBasic | null;
@@ -1619,7 +1731,11 @@ export interface SendCalendarFlow {
 }
 export type HogFlowsSendCalendarRetrieveResponseBodyList = Array<SendCalendarFlow>;
 export type HogFlowsSendCalendarRetrieveResponse = HogFlowsSendCalendarRetrieveResponseBodyList;
-export type ListHogFlowsRequestOriginProduct = "broadcasts" | "loops" | "transactional_emails";
+export type ListHogFlowsRequestOriginProduct =
+  | "broadcasts"
+  | "loops"
+  | "transactional_emails"
+  | "transactional_push";
 export type ListHogFlowsRequestStatus = "active" | "archived" | "draft";
 export interface ListHogFlowsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1660,6 +1776,8 @@ export interface ListHogFlowsRequest {
 }
 /** Tags for organizing workflows, for example by team or use case. Sorted by name. */
 export type HogFlowMinimalTagsList = Array<string>;
+/** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+export type HogFlowMinimalWarningsList = Array<HogFlowWarning>;
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowMinimal {
   id?: string | undefined;
@@ -1693,6 +1811,8 @@ export interface HogFlowMinimal {
   pending_suggestions?: number | null | undefined;
   /** Whether someone turned suggestions on for this workflow. Read on the list only. */
   suggestions_enabled?: boolean | null | undefined;
+  /** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+  warnings: HogFlowMinimalWarningsList;
 }
 export type PaginatedHogFlowMinimalListResultsList = Array<HogFlowMinimal>;
 export interface PaginatedHogFlowMinimalList {
@@ -1769,7 +1889,7 @@ export interface ResumeHogFlowEmailSendingRequest {
 }
 /** Whether PostHog paused this one workflow's email sending, and why. */
 export interface WorkflowEmailPauseStatus {
-  /** True while this workflow's email is paused because its spam complaint or hard bounce rate crossed a threshold. Other workflows in the project keep sending. */
+  /** True while this workflow's email is paused because its spam complaint or hard bounce rate crossed a threshold. */
   email_sending_paused: boolean;
   /** When the pause started; null when not paused. */
   email_sending_paused_at: string | null;
@@ -1830,6 +1950,8 @@ export type HogFlowUpdateVariablesList = Array<HogFlowUpdateVariablesItemMap>;
 export type HogFlowUpdateSchedulesList = Array<HogFlowSchedule>;
 /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
 export type HogFlowUpdateActionRedirectsMap = { [key: string]: string | undefined };
+/** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+export type HogFlowUpdateWarningsList = Array<HogFlowWarning>;
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowUpdate {
   id: string;
@@ -1842,7 +1964,7 @@ export interface HogFlowUpdate {
   version: number;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | undefined;
-  /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
+  /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys * `transactional_push` - Transactional push notifications */
   origin_product: HogFlowOriginProductEnum | null;
   created_at: string;
   created_by: UserBasic;
@@ -1886,6 +2008,8 @@ export interface HogFlowUpdate {
   email_sending_resumed_at: string | null;
   /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
   last_run: HogFlowLastRun | null;
+  /** Problems with how the live workflow sends that the user must hear about. Empty when there are none. Relay each message to the user. */
+  warnings: HogFlowUpdateWarningsList;
 }
 /** * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
 export type EmailTemplateDesignOperationEnum =
@@ -1916,19 +2040,25 @@ export interface DesignOperation {
 }
 /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
 export type UpdateHogFlowsActionsEmailPartialRequestOperationsList = Array<DesignOperation>;
+/** * `sandbox` - sandbox * `own` - own */
+export type EmailStepSenderEnum = "sandbox" | "own";
 export interface UpdateHogFlowsActionsEmailPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this hog flow. */
   id: string;
-  /** Id of the function_email step to edit. */
+  /** Id of the function_email or email_sandbox step to edit. */
   action_id: string;
   /** Optimistic concurrency: the updated_at (or draft_updated_at) last loaded. If the stored workflow is newer, the patch is rejected with 409 instead of clobbering a concurrent edit. */
   base_updated_at?: string | undefined;
   /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
   operations?: UpdateHogFlowsActionsEmailPartialRequestOperationsList | undefined;
-  /** Partial email fields deep-merged into the step's email (a null leaf deletes the key): subject, preheader, text, to, from, replyTo, cc, bcc. The sender is from: {integrationId, email?, name?}, where email and name are optional templated overrides resolved per invocation; the address must resolve to the selected sender's verified domain or the send fails. The design is edited via operations, and html is always re-rendered from it. */
+  /** Partial email fields deep-merged into the step's email (a null leaf deletes the key): subject, preheader, text, to, from, replyTo, cc, bcc. The sender is from: {integrationId, email?, name?}, where email and name are optional templated overrides resolved per invocation; the address must resolve to the selected sender's verified domain or the send fails. A PostHog test sender step (type email_sandbox) takes only subject, preheader, text and to. The design is edited via operations, and html is always re-rendered from it. */
   email_patch?: unknown | undefined;
+  /** Switch the step's sender. 'sandbox' moves it to the PostHog test sender, which sends only to verified members of the organization and needs no verified domain; it is set up for the project on first use. 'own' moves a PostHog test sender step back to one of the project's verified senders, named in email_patch.from.integrationId. The step keeps its id, recipient, content and category. * `sandbox` - sandbox * `own` - own */
+  sender?: EmailStepSenderEnum | (string & {}) | undefined;
+  /** With sender 'sandbox': drop the settings the PostHog test sender can't keep (custom from address or name, several senders, replyTo, cc, bcc, turned-off tracking, UTM tags). Without it, the switch is refused and the error lists them, so confirm with the user before setting it. */
+  drop_own_sender_settings?: boolean | undefined;
 }
 /** * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
 export type HogFlowGraphOperationOpEnum =
@@ -2062,8 +2192,8 @@ export const createHogFlowsBatchJob: API.OperationMethod<
   CreateHogFlowsBatchJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<CreateHogFlowsBatchJobRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<HogFlowBatchJob>,
+  input: __S(1040, __c65, 0) as any as S.Schema<CreateHogFlowsBatchJobRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<HogFlowBatchJob>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2079,7 +2209,7 @@ export const createHogFlowsDiscardDraft: API.OperationMethod<
   CreateHogFlowsDiscardDraftError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateHogFlowsDiscardDraftRequest>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CreateHogFlowsDiscardDraftRequest>,
   output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2096,8 +2226,8 @@ export const createHogFlowsInvocation: API.OperationMethod<
   CreateHogFlowsInvocationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1073, __c67, 1) as any as S.Schema<CreateHogFlowsInvocationRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<CreateHogFlowsInvocationResponse>,
+  input: __S(1089, __c68, 1) as any as S.Schema<CreateHogFlowsInvocationRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<CreateHogFlowsInvocationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2114,8 +2244,8 @@ export const createHogFlowsOptimization: API.OperationMethod<
   CreateHogFlowsOptimizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateHogFlowsOptimizationRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<HogFlowOptimization>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateHogFlowsOptimizationRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<HogFlowOptimization>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2161,7 +2291,7 @@ export const createHogFlowsRerun: API.OperationMethod<
 }));
 
 export type CreateHogFlowsRunError = Conflict | PosthogOpError;
-/** Fire a schedule-triggered workflow immediately, outside its regular schedule. Restricted to the `schedule` trigger type: `batch`/`webhook`/etc. triggers have their own dedicated entry points (`batch_jobs`, the public webhook URL) with trigger-specific guardrails this endpoint doesn't replicate. Requires the workflow to be active, same gate the scheduler itself applies in `internal_process_due_schedules`. Send an `Idempotency-Key` header to dedupe retries (a double-click, or a client retry after a timed-out request): a repeat with the same key returns the first call's result instead of firing a second AI task. Without the header, every call fires a new run. */
+/** Run a workflow with a `schedule` or `manual` trigger now, once. A schedule-triggered workflow runs outside its regular schedule. A manually triggered workflow runs for the calling user, as the trigger button in the editor does. Other triggers have their own entry points (`batch_jobs`, the public webhook URL) with trigger-specific guardrails this endpoint doesn't replicate. Requires the workflow to be active, same gate the scheduler itself applies in `internal_process_due_schedules`. Send an `Idempotency-Key` header to dedupe retries (a double-click, or a client retry after a timed-out request): a repeat with the same key returns the first call's result instead of firing a second AI task. Without the header, every call fires a new run. */
 export const createHogFlowsRun: API.OperationMethod<
   CreateHogFlowsRunRequest,
   HogFlowRunResponse,
@@ -2203,7 +2333,7 @@ export const createHogFlowsUserBlastRadius: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CreateHogFlowsUserBlastRadiusRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<BlastRadius>,
+  output: __S(100, __c6, 4) as any as S.Schema<BlastRadius>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2254,7 +2384,7 @@ export const getHogFlowsAssetContent: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetHogFlowsAssetContentRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetHogFlowsAssetContentResponse>,
+  output: __S(1104, __c69, 0) as any as S.Schema<GetHogFlowsAssetContentResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2376,7 +2506,7 @@ export const getHogFlowsLog: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetHogFlowsLogRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetHogFlowsLogResponse>,
+  output: __S(1104, __c69, 0) as any as S.Schema<GetHogFlowsLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2463,7 +2593,7 @@ export const getHogFlowsOptimization: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetHogFlowsOptimizationRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<HogFlowOptimization>,
+  output: __S(1138, __c71, 2) as any as S.Schema<HogFlowOptimization>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2516,7 +2646,7 @@ export const getHogFlowsReputation: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetHogFlowsReputationRequest>,
-  output: __S(442, __c27, 10) as any as S.Schema<TeamEmailReputationResponse>,
+  output: __S(447, __c27, 15) as any as S.Schema<TeamEmailReputationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2620,7 +2750,7 @@ export const hogFlowsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<HogFlowsDestroyRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<HogFlowsDestroyResponse>,
+  output: __S(1104, __c69, 0) as any as S.Schema<HogFlowsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2723,7 +2853,7 @@ export const hogFlowsSchedulesDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<HogFlowsSchedulesDestroyRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<HogFlowsSchedulesDestroyResponse>,
+  output: __S(1104, __c69, 0) as any as S.Schema<HogFlowsSchedulesDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2826,8 +2956,8 @@ export const listHogFlowsSchedules: API.OperationMethod<
   ListHogFlowsSchedulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListHogFlowsSchedulesRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<ListHogFlowsSchedulesResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListHogFlowsSchedulesRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<ListHogFlowsSchedulesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2844,8 +2974,8 @@ export const resumeHogFlowEmailSending: API.OperationMethod<
   ResumeHogFlowEmailSendingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ResumeHogFlowEmailSendingRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<WorkflowEmailPauseStatus>,
+  input: __S(928, __c58, 0) as any as S.Schema<ResumeHogFlowEmailSendingRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<WorkflowEmailPauseStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2861,8 +2991,8 @@ export const updateHogFlow: API.OperationMethod<
   UpdateHogFlowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<UpdateHogFlowRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<HogFlowUpdate>,
+  input: __S(944, __c59, 0) as any as S.Schema<UpdateHogFlowRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<HogFlowUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2878,7 +3008,7 @@ export const updateHogFlowsActionsEmailPartial: API.OperationMethod<
   UpdateHogFlowsActionsEmailPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(962, __c60, 2) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequest>,
+  input: __S(978, __c61, 2) as any as S.Schema<UpdateHogFlowsActionsEmailPartialRequest>,
   output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2895,7 +3025,7 @@ export const updateHogFlowsGraphPartial: API.OperationMethod<
   UpdateHogFlowsGraphPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(978, __c61, 2) as any as S.Schema<UpdateHogFlowsGraphPartialRequest>,
+  input: __S(994, __c62, 2) as any as S.Schema<UpdateHogFlowsGraphPartialRequest>,
   output: __S(832, __c52, 0) as any as S.Schema<HogFlowOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2912,8 +3042,8 @@ export const updateHogFlowsPartial: API.OperationMethod<
   UpdateHogFlowsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateHogFlowsPartialRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<HogFlowUpdate>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdateHogFlowsPartialRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<HogFlowUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2933,7 +3063,7 @@ export const updateHogFlowsSchedulesPartial: API.OperationMethod<
   UpdateHogFlowsSchedulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateHogFlowsSchedulesPartialRequest>,
+  input: __S(1024, __c64, 0) as any as S.Schema<UpdateHogFlowsSchedulesPartialRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<HogFlowSchedule>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -3093,6 +3223,8 @@ function __c6(j: number): any {
           group_type_index: S.optional(S.NullOr(S.Number)),
           dedupe_key: S.optional(S.NullOr(S.String)),
           sends_email: S.optional(S.Boolean),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          refresh: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3120,6 +3252,14 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          max_emails_per_hour: S.Number,
+          max_days: S.Number,
+          limit: S.Number,
+        }),
+      ).annotate({ identifier: "RateLimitedAudience" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           affected: S.optional(S.Number),
           total: S.optional(S.Number),
           limit: S.optional(S.Number),
@@ -3127,6 +3267,8 @@ function __c6(j: number): any {
           confirm_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           realtime_cohort: S.optional(S.NullOr(__S(97, __c6, 1))),
           realtime_cohort_with_other_conditions: S.optional(S.NullOr(__S(98, __c6, 2))),
+          rate_limited: S.optional(S.NullOr(__S(99, __c6, 3))),
+          skipped_test_account_filters: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "BlastRadius" });
   }
@@ -3752,15 +3894,62 @@ function __c27(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          emails_per_day: S.Number,
+          daily_target: S.Number,
+          days_required: S.Number,
+          days_reached: S.Number,
+          not_before: S.String,
+        }),
+      ).annotate({ identifier: "EmailSendingNextTier" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          window_days: S.Number,
+          emails_sent: S.Number,
+          bounce_rate: S.Number,
+          complaint_rate: S.Number,
+          complaints: S.Number,
+          max_bounce_rate: S.Number,
+          max_complaint_rate: S.Number,
+          bounces_within_limits: S.Boolean,
+          complaints_within_limits: S.Boolean,
+        }),
+      ).annotate({ identifier: "EmailSendingRecentRates" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          changed_at: S.String,
+          previous_emails_per_day: S.Number,
+          emails_per_day: S.Number,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "EmailSendingAllowanceChange" });
+    case 12:
+      return S.Array(__S(443, __c27, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           tier: S.Number,
           max_tier: S.Number,
           emails_per_day: S.Number,
           max_batch_audience: S.Number,
           emails_sent_last_day: S.Number,
           enforced: S.Boolean,
+          rate_limited_max_batch_audience: S.NullOr(S.Number),
+          next_tier: S.NullOr(__S(441, __c27, 9)),
+          recent_rates: S.NullOr(__S(442, __c27, 10)),
+          recent_changes: __S(444, __c27, 12),
         }),
       ).annotate({ identifier: "EmailSendingAllowance" });
-    case 10:
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          emails_sent_at_least: S.Number,
+          bounce_rate: S.Number,
+          complaint_rate: S.Number,
+        }),
+      ).annotate({ identifier: "EmailInfrastructureHealth" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           aws: S.NullOr(__S(435, __c27, 3)),
@@ -3772,7 +3961,8 @@ function __c27(j: number): any {
           email_sending_suspended: S.Boolean,
           email_sending_suspended_at: S.NullOr(S.String),
           email_sending_suspension_reason: S.String,
-          sending_allowance: S.NullOr(__S(441, __c27, 9)),
+          sending_allowance: S.NullOr(__S(445, __c27, 13)),
+          infrastructure: S.NullOr(__S(446, __c27, 14)),
         }),
       ).annotate({ identifier: "TeamEmailReputationResponse" });
   }
@@ -3873,13 +4063,13 @@ function __c31(j: number): any {
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: S.optional(__S(889, __c55, 9)),
-          variables: S.optional(__S(891, __c55, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: S.optional(__S(904, __c56, 8)),
+          variables: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4050,6 +4240,7 @@ function __c38(j: number): any {
           id: S.String.pipe(T.Label()),
           confirm: S.optional(S.Boolean),
           confirm_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          sandbox_sender_warned: S.optional(S.NullOr(S.Boolean)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4113,6 +4304,7 @@ function __c38(j: number): any {
           draft_updated_at: S.NullOr(S.String),
           confirm_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           impact: S.NullOr(__S(616, __c38, 8)),
+          moves_to_sandbox_sender: S.NullOr(S.Boolean),
           workflow: S.optional(S.NullOr(__S(832, __c52, 0))),
         }),
       ).annotate({ identifier: "HogFlowPublishResponseOutput" });
@@ -4163,6 +4355,7 @@ function __c41(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           end: S.String.pipe(T.Query()),
+          ids: S.optional(S.String.pipe(T.Query())),
           start: S.String.pipe(T.Query()),
         }).pipe(
           T.Http({
@@ -4191,7 +4384,7 @@ function __c41(j: number): any {
           created_by: S.NullOr(__S(752, __c47, 0)),
           user_access_level: S.NullOr(S.String),
           trigger_type: S.String,
-          audience_properties: __S(864, __c54, 0),
+          audience_properties: __S(880, __c55, 0),
           audience_type: S.NullOr(S.String),
           email_to: S.NullOr(S.String),
           message_category_id: S.NullOr(S.String),
@@ -4261,6 +4454,7 @@ function __c42(j: number): any {
           last_run: S.optional(S.NullOr(__S(816, __c51, 0))),
           pending_suggestions: S.optional(S.NullOr(S.Number)),
           suggestions_enabled: S.optional(S.NullOr(S.Boolean)),
+          warnings: __S(818, __c51, 2),
         }),
       ).annotate({ identifier: "HogFlowMinimal" });
     case 2:
@@ -4292,7 +4486,7 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListHogFlowsBatchJobsRequest" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1056, __c66, 0));
     case 2:
       return S.suspend(() => __S(689, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListHogFlowsBatchJobsResponse",
@@ -4380,13 +4574,13 @@ function __c46(j: number): any {
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: S.optional(__S(889, __c55, 9)),
-          variables: S.optional(__S(891, __c55, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: S.optional(__S(904, __c56, 8)),
+          variables: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/", code: 200 }),
         ),
@@ -4451,6 +4645,15 @@ function __c51(j: number): any {
           ran_at: S.String,
         }),
       ).annotate({ identifier: "HogFlowLastRun" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "HogFlowWarning" });
+    case 2:
+      return S.Array(__S(817, __c51, 1));
   }
 }
 function __c52(j: number): any {
@@ -4469,26 +4672,27 @@ function __c52(j: number): any {
           created_by: S.optional(S.NullOr(__S(752, __c47, 0))),
           updated_at: S.optional(S.String),
           trigger: S.optional(S.Unknown),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: S.optional(__S(889, __c55, 9)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: S.optional(__S(904, __c56, 8)),
           abort_action: S.optional(S.NullOr(S.String)),
-          variables: S.optional(__S(891, __c55, 11)),
+          variables: S.optional(__S(906, __c56, 10)),
           billable_action_types: S.optional(S.Unknown),
           schedules: S.optional(__S(800, __c50, 0)),
           user_access_level: S.optional(S.NullOr(S.String)),
           draft: S.optional(S.Unknown),
           draft_updated_at: S.optional(S.NullOr(S.String)),
-          action_redirects: S.optional(S.NullOr(__S(890, __c55, 10))),
+          action_redirects: S.optional(S.NullOr(__S(905, __c56, 9))),
           email_sending_paused_at: S.optional(S.NullOr(S.String)),
           email_sending_paused_reason: S.optional(S.String),
           email_sending_paused_by: S.optional(S.String),
           email_sending_pause_requires_support: S.optional(S.Boolean),
           email_sending_resumed_at: S.optional(S.NullOr(S.String)),
           last_run: S.optional(S.NullOr(__S(816, __c51, 0))),
+          warnings: __S(818, __c51, 2),
         }),
       ).annotate({ identifier: "HogFlowOutput" });
   }
@@ -4502,10 +4706,21 @@ function __c53(j: number): any {
 function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c48, 0));
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          period: S.String,
+        }),
+      ).annotate({ identifier: "HogFlowEmailSendingRateLimit" });
   }
 }
 function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(768, __c48, 0));
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4520,10 +4735,10 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
-          actions: S.optional(__S(864, __c54, 0)),
-          events: S.optional(__S(864, __c54, 0)),
-          data_warehouse: S.optional(__S(864, __c54, 0)),
-          properties: S.optional(__S(864, __c54, 0)),
+          actions: S.optional(__S(880, __c55, 0)),
+          events: S.optional(__S(880, __c55, 0)),
+          data_warehouse: S.optional(__S(880, __c55, 0)),
+          properties: S.optional(__S(880, __c55, 0)),
           bytecode: S.optional(S.Unknown),
           transpiled: S.optional(S.Unknown),
           filter_test_accounts: S.optional(S.Boolean),
@@ -4534,28 +4749,21 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: __S(881, __c55, 1),
+          filters: __S(897, __c56, 1),
         }),
       ).annotate({ identifier: "HogFlowConversionEvent" });
     case 3:
-      return S.Array(__S(882, __c55, 2));
+      return S.Array(__S(898, __c56, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(864, __c54, 0)),
-          events: S.optional(__S(883, __c55, 3)),
+          filters: S.optional(__S(880, __c55, 0)),
+          events: S.optional(__S(899, __c56, 3)),
           window: S.optional(S.NullOr(S.String)),
           bytecode: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "HogFlowConversion" });
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          period: S.String,
-        }),
-      ).annotate({ identifier: "HogFlowEmailSendingRateLimit" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           to: S.String,
@@ -4564,9 +4772,9 @@ function __c55(j: number): any {
           from: S.String,
         }),
       ).annotate({ identifier: "HogFlowEdge" });
+    case 6:
+      return S.Array(__S(901, __c56, 5));
     case 7:
-      return S.Array(__S(886, __c55, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -4575,21 +4783,21 @@ function __c55(j: number): any {
           on_error: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
-          filters: S.optional(S.NullOr(__S(881, __c55, 1))),
+          filters: S.optional(S.NullOr(__S(897, __c56, 1))),
           type: S.optional(S.String),
           config: S.optional(S.Unknown),
           output_variable: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "HogFlowAction" });
+    case 8:
+      return S.Array(__S(903, __c56, 7));
     case 9:
-      return S.Array(__S(888, __c55, 8));
-    case 10:
       return S.Record(S.String, S.String);
-    case 11:
-      return S.Array(__S(890, __c55, 10));
+    case 10:
+      return S.Array(__S(905, __c56, 9));
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4610,7 +4818,7 @@ function __c56(j: number): any {
       });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4636,7 +4844,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "WorkflowEmailPauseStatus" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,20 +4855,20 @@ function __c58(j: number): any {
           description: S.optional(S.String),
           tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: __S(889, __c55, 9),
-          variables: S.optional(__S(891, __c55, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: __S(904, __c56, 8),
+          variables: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateHogFlowRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4676,31 +4884,32 @@ function __c59(j: number): any {
           created_by: __S(752, __c47, 0),
           updated_at: S.String,
           trigger: S.Unknown,
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: __S(889, __c55, 9),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: __S(904, __c56, 8),
           abort_action: S.NullOr(S.String),
-          variables: S.optional(__S(891, __c55, 11)),
+          variables: S.optional(__S(906, __c56, 10)),
           billable_action_types: S.Unknown,
           schedules: __S(800, __c50, 0),
           user_access_level: S.NullOr(S.String),
           draft: S.Unknown,
           draft_updated_at: S.NullOr(S.String),
-          action_redirects: S.NullOr(__S(890, __c55, 10)),
+          action_redirects: S.NullOr(__S(905, __c56, 9)),
           email_sending_paused_at: S.NullOr(S.String),
           email_sending_paused_reason: S.String,
           email_sending_paused_by: S.String,
           email_sending_pause_requires_support: S.Boolean,
           email_sending_resumed_at: S.NullOr(S.String),
           last_run: S.NullOr(__S(816, __c51, 0)),
+          warnings: __S(818, __c51, 2),
         }),
       ).annotate({ identifier: "HogFlowUpdate" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4715,7 +4924,7 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "DesignOperation" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4723,8 +4932,10 @@ function __c60(j: number): any {
           id: S.String.pipe(T.Label()),
           action_id: S.String.pipe(T.Label()),
           base_updated_at: S.optional(S.String),
-          operations: S.optional(__S(961, __c60, 1)),
+          operations: S.optional(__S(977, __c61, 1)),
           email_patch: S.optional(S.Unknown),
+          sender: S.optional(S.String),
+          drop_own_sender_settings: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4735,7 +4946,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsActionsEmailPartialRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4744,19 +4955,19 @@ function __c61(j: number): any {
           id: S.optional(S.String),
           patch: S.optional(S.Unknown),
           action: S.optional(S.Unknown),
-          edge: S.optional(__S(886, __c55, 6)),
-          edges: S.optional(__S(887, __c55, 7)),
+          edge: S.optional(__S(901, __c56, 5)),
+          edges: S.optional(__S(902, __c56, 6)),
         }),
       ).annotate({ identifier: "HogFlowGraphOperation" });
     case 1:
-      return S.Array(__S(976, __c61, 0));
+      return S.Array(__S(992, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           base_updated_at: S.optional(S.String),
-          operations: S.optional(__S(977, __c61, 1)),
+          operations: S.optional(__S(993, __c62, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4767,7 +4978,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsGraphPartialRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4778,20 +4989,20 @@ function __c62(j: number): any {
           description: S.optional(S.String),
           tags: S.optional(__S(848, __c53, 0)),
           status: S.optional(S.String),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: S.optional(__S(889, __c55, 9)),
-          variables: S.optional(__S(891, __c55, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: S.optional(__S(904, __c56, 8)),
+          variables: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateHogFlowsPartialRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4813,7 +5024,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateHogFlowsSchedulesPartialRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4833,7 +5044,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsBatchJobRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4850,7 +5061,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "HogFlowBatchJob" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4867,7 +5078,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsDiscardDraftRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4878,21 +5089,21 @@ function __c67(j: number): any {
           status: S.optional(S.String),
           origin_product: S.optional(S.NullOr(S.String)),
           source_record: S.optional(S.NullOr(S.String)),
-          trigger_masking: S.optional(S.NullOr(__S(880, __c55, 0))),
-          conversion: S.optional(S.NullOr(__S(884, __c55, 4))),
+          trigger_masking: S.optional(S.NullOr(__S(896, __c56, 0))),
+          conversion: S.optional(S.NullOr(__S(900, __c56, 4))),
           exit_condition: S.optional(S.String),
-          email_sending_rate_limit: S.optional(S.NullOr(__S(885, __c55, 5))),
-          edges: S.optional(__S(887, __c55, 7)),
-          actions: S.optional(__S(889, __c55, 9)),
-          variables: S.optional(__S(891, __c55, 11)),
+          email_sending_rate_limit: S.optional(S.NullOr(__S(864, __c54, 0))),
+          edges: S.optional(__S(902, __c56, 6)),
+          actions: __S(904, __c56, 8),
+          variables: S.optional(__S(906, __c56, 10)),
         }),
-      ).annotate({ identifier: "HogFlowInput" });
+      ).annotate({ identifier: "HogFlowTestConfigurationInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          configuration: S.optional(__S(1072, __c67, 0)),
+          configuration: S.optional(__S(1088, __c68, 0)),
           globals: S.optional(__S(768, __c48, 0)),
           mock_async_functions: S.optional(S.Boolean),
           current_action_id: S.optional(S.String),
@@ -4907,7 +5118,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsInvocationRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4915,7 +5126,7 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4933,7 +5144,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateHogFlowsOptimizationRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4947,9 +5158,17 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          last_checked_at: S.NullOr(S.String),
+          next_check_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "SuggestionsSchedule" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           enabled: S.Boolean,
           scout_status: S.String,
-          sample: S.NullOr(__S(1120, __c70, 0)),
+          sample: S.NullOr(__S(1136, __c71, 0)),
+          schedule: S.NullOr(__S(1137, __c71, 1)),
         }),
       ).annotate({ identifier: "HogFlowOptimization" });
   }

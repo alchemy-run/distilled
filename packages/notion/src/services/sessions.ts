@@ -149,7 +149,7 @@ export interface GetSessionResponse {
   chat_user_emails?: GetSessionResponseChatUserEmailsList | null | undefined;
   tool_types?: GetSessionResponseToolTypesList | null | undefined;
   tool_call_count?: number | null | undefined;
-  /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
+  /** Premium AI credits this session consumed. Values of 0.01 or more have at most two decimal places, and values below 0.01 have at most two significant figures. Both round down. */
   credits_used?: number | null | undefined;
   runs_completed?: number | null | undefined;
   message_count?: number | null | undefined;
@@ -1534,7 +1534,7 @@ export interface QuerySessionsResponseResultsItem {
   chat_user_emails?: QuerySessionsResponseResultsItemChatUserEmailsList | null | undefined;
   tool_types?: QuerySessionsResponseResultsItemToolTypesList | null | undefined;
   tool_call_count?: number | null | undefined;
-  /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
+  /** Premium AI credits this session consumed. Values of 0.01 or more have at most two decimal places, and values below 0.01 have at most two significant figures. Both round down. */
   credits_used?: number | null | undefined;
   runs_completed?: number | null | undefined;
   message_count?: number | null | undefined;

@@ -552,6 +552,10 @@ export interface LogsAlertGrouping {
   /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
   on_overflow?: OnOverflowEnum | (string & {}) | undefined;
 }
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+export type CreateLogsAlertRequestLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+export type CreateLogsAlertRequestAnnotationsMap = { [key: string]: string | undefined };
 export interface CreateLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -579,6 +583,10 @@ export interface CreateLogsAlertRequest {
   snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
   grouping?: LogsAlertGrouping | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+  labels?: CreateLogsAlertRequestLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+  annotations?: CreateLogsAlertRequestAnnotationsMap | undefined;
 }
 /** * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type LogsAlertConfigurationStateEnum =
@@ -604,6 +612,10 @@ export type LogsAlertConfigurationStateTimelineList = Array<LogsAlertStateInterv
 export type LogsAlertDestinationTypeEnum = "slack" | "webhook" | "teams" | "pagerduty";
 /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
 export type LogsAlertConfigurationDestinationTypesList = Array<LogsAlertDestinationTypeEnum>;
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+export type LogsAlertConfigurationLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+export type LogsAlertConfigurationAnnotationsMap = { [key: string]: string | undefined };
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -674,7 +686,11 @@ export interface LogsAlertConfiguration {
   destination_types?: LogsAlertConfigurationDestinationTypesList | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
   grouping?: LogsAlertGrouping | undefined;
-  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+  labels?: LogsAlertConfigurationLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+  annotations?: LogsAlertConfigurationAnnotationsMap | undefined;
+  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set labels, annotations, or a grouping other than single. */
   platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
   first_enabled_at?: string | null | undefined;
@@ -709,6 +725,24 @@ export interface CreateLogsAlertsDestinationRequest {
   pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
   /** PagerDuty service region of the account. Used when type=pagerduty. * `us` - us * `eu` - eu */
   pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
+}
+export type LogsAlertCreatedDestinationResponseHogFunctionIdsList = Array<string>;
+export interface LogsAlertCreatedDestinationResponse {
+  hog_function_ids: LogsAlertCreatedDestinationResponseHogFunctionIdsList;
+  /** The new destination's ID on the alerts platform, the `id` that listing the alert's destinations shows. Delete the destination by passing it in `destination_ids`. Null when the alert is not on the alerts platform, in which case `hog_function_ids` identifies the destination. */
+  id: string | null;
+}
+/** The destination's `destinations[].hog_function_ids`, for a destination that has HogFunctions. */
+export type CreateLogsAlertsDestinationsCustomizeRequestHogFunctionIdsList = Array<string>;
+export interface CreateLogsAlertsDestinationsCustomizeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this logs alert configuration. */
+  id: string;
+  /** The destination's `destinations[].id`. Use it for a destination with no HogFunctions. */
+  destination_id?: string | null | undefined;
+  /** The destination's `destinations[].hog_function_ids`, for a destination that has HogFunctions. */
+  hog_function_ids?: CreateLogsAlertsDestinationsCustomizeRequestHogFunctionIdsList | undefined;
 }
 export type LogsAlertDestinationResponseHogFunctionIdsList = Array<string>;
 export interface LogsAlertDestinationResponse {
@@ -946,16 +980,196 @@ export interface LogsSeriesBandsResponse {
   /** One entry per (namespace, environment, severity) series, ordered by observed volume descending. */
   series: LogsSeriesBandsResponseSeriesList;
 }
+export interface LogsContextAttributeAnchor {
+  /** Log attribute key, e.g. "workflow_run_id". */
+  key: string;
+  /** Exact attribute value to follow. */
+  value: string;
+}
+export interface LogsContextAnchor {
+  /** uuid of one log line. Needs `timestamp`. */
+  logUuid?: string | undefined;
+  /** ISO 8601 timestamp of the `logUuid` log line. */
+  timestamp?: string | undefined;
+  /** Trace id, 32 hex characters or base64. */
+  traceId?: string | undefined;
+  /** Follow every log with this attribute value. */
+  attribute?: LogsContextAttributeAnchor | undefined;
+  /** ISO 8601 time hint. Required with `attribute`, used with `traceId` only when the trace has no spans. */
+  around?: string | undefined;
+}
+/** * `trace` - trace * `debug` - debug * `info` - info * `warn` - warn * `error` - error * `fatal` - fatal */
+export type LogsSeverityLevelEnum = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+/** Keep only these severities in the timeline. */
+export type LogsContextBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
+/** Restrict the timeline to these services. Default: the trace's services, the log's service, or all. */
+export type LogsContextBodyServiceNamesList = Array<string>;
+/** * `spans` - Spans */
+export type LogsContextIncludeEnum = "spans";
+/** "spans" adds spans_summary for a trace anchor. */
+export type LogsContextBodyIncludeList = Array<LogsContextIncludeEnum | (string & {})>;
+export interface LogsContextBody {
+  /** Exactly one anchor: a log line, a trace, or an attribute value. */
+  anchor: LogsContextAnchor;
+  /** Time on each side of the anchor: "30s", "5m", "1h" (max 6h). Default 30s for a trace, 5m otherwise. */
+  padding?: string | undefined;
+  /** Keep only these severities in the timeline. */
+  severityLevels?: LogsContextBodySeverityLevelsList | undefined;
+  /** Restrict the timeline to these services. Default: the trace's services, the log's service, or all. */
+  serviceNames?: LogsContextBodyServiceNamesList | undefined;
+  /** "spans" adds spans_summary for a trace anchor. */
+  include?: LogsContextBodyIncludeList | undefined;
+  /** Maximum timeline rows. */
+  limit?: number | undefined;
+  /** `next_cursor` of a previous call with the same anchor. */
+  after?: string | undefined;
+}
+export interface CreateLogsContextRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The context query. */
+  query: LogsContextBody;
+}
+export interface LogsAgentWindowBounds {
+  /** Window start, ISO 8601 UTC with a Z suffix (inclusive). */
+  from: string;
+  /** Window end, ISO 8601 UTC with a Z suffix (exclusive). */
+  to: string;
+}
+export interface LogsAgentWindow {
+  /** Absolute bounds the server used for the current window. */
+  current: LogsAgentWindowBounds;
+  /** Absolute bounds the server used for the baseline window, when there is one. */
+  baseline?: LogsAgentWindowBounds | undefined;
+  /** Always "UTC". */
+  timezone: string;
+}
+/** * `trace` - Trace * `log` - Log * `attribute` - Attribute */
+export type LogsContextAnchorTypeEnum = "trace" | "log" | "attribute";
+/** Services of the anchor. */
+export type LogsContextAnchorSummaryServicesList = Array<string>;
+export interface LogsContextAnchorSummary {
+  /** The anchor kind. * `trace` - Trace * `log` - Log * `attribute` - Attribute */
+  type: LogsContextAnchorTypeEnum;
+  /** Trace id (hex) of the anchor, when there is one. */
+  trace_id: string | null;
+  /** Reference time (UTC) that `t_offset_ms` counts from. */
+  timestamp: string;
+  /** Trace start or first matching log (UTC). */
+  start: string | null;
+  /** Trace end or last matching log (UTC). */
+  end: string | null;
+  /** end - start in milliseconds. */
+  duration_ms: number | null;
+  /** Services of the anchor. */
+  services: LogsContextAnchorSummaryServicesList;
+}
+export interface LogsContextCorrelationKey {
+  /** Id-like attribute of the anchor log. */
+  key: string;
+  /** Its value on the anchor log. */
+  value: string;
+  /** Logs in the window, any service, with this value. */
+  log_count: number;
+}
+/** Id-like attributes of the anchor log, with counts. */
+export type LogsContextResponseCorrelationKeysList = Array<LogsContextCorrelationKey>;
+export interface LogsContextTimelineRow {
+  /** Milliseconds from the anchor reference time. */
+  t_offset_ms: number;
+  /** Log timestamp (UTC). */
+  timestamp: string;
+  /** Service that emitted the line. */
+  service: string;
+  /** Severity of the line. */
+  severity: string;
+  /** Log body, cut to 300 characters. */
+  body: string;
+  /** k=v attributes that differ from the anchor log, without noise keys. */
+  attrs: string;
+  /** Log uuid, usable with `timestamp` as a log anchor. */
+  uuid: string;
+}
+/** Log lines, earliest first. */
+export type LogsContextResponseTimelineList = Array<LogsContextTimelineRow>;
+/** Services with spans in the trace. */
+export type LogsContextSpansSummaryServicesList = Array<string>;
+export interface LogsContextSpan {
+  /** Span id (hex). */
+  span_id: string;
+  /** Span name. */
+  name: string;
+  /** Service of the span. */
+  service: string;
+  /** Milliseconds from the trace start. */
+  start_offset_ms: number;
+  /** Span duration in milliseconds. */
+  duration_ms: number;
+  /** Duration not covered by child spans. */
+  self_time_ms: number;
+  /** "error" or "ok". */
+  status: string;
+}
+/** Up to 10 spans with an error status. */
+export type LogsContextSpansSummaryErrorSpansList = Array<LogsContextSpan>;
+/** The 5 longest spans. */
+export type LogsContextSpansSummarySlowestList = Array<LogsContextSpan>;
+export interface LogsContextSpansSummary {
+  /** Spans read. */
+  span_count: number;
+  /** True when the trace has more spans than were read. */
+  truncated: boolean;
+  /** Services with spans in the trace. */
+  services: LogsContextSpansSummaryServicesList;
+  /** The root span, null when it never arrived. */
+  root: LogsContextSpan | null;
+  /** Up to 10 spans with an error status. */
+  error_spans: LogsContextSpansSummaryErrorSpansList;
+  /** The 5 longest spans. */
+  slowest: LogsContextSpansSummarySlowestList;
+}
+/** Prefilled `query` object for that tool. Pass it as is or adjust it. */
+export type LogsAgentNextCallQueryMap = { [key: string]: unknown | undefined };
+export interface LogsAgentNextCall {
+  /** MCP tool to call next, e.g. query-logs or logs-context. */
+  tool: string;
+  /** One line on what the follow-up call answers. */
+  why: string;
+  /** Prefilled `query` object for that tool. Pass it as is or adjust it. */
+  query: LogsAgentNextCallQueryMap;
+}
+/** Prefilled follow-up calls. */
+export type LogsContextResponseNextList = Array<LogsAgentNextCall>;
+/** Caveats about the window. */
+export type LogsContextResponseNotesList = Array<string>;
+export interface LogsContextResponse {
+  /** Absolute UTC bounds the logs were read from. */
+  window: LogsAgentWindow;
+  /** The resolved anchor. */
+  anchor: LogsContextAnchorSummary;
+  /** Id-like attributes of the anchor log, with counts. */
+  correlation_keys: LogsContextResponseCorrelationKeysList;
+  /** Log lines, earliest first. */
+  timeline: LogsContextResponseTimelineList;
+  /** Set for a trace anchor with include ["spans"]. */
+  spans_summary: LogsContextSpansSummary | null;
+  /** True when more rows exist past `limit`. */
+  truncated: boolean;
+  /** Pass as `after` for the next page. */
+  next_cursor: string | null;
+  /** Prefilled follow-up calls. */
+  next: LogsContextResponseNextList;
+  /** Caveats about the window. */
+  notes: LogsContextResponseNotesList;
+}
 export interface DateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps or relative formats: -7d, -1h, -1mStart, etc. */
   date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Omit or null for "now". */
   date_to?: string | null | undefined;
 }
-/** * `trace` - trace * `debug` - debug * `info` - info * `warn` - warn * `error` - error * `fatal` - fatal */
-export type SeverityLevelsEnum = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 /** Filter by log severity levels. */
-export type LogsCountBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsCountBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Filter by service names. */
 export type LogsCountBodyServiceNamesList = Array<string>;
 /** * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute */
@@ -1014,7 +1228,7 @@ export interface LogsCountResponse {
   count?: number | undefined;
 }
 /** Filter by log severity levels. Applied before bucketing. */
-export type LogsCountRangesBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsCountRangesBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Filter by service names. Applied before bucketing. */
 export type LogsCountRangesBodyServiceNamesList = Array<string>;
 /** Property filters applied before bucketing. Same shape as `query-logs`. */
@@ -1076,7 +1290,7 @@ export interface ExplainRequest {
 /** * `severity_text` - severity_text * `service_name` - service_name */
 export type FacetFieldEnum = "severity_text" | "service_name";
 /** Filter by log severity levels (ignored when faceting on severity_text). */
-export type LogsFacetValuesBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsFacetValuesBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Filter by service names (ignored when faceting on service_name). */
 export type LogsFacetValuesBodyServiceNamesList = Array<string>;
 /** Property filters for the query. */
@@ -1124,17 +1338,17 @@ export interface LogsFacetValuesResponse {
   results: LogsFacetValuesResponseResultsList;
 }
 /** Filter by log severity levels before grouping. */
-export type LogsGroupByBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsGroupByBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Restrict grouping to these service names. */
 export type LogsGroupByBodyServiceNamesList = Array<string>;
 /** Property filters applied before grouping. Same shape as the query-logs endpoint. */
 export type LogsGroupByBodyFilterGroupList = Array<LogPropertyFilter2>;
-/** * `log` - log * `resource` - resource * `column` - column */
-export type LogsGroupBySourceEnum = "log" | "resource" | "column";
+/** * `log` - log * `resource` - resource * `column` - column * `body` - body */
+export type LogsGroupBySourceEnum = "log" | "resource" | "column" | "body";
 export interface LogsGroupByDimension {
-  /** The key this dimension groups by -- an attribute key (e.g. "session_id", "service.name") or, when source is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern" (the masked message template). */
+  /** The key this dimension groups by -- an attribute key (e.g. "session_id", "service.name"); when source is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern" (the masked message template); when source is "body", a dot-separated JSON path into the log body (e.g. "fields.message"). */
   key: string;
-  /** Where this dimension's key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. * `log` - log * `resource` - resource * `column` - column */
+  /** Where this dimension's key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields, "body" for a JSON path into the body. * `log` - log * `resource` - resource * `column` - column * `body` - body */
   source?: LogsGroupBySourceEnum | (string & {}) | undefined;
 }
 /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
@@ -1154,7 +1368,7 @@ export interface LogsGroupByBody {
   filterGroup?: LogsGroupByBodyFilterGroupList | undefined;
   /** The key to group logs by -- an attribute key (e.g. "session_id", "service.name") or, when groupBySource is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern". Ignored when groupBys is provided. */
   groupBy?: string | undefined;
-  /** Where the grouping key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. Ignored when groupBys is provided. * `log` - log * `resource` - resource * `column` - column */
+  /** Where the grouping key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields, "body" for a JSON path into the body. Ignored when groupBys is provided. * `log` - log * `resource` - resource * `column` - column * `body` - body */
   groupBySource?: LogsGroupBySourceEnum | (string & {}) | undefined;
   /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
   groupBys?: LogsGroupByBodyGroupBysList | undefined;
@@ -1218,7 +1432,7 @@ export type LogsImpactResponseTopSessionsList = Array<LogsImpactTopValue>;
 /** Top person distinct IDs on the matching logs, ordered by log count descending (topK, at most 5). */
 export type LogsImpactResponseTopUsersList = Array<LogsImpactTopValue>;
 export interface LogsImpactGroupKey {
-  /** Attribute map the key lives in, in the group-by endpoint's vocabulary: "log" or "resource". * `log` - log * `resource` - resource * `column` - column */
+  /** Attribute map the key lives in, in the group-by endpoint's vocabulary: "log" or "resource". * `log` - log * `resource` - resource * `column` - column * `body` - body */
   source: LogsGroupBySourceEnum;
   /** The attribute key that carries the ID on most matching logs. */
   key: string;
@@ -1305,7 +1519,7 @@ export interface CreateLogsNaturalLanguageQueryRequest {
   dateRange?: LogsNaturalLanguageDateRange | undefined;
 }
 /** Severity levels to keep. Empty means all levels. */
-export type LogsNaturalLanguageCandidateQuerySeverityLevelsList = Array<SeverityLevelsEnum>;
+export type LogsNaturalLanguageCandidateQuerySeverityLevelsList = Array<LogsSeverityLevelEnum>;
 /** Services to keep. Empty means all services. */
 export type LogsNaturalLanguageCandidateQueryServiceNamesList = Array<string>;
 /** * `log` - Log * `log_attribute` - Log Attribute * `log_resource_attribute` - Log Resource Attribute */
@@ -1356,7 +1570,7 @@ export interface LogsNaturalLanguageQueryResponse {
   dropped_count: number;
 }
 /** Filter by log severity levels before mining. */
-export type LogsPatternsBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsPatternsBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Restrict mining to these service names. */
 export type LogsPatternsBodyServiceNamesList = Array<string>;
 /** Property filters applied before mining. Same shape as the query-logs endpoint. */
@@ -1409,10 +1623,10 @@ export type LogPatternServicesList = Array<string>;
 export type LogPatternSparklineList = Array<number>;
 /** Occurrences keyed by lowercased severity ("trace" through "fatal"). Never extrapolated, because severity dominance is a proportion that scaling would not change. Sample counts when `sampled` is true, counts over every matching row otherwise. */
 export type LogPatternSeverityCountsMap = { [key: string]: number | undefined };
-/** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining. */
+/** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining and for a JSON key-set group split by message, which pivots with match_regex. */
 export type LogPatternMatchPatternsList = Array<string>;
 export interface LogPattern {
-  /** Log template with variable tokens masked, e.g. "Connected to <ip> in <num>ms". Body mining masks <timestamp>, <uuid>, <ip>, <hex>, <num>, plus <*> for word positions Drain found to vary. Stored patterns use the ingestion vocabulary instead: <N>, <TIMESTAMP>, <KLOGTIME>, <UUID>, <IP>, <HOST>, <HEX>, <ID>, <EMAIL>, <JSON_ARRAY>, and <JSON:keys> for a JSON body reduced to its key set. */
+  /** Log template with variable tokens masked, e.g. "Connected to <ip> in <num>ms". Body mining masks <timestamp>, <uuid>, <ip>, <hex>, <num>, plus <*> for word positions Drain found to vary. Stored patterns use the ingestion vocabulary instead: <N>, <TIMESTAMP>, <KLOGTIME>, <UUID>, <IP>, <HOST>, <HEX>, <ID>, <EMAIL>, <JSON_ARRAY>, and <JSON:keys> for a JSON body reduced to its key set. The largest <JSON:keys> groups are split by the message their bodies carry (such as fields.message), so a key set remains only for rows with no message field. */
   pattern: string;
   /** Occurrences of this pattern within the sample. When `sampled` is true this is a sample count, not the full-window total -- prefer `estimated_count` for display. */
   count: number;
@@ -1440,9 +1654,9 @@ export interface LogPattern {
   match_regex: string | null;
   /** Longest literal run in the template, for plain-text (icontains) filtering when `match_regex` is null. Null when the template has no usable literal content. */
   match_literal: string | null;
-  /** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining. */
+  /** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining and for a JSON key-set group split by message, which pivots with match_regex. */
   match_patterns?: LogPatternMatchPatternsList | undefined;
-  /** Version required by match_patterns. Null for body mining. */
+  /** Version required by match_patterns. Null when match_patterns is empty. */
   pattern_version?: number | null | undefined;
 }
 /** Pattern groups ordered by count. Stored-pattern counts are exact; body-mining counts describe the sample. */
@@ -1482,7 +1696,7 @@ export interface LogsPatternsResponse {
   sparkline_buckets: LogsPatternsResponseSparklineBucketsList;
 }
 /** Filter by log severity levels before mining. */
-export type LogsPatternsDiffBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsPatternsDiffBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Restrict mining to these service names. */
 export type LogsPatternsDiffBodyServiceNamesList = Array<string>;
 /** Property filters applied before mining. Same shape as the query-logs endpoint. */
@@ -1513,34 +1727,10 @@ export interface CreateLogsPatternsDiffRequest {
   /** Baseline window to compare against. Omit to default to the current window shifted back exactly one week, which absorbs daily and weekly log-volume cycles. Pass an explicit range to compare against a specific period, e.g. pre-deploy or pre-incident. */
   baselineDateRange?: DateRange | undefined;
 }
-export interface LogsAgentWindowBounds {
-  /** Window start, ISO 8601 UTC with a Z suffix (inclusive). */
-  from: string;
-  /** Window end, ISO 8601 UTC with a Z suffix (exclusive). */
-  to: string;
-}
-export interface LogsAgentWindow {
-  /** Absolute bounds the server used for the current window. */
-  current: LogsAgentWindowBounds;
-  /** Absolute bounds the server used for the baseline window, when there is one. */
-  baseline?: LogsAgentWindowBounds | undefined;
-  /** Always "UTC". */
-  timezone: string;
-}
 /** * `stored_patterns` - Stored Patterns * `body_mining` - Body Mining */
 export type PatternsDiffSourceEnum = "stored_patterns" | "body_mining";
 /** Caveats that limit what the diff shows. */
 export type LogsPatternsDiffResponseNotesList = Array<string>;
-/** Prefilled `query` object for that tool. Pass it as is or adjust it. */
-export type LogsAgentNextCallQueryMap = { [key: string]: unknown | undefined };
-export interface LogsAgentNextCall {
-  /** MCP tool to call next, e.g. query-logs or logs-context. */
-  tool: string;
-  /** One line on what the follow-up call answers. */
-  why: string;
-  /** Prefilled `query` object for that tool. Pass it as is or adjust it. */
-  query: LogsAgentNextCallQueryMap;
-}
 /** Prefilled query-logs calls for the top new or shifted patterns. */
 export type LogsPatternsDiffResponseNextList = Array<LogsAgentNextCall>;
 /** Up to 4 services with this pattern. */
@@ -1616,7 +1806,7 @@ export interface LogsPatternsDiffResponse {
   baseline: LogsPatternsDiffWindow;
 }
 /** Filter by log severity levels. */
-export type LogsQueryBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsQueryBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Filter by service names. */
 export type LogsQueryBodyServiceNamesList = Array<string>;
 /** * `latest` - latest * `earliest` - earliest */
@@ -1668,11 +1858,22 @@ export interface LogsQueryBody {
   /** Scope results to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
   sessionId?: string | undefined;
 }
+/** * `initial_load` - initial_load * `filter_change` - filter_change * `filters_restored` - filters_restored * `sort_change` - sort_change * `column_change` - column_change * `scope_change` - scope_change * `refresh` - refresh */
+export type LogsQueryTriggerEnum =
+  | "initial_load"
+  | "filter_change"
+  | "filters_restored"
+  | "sort_change"
+  | "column_change"
+  | "scope_change"
+  | "refresh";
 export interface CreateLogsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The logs query to execute. */
   query?: LogsQueryBody | undefined;
+  /** What caused the PostHog app to run this query. Used for usage analytics only, with no effect on results. API clients omit it. * `initial_load` - initial_load * `filter_change` - filter_change * `filters_restored` - filters_restored * `sort_change` - sort_change * `column_change` - column_change * `scope_change` - scope_change * `refresh` - refresh */
+  trigger?: LogsQueryTriggerEnum | (string & {}) | undefined;
 }
 /** The parsed query that was executed, echoed back for confirmation. */
 export type LogsQueryResponseQueryMap = { [key: string]: unknown | undefined };
@@ -1815,6 +2016,8 @@ export interface CreateLogsSamplingRuleRequest {
   scope_attribute_filters?: CreateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
+  /** Record source the rule filters: `logs` (default) runs in the logs pipeline, `spans` in the traces pipeline. Immutable after creation. Span rules support path_drop and rate_limit only. * `logs` - Logs * `spans` - Spans */
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 export type LogsSamplingRuleScopeAttributeFiltersItemMap = { [key: string]: unknown | undefined };
 /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
@@ -1839,12 +2042,15 @@ export interface LogsSamplingRule {
   scope_attribute_filters?: LogsSamplingRuleScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
+  /** Record source the rule filters: `logs` (default) runs in the logs pipeline, `spans` in the traces pipeline. Immutable after creation. Span rules support path_drop and rate_limit only. * `logs` - Logs * `spans` - Spans */
+  source?: LogsMetricRuleRecordSourceEnum | undefined;
   /** Incremented on each update for worker cache coherency. */
   version: number;
   created_by: number;
   created_at: string;
   updated_at: string | null;
 }
+export type CreateLogsSamplingRulesReorderRequestSource = "logs" | "spans";
 /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
 export type CreateLogsSamplingRulesReorderRequestOrderedIdsList = Array<string>;
 export interface CreateLogsSamplingRulesReorderRequest {
@@ -1854,6 +2060,8 @@ export interface CreateLogsSamplingRulesReorderRequest {
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Record source whose rules to list or reorder. Defaults to `logs`. * `logs` - Logs * `spans` - Spans */
+  source?: CreateLogsSamplingRulesReorderRequestSource | (string & {}) | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateLogsSamplingRulesReorderRequestOrderedIdsList;
 }
@@ -1877,7 +2085,7 @@ export interface LogsSamplingRuleSimulateResponse {
   notes: string;
 }
 /** Filter by log severity levels. */
-export type LogsServicesBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsServicesBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Restrict the aggregation to these service names. */
 export type LogsServicesBodyServiceNamesList = Array<string>;
 /** Property filters for the query. */
@@ -2031,7 +2239,7 @@ export interface LogsServicesResponse {
   next?: LogsServicesResponseNextList | undefined;
 }
 /** Filter by log severity levels. */
-export type LogsSparklineBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
+export type LogsSparklineBodySeverityLevelsList = Array<LogsSeverityLevelEnum | (string & {})>;
 /** Filter by service names. */
 export type LogsSparklineBodyServiceNamesList = Array<string>;
 /** * `severity` - severity * `service` - service */
@@ -2072,7 +2280,7 @@ export interface LogsSparklineBucket {
   /** Service name when sparklineBreakdownBy="service". Present only for service-broken-down sparklines. */
   service?: string | undefined;
   count?: number | undefined;
-  /** Sum of uncompressed bytes for the bucket. */
+  /** Sum of uncompressed bytes for the bucket. Present only when sparklineRankBy is "bytes". */
   bytes_uncompressed?: number | undefined;
 }
 export type CreateLogsSparklineResponseBodyList = Array<LogsSparklineBucket>;
@@ -2142,9 +2350,17 @@ export interface GetLogsAlertRequest {
 export type LogsAlertConfigurationDetailStateTimelineList = Array<LogsAlertStateInterval>;
 /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
 export type LogsAlertConfigurationDetailDestinationTypesList = Array<LogsAlertDestinationTypeEnum>;
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+export type LogsAlertConfigurationDetailLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+export type LogsAlertConfigurationDetailAnnotationsMap = { [key: string]: string | undefined };
+/** The HogFunction IDs that delete this destination as a group. A destination moved off HogFunctions keeps the IDs it had, though those HogFunctions are deleted. */
 export type LogsAlertDestinationConfigHogFunctionIdsList = Array<string>;
 export interface LogsAlertDestinationConfig {
+  /** The HogFunction IDs that delete this destination as a group. A destination moved off HogFunctions keeps the IDs it had, though those HogFunctions are deleted. */
   hog_function_ids: LogsAlertDestinationConfigHogFunctionIdsList;
+  /** The destination's ID on the alerts platform. Null for a destination added before the platform kept one, which `hog_function_ids` identifies instead. A destination added with no HogFunctions has an empty `hog_function_ids`, and is deleted by this ID. */
+  id: string | null;
   /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams * `pagerduty` - pagerduty */
   type: LogsAlertDestinationTypeEnum;
   /** Whether every HogFunction in the group is enabled, so the destination notifies for all alert event kinds. This is the stored setting: a destination PostHog stopped delivering to after repeated failures still reads as true. */
@@ -2153,6 +2369,8 @@ export interface LogsAlertDestinationConfig {
   message_customized: boolean;
   slack_workspace_id?: number | undefined;
   slack_channel_id?: string | undefined;
+  /** The Slack channel's name when the destination was added. Absent for older destinations. */
+  slack_channel_name?: string | undefined;
   /** Webhook endpoint reduced to scheme and host. The path, query and userinfo carry the secret. */
   webhook_url?: string | undefined;
   /** PagerDuty integration key reduced to its last four characters. */
@@ -2210,7 +2428,11 @@ export interface LogsAlertConfigurationDetail {
   destination_types: LogsAlertConfigurationDetailDestinationTypesList;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
   grouping?: LogsAlertGrouping | undefined;
-  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+  labels?: LogsAlertConfigurationDetailLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+  annotations?: LogsAlertConfigurationDetailAnnotationsMap | undefined;
+  /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set labels, annotations, or a grouping other than single. */
   platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
   first_enabled_at: string | null;
@@ -2439,6 +2661,7 @@ export interface ListLogsRetentionRulesRequest {
   /** The initial index from which to return the results. */
   offset?: number | undefined;
 }
+export type ListLogsSamplingRulesRequestSource = "logs" | "spans";
 export interface ListLogsSamplingRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2446,6 +2669,8 @@ export interface ListLogsSamplingRulesRequest {
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Record source whose rules to list or reorder. Defaults to `logs`. * `logs` - Logs * `spans` - Spans */
+  source?: ListLogsSamplingRulesRequestSource | (string & {}) | undefined;
 }
 export interface ListLogsViewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2464,6 +2689,8 @@ export interface PaginatedLogsViewList {
 }
 /** HogFunction IDs to delete as one atomic destination group. */
 export type LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
+/** Destination IDs, from `destinations[].id`, to delete with their HogFunctions. */
+export type LogsAlertsDestinationsDeleteCreateRequestDestinationIdsList = Array<string>;
 export interface LogsAlertsDestinationsDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2471,8 +2698,24 @@ export interface LogsAlertsDestinationsDeleteCreateRequest {
   id: string;
   /** HogFunction IDs to delete as one atomic destination group. */
   hog_function_ids?: LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList | undefined;
+  /** Destination IDs, from `destinations[].id`, to delete with their HogFunctions. */
+  destination_ids?: LogsAlertsDestinationsDeleteCreateRequestDestinationIdsList | undefined;
 }
 export interface LogsAlertsDestinationsDeleteCreateResponse {}
+/** Every HogFunction of the customized destination, from `destinations[].hog_function_ids`. */
+export type LogsAlertsDestinationsResetCreateRequestHogFunctionIdsList = Array<string>;
+export interface LogsAlertsDestinationsResetCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this logs alert configuration. */
+  id: string;
+  /** Every HogFunction of the customized destination, from `destinations[].hog_function_ids`. */
+  hog_function_ids: LogsAlertsDestinationsResetCreateRequestHogFunctionIdsList;
+}
+export interface LogsAlertResetDestinationResponse {
+  /** The destination's new ID on the alerts platform, which now sends it. */
+  id: string;
+}
 export interface LogsAlertsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2519,6 +2762,10 @@ export interface LogsViewsDestroyRequest {
   short_id: string;
 }
 export interface LogsViewsDestroyResponse {}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+export type UpdateLogsAlertRequestLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+export type UpdateLogsAlertRequestAnnotationsMap = { [key: string]: string | undefined };
 export interface UpdateLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2548,7 +2795,15 @@ export interface UpdateLogsAlertRequest {
   snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
   grouping?: LogsAlertGrouping | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+  labels?: UpdateLogsAlertRequestLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+  annotations?: UpdateLogsAlertRequestAnnotationsMap | undefined;
 }
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+export type UpdateLogsAlertsPartialRequestLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+export type UpdateLogsAlertsPartialRequestAnnotationsMap = { [key: string]: string | undefined };
 export interface UpdateLogsAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2578,6 +2833,10 @@ export interface UpdateLogsAlertsPartialRequest {
   snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
   grouping?: LogsAlertGrouping | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. Alert routes match on labels to send the alert to shared receivers. Only an alert the alerts platform evaluates can have labels. Any other alert reads as empty and rejects a value. Omit it on update to keep the current labels. A value replaces all of them. */
+  labels?: UpdateLogsAlertsPartialRequestLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. Notifications show annotations. Only an alert the alerts platform evaluates can have annotations. Any other alert reads as empty and rejects a value. Omit it on update to keep the current annotations. A value replaces all of them. */
+  annotations?: UpdateLogsAlertsPartialRequestAnnotationsMap | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type UpdateLogsMetricRuleRequestGroupByList = Array<string>;
@@ -2678,6 +2937,8 @@ export interface UpdateLogsSamplingRuleRequest {
   scope_attribute_filters?: UpdateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
+  /** Record source the rule filters: `logs` (default) runs in the logs pipeline, `spans` in the traces pipeline. Immutable after creation. Span rules support path_drop and rate_limit only. * `logs` - Logs * `spans` - Spans */
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 export type UpdateLogsSamplingRulesPartialRequestScopeAttributeFiltersItemMap = {
   [key: string]: unknown | undefined;
@@ -2708,6 +2969,8 @@ export interface UpdateLogsSamplingRulesPartialRequest {
     | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config?: unknown | undefined;
+  /** Record source the rule filters: `logs` (default) runs in the logs pipeline, `spans` in the traces pipeline. Immutable after creation. Span rules support path_drop and rate_limit only. * `logs` - Logs * `spans` - Spans */
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type UpdateLogsViewRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -2754,8 +3017,8 @@ export const createLogsAlert: API.OperationMethod<
   CreateLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreateLogsAlertRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(704, __c44, 0) as any as S.Schema<CreateLogsAlertRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2768,18 +3031,36 @@ export type CreateLogsAlertsDestinationError = BadRequest | Forbidden | NotFound
 /** Create a notification destination for this alert. One HogFunction is created per alert event kind (firing, resolved, ...) atomically. A PagerDuty destination gets the incident opened and incident closed kinds instead. They follow every start and end of a firing, cooldown included, so each incident it opens is resolved. */
 export const createLogsAlertsDestination: API.OperationMethod<
   CreateLogsAlertsDestinationRequest,
-  LogsAlertDestinationResponse,
+  LogsAlertCreatedDestinationResponse,
   CreateLogsAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<CreateLogsAlertsDestinationRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<LogsAlertDestinationResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateLogsAlertsDestinationRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<LogsAlertCreatedDestinationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateLogsAlertsDestination",
+}));
+
+export type CreateLogsAlertsDestinationsCustomizeError = PosthogOpError;
+/** Make a destination's message editable. A destination that sends the standard message from the alerts platform gets HogFunctions with that message, one per event kind, and stops sending from the platform. A destination that already has HogFunctions keeps them. Returns the HogFunction IDs to edit. */
+export const createLogsAlertsDestinationsCustomize: API.OperationMethod<
+  CreateLogsAlertsDestinationsCustomizeRequest,
+  LogsAlertDestinationResponse,
+  CreateLogsAlertsDestinationsCustomizeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateLogsAlertsDestinationsCustomizeRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<LogsAlertDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsAlertsDestinationsCustomize",
 }));
 
 export type CreateLogsAlertsSimulateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2790,8 +3071,8 @@ export const createLogsAlertsSimulate: API.OperationMethod<
   CreateLogsAlertsSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateLogsAlertsSimulateRequest>,
-  output: __S(1155, __c72, 3) as any as S.Schema<LogsAlertSimulateResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<CreateLogsAlertsSimulateRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<LogsAlertSimulateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2808,8 +3089,8 @@ export const createLogsAnomaliesScan: API.OperationMethod<
   CreateLogsAnomaliesScanError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1201, __c75, 1) as any as S.Schema<CreateLogsAnomaliesScanRequest>,
-  output: __S(1208, __c75, 8) as any as S.Schema<LogsAnomalyScanResponse>,
+  input: __S(1313, __c82, 1) as any as S.Schema<CreateLogsAnomaliesScanRequest>,
+  output: __S(1320, __c82, 8) as any as S.Schema<LogsAnomalyScanResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2826,14 +3107,31 @@ export const createLogsAnomaliesSeriesBand: API.OperationMethod<
   CreateLogsAnomaliesSeriesBandError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<CreateLogsAnomaliesSeriesBandRequest>,
-  output: __S(1221, __c76, 5) as any as S.Schema<LogsSeriesBandsResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateLogsAnomaliesSeriesBandRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<LogsSeriesBandsResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateLogsAnomaliesSeriesBand",
+}));
+
+export type CreateLogsContextError = PosthogOpError;
+export const createLogsContext: API.OperationMethod<
+  CreateLogsContextRequest,
+  LogsContextResponse,
+  CreateLogsContextError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(19, __c1, 3) as any as S.Schema<CreateLogsContextRequest>,
+  output: __S(28, __c1, 12) as any as S.Schema<LogsContextResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsContext",
 }));
 
 export type CreateLogsCountError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2843,8 +3141,8 @@ export const createLogsCount: API.OperationMethod<
   CreateLogsCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<CreateLogsCountRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<LogsCountResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateLogsCountRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<LogsCountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2860,8 +3158,8 @@ export const createLogsCountRange: API.OperationMethod<
   CreateLogsCountRangeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c1, 1) as any as S.Schema<CreateLogsCountRangeRequest>,
-  output: __S(20, __c1, 4) as any as S.Schema<LogsCountRangesResponse>,
+  input: __S(97, __c6, 1) as any as S.Schema<CreateLogsCountRangeRequest>,
+  output: __S(100, __c6, 4) as any as S.Schema<LogsCountRangesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2878,8 +3176,8 @@ export const createLogsExplainLogWithAI: API.OperationMethod<
   CreateLogsExplainLogWithAIError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateLogsExplainLogWithAIRequest>,
-  output: __S(33, __c2, 1) as any as S.Schema<ExplainRequest>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateLogsExplainLogWithAIRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ExplainRequest>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2895,8 +3193,8 @@ export const createLogsFacetValue: API.OperationMethod<
   CreateLogsFacetValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<CreateLogsFacetValueRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<LogsFacetValuesResponse>,
+  input: __S(129, __c8, 1) as any as S.Schema<CreateLogsFacetValueRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<LogsFacetValuesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2912,8 +3210,8 @@ export const createLogsGroupBy: API.OperationMethod<
   CreateLogsGroupByError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(83, __c5, 3) as any as S.Schema<CreateLogsGroupByRequest>,
-  output: __S(86, __c5, 6) as any as S.Schema<LogsGroupByResponse>,
+  input: __S(163, __c10, 3) as any as S.Schema<CreateLogsGroupByRequest>,
+  output: __S(166, __c10, 6) as any as S.Schema<LogsGroupByResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2929,8 +3227,8 @@ export const createLogsImpact: API.OperationMethod<
   CreateLogsImpactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateLogsImpactRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<LogsImpactResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateLogsImpactRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<LogsImpactResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2946,8 +3244,8 @@ export const createLogsMetricRule: API.OperationMethod<
   CreateLogsMetricRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateLogsMetricRuleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<LogsMetricRule>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateLogsMetricRuleRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2964,8 +3262,8 @@ export const createLogsNaturalLanguageQuery: API.OperationMethod<
   CreateLogsNaturalLanguageQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateLogsNaturalLanguageQueryRequest>,
-  output: __S(150, __c9, 6) as any as S.Schema<LogsNaturalLanguageQueryResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateLogsNaturalLanguageQueryRequest>,
+  output: __S(230, __c14, 6) as any as S.Schema<LogsNaturalLanguageQueryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2981,8 +3279,8 @@ export const createLogsPattern: API.OperationMethod<
   CreateLogsPatternError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c10, 1) as any as S.Schema<CreateLogsPatternRequest>,
-  output: __S(165, __c10, 5) as any as S.Schema<LogsPatternsResponse>,
+  input: __S(241, __c15, 1) as any as S.Schema<CreateLogsPatternRequest>,
+  output: __S(245, __c15, 5) as any as S.Schema<LogsPatternsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2998,8 +3296,8 @@ export const createLogsPatternsDiff: API.OperationMethod<
   CreateLogsPatternsDiffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<CreateLogsPatternsDiffRequest>,
-  output: __S(217, __c13, 9) as any as S.Schema<LogsPatternsDiffResponse>,
+  input: __S(289, __c18, 1) as any as S.Schema<CreateLogsPatternsDiffRequest>,
+  output: __S(293, __c18, 5) as any as S.Schema<LogsPatternsDiffResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3015,8 +3313,8 @@ export const createLogsQuery: API.OperationMethod<
   CreateLogsQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c14, 1) as any as S.Schema<CreateLogsQueryRequest>,
-  output: __S(228, __c14, 4) as any as S.Schema<LogsQueryResponse>,
+  input: __S(305, __c19, 1) as any as S.Schema<CreateLogsQueryRequest>,
+  output: __S(308, __c19, 4) as any as S.Schema<LogsQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3033,8 +3331,8 @@ export const createLogsRetentionRule: API.OperationMethod<
   CreateLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateLogsRetentionRuleRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateLogsRetentionRuleRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3051,8 +3349,8 @@ export const createLogsRetentionRulesReorder: API.OperationMethod<
   CreateLogsRetentionRulesReorderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateLogsRetentionRulesReorderRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
+  input: __S(352, __c22, 0) as any as S.Schema<CreateLogsRetentionRulesReorderRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3069,8 +3367,8 @@ export const createLogsRetentionRulesSuggestName: API.OperationMethod<
   CreateLogsRetentionRulesSuggestNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateLogsRetentionRulesSuggestNameRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateLogsRetentionRulesSuggestNameRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<LogsRetentionRuleNameSuggestion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3086,8 +3384,8 @@ export const createLogsSamplingRule: API.OperationMethod<
   CreateLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateLogsSamplingRuleRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateLogsSamplingRuleRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3097,15 +3395,15 @@ export const createLogsSamplingRule: API.OperationMethod<
 }));
 
 export type CreateLogsSamplingRulesReorderError = PosthogOpError;
-/** Atomically reassign priorities so the given ID order maps to ascending priorities (0..n-1). */
+/** Atomically reassign priorities so the given ID order maps to ascending priorities (0..n-1). Log and span rules have separate orders; the `source` query parameter picks which one. */
 export const createLogsSamplingRulesReorder: API.OperationMethod<
   CreateLogsSamplingRulesReorderRequest,
   PaginatedLogsSamplingRuleList,
   CreateLogsSamplingRulesReorderError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateLogsSamplingRulesReorderRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateLogsSamplingRulesReorderRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3122,8 +3420,8 @@ export const createLogsSamplingRulesSimulate: API.OperationMethod<
   CreateLogsSamplingRulesSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateLogsSamplingRulesSimulateRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<LogsSamplingRuleSimulateResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateLogsSamplingRulesSimulateRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<LogsSamplingRuleSimulateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3139,8 +3437,8 @@ export const createLogsService: API.OperationMethod<
   CreateLogsServiceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c26, 1) as any as S.Schema<CreateLogsServiceRequest>,
-  output: __S(429, __c26, 13) as any as S.Schema<LogsServicesResponse>,
+  input: __S(481, __c30, 1) as any as S.Schema<CreateLogsServiceRequest>,
+  output: __S(493, __c30, 13) as any as S.Schema<LogsServicesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3156,8 +3454,8 @@ export const createLogsSparkline: API.OperationMethod<
   CreateLogsSparklineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(433, __c27, 1) as any as S.Schema<CreateLogsSparklineRequest>,
-  output: __S(436, __c27, 4) as any as S.Schema<CreateLogsSparklineResponse>,
+  input: __S(497, __c31, 1) as any as S.Schema<CreateLogsSparklineRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<CreateLogsSparklineResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3173,8 +3471,8 @@ export const createLogsView: API.OperationMethod<
   CreateLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<CreateLogsViewRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<LogsView>,
+  input: __S(512, __c32, 0) as any as S.Schema<CreateLogsViewRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<LogsView>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3190,8 +3488,8 @@ export const getLogsAlert: API.OperationMethod<
   GetLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetLogsAlertRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<LogsAlertConfigurationDetail>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetLogsAlertRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<LogsAlertConfigurationDetail>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3207,8 +3505,8 @@ export const getLogsAttribute: API.OperationMethod<
   GetLogsAttributeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetLogsAttributeRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<LogsAttributesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetLogsAttributeRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<LogsAttributesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3224,8 +3522,8 @@ export const getLogsHasLog: API.OperationMethod<
   GetLogsHasLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetLogsHasLogRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<GetLogsHasLogResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetLogsHasLogRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<GetLogsHasLogResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3241,8 +3539,8 @@ export const getLogsMetricRule: API.OperationMethod<
   GetLogsMetricRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetLogsMetricRuleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<LogsMetricRule>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetLogsMetricRuleRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3259,8 +3557,8 @@ export const getLogsRetentionRule: API.OperationMethod<
   GetLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetLogsRetentionRuleRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetLogsRetentionRuleRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3276,8 +3574,8 @@ export const getLogsSamplingRule: API.OperationMethod<
   GetLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetLogsSamplingRuleRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetLogsSamplingRuleRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3293,8 +3591,8 @@ export const getLogsValue: API.OperationMethod<
   GetLogsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetLogsValueRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<LogsValuesResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetLogsValueRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<LogsValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3310,8 +3608,8 @@ export const getLogsView: API.OperationMethod<
   GetLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetLogsViewRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<LogsView>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetLogsViewRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<LogsView>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3327,8 +3625,8 @@ export const listLogsAlerts: API.OperationMethod<
   ListLogsAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListLogsAlertsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<PaginatedLogsAlertConfigurationList>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListLogsAlertsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<PaginatedLogsAlertConfigurationList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3345,8 +3643,8 @@ export const listLogsAlertsDestinationsSends: API.OperationMethod<
   ListLogsAlertsDestinationsSendsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListLogsAlertsDestinationsSendsRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<ListLogsAlertsDestinationsSendsResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListLogsAlertsDestinationsSendsRequest>,
+  output: __S(851, __c53, 3) as any as S.Schema<ListLogsAlertsDestinationsSendsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3356,15 +3654,15 @@ export const listLogsAlertsDestinationsSends: API.OperationMethod<
 }));
 
 export type ListLogsAlertsEventsError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) -- quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind. For an alert the alerts platform evaluates, checks since it took the alert over come from the platform's check history. */
+/** Paginated event history for this alert, newest first. Returns state transitions, errored checks, and user-initiated control-plane rows (reset, enable/disable, snooze/unsnooze, threshold change) -- quiet no-op check rows (where state didn't change and there was no error) are filtered out since only the last 10 are kept and they carry no forensic value. Optional `?kind=...` narrows to a single kind. For an alert the alerts platform evaluates, checks since it took the alert over come from the platform's check history. So do control-plane rows from the oldest one the platform recorded onward. */
 export const listLogsAlertsEvents: API.OperationMethod<
   ListLogsAlertsEventsRequest,
   PaginatedLogsAlertEventList,
   ListLogsAlertsEventsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListLogsAlertsEventsRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<PaginatedLogsAlertEventList>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListLogsAlertsEventsRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<PaginatedLogsAlertEventList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3380,8 +3678,8 @@ export const listLogsMetricRules: API.OperationMethod<
   ListLogsMetricRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListLogsMetricRulesRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<PaginatedLogsMetricRuleList>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListLogsMetricRulesRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<PaginatedLogsMetricRuleList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3398,8 +3696,8 @@ export const listLogsRetentionRules: API.OperationMethod<
   ListLogsRetentionRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListLogsRetentionRulesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListLogsRetentionRulesRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<PaginatedLogsRetentionRuleList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3415,8 +3713,8 @@ export const listLogsSamplingRules: API.OperationMethod<
   ListLogsSamplingRulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListLogsSamplingRulesRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListLogsSamplingRulesRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<PaginatedLogsSamplingRuleList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3432,8 +3730,8 @@ export const listLogsViews: API.OperationMethod<
   ListLogsViewsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListLogsViewsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<PaginatedLogsViewList>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListLogsViewsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<PaginatedLogsViewList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3454,14 +3752,32 @@ export const logsAlertsDestinationsDeleteCreate: API.OperationMethod<
   LogsAlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsAlertsDestinationsDeleteCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LogsAlertsDestinationsDeleteCreate",
+}));
+
+export type LogsAlertsDestinationsResetCreateError = PosthogOpError;
+/** Send a customized destination's standard message again. Its HogFunctions are deleted, with their edits, and the alerts platform sends it from then on. Only an alert the alerts platform checks can be reset. */
+export const logsAlertsDestinationsResetCreate: API.OperationMethod<
+  LogsAlertsDestinationsResetCreateRequest,
+  LogsAlertResetDestinationResponse,
+  LogsAlertsDestinationsResetCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(976, __c61, 0) as any as S.Schema<LogsAlertsDestinationsResetCreateRequest>,
+  output: __S(977, __c61, 1) as any as S.Schema<LogsAlertResetDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAlertsDestinationsResetCreate",
 }));
 
 export type LogsAlertsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -3471,8 +3787,8 @@ export const logsAlertsDestroy: API.OperationMethod<
   LogsAlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<LogsAlertsDestroyRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsAlertsDestroyResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<LogsAlertsDestroyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsAlertsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3489,8 +3805,8 @@ export const logsAlertsResetCreate: API.OperationMethod<
   LogsAlertsResetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<LogsAlertsResetCreateRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(1008, __c63, 0) as any as S.Schema<LogsAlertsResetCreateRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3506,8 +3822,8 @@ export const logsExportCreate: API.OperationMethod<
   LogsExportCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<LogsExportCreateRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<LogsExportCreateResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<LogsExportCreateRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<LogsExportCreateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3523,8 +3839,8 @@ export const logsMetricRulesDestroy: API.OperationMethod<
   LogsMetricRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<LogsMetricRulesDestroyRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsMetricRulesDestroyResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<LogsMetricRulesDestroyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsMetricRulesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3541,8 +3857,8 @@ export const logsRetentionRulesDestroy: API.OperationMethod<
   LogsRetentionRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<LogsRetentionRulesDestroyRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsRetentionRulesDestroyResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<LogsRetentionRulesDestroyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsRetentionRulesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3558,8 +3874,8 @@ export const logsSamplingRulesDestroy: API.OperationMethod<
   LogsSamplingRulesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<LogsSamplingRulesDestroyRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsSamplingRulesDestroyResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<LogsSamplingRulesDestroyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsSamplingRulesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3575,8 +3891,8 @@ export const logsViewsDestroy: API.OperationMethod<
   LogsViewsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<LogsViewsDestroyRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<LogsViewsDestroyResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<LogsViewsDestroyRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<LogsViewsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3592,8 +3908,8 @@ export const updateLogsAlert: API.OperationMethod<
   UpdateLogsAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateLogsAlertRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateLogsAlertRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3609,8 +3925,8 @@ export const updateLogsAlertsPartial: API.OperationMethod<
   UpdateLogsAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateLogsAlertsPartialRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<LogsAlertConfiguration>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateLogsAlertsPartialRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LogsAlertConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3626,8 +3942,8 @@ export const updateLogsMetricRule: API.OperationMethod<
   UpdateLogsMetricRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateLogsMetricRuleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<LogsMetricRule>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateLogsMetricRuleRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3643,8 +3959,8 @@ export const updateLogsMetricRulesPartial: API.OperationMethod<
   UpdateLogsMetricRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<UpdateLogsMetricRulesPartialRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<LogsMetricRule>,
+  input: __S(1168, __c73, 0) as any as S.Schema<UpdateLogsMetricRulesPartialRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<LogsMetricRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3661,8 +3977,8 @@ export const updateLogsRetentionRule: API.OperationMethod<
   UpdateLogsRetentionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateLogsRetentionRuleRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(1184, __c74, 0) as any as S.Schema<UpdateLogsRetentionRuleRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3679,8 +3995,8 @@ export const updateLogsRetentionRulesPartial: API.OperationMethod<
   UpdateLogsRetentionRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UpdateLogsRetentionRulesPartialRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<LogsRetentionRule>,
+  input: __S(1216, __c76, 0) as any as S.Schema<UpdateLogsRetentionRulesPartialRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<LogsRetentionRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3696,8 +4012,8 @@ export const updateLogsSamplingRule: API.OperationMethod<
   UpdateLogsSamplingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateLogsSamplingRuleRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UpdateLogsSamplingRuleRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3713,8 +4029,8 @@ export const updateLogsSamplingRulesPartial: API.OperationMethod<
   UpdateLogsSamplingRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateLogsSamplingRulesPartialRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<LogsSamplingRule>,
+  input: __S(1248, __c78, 0) as any as S.Schema<UpdateLogsSamplingRulesPartialRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<LogsSamplingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3730,8 +4046,8 @@ export const updateLogsView: API.OperationMethod<
   UpdateLogsViewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<UpdateLogsViewRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<LogsView>,
+  input: __S(1264, __c79, 0) as any as S.Schema<UpdateLogsViewRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<LogsView>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3747,8 +4063,8 @@ export const updateLogsViewsPartial: API.OperationMethod<
   UpdateLogsViewsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UpdateLogsViewsPartialRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<LogsView>,
+  input: __S(1280, __c80, 0) as any as S.Schema<UpdateLogsViewsPartialRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<LogsView>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3773,19 +4089,213 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          targetBuckets: S.optional(S.Number),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          key: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "LogsContextAttributeAnchor" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          logUuid: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          traceId: S.optional(S.String),
+          attribute: S.optional(__S(16, __c1, 0)),
+          around: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogsContextAnchor" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          anchor: __S(17, __c1, 1),
+          padding: S.optional(S.String),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
+          include: S.optional(__S(832, __c52, 0)),
+          limit: S.optional(S.Number),
+          after: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogsContextBody" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          query: __S(18, __c1, 2),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/context/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateLogsContextRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          trace_id: S.NullOr(S.String),
+          timestamp: S.String,
+          start: S.NullOr(S.String),
+          end: S.NullOr(S.String),
+          duration_ms: S.NullOr(S.Number),
+          services: __S(800, __c50, 0),
+        }),
+      ).annotate({ identifier: "LogsContextAnchorSummary" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.String,
+          log_count: S.Number,
+        }),
+      ).annotate({ identifier: "LogsContextCorrelationKey" });
+    case 6:
+      return S.Array(__S(21, __c1, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          t_offset_ms: S.Number,
+          timestamp: S.String,
+          service: S.String,
+          severity: S.String,
+          body: S.String,
+          attrs: S.String,
+          uuid: S.String,
+        }),
+      ).annotate({ identifier: "LogsContextTimelineRow" });
+    case 8:
+      return S.Array(__S(23, __c1, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          span_id: S.String,
+          name: S.String,
+          service: S.String,
+          start_offset_ms: S.Number,
+          duration_ms: S.Number,
+          self_time_ms: S.Number,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "LogsContextSpan" });
+    case 10:
+      return S.Array(__S(25, __c1, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          span_count: S.Number,
+          truncated: S.Boolean,
+          services: __S(800, __c50, 0),
+          root: S.NullOr(__S(25, __c1, 9)),
+          error_spans: __S(26, __c1, 10),
+          slowest: __S(26, __c1, 10),
+        }),
+      ).annotate({ identifier: "LogsContextSpansSummary" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          window: __S(33, __c2, 1),
+          anchor: __S(20, __c1, 4),
+          correlation_keys: __S(22, __c1, 6),
+          timeline: __S(24, __c1, 8),
+          spans_summary: S.NullOr(__S(27, __c1, 11)),
+          truncated: S.Boolean,
+          next_cursor: S.NullOr(S.String),
+          next: __S(35, __c2, 3),
+          notes: __S(800, __c50, 0),
+        }),
+      ).annotate({ identifier: "LogsContextResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.String,
+          to: S.String,
+        }),
+      ).annotate({ identifier: "LogsAgentWindowBounds" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          current: __S(32, __c2, 0),
+          baseline: S.optional(__S(32, __c2, 0)),
+          timezone: S.String,
+        }),
+      ).annotate({ identifier: "LogsAgentWindow" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          why: S.String,
+          query: __S(720, __c45, 0),
+        }),
+      ).annotate({ identifier: "LogsAgentNextCall" });
+    case 3:
+      return S.Array(__S(34, __c2, 2));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          query: S.optional(__S(80, __c5, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/count/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateLogsCountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LogsCountResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          type: S.optional(S.String),
+          operator: S.optional(S.String),
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "LogPropertyFilter2" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
+        }),
+      ).annotate({ identifier: "LogsCountBody" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          targetBuckets: S.optional(S.Number),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
+          searchTerm: S.optional(S.String),
+          filterGroup: S.optional(__S(65, __c4, 1)),
         }),
       ).annotate({ identifier: "LogsCountRangesBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(16, __c1, 0),
+          query: __S(96, __c6, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3803,17 +4313,17 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "LogsCountRangeBucket" });
     case 3:
-      return S.Array(__S(18, __c1, 2));
+      return S.Array(__S(98, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ranges: __S(19, __c1, 3),
+          ranges: __S(99, __c6, 3),
           interval: S.String,
         }),
       ).annotate({ identifier: "LogsCountRangesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3840,7 +4350,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ExplainRequest" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3848,12 +4358,12 @@ function __c3(j: number): any {
           facetField: S.optional(S.NullOr(S.String)),
           facetResourceAttribute: S.optional(S.NullOr(S.String)),
           facetAttribute: S.optional(S.NullOr(S.String)),
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
           facetSearch: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
         }),
@@ -3862,7 +4372,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(48, __c3, 0),
+          query: __S(128, __c8, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3874,12 +4384,12 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(65, __c4, 1),
+          results: __S(145, __c9, 1),
         }),
       ).annotate({ identifier: "LogsFacetValuesResponse" });
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3889,10 +4399,10 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "LogFacetValue" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(144, __c9, 0));
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3902,18 +4412,18 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LogsGroupByDimension" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
           groupBy: S.optional(S.String),
           groupBySource: S.optional(S.String),
-          groupBys: S.optional(__S(81, __c5, 1)),
+          groupBys: S.optional(__S(161, __c10, 1)),
           orderGroupsBy: S.optional(S.String),
           limit: S.optional(S.Number),
           personId: S.optional(S.String),
@@ -3924,7 +4434,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(82, __c5, 2),
+          query: __S(162, __c10, 2),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/group-by/", code: 200 }),
         ),
@@ -3933,7 +4443,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           value: S.String,
-          values: __S(752, __c47, 0),
+          values: __S(800, __c50, 0),
           log_count: S.Number,
           error_count: S.Number,
           first_seen: S.optional(S.String),
@@ -3941,11 +4451,11 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LogsGroupByGroup" });
     case 5:
-      return S.Array(__S(84, __c5, 4));
+      return S.Array(__S(164, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(85, __c5, 5),
+          groups: __S(165, __c10, 5),
           total_groups: S.Number,
           total_logs: S.Number,
           truncated: S.Boolean,
@@ -3953,13 +4463,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LogsGroupByResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(1280, __c80, 0),
+          query: __S(80, __c5, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/impact/", code: 200 }),
         ),
@@ -3979,15 +4489,15 @@ function __c6(j: number): any {
           sessions: S.Number,
           logsWithDistinctId: S.Number,
           users: S.Number,
-          topSessions: __S(65, __c4, 1),
-          topUsers: __S(65, __c4, 1),
-          sessionGroupKey: S.NullOr(__S(97, __c6, 1)),
-          personGroupKey: S.NullOr(__S(97, __c6, 1)),
+          topSessions: __S(145, __c9, 1),
+          topUsers: __S(145, __c9, 1),
+          sessionGroupKey: S.NullOr(__S(177, __c11, 1)),
+          personGroupKey: S.NullOr(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "LogsImpactResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3998,7 +4508,7 @@ function __c7(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(752, __c47, 0)),
+          group_by: S.optional(__S(800, __c50, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4010,7 +4520,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateLogsMetricRuleRequest" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4021,7 +4531,7 @@ function __c8(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(752, __c47, 0)),
+          group_by: S.optional(__S(800, __c50, 0)),
           source: S.optional(S.String),
           version: S.Number,
           created_by: S.Number,
@@ -4031,14 +4541,14 @@ function __c8(j: number): any {
       ).annotate({ identifier: "LogsMetricRule" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           query: S.String,
-          dateRange: S.optional(__S(1232, __c77, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4057,30 +4567,30 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "LogsNaturalLanguageCandidateFilter" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dateRange: __S(1232, __c77, 0),
-          severityLevels: __S(784, __c49, 0),
-          serviceNames: __S(752, __c47, 0),
-          filterGroup: __S(146, __c9, 2),
+          dateRange: __S(1344, __c84, 0),
+          severityLevels: __S(832, __c52, 0),
+          serviceNames: __S(800, __c50, 0),
+          filterGroup: __S(226, __c14, 2),
         }),
       ).annotate({ identifier: "LogsNaturalLanguageCandidateQuery" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
-          query: __S(147, __c9, 3),
+          query: __S(227, __c14, 3),
           probability: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "LogsNaturalLanguageCandidate" });
     case 5:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(228, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          candidates: __S(149, __c9, 5),
+          candidates: __S(229, __c14, 5),
           confidence: S.NullOr(S.Number),
           ranked_by: S.String,
           dropped_count: S.Number,
@@ -4088,16 +4598,16 @@ function __c9(j: number): any {
       ).annotate({ identifier: "LogsNaturalLanguageQueryResponse" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
         }),
@@ -4106,13 +4616,13 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(160, __c10, 0),
+          query: __S(240, __c15, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/patterns/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateLogsPatternRequest" });
     case 2:
-      return S.Array(__S(179, __c11, 3));
+      return S.Array(__S(259, __c16, 3));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4121,7 +4631,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "LogsPatternsSparklineBucket" });
     case 4:
-      return S.Array(__S(163, __c10, 3));
+      return S.Array(__S(243, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4131,17 +4641,17 @@ function __c10(j: number): any {
           pattern_coverage_pct: S.optional(S.NullOr(S.Number)),
           represented_count: S.optional(S.NullOr(S.Number)),
           remainder_count: S.optional(S.NullOr(S.Number)),
-          patterns: __S(162, __c10, 2),
+          patterns: __S(242, __c15, 2),
           scanned_count: S.Number,
           total_count: S.Number,
           sampled: S.Boolean,
           sample_coverage_pct: S.Number,
-          sparkline_buckets: __S(164, __c10, 4),
+          sparkline_buckets: __S(244, __c15, 4),
         }),
       ).annotate({ identifier: "LogsPatternsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4153,7 +4663,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "LogPatternExample" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(256, __c16, 0));
     case 2:
       return S.Array(S.Number);
     case 3:
@@ -4167,34 +4677,34 @@ function __c11(j: number): any {
           estimated_error_count: S.Number,
           first_seen: S.String,
           last_seen: S.String,
-          examples: __S(177, __c11, 1),
-          services: __S(752, __c47, 0),
-          sparkline: __S(178, __c11, 2),
-          severity_counts: __S(192, __c12, 0),
+          examples: __S(257, __c16, 1),
+          services: __S(800, __c50, 0),
+          sparkline: __S(258, __c16, 2),
+          severity_counts: __S(272, __c17, 0),
           match_regex: S.NullOr(S.String),
           match_literal: S.NullOr(S.String),
-          match_patterns: S.optional(__S(752, __c47, 0)),
+          match_patterns: S.optional(__S(800, __c50, 0)),
           pattern_version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "LogPattern" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
           limit: S.optional(S.NullOr(S.Number)),
@@ -4204,8 +4714,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(208, __c13, 0),
-          baselineDateRange: S.optional(__S(1232, __c77, 0)),
+          query: __S(288, __c18, 0),
+          baselineDateRange: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4217,44 +4727,19 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          from: S.String,
-          to: S.String,
-        }),
-      ).annotate({ identifier: "LogsAgentWindowBounds" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          current: __S(210, __c13, 2),
-          baseline: S.optional(__S(210, __c13, 2)),
-          timezone: S.String,
-        }),
-      ).annotate({ identifier: "LogsAgentWindow" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          tool: S.String,
-          why: S.String,
-          query: __S(688, __c43, 0),
-        }),
-      ).annotate({ identifier: "LogsAgentNextCall" });
-    case 5:
-      return S.Array(__S(212, __c13, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           masked_example: S.String,
-          services: __S(752, __c47, 0),
+          services: __S(800, __c50, 0),
           first_seen_ever: S.NullOr(S.String),
           classification: S.String,
           rate_ratio: S.NullOr(S.Number),
-          pattern: __S(179, __c11, 3),
+          pattern: __S(259, __c16, 3),
           baseline_estimated_count: S.NullOr(S.Number),
           baseline_volume_share_pct: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "LogPatternDiffEntry" });
-    case 7:
-      return S.Array(__S(214, __c13, 6));
-    case 8:
+    case 3:
+      return S.Array(__S(290, __c18, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           source: S.optional(S.String),
@@ -4271,38 +4756,38 @@ function __c13(j: number): any {
           date_to: S.String,
         }),
       ).annotate({ identifier: "LogsPatternsDiffWindow" });
-    case 9:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          window: __S(211, __c13, 3),
+          window: __S(33, __c2, 1),
           source: S.String,
           pattern_version: S.NullOr(S.Number),
           sampled: S.Boolean,
           truncated: S.Boolean,
-          notes: __S(752, __c47, 0),
-          next: __S(213, __c13, 5),
-          entries: __S(215, __c13, 7),
-          current: __S(216, __c13, 8),
-          baseline: __S(216, __c13, 8),
+          notes: __S(800, __c50, 0),
+          next: __S(35, __c2, 3),
+          entries: __S(291, __c18, 3),
+          current: __S(292, __c18, 4),
+          baseline: __S(292, __c18, 4),
         }),
       ).annotate({ identifier: "LogsPatternsDiffResponse" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           orderBy: S.optional(S.String),
           searchTerm: S.optional(S.String),
           filterGroup: S.optional(S.Unknown),
           limit: S.optional(S.Number),
           after: S.optional(S.String),
           excludeAttributes: S.optional(S.Boolean),
-          customColumns: S.optional(__S(752, __c47, 0)),
+          customColumns: S.optional(__S(800, __c50, 0)),
           personId: S.optional(S.String),
           sessionId: S.optional(S.String),
         }),
@@ -4311,7 +4796,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(224, __c14, 0)),
+          query: S.optional(__S(304, __c19, 0)),
+          trigger: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/query/", code: 200 }),
         ),
@@ -4328,8 +4814,8 @@ function __c14(j: number): any {
           level: S.optional(S.String),
           trace_id: S.optional(S.String),
           span_id: S.optional(S.String),
-          attributes: S.optional(__S(240, __c15, 0)),
-          resource_attributes: S.optional(__S(240, __c15, 0)),
+          attributes: S.optional(__S(736, __c46, 0)),
+          resource_attributes: S.optional(__S(736, __c46, 0)),
           event_name: S.optional(S.String),
           instrumentation_scope: S.String,
           resource_fingerprint: S.String,
@@ -4337,27 +4823,21 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "LogEntry" });
     case 3:
-      return S.Array(__S(226, __c14, 2));
+      return S.Array(__S(306, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(688, __c43, 0)),
-          results: S.optional(__S(227, __c14, 3)),
+          query: S.optional(__S(720, __c45, 0)),
+          results: S.optional(__S(307, __c19, 3)),
           hasMore: S.optional(S.Boolean),
           nextCursor: S.optional(S.NullOr(S.String)),
           maxExportableLogs: S.optional(S.Number),
-          columns: S.optional(S.NullOr(__S(752, __c47, 0))),
+          columns: S.optional(S.NullOr(__S(800, __c50, 0))),
         }),
       ).annotate({ identifier: "LogsQueryResponse" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4377,7 +4857,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateLogsRetentionRuleRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4395,7 +4875,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "LogsRetentionRule" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4403,7 +4883,7 @@ function __c18(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ordered_ids: __S(752, __c47, 0),
+          ordered_ids: __S(800, __c50, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4414,22 +4894,22 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateLogsRetentionRulesReorderRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(336, __c21, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(304, __c19, 0),
+          results: __S(368, __c23, 0),
         }),
       ).annotate({ identifier: "PaginatedLogsRetentionRuleList" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4453,7 +4933,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "LogsRetentionRuleNameSuggestion" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4465,8 +4945,9 @@ function __c21(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(352, __c22, 0)),
+          scope_attribute_filters: S.optional(__S(416, __c26, 0)),
           config: S.Unknown,
+          source: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4477,10 +4958,10 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateLogsSamplingRuleRequest" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(720, __c45, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4491,8 +4972,9 @@ function __c22(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(352, __c22, 0)),
+          scope_attribute_filters: S.optional(__S(416, __c26, 0)),
           config: S.Unknown,
+          source: S.optional(S.String),
           version: S.Number,
           created_by: S.Number,
           created_at: S.String,
@@ -4501,7 +4983,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "LogsSamplingRule" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4509,7 +4991,8 @@ function __c23(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          ordered_ids: __S(752, __c47, 0),
+          source: S.optional(S.String.pipe(T.Query())),
+          ordered_ids: __S(800, __c50, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4520,22 +5003,22 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateLogsSamplingRulesReorderRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(417, __c26, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(384, __c24, 0),
+          results: __S(448, __c28, 0),
         }),
       ).annotate({ identifier: "PaginatedLogsSamplingRuleList" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4559,17 +5042,17 @@ function __c25(j: number): any {
       ).annotate({ identifier: "LogsSamplingRuleSimulateResponse" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
           serviceNameSearch: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
+          filterGroup: S.optional(__S(65, __c4, 1)),
           environment: S.optional(S.String),
           compare: S.optional(S.String),
         }),
@@ -4578,8 +5061,8 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(416, __c26, 0)),
-          baselineDateRange: S.optional(__S(1232, __c77, 0)),
+          query: S.optional(__S(480, __c30, 0)),
+          baselineDateRange: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/services/", code: 200 }),
         ),
@@ -4602,7 +5085,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "LogsServiceActiveRule" });
     case 4:
-      return S.Array(__S(419, __c26, 3));
+      return S.Array(__S(483, __c30, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4618,12 +5101,12 @@ function __c26(j: number): any {
           error_count: S.optional(S.Number),
           error_rate: S.optional(S.Number),
           volume_share_pct: S.optional(S.Number),
-          severity_breakdown: S.optional(__S(418, __c26, 2)),
-          active_rules: S.optional(__S(420, __c26, 4)),
+          severity_breakdown: S.optional(__S(482, __c30, 2)),
+          active_rules: S.optional(__S(484, __c30, 4)),
         }),
       ).annotate({ identifier: "LogsServiceAggregate" });
     case 6:
-      return S.Array(__S(421, __c26, 5));
+      return S.Array(__S(485, __c30, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4633,21 +5116,21 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "LogsServicesSparklineBucket" });
     case 8:
-      return S.Array(__S(423, __c26, 7));
+      return S.Array(__S(487, __c30, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           top_services_count: S.Number,
           top_services_volume_share_pct: S.Number,
-          status_counts: S.optional(__S(192, __c12, 0)),
+          status_counts: S.optional(__S(272, __c17, 0)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LogsServicesSummary" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          current: __S(240, __c15, 0),
-          baseline: S.optional(__S(240, __c15, 0)),
+          current: __S(736, __c46, 0),
+          baseline: S.optional(__S(736, __c46, 0)),
           timezone: S.String,
         }),
       ).annotate({ identifier: "LogsWindow" });
@@ -4656,34 +5139,34 @@ function __c26(j: number): any {
         S.Struct({
           tool: S.String,
           why: S.String,
-          query: __S(688, __c43, 0),
-          baselineDateRange: S.optional(__S(688, __c43, 0)),
+          query: __S(720, __c45, 0),
+          baselineDateRange: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "LogsNextStep" });
     case 12:
-      return S.Array(__S(427, __c26, 11));
+      return S.Array(__S(491, __c30, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(422, __c26, 6)),
-          sparkline: S.optional(__S(424, __c26, 8)),
+          services: S.optional(__S(486, __c30, 6)),
+          sparkline: S.optional(__S(488, __c30, 8)),
           total_services: S.optional(S.Number),
-          summary: S.optional(__S(425, __c26, 9)),
-          window: S.optional(__S(426, __c26, 10)),
+          summary: S.optional(__S(489, __c30, 9)),
+          window: S.optional(__S(490, __c30, 10)),
           source: S.optional(S.String),
-          next: S.optional(__S(428, __c26, 12)),
+          next: S.optional(__S(492, __c30, 12)),
         }),
       ).annotate({ identifier: "LogsServicesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
+          severityLevels: S.optional(__S(832, __c52, 0)),
+          serviceNames: S.optional(__S(800, __c50, 0)),
           searchTerm: S.optional(S.String),
           filterGroup: S.optional(S.Unknown),
           sparklineBreakdownBy: S.optional(S.String),
@@ -4696,7 +5179,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(432, __c27, 0)),
+          query: S.optional(__S(496, __c31, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/sparkline/", code: 200 }),
         ),
@@ -4712,22 +5195,22 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "LogsSparklineBucket" });
     case 3:
-      return S.Array(__S(434, __c27, 2));
+      return S.Array(__S(498, __c31, 2));
     case 4:
-      return S.suspend(() => __S(435, __c27, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(499, __c31, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateLogsSparklineResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          filters: S.optional(__S(688, __c43, 0)),
-          columns: S.optional(S.NullOr(__S(465, __c29, 1))),
+          filters: S.optional(__S(720, __c45, 0)),
+          columns: S.optional(S.NullOr(__S(529, __c33, 1))),
           pinned: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/views/", code: 200 }),
@@ -4735,7 +5218,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateLogsViewRequest" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4748,24 +5231,24 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "LogsViewColumn" });
     case 1:
-      return S.Array(__S(464, __c29, 0));
+      return S.Array(__S(528, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           short_id: S.optional(S.String),
           name: S.optional(S.String),
-          filters: S.optional(__S(688, __c43, 0)),
-          columns: S.optional(S.NullOr(__S(465, __c29, 1))),
+          filters: S.optional(__S(720, __c45, 0)),
+          columns: S.optional(S.NullOr(__S(529, __c33, 1))),
           pinned: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(704, __c44, 0))),
+          created_by: S.optional(S.NullOr(__S(752, __c47, 0))),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LogsView" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4779,12 +5262,14 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: __S(752, __c47, 0),
+          hog_function_ids: __S(800, __c50, 0),
+          id: S.NullOr(S.String),
           type: S.String,
           enabled: S.Boolean,
           message_customized: S.Boolean,
           slack_workspace_id: S.optional(S.Number),
           slack_channel_id: S.optional(S.String),
+          slack_channel_name: S.optional(S.String),
           webhook_url: S.optional(S.String),
           pagerduty_routing_key: S.optional(S.String),
           pagerduty_severity: S.optional(S.String),
@@ -4792,14 +5277,14 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertDestinationConfig" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(772, __c48, 4)),
+          filters: S.optional(__S(820, __c51, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
@@ -4808,43 +5293,45 @@ function __c30(j: number): any {
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(722, __c45, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(770, __c48, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
           next_check_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
           last_checked_at: S.NullOr(S.String),
           consecutive_failures: S.Number,
           last_error_message: S.NullOr(S.String),
-          state_timeline: __S(725, __c45, 5),
-          destination_types: __S(784, __c49, 0),
-          grouping: S.optional(__S(723, __c45, 3)),
+          state_timeline: __S(773, __c48, 5),
+          destination_types: __S(832, __c52, 0),
+          grouping: S.optional(__S(771, __c48, 3)),
+          labels: S.optional(__S(736, __c46, 0)),
+          annotations: S.optional(__S(736, __c46, 0)),
           platform_owned: S.Boolean,
           first_enabled_at: S.NullOr(S.String),
           created_at: S.String,
-          created_by: __S(704, __c44, 0),
+          created_by: __S(752, __c47, 0),
           updated_at: S.NullOr(S.String),
-          destinations: __S(482, __c30, 2),
+          destinations: __S(546, __c34, 2),
         }),
       ).annotate({ identifier: "LogsAlertConfigurationDetail" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1232, __c77, 0).pipe(T.Query())),
+          dateRange: S.optional(__S(1344, __c84, 0).pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
-          filterGroup: S.optional(__S(1265, __c79, 1).pipe(T.Query())),
+          filterGroup: S.optional(__S(65, __c4, 1).pipe(T.Query())),
           keys: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           search_values: S.optional(S.Boolean.pipe(T.Query())),
-          serviceNames: S.optional(__S(752, __c47, 0).pipe(T.Query())),
+          serviceNames: S.optional(__S(800, __c50, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/logs/attributes/", code: 200 }),
         ),
@@ -4859,17 +5346,17 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "LogAttributeEntry" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(498, __c31, 2)),
+          results: S.optional(__S(562, __c35, 2)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LogsAttributesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4881,15 +5368,15 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetLogsHasLogRequest" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(688, __c43, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(720, __c45, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLogsHasLogResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4906,7 +5393,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetLogsMetricRuleRequest" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4923,7 +5410,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetLogsRetentionRuleRequest" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4940,17 +5427,17 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetLogsSamplingRuleRequest" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1232, __c77, 0).pipe(T.Query())),
-          filterGroup: S.optional(__S(1265, __c79, 1).pipe(T.Query())),
+          dateRange: S.optional(__S(1344, __c84, 0).pipe(T.Query())),
+          filterGroup: S.optional(__S(65, __c4, 1).pipe(T.Query())),
           key: S.String.pipe(T.Query()),
-          serviceNames: S.optional(__S(752, __c47, 0).pipe(T.Query())),
+          serviceNames: S.optional(__S(800, __c50, 0).pipe(T.Query())),
           value: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/logs/values/", code: 200 }),
@@ -4965,17 +5452,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "LogAttributeValue" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(594, __c37, 2)),
+          results: S.optional(__S(658, __c41, 2)),
           refreshing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LogsValuesResponse" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4992,7 +5479,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetLogsViewRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5006,26 +5493,201 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListLogsAlertsRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(625, __c39, 1)),
+          results: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "PaginatedLogsAlertConfigurationList" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          filters: S.optional(__S(820, __c51, 4)),
+          threshold_count: S.optional(S.Number),
+          threshold_operator: S.optional(S.String),
+          window_minutes: S.optional(S.Number),
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(770, __c48, 2))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+          grouping: S.optional(__S(771, __c48, 3)),
+          labels: S.optional(__S(736, __c46, 0)),
+          annotations: S.optional(__S(736, __c46, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/alerts/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateLogsAlertRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(720, __c45, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
+    case 1:
+      return S.Array(__S(768, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          blocked_windows: S.optional(__S(769, __c48, 1)),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestriction" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          keys: S.optional(__S(800, __c50, 0)),
+          max_instances: S.optional(S.Number),
+          on_overflow: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogsAlertGrouping" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+          state: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LogsAlertStateInterval" });
+    case 5:
+      return S.Array(__S(772, __c48, 4));
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          filters: S.optional(__S(820, __c51, 4)),
+          threshold_count: S.optional(S.Number),
+          threshold_operator: S.optional(S.String),
+          window_minutes: S.optional(S.Number),
+          check_interval_minutes: S.optional(S.Number),
+          state: S.optional(S.String),
+          evaluation_periods: S.optional(S.Number),
+          datapoints_to_alarm: S.optional(S.Number),
+          cooldown_minutes: S.optional(S.Number),
+          schedule_restriction: S.optional(S.NullOr(__S(770, __c48, 2))),
+          snooze_until: S.optional(S.NullOr(S.String)),
+          next_check_at: S.optional(S.NullOr(S.String)),
+          last_notified_at: S.optional(S.NullOr(S.String)),
+          last_checked_at: S.optional(S.NullOr(S.String)),
+          consecutive_failures: S.optional(S.Number),
+          last_error_message: S.optional(S.NullOr(S.String)),
+          state_timeline: S.optional(__S(773, __c48, 5)),
+          destination_types: S.optional(__S(832, __c52, 0)),
+          grouping: S.optional(__S(771, __c48, 3)),
+          labels: S.optional(__S(736, __c46, 0)),
+          annotations: S.optional(__S(736, __c46, 0)),
+          platform_owned: S.Boolean,
+          first_enabled_at: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          created_by: S.optional(S.NullOr(__S(752, __c47, 0))),
+          updated_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LogsAlertConfiguration" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          values: S.optional(__S(816, __c51, 0)),
+        }),
+      ).annotate({ identifier: "PropertyGroupFilterValue" });
+    case 2:
+      return S.Array(__S(817, __c51, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          values: S.optional(__S(818, __c51, 2)),
+        }),
+      ).annotate({ identifier: "PropertyGroupFilter" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filterGroup: S.optional(S.NullOr(__S(819, __c51, 3))),
+          serviceNames: S.optional(S.NullOr(__S(800, __c50, 0))),
+          severityLevels: S.optional(S.NullOr(__S(832, __c52, 0))),
+        }),
+      ).annotate({ identifier: "LogsAlertFilters" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: __S(752, __c47, 0).pipe(T.Query()),
+          hog_function_ids: __S(800, __c50, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5045,14 +5707,14 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertDestinationSend" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(849, __c53, 1));
     case 3:
-      return S.suspend(() => __S(642, __c40, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(850, __c53, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLogsAlertsDestinationsSendsResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5084,184 +5746,19 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertEvent" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(658, __c41, 2)),
+          results: S.optional(__S(866, __c54, 2)),
         }),
       ).annotate({ identifier: "PaginatedLogsAlertEventList" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(772, __c48, 4)),
-          threshold_count: S.optional(S.Number),
-          threshold_operator: S.optional(S.String),
-          window_minutes: S.optional(S.Number),
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(722, __c45, 2))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-          grouping: S.optional(__S(723, __c45, 3)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/alerts/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateLogsAlertRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(688, __c43, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
-    case 1:
-      return S.Array(__S(720, __c45, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          blocked_windows: S.optional(__S(721, __c45, 1)),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestriction" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.String,
-          keys: S.optional(__S(752, __c47, 0)),
-          max_instances: S.optional(S.Number),
-          on_overflow: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LogsAlertGrouping" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-          state: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LogsAlertStateInterval" });
-    case 5:
-      return S.Array(__S(724, __c45, 4));
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(772, __c48, 4)),
-          threshold_count: S.optional(S.Number),
-          threshold_operator: S.optional(S.String),
-          window_minutes: S.optional(S.Number),
-          check_interval_minutes: S.optional(S.Number),
-          state: S.optional(S.String),
-          evaluation_periods: S.optional(S.Number),
-          datapoints_to_alarm: S.optional(S.Number),
-          cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(722, __c45, 2))),
-          snooze_until: S.optional(S.NullOr(S.String)),
-          next_check_at: S.optional(S.NullOr(S.String)),
-          last_notified_at: S.optional(S.NullOr(S.String)),
-          last_checked_at: S.optional(S.NullOr(S.String)),
-          consecutive_failures: S.optional(S.Number),
-          last_error_message: S.optional(S.NullOr(S.String)),
-          state_timeline: S.optional(__S(725, __c45, 5)),
-          destination_types: S.optional(__S(784, __c49, 0)),
-          grouping: S.optional(__S(723, __c45, 3)),
-          platform_owned: S.Boolean,
-          first_enabled_at: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(704, __c44, 0))),
-          updated_at: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "LogsAlertConfiguration" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          values: S.optional(__S(768, __c48, 0)),
-        }),
-      ).annotate({ identifier: "PropertyGroupFilterValue" });
-    case 2:
-      return S.Array(__S(769, __c48, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          values: S.optional(__S(770, __c48, 2)),
-        }),
-      ).annotate({ identifier: "PropertyGroupFilter" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          filterGroup: S.optional(S.NullOr(__S(771, __c48, 3))),
-          serviceNames: S.optional(S.NullOr(__S(752, __c47, 0))),
-          severityLevels: S.optional(S.NullOr(__S(784, __c49, 0))),
-        }),
-      ).annotate({ identifier: "LogsAlertFilters" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5278,19 +5775,19 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListLogsMetricRulesRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(801, __c50, 1),
+          results: __S(881, __c55, 1),
         }),
       ).annotate({ identifier: "PaginatedLogsMetricRuleList" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5308,7 +5805,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListLogsRetentionRulesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5316,6 +5813,7 @@ function __c52(j: number): any {
           project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          source: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5326,7 +5824,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ListLogsSamplingRulesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5339,26 +5837,27 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListLogsViewsRequest" });
     case 1:
-      return S.Array(__S(466, __c29, 2));
+      return S.Array(__S(530, __c33, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(849, __c53, 1)),
+          results: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "PaginatedLogsViewList" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          hog_function_ids: S.optional(__S(752, __c47, 0)),
+          hog_function_ids: S.optional(__S(800, __c50, 0)),
+          destination_ids: S.optional(__S(800, __c50, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5369,7 +5868,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LogsAlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -5377,7 +5876,31 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          hog_function_ids: __S(800, __c50, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/logs/alerts/{id}/destinations/reset/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LogsAlertsDestinationsResetCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "LogsAlertResetDestinationResponse" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5394,7 +5917,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "LogsAlertsDestroyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5411,53 +5934,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "LogsAlertsResetCreateRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/export/", code: 200 }),
-        ),
-      ).annotate({ identifier: "LogsExportCreateRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/logs/metric_rules/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LogsMetricRulesDestroyRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/logs/retention_rules/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LogsRetentionRulesDestroyRequest" });
-  }
-}
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5483,12 +5960,59 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hog_function_ids: S.optional(__S(752, __c47, 0)),
+          hog_function_ids: __S(800, __c50, 0),
+          id: S.NullOr(S.String),
         }),
-      ).annotate({ identifier: "LogsAlertDestinationResponse" });
+      ).annotate({ identifier: "LogsAlertCreatedDestinationResponse" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/export/", code: 200 }),
+        ),
+      ).annotate({ identifier: "LogsExportCreateRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/logs/metric_rules/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LogsMetricRulesDestroyRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/logs/retention_rules/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LogsRetentionRulesDestroyRequest" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5505,7 +6029,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "LogsSamplingRulesDestroyRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5522,7 +6046,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "LogsViewsDestroyRequest" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5531,23 +6055,25 @@ function __c64(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(772, __c48, 4)),
+          filters: S.optional(__S(820, __c51, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(722, __c45, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(770, __c48, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
-          grouping: S.optional(__S(723, __c45, 3)),
+          grouping: S.optional(__S(771, __c48, 3)),
+          labels: S.optional(__S(736, __c46, 0)),
+          annotations: S.optional(__S(736, __c46, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/logs/alerts/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateLogsAlertRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5556,16 +6082,18 @@ function __c65(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          filters: S.optional(__S(772, __c48, 4)),
+          filters: S.optional(__S(820, __c51, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
           evaluation_periods: S.optional(S.Number),
           datapoints_to_alarm: S.optional(S.Number),
           cooldown_minutes: S.optional(S.Number),
-          schedule_restriction: S.optional(S.NullOr(__S(722, __c45, 2))),
+          schedule_restriction: S.optional(S.NullOr(__S(770, __c48, 2))),
           snooze_until: S.optional(S.NullOr(S.String)),
-          grouping: S.optional(__S(723, __c45, 3)),
+          grouping: S.optional(__S(771, __c48, 3)),
+          labels: S.optional(__S(736, __c46, 0)),
+          annotations: S.optional(__S(736, __c46, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5576,7 +6104,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateLogsAlertsPartialRequest" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5588,7 +6116,7 @@ function __c66(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(752, __c47, 0)),
+          group_by: S.optional(__S(800, __c50, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5600,7 +6128,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateLogsMetricRuleRequest" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5612,7 +6140,7 @@ function __c67(j: number): any {
           enabled: S.optional(S.Boolean),
           filter_group: S.optional(S.Unknown),
           value_attribute: S.optional(S.NullOr(S.String)),
-          group_by: S.optional(__S(752, __c47, 0)),
+          group_by: S.optional(__S(800, __c50, 0)),
           source: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5624,7 +6152,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateLogsMetricRulesPartialRequest" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5645,7 +6173,32 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateLogsRetentionRuleRequest" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          destination_id: S.optional(S.NullOr(S.String)),
+          hog_function_ids: S.optional(__S(800, __c50, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/logs/alerts/{id}/destinations/customize/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLogsAlertsDestinationsCustomizeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hog_function_ids: S.optional(__S(800, __c50, 0)),
+        }),
+      ).annotate({ identifier: "LogsAlertDestinationResponse" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5666,7 +6219,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateLogsRetentionRulesPartialRequest" });
   }
 }
-function __c70(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5679,8 +6232,9 @@ function __c70(j: number): any {
           rule_type: S.String,
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(352, __c22, 0)),
+          scope_attribute_filters: S.optional(__S(416, __c26, 0)),
           config: S.Unknown,
+          source: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5691,7 +6245,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateLogsSamplingRuleRequest" });
   }
 }
-function __c71(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5704,8 +6258,9 @@ function __c71(j: number): any {
           rule_type: S.optional(S.String),
           scope_service: S.optional(S.NullOr(S.String)),
           scope_path_pattern: S.optional(S.NullOr(S.String)),
-          scope_attribute_filters: S.optional(__S(352, __c22, 0)),
+          scope_attribute_filters: S.optional(__S(416, __c26, 0)),
           config: S.optional(S.Unknown),
+          source: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5716,13 +6271,55 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateLogsSamplingRulesPartialRequest" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          filters: S.optional(__S(772, __c48, 4)),
+          short_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          filters: S.optional(__S(720, __c45, 0)),
+          columns: S.optional(S.NullOr(__S(529, __c33, 1))),
+          pinned: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLogsViewRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          short_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          filters: S.optional(__S(720, __c45, 0)),
+          columns: S.optional(S.NullOr(__S(529, __c33, 1))),
+          pinned: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLogsViewsPartialRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          filters: S.optional(__S(820, __c51, 4)),
           threshold_count: S.optional(S.Number),
           threshold_operator: S.optional(S.String),
           window_minutes: S.optional(S.Number),
@@ -5751,11 +6348,11 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "LogsAlertSimulateBucket" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(1154, __c72, 2)),
+          buckets: S.optional(__S(1298, __c81, 2)),
           fire_count: S.optional(S.Number),
           resolve_count: S.optional(S.Number),
           total_buckets: S.optional(S.Number),
@@ -5765,49 +6362,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "LogsAlertSimulateResponse" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          filters: S.optional(__S(688, __c43, 0)),
-          columns: S.optional(S.NullOr(__S(465, __c29, 1))),
-          pinned: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateLogsViewRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          short_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          filters: S.optional(__S(688, __c43, 0)),
-          columns: S.optional(S.NullOr(__S(465, __c29, 1))),
-          pinned: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/logs/views/{short_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateLogsViewsPartialRequest" });
-  }
-}
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5821,7 +6376,7 @@ function __c75(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           serviceName: S.String,
-          dateRange: __S(1200, __c75, 0),
+          dateRange: __S(1312, __c82, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5843,7 +6398,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "LogsAnomalyScanBucket" });
     case 3:
-      return S.Array(__S(1202, __c75, 2));
+      return S.Array(__S(1314, __c82, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5852,11 +6407,11 @@ function __c75(j: number): any {
           tier: S.NullOr(S.String),
           history_start: S.NullOr(S.String),
           limited_by: S.NullOr(S.String),
-          buckets: __S(1203, __c75, 3),
+          buckets: __S(1315, __c82, 3),
         }),
       ).annotate({ identifier: "LogsAnomalyScanSeries" });
     case 5:
-      return S.Array(__S(1204, __c75, 4));
+      return S.Array(__S(1316, __c82, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5867,11 +6422,11 @@ function __c75(j: number): any {
           opened_at: S.String,
           last_anomalous_at: S.String,
           resolved_at: S.NullOr(S.String),
-          anomalous_bucket_times: __S(752, __c47, 0),
+          anomalous_bucket_times: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "LogsAnomalyScanIssue" });
     case 7:
-      return S.Array(__S(1206, __c75, 6));
+      return S.Array(__S(1318, __c82, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5881,21 +6436,21 @@ function __c75(j: number): any {
           lookback_days: S.Number,
           eval_clipped: S.Boolean,
           degraded: S.Boolean,
-          binding_constraints: __S(784, __c49, 0),
-          series: __S(1205, __c75, 5),
-          issues: __S(1207, __c75, 7),
+          binding_constraints: __S(832, __c52, 0),
+          series: __S(1317, __c82, 5),
+          issues: __S(1319, __c82, 7),
         }),
       ).annotate({ identifier: "LogsAnomalyScanResponse" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           serviceName: S.String,
-          dateRange: S.optional(__S(1232, __c77, 0)),
+          dateRange: S.optional(__S(1344, __c84, 0)),
           intervalMinutes: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -5916,7 +6471,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "LogsSeriesBandBucket" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5929,11 +6484,11 @@ function __c76(j: number): any {
           band_ready_at: S.NullOr(S.String),
           interval_minutes: S.Number,
           coarsened_reason: S.NullOr(S.String),
-          buckets: __S(1218, __c76, 2),
+          buckets: __S(1330, __c83, 2),
         }),
       ).annotate({ identifier: "LogsSeriesBandSeries" });
     case 4:
-      return S.Array(__S(1219, __c76, 3));
+      return S.Array(__S(1331, __c83, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5942,12 +6497,12 @@ function __c76(j: number): any {
           window_end: S.String,
           interval_minutes: S.Number,
           series_truncated: S.Boolean,
-          series: __S(1220, __c76, 4),
+          series: __S(1332, __c83, 4),
         }),
       ).annotate({ identifier: "LogsSeriesBandsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5956,54 +6511,6 @@ function __c77(j: number): any {
           date_to: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SeriesBandsDateRange" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          query: S.optional(__S(1280, __c80, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/logs/count/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateLogsCountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "LogsCountResponse" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          type: S.optional(S.String),
-          operator: S.optional(S.String),
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "LogPropertyFilter2" });
-    case 1:
-      return S.Array(__S(1264, __c79, 0));
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dateRange: S.optional(__S(1232, __c77, 0)),
-          severityLevels: S.optional(__S(784, __c49, 0)),
-          serviceNames: S.optional(__S(752, __c47, 0)),
-          searchTerm: S.optional(S.String),
-          filterGroup: S.optional(__S(1265, __c79, 1)),
-        }),
-      ).annotate({ identifier: "LogsCountBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

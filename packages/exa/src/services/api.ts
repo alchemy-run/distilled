@@ -103,6 +103,7 @@ export class PaymentRequired
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           S.String,
         ]),
       ),
@@ -111,7 +112,7 @@ export class PaymentRequired
     [{ status: 402 }],
   )
 {
-  declare readonly body?: ErrorResponse | Error402Body | string;
+  declare readonly body?: ErrorResponse | Error402Body2 | Error402Body | string;
 }
 
 export class UnprocessableEntity
@@ -506,6 +507,19 @@ export interface WebsetSearchRecall {
   /** The reasoning for the estimate */
   reasoning: string;
 }
+/** What the search cost, in dollars. Returned once the search has finished, for teams on the pay-as-you-go plan, which is charged for what each search uses. Omitted for teams on other plans. `emails`, `phoneNumbers` and `total` keep growing after the search has finished, as enrichments find contact details for its items. They are final once the Webset's status is `idle`, and grow again if an enrichment is added or changed. This response value is not an invoice record. */
+export interface WebsetSearchCostDollars {
+  /** Total cost of the search in dollars, including the emails and phone numbers found for its items. */
+  total: number;
+  /** Cost of the model usage the search needed, in dollars. */
+  agentCompute: number;
+  /** Cost of the Exa searches the search ran, in dollars. */
+  search: number;
+  /** Cost of the emails that enrichments found for the items the search added, in dollars. */
+  emails: number;
+  /** Cost of the phone numbers that enrichments found for the items the search added, in dollars. */
+  phoneNumbers: number;
+}
 /** Set of key-value pairs you want to associate with this object. */
 export type WebsetSearchMetadataMap = { [key: string]: string | undefined };
 export type WebsetSearchCanceledReason = "webset_deleted" | "webset_canceled" | "out_of_credits";
@@ -538,6 +552,8 @@ export interface WebsetSearch {
   progress: WebsetSearchProgress;
   /** Recall metrics for the search, null if not yet computed or requested. */
   recall: WebsetSearchRecall | null;
+  /** What the search cost, in dollars. Returned once the search has finished, for teams on the pay-as-you-go plan, which is charged for what each search uses. Omitted for teams on other plans. `emails`, `phoneNumbers` and `total` keep growing after the search has finished, as enrichments find contact details for its items. They are final once the Webset's status is `idle`, and grow again if an enrichment is added or changed. This response value is not an invoice record. */
+  costDollars?: WebsetSearchCostDollars | undefined;
   /** Set of key-value pairs you want to associate with this object. */
   metadata?: WebsetSearchMetadataMap | undefined;
   /** The date and time the search was canceled */
@@ -941,7 +957,7 @@ export type SearchMonitorContentsTextCase1ExcludeSectionsItem =
 export type SearchMonitorContentsTextCase1ExcludeSectionsList = Array<
   SearchMonitorContentsTextCase1ExcludeSectionsItem | (string & {})
 >;
-/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. Set `maxAgeHours: 0` to apply `includeHtmlTags`, `verbosity`, and section filters to freshly fetched content. */
+/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. `verbosity` and section filters apply to any page Exa holds with section structure, whether cached or fetched live. */
 export interface SearchMonitorContentsTextCase1 {
   maxCharacters?: number | null | undefined;
   includeHtmlTags?: boolean | null | undefined;
@@ -1006,7 +1022,7 @@ export interface SearchMonitorContents {
   extras?: SearchMonitorContentsExtras | undefined;
   /** The timeout for livecrawling in milliseconds. */
   livecrawlTimeout?: number | undefined;
-  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. A failed fetch may return the latest cached copy instead. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
+  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. If that fetch fails, the latest cached copy, when there is one, is returned instead, whatever its age. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, only cached content of any age is used unless `livecrawl` is set. */
   maxAgeHours?: number | undefined;
   /** Filter out results with no content */
   filterEmptyResults?: boolean | undefined;
@@ -1108,7 +1124,7 @@ export type SearchMonitorContentsOutputTextCase1ExcludeSectionsItem =
 /** Exclude content classified into these semantic page sections. Section classification is best-effort. */
 export type SearchMonitorContentsOutputTextCase1ExcludeSectionsList =
   Array<SearchMonitorContentsOutputTextCase1ExcludeSectionsItem>;
-/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. Set `maxAgeHours: 0` to apply `includeHtmlTags`, `verbosity`, and section filters to freshly fetched content. */
+/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. `verbosity` and section filters apply to any page Exa holds with section structure, whether cached or fetched live. */
 export interface SearchMonitorContentsOutputTextCase1 {
   maxCharacters?: number | null | undefined;
   includeHtmlTags?: boolean | null | undefined;
@@ -1168,7 +1184,7 @@ export interface SearchMonitorContentsOutput {
   extras?: SearchMonitorContentsExtras | undefined;
   /** The timeout for livecrawling in milliseconds. */
   livecrawlTimeout?: number | undefined;
-  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. A failed fetch may return the latest cached copy instead. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, cached content is used when available and pages without it are fetched live. */
+  /** Maximum age of cached content, in hours, up to 720. Cached content younger than this is used, and older pages are fetched fresh. If that fetch fails, the latest cached copy, when there is one, is returned instead, whatever its age. `0` returns live content, fetched within the last 60 seconds. `-1` always uses the cache. When omitted, only cached content of any age is used unless `livecrawl` is set. */
   maxAgeHours?: number | undefined;
   /** Filter out results with no content */
   filterEmptyResults?: boolean | undefined;
@@ -1850,10 +1866,12 @@ export type GetContentsRequestTextCase1ExcludeSectionsItem =
 export type GetContentsRequestTextCase1ExcludeSectionsList = Array<
   GetContentsRequestTextCase1ExcludeSectionsItem | (string & {})
 >;
-/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. Set `maxAgeHours: 0` to apply `includeHtmlTags`, `verbosity`, and section filters to freshly fetched content. */
+/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. `verbosity` and section filters apply to any page Exa holds with section structure, whether cached or fetched live. */
 export interface GetContentsRequestTextCase1 {
   maxCharacters?: number | null | undefined;
   includeHtmlTags?: boolean | null | undefined;
+  /** Keeps the page's links in the returned text, in the chosen format. Links are removed from the text when omitted. - `full`: Each link as a markdown link, `[anchor](url)`. - `citation`: Each link as a numbered reference, `[anchor][n]`, with the URLs listed as `[n]: url` at the end of the text. A `maxCharacters` limit can cut off the list. */
+  linkStyle?: string | null | undefined;
   verbosity?: GetContentsRequestTextCase1Verbosity | (string & {}) | null | undefined;
   includeSections?: GetContentsRequestTextCase1IncludeSectionsList | null | undefined;
   excludeSections?: GetContentsRequestTextCase1ExcludeSectionsList | null | undefined;
@@ -3029,10 +3047,12 @@ export type ContentsOptionsTextCase1ExcludeSectionsItem =
 export type ContentsOptionsTextCase1ExcludeSectionsList = Array<
   ContentsOptionsTextCase1ExcludeSectionsItem | (string & {})
 >;
-/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. Set `maxAgeHours: 0` to apply `includeHtmlTags`, `verbosity`, and section filters to freshly fetched content. */
+/** Advanced options for controlling text extraction. Use this when you need to limit text length or include HTML structure. `verbosity` and section filters apply to any page Exa holds with section structure, whether cached or fetched live. */
 export interface ContentsOptionsTextCase1 {
   maxCharacters?: number | null | undefined;
   includeHtmlTags?: boolean | null | undefined;
+  /** Keeps the page's links in the returned text, in the chosen format. Links are removed from the text when omitted. - `full`: Each link as a markdown link, `[anchor](url)`. - `citation`: Each link as a numbered reference, `[anchor][n]`, with the URLs listed as `[n]: url` at the end of the text. A `maxCharacters` limit can cut off the list. */
+  linkStyle?: string | null | undefined;
   verbosity?: ContentsOptionsTextCase1Verbosity | (string & {}) | null | undefined;
   includeSections?: ContentsOptionsTextCase1IncludeSectionsList | null | undefined;
   excludeSections?: ContentsOptionsTextCase1ExcludeSectionsList | null | undefined;
@@ -3393,6 +3413,21 @@ export interface ErrorResponse {
 export interface AgentErrorResponse {
   error: AgentError;
 }
+export interface AgentApiKeyBudgetExceededResponse {
+  /** HTTP status code of the response. */
+  statusCode: number;
+  /** When the error occurred. */
+  timestamp: string;
+  /** What went wrong and how to resolve it. */
+  message: string;
+  /** Machine-readable error tag. */
+  error: string;
+  /** Request path that failed. */
+  path: string;
+  /** ID of the failed request, for support. */
+  requestId: string;
+}
+export type Error402Body2 = ErrorResponse | AgentApiKeyBudgetExceededResponse;
 /** The priced resource this challenge applies to. */
 export interface X402PaymentChallengeResource {
   /** URL of the priced resource being requested. */
@@ -3458,7 +3493,7 @@ export const batchMonitors: API.OperationMethod<
   span: "BatchMonitors",
 }));
 
-export type CancelAgentRunError = BadRequest | Forbidden | NotFound | ExaOpError;
+export type CancelAgentRunError = BadRequest | PaymentRequired | Forbidden | NotFound | ExaOpError;
 /** Cancel a run Cancel a queued or running Agent run immediately without returning any results. You are billed for usage accrued before cancellation. If the run has already reached a terminal status, the API returns the existing run. */
 export const cancelAgentRun: API.OperationMethod<
   CancelAgentRunRequest,
@@ -3468,7 +3503,7 @@ export const cancelAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CancelAgentRunRequest>,
   output: __S(2381, __c74, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3521,7 +3556,7 @@ export const cancelWebsetsSearch: API.OperationMethod<
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CancelWebsetsSearchRequest>,
-  output: __S(2507, __c78, 11) as any as S.Schema<WebsetSearch>,
+  output: __S(2508, __c78, 12) as any as S.Schema<WebsetSearch>,
   errors: [],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
@@ -3530,7 +3565,7 @@ export const cancelWebsetsSearch: API.OperationMethod<
   span: "CancelWebsetsSearch",
 }));
 
-export type CreateAgentRunError = BadRequest | Forbidden | ExaOpError;
+export type CreateAgentRunError = BadRequest | PaymentRequired | Forbidden | ExaOpError;
 /** Create a run Create an asynchronous Agent run. By default, the API returns the run object immediately. Set `Accept: text/event-stream` to stream run lifecycle events until the run reaches a terminal status. */
 export const createAgentRun: API.OperationMethod<
   CreateAgentRunRequest,
@@ -3540,7 +3575,7 @@ export const createAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateAgentRunRequest>,
   output: __S(2381, __c74, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3665,7 +3700,7 @@ export const createWebsetsSearch: API.OperationMethod<
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<CreateWebsetsSearchRequest>,
-  output: __S(2507, __c78, 11) as any as S.Schema<WebsetSearch>,
+  output: __S(2508, __c78, 12) as any as S.Schema<WebsetSearch>,
   errors: [],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
@@ -3674,7 +3709,7 @@ export const createWebsetsSearch: API.OperationMethod<
   span: "CreateWebsetsSearch",
 }));
 
-export type DeleteAgentRunError = BadRequest | Forbidden | NotFound | ExaOpError;
+export type DeleteAgentRunError = BadRequest | PaymentRequired | Forbidden | NotFound | ExaOpError;
 /** Delete a run Delete a stored Agent run. */
 export const deleteAgentRun: API.OperationMethod<
   DeleteAgentRunRequest,
@@ -3684,7 +3719,7 @@ export const deleteAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteAgentRunRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DeleteAgentRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3818,7 +3853,7 @@ export const deleteWebsetsItem: API.OperationMethod<
   span: "DeleteWebsetsItem",
 }));
 
-export type GetAgentRunError = BadRequest | Forbidden | NotFound | ExaOpError;
+export type GetAgentRunError = BadRequest | PaymentRequired | Forbidden | NotFound | ExaOpError;
 /** Get a run Retrieve a single Agent run by ID. */
 export const getAgentRun: API.OperationMethod<
   GetAgentRunRequest,
@@ -3828,7 +3863,7 @@ export const getAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetAgentRunRequest>,
   output: __S(2381, __c74, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4061,7 +4096,7 @@ export const getWebsetsSearch: API.OperationMethod<
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetWebsetsSearchRequest>,
-  output: __S(2507, __c78, 11) as any as S.Schema<WebsetSearch>,
+  output: __S(2508, __c78, 12) as any as S.Schema<WebsetSearch>,
   errors: [],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
@@ -4070,7 +4105,12 @@ export const getWebsetsSearch: API.OperationMethod<
   span: "GetWebsetsSearch",
 }));
 
-export type ListAgentRunEventsError = BadRequest | Forbidden | NotFound | ExaOpError;
+export type ListAgentRunEventsError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | ExaOpError;
 /** List run events List stored events for an Agent run. Set `Accept: text/event-stream` to replay stored events as server-sent events. Use `cursor` for JSON pagination or `Last-Event-ID` for SSE replay. */
 export const listAgentRunEvents: API.PaginatedOperationMethod<
   ListAgentRunEventsRequest,
@@ -4082,7 +4122,7 @@ export const listAgentRunEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(1408, __c44, 0) as any as S.Schema<ListAgentRunEventsRequest>,
     output: __S(1411, __c44, 3) as any as S.Schema<AgentRunEventList>,
-    errors: [BadRequest, Forbidden, NotFound],
+    errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
     serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4099,7 +4139,7 @@ export const listAgentRunEvents: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListAgentRunsError = BadRequest | Forbidden | ExaOpError;
+export type ListAgentRunsError = BadRequest | PaymentRequired | Forbidden | ExaOpError;
 /** List runs List Agent runs for your team, ordered from newest to oldest. */
 export const listAgentRuns: API.PaginatedOperationMethod<
   ListAgentRunsRequest,
@@ -4111,7 +4151,7 @@ export const listAgentRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(1440, __c45, 0) as any as S.Schema<ListAgentRunsRequest>,
     output: __S(1442, __c45, 2) as any as S.Schema<AgentRunList>,
-    errors: [BadRequest, Forbidden],
+    errors: [BadRequest, PaymentRequired, Forbidden],
     serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4408,7 +4448,7 @@ export const listWebsetsItems: API.PaginatedOperationMethod<
 ) as any;
 
 export type PreviewWebsetError = UnprocessableEntity | ExaOpError;
-/** Preview a webset Returns how a search query will be interpreted before you create a Webset, including the detected entity, generated criteria, and suggested enrichments. */
+/** Preview a webset Returns how a search query will be interpreted before you create a Webset, including the detected entity and generated criteria. */
 export const previewWebset: API.OperationMethod<
   PreviewWebsetRequest,
   PreviewWebsetResponse,
@@ -4443,8 +4483,8 @@ export const search: API.OperationMethod<
   span: "Search",
 }));
 
-export type StopAgentRunError = BadRequest | Forbidden | NotFound | ExaOpError;
-/** Stop a run Complete a running Agent run early, returning the results gathered so far. You are billed for usage accrued before the stop. Currently supported only for `ultra` effort runs. If the run has already reached a terminal status, the API returns the existing run. */
+export type StopAgentRunError = BadRequest | PaymentRequired | Forbidden | NotFound | ExaOpError;
+/** Stop a run Complete a running Agent run early, returning the results gathered so far. You are billed for usage accrued before the stop. Supported for `high`, `xhigh`, and `ultra` effort runs. If the run has already reached a terminal status, the API returns the existing run. */
 export const stopAgentRun: API.OperationMethod<
   StopAgentRunRequest,
   AgentRun,
@@ -4453,7 +4493,7 @@ export const stopAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<StopAgentRunRequest>,
   output: __S(2381, __c74, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -6442,6 +6482,16 @@ function __c78(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          total: S.Number,
+          agentCompute: S.Number,
+          search: S.Number,
+          emails: S.Number,
+          phoneNumbers: S.Number,
+        }),
+      ).annotate({ identifier: "WebsetSearchCostDollars" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           object: S.String,
           websetId: S.String,
@@ -6456,6 +6506,7 @@ function __c78(j: number): any {
           scope: __S(2502, __c78, 6),
           progress: __S(2503, __c78, 7),
           recall: S.NullOr(__S(2506, __c78, 10)),
+          costDollars: S.optional(__S(2507, __c78, 11)),
           metadata: S.optional(__S(2272, __c71, 0)),
           canceledAt: S.NullOr(S.String),
           canceledReason: S.NullOr(S.String),
@@ -6578,7 +6629,7 @@ function __c84(j: number): any {
 function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2507, __c78, 11));
+      return S.Array(__S(2508, __c78, 12));
     case 1:
       return S.Array(__S(2464, __c77, 0));
   }

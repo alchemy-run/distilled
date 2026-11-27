@@ -85,10 +85,10 @@ export class NotFound
 
 /** The request for HubService.AcceptHubSpoke. */
 export interface AcceptHubSpokeRequest {
-  /** Required. The URI of the spoke to accept into the hub. */
-  spokeUri?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The URI of the spoke to accept into the hub. */
+  spokeUri?: string | undefined;
 }
 export interface AcceptSpokeProjectsLocationsGlobalHubsRequest extends AcceptHubSpokeRequest {
   /** Required. The name of the hub into which to accept the spoke. */
@@ -100,32 +100,32 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface GoogleRpcStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
 }
 /** The request for HubService.AcceptSpokeUpdate. */
 export interface AcceptSpokeUpdateRequest {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The etag of the spoke to accept update. */
   spokeEtag?: string | undefined;
   /** Required. The URI of the spoke to accept update. */
   spokeUri?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface AcceptSpokeUpdateProjectsLocationsGlobalHubsRequest extends AcceptSpokeUpdateRequest {
   /** Required. The name of the hub to accept spoke update. */
@@ -147,14 +147,14 @@ export type CheckConsumerConfigRequestRequestedIpVersionEnum =
   | "IPV6";
 /** Request for CheckConsumerConfig. */
 export interface CheckConsumerConfigRequest {
-  /** Required. Full resource name of the consumer network. Example: - projects/{project}/global/networks/{network}. */
-  consumerNetwork?: string | undefined;
   /** The requested IP Version */
   requestedIpVersion?: CheckConsumerConfigRequestRequestedIpVersionEnum | (string & {}) | undefined;
-  /** Required. The service class identifier of the producer. */
-  serviceClass?: string | undefined;
+  /** Required. Full resource name of the consumer network. Example: - projects/{project}/global/networks/{network}. */
+  consumerNetwork?: string | undefined;
   /** The project number or ID where the PSC endpoint is to be created. */
   endpointProject?: string | undefined;
+  /** Required. The service class identifier of the producer. */
+  serviceClass?: string | undefined;
 }
 export interface CheckConsumerConfigProjectsLocationsRequest extends CheckConsumerConfigRequest {
   /** Required. The location resource path. Example: - projects/{project}/locations/{location} */
@@ -182,97 +182,112 @@ export type CreateProjectsLocationsAutomatedDnsRecordsInsertModeEnum =
   | "INSERT_MODE_UNSPECIFIED"
   | "FAIL_IF_EXISTS"
   | "OVERWRITE";
-export type StringList = Array<string>;
-/** Defines the configuration of a DNS record. */
-export interface Config {
-  /** Required. Number of seconds that this DNS record can be cached by resolvers. */
-  ttl?: string | undefined;
-  /** Required. The list of resource record data strings. The content and format of these strings depend on the AutomatedDnsRecord.type. For many common record types, this list may contain multiple strings. As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. Examples: A record: ["192.0.2.1"] or ["192.0.2.1", "192.0.2.2"] TXT record: ["This is a text record"] CNAME record: ["target.example.com."] AAAA record: ["::1"] or ["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "2001:0db8:85a3:0000:0000:8a2e:0370:7335"] */
-  rrdatas?: StringList | undefined;
-}
-export type AutomatedDnsRecordStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROGRAMMED"
-  | "FAILED_DEPROGRAMMING"
-  | "CREATING"
-  | "DELETING";
-export type StringMap = { [key: string]: string | undefined };
 export type AutomatedDnsRecordRecordTypeEnum =
   | "RECORD_TYPE_UNSPECIFIED"
   | "A"
   | "AAAA"
   | "TXT"
   | "CNAME";
+export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
+/** Defines the configuration of a DNS record. */
+export interface Config {
+  /** Required. The list of resource record data strings. The content and format of these strings depend on the AutomatedDnsRecord.type. For many common record types, this list may contain multiple strings. As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. Examples: A record: ["192.0.2.1"] or ["192.0.2.1", "192.0.2.2"] TXT record: ["This is a text record"] CNAME record: ["target.example.com."] AAAA record: ["::1"] or ["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "2001:0db8:85a3:0000:0000:8a2e:0370:7335"] */
+  rrdatas?: StringList | undefined;
+  /** Required. Number of seconds that this DNS record can be cached by resolvers. */
+  ttl?: string | undefined;
+}
 export type AutomatedDnsRecordCreationModeEnum =
   | "CREATION_MODE_UNSPECIFIED"
   | "CONSUMER_API"
   | "SERVICE_CONNECTION_MAP";
+export type AutomatedDnsRecordStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROGRAMMED"
+  | "FAILED_DEPROGRAMMING"
+  | "CREATING"
+  | "DELETING";
 /** Represents a DNS record managed by the AutomatedDnsRecord API. */
 export interface AutomatedDnsRecord {
-  /** Output only. DnsZone is the DNS zone managed by automation. Format: projects/{project}/managedZones/{managedZone} */
-  dnsZone?: string | undefined;
-  /** Required. Immutable. The hostname for the DNS record. This value will be prepended to the `dns_suffix` to create the full domain name (FQDN) for the record. For example, if `hostname` is "corp.db" and `dns_suffix` is "example.com.", the resulting record will be "corp.db.example.com.". Should not include a trailing dot. */
-  hostname?: string | undefined;
-  /** Required. Immutable. The configuration settings used to create this DNS record. These settings define the desired state of the record as specified by the producer. */
-  originalConfig?: Config | undefined;
-  /** Output only. The current operational state of this AutomatedDnsRecord as managed by Service Connectivity Automation. */
-  state?: AutomatedDnsRecordStateEnum | (string & {}) | undefined;
+  /** Output only. A human-readable message providing more context about the current state, such as an error description if the state is `FAILED_DEPROGRAMMING`. */
+  stateDetails?: string | undefined;
   /** Output only. The timestamp of when the record was updated. */
   updateTime?: string | undefined;
+  /** Immutable. Identifier. The name of an AutomatedDnsRecord. Format: projects/{project}/locations/{location}/automatedDnsRecords/{automated_dns_record} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Required. Immutable. The identifier of a supported record type. */
+  recordType?: AutomatedDnsRecordRecordTypeEnum | (string & {}) | undefined;
+  /** Output only. The timestamp of when the record was created. */
+  createTime?: string | undefined;
+  /** Required. Immutable. The full resource path of the consumer network this AutomatedDnsRecord is visible to. Example: "projects/{projectNumOrId}/global/networks/{networkName}". */
+  consumerNetwork?: string | undefined;
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
+  /** Output only. DnsZone is the DNS zone managed by automation. Format: projects/{project}/managedZones/{managedZone} */
+  dnsZone?: string | undefined;
+  /** Output only. The current settings for this record as identified by (`hostname`, `dns_suffix`, `type`) in Cloud DNS. The `current_config` field reflects the actual settings of the DNS record in Cloud DNS based on the `hostname`, `dns_suffix`, and `type`. * **Absence:** If `current_config` is unset, it means a DNS record with the specified `hostname`, `dns_suffix`, and `type` does not currently exist in Cloud DNS. This could be because the `AutomatedDnsRecord` has never been successfully programmed, has been deleted, or there was an error during provisioning. * **Presence:** If `current_config` is present: * It can be different from the `original_config`. This can happen due to several reasons: * Out-of-band changes: A consumer might have directly modified the DNS record in Cloud DNS. * `OVERWRITE` operations from other `AutomatedDnsRecord` resources: Another `AutomatedDnsRecord` with the same identifying attributes (`hostname`, `dns_suffix`, `type`) but a different configuration might have overwritten the record using `insert_mode: OVERWRITE`. Therefore, the presence of `current_config` indicates that a corresponding DNS record exists, but its values (TTL and RRData) might not always align with the `original_config` of the AutomatedDnsRecord. */
+  currentConfig?: Config | undefined;
+  /** Required. Immutable. The service class identifier which authorizes this AutomatedDnsRecord. Any API calls targeting this AutomatedDnsRecord must have `networkconnectivity.serviceClasses.use` IAM permission for the provided service class. */
+  serviceClass?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** A human-readable description of the record. */
+  description?: string | undefined;
   /** Output only. The FQDN created by combining the hostname and dns suffix. Should include a trailing dot. */
   fqdn?: string | undefined;
   /** Required. Immutable. The dns suffix for this record to use in longest-suffix matching. Requires a trailing dot. Example: "example.com." */
   dnsSuffix?: string | undefined;
-  /** Immutable. Identifier. The name of an AutomatedDnsRecord. Format: projects/{project}/locations/{location}/automatedDnsRecords/{automated_dns_record} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name?: string | undefined;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The timestamp of when the record was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The service class identifier which authorizes this AutomatedDnsRecord. Any API calls targeting this AutomatedDnsRecord must have `networkconnectivity.serviceClasses.use` IAM permission for the provided service class. */
-  serviceClass?: string | undefined;
-  /** Output only. A human-readable message providing more context about the current state, such as an error description if the state is `FAILED_DEPROGRAMMING`. */
-  stateDetails?: string | undefined;
-  /** Required. Immutable. The full resource path of the consumer network this AutomatedDnsRecord is visible to. Example: "projects/{projectNumOrId}/global/networks/{networkName}". */
-  consumerNetwork?: string | undefined;
-  /** A human-readable description of the record. */
-  description?: string | undefined;
-  /** Required. Immutable. The identifier of a supported record type. */
-  recordType?: AutomatedDnsRecordRecordTypeEnum | (string & {}) | undefined;
   /** Required. Immutable. The creation mode of the AutomatedDnsRecord. This field is immutable. */
   creationMode?: AutomatedDnsRecordCreationModeEnum | (string & {}) | undefined;
-  /** Output only. The current settings for this record as identified by (`hostname`, `dns_suffix`, `type`) in Cloud DNS. The `current_config` field reflects the actual settings of the DNS record in Cloud DNS based on the `hostname`, `dns_suffix`, and `type`. * **Absence:** If `current_config` is unset, it means a DNS record with the specified `hostname`, `dns_suffix`, and `type` does not currently exist in Cloud DNS. This could be because the `AutomatedDnsRecord` has never been successfully programmed, has been deleted, or there was an error during provisioning. * **Presence:** If `current_config` is present: * It can be different from the `original_config`. This can happen due to several reasons: * Out-of-band changes: A consumer might have directly modified the DNS record in Cloud DNS. * `OVERWRITE` operations from other `AutomatedDnsRecord` resources: Another `AutomatedDnsRecord` with the same identifying attributes (`hostname`, `dns_suffix`, `type`) but a different configuration might have overwritten the record using `insert_mode: OVERWRITE`. Therefore, the presence of `current_config` indicates that a corresponding DNS record exists, but its values (TTL and RRData) might not always align with the `original_config` of the AutomatedDnsRecord. */
-  currentConfig?: Config | undefined;
+  /** Required. Immutable. The configuration settings used to create this DNS record. These settings define the desired state of the record as specified by the producer. */
+  originalConfig?: Config | undefined;
+  /** Output only. The current operational state of this AutomatedDnsRecord as managed by Service Connectivity Automation. */
+  state?: AutomatedDnsRecordStateEnum | (string & {}) | undefined;
+  /** Required. Immutable. The hostname for the DNS record. This value will be prepended to the `dns_suffix` to create the full domain name (FQDN) for the record. For example, if `hostname` is "corp.db" and `dns_suffix` is "example.com.", the resulting record will be "corp.db.example.com.". Should not include a trailing dot. */
+  hostname?: string | undefined;
 }
 export interface CreateProjectsLocationsAutomatedDnsRecordsRequest extends AutomatedDnsRecord {
-  /** Required. The parent resource's name of the AutomatedDnsRecord. ex. projects/123/locations/us-east1 */
-  parent: string;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/automatedDnsRecords/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
-  automatedDnsRecordId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/automatedDnsRecords/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
+  automatedDnsRecordId?: string | undefined;
   /** Optional. The insert mode when creating AutomatedDnsRecord. */
   insertMode?: CreateProjectsLocationsAutomatedDnsRecordsInsertModeEnum | (string & {}) | undefined;
+  /** Required. The parent resource's name of the AutomatedDnsRecord. ex. projects/123/locations/us-east1 */
+  parent: string;
 }
-export type SpokeStateReasonCountStateReasonCodeEnum =
-  | "CODE_UNSPECIFIED"
-  | "PENDING_REVIEW"
-  | "REJECTED"
-  | "PAUSED"
-  | "FAILED"
-  | "UPDATE_PENDING_REVIEW"
-  | "UPDATE_REJECTED"
-  | "UPDATE_FAILED";
-/** The number of spokes in the hub that are inactive for this reason. */
-export interface SpokeStateReasonCount {
-  /** Output only. The reason that a spoke is inactive. */
-  stateReasonCode?: SpokeStateReasonCountStateReasonCodeEnum | (string & {}) | undefined;
-  /** Output only. The total number of spokes that are inactive for a particular reason and associated with a given hub. */
+export type HubPolicyModeEnum = "POLICY_MODE_UNSPECIFIED" | "PRESET";
+/** RoutingVPC contains information about the VPC networks associated with the spokes of a Network Connectivity Center hub. */
+export interface RoutingVPC {
+  /** The URI of the VPC network. */
+  uri?: string | undefined;
+  /** Output only. If true, indicates that this VPC network is currently associated with spokes that use the data transfer feature (spokes where the site_to_site_data_transfer field is set to true). If you create new spokes that use data transfer, they must be associated with this VPC network. At most, one VPC network will have this field set to true. */
+  requiredForNewSiteToSiteDataTransferSpokes?: boolean | undefined;
+}
+export type RoutingVPCList = Array<RoutingVPC>;
+/** Configuration for more granular control of Private Service Connect connection propagation. This allows enabling or disabling connection propagation for specific types of Private Service Connect endpoints. */
+export interface ExportPscConfig {
+  /** Optional. Controls whether Private Service Connect endpoints for global Google APIs should be propagated. The default value is false. */
+  globalGoogleApis?: boolean | undefined;
+  /** Optional. Controls whether Private Service Connect endpoints for regional ILBs and regional Google APIs should be propagated. Default value is true if export_psc is true. Otherwise, the default value is false. */
+  publishedServicesAndRegionalGoogleApis?: boolean | undefined;
+}
+export type SpokeTypeCountSpokeTypeEnum =
+  | "SPOKE_TYPE_UNSPECIFIED"
+  | "VPN_TUNNEL"
+  | "INTERCONNECT_ATTACHMENT"
+  | "ROUTER_APPLIANCE"
+  | "VPC_NETWORK"
+  | "GATEWAY"
+  | "PRODUCER_VPC_NETWORK";
+/** The number of spokes of a given type that are associated with a specific hub. The type indicates what kind of resource is associated with the spoke. */
+export interface SpokeTypeCount {
+  /** Output only. The type of the spokes. */
+  spokeType?: SpokeTypeCountSpokeTypeEnum | (string & {}) | undefined;
+  /** Output only. The total number of spokes of this type that are associated with the hub. */
   count?: string | undefined;
 }
-export type SpokeStateReasonCountList = Array<SpokeStateReasonCount>;
+export type SpokeTypeCountList = Array<SpokeTypeCount>;
 export type SpokeStateCountStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -292,52 +307,37 @@ export interface SpokeStateCount {
   count?: string | undefined;
 }
 export type SpokeStateCountList = Array<SpokeStateCount>;
-export type SpokeTypeCountSpokeTypeEnum =
-  | "SPOKE_TYPE_UNSPECIFIED"
-  | "VPN_TUNNEL"
-  | "INTERCONNECT_ATTACHMENT"
-  | "ROUTER_APPLIANCE"
-  | "VPC_NETWORK"
-  | "GATEWAY"
-  | "PRODUCER_VPC_NETWORK";
-/** The number of spokes of a given type that are associated with a specific hub. The type indicates what kind of resource is associated with the spoke. */
-export interface SpokeTypeCount {
-  /** Output only. The total number of spokes of this type that are associated with the hub. */
+export type SpokeStateReasonCountStateReasonCodeEnum =
+  | "CODE_UNSPECIFIED"
+  | "PENDING_REVIEW"
+  | "REJECTED"
+  | "PAUSED"
+  | "FAILED"
+  | "UPDATE_PENDING_REVIEW"
+  | "UPDATE_REJECTED"
+  | "UPDATE_FAILED";
+/** The number of spokes in the hub that are inactive for this reason. */
+export interface SpokeStateReasonCount {
+  /** Output only. The total number of spokes that are inactive for a particular reason and associated with a given hub. */
   count?: string | undefined;
-  /** Output only. The type of the spokes. */
-  spokeType?: SpokeTypeCountSpokeTypeEnum | (string & {}) | undefined;
+  /** Output only. The reason that a spoke is inactive. */
+  stateReasonCode?: SpokeStateReasonCountStateReasonCodeEnum | (string & {}) | undefined;
 }
-export type SpokeTypeCountList = Array<SpokeTypeCount>;
+export type SpokeStateReasonCountList = Array<SpokeStateReasonCount>;
 /** Summarizes information about the spokes associated with a hub. The summary includes a count of spokes according to type and according to state. If any spokes are inactive, the summary also lists the reasons they are inactive, including a count for each reason. */
 export interface SpokeSummary {
-  /** Output only. Counts the number of spokes that are inactive for each possible reason and associated with a given hub. */
-  spokeStateReasonCounts?: SpokeStateReasonCountList | undefined;
-  /** Output only. Counts the number of spokes that are in each state and associated with a given hub. */
-  spokeStateCounts?: SpokeStateCountList | undefined;
   /** Output only. Counts the number of spokes of each type that are associated with a specific hub. */
   spokeTypeCounts?: SpokeTypeCountList | undefined;
+  /** Output only. Counts the number of spokes that are in each state and associated with a given hub. */
+  spokeStateCounts?: SpokeStateCountList | undefined;
+  /** Output only. Counts the number of spokes that are inactive for each possible reason and associated with a given hub. */
+  spokeStateReasonCounts?: SpokeStateReasonCountList | undefined;
 }
-/** RoutingVPC contains information about the VPC networks associated with the spokes of a Network Connectivity Center hub. */
-export interface RoutingVPC {
-  /** The URI of the VPC network. */
-  uri?: string | undefined;
-  /** Output only. If true, indicates that this VPC network is currently associated with spokes that use the data transfer feature (spokes where the site_to_site_data_transfer field is set to true). If you create new spokes that use data transfer, they must be associated with this VPC network. At most, one VPC network will have this field set to true. */
-  requiredForNewSiteToSiteDataTransferSpokes?: boolean | undefined;
-}
-export type RoutingVPCList = Array<RoutingVPC>;
 export type HubPresetTopologyEnum =
   | "PRESET_TOPOLOGY_UNSPECIFIED"
   | "MESH"
   | "STAR"
   | "HYBRID_INSPECTION";
-/** Configuration for more granular control of Private Service Connect connection propagation. This allows enabling or disabling connection propagation for specific types of Private Service Connect endpoints. */
-export interface ExportPscConfig {
-  /** Optional. Controls whether Private Service Connect endpoints for regional ILBs and regional Google APIs should be propagated. Default value is true if export_psc is true. Otherwise, the default value is false. */
-  publishedServicesAndRegionalGoogleApis?: boolean | undefined;
-  /** Optional. Controls whether Private Service Connect endpoints for global Google APIs should be propagated. The default value is false. */
-  globalGoogleApis?: boolean | undefined;
-}
-export type HubPolicyModeEnum = "POLICY_MODE_UNSPECIFIED" | "PRESET";
 export type HubStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -351,59 +351,42 @@ export type HubStateEnum =
   | "FAILED";
 /** A Network Connectivity Center hub is a global management resource to which you attach spokes. A single hub can contain spokes from multiple regions. However, if any of a hub's spokes use the site-to-site data transfer feature, the resources associated with those spokes must all be in the same VPC network. Spokes that do not use site-to-site data transfer can be associated with any VPC network in your project. */
 export interface Hub {
-  /** Output only. A summary of the spokes associated with a hub. The summary includes a count of spokes according to type and according to state. If any spokes are inactive, the summary also lists the reasons they are inactive, including a count for each reason. */
-  spokeSummary?: SpokeSummary | undefined;
-  /** Output only. The time the hub was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Whether Private Service Connect connection propagation is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false. */
-  exportPsc?: boolean | undefined;
-  /** Output only. The VPC networks associated with this hub's spokes. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub. */
-  routingVpcs?: RoutingVPCList | undefined;
-  /** Output only. The route tables that belong to this hub. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` This field is read-only. Network Connectivity Center automatically populates it based on the route tables nested under the hub. */
-  routeTables?: StringList | undefined;
-  /** Optional. The topology implemented in this hub. Currently, this field is only used when policy_mode = PRESET. The available preset topologies are MESH and STAR. If preset_topology is unspecified and policy_mode = PRESET, the preset_topology defaults to MESH. When policy_mode = CUSTOM, the preset_topology is set to PRESET_TOPOLOGY_UNSPECIFIED. */
-  presetTopology?: HubPresetTopologyEnum | (string & {}) | undefined;
-  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
-  labels?: StringMap | undefined;
-  /** Optional. Config for more granular control of Private Service Connect transitivity. */
-  exportPscConfig?: ExportPscConfig | undefined;
-  /** Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policy_mode defaults to PRESET. */
-  policyMode?: HubPolicyModeEnum | (string & {}) | undefined;
-  /** Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
-  name?: string | undefined;
-  /** Output only. The current lifecycle state of this hub. */
-  state?: HubStateEnum | (string & {}) | undefined;
   /** Output only. The time the hub was created. */
   createTime?: string | undefined;
-  /** Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id. */
-  uniqueId?: string | undefined;
+  /** Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policy_mode defaults to PRESET. */
+  policyMode?: HubPolicyModeEnum | (string & {}) | undefined;
+  /** Output only. The route tables that belong to this hub. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` This field is read-only. Network Connectivity Center automatically populates it based on the route tables nested under the hub. */
+  routeTables?: StringList | undefined;
+  /** Output only. The VPC networks associated with this hub's spokes. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub. */
+  routingVpcs?: RoutingVPCList | undefined;
+  /** Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
+  name?: string | undefined;
+  /** Output only. The time the hub was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Config for more granular control of Private Service Connect transitivity. */
+  exportPscConfig?: ExportPscConfig | undefined;
+  /** Output only. A summary of the spokes associated with a hub. The summary includes a count of spokes according to type and according to state. If any spokes are inactive, the summary also lists the reasons they are inactive, including a count for each reason. */
+  spokeSummary?: SpokeSummary | undefined;
   /** Optional. An optional description of the hub. */
   description?: string | undefined;
+  /** Optional. The topology implemented in this hub. Currently, this field is only used when policy_mode = PRESET. The available preset topologies are MESH and STAR. If preset_topology is unspecified and policy_mode = PRESET, the preset_topology defaults to MESH. When policy_mode = CUSTOM, the preset_topology is set to PRESET_TOPOLOGY_UNSPECIFIED. */
+  presetTopology?: HubPresetTopologyEnum | (string & {}) | undefined;
+  /** Output only. The current lifecycle state of this hub. */
+  state?: HubStateEnum | (string & {}) | undefined;
+  /** Optional. Whether Private Service Connect connection propagation is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false. */
+  exportPsc?: boolean | undefined;
+  /** Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsGlobalHubsRequest extends Hub {
   /** Required. The parent resource. */
   parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. A unique identifier for the hub. */
   hubId?: string | undefined;
-}
-export type FilterProtocolVersionEnum = "PROTOCOL_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
-/** Filter matches L4 traffic. */
-export interface Filter {
-  /** Optional. The source IP range of outgoing packets that this policy-based route applies to. Default is "0.0.0.0/0" if protocol version is IPv4 and "::/0" if protocol version is IPv6. */
-  srcRange?: string | undefined;
-  /** Optional. The destination IP range of outgoing packets that this policy-based route applies to. Default is "0.0.0.0/0" if protocol version is IPv4 and "::/0" if protocol version is IPv6. */
-  destRange?: string | undefined;
-  /** Required. Internet protocol versions this policy-based route applies to. IPV4 and IPV6 is supported. */
-  protocolVersion?: FilterProtocolVersionEnum | (string & {}) | undefined;
-  /** Optional. The IP protocol that this policy-based route applies to. Valid values are 'TCP', 'UDP', and 'ALL'. Default is 'ALL'. */
-  ipProtocol?: string | undefined;
-}
-/** VM instances that this policy-based route applies to. */
-export interface VirtualMachine {
-  /** Optional. A list of VM instance tags that this policy-based route applies to. VM instances that have ANY of tags specified here installs this PBR. */
-  tags?: StringList | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type PolicyBasedRouteNextHopOtherRoutesEnum = "OTHER_ROUTES_UNSPECIFIED" | "DEFAULT_ROUTING";
 /** InterconnectAttachment that this route applies to. */
@@ -417,75 +400,96 @@ export type WarningsCodeEnum =
   | "RESOURCE_BEING_MODIFIED";
 /** Informational warning message. */
 export interface Warnings {
+  /** Output only. Metadata about this warning in key: value format. The key should provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement. */
+  data?: StringMap | undefined;
   /** Output only. A human-readable description of the warning code. */
   warningMessage?: string | undefined;
   /** Output only. A warning code, if applicable. */
   code?: WarningsCodeEnum | (string & {}) | undefined;
-  /** Output only. Metadata about this warning in key: value format. The key should provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement. */
-  data?: StringMap | undefined;
 }
 export type WarningsList = Array<Warnings>;
+export type FilterProtocolVersionEnum = "PROTOCOL_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
+/** Filter matches L4 traffic. */
+export interface Filter {
+  /** Optional. The IP protocol that this policy-based route applies to. Valid values are 'TCP', 'UDP', and 'ALL'. Default is 'ALL'. */
+  ipProtocol?: string | undefined;
+  /** Optional. The source IP range of outgoing packets that this policy-based route applies to. Default is "0.0.0.0/0" if protocol version is IPv4 and "::/0" if protocol version is IPv6. */
+  srcRange?: string | undefined;
+  /** Required. Internet protocol versions this policy-based route applies to. IPV4 and IPV6 is supported. */
+  protocolVersion?: FilterProtocolVersionEnum | (string & {}) | undefined;
+  /** Optional. The destination IP range of outgoing packets that this policy-based route applies to. Default is "0.0.0.0/0" if protocol version is IPv4 and "::/0" if protocol version is IPv6. */
+  destRange?: string | undefined;
+}
+/** VM instances that this policy-based route applies to. */
+export interface VirtualMachine {
+  /** Optional. A list of VM instance tags that this policy-based route applies to. VM instances that have ANY of tags specified here installs this PBR. */
+  tags?: StringList | undefined;
+}
 /** Policy-based routes route L4 network traffic based on not just destination IP address, but also source IP address, protocol, and more. If a policy-based route conflicts with other types of routes, the policy-based route always takes precedence. */
 export interface PolicyBasedRoute {
   /** Output only. Server-defined fully-qualified URL for this resource. */
   selfLink?: string | undefined;
-  /** Output only. Time when the policy-based route was created. */
-  createTime?: string | undefined;
   /** User-defined labels. */
   labels?: StringMap | undefined;
-  /** Required. The filter to match L4 traffic. */
-  filter?: Filter | undefined;
-  /** Optional. VM instances that this policy-based route applies to. */
-  virtualMachine?: VirtualMachine | undefined;
+  /** Output only. Time when the policy-based route was created. */
+  createTime?: string | undefined;
   /** Optional. Other routes that will be referenced to determine the next hop of the packet. */
   nextHopOtherRoutes?: PolicyBasedRouteNextHopOtherRoutesEnum | (string & {}) | undefined;
   /** Optional. The IP address of a global-access-enabled L4 ILB that is the next hop for matching packets. For this version, only nextHopIlbIp is supported. */
   nextHopIlbIp?: string | undefined;
-  /** Output only. Type of this resource. Always networkconnectivity#policyBasedRoute for policy-based Route resources. */
-  kind?: string | undefined;
-  /** Required. Fully-qualified URL of the network that this route applies to, for example: projects/my-project/global/networks/my-network. */
-  network?: string | undefined;
   /** Optional. The interconnect attachments that this policy-based route applies to. */
   interconnectAttachment?: InterconnectAttachment | undefined;
-  /** Optional. The priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. */
-  priority?: number | undefined;
   /** Output only. If potential misconfigurations are detected for this route, this field will be populated with warning messages. */
   warnings?: WarningsList | undefined;
-  /** Immutable. Identifier. A unique name of the resource in the form of `projects/{project_number}/locations/global/PolicyBasedRoutes/{policy_based_route_id}` */
-  name?: string | undefined;
+  /** Required. Fully-qualified URL of the network that this route applies to, for example: projects/my-project/global/networks/my-network. */
+  network?: string | undefined;
   /** Output only. Time when the policy-based route was updated. */
   updateTime?: string | undefined;
+  /** Required. The filter to match L4 traffic. */
+  filter?: Filter | undefined;
+  /** Output only. Type of this resource. Always networkconnectivity#policyBasedRoute for policy-based Route resources. */
+  kind?: string | undefined;
+  /** Optional. The priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. */
+  priority?: number | undefined;
   /** Optional. An optional description of this resource. Provide this field when you create the resource. */
   description?: string | undefined;
+  /** Optional. VM instances that this policy-based route applies to. */
+  virtualMachine?: VirtualMachine | undefined;
+  /** Immutable. Identifier. A unique name of the resource in the form of `projects/{project_number}/locations/global/PolicyBasedRoutes/{policy_based_route_id}` */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsGlobalPolicyBasedRoutesRequest extends PolicyBasedRoute {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Unique id for the policy-based route to create. Provided by the client when the resource is created. The name must comply with https://google.aip.dev/122#resource-id-segments. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([a-z0-9-]*[a-z0-9])?. The first character must be a lowercase letter, and all following characters (except for the last character) must be a dash, lowercase letter, or digit. The last character must be a lowercase letter or digit. */
   policyBasedRouteId?: string | undefined;
   /** Required. The parent resource's name of the PolicyBasedRoute. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
-export type InternalRangeOverlapsItemEnum =
-  | "OVERLAP_UNSPECIFIED"
-  | "OVERLAP_ROUTE_RANGE"
-  | "OVERLAP_EXISTING_SUBNET_RANGE";
-export type InternalRangeOverlapsItemEnumList = Array<
-  InternalRangeOverlapsItemEnum | (string & {})
->;
+export type InternalRangeUsageEnum =
+  | "USAGE_UNSPECIFIED"
+  | "FOR_VPC"
+  | "EXTERNAL_TO_VPC"
+  | "FOR_MIGRATION";
+export type InternalRangePurposeEnum = "PURPOSE_UNSPECIFIED" | "VPC_SUBNET" | "INTERNAL_ADDRESS";
+export type InternalRangeRangeStatusEnum =
+  | "RANGE_STATUS_UNSPECIFIED"
+  | "ACTIVE"
+  | "OBSOLETE"
+  | "CREATING"
+  | "DELETING";
+/** Specification for migration with source and target resource names. */
+export interface Migration {
+  /** Immutable. Resource path as an URI of the source resource, for example a subnet. The project for the source resource should match the project for the InternalRange. An example: /projects/{project}/regions/{region}/subnetworks/{subnet} */
+  source?: string | undefined;
+  /** Immutable. Resource path of the target resource. The target project can be different, as in the cases when migrating to peer networks. For example: /projects/{project}/regions/{region}/subnetworks/{subnet} */
+  target?: string | undefined;
+}
 export type InternalRangePeeringEnum =
   | "PEERING_UNSPECIFIED"
   | "FOR_SELF"
   | "FOR_PEER"
   | "NOT_SHARED";
-/** Specification for migration with source and target resource names. */
-export interface Migration {
-  /** Immutable. Resource path of the target resource. The target project can be different, as in the cases when migrating to peer networks. For example: /projects/{project}/regions/{region}/subnetworks/{subnet} */
-  target?: string | undefined;
-  /** Immutable. Resource path as an URI of the source resource, for example a subnet. The project for the source resource should match the project for the InternalRange. An example: /projects/{project}/regions/{region}/subnetworks/{subnet} */
-  source?: string | undefined;
-}
-export type InternalRangePurposeEnum = "PURPOSE_UNSPECIFIED" | "VPC_SUBNET" | "INTERNAL_ADDRESS";
 export type AllocationOptionsAllocationStrategyEnum =
   | "ALLOCATION_STRATEGY_UNSPECIFIED"
   | "RANDOM"
@@ -494,62 +498,58 @@ export type AllocationOptionsAllocationStrategyEnum =
   | "FIRST_SMALLEST_FITTING";
 /** Range auto-allocation options, to be optionally used when CIDR block is not explicitly set. */
 export interface AllocationOptions {
-  /** Optional. Allocation strategy Not setting this field when the allocation is requested means an implementation defined strategy is used. */
-  allocationStrategy?: AllocationOptionsAllocationStrategyEnum | (string & {}) | undefined;
   /** Optional. This field must be set only when allocation_strategy is set to RANDOM_FIRST_N_AVAILABLE. The value should be the maximum expected parallelism of range creation requests issued to the same space of peered netwroks. */
   firstAvailableRangesLookupSize?: number | undefined;
+  /** Optional. Allocation strategy Not setting this field when the allocation is requested means an implementation defined strategy is used. */
+  allocationStrategy?: AllocationOptionsAllocationStrategyEnum | (string & {}) | undefined;
 }
-export type InternalRangeUsageEnum =
-  | "USAGE_UNSPECIFIED"
-  | "FOR_VPC"
-  | "EXTERNAL_TO_VPC"
-  | "FOR_MIGRATION";
-export type InternalRangeRangeStatusEnum =
-  | "RANGE_STATUS_UNSPECIFIED"
-  | "ACTIVE"
-  | "OBSOLETE"
-  | "CREATING"
-  | "DELETING";
+export type InternalRangeOverlapsItemEnum =
+  | "OVERLAP_UNSPECIFIED"
+  | "OVERLAP_ROUTE_RANGE"
+  | "OVERLAP_EXISTING_SUBNET_RANGE";
+export type InternalRangeOverlapsItemEnumList = Array<
+  InternalRangeOverlapsItemEnum | (string & {})
+>;
 /** The internal range resource for IPAM operations within a VPC network. Used to represent a private address range along with behavioral characteristics of that range (its usage and peering behavior). Networking resources can link to this range if they are created as belonging to it. */
 export interface InternalRange {
   /** Output only. Time when the internal range was updated. */
   updateTime?: string | undefined;
-  /** Optional. The IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
-  ipCidrRange?: string | undefined;
   /** Optional. Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] address space (for auto-mode networks, the "10.0.0.0/9" range is used instead of "10.0.0.0/8"). This can be used to target the search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. */
   targetCidrRange?: StringList | undefined;
-  /** Optional. An alternate to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
-  prefixLength?: number | undefined;
   /** Output only. The list of resources that refer to this internal range. Resources that use the internal range for their range allocation are referred to as users of the range. Other resources mark themselves as users while doing so by creating a reference to this internal range. Having a user, based on this reference, prevents deletion of the internal range referred to. Can be empty. */
   users?: StringList | undefined;
-  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
-  immutable?: boolean | undefined;
-  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
-  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
-  /** Optional. The type of peering set for this internal range. */
-  peering?: InternalRangePeeringEnum | (string & {}) | undefined;
-  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
-  migration?: Migration | undefined;
-  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
-  purpose?: InternalRangePurposeEnum | (string & {}) | undefined;
-  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
-  allocationOptions?: AllocationOptions | undefined;
-  /** Optional. The type of usage set for this InternalRange. */
-  usage?: InternalRangeUsageEnum | (string & {}) | undefined;
-  /** Output only. Time when the internal range was created. */
-  createTime?: string | undefined;
-  /** Output only. Status of the Internal Range. */
-  rangeStatus?: InternalRangeRangeStatusEnum | (string & {}) | undefined;
-  /** Immutable. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
-  network?: string | undefined;
-  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name?: string | undefined;
-  /** Optional. A description of this resource. */
-  description?: string | undefined;
-  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
-  excludeCidrRanges?: StringList | undefined;
   /** User-defined labels. */
   labels?: StringMap | undefined;
+  /** Output only. Time when the internal range was created. */
+  createTime?: string | undefined;
+  /** Immutable. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
+  network?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Optional. The type of usage set for this InternalRange. */
+  usage?: InternalRangeUsageEnum | (string & {}) | undefined;
+  /** Optional. An alternate to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
+  prefixLength?: number | undefined;
+  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
+  purpose?: InternalRangePurposeEnum | (string & {}) | undefined;
+  /** Output only. Status of the Internal Range. */
+  rangeStatus?: InternalRangeRangeStatusEnum | (string & {}) | undefined;
+  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
+  migration?: Migration | undefined;
+  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
+  immutable?: boolean | undefined;
+  /** Optional. The type of peering set for this internal range. */
+  peering?: InternalRangePeeringEnum | (string & {}) | undefined;
+  /** Optional. The IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
+  ipCidrRange?: string | undefined;
+  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
+  allocationOptions?: AllocationOptions | undefined;
+  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
+  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
+  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
+  excludeCidrRanges?: StringList | undefined;
 }
 export interface CreateProjectsLocationsInternalRangesRequest extends InternalRange {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -568,10 +568,10 @@ export type StateMetadataStateEnum =
   | "SUSPENDED";
 /** The state and activation time details of the resource state. */
 export interface StateMetadata {
-  /** Output only. The state of the resource. */
-  state?: StateMetadataStateEnum | (string & {}) | undefined;
   /** Output only. Accompanies only the transient states, which include `ADDING`, `DELETING`, and `SUSPENDING`, to denote the time until which the transient state of the resource will be effective. For instance, if the state is `ADDING`, this field shows the time when the resource state transitions to `ACTIVE`. */
   effectiveTime?: string | undefined;
+  /** Output only. The state of the resource. */
+  state?: StateMetadataStateEnum | (string & {}) | undefined;
 }
 export type StateMetadataList = Array<StateMetadata>;
 /** The timeline of the pending states for a resource. */
@@ -582,179 +582,156 @@ export interface StateTimeline {
 export type StateTimelineMap = { [key: string]: StateTimeline | undefined };
 /** The `MulticloudDataTransferConfig` resource. It lists the services that you configure for Data Transfer Essentials billing and metering. */
 export interface MulticloudDataTransferConfig {
-  /** Output only. The Google-generated unique ID for the `MulticloudDataTransferConfig` resource. This value is unique across all `MulticloudDataTransferConfig` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
-  uid?: string | undefined;
-  /** Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
-  name?: string | undefined;
-  /** Output only. Time when the `MulticloudDataTransferConfig` resource was created. */
-  createTime?: string | undefined;
-  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. A description of this resource. */
-  description?: string | undefined;
-  /** Output only. Time when the `MulticloudDataTransferConfig` resource was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Maps services to their current or planned states. Service names are keys, and the associated values describe the state of the service. If a state change is expected, the value is either `ADDING` or `DELETING`, depending on the actions taken. Sample output: "services": { "big-query": { "states": [ { "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] }, "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } } */
-  services?: StateTimelineMap | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
   /** Output only. The number of `Destination` resources configured for the `MulticloudDataTransferConfig` resource. */
   destinationsCount?: number | undefined;
   /** Output only. The number of `Destination` resources in use with the `MulticloudDataTransferConfig` resource. */
   destinationsActiveCount?: number | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The Google-generated unique ID for the `MulticloudDataTransferConfig` resource. This value is unique across all `MulticloudDataTransferConfig` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
+  uid?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was created. */
+  createTime?: string | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Maps services to their current or planned states. Service names are keys, and the associated values describe the state of the service. If a state change is expected, the value is either `ADDING` or `DELETING`, depending on the actions taken. Sample output: "services": { "big-query": { "states": [ { "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] }, "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } } */
+  services?: StateTimelineMap | undefined;
+  /** Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsMulticloudDataTransferConfigsRequest extends MulticloudDataTransferConfig {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
   /** Required. The ID to use for the `MulticloudDataTransferConfig` resource, which becomes the final component of the `MulticloudDataTransferConfig` resource name. */
   multicloudDataTransferConfigId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
 }
 export type DestinationEndpointStateEnum = "STATE_UNSPECIFIED" | "VALID" | "INVALID";
 /** The metadata for a `DestinationEndpoint` resource. */
 export interface DestinationEndpoint {
   /** Output only. The state of the `DestinationEndpoint` resource. */
   state?: DestinationEndpointStateEnum | (string & {}) | undefined;
-  /** Required. The CSP of the remote IP prefix. */
-  csp?: string | undefined;
   /** Required. The ASN of the remote IP prefix. */
   asn?: string | undefined;
   /** Output only. Time when the `DestinationEndpoint` resource was updated. */
   updateTime?: string | undefined;
+  /** Required. The CSP of the remote IP prefix. */
+  csp?: string | undefined;
 }
 export type DestinationEndpointList = Array<DestinationEndpoint>;
 /** The `Destination` resource. It specifies the IP prefix and the associated autonomous system numbers (ASN) that you want to include in a `MulticloudDataTransferConfig` resource. */
 export interface Destination {
-  /** Required. Unordered list. The list of `DestinationEndpoint` resources configured for the IP prefix. */
-  endpoints?: DestinationEndpointList | undefined;
-  /** Optional. A description of this resource. */
-  description?: string | undefined;
-  /** Output only. The timeline of the expected `Destination` states or the current rest state. If a state change is expected, the value is `ADDING`, `DELETING` or `SUSPENDING`, depending on the action specified. Example: "state_timeline": { "states": [ { // The time when the `Destination` resource will be activated. "effectiveTime": "2024-12-01T08:00:00Z", "state": "ADDING" }, { // The time when the `Destination` resource will be suspended. "effectiveTime": "2024-12-01T20:00:00Z", "state": "SUSPENDING" } ] } */
-  stateTimeline?: StateTimeline | undefined;
-  /** Output only. Time when the `Destination` resource was updated. */
-  updateTime?: string | undefined;
   /** Required. Immutable. The IP prefix that represents your workload on another CSP. */
   ipPrefix?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
   /** Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
   name?: string | undefined;
-  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
   /** Output only. Time when the `Destination` resource was created. */
   createTime?: string | undefined;
+  /** Required. Unordered list. The list of `DestinationEndpoint` resources configured for the IP prefix. */
+  endpoints?: DestinationEndpointList | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
   /** Output only. The Google-generated unique ID for the `Destination` resource. This value is unique across all `Destination` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
   uid?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the `Destination` resource was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The timeline of the expected `Destination` states or the current rest state. If a state change is expected, the value is `ADDING`, `DELETING` or `SUSPENDING`, depending on the action specified. Example: "state_timeline": { "states": [ { // The time when the `Destination` resource will be activated. "effectiveTime": "2024-12-01T08:00:00Z", "state": "ADDING" }, { // The time when the `Destination` resource will be suspended. "effectiveTime": "2024-12-01T20:00:00Z", "state": "SUSPENDING" } ] } */
+  stateTimeline?: StateTimeline | undefined;
 }
 export interface CreateProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest extends Destination {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `Destination` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
   /** Required. The ID to use for the `Destination` resource, which becomes the final component of the `Destination` resource name. */
   destinationId?: string | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `Destination` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
 }
 export type PscAuthorizationPolicyAuthorizationModeEnum =
   | "AUTHORIZATION_MODE_UNSPECIFIED"
   | "AUTHORIZATION_MODE_TRANSITIVE_TO_SERVICE_ATTACHMENT";
 /** Represents a PSC Authorization Policy. */
 export interface PscAuthorizationPolicy {
+  /** Output only. The time when the PscAuthorizationPolicy was created. */
+  createTime?: string | undefined;
+  /** Required. The authorization mode. */
+  authorizationMode?: PscAuthorizationPolicyAuthorizationModeEnum | (string & {}) | undefined;
   /** Output only. The etag of the PscAuthorizationPolicy. */
   etag?: string | undefined;
   /** Optional. A description of this resource. */
   description?: string | undefined;
-  /** Identifier. The name of the PscAuthorizationPolicy. Format: projects/{project}/locations/{location}/pscAuthorizationPolicies/{psc_authorization_policy} */
-  name?: string | undefined;
   /** Required. List of authorized consumer resources allowed to connect. Supported values are: 1. Project resource name (e.g., `projects/{project_id}`) 2. Wildcard `"*"` (grants global ingress authorization to the target). */
   authorizedClientResources?: StringList | undefined;
-  /** Output only. The time when the PscAuthorizationPolicy was created. */
-  createTime?: string | undefined;
-  /** Output only. The unique identifier of the PscAuthorizationPolicy. */
-  uid?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Required. The authorization mode. */
-  authorizationMode?: PscAuthorizationPolicyAuthorizationModeEnum | (string & {}) | undefined;
+  /** Identifier. The name of the PscAuthorizationPolicy. Format: projects/{project}/locations/{location}/pscAuthorizationPolicies/{psc_authorization_policy} */
+  name?: string | undefined;
   /** Output only. The time when the PscAuthorizationPolicy was updated. */
   updateTime?: string | undefined;
+  /** Output only. The unique identifier of the PscAuthorizationPolicy. */
+  uid?: string | undefined;
   /** Required. The full absolute URI of the targeted resource governed by this policy. For example, for an AgentRegistry resource, the format is: `//agentregistry.googleapis.com/projects/{project}/locations/{location}` */
   targetResourceUri?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsPscAuthorizationPoliciesRequest extends PscAuthorizationPolicy {
   /** Optional. An optional request ID to identify requests. */
   requestId?: string | undefined;
-  /** Required. The parent resource's name of the PscAuthorizationPolicy. */
-  parent: string;
   /** Required. Resource ID of the PscAuthorizationPolicy. */
   pscAuthorizationPolicyId?: string | undefined;
+  /** Required. The parent resource's name of the PscAuthorizationPolicy. */
+  parent: string;
 }
 export type RegionalEndpointAccessTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
 /** The RegionalEndpoint resource. */
 export interface RegionalEndpoint {
-  /** Output only. Time when the RegionalEndpoint was updated. */
-  updateTime?: string | undefined;
+  /** Required. The service endpoint this private regional endpoint connects to. Format: `{apiname}.{region}.p.rep.googleapis.com` Example: "cloudkms.us-central1.p.rep.googleapis.com". */
+  targetGoogleApi?: string | undefined;
+  /** Output only. Time when the RegionalEndpoint was created. */
+  createTime?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. The name of the subnetwork from which the IP address will be allocated. Format: `projects/{project}/regions/{region}/subnetworks/{subnetwork}` */
+  subnetwork?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
   /** Required. The access type of this regional endpoint. This field is reflected in the PSC Forwarding Rule configuration to enable global access. */
   accessType?: RegionalEndpointAccessTypeEnum | (string & {}) | undefined;
+  /** Output only. Time when the RegionalEndpoint was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The literal IP address of the PSC Forwarding Rule created on behalf of the customer. This field is deprecated. Use address instead. */
+  ipAddress?: string | undefined;
+  /** Output only. The resource reference of the PSC Forwarding Rule created on behalf of the customer. Format: `//compute.googleapis.com/projects/{project}/regions/{region}/forwardingRules/{forwarding_rule_name}` */
+  pscForwardingRule?: string | undefined;
+  /** Optional. The name of the VPC network for this private regional endpoint. Format: `projects/{project}/global/networks/{network}` */
+  network?: string | undefined;
   /** Output only. The name of a RegionalEndpoint. Pattern: `projects/{project}/locations/{location}/regionalEndpoints/^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$`. */
   name?: string | undefined;
   /** Optional. The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: * IPv4 address as in `10.0.0.1` * Address resource URI as in `projects/{project}/regions/{region}/addresses/{address_name}` for an IPv4 or IPv6 address. */
   address?: string | undefined;
-  /** Output only. The resource reference of the PSC Forwarding Rule created on behalf of the customer. Format: `//compute.googleapis.com/projects/{project}/regions/{region}/forwardingRules/{forwarding_rule_name}` */
-  pscForwardingRule?: string | undefined;
-  /** Optional. The name of the subnetwork from which the IP address will be allocated. Format: `projects/{project}/regions/{region}/subnetworks/{subnetwork}` */
-  subnetwork?: string | undefined;
-  /** Optional. The name of the VPC network for this private regional endpoint. Format: `projects/{project}/global/networks/{network}` */
-  network?: string | undefined;
-  /** Output only. The literal IP address of the PSC Forwarding Rule created on behalf of the customer. This field is deprecated. Use address instead. */
-  ipAddress?: string | undefined;
-  /** Optional. A description of this resource. */
-  description?: string | undefined;
-  /** User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Output only. Time when the RegionalEndpoint was created. */
-  createTime?: string | undefined;
-  /** Required. The service endpoint this private regional endpoint connects to. Format: `{apiname}.{region}.p.rep.googleapis.com` Example: "cloudkms.us-central1.p.rep.googleapis.com". */
-  targetGoogleApi?: string | undefined;
 }
 export interface CreateProjectsLocationsRegionalEndpointsRequest extends RegionalEndpoint {
-  /** Required. The parent resource's name of the RegionalEndpoint. */
-  parent: string;
   /** Required. Unique id of the Regional Endpoint to be created. @pattern: ^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$ */
   regionalEndpointId?: string | undefined;
+  /** Required. The parent resource's name of the RegionalEndpoint. */
+  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export type ConsumerPscConfigIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
-export type ConsumerPscConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "VALID"
-  | "CONNECTION_POLICY_MISSING"
-  | "POLICY_LIMIT_REACHED"
-  | "CONSUMER_INSTANCE_PROJECT_NOT_ALLOWLISTED";
-/** Allow the producer to specify which consumers can connect to it. */
-export interface ConsumerPscConfig {
-  /** Required. The project ID or project number of the consumer project. This project is the one that the consumer uses to interact with the producer instance. From the perspective of a consumer who's created a producer instance, this is the project of the producer instance. Format: 'projects/' Eg. 'projects/consumer-project' or 'projects/1234' */
-  consumerInstanceProject?: string | undefined;
-  /** The requested IP version for the PSC connection. */
-  ipVersion?: ConsumerPscConfigIpVersionEnum | (string & {}) | undefined;
-  /** Immutable. An immutable map for the producer instance metadata. */
-  producerInstanceMetadata?: StringMap | undefined;
-  /** The consumer project where PSC connections are allowed to be created in. */
-  project?: string | undefined;
-  /** This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region. */
-  disableGlobalAccess?: boolean | undefined;
-  /** Output only. Overall state of PSC Connections management for this consumer psc config. */
-  state?: ConsumerPscConfigStateEnum | (string & {}) | undefined;
-  /** The resource path of the consumer network where PSC connections are allowed to be created in. Note, this network does not need be in the ConsumerPscConfig.project in the case of SharedVPC. Example: projects/{projectNumOrId}/global/networks/{networkId}. */
-  network?: string | undefined;
-  /** Immutable. Deprecated. Use producer_instance_metadata instead. An immutable identifier for the producer instance. */
-  producerInstanceId?: string | undefined;
-  /** Optional. A map to store mapping between customer vip and target service attachment. This field can be used to specify a static IP address for a PSC connection. */
-  serviceAttachmentIpAddressMap?: StringMap | undefined;
-}
-export type ConsumerPscConfigList = Array<ConsumerPscConfig>;
+export type ServiceConnectionMapInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
 export type ConsumerPscConnectionIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
+export type ConsumerPscConnectionErrorTypeEnum =
+  | "CONNECTION_ERROR_TYPE_UNSPECIFIED"
+  | "ERROR_INTERNAL"
+  | "ERROR_CONSUMER_SIDE"
+  | "ERROR_PRODUCER_SIDE";
 export type DnsAutomationStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING_CREATE"
@@ -764,12 +741,21 @@ export type DnsAutomationStatusStateEnum =
   | "DELETE_FAILED";
 /** The status of DNS automation for a PSC connection. */
 export interface DnsAutomationStatus {
-  /** Output only. The current state of DNS automation. */
-  state?: DnsAutomationStatusStateEnum | (string & {}) | undefined;
   /** Output only. The fully qualified domain name of the DNS record. */
   fqdn?: string | undefined;
+  /** Output only. The current state of DNS automation. */
+  state?: DnsAutomationStatusStateEnum | (string & {}) | undefined;
   /** Output only. The error details if the state is CREATE_FAILED or DELETE_FAILED. */
   error?: GoogleRpcStatus | undefined;
+}
+/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
+export interface GoogleRpcErrorInfo {
+  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
+  domain?: string | undefined;
+  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
+  metadata?: StringMap | undefined;
+  /** The reason for the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
+  reason?: string | undefined;
 }
 export type ConsumerPscConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -779,57 +765,42 @@ export type ConsumerPscConnectionStateEnum =
   | "DELETING"
   | "CREATE_REPAIRING"
   | "DELETE_REPAIRING";
-/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
-export interface GoogleRpcErrorInfo {
-  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
-  metadata?: StringMap | undefined;
-  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
-  domain?: string | undefined;
-  /** The reason for the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
-  reason?: string | undefined;
-}
-export type ConsumerPscConnectionErrorTypeEnum =
-  | "CONNECTION_ERROR_TYPE_UNSPECIFIED"
-  | "ERROR_INTERNAL"
-  | "ERROR_CONSUMER_SIDE"
-  | "ERROR_PRODUCER_SIDE";
 /** PSC connection details on consumer side. */
 export interface ConsumerPscConnection {
-  /** Immutable. An immutable map for the producer instance metadata. */
-  producerInstanceMetadata?: StringMap | undefined;
-  /** The requested IP version for the PSC connection. */
-  ipVersion?: ConsumerPscConnectionIpVersionEnum | (string & {}) | undefined;
-  /** The last Compute Engine operation to setup PSC connection. */
-  gceOperation?: string | undefined;
-  /** The most recent error during operating this connection. */
-  error?: GoogleRpcStatus | undefined;
   /** The URI of the consumer forwarding rule created. Example: projects/{projectNumOrId}/regions/us-east1/networks/{resourceId}. */
   forwardingRule?: string | undefined;
-  /** The consumer network whose PSC forwarding rule is connected to the service attachments in this service connection map. Note that the network could be on a different project (shared VPC). */
-  network?: string | undefined;
+  /** The requested IP version for the PSC connection. */
+  ipVersion?: ConsumerPscConnectionIpVersionEnum | (string & {}) | undefined;
+  /** The error type indicates whether the error is consumer facing, producer facing or system internal. */
+  errorType?: ConsumerPscConnectionErrorTypeEnum | (string & {}) | undefined;
   /** The IP literal allocated on the consumer network for the PSC forwarding rule that is created to connect to the producer service attachment in this service connection map. */
   ip?: string | undefined;
   /** Output only. The status of DNS automation for this PSC connection. */
   dnsAutomationStatus?: DnsAutomationStatus | undefined;
   /** The consumer project whose PSC forwarding rule is connected to the service attachments in this service connection map. */
   project?: string | undefined;
-  /** The PSC connection id of the PSC forwarding rule connected to the service attachments in this service connection map. */
-  pscConnectionId?: string | undefined;
-  /** The state of the PSC connection. */
-  state?: ConsumerPscConnectionStateEnum | (string & {}) | undefined;
+  /** The consumer network whose PSC forwarding rule is connected to the service attachments in this service connection map. Note that the network could be on a different project (shared VPC). */
+  network?: string | undefined;
+  /** The URI of a service attachment which is the target of the PSC connection. */
+  serviceAttachmentUri?: string | undefined;
   /** Output only. The error info for the latest error during operating this connection. */
   errorInfo?: GoogleRpcErrorInfo | undefined;
   /** Output only. The URI of the selected subnetwork selected to allocate IP address for this connection. */
   selectedSubnetwork?: string | undefined;
+  /** The PSC connection id of the PSC forwarding rule connected to the service attachments in this service connection map. */
+  pscConnectionId?: string | undefined;
+  /** The most recent error during operating this connection. */
+  error?: GoogleRpcStatus | undefined;
+  /** Immutable. An immutable map for the producer instance metadata. */
+  producerInstanceMetadata?: StringMap | undefined;
+  /** The last Compute Engine operation to setup PSC connection. */
+  gceOperation?: string | undefined;
+  /** The state of the PSC connection. */
+  state?: ConsumerPscConnectionStateEnum | (string & {}) | undefined;
   /** Immutable. Deprecated. Use producer_instance_metadata instead. An immutable identifier for the producer instance. */
   producerInstanceId?: string | undefined;
-  /** The URI of a service attachment which is the target of the PSC connection. */
-  serviceAttachmentUri?: string | undefined;
-  /** The error type indicates whether the error is consumer facing, producer facing or system internal. */
-  errorType?: ConsumerPscConnectionErrorTypeEnum | (string & {}) | undefined;
 }
 export type ConsumerPscConnectionList = Array<ConsumerPscConnection>;
-export type ServiceConnectionMapInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
 /** The specification for automatically creating a DNS record. */
 export interface AutomatedDnsCreationSpec {
   /** Optional. The Time To Live for the DNS record, in seconds. If not provided, a default of 30 seconds will be used. */
@@ -847,34 +818,63 @@ export interface ProducerPscConfig {
   serviceAttachmentUri?: string | undefined;
 }
 export type ProducerPscConfigList = Array<ProducerPscConfig>;
+export type ConsumerPscConfigIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
+export type ConsumerPscConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "VALID"
+  | "CONNECTION_POLICY_MISSING"
+  | "POLICY_LIMIT_REACHED"
+  | "CONSUMER_INSTANCE_PROJECT_NOT_ALLOWLISTED";
+/** Allow the producer to specify which consumers can connect to it. */
+export interface ConsumerPscConfig {
+  /** This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region. */
+  disableGlobalAccess?: boolean | undefined;
+  /** Immutable. Deprecated. Use producer_instance_metadata instead. An immutable identifier for the producer instance. */
+  producerInstanceId?: string | undefined;
+  /** The requested IP version for the PSC connection. */
+  ipVersion?: ConsumerPscConfigIpVersionEnum | (string & {}) | undefined;
+  /** Optional. A map to store mapping between customer vip and target service attachment. This field can be used to specify a static IP address for a PSC connection. */
+  serviceAttachmentIpAddressMap?: StringMap | undefined;
+  /** The consumer project where PSC connections are allowed to be created in. */
+  project?: string | undefined;
+  /** The resource path of the consumer network where PSC connections are allowed to be created in. Note, this network does not need be in the ConsumerPscConfig.project in the case of SharedVPC. Example: projects/{projectNumOrId}/global/networks/{networkId}. */
+  network?: string | undefined;
+  /** Output only. Overall state of PSC Connections management for this consumer psc config. */
+  state?: ConsumerPscConfigStateEnum | (string & {}) | undefined;
+  /** Immutable. An immutable map for the producer instance metadata. */
+  producerInstanceMetadata?: StringMap | undefined;
+  /** Required. The project ID or project number of the consumer project. This project is the one that the consumer uses to interact with the producer instance. From the perspective of a consumer who's created a producer instance, this is the project of the producer instance. Format: 'projects/' Eg. 'projects/consumer-project' or 'projects/1234' */
+  consumerInstanceProject?: string | undefined;
+}
+export type ConsumerPscConfigList = Array<ConsumerPscConfig>;
 /** The ServiceConnectionMap resource. */
 export interface ServiceConnectionMap {
-  /** The PSC configurations on consumer side. */
-  consumerPscConfigs?: ConsumerPscConfigList | undefined;
-  /** Output only. PSC connection details on consumer side. */
-  consumerPscConnections?: ConsumerPscConnectionList | undefined;
-  /** A description of this resource. */
-  description?: string | undefined;
-  /** The token provided by the consumer. This token authenticates that the consumer can create a connection within the specified project and network. */
-  token?: string | undefined;
-  /** Output only. The service class uri this ServiceConnectionMap is for. */
-  serviceClassUri?: string | undefined;
-  /** Output only. Time when the ServiceConnectionMap was updated. */
-  updateTime?: string | undefined;
   /** Output only. The infrastructure used for connections between consumers/producers. */
   infrastructure?: ServiceConnectionMapInfrastructureEnum | (string & {}) | undefined;
-  /** Immutable. The name of a ServiceConnectionMap. Format: projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name?: string | undefined;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** Output only. Time when the ServiceConnectionMap was created. */
   createTime?: string | undefined;
-  /** User-defined labels. */
-  labels?: StringMap | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Immutable. The name of a ServiceConnectionMap. Format: projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Output only. Time when the ServiceConnectionMap was updated. */
+  updateTime?: string | undefined;
+  /** Output only. PSC connection details on consumer side. */
+  consumerPscConnections?: ConsumerPscConnectionList | undefined;
+  /** Output only. The service class uri this ServiceConnectionMap is for. */
+  serviceClassUri?: string | undefined;
+  /** The token provided by the consumer. This token authenticates that the consumer can create a connection within the specified project and network. */
+  token?: string | undefined;
   /** The service class identifier this ServiceConnectionMap is for. The user of ServiceConnectionMap create API needs to have networkconnectivity.serviceClasses.use IAM permission for the service class. */
   serviceClass?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
   /** The PSC configurations on producer side. */
   producerPscConfigs?: ProducerPscConfigList | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** The PSC configurations on consumer side. */
+  consumerPscConfigs?: ConsumerPscConfigList | undefined;
 }
 export interface CreateProjectsLocationsServiceConnectionMapsRequest extends ServiceConnectionMap {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -884,35 +884,49 @@ export interface CreateProjectsLocationsServiceConnectionMapsRequest extends Ser
   /** Required. The parent resource's name of the ServiceConnectionMap. ex. projects/123/locations/us-east1 */
   parent: string;
 }
-export type CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum =
-  | "SUBNETWORK_MODE_UNSPECIFIED"
-  | "USER_PROVIDED"
-  | "AUTO_CREATED";
 export type CreateProjectsLocationsServiceConnectionPoliciesAutoSubnetworkConfig_ipStackEnum =
   | "SUBNET_IP_STACK_UNSPECIFIED"
   | "IPV4_ONLY"
   | "IPV6_ONLY"
   | "IPV4_IPV6";
-export type ServiceConnectionPolicyInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
+export type CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum =
+  | "SUBNETWORK_MODE_UNSPECIFIED"
+  | "USER_PROVIDED"
+  | "AUTO_CREATED";
 /** Information for the automatically created subnetwork and its associated IR. */
 export interface AutoCreatedSubnetworkInfo {
-  /** Output only. URI of the automatically created subnetwork reference. Only set if the subnetwork mode is AUTO_CREATED during creation. */
-  subnetworkRef?: string | undefined;
   /** Output only. Indicates whether the subnetwork is delinked from the Service Connection Policy. Only set if the subnetwork mode is AUTO_CREATED during creation. */
   delinked?: boolean | undefined;
-  /** Output only. URI of the automatically created subnetwork. Only set if the subnetwork mode is AUTO_CREATED during creation. */
-  subnetwork?: string | undefined;
   /** Output only. URI of the automatically created Internal Range reference. Only set if the subnetwork mode is AUTO_CREATED during creation. */
   internalRangeRef?: string | undefined;
   /** Output only. URI of the automatically created Internal Range. Only set if the subnetwork mode is AUTO_CREATED during creation. */
   internalRange?: string | undefined;
+  /** Output only. URI of the automatically created subnetwork. Only set if the subnetwork mode is AUTO_CREATED during creation. */
+  subnetwork?: string | undefined;
+  /** Output only. URI of the automatically created subnetwork reference. Only set if the subnetwork mode is AUTO_CREATED during creation. */
+  subnetworkRef?: string | undefined;
 }
+export type ServiceConnectionPolicyInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
+export type PscConfigProducerInstanceLocationEnum =
+  | "PRODUCER_INSTANCE_LOCATION_UNSPECIFIED"
+  | "CUSTOM_RESOURCE_HIERARCHY_LEVELS";
+/** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
+export interface PscConfig {
+  /** Optional. List of Projects, Folders, or Organizations from where the Producer instance can be within. For example, a network administrator can provide both 'organizations/foo' and 'projects/bar' as allowed_google_producers_resource_hierarchy_levels. This allowlists this network to connect with any Producer instance within the 'foo' organization or the 'bar' project. By default, allowed_google_producers_resource_hierarchy_level is empty. The format for each allowed_google_producers_resource_hierarchy_level is / where is one of 'projects', 'folders', or 'organizations' and is either the ID or the number of the resource type. Format for each allowed_google_producers_resource_hierarchy_level value: 'projects/' or 'folders/' or 'organizations/' Eg. [projects/my-project-id, projects/567, folders/891, organizations/123] */
+  allowedGoogleProducersResourceHierarchyLevel?: StringList | undefined;
+  /** Optional. ProducerInstanceLocation is used to specify which authorization mechanism to use to determine which projects the Producer instance can be within. */
+  producerInstanceLocation?: PscConfigProducerInstanceLocationEnum | (string & {}) | undefined;
+  /** Optional. Max number of PSC connections for this policy. */
+  limit?: string | undefined;
+  /** The resource paths of subnetworks to use for IP address management. Example: projects/{projectNumOrId}/regions/{region}/subnetworks/{resourceId}. */
+  subnetworks?: StringList | undefined;
+}
+export type PscConnectionIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
 export type PscConnectionErrorTypeEnum =
   | "CONNECTION_ERROR_TYPE_UNSPECIFIED"
   | "ERROR_INTERNAL"
   | "ERROR_CONSUMER_SIDE"
   | "ERROR_PRODUCER_SIDE";
-export type PscConnectionIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
 export type PscConnectionStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -923,168 +937,113 @@ export type PscConnectionStateEnum =
   | "DELETE_REPAIRING";
 /** Information about a specific Private Service Connect connection. */
 export interface PscConnection {
+  /** The requested IP version for the PSC connection. */
+  ipVersion?: PscConnectionIpVersionEnum | (string & {}) | undefined;
   /** Output only. The URI of the subnetwork selected to allocate IP address for this connection. */
   selectedSubnetwork?: string | undefined;
+  /** Immutable. An immutable map for the producer instance metadata. */
+  producerInstanceMetadata?: StringMap | undefined;
+  /** Output only. [Output only] The service class associated with this PSC Connection. The value is derived from the SCPolicy and matches the service class name provided by the customer. */
+  serviceClass?: string | undefined;
+  /** The resource reference of the consumer address. */
+  consumerAddress?: string | undefined;
   /** Immutable. Deprecated. Use producer_instance_metadata instead. An immutable identifier for the producer instance. */
   producerInstanceId?: string | undefined;
+  /** The project where the PSC connection is created. */
+  consumerTargetProject?: string | undefined;
   /** The error type indicates whether the error is consumer facing, producer facing or system internal. */
   errorType?: PscConnectionErrorTypeEnum | (string & {}) | undefined;
   /** Output only. The error info for the latest error during operating this connection. */
   errorInfo?: GoogleRpcErrorInfo | undefined;
-  /** The last Compute Engine operation to setup PSC connection. */
-  gceOperation?: string | undefined;
   /** The most recent error during operating this connection. Deprecated, please use error_info instead. */
   error?: GoogleRpcStatus | undefined;
-  /** Immutable. An immutable map for the producer instance metadata. */
-  producerInstanceMetadata?: StringMap | undefined;
-  /** The resource reference of the consumer address. */
-  consumerAddress?: string | undefined;
-  /** The PSC connection id of the PSC forwarding rule. */
-  pscConnectionId?: string | undefined;
-  /** Output only. [Output only] The service class associated with this PSC Connection. The value is derived from the SCPolicy and matches the service class name provided by the customer. */
-  serviceClass?: string | undefined;
-  /** The resource reference of the PSC Forwarding Rule within the consumer VPC. */
-  consumerForwardingRule?: string | undefined;
-  /** The requested IP version for the PSC connection. */
-  ipVersion?: PscConnectionIpVersionEnum | (string & {}) | undefined;
-  /** The project where the PSC connection is created. */
-  consumerTargetProject?: string | undefined;
   /** State of the PSC Connection */
   state?: PscConnectionStateEnum | (string & {}) | undefined;
+  /** The resource reference of the PSC Forwarding Rule within the consumer VPC. */
+  consumerForwardingRule?: string | undefined;
+  /** The PSC connection id of the PSC forwarding rule. */
+  pscConnectionId?: string | undefined;
+  /** The last Compute Engine operation to setup PSC connection. */
+  gceOperation?: string | undefined;
 }
 export type PscConnectionList = Array<PscConnection>;
-export type PscConfigProducerInstanceLocationEnum =
-  | "PRODUCER_INSTANCE_LOCATION_UNSPECIFIED"
-  | "CUSTOM_RESOURCE_HIERARCHY_LEVELS";
-/** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
-export interface PscConfig {
-  /** Optional. List of Projects, Folders, or Organizations from where the Producer instance can be within. For example, a network administrator can provide both 'organizations/foo' and 'projects/bar' as allowed_google_producers_resource_hierarchy_levels. This allowlists this network to connect with any Producer instance within the 'foo' organization or the 'bar' project. By default, allowed_google_producers_resource_hierarchy_level is empty. The format for each allowed_google_producers_resource_hierarchy_level is / where is one of 'projects', 'folders', or 'organizations' and is either the ID or the number of the resource type. Format for each allowed_google_producers_resource_hierarchy_level value: 'projects/' or 'folders/' or 'organizations/' Eg. [projects/my-project-id, projects/567, folders/891, organizations/123] */
-  allowedGoogleProducersResourceHierarchyLevel?: StringList | undefined;
-  /** Optional. Max number of PSC connections for this policy. */
-  limit?: string | undefined;
-  /** The resource paths of subnetworks to use for IP address management. Example: projects/{projectNumOrId}/regions/{region}/subnetworks/{resourceId}. */
-  subnetworks?: StringList | undefined;
-  /** Optional. ProducerInstanceLocation is used to specify which authorization mechanism to use to determine which projects the Producer instance can be within. */
-  producerInstanceLocation?: PscConfigProducerInstanceLocationEnum | (string & {}) | undefined;
-}
 /** The ServiceConnectionPolicy resource. */
 export interface ServiceConnectionPolicy {
-  /** Output only. Time when the ServiceConnectionPolicy was created. */
-  createTime?: string | undefined;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The type of underlying resources used to create the connection. */
-  infrastructure?: ServiceConnectionPolicyInfrastructureEnum | (string & {}) | undefined;
-  /** Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name?: string | undefined;
   /** Output only. Information for the automatically created subnetwork and its associated IR. */
   autoCreatedSubnetInfo?: AutoCreatedSubnetworkInfo | undefined;
-  /** The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp or google-cloud. For example, gcp-memorystore-redis or google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx. */
-  serviceClass?: string | undefined;
-  /** A description of this resource. */
-  description?: string | undefined;
-  /** The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}. */
-  network?: string | undefined;
-  /** Output only. [Output only] Information about each Private Service Connect connection. */
-  pscConnections?: PscConnectionList | undefined;
-  /** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
-  pscConfig?: PscConfig | undefined;
+  /** Output only. Time when the ServiceConnectionPolicy was created. */
+  createTime?: string | undefined;
   /** User-defined labels. */
   labels?: StringMap | undefined;
+  /** Output only. The type of underlying resources used to create the connection. */
+  infrastructure?: ServiceConnectionPolicyInfrastructureEnum | (string & {}) | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp or google-cloud. For example, gcp-memorystore-redis or google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx. */
+  serviceClass?: string | undefined;
+  /** The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}. */
+  network?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
+  pscConfig?: PscConfig | undefined;
+  /** Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Output only. [Output only] Information about each Private Service Connect connection. */
+  pscConnections?: PscConnectionList | undefined;
   /** Output only. Time when the ServiceConnectionPolicy was updated. */
   updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsServiceConnectionPoliciesRequest extends ServiceConnectionPolicy {
-  /** Optional. The space where we search for a free range to create a subnetwork. It can be narrow down or pick a different space. This is in standard CIDR format. If not specified, "10.0.0.0/8" is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
-  "autoSubnetworkConfig.allocRangeSpace"?: StringList | undefined;
-  /** Optional. If this field is not set, USER_PROVIDED is the inferred value to use. */
-  subnetworkMode?:
-    | CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionPolicies/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
-  serviceConnectionPolicyId?: string | undefined;
   /** Optional. The requested IP stack for the subnetwork. If not specified, IPv4 is used. */
   "autoSubnetworkConfig.ipStack"?:
     | CreateProjectsLocationsServiceConnectionPoliciesAutoSubnetworkConfig_ipStackEnum
     | (string & {})
     | undefined;
-  /** Optional. The desired prefix length for the subnet's IP address range. E.g., 24 for a /24. The actual range is allocated from available space. If not specified, 24 is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
-  "autoSubnetworkConfig.prefixLength"?: number | undefined;
-  /** Required. The parent resource's name of the ServiceConnectionPolicy. ex. projects/123/locations/us-east1 */
-  parent: string;
+  /** Optional. If this field is not set, USER_PROVIDED is the inferred value to use. */
+  subnetworkMode?:
+    | CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum
+    | (string & {})
+    | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The parent resource's name of the ServiceConnectionPolicy. ex. projects/123/locations/us-east1 */
+  parent: string;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionPolicies/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
+  serviceConnectionPolicyId?: string | undefined;
+  /** Optional. The space where we search for a free range to create a subnetwork. It can be narrow down or pick a different space. This is in standard CIDR format. If not specified, "10.0.0.0/8" is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
+  "autoSubnetworkConfig.allocRangeSpace"?: StringList | undefined;
+  /** Optional. The desired prefix length for the subnet's IP address range. E.g., 24 for a /24. The actual range is allocated from available space. If not specified, 24 is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
+  "autoSubnetworkConfig.prefixLength"?: number | undefined;
 }
 /** The ServiceConnectionToken resource. */
 export interface ServiceConnectionToken {
-  /** Output only. Time when the ServiceConnectionToken was updated. */
-  updateTime?: string | undefined;
-  /** Output only. The token generated by Automation. */
-  token?: string | undefined;
-  /** The resource path of the network associated with this token. Example: projects/{projectNumOrId}/global/networks/{resourceId}. */
-  network?: string | undefined;
-  /** A description of this resource. */
-  description?: string | undefined;
-  /** User-defined labels. */
-  labels?: StringMap | undefined;
   /** Immutable. The name of a ServiceConnectionToken. Format: projects/{project}/locations/{location}/ServiceConnectionTokens/{service_connection_token} See: https://google.aip.dev/122#fields-representing-resource-names */
   name?: string | undefined;
-  /** Output only. Time when the ServiceConnectionToken was created. */
-  createTime?: string | undefined;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
+  /** The resource path of the network associated with this token. Example: projects/{projectNumOrId}/global/networks/{resourceId}. */
+  network?: string | undefined;
   /** Output only. The time to which this token is valid. */
   expireTime?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the ServiceConnectionToken was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the ServiceConnectionToken was created. */
+  createTime?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The token generated by Automation. */
+  token?: string | undefined;
 }
 export interface CreateProjectsLocationsServiceConnectionTokensRequest extends ServiceConnectionToken {
   /** Required. The parent resource's name of the ServiceConnectionToken. ex. projects/123/locations/us-east1 */
   parent: string;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/ServiceConnectionTokens/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
-  serviceConnectionTokenId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-}
-export type SpokeSpokeTypeEnum =
-  | "SPOKE_TYPE_UNSPECIFIED"
-  | "VPN_TUNNEL"
-  | "INTERCONNECT_ATTACHMENT"
-  | "ROUTER_APPLIANCE"
-  | "VPC_NETWORK"
-  | "GATEWAY"
-  | "PRODUCER_VPC_NETWORK";
-/** A router appliance instance is a Compute Engine virtual machine (VM) instance that acts as a BGP speaker. A router appliance instance is specified by the URI of the VM and the internal IP address of one of the VM's network interfaces. */
-export interface RouterApplianceInstance {
-  /** The IP address on the VM to use for peering. */
-  ipAddress?: string | undefined;
-  /** The URI of the VM. */
-  virtualMachine?: string | undefined;
-}
-export type RouterApplianceInstanceList = Array<RouterApplianceInstance>;
-/** A collection of router appliance instances. If you configure multiple router appliance instances to receive data from the same set of sites outside of Google Cloud, we recommend that you associate those instances with the same spoke. */
-export interface LinkedRouterApplianceInstances {
-  /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
-  includeImportRanges?: StringList | undefined;
-  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
-  proposedIncludeExportRanges?: StringList | undefined;
-  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
-  proposedExcludeImportRanges?: StringList | undefined;
-  /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
-  excludeImportRanges?: StringList | undefined;
-  /** The list of router appliance instances. */
-  instances?: RouterApplianceInstanceList | undefined;
-  /** A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
-  siteToSiteDataTransfer?: boolean | undefined;
-  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
-  includeExportRanges?: StringList | undefined;
-  /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
-  proposedExcludeExportRanges?: StringList | undefined;
-  /** Output only. The VPC network where these router appliance instances are located. */
-  vpcNetwork?: string | undefined;
-  /** Output only. The proposed include import IP ranges waiting for hub administrator's approval. */
-  proposedIncludeImportRanges?: StringList | undefined;
-  /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
-  excludeExportRanges?: StringList | undefined;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/ServiceConnectionTokens/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
+  serviceConnectionTokenId?: string | undefined;
 }
 export type SpokeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1097,6 +1056,29 @@ export type SpokeStateEnum =
   | "INACTIVE"
   | "OBSOLETE"
   | "FAILED";
+export type SpokeSpokeTypeEnum =
+  | "SPOKE_TYPE_UNSPECIFIED"
+  | "VPN_TUNNEL"
+  | "INTERCONNECT_ATTACHMENT"
+  | "ROUTER_APPLIANCE"
+  | "VPC_NETWORK"
+  | "GATEWAY"
+  | "PRODUCER_VPC_NETWORK";
+/** An existing VPC network. */
+export interface LinkedVpcNetwork {
+  /** Optional. IP ranges encompassing the subnets to be excluded from peering. */
+  excludeExportRanges?: StringList | undefined;
+  /** Required. The URI of the VPC network resource. */
+  uri?: string | undefined;
+  /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
+  proposedExcludeExportRanges?: StringList | undefined;
+  /** Optional. IP ranges allowed to be included from peering. */
+  includeExportRanges?: StringList | undefined;
+  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
+  proposedIncludeExportRanges?: StringList | undefined;
+  /** Output only. The list of Producer VPC spokes that this VPC spoke is a service consumer VPC spoke for. These producer VPCs are connected through VPC peering to this spoke's backing VPC network. Because they are directly connected through VPC peering, NCC export filters do not apply between the service consumer VPC spoke and any of its producer VPC spokes. This VPC spoke cannot be deleted as long as any of these producer VPC spokes are connected to the NCC Hub. */
+  producerVpcSpokes?: StringList | undefined;
+}
 export type GatewayCapacityEnum =
   | "GATEWAY_CAPACITY_UNSPECIFIED"
   | "CAPACITY_1_GBPS"
@@ -1111,52 +1093,88 @@ export type IpRangeReservationList = Array<IpRangeReservation>;
 export interface Gateway {
   /** Optional. The aggregate processing capacity of this gateway. */
   capacity?: GatewayCapacityEnum | (string & {}) | undefined;
-  /** Optional. A list of IP ranges that are reserved for this gateway's internal intfrastructure. */
-  ipRangeReservations?: IpRangeReservationList | undefined;
   /** Output only. The URI of the connected SACAttachment. Should be in the form: projects/{project}/locations/{location}/sacAttachments/{sac_attachment} */
   sacAttachment?: string | undefined;
+  /** Optional. A list of IP ranges that are reserved for this gateway's internal intfrastructure. */
+  ipRangeReservations?: IpRangeReservationList | undefined;
   /** Output only. The list of Cloud Routers that are connected to this gateway. Should be in the form: https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/routers/{router} */
   cloudRouters?: StringList | undefined;
 }
-/** A collection of Cloud VPN tunnel resources. These resources should be redundant HA VPN tunnels that all advertise the same prefixes to Google Cloud. Alternatively, in a passive/active configuration, all tunnels should be capable of advertising the same prefixes. */
-export interface LinkedVpnTunnels {
-  /** The URIs of linked VPN tunnel resources. */
-  uris?: StringList | undefined;
-  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
-  proposedExcludeImportRanges?: StringList | undefined;
-  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
-  proposedIncludeExportRanges?: StringList | undefined;
-  /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
-  includeImportRanges?: StringList | undefined;
+/** A router appliance instance is a Compute Engine virtual machine (VM) instance that acts as a BGP speaker. A router appliance instance is specified by the URI of the VM and the internal IP address of one of the VM's network interfaces. */
+export interface RouterApplianceInstance {
+  /** The URI of the VM. */
+  virtualMachine?: string | undefined;
+  /** The IP address on the VM to use for peering. */
+  ipAddress?: string | undefined;
+}
+export type RouterApplianceInstanceList = Array<RouterApplianceInstance>;
+/** A collection of router appliance instances. If you configure multiple router appliance instances to receive data from the same set of sites outside of Google Cloud, we recommend that you associate those instances with the same spoke. */
+export interface LinkedRouterApplianceInstances {
+  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
+  includeExportRanges?: StringList | undefined;
   /** A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
   siteToSiteDataTransfer?: boolean | undefined;
   /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
   excludeExportRanges?: StringList | undefined;
-  /** Output only. The VPC network where these VPN tunnels are located. */
+  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
+  proposedIncludeExportRanges?: StringList | undefined;
+  /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
+  excludeImportRanges?: StringList | undefined;
+  /** Output only. The VPC network where these router appliance instances are located. */
   vpcNetwork?: string | undefined;
   /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
   proposedExcludeExportRanges?: StringList | undefined;
+  /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
+  includeImportRanges?: StringList | undefined;
+  /** The list of router appliance instances. */
+  instances?: RouterApplianceInstanceList | undefined;
+  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
+  proposedExcludeImportRanges?: StringList | undefined;
+  /** Output only. The proposed include import IP ranges waiting for hub administrator's approval. */
+  proposedIncludeImportRanges?: StringList | undefined;
+}
+/** A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes. */
+export interface LinkedInterconnectAttachments {
+  /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
+  excludeExportRanges?: StringList | undefined;
+  /** The URIs of linked interconnect attachment resources */
+  uris?: StringList | undefined;
   /** Output only. The proposed include import IP ranges waiting for hub administrator's approval. */
   proposedIncludeImportRanges?: StringList | undefined;
   /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
   includeExportRanges?: StringList | undefined;
+  /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
+  includeImportRanges?: StringList | undefined;
   /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
   excludeImportRanges?: StringList | undefined;
-}
-/** An existing VPC network. */
-export interface LinkedVpcNetwork {
+  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
+  proposedExcludeImportRanges?: StringList | undefined;
+  /** Output only. The VPC network where these VLAN attachments are located. */
+  vpcNetwork?: string | undefined;
   /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
   proposedExcludeExportRanges?: StringList | undefined;
-  /** Optional. IP ranges encompassing the subnets to be excluded from peering. */
-  excludeExportRanges?: StringList | undefined;
   /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
   proposedIncludeExportRanges?: StringList | undefined;
-  /** Output only. The list of Producer VPC spokes that this VPC spoke is a service consumer VPC spoke for. These producer VPCs are connected through VPC peering to this spoke's backing VPC network. Because they are directly connected through VPC peering, NCC export filters do not apply between the service consumer VPC spoke and any of its producer VPC spokes. This VPC spoke cannot be deleted as long as any of these producer VPC spokes are connected to the NCC Hub. */
-  producerVpcSpokes?: StringList | undefined;
-  /** Required. The URI of the VPC network resource. */
-  uri?: string | undefined;
+  /** A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
+  siteToSiteDataTransfer?: boolean | undefined;
+}
+export interface LinkedProducerVpcNetwork {
+  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
+  proposedIncludeExportRanges?: StringList | undefined;
+  /** Output only. The URI of the Producer VPC. */
+  producerNetwork?: string | undefined;
   /** Optional. IP ranges allowed to be included from peering. */
   includeExportRanges?: StringList | undefined;
+  /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
+  proposedExcludeExportRanges?: StringList | undefined;
+  /** Immutable. The URI of the Service Consumer VPC that the Producer VPC is peered with. */
+  network?: string | undefined;
+  /** Optional. IP ranges encompassing the subnets to be excluded from peering. */
+  excludeExportRanges?: StringList | undefined;
+  /** Output only. The Service Consumer Network spoke. */
+  serviceConsumerVpcSpoke?: string | undefined;
+  /** Immutable. The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state. */
+  peering?: string | undefined;
 }
 export type StateReasonCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -1169,105 +1187,87 @@ export type StateReasonCodeEnum =
   | "UPDATE_FAILED";
 /** The reason for the current state of the spoke. */
 export interface StateReason {
-  /** Human-readable details about this reason. */
-  message?: string | undefined;
   /** Additional information provided by the user in the RejectSpoke call. */
   userDetails?: string | undefined;
+  /** Human-readable details about this reason. */
+  message?: string | undefined;
   /** The code associated with this reason. */
   code?: StateReasonCodeEnum | (string & {}) | undefined;
 }
 export type StateReasonList = Array<StateReason>;
-/** A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes. */
-export interface LinkedInterconnectAttachments {
-  /** A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
-  siteToSiteDataTransfer?: boolean | undefined;
-  /** The URIs of linked interconnect attachment resources */
-  uris?: StringList | undefined;
+/** A collection of Cloud VPN tunnel resources. These resources should be redundant HA VPN tunnels that all advertise the same prefixes to Google Cloud. Alternatively, in a passive/active configuration, all tunnels should be capable of advertising the same prefixes. */
+export interface LinkedVpnTunnels {
   /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
   includeImportRanges?: StringList | undefined;
-  /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
-  proposedIncludeExportRanges?: StringList | undefined;
-  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
-  proposedExcludeImportRanges?: StringList | undefined;
   /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
   excludeImportRanges?: StringList | undefined;
-  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
-  includeExportRanges?: StringList | undefined;
-  /** Output only. The proposed include import IP ranges waiting for hub administrator's approval. */
-  proposedIncludeImportRanges?: StringList | undefined;
-  /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
-  proposedExcludeExportRanges?: StringList | undefined;
   /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
   excludeExportRanges?: StringList | undefined;
-  /** Output only. The VPC network where these VLAN attachments are located. */
-  vpcNetwork?: string | undefined;
-}
-export interface LinkedProducerVpcNetwork {
-  /** Optional. IP ranges encompassing the subnets to be excluded from peering. */
-  excludeExportRanges?: StringList | undefined;
-  /** Output only. The Service Consumer Network spoke. */
-  serviceConsumerVpcSpoke?: string | undefined;
-  /** Immutable. The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state. */
-  peering?: string | undefined;
   /** Output only. The proposed exclude export IP ranges waiting for hub administrator's approval. */
   proposedExcludeExportRanges?: StringList | undefined;
+  /** The URIs of linked VPN tunnel resources. */
+  uris?: StringList | undefined;
   /** Output only. The proposed include export IP ranges waiting for hub administrator's approval. */
   proposedIncludeExportRanges?: StringList | undefined;
-  /** Optional. IP ranges allowed to be included from peering. */
+  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
   includeExportRanges?: StringList | undefined;
-  /** Output only. The URI of the Producer VPC. */
-  producerNetwork?: string | undefined;
-  /** Immutable. The URI of the Service Consumer VPC that the Producer VPC is peered with. */
-  network?: string | undefined;
+  /** Output only. The VPC network where these VPN tunnels are located. */
+  vpcNetwork?: string | undefined;
+  /** Output only. The proposed exclude import IP ranges waiting for hub administrator's approval. */
+  proposedExcludeImportRanges?: StringList | undefined;
+  /** A value that controls whether site-to-site data transfer is enabled for these resources. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
+  siteToSiteDataTransfer?: boolean | undefined;
+  /** Output only. The proposed include import IP ranges waiting for hub administrator's approval. */
+  proposedIncludeImportRanges?: StringList | undefined;
 }
 /** A Network Connectivity Center spoke represents one or more network connectivity resources. When you create a spoke, you associate it with a hub. You must also identify a value for exactly one of the following fields: * linked_vpn_tunnels * linked_interconnect_attachments * linked_router_appliance_instances * linked_vpc_network */
 export interface Spoke {
-  /** Optional. An optional description of the spoke. */
-  description?: string | undefined;
-  /** Immutable. The name of the hub that this spoke is attached to. */
-  hub?: string | undefined;
-  /** Output only. The type of resource associated with the spoke. */
-  spokeType?: SpokeSpokeTypeEnum | (string & {}) | undefined;
-  /** Optional. Router appliance instances that are associated with the spoke. */
-  linkedRouterApplianceInstances?: LinkedRouterApplianceInstances | undefined;
-  /** Output only. The current lifecycle state of this spoke. */
-  state?: SpokeStateEnum | (string & {}) | undefined;
-  /** Optional. This is a gateway that can apply specialized processing to traffic going through it. */
-  gateway?: Gateway | undefined;
-  /** Optional. VPN tunnels that are associated with the spoke. */
-  linkedVpnTunnels?: LinkedVpnTunnels | undefined;
-  /** Optional. VPC network that is associated with the spoke. */
-  linkedVpcNetwork?: LinkedVpcNetwork | undefined;
-  /** Output only. The time the spoke was created. */
-  createTime?: string | undefined;
   /** Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
   name?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different `unique_id`. */
-  uniqueId?: string | undefined;
+  /** Output only. The current lifecycle state of this spoke. */
+  state?: SpokeStateEnum | (string & {}) | undefined;
+  /** Output only. The time the spoke was created. */
+  createTime?: string | undefined;
+  /** Output only. The list of fields waiting for hub administrator's approval. */
+  fieldPathsPendingUpdate?: StringList | undefined;
+  /** Output only. The type of resource associated with the spoke. */
+  spokeType?: SpokeSpokeTypeEnum | (string & {}) | undefined;
+  /** Optional. An optional description of the spoke. */
+  description?: string | undefined;
   /** Optional. The name of the group that this spoke is associated with. */
   group?: string | undefined;
-  /** Output only. The reasons for current state of the spoke. */
-  reasons?: StateReasonList | undefined;
+  /** Immutable. The name of the hub that this spoke is attached to. */
+  hub?: string | undefined;
   /** Output only. The time the spoke was last updated. */
   updateTime?: string | undefined;
+  /** Optional. VPC network that is associated with the spoke. */
+  linkedVpcNetwork?: LinkedVpcNetwork | undefined;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. This is a gateway that can apply specialized processing to traffic going through it. */
+  gateway?: Gateway | undefined;
+  /** Optional. Router appliance instances that are associated with the spoke. */
+  linkedRouterApplianceInstances?: LinkedRouterApplianceInstances | undefined;
   /** Optional. VLAN attachments that are associated with the spoke. */
   linkedInterconnectAttachments?: LinkedInterconnectAttachments | undefined;
   /** Optional. The linked producer VPC that is associated with the spoke. */
   linkedProducerVpcNetwork?: LinkedProducerVpcNetwork | undefined;
-  /** Output only. The list of fields waiting for hub administrator's approval. */
-  fieldPathsPendingUpdate?: StringList | undefined;
   /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
   labels?: StringMap | undefined;
+  /** Output only. The reasons for current state of the spoke. */
+  reasons?: StateReasonList | undefined;
+  /** Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Optional. VPN tunnels that are associated with the spoke. */
+  linkedVpnTunnels?: LinkedVpnTunnels | undefined;
 }
 export interface CreateProjectsLocationsSpokesRequest extends Spoke {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Unique id for the spoke to create. */
   spokeId?: string | undefined;
   /** Required. The parent resource. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type GatewayAdvertisedRouteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1283,34 +1283,34 @@ export type GatewayAdvertisedRouteStateEnum =
 export type GatewayAdvertisedRouteRecipientEnum = "RECIPIENT_UNSPECIFIED" | "ADVERTISE_TO_HUB";
 /** A gateway advertised route is a route that a gateway spoke advertises somewhere. */
 export interface GatewayAdvertisedRoute {
-  /** Output only. The Google-generated UUID for the gateway advertised route. This value is unique across all gateway advertised route resources. If a gateway advertised route is deleted and another with the same name is created, the new route is assigned a different `unique_id`. */
-  uniqueId?: string | undefined;
-  /** Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
-  name?: string | undefined;
-  /** Optional. The priority of this advertised route. You can choose a value from `0` to `65335`. If you don't provide a value, Google Cloud assigns a priority of `100` to the ranges. */
-  priority?: number | undefined;
-  /** Output only. The current lifecycle state of this gateway advertised route. */
-  state?: GatewayAdvertisedRouteStateEnum | (string & {}) | undefined;
-  /** An optional description of the gateway advertised route. */
-  description?: string | undefined;
-  /** Output only. The time the gateway advertised route was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. The recipient of this advertised route. */
-  recipient?: GatewayAdvertisedRouteRecipientEnum | (string & {}) | undefined;
-  /** Immutable. This route's advertised IP address range. Must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as, for IPv4, a `/32` singular IP address range, and, for IPv6, `/128`. */
-  ipRange?: string | undefined;
   /** Output only. The time the gateway advertised route was created. */
   createTime?: string | undefined;
   /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
   labels?: StringMap | undefined;
+  /** Output only. The Google-generated UUID for the gateway advertised route. This value is unique across all gateway advertised route resources. If a gateway advertised route is deleted and another with the same name is created, the new route is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Output only. The current lifecycle state of this gateway advertised route. */
+  state?: GatewayAdvertisedRouteStateEnum | (string & {}) | undefined;
+  /** Immutable. This route's advertised IP address range. Must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as, for IPv4, a `/32` singular IP address range, and, for IPv6, `/128`. */
+  ipRange?: string | undefined;
+  /** Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
+  name?: string | undefined;
+  /** Optional. The priority of this advertised route. You can choose a value from `0` to `65335`. If you don't provide a value, Google Cloud assigns a priority of `100` to the ranges. */
+  priority?: number | undefined;
+  /** Output only. The time the gateway advertised route was last updated. */
+  updateTime?: string | undefined;
+  /** An optional description of the gateway advertised route. */
+  description?: string | undefined;
+  /** Optional. The recipient of this advertised route. */
+  recipient?: GatewayAdvertisedRouteRecipientEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsSpokesGatewayAdvertisedRoutesRequest extends GatewayAdvertisedRoute {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The parent resource. */
-  parent: string;
   /** Required. Unique id for the route to create. */
   gatewayAdvertisedRouteId?: string | undefined;
+  /** Required. The parent resource. */
+  parent: string;
 }
 export type TransportBandwidthEnum =
   | "BANDWIDTH_UNSPECIFIED"
@@ -1339,44 +1339,44 @@ export type TransportStateEnum =
 export type TransportStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4_ONLY" | "IPV4_IPV6";
 /** Message describing Transport object. */
 export interface Transport {
-  /** Output only. The maximum transmission unit (MTU) of a packet that can be sent over this transport. */
-  mtuLimit?: number | undefined;
-  /** Optional. Immutable. Name of the remoteTransportProfile that this Transport is connecting to. */
-  remoteProfile?: string | undefined;
+  /** Optional. Immutable. The NCC Hub that the Transport should attach to. The hub must be in the same project as the Transport. Format: `{hub}` or `projects/{project}/locations/global/hubs/{hub}` */
+  hub?: string | undefined;
+  /** Optional. Immutable. Controls whether a Routing VPC Spoke should be created and attached to the NCC Hub. This will provide Private Service Connect (PSC) connectivity through NCC. This can only be set when the Transport is first created. */
+  pscRoutingEnabled?: boolean | undefined;
   /** Optional. Bandwidth of the Transport. This must be one of the supported bandwidths for the remote profile, and must be set when no activation key is being provided. */
   bandwidth?: TransportBandwidthEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The user supplied account id for the CSP associated with the remote profile. */
-  remoteAccountId?: string | undefined;
-  /** Optional. Immutable. Controls whether resources proposed by the Transport are automatically accepted on behalf of the user. List of actions that can be automatically accepted are: 1. VPC Peering creation 2. Routing VPC Spoke creation 3. Hybrid Spoke creation */
-  autoAccept?: boolean | undefined;
-  /** Optional. Immutable. Resource URI of the Network that will be peered with this Transport. This field must be provided during resource creation and cannot be changed. */
-  network?: string | undefined;
-  /** Output only. Create time stamp. */
-  createTime?: string | undefined;
   /** Optional. Labels as key value pairs. */
   labels?: StringMap | undefined;
-  /** Output only. VPC Network URI that was created for the VPC Peering connection to the provided `network`. If VPC Peering is disconnected, this can be used to re-establish. */
-  peeringNetwork?: string | undefined;
+  /** Optional. Immutable. Controls whether resources proposed by the Transport are automatically accepted on behalf of the user. List of actions that can be automatically accepted are: 1. VPC Peering creation 2. Routing VPC Spoke creation 3. Hybrid Spoke creation */
+  autoAccept?: boolean | undefined;
   /** Output only. State of the underlying connectivity. */
   state?: TransportStateEnum | (string & {}) | undefined;
-  /** Optional. List of IP Prefixes that will be advertised to the remote provider. Both IPv4 and IPv6 addresses are supported. */
-  advertisedRoutes?: StringList | undefined;
+  /** Output only. VPC Network URI that was created for the VPC Peering connection to the provided `network`. If VPC Peering is disconnected, this can be used to re-establish. */
+  peeringNetwork?: string | undefined;
   /** Optional. Description of the Transport. */
   description?: string | undefined;
   /** Identifier. Name of the resource. */
   name?: string | undefined;
-  /** Optional. IP version stack for the established connectivity. */
-  stackType?: TransportStackTypeEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The NCC Hub that the Transport should attach to. The hub must be in the same project as the Transport. Format: `{hub}` or `projects/{project}/locations/global/hubs/{hub}` */
-  hub?: string | undefined;
-  /** Output only. Update time stamp. */
-  updateTime?: string | undefined;
-  /** Optional. Immutable. Key used for establishing a connection with the remote transport. This key can only be provided if the profile supports an INPUT key flow and the resource is in the PENDING_KEY state. */
-  providedActivationKey?: string | undefined;
+  /** Optional. List of IP Prefixes that will be advertised to the remote provider. Both IPv4 and IPv6 addresses are supported. */
+  advertisedRoutes?: StringList | undefined;
   /** Output only. Google-generated activation key. This is only output if the selected profile supports an OUTPUT key flow. Inputting this to the provider is only valid while the resource is in a PENDING_KEY state. Once the provider has accepted the key, the resource will move to the CONFIGURING state. */
   generatedActivationKey?: string | undefined;
-  /** Optional. Immutable. Controls whether a Routing VPC Spoke should be created and attached to the NCC Hub. This will provide Private Service Connect (PSC) connectivity through NCC. This can only be set when the Transport is first created. */
-  pscRoutingEnabled?: boolean | undefined;
+  /** Optional. Immutable. Resource URI of the Network that will be peered with this Transport. This field must be provided during resource creation and cannot be changed. */
+  network?: string | undefined;
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable. Name of the remoteTransportProfile that this Transport is connecting to. */
+  remoteProfile?: string | undefined;
+  /** Output only. The maximum transmission unit (MTU) of a packet that can be sent over this transport. */
+  mtuLimit?: number | undefined;
+  /** Optional. IP version stack for the established connectivity. */
+  stackType?: TransportStackTypeEnum | (string & {}) | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. The user supplied account id for the CSP associated with the remote profile. */
+  remoteAccountId?: string | undefined;
+  /** Optional. Immutable. Key used for establishing a connection with the remote transport. This key can only be provided if the profile supports an INPUT key flow and the resource is in the PENDING_KEY state. */
+  providedActivationKey?: string | undefined;
 }
 export interface CreateProjectsLocationsTransportsRequest extends Transport {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1391,20 +1391,20 @@ export type DeleteProjectsLocationsAutomatedDnsRecordsDeleteModeEnum =
   | "DEPROGRAM"
   | "SKIP_DEPROGRAMMING";
 export interface DeleteProjectsLocationsAutomatedDnsRecordsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The name of the AutomatedDnsRecord to delete. */
-  name: string;
   /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
   /** Optional. Delete mode when deleting AutomatedDnsRecord. If set to DEPROGRAM, the record will be deprogrammed in Cloud DNS. If set to SKIP_DEPROGRAMMING, the record will not be deprogrammed in Cloud DNS. */
   deleteMode?: DeleteProjectsLocationsAutomatedDnsRecordsDeleteModeEnum | (string & {}) | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The name of the AutomatedDnsRecord to delete. */
+  name: string;
 }
 export interface DeleteProjectsLocationsGlobalHubsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The name of the hub to delete. */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1419,20 +1419,20 @@ export interface DeleteProjectsLocationsInternalRangesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsMulticloudDataTransferConfigsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
   /** Required. The name of the `MulticloudDataTransferConfig` resource to delete. */
   name: string;
   /** Optional. The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
+  /** Required. The name of the `Destination` resource to delete. */
+  name: string;
   /** Optional. The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
   requestId?: string | undefined;
-  /** Required. The name of the `Destination` resource to delete. */
-  name: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1441,10 +1441,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface DeleteProjectsLocationsPscAuthorizationPoliciesRequest {
   /** Optional. An optional request ID to identify requests. */
   requestId?: string | undefined;
-  /** Optional. The etag of the PscAuthorizationPolicy to delete. */
-  etag?: string | undefined;
   /** Required. The name of the PscAuthorizationPolicy to delete. */
   name: string;
+  /** Optional. The etag of the PscAuthorizationPolicy to delete. */
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsRegionalEndpointsRequest {
   /** Required. The name of the RegionalEndpoint to delete. */
@@ -1455,32 +1455,32 @@ export interface DeleteProjectsLocationsRegionalEndpointsRequest {
 export interface DeleteProjectsLocationsServiceClassesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The name of the ServiceClass to delete. */
-  name: string;
   /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** Required. The name of the ServiceClass to delete. */
+  name: string;
 }
 export interface DeleteProjectsLocationsServiceConnectionMapsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
   /** Required. The name of the ServiceConnectionMap to delete. */
   name: string;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsServiceConnectionPoliciesRequest {
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
   /** Required. The name of the ServiceConnectionPolicy to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsServiceConnectionTokensRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The name of the ServiceConnectionToken to delete. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
 }
@@ -1491,10 +1491,10 @@ export interface DeleteProjectsLocationsSpokesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
-  /** Required. The name of the gateway advertised route to delete. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the gateway advertised route to delete. */
+  name: string;
 }
 export interface DeleteProjectsLocationsTransportsRequest {
   /** Required. Name of the resource. */
@@ -1508,27 +1508,6 @@ export interface GetIamPolicyProjectsLocationsGlobalHubsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -1544,28 +1523,49 @@ export interface AuditLogConfig {
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalHubsGroupsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1574,16 +1574,16 @@ export interface GetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest {
   "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsInternalRangesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsSpokesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1593,12 +1593,12 @@ export interface GetProjectsLocationsRequest {
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
 }
@@ -1632,24 +1632,24 @@ export type GroupStateEnum =
   | "FAILED";
 /** A group represents a subset of spokes attached to a hub. */
 export interface Group {
-  /** Optional. The description of the group. */
-  description?: string | undefined;
-  /** Output only. The Google-generated UUID for the group. This value is unique across all group resources. If a group is deleted and another with the same name is created, the new route table is assigned a different unique_id. */
-  uid?: string | undefined;
-  /** Optional. Labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
-  labels?: StringMap | undefined;
-  /** Output only. The time the group was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. The auto-accept setting for this group. */
-  autoAccept?: AutoAccept | undefined;
   /** Output only. The name of the route table that corresponds to this group. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` */
   routeTable?: string | undefined;
-  /** Output only. The current lifecycle state of this group. */
-  state?: GroupStateEnum | (string & {}) | undefined;
   /** Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
   name?: string | undefined;
   /** Output only. The time the group was created. */
   createTime?: string | undefined;
+  /** Output only. The Google-generated UUID for the group. This value is unique across all group resources. If a group is deleted and another with the same name is created, the new route table is assigned a different unique_id. */
+  uid?: string | undefined;
+  /** Optional. The auto-accept setting for this group. */
+  autoAccept?: AutoAccept | undefined;
+  /** Output only. The time the group was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The current lifecycle state of this group. */
+  state?: GroupStateEnum | (string & {}) | undefined;
+  /** Optional. Labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. The description of the group. */
+  description?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalHubsRouteTablesRequest {
   /** Required. The name of the route table resource. */
@@ -1669,23 +1669,29 @@ export type RouteTableStateEnum =
 export interface RouteTable {
   /** Output only. The Google-generated UUID for the route table. This value is unique across all route table resources. If a route table is deleted and another with the same name is created, the new route table is assigned a different `uid`. */
   uid?: string | undefined;
+  /** Output only. The time the route table was created. */
+  createTime?: string | undefined;
+  /** An optional description of the route table. */
+  description?: string | undefined;
   /** Output only. The time the route table was last updated. */
   updateTime?: string | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
   /** Immutable. The name of the route table. Route table names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/routeTables/{route_table_id}` */
   name?: string | undefined;
   /** Output only. The current lifecycle state of this route table. */
   state?: RouteTableStateEnum | undefined;
-  /** An optional description of the route table. */
-  description?: string | undefined;
-  /** Output only. The time the route table was created. */
-  createTime?: string | undefined;
-  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
-  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsGlobalHubsRouteTablesRoutesRequest {
   /** Required. The name of the route resource. */
   name: string;
 }
+export type RouteTypeEnum =
+  | "ROUTE_TYPE_UNSPECIFIED"
+  | "VPC_PRIMARY_SUBNET"
+  | "VPC_SECONDARY_SUBNET"
+  | "DYNAMIC_ROUTE"
+  | "PSC_GLOBAL_GAPI";
 export type RouteStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -1701,10 +1707,10 @@ export type RouteStateEnum =
 export interface NextHopRouterApplianceInstance {
   /** The VPC network where this VM is located. */
   vpcNetwork?: string | undefined;
-  /** The URI of the Router appliance instance. */
-  uri?: string | undefined;
   /** Indicates whether site-to-site data transfer is allowed for this Router appliance instance resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
   siteToSiteDataTransfer?: boolean | undefined;
+  /** The URI of the Router appliance instance. */
+  uri?: string | undefined;
 }
 /** A route next hop that leads to a spoke resource. */
 export interface NextHopSpoke {
@@ -1713,70 +1719,64 @@ export interface NextHopSpoke {
   /** Indicates whether site-to-site data transfer is allowed for this spoke resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). Whether this route is accessible to other hybrid spokes with site-to-site data transfer enabled. If this is false, the route is only accessible to VPC spokes of the connected Hub. */
   siteToSiteDataTransfer?: boolean | undefined;
 }
-export type RouteTypeEnum =
-  | "ROUTE_TYPE_UNSPECIFIED"
-  | "VPC_PRIMARY_SUBNET"
-  | "VPC_SECONDARY_SUBNET"
-  | "DYNAMIC_ROUTE"
-  | "PSC_GLOBAL_GAPI";
 export interface NextHopVpcNetwork {
   /** The URI of the VPC network resource */
   uri?: string | undefined;
-}
-/** A route next hop that leads to an interconnect attachment resource. */
-export interface NextHopInterconnectAttachment {
-  /** The VPC network where this interconnect attachment is located. */
-  vpcNetwork?: string | undefined;
-  /** The URI of the interconnect attachment resource. */
-  uri?: string | undefined;
-  /** Indicates whether site-to-site data transfer is allowed for this interconnect attachment resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
-  siteToSiteDataTransfer?: boolean | undefined;
 }
 /** A route next hop that leads to a VPN tunnel resource. */
 export interface NextHopVPNTunnel {
   /** The URI of the VPN tunnel resource. */
   uri?: string | undefined;
-  /** Indicates whether site-to-site data transfer is allowed for this VPN tunnel resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
-  siteToSiteDataTransfer?: boolean | undefined;
   /** The VPC network where this VPN tunnel is located. */
   vpcNetwork?: string | undefined;
+  /** Indicates whether site-to-site data transfer is allowed for this VPN tunnel resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
+  siteToSiteDataTransfer?: boolean | undefined;
+}
+/** A route next hop that leads to an interconnect attachment resource. */
+export interface NextHopInterconnectAttachment {
+  /** The URI of the interconnect attachment resource. */
+  uri?: string | undefined;
+  /** The VPC network where this interconnect attachment is located. */
+  vpcNetwork?: string | undefined;
+  /** Indicates whether site-to-site data transfer is allowed for this interconnect attachment resource. Data transfer is available only in [supported locations](https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/locations). */
+  siteToSiteDataTransfer?: boolean | undefined;
 }
 /** A route defines a path from VM instances within a spoke to a specific destination resource. Only VPC spokes have routes. */
 export interface Route {
-  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
-  labels?: StringMap | undefined;
-  /** Immutable. The spoke that this route leads to. Example: projects/12345/locations/global/spokes/SPOKE */
-  spoke?: string | undefined;
+  /** Output only. The route's type. Its type is determined by the properties of its IP address range. */
+  type?: RouteTypeEnum | undefined;
   /** The destination IP address range. */
   ipCidrRange?: string | undefined;
   /** Output only. The current lifecycle state of the route. */
   state?: RouteStateEnum | undefined;
+  /** Immutable. The spoke that this route leads to. Example: projects/12345/locations/global/spokes/SPOKE */
+  spoke?: string | undefined;
   /** Immutable. The next-hop Router appliance instance for packets on this route. */
   nextHopRouterApplianceInstance?: NextHopRouterApplianceInstance | undefined;
   /** Immutable. The name of the route. Route names must be unique. Route names use the following form: `projects/{project_number}/locations/global/hubs/{hub}/routeTables/{route_table_id}/routes/{route_id}` */
   name?: string | undefined;
   /** Immutable. The next-hop spoke for packets on this route. */
   nextHopSpoke?: NextHopSpoke | undefined;
-  /** Output only. The route's type. Its type is determined by the properties of its IP address range. */
-  type?: RouteTypeEnum | undefined;
-  /** Output only. The priority of this route. Priority is used to break ties in cases where a destination matches more than one route. In these cases the route with the lowest-numbered priority value wins. */
-  priority?: string | undefined;
-  /** Immutable. The destination VPC network for packets on this route. */
-  nextHopVpcNetwork?: NextHopVpcNetwork | undefined;
   /** Output only. The time the route was created. */
   createTime?: string | undefined;
-  /** Output only. The origin location of the route. Uses the following form: "projects/{project}/locations/{location}" Example: projects/1234/locations/us-central1 */
-  location?: string | undefined;
-  /** Immutable. The next-hop VLAN attachment for packets on this route. */
-  nextHopInterconnectAttachment?: NextHopInterconnectAttachment | undefined;
-  /** Output only. The time the route was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The Google-generated UUID for the route. This value is unique across all Network Connectivity Center route resources. If a route is deleted and another with the same name is created, the new route is assigned a different `uid`. */
-  uid?: string | undefined;
+  /** Output only. The priority of this route. Priority is used to break ties in cases where a destination matches more than one route. In these cases the route with the lowest-numbered priority value wins. */
+  priority?: string | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
   /** An optional description of the route. */
   description?: string | undefined;
+  /** Immutable. The destination VPC network for packets on this route. */
+  nextHopVpcNetwork?: NextHopVpcNetwork | undefined;
+  /** Output only. The time the route was last updated. */
+  updateTime?: string | undefined;
   /** Immutable. The next-hop VPN tunnel for packets on this route. */
   nextHopVpnTunnel?: NextHopVPNTunnel | undefined;
+  /** Output only. The Google-generated UUID for the route. This value is unique across all Network Connectivity Center route resources. If a route is deleted and another with the same name is created, the new route is assigned a different `uid`. */
+  uid?: string | undefined;
+  /** Immutable. The next-hop VLAN attachment for packets on this route. */
+  nextHopInterconnectAttachment?: NextHopInterconnectAttachment | undefined;
+  /** Output only. The origin location of the route. Uses the following form: "projects/{project}/locations/{location}" Example: projects/1234/locations/us-central1 */
+  location?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** Required. Name of the PolicyBasedRoute resource to get. */
@@ -1805,18 +1805,18 @@ export type ServiceConfigEligibilityCriteriaEnum =
   | "REQUEST_ENDPOINT_REGIONAL_ENDPOINT_ONLY";
 /** Specifies eligibility information for the service. */
 export interface ServiceConfig {
-  /** Output only. The end time for eligibility criteria support. If not specified, no planned end time is set. */
-  supportEndTime?: string | undefined;
   /** Output only. The eligibility criteria for the service. */
   eligibilityCriteria?: ServiceConfigEligibilityCriteriaEnum | undefined;
+  /** Output only. The end time for eligibility criteria support. If not specified, no planned end time is set. */
+  supportEndTime?: string | undefined;
 }
 export type ServiceConfigList = Array<ServiceConfig>;
 /** A service in your project in a region that is eligible for Data Transfer Essentials configuration. */
 export interface MulticloudDataTransferSupportedService {
-  /** Identifier. The name of the service. */
-  name?: string | undefined;
   /** Output only. The network service tier or regional endpoint supported for the service. */
   serviceConfigs?: ServiceConfigList | undefined;
+  /** Identifier. The name of the service. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1834,6 +1834,16 @@ export interface GetProjectsLocationsRemoteTransportProfilesRequest {
   /** Required. Name of the resource. */
   name: string;
 }
+export type RemoteTransportProfileSlaEnum =
+  | "SERVICE_LEVEL_AVAILABILITY_UNSPECIFIED"
+  | "HIGH"
+  | "MAXIMUM";
+export type RemoteTransportProfileOrderStateEnum = "STATE_UNSPECIFIED" | "CLOSED" | "OPEN";
+export type RemoteTransportProfileFlowEnum =
+  | "KEY_PROVISIONING_FLOW_UNSPECIFIED"
+  | "INPUT_ONLY"
+  | "OUTPUT_ONLY"
+  | "INPUT_OR_OUTPUT";
 export type RemoteTransportProfileSupportedBandwidthsItemEnum =
   | "BANDWIDTH_UNSPECIFIED"
   | "BPS_50M"
@@ -1851,38 +1861,28 @@ export type RemoteTransportProfileSupportedBandwidthsItemEnum =
   | "BPS_100G";
 export type RemoteTransportProfileSupportedBandwidthsItemEnumList =
   Array<RemoteTransportProfileSupportedBandwidthsItemEnum>;
-export type RemoteTransportProfileOrderStateEnum = "STATE_UNSPECIFIED" | "CLOSED" | "OPEN";
-export type RemoteTransportProfileSlaEnum =
-  | "SERVICE_LEVEL_AVAILABILITY_UNSPECIFIED"
-  | "HIGH"
-  | "MAXIMUM";
-export type RemoteTransportProfileFlowEnum =
-  | "KEY_PROVISIONING_FLOW_UNSPECIFIED"
-  | "INPUT_ONLY"
-  | "OUTPUT_ONLY"
-  | "INPUT_OR_OUTPUT";
 /** Message describing RemoteTransportProfile object. */
 export interface RemoteTransportProfile {
-  /** Output only. Description of the profile. */
-  description?: string | undefined;
-  /** Output only. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. Human readable name of this profile, used to identify this profile in the UI. */
-  displayName?: string | undefined;
-  /** Output only. List of bandwidth enum values that are supported by this profile. */
-  supportedBandwidths?: RemoteTransportProfileSupportedBandwidthsItemEnumList | undefined;
-  /** Output only. Name of the provider on the other end of this profile. E.g. "Amazon Web Services" or "Microsoft Azure". */
-  provider?: string | undefined;
-  /** Output only. Order state for this profile. */
-  orderState?: RemoteTransportProfileOrderStateEnum | undefined;
+  /** Output only. If the profile is a Cloud Service Provider with compute resources, this is populated with the region where connectivity is being established. If the profile provides facility-level selection, this is an identity of the facility any connections on this profile are going through. */
+  providerSite?: string | undefined;
   /** Output only. Availability class that will be configured for this particular RemoteTransportProfile. */
   sla?: RemoteTransportProfileSlaEnum | undefined;
+  /** Output only. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Name of the provider on the other end of this profile. E.g. "Amazon Web Services" or "Microsoft Azure". */
+  provider?: string | undefined;
+  /** Output only. Description of the profile. */
+  description?: string | undefined;
+  /** Output only. Human readable name of this profile, used to identify this profile in the UI. */
+  displayName?: string | undefined;
+  /** Output only. Order state for this profile. */
+  orderState?: RemoteTransportProfileOrderStateEnum | undefined;
   /** Identifier. Name of the resource in the format of $provider-$site. */
   name?: string | undefined;
   /** Output only. Type of provisioning flows supported by this profile. */
   flow?: RemoteTransportProfileFlowEnum | undefined;
-  /** Output only. If the profile is a Cloud Service Provider with compute resources, this is populated with the region where connectivity is being established. If the profile provides facility-level selection, this is an identity of the facility any connections on this profile are going through. */
-  providerSite?: string | undefined;
+  /** Output only. List of bandwidth enum values that are supported by this profile. */
+  supportedBandwidths?: RemoteTransportProfileSupportedBandwidthsItemEnumList | undefined;
 }
 export interface GetProjectsLocationsServiceClassesRequest {
   /** Required. Name of the ServiceClass to get. */
@@ -1890,20 +1890,20 @@ export interface GetProjectsLocationsServiceClassesRequest {
 }
 /** The ServiceClass resource. */
 export interface ServiceClass {
-  /** User-defined labels. */
-  labels?: StringMap | undefined;
-  /** A description of this resource. */
-  description?: string | undefined;
-  /** Immutable. The name of a ServiceClass resource. Format: projects/{project}/locations/{location}/serviceClasses/{service_class} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name?: string | undefined;
-  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** Output only. The generated service class name. Use this name to refer to the Service class in Service Connection Maps and Service Connection Policies. */
   serviceClass?: string | undefined;
-  /** Output only. Time when the ServiceClass was updated. */
-  updateTime?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Immutable. The name of a ServiceClass resource. Format: projects/{project}/locations/{location}/serviceClasses/{service_class} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
   /** Output only. Time when the ServiceClass was created. */
   createTime?: string | undefined;
+  /** Output only. Time when the ServiceClass was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
 }
 export interface GetProjectsLocationsServiceConnectionMapsRequest {
   /** Required. Name of the ServiceConnectionMap to get. */
@@ -1930,16 +1930,16 @@ export interface GetProjectsLocationsTransportsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -1950,214 +1950,214 @@ export interface ListLocationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAutomatedDnsRecordsRequest {
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
-  /** The page token. */
-  pageToken?: string | undefined;
-  /** The maximum number of results per page that should be returned. */
-  pageSize?: number | undefined;
   /** A filter expression that filters the results listed in the response. */
   filter?: string | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
   /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
   parent: string;
+  /** The maximum number of results per page that should be returned. */
+  pageSize?: number | undefined;
+  /** The page token. */
+  pageToken?: string | undefined;
 }
 export type AutomatedDnsRecordList = Array<AutomatedDnsRecord>;
 /** Response for ListAutomatedDnsRecords. */
 export interface ListAutomatedDnsRecordsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** AutomatedDnsRecords to be returned. */
-  automatedDnsRecords?: AutomatedDnsRecordList | undefined;
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
+  /** AutomatedDnsRecords to be returned. */
+  automatedDnsRecords?: AutomatedDnsRecordList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalHubsRequest {
   /** An expression that filters the list of results. */
   filter?: string | undefined;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
-  /** Required. The parent resource's name. */
-  parent: string;
   /** The maximum number of results per page to return. */
   pageSize?: number | undefined;
   /** The page token. */
   pageToken?: string | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
+  /** Required. The parent resource's name. */
+  parent: string;
 }
 export type HubList = Array<Hub>;
 /** Response for HubService.ListHubs method. */
 export interface ListHubsResponse {
   /** The requested hubs. */
   hubs?: HubList | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalHubsGroupsRequest {
-  /** An expression that filters the list of results. */
-  filter?: string | undefined;
-  /** The page token. */
-  pageToken?: string | undefined;
   /** Required. The parent resource's name. */
   parent: string;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
   /** The maximum number of results to return per page. */
   pageSize?: number | undefined;
+  /** The page token. */
+  pageToken?: string | undefined;
+  /** An expression that filters the list of results. */
+  filter?: string | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
 }
 export type GroupList = Array<Group>;
 /** Response for HubService.ListGroups method. */
 export interface ListGroupsResponse {
-  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
-  nextPageToken?: string | undefined;
   /** Hubs that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
+  nextPageToken?: string | undefined;
   /** The requested groups. */
   groups?: GroupList | undefined;
 }
 export interface ListProjectsLocationsGlobalHubsRouteTablesRequest {
   /** An expression that filters the list of results. */
   filter?: string | undefined;
-  /** Required. The parent resource's name. */
-  parent: string;
   /** The page token. */
   pageToken?: string | undefined;
   /** The maximum number of results to return per page. */
   pageSize?: number | undefined;
   /** Sort the results by a certain order. */
   orderBy?: string | undefined;
+  /** Required. The parent resource's name. */
+  parent: string;
 }
 export type RouteTableList = Array<RouteTable>;
 /** Response for HubService.ListRouteTables method. */
 export interface ListRouteTablesResponse {
-  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
-  nextPageToken?: string | undefined;
   /** The requested route tables. */
   routeTables?: RouteTableList | undefined;
+  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
+  nextPageToken?: string | undefined;
   /** Hubs that could not be reached. */
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalHubsRouteTablesRoutesRequest {
+  /** An expression that filters the list of results. */
+  filter?: string | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
+  /** The maximum number of results to return per page. */
+  pageSize?: number | undefined;
   /** The page token. */
   pageToken?: string | undefined;
   /** Required. The parent resource's name. */
   parent: string;
-  /** The maximum number of results to return per page. */
-  pageSize?: number | undefined;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
-  /** An expression that filters the list of results. */
-  filter?: string | undefined;
 }
 export type RouteList = Array<Route>;
 /** Response for HubService.ListRoutes method. */
 export interface ListRoutesResponse {
-  /** RouteTables that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The requested routes. */
   routes?: RouteList | undefined;
+  /** RouteTables that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGlobalPolicyBasedRoutesRequest {
+  /** The page token. */
+  pageToken?: string | undefined;
   /** Required. The parent resource's name. */
   parent: string;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
   /** The maximum number of results per page that should be returned. */
   pageSize?: number | undefined;
   /** A filter expression that filters the results listed in the response. */
   filter?: string | undefined;
-  /** The page token. */
-  pageToken?: string | undefined;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
 }
 export type PolicyBasedRouteList = Array<PolicyBasedRoute>;
 /** Response for PolicyBasedRoutingService.ListPolicyBasedRoutes method. */
 export interface ListPolicyBasedRoutesResponse {
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** Policy-based routes to be returned. */
   policyBasedRoutes?: PolicyBasedRouteList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsInternalRangesRequest {
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
-  /** The maximum number of results per page that should be returned. */
-  pageSize?: number | undefined;
   /** Required. The parent resource's name. */
   parent: string;
   /** The page token. */
   pageToken?: string | undefined;
+  /** The maximum number of results per page that should be returned. */
+  pageSize?: number | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
   /** A filter expression that filters the results listed in the response. */
   filter?: string | undefined;
 }
 export type InternalRangeList = Array<InternalRange>;
 /** Response for InternalRange.ListInternalRanges */
 export interface ListInternalRangesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** Internal ranges to be returned. */
-  internalRanges?: InternalRangeList | undefined;
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
+  /** Internal ranges to be returned. */
+  internalRanges?: InternalRangeList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsMulticloudDataTransferConfigsRequest {
-  /** Optional. The page token. */
-  pageToken?: string | undefined;
-  /** Optional. The sort order of the results. */
-  orderBy?: string | undefined;
-  /** Optional. The maximum number of results listed per page. */
-  pageSize?: number | undefined;
-  /** Optional. An expression that filters the results listed in the response. */
-  filter?: string | undefined;
   /** Optional. If `true`, allows partial responses for multi-regional aggregated list requests. */
   returnPartialSuccess?: boolean | undefined;
+  /** Optional. An expression that filters the results listed in the response. */
+  filter?: string | undefined;
+  /** Optional. The sort order of the results. */
+  orderBy?: string | undefined;
+  /** Optional. The page token. */
+  pageToken?: string | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
+  /** Optional. The maximum number of results listed per page. */
+  pageSize?: number | undefined;
 }
 export type MulticloudDataTransferConfigList = Array<MulticloudDataTransferConfig>;
 /** Response message to list `MulticloudDataTransferConfig` resources. */
 export interface ListMulticloudDataTransferConfigsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of `MulticloudDataTransferConfig` resources to be listed. */
   multicloudDataTransferConfigs?: MulticloudDataTransferConfigList | undefined;
   /** The next page token. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
+  /** Required. The name of the parent resource. */
+  parent: string;
   /** Optional. If `true`, allow partial responses for multi-regional aggregated list requests. */
   returnPartialSuccess?: boolean | undefined;
   /** Optional. The sort order of the results. */
   orderBy?: string | undefined;
-  /** Optional. An expression that filters the results listed in the response. */
-  filter?: string | undefined;
-  /** Required. The name of the parent resource. */
-  parent: string;
-  /** Optional. The maximum number of results listed per page. */
-  pageSize?: number | undefined;
   /** Optional. The page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of results listed per page. */
+  pageSize?: number | undefined;
+  /** Optional. An expression that filters the results listed in the response. */
+  filter?: string | undefined;
 }
 export type DestinationList = Array<Destination>;
 /** Response message to list `Destination` resources. */
 export interface ListDestinationsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of `Destination` resources to be listed. */
   destinations?: DestinationList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The next page token. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMulticloudDataTransferSupportedServicesRequest {
+  /** Optional. The maximum number of results listed per page. */
+  pageSize?: number | undefined;
   /** Optional. The page token. */
   pageToken?: string | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
-  /** Optional. The maximum number of results listed per page. */
-  pageSize?: number | undefined;
 }
 export type MulticloudDataTransferSupportedServiceList =
   Array<MulticloudDataTransferSupportedService>;
@@ -2171,58 +2171,58 @@ export interface ListMulticloudDataTransferSupportedServicesResponse {
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListProjectsLocationsPscAuthorizationPoliciesRequest {
-  /** Optional. Filter expression to restrict the results. */
-  filter?: string | undefined;
-  /** Optional. A page token, received from a previous `ListPscAuthorizationPolicies` call. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource's name. */
-  parent: string;
   /** Optional. The maximum number of PscAuthorizationPolicies to return in a single page. The service may return fewer than this value. If unspecified, at most 50 PscAuthorizationPolicies will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
   /** Optional. Sort order of the results. */
   orderBy?: string | undefined;
+  /** Required. The parent resource's name. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListPscAuthorizationPolicies` call. */
+  pageToken?: string | undefined;
+  /** Optional. Filter expression to restrict the results. */
+  filter?: string | undefined;
 }
 export type PscAuthorizationPolicyList = Array<PscAuthorizationPolicy>;
 /** Response for ListPscAuthorizationPolicies. */
 export interface ListPscAuthorizationPoliciesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. */
   nextPageToken?: string | undefined;
-  /** The list of PscAuthorizationPolicies. */
-  pscAuthorizationPolicies?: PscAuthorizationPolicyList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The list of PscAuthorizationPolicies. */
+  pscAuthorizationPolicies?: PscAuthorizationPolicyList | undefined;
 }
 export interface ListProjectsLocationsRegionalEndpointsRequest {
-  /** A page token. */
-  pageToken?: string | undefined;
   /** Required. The parent resource's name of the RegionalEndpoint. */
   parent: string;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
   /** A filter expression that filters the results listed in the response. */
   filter?: string | undefined;
+  /** A page token. */
+  pageToken?: string | undefined;
 }
 export type RegionalEndpointList = Array<RegionalEndpoint>;
 /** Response for ListRegionalEndpoints. */
@@ -2235,136 +2235,136 @@ export interface ListRegionalEndpointsResponse {
   regionalEndpoints?: RegionalEndpointList | undefined;
 }
 export interface ListProjectsLocationsRemoteTransportProfilesRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
   /** Required. Parent value for ListRemoteTransportProfilesRequest. */
   parent: string;
 }
 export type RemoteTransportProfileList = Array<RemoteTransportProfile>;
 /** Message for response to listing RemoteTransportProfiles */
 export interface ListRemoteTransportProfilesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
   /** The list of RemoteTransportProfiles. */
   remoteTransportProfiles?: RemoteTransportProfileList | undefined;
 }
 export interface ListProjectsLocationsServiceClassesRequest {
   /** The page token. */
   pageToken?: string | undefined;
-  /** A filter expression that filters the results listed in the response. */
-  filter?: string | undefined;
+  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
+  parent: string;
   /** Sort the results by a certain order. */
   orderBy?: string | undefined;
   /** The maximum number of results per page that should be returned. */
   pageSize?: number | undefined;
-  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
-  parent: string;
+  /** A filter expression that filters the results listed in the response. */
+  filter?: string | undefined;
 }
 export type ServiceClassList = Array<ServiceClass>;
 /** Response for ListServiceClasses. */
 export interface ListServiceClassesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** ServiceClasses to be returned. */
   serviceClasses?: ServiceClassList | undefined;
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsServiceConnectionMapsRequest {
-  /** A filter expression that filters the results listed in the response. */
-  filter?: string | undefined;
-  /** The maximum number of results per page that should be returned. */
-  pageSize?: number | undefined;
   /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
   parent: string;
-  /** Sort the results by a certain order. */
-  orderBy?: string | undefined;
+  /** The maximum number of results per page that should be returned. */
+  pageSize?: number | undefined;
   /** The page token. */
   pageToken?: string | undefined;
+  /** Sort the results by a certain order. */
+  orderBy?: string | undefined;
+  /** A filter expression that filters the results listed in the response. */
+  filter?: string | undefined;
 }
 export type ServiceConnectionMapList = Array<ServiceConnectionMap>;
 /** Response for ListServiceConnectionMaps. */
 export interface ListServiceConnectionMapsResponse {
   /** ServiceConnectionMaps to be returned. */
   serviceConnectionMaps?: ServiceConnectionMapList | undefined;
-  /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServiceConnectionPoliciesRequest {
-  /** The maximum number of results per page that should be returned. */
-  pageSize?: number | undefined;
-  /** A filter expression that filters the results listed in the response. */
-  filter?: string | undefined;
-  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
-  parent: string;
   /** The page token. */
   pageToken?: string | undefined;
+  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
+  parent: string;
+  /** A filter expression that filters the results listed in the response. */
+  filter?: string | undefined;
+  /** The maximum number of results per page that should be returned. */
+  pageSize?: number | undefined;
   /** Sort the results by a certain order. */
   orderBy?: string | undefined;
 }
 export type ServiceConnectionPolicyList = Array<ServiceConnectionPolicy>;
 /** Response for ListServiceConnectionPolicies. */
 export interface ListServiceConnectionPoliciesResponse {
+  /** ServiceConnectionPolicies to be returned. */
+  serviceConnectionPolicies?: ServiceConnectionPolicyList | undefined;
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** ServiceConnectionPolicies to be returned. */
-  serviceConnectionPolicies?: ServiceConnectionPolicyList | undefined;
 }
 export interface ListProjectsLocationsServiceConnectionTokensRequest {
   /** The maximum number of results per page that should be returned. */
   pageSize?: number | undefined;
-  /** The page token. */
-  pageToken?: string | undefined;
-  /** A filter expression that filters the results listed in the response. */
-  filter?: string | undefined;
-  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
-  parent: string;
   /** Sort the results by a certain order. */
   orderBy?: string | undefined;
+  /** A filter expression that filters the results listed in the response. */
+  filter?: string | undefined;
+  /** The page token. */
+  pageToken?: string | undefined;
+  /** Required. The parent resource's name. ex. projects/123/locations/us-east1 */
+  parent: string;
 }
 export type ServiceConnectionTokenList = Array<ServiceConnectionToken>;
 /** Response for ListServiceConnectionTokens. */
 export interface ListServiceConnectionTokensResponse {
-  /** ServiceConnectionTokens to be returned. */
-  serviceConnectionTokens?: ServiceConnectionTokenList | undefined;
   /** The next pagination token in the List response. It should be used as page_token for the following request. An empty value means no more result. */
   nextPageToken?: string | undefined;
+  /** ServiceConnectionTokens to be returned. */
+  serviceConnectionTokens?: ServiceConnectionTokenList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSpokesRequest {
-  /** An expression that filters the list of results. */
-  filter?: string | undefined;
-  /** Required. The parent resource. */
-  parent: string;
   /** Sort the results by a certain order. */
   orderBy?: string | undefined;
+  /** An expression that filters the list of results. */
+  filter?: string | undefined;
   /** The page token. */
   pageToken?: string | undefined;
   /** The maximum number of results to return per page. */
   pageSize?: number | undefined;
+  /** Required. The parent resource. */
+  parent: string;
 }
 export type SpokeList = Array<Spoke>;
 /** The response for HubService.ListSpokes. */
 export interface ListSpokesResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
   nextPageToken?: string | undefined;
   /** The requested spokes. */
   spokes?: SpokeList | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
   /** Sort the results by a certain order. */
@@ -2381,63 +2381,63 @@ export interface ListProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
 export type GatewayAdvertisedRouteList = Array<GatewayAdvertisedRoute>;
 /** Response for HubService.ListGatewayAdvertisedRoutes method. */
 export interface ListGatewayAdvertisedRoutesResponse {
-  /** Hubs that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
-  nextPageToken?: string | undefined;
   /** The requested gateway advertised routes. */
   gatewayAdvertisedRoutes?: GatewayAdvertisedRouteList | undefined;
+  /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
+  nextPageToken?: string | undefined;
+  /** Hubs that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTransportsRequest {
   /** Required. Parent value for ListTransportsRequest. */
   parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
 }
 export type TransportList = Array<Transport>;
 /** Message for response to listing Transports. */
 export interface ListTransportsResponse {
-  /** The list of Transport. */
-  transports?: TransportList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of Transport. */
+  transports?: TransportList | undefined;
 }
 export type ListSpokesProjectsLocationsGlobalHubsViewEnum =
   | "SPOKE_VIEW_UNSPECIFIED"
   | "BASIC"
   | "DETAILED";
 export interface ListSpokesProjectsLocationsGlobalHubsRequest {
-  /** The page token. */
-  pageToken?: string | undefined;
-  /** A list of locations. Specify one of the following: `[global]`, a single region (for example, `[us-central1]`), or a combination of values (for example, `[global, us-central1, us-west1]`). If the spoke_locations field is populated, the list of results includes only spokes in the specified location. If the spoke_locations field is not populated, the list of results includes spokes in all locations. */
-  spokeLocations?: StringList | undefined;
-  /** Sort the results by name or create_time. */
-  orderBy?: string | undefined;
-  /** Required. The name of the hub. */
-  name: string;
   /** The maximum number of results to return per page. */
   pageSize?: number | undefined;
   /** An expression that filters the list of results. */
   filter?: string | undefined;
+  /** A list of locations. Specify one of the following: `[global]`, a single region (for example, `[us-central1]`), or a combination of values (for example, `[global, us-central1, us-west1]`). If the spoke_locations field is populated, the list of results includes only spokes in the specified location. If the spoke_locations field is not populated, the list of results includes spokes in all locations. */
+  spokeLocations?: StringList | undefined;
+  /** Sort the results by name or create_time. */
+  orderBy?: string | undefined;
+  /** The page token. */
+  pageToken?: string | undefined;
   /** The view of the spoke to return. The view that you use determines which spoke fields are included in the response. */
   view?: ListSpokesProjectsLocationsGlobalHubsViewEnum | (string & {}) | undefined;
+  /** Required. The name of the hub. */
+  name: string;
 }
 /** The response for HubService.ListHubSpokes. */
 export interface ListHubSpokesResponse {
   /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
   nextPageToken?: string | undefined;
-  /** The requested spokes. The spoke fields can be partially populated based on the `view` field in the request message. */
-  spokes?: SpokeList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The requested spokes. The spoke fields can be partially populated based on the `view` field in the request message. */
+  spokes?: SpokeList | undefined;
 }
 export interface PatchProjectsLocationsGlobalHubsRequest extends Omit<Hub, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2448,29 +2448,29 @@ export interface PatchProjectsLocationsGlobalHubsRequest extends Omit<Hub, "name
   name: string;
 }
 export interface PatchProjectsLocationsGlobalHubsGroupsRequest extends Omit<Group, "name"> {
-  /** Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
-  name: string;
   /** Optional. In the case of an update to an existing group, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
+  name: string;
 }
 export interface PatchProjectsLocationsInternalRangesRequest extends Omit<InternalRange, "name"> {
-  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the InternalRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name: string;
 }
 export interface PatchProjectsLocationsMulticloudDataTransferConfigsRequest extends Omit<
   MulticloudDataTransferConfig,
   "name"
 > {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
   /** Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
   /** Optional. `FieldMask` is used to specify the fields in the `MulticloudDataTransferConfig` resource to be overwritten by the update. The fields specified in `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If you don't specify a mask, all fields are overwritten. */
   updateMask?: string | undefined;
 }
@@ -2478,83 +2478,83 @@ export interface PatchProjectsLocationsMulticloudDataTransferConfigsDestinations
   Destination,
   "name"
 > {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
-  /** Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
-  name: string;
   /** Optional. `FieldMask is used to specify the fields to be overwritten in the `Destination` resource by the update. The fields specified in `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If you don't specify a mask, all fields are overwritten. */
   updateMask?: string | undefined;
+  /** Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
+  name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceClassesRequest extends Omit<ServiceClass, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceClass resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
   /** Immutable. The name of a ServiceClass resource. Format: projects/{project}/locations/{location}/serviceClasses/{service_class} See: https://google.aip.dev/122#fields-representing-resource-names */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceClass resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionMapsRequest extends Omit<
   ServiceConnectionMap,
   "name"
 > {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Immutable. The name of a ServiceConnectionMap. Format: projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map} See: https://google.aip.dev/122#fields-representing-resource-names */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceConnectionMap resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionPoliciesRequest extends Omit<
   ServiceConnectionPolicy,
   "name"
 > {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceConnectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsSpokesRequest extends Omit<Spoke, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. In the case of an update to an existing spoke, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
-  updateMask?: string | undefined;
   /** Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
   name: string;
+  /** Optional. In the case of an update to an existing spoke, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest extends Omit<
   GatewayAdvertisedRoute,
   "name"
 > {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. In the case of an update to an existing group, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
   name: string;
 }
 export interface PatchProjectsLocationsTransportsRequest extends Omit<Transport, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Transport resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Transport resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
 }
 export interface QueryStatusProjectsLocationsGlobalHubsRequest {
-  /** Optional. Sort the results in ascending order by the specified fields. A comma-separated list of any of these fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` If `group_by` is set, the value of the `order_by` field must be the same as or a subset of the `group_by` field. */
-  orderBy?: string | undefined;
   /** Optional. The page token. */
   pageToken?: string | undefined;
-  /** Required. The name of the hub. */
-  name: string;
   /** Optional. The maximum number of results to return per page. */
   pageSize?: number | undefined;
+  /** Optional. Sort the results in ascending order by the specified fields. A comma-separated list of any of these fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` If `group_by` is set, the value of the `order_by` field must be the same as or a subset of the `group_by` field. */
+  orderBy?: string | undefined;
   /** Optional. Aggregate the results by the specified fields. A comma-separated list of any of these fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` */
   groupBy?: string | undefined;
   /** Optional. An expression that filters the list of results. The filter can be used to filter the results by the following fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` * `psc_propagation_status.message` */
   filter?: string | undefined;
+  /** Required. The name of the hub. */
+  name: string;
 }
 export type PscPropagationStatusCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -2566,29 +2566,29 @@ export type PscPropagationStatusCodeEnum =
   | "ERROR_CONSUMER_QUOTA_EXCEEDED";
 /** The status of one or more propagated Private Service Connect connections in a hub. */
 export interface PscPropagationStatus {
-  /** The name of the group that the target spoke belongs to. */
-  targetGroup?: string | undefined;
-  /** The name of the group that the source spoke belongs to. */
-  sourceGroup?: string | undefined;
-  /** The propagation status. */
-  code?: PscPropagationStatusCodeEnum | undefined;
-  /** The name of the spoke that the source forwarding rule propagates to. */
-  targetSpoke?: string | undefined;
   /** The human-readable summary of the Private Service Connect connection propagation status. */
   message?: string | undefined;
-  /** The name of the spoke that the source forwarding rule belongs to. */
-  sourceSpoke?: string | undefined;
+  /** The name of the group that the target spoke belongs to. */
+  targetGroup?: string | undefined;
   /** The name of the forwarding rule exported to the hub. */
   sourceForwardingRule?: string | undefined;
+  /** The name of the spoke that the source forwarding rule belongs to. */
+  sourceSpoke?: string | undefined;
+  /** The name of the group that the source spoke belongs to. */
+  sourceGroup?: string | undefined;
+  /** The name of the spoke that the source forwarding rule propagates to. */
+  targetSpoke?: string | undefined;
+  /** The propagation status. */
+  code?: PscPropagationStatusCodeEnum | undefined;
 }
 /** A hub status entry represents the status of a set of propagated Private Service Connect connections grouped by certain fields. */
 export interface HubStatusEntry {
+  /** The number of propagated Private Service Connect connections with this status. If the `group_by` field was not set in the request message, the value of this field is 1. */
+  count?: number | undefined;
   /** The Private Service Connect propagation status. */
   pscPropagationStatus?: PscPropagationStatus | undefined;
   /** The fields that this entry is grouped by. This has the same value as the `group_by` field in the request message. */
   groupBy?: string | undefined;
-  /** The number of propagated Private Service Connect connections with this status. If the `group_by` field was not set in the request message, the value of this field is 1. */
-  count?: number | undefined;
 }
 export type HubStatusEntryList = Array<HubStatusEntry>;
 /** The response for HubService.QueryHubStatus. */
@@ -2600,12 +2600,12 @@ export interface QueryHubStatusResponse {
 }
 /** The request for HubService.RejectHubSpoke. */
 export interface RejectHubSpokeRequest {
-  /** Optional. Additional information provided by the hub administrator. */
-  details?: string | undefined;
-  /** Required. The URI of the spoke to reject from the hub. */
-  spokeUri?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The URI of the spoke to reject from the hub. */
+  spokeUri?: string | undefined;
+  /** Optional. Additional information provided by the hub administrator. */
+  details?: string | undefined;
 }
 export interface RejectSpokeProjectsLocationsGlobalHubsRequest extends RejectHubSpokeRequest {
   /** Required. The name of the hub from which to reject the spoke. */
@@ -2613,14 +2613,14 @@ export interface RejectSpokeProjectsLocationsGlobalHubsRequest extends RejectHub
 }
 /** The request for HubService.RejectSpokeUpdate. */
 export interface RejectSpokeUpdateRequest {
-  /** Required. The etag of the spoke to reject update. */
-  spokeEtag?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Additional information provided by the hub administrator. */
   details?: string | undefined;
   /** Required. The URI of the spoke to reject update. */
   spokeUri?: string | undefined;
+  /** Required. The etag of the spoke to reject update. */
+  spokeEtag?: string | undefined;
 }
 export interface RejectSpokeUpdateProjectsLocationsGlobalHubsRequest extends RejectSpokeUpdateRequest {
   /** Required. The name of the hub to reject spoke update. */
@@ -4515,7 +4515,7 @@ export const listProjectsLocationsSpokes: API.PaginatedOperationMethod<
   ListSpokesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListProjectsLocationsSpokesRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<ListSpokesResponse>,
+  output: __S(1969, __c123, 1) as any as S.Schema<ListSpokesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4582,7 +4582,7 @@ export const listSpokesProjectsLocationsGlobalHubs: API.PaginatedOperationMethod
   ListHubSpokesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListSpokesProjectsLocationsGlobalHubsRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<ListHubSpokesResponse>,
+  output: __S(2033, __c127, 1) as any as S.Schema<ListHubSpokesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5194,9 +5194,9 @@ function __c0(j: number): any {
         S.Extend(
           __S(21, __c1, 5),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             policyBasedRouteId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5213,52 +5213,52 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          srcRange: S.optional(S.String),
-          destRange: S.optional(S.String),
-          protocolVersion: S.optional(S.String),
+          region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InterconnectAttachment" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(1872, __c117, 0)),
+          warningMessage: S.optional(S.String),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Warnings" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           ipProtocol: S.optional(S.String),
+          srcRange: S.optional(S.String),
+          protocolVersion: S.optional(S.String),
+          destRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "Filter" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           tags: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "VirtualMachine" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InterconnectAttachment" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          warningMessage: S.optional(S.String),
-          code: S.optional(S.String),
-          data: S.optional(__S(1872, __c117, 0)),
-        }),
-      ).annotate({ identifier: "Warnings" });
-    case 4:
-      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
           labels: S.optional(__S(1872, __c117, 0)),
-          filter: S.optional(__S(16, __c1, 0)),
-          virtualMachine: S.optional(__S(17, __c1, 1)),
+          createTime: S.optional(S.String),
           nextHopOtherRoutes: S.optional(S.String),
           nextHopIlbIp: S.optional(S.String),
-          kind: S.optional(S.String),
+          interconnectAttachment: S.optional(__S(16, __c1, 0)),
+          warnings: S.optional(__S(18, __c1, 2)),
           network: S.optional(S.String),
-          interconnectAttachment: S.optional(__S(18, __c1, 2)),
-          priority: S.optional(S.Number),
-          warnings: S.optional(__S(20, __c1, 4)),
-          name: S.optional(S.String),
           updateTime: S.optional(S.String),
+          filter: S.optional(__S(19, __c1, 3)),
+          kind: S.optional(S.String),
+          priority: S.optional(S.Number),
           description: S.optional(S.String),
+          virtualMachine: S.optional(__S(20, __c1, 4)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyBasedRoute" });
   }
@@ -5268,9 +5268,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(S.String),
-          spokeUri: S.optional(S.String),
           requestId: S.optional(S.String),
+          spokeUri: S.optional(S.String),
+          details: S.optional(S.String),
         }),
       ).annotate({ identifier: "RejectHubSpokeRequest" });
     case 1:
@@ -5295,10 +5295,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spokeEtag: S.optional(S.String),
           requestId: S.optional(S.String),
           details: S.optional(S.String),
           spokeUri: S.optional(S.String),
+          spokeEtag: S.optional(S.String),
         }),
       ).annotate({ identifier: "RejectSpokeUpdateRequest" });
     case 1:
@@ -5519,39 +5519,39 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          target: S.optional(S.String),
           source: S.optional(S.String),
+          target: S.optional(S.String),
         }),
       ).annotate({ identifier: "Migration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allocationStrategy: S.optional(S.String),
           firstAvailableRangesLookupSize: S.optional(S.Number),
+          allocationStrategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "AllocationOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          ipCidrRange: S.optional(S.String),
           targetCidrRange: S.optional(__S(1888, __c118, 0)),
-          prefixLength: S.optional(S.Number),
           users: S.optional(__S(1888, __c118, 0)),
-          immutable: S.optional(S.Boolean),
-          overlaps: S.optional(__S(1664, __c104, 0)),
-          peering: S.optional(S.String),
-          migration: S.optional(__S(240, __c15, 0)),
-          purpose: S.optional(S.String),
-          allocationOptions: S.optional(__S(241, __c15, 1)),
-          usage: S.optional(S.String),
-          createTime: S.optional(S.String),
-          rangeStatus: S.optional(S.String),
-          network: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          excludeCidrRanges: S.optional(__S(1888, __c118, 0)),
           labels: S.optional(__S(1872, __c117, 0)),
+          createTime: S.optional(S.String),
+          network: S.optional(S.String),
+          description: S.optional(S.String),
+          usage: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          purpose: S.optional(S.String),
+          rangeStatus: S.optional(S.String),
+          migration: S.optional(__S(240, __c15, 0)),
+          immutable: S.optional(S.Boolean),
+          peering: S.optional(S.String),
+          ipCidrRange: S.optional(S.String),
+          allocationOptions: S.optional(__S(241, __c15, 1)),
+          overlaps: S.optional(__S(1664, __c104, 0)),
+          name: S.optional(S.String),
+          excludeCidrRanges: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "InternalRange" });
   }
@@ -5602,8 +5602,8 @@ function __c18(j: number): any {
           __S(321, __c20, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             multicloudDataTransferConfigId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5620,8 +5620,8 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
           effectiveTime: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "StateMetadata" });
     case 1:
@@ -5641,16 +5641,16 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          services: S.optional(__S(320, __c20, 0)),
-          labels: S.optional(__S(1872, __c117, 0)),
           destinationsCount: S.optional(S.Number),
           destinationsActiveCount: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          services: S.optional(__S(320, __c20, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MulticloudDataTransferConfig" });
   }
@@ -5662,9 +5662,9 @@ function __c21(j: number): any {
         S.Extend(
           __S(354, __c22, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             destinationId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5684,9 +5684,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          csp: S.optional(S.String),
           asn: S.optional(S.String),
           updateTime: S.optional(S.String),
+          csp: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationEndpoint" });
     case 1:
@@ -5694,16 +5694,16 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(353, __c22, 1)),
-          description: S.optional(S.String),
-          stateTimeline: S.optional(__S(306, __c19, 2)),
-          updateTime: S.optional(S.String),
           ipPrefix: S.optional(S.String),
+          description: S.optional(S.String),
           name: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
           createTime: S.optional(S.String),
+          endpoints: S.optional(__S(353, __c22, 1)),
+          etag: S.optional(S.String),
           uid: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          updateTime: S.optional(S.String),
+          stateTimeline: S.optional(__S(306, __c19, 2)),
         }),
       ).annotate({ identifier: "Destination" });
   }
@@ -5716,8 +5716,8 @@ function __c23(j: number): any {
           __S(384, __c24, 0),
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             pscAuthorizationPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5734,16 +5734,16 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
+          authorizationMode: S.optional(S.String),
           etag: S.optional(S.String),
           description: S.optional(S.String),
-          name: S.optional(S.String),
           authorizedClientResources: S.optional(__S(1888, __c118, 0)),
-          createTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          authorizationMode: S.optional(S.String),
+          name: S.optional(S.String),
           updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
           targetResourceUri: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "PscAuthorizationPolicy" });
   }
@@ -5755,8 +5755,8 @@ function __c25(j: number): any {
         S.Extend(
           __S(416, __c26, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             regionalEndpointId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -5774,18 +5774,18 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
+          targetGoogleApi: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          subnetwork: S.optional(S.String),
+          description: S.optional(S.String),
           accessType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          pscForwardingRule: S.optional(S.String),
+          network: S.optional(S.String),
           name: S.optional(S.String),
           address: S.optional(S.String),
-          pscForwardingRule: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          network: S.optional(S.String),
-          ipAddress: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          createTime: S.optional(S.String),
-          targetGoogleApi: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegionalEndpoint" });
   }
@@ -5816,8 +5816,8 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1872, __c117, 0)),
           domain: S.optional(S.String),
+          metadata: S.optional(__S(1872, __c117, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleRpcErrorInfo" });
@@ -5828,51 +5828,35 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consumerInstanceProject: S.optional(S.String),
-          ipVersion: S.optional(S.String),
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
-          project: S.optional(S.String),
-          disableGlobalAccess: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          network: S.optional(S.String),
-          producerInstanceId: S.optional(S.String),
-          serviceAttachmentIpAddressMap: S.optional(__S(1872, __c117, 0)),
-        }),
-      ).annotate({ identifier: "ConsumerPscConfig" });
-    case 1:
-      return S.Array(__S(464, __c29, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
           fqdn: S.optional(S.String),
+          state: S.optional(S.String),
           error: S.optional(__S(977, __c61, 1)),
         }),
       ).annotate({ identifier: "DnsAutomationStatus" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
-          ipVersion: S.optional(S.String),
-          gceOperation: S.optional(S.String),
-          error: S.optional(__S(977, __c61, 1)),
           forwardingRule: S.optional(S.String),
-          network: S.optional(S.String),
+          ipVersion: S.optional(S.String),
+          errorType: S.optional(S.String),
           ip: S.optional(S.String),
-          dnsAutomationStatus: S.optional(__S(466, __c29, 2)),
+          dnsAutomationStatus: S.optional(__S(464, __c29, 0)),
           project: S.optional(S.String),
-          pscConnectionId: S.optional(S.String),
-          state: S.optional(S.String),
+          network: S.optional(S.String),
+          serviceAttachmentUri: S.optional(S.String),
           errorInfo: S.optional(__S(448, __c28, 0)),
           selectedSubnetwork: S.optional(S.String),
+          pscConnectionId: S.optional(S.String),
+          error: S.optional(__S(977, __c61, 1)),
+          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
+          gceOperation: S.optional(S.String),
+          state: S.optional(S.String),
           producerInstanceId: S.optional(S.String),
-          serviceAttachmentUri: S.optional(S.String),
-          errorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumerPscConnection" });
-    case 4:
-      return S.Array(__S(467, __c29, 3));
-    case 5:
+    case 2:
+      return S.Array(__S(465, __c29, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           ttl: S.optional(S.String),
@@ -5880,31 +5864,47 @@ function __c29(j: number): any {
           hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomatedDnsCreationSpec" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          automatedDnsCreationSpec: S.optional(__S(469, __c29, 5)),
+          automatedDnsCreationSpec: S.optional(__S(467, __c29, 3)),
           serviceAttachmentUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProducerPscConfig" });
+    case 5:
+      return S.Array(__S(468, __c29, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          disableGlobalAccess: S.optional(S.Boolean),
+          producerInstanceId: S.optional(S.String),
+          ipVersion: S.optional(S.String),
+          serviceAttachmentIpAddressMap: S.optional(__S(1872, __c117, 0)),
+          project: S.optional(S.String),
+          network: S.optional(S.String),
+          state: S.optional(S.String),
+          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
+          consumerInstanceProject: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConsumerPscConfig" });
     case 7:
       return S.Array(__S(470, __c29, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          consumerPscConfigs: S.optional(__S(465, __c29, 1)),
-          consumerPscConnections: S.optional(__S(468, __c29, 4)),
-          description: S.optional(S.String),
-          token: S.optional(S.String),
-          serviceClassUri: S.optional(S.String),
-          updateTime: S.optional(S.String),
           infrastructure: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
           createTime: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          consumerPscConnections: S.optional(__S(466, __c29, 2)),
+          serviceClassUri: S.optional(S.String),
+          token: S.optional(S.String),
           serviceClass: S.optional(S.String),
-          producerPscConfigs: S.optional(__S(471, __c29, 7)),
+          labels: S.optional(__S(1872, __c117, 0)),
+          producerPscConfigs: S.optional(__S(469, __c29, 5)),
+          etag: S.optional(S.String),
+          consumerPscConfigs: S.optional(__S(471, __c29, 7)),
         }),
       ).annotate({ identifier: "ServiceConnectionMap" });
   }
@@ -5916,15 +5916,15 @@ function __c30(j: number): any {
         S.Extend(
           __S(500, __c31, 4),
           S.Struct({
+            "autoSubnetworkConfig.ipStack": S.optional(S.String.pipe(T.Query())),
+            subnetworkMode: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            serviceConnectionPolicyId: S.optional(S.String.pipe(T.Query())),
             "autoSubnetworkConfig.allocRangeSpace": S.optional(
               __S(1888, __c118, 0).pipe(T.Query()),
             ),
-            subnetworkMode: S.optional(S.String.pipe(T.Query())),
-            serviceConnectionPolicyId: S.optional(S.String.pipe(T.Query())),
-            "autoSubnetworkConfig.ipStack": S.optional(S.String.pipe(T.Query())),
             "autoSubnetworkConfig.prefixLength": S.optional(S.Number.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5941,57 +5941,57 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subnetworkRef: S.optional(S.String),
           delinked: S.optional(S.Boolean),
-          subnetwork: S.optional(S.String),
           internalRangeRef: S.optional(S.String),
           internalRange: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          subnetworkRef: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoCreatedSubnetworkInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          selectedSubnetwork: S.optional(S.String),
-          producerInstanceId: S.optional(S.String),
-          errorType: S.optional(S.String),
-          errorInfo: S.optional(__S(448, __c28, 0)),
-          gceOperation: S.optional(S.String),
-          error: S.optional(__S(977, __c61, 1)),
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
-          consumerAddress: S.optional(S.String),
-          pscConnectionId: S.optional(S.String),
-          serviceClass: S.optional(S.String),
-          consumerForwardingRule: S.optional(S.String),
-          ipVersion: S.optional(S.String),
-          consumerTargetProject: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PscConnection" });
-    case 2:
-      return S.Array(__S(497, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           allowedGoogleProducersResourceHierarchyLevel: S.optional(__S(1888, __c118, 0)),
+          producerInstanceLocation: S.optional(S.String),
           limit: S.optional(S.String),
           subnetworks: S.optional(__S(1888, __c118, 0)),
-          producerInstanceLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "PscConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ipVersion: S.optional(S.String),
+          selectedSubnetwork: S.optional(S.String),
+          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
+          serviceClass: S.optional(S.String),
+          consumerAddress: S.optional(S.String),
+          producerInstanceId: S.optional(S.String),
+          consumerTargetProject: S.optional(S.String),
+          errorType: S.optional(S.String),
+          errorInfo: S.optional(__S(448, __c28, 0)),
+          error: S.optional(__S(977, __c61, 1)),
+          state: S.optional(S.String),
+          consumerForwardingRule: S.optional(S.String),
+          pscConnectionId: S.optional(S.String),
+          gceOperation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PscConnection" });
+    case 3:
+      return S.Array(__S(498, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          infrastructure: S.optional(S.String),
-          name: S.optional(S.String),
           autoCreatedSubnetInfo: S.optional(__S(496, __c31, 0)),
-          serviceClass: S.optional(S.String),
-          description: S.optional(S.String),
-          network: S.optional(S.String),
-          pscConnections: S.optional(__S(498, __c31, 2)),
-          pscConfig: S.optional(__S(499, __c31, 3)),
+          createTime: S.optional(S.String),
           labels: S.optional(__S(1872, __c117, 0)),
+          infrastructure: S.optional(S.String),
+          etag: S.optional(S.String),
+          serviceClass: S.optional(S.String),
+          network: S.optional(S.String),
+          description: S.optional(S.String),
+          pscConfig: S.optional(__S(497, __c31, 1)),
+          name: S.optional(S.String),
+          pscConnections: S.optional(__S(499, __c31, 3)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceConnectionPolicy" });
@@ -6005,8 +6005,8 @@ function __c32(j: number): any {
           __S(528, __c33, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            serviceConnectionTokenId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            serviceConnectionTokenId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6023,15 +6023,15 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          token: S.optional(S.String),
-          network: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
+          network: S.optional(S.String),
           expireTime: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceConnectionToken" });
   }
@@ -6043,9 +6043,9 @@ function __c34(j: number): any {
         S.Extend(
           __S(572, __c35, 12),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             spokeId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6062,133 +6062,133 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipAddress: S.optional(S.String),
-          virtualMachine: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RouterApplianceInstance" });
-    case 1:
-      return S.Array(__S(560, __c35, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          instances: S.optional(__S(561, __c35, 1)),
-          siteToSiteDataTransfer: S.optional(S.Boolean),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          vpcNetwork: S.optional(S.String),
-          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
           excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          uri: S.optional(S.String),
+          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          producerVpcSpokes: S.optional(__S(1888, __c118, 0)),
         }),
-      ).annotate({ identifier: "LinkedRouterApplianceInstances" });
-    case 3:
+      ).annotate({ identifier: "LinkedVpcNetwork" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ipRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "IpRangeReservation" });
-    case 4:
-      return S.Array(__S(563, __c35, 3));
-    case 5:
+    case 2:
+      return S.Array(__S(561, __c35, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           capacity: S.optional(S.String),
-          ipRangeReservations: S.optional(__S(564, __c35, 4)),
           sacAttachment: S.optional(S.String),
+          ipRangeReservations: S.optional(__S(562, __c35, 2)),
           cloudRouters: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "Gateway" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          virtualMachine: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RouterApplianceInstance" });
+    case 5:
+      return S.Array(__S(564, __c35, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          uris: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(1888, __c118, 0)),
           siteToSiteDataTransfer: S.optional(S.Boolean),
           excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
           vpcNetwork: S.optional(S.String),
           proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeImportRanges: S.optional(__S(1888, __c118, 0)),
+          instances: S.optional(__S(565, __c35, 5)),
+          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
           proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
         }),
-      ).annotate({ identifier: "LinkedVpnTunnels" });
+      ).annotate({ identifier: "LinkedRouterApplianceInstances" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
           excludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          producerVpcSpokes: S.optional(__S(1888, __c118, 0)),
-          uri: S.optional(S.String),
+          uris: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
           includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeImportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          vpcNetwork: S.optional(S.String),
+          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          siteToSiteDataTransfer: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "LinkedVpcNetwork" });
+      ).annotate({ identifier: "LinkedInterconnectAttachments" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          userDetails: S.optional(S.String),
-          code: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StateReason" });
-    case 9:
-      return S.Array(__S(568, __c35, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          siteToSiteDataTransfer: S.optional(S.Boolean),
-          uris: S.optional(__S(1888, __c118, 0)),
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
           proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          producerNetwork: S.optional(S.String),
           includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
           proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          vpcNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkedInterconnectAttachments" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
+          network: S.optional(S.String),
           excludeExportRanges: S.optional(__S(1888, __c118, 0)),
           serviceConsumerVpcSpoke: S.optional(S.String),
           peering: S.optional(S.String),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          producerNetwork: S.optional(S.String),
-          network: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedProducerVpcNetwork" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          userDetails: S.optional(S.String),
+          message: S.optional(S.String),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StateReason" });
+    case 10:
+      return S.Array(__S(569, __c35, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          includeImportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          uris: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          vpcNetwork: S.optional(S.String),
+          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          siteToSiteDataTransfer: S.optional(S.Boolean),
+          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
+        }),
+      ).annotate({ identifier: "LinkedVpnTunnels" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          hub: S.optional(S.String),
-          spokeType: S.optional(S.String),
-          linkedRouterApplianceInstances: S.optional(__S(562, __c35, 2)),
-          state: S.optional(S.String),
-          gateway: S.optional(__S(565, __c35, 5)),
-          linkedVpnTunnels: S.optional(__S(566, __c35, 6)),
-          linkedVpcNetwork: S.optional(__S(567, __c35, 7)),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
-          etag: S.optional(S.String),
-          uniqueId: S.optional(S.String),
-          group: S.optional(S.String),
-          reasons: S.optional(__S(569, __c35, 9)),
-          updateTime: S.optional(S.String),
-          linkedInterconnectAttachments: S.optional(__S(570, __c35, 10)),
-          linkedProducerVpcNetwork: S.optional(__S(571, __c35, 11)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
           fieldPathsPendingUpdate: S.optional(__S(1888, __c118, 0)),
+          spokeType: S.optional(S.String),
+          description: S.optional(S.String),
+          group: S.optional(S.String),
+          hub: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedVpcNetwork: S.optional(__S(560, __c35, 0)),
+          etag: S.optional(S.String),
+          gateway: S.optional(__S(563, __c35, 3)),
+          linkedRouterApplianceInstances: S.optional(__S(566, __c35, 6)),
+          linkedInterconnectAttachments: S.optional(__S(567, __c35, 7)),
+          linkedProducerVpcNetwork: S.optional(__S(568, __c35, 8)),
           labels: S.optional(__S(1872, __c117, 0)),
+          reasons: S.optional(__S(570, __c35, 10)),
+          uniqueId: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(571, __c35, 11)),
         }),
       ).annotate({ identifier: "Spoke" });
   }
@@ -6201,8 +6201,8 @@ function __c36(j: number): any {
           __S(592, __c37, 0),
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             gatewayAdvertisedRouteId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -6219,16 +6219,16 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uniqueId: S.optional(S.String),
-          name: S.optional(S.String),
-          priority: S.optional(S.Number),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          recipient: S.optional(S.String),
-          ipRange: S.optional(S.String),
           createTime: S.optional(S.String),
           labels: S.optional(__S(1872, __c117, 0)),
+          uniqueId: S.optional(S.String),
+          state: S.optional(S.String),
+          ipRange: S.optional(S.String),
+          name: S.optional(S.String),
+          priority: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          recipient: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewayAdvertisedRoute" });
   }
@@ -6259,25 +6259,25 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mtuLimit: S.optional(S.Number),
-          remoteProfile: S.optional(S.String),
+          hub: S.optional(S.String),
+          pscRoutingEnabled: S.optional(S.Boolean),
           bandwidth: S.optional(S.String),
-          remoteAccountId: S.optional(S.String),
-          autoAccept: S.optional(S.Boolean),
-          network: S.optional(S.String),
-          createTime: S.optional(S.String),
           labels: S.optional(__S(1872, __c117, 0)),
-          peeringNetwork: S.optional(S.String),
+          autoAccept: S.optional(S.Boolean),
           state: S.optional(S.String),
-          advertisedRoutes: S.optional(__S(1888, __c118, 0)),
+          peeringNetwork: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          stackType: S.optional(S.String),
-          hub: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          providedActivationKey: S.optional(S.String),
+          advertisedRoutes: S.optional(__S(1888, __c118, 0)),
           generatedActivationKey: S.optional(S.String),
-          pscRoutingEnabled: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          remoteProfile: S.optional(S.String),
+          mtuLimit: S.optional(S.Number),
+          stackType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          remoteAccountId: S.optional(S.String),
+          providedActivationKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "Transport" });
   }
@@ -6287,10 +6287,10 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
           deleteMode: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6306,8 +6306,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6357,9 +6357,9 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6375,9 +6375,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6412,8 +6412,8 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6447,8 +6447,8 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6465,8 +6465,8 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6482,8 +6482,8 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6500,8 +6500,8 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
           etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -6535,8 +6535,8 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6586,47 +6586,47 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(__S(912, __c57, 0)),
-          members: S.optional(__S(1888, __c118, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(913, __c57, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           exemptedMembers: S.optional(__S(1888, __c118, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
+    case 1:
+      return S.Array(__S(912, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(913, __c57, 1)),
+        }),
+      ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(914, __c57, 2));
     case 4:
-      return S.Array(__S(915, __c57, 3));
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(S.String),
+          location: S.optional(S.String),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(916, __c57, 4)),
-          service: S.optional(S.String),
+          members: S.optional(__S(1888, __c118, 0)),
+          condition: S.optional(__S(916, __c57, 4)),
+          role: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AuditConfig" });
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(917, __c57, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(914, __c57, 2)),
-          version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(915, __c57, 3)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(918, __c57, 6)),
+          version: S.optional(S.Number),
+          bindings: S.optional(__S(918, __c57, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -6636,8 +6636,8 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6653,8 +6653,8 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spokeUri: S.optional(S.String),
           requestId: S.optional(S.String),
+          spokeUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceptHubSpokeRequest" });
     case 1:
@@ -6688,8 +6688,8 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          code: S.optional(S.Number),
           details: S.optional(__S(976, __c61, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
@@ -6700,10 +6700,10 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           error: S.optional(__S(977, __c61, 1)),
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(960, __c60, 0)),
           response: S.optional(__S(960, __c60, 0)),
+          done: S.optional(S.Boolean),
           name: S.optional(S.String),
+          metadata: S.optional(__S(960, __c60, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -6730,8 +6730,8 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6747,8 +6747,8 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6781,9 +6781,9 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
           metadata: S.optional(__S(960, __c60, 0)),
           name: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
           locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -6848,15 +6848,15 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          updateTime: S.optional(S.String),
-          autoAccept: S.optional(__S(1136, __c71, 0)),
           routeTable: S.optional(S.String),
-          state: S.optional(S.String),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          autoAccept: S.optional(__S(1136, __c71, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
   }
@@ -6883,12 +6883,12 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
           updateTime: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "RouteTable" });
   }
@@ -6915,8 +6915,8 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vpcNetwork: S.optional(S.String),
-          uri: S.optional(S.String),
           siteToSiteDataTransfer: S.optional(S.Boolean),
+          uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "NextHopRouterApplianceInstance" });
     case 1:
@@ -6936,30 +6936,30 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          siteToSiteDataTransfer: S.optional(S.Boolean),
           vpcNetwork: S.optional(S.String),
+          siteToSiteDataTransfer: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NextHopVPNTunnel" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1872, __c117, 0)),
-          spoke: S.optional(S.String),
+          type: S.optional(S.String),
           ipCidrRange: S.optional(S.String),
           state: S.optional(S.String),
+          spoke: S.optional(S.String),
           nextHopRouterApplianceInstance: S.optional(__S(1200, __c75, 0)),
           name: S.optional(S.String),
           nextHopSpoke: S.optional(__S(1201, __c75, 1)),
-          type: S.optional(S.String),
-          priority: S.optional(S.String),
-          nextHopVpcNetwork: S.optional(__S(1202, __c75, 2)),
           createTime: S.optional(S.String),
-          location: S.optional(S.String),
-          nextHopInterconnectAttachment: S.optional(__S(1200, __c75, 0)),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
+          priority: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
           description: S.optional(S.String),
+          nextHopVpcNetwork: S.optional(__S(1202, __c75, 2)),
+          updateTime: S.optional(S.String),
           nextHopVpnTunnel: S.optional(__S(1203, __c75, 3)),
+          uid: S.optional(S.String),
+          nextHopInterconnectAttachment: S.optional(__S(1203, __c75, 3)),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Route" });
   }
@@ -6985,9 +6985,9 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          requestId: S.optional(S.String),
           spokeEtag: S.optional(S.String),
           spokeUri: S.optional(S.String),
-          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceptSpokeUpdateRequest" });
     case 1:
@@ -7080,8 +7080,8 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          supportEndTime: S.optional(S.String),
           eligibilityCriteria: S.optional(S.String),
+          supportEndTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceConfig" });
     case 1:
@@ -7089,8 +7089,8 @@ function __c82(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           serviceConfigs: S.optional(__S(1313, __c82, 1)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MulticloudDataTransferSupportedService" });
   }
@@ -7164,16 +7164,16 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          displayName: S.optional(S.String),
-          supportedBandwidths: S.optional(__S(1664, __c104, 0)),
-          provider: S.optional(S.String),
-          orderState: S.optional(S.String),
+          providerSite: S.optional(S.String),
           sla: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          provider: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          orderState: S.optional(S.String),
           name: S.optional(S.String),
           flow: S.optional(S.String),
-          providerSite: S.optional(S.String),
+          supportedBandwidths: S.optional(__S(1664, __c104, 0)),
         }),
       ).annotate({ identifier: "RemoteTransportProfile" });
   }
@@ -7199,13 +7199,13 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1872, __c117, 0)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
           serviceClass: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceClass" });
   }
@@ -7336,11 +7336,11 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7365,11 +7365,11 @@ function __c99(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7383,9 +7383,9 @@ function __c99(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          automatedDnsRecords: S.optional(__S(1585, __c99, 1)),
           nextPageToken: S.optional(S.String),
+          automatedDnsRecords: S.optional(__S(1585, __c99, 1)),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListAutomatedDnsRecordsResponse" });
   }
@@ -7396,10 +7396,10 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7414,8 +7414,8 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hubs: S.optional(__S(1601, __c100, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListHubsResponse" });
   }
@@ -7425,11 +7425,11 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7443,8 +7443,8 @@ function __c101(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1888, __c118, 0)),
+          nextPageToken: S.optional(S.String),
           groups: S.optional(__S(1617, __c101, 1)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
@@ -7456,10 +7456,10 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7473,8 +7473,8 @@ function __c102(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           routeTables: S.optional(__S(1633, __c102, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListRouteTablesResponse" });
@@ -7485,10 +7485,10 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consumerNetwork: S.optional(S.String),
           requestedIpVersion: S.optional(S.String),
-          serviceClass: S.optional(S.String),
+          consumerNetwork: S.optional(S.String),
           endpointProject: S.optional(S.String),
+          serviceClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckConsumerConfigRequest" });
     case 1:
@@ -7525,11 +7525,11 @@ function __c105(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7543,8 +7543,8 @@ function __c105(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
           routes: S.optional(__S(1681, __c105, 1)),
+          unreachable: S.optional(__S(1888, __c118, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
@@ -7555,11 +7555,11 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7574,8 +7574,8 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
           policyBasedRoutes: S.optional(__S(1697, __c106, 1)),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListPolicyBasedRoutesResponse" });
   }
@@ -7585,10 +7585,10 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7603,9 +7603,9 @@ function __c107(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          internalRanges: S.optional(__S(1713, __c107, 1)),
           nextPageToken: S.optional(S.String),
+          internalRanges: S.optional(__S(1713, __c107, 1)),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListInternalRangesResponse" });
   }
@@ -7615,12 +7615,12 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7634,9 +7634,9 @@ function __c108(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
           multicloudDataTransferConfigs: S.optional(__S(1729, __c108, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListMulticloudDataTransferConfigsResponse" });
   }
@@ -7646,12 +7646,12 @@ function __c109(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7667,8 +7667,8 @@ function __c109(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
           destinations: S.optional(__S(1745, __c109, 1)),
+          unreachable: S.optional(__S(1888, __c118, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDestinationsResponse" });
@@ -7679,9 +7679,9 @@ function __c110(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7709,10 +7709,10 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7727,8 +7727,8 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(1777, __c111, 1)),
           unreachable: S.optional(__S(1888, __c118, 0)),
+          operations: S.optional(__S(1777, __c111, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
@@ -7738,11 +7738,11 @@ function __c112(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7757,8 +7757,8 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          pscAuthorizationPolicies: S.optional(__S(1793, __c112, 1)),
           unreachable: S.optional(__S(1888, __c118, 0)),
+          pscAuthorizationPolicies: S.optional(__S(1793, __c112, 1)),
         }),
       ).annotate({ identifier: "ListPscAuthorizationPoliciesResponse" });
   }
@@ -7768,11 +7768,11 @@ function __c113(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7798,10 +7798,10 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -7816,8 +7816,8 @@ function __c114(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1888, __c118, 0)),
+          nextPageToken: S.optional(S.String),
           remoteTransportProfiles: S.optional(__S(1825, __c114, 1)),
         }),
       ).annotate({ identifier: "ListRemoteTransportProfilesResponse" });
@@ -7830,10 +7830,10 @@ function __c115(j: number): any {
         S.Extend(
           __S(1857, __c116, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            automatedDnsRecordId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            automatedDnsRecordId: S.optional(S.String.pipe(T.Query())),
             insertMode: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7850,31 +7850,31 @@ function __c116(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ttl: S.optional(S.String),
           rrdatas: S.optional(__S(1888, __c118, 0)),
+          ttl: S.optional(S.String),
         }),
       ).annotate({ identifier: "Config" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dnsZone: S.optional(S.String),
-          hostname: S.optional(S.String),
-          originalConfig: S.optional(__S(1856, __c116, 0)),
-          state: S.optional(S.String),
+          stateDetails: S.optional(S.String),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          recordType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          consumerNetwork: S.optional(S.String),
           labels: S.optional(__S(1872, __c117, 0)),
+          dnsZone: S.optional(S.String),
+          currentConfig: S.optional(__S(1856, __c116, 0)),
+          serviceClass: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
           fqdn: S.optional(S.String),
           dnsSuffix: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          serviceClass: S.optional(S.String),
-          stateDetails: S.optional(S.String),
-          consumerNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          recordType: S.optional(S.String),
           creationMode: S.optional(S.String),
-          currentConfig: S.optional(__S(1856, __c116, 0)),
+          originalConfig: S.optional(__S(1856, __c116, 0)),
+          state: S.optional(S.String),
+          hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomatedDnsRecord" });
   }
@@ -7897,10 +7897,10 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7914,9 +7914,9 @@ function __c119(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
           serviceClasses: S.optional(__S(1905, __c119, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListServiceClassesResponse" });
   }
@@ -7926,11 +7926,11 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7945,8 +7945,8 @@ function __c120(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceConnectionMaps: S.optional(__S(1921, __c120, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1888, __c118, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceConnectionMapsResponse" });
   }
@@ -7956,10 +7956,10 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7974,9 +7974,9 @@ function __c121(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          serviceConnectionPolicies: S.optional(__S(1937, __c121, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1888, __c118, 0)),
-          serviceConnectionPolicies: S.optional(__S(1937, __c121, 1)),
         }),
       ).annotate({ identifier: "ListServiceConnectionPoliciesResponse" });
   }
@@ -7987,10 +7987,10 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8004,8 +8004,8 @@ function __c122(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceConnectionTokens: S.optional(__S(1953, __c122, 1)),
           nextPageToken: S.optional(S.String),
+          serviceConnectionTokens: S.optional(__S(1953, __c122, 1)),
           unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListServiceConnectionTokensResponse" });
@@ -8016,11 +8016,11 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8029,20 +8029,20 @@ function __c123(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsSpokesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(1888, __c118, 0)),
+          nextPageToken: S.optional(S.String),
+          spokes: S.optional(__S(1984, __c124, 0)),
+        }),
+      ).annotate({ identifier: "ListSpokesResponse" });
   }
 }
 function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(572, __c35, 12));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          spokes: S.optional(__S(1984, __c124, 0)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
-        }),
-      ).annotate({ identifier: "ListSpokesResponse" });
   }
 }
 function __c125(j: number): any {
@@ -8068,9 +8068,9 @@ function __c125(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          nextPageToken: S.optional(S.String),
           gatewayAdvertisedRoutes: S.optional(__S(2001, __c125, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "ListGatewayAdvertisedRoutesResponse" });
   }
@@ -8081,10 +8081,10 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8098,9 +8098,9 @@ function __c126(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transports: S.optional(__S(2017, __c126, 1)),
           unreachable: S.optional(__S(1888, __c118, 0)),
           nextPageToken: S.optional(S.String),
+          transports: S.optional(__S(2017, __c126, 1)),
         }),
       ).annotate({ identifier: "ListTransportsResponse" });
   }
@@ -8110,13 +8110,13 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          spokeLocations: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          spokeLocations: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8125,6 +8125,14 @@ function __c127(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListSpokesProjectsLocationsGlobalHubsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1888, __c118, 0)),
+          spokes: S.optional(__S(1984, __c124, 0)),
+        }),
+      ).annotate({ identifier: "ListHubSpokesResponse" });
   }
 }
 function __c128(j: number): any {
@@ -8155,9 +8163,9 @@ function __c129(j: number): any {
         S.Extend(
           __S(1137, __c71, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8177,8 +8185,8 @@ function __c130(j: number): any {
           __S(2106, __c131, 10),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             hubId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8195,71 +8203,71 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stateReasonCode: S.optional(S.String),
-          count: S.optional(S.String),
+          uri: S.optional(S.String),
+          requiredForNewSiteToSiteDataTransferSpokes: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SpokeStateReasonCount" });
+      ).annotate({ identifier: "RoutingVPC" });
     case 1:
       return S.Array(__S(2096, __c131, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          globalGoogleApis: S.optional(S.Boolean),
+          publishedServicesAndRegionalGoogleApis: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExportPscConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          spokeType: S.optional(S.String),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SpokeTypeCount" });
+    case 4:
+      return S.Array(__S(2099, __c131, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           count: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpokeStateCount" });
-    case 3:
-      return S.Array(__S(2098, __c131, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.String),
-          spokeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SpokeTypeCount" });
-    case 5:
-      return S.Array(__S(2100, __c131, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          spokeStateReasonCounts: S.optional(__S(2097, __c131, 1)),
-          spokeStateCounts: S.optional(__S(2099, __c131, 3)),
-          spokeTypeCounts: S.optional(__S(2101, __c131, 5)),
-        }),
-      ).annotate({ identifier: "SpokeSummary" });
+      return S.Array(__S(2101, __c131, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          requiredForNewSiteToSiteDataTransferSpokes: S.optional(S.Boolean),
+          count: S.optional(S.String),
+          stateReasonCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RoutingVPC" });
+      ).annotate({ identifier: "SpokeStateReasonCount" });
     case 8:
       return S.Array(__S(2103, __c131, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          publishedServicesAndRegionalGoogleApis: S.optional(S.Boolean),
-          globalGoogleApis: S.optional(S.Boolean),
+          spokeTypeCounts: S.optional(__S(2100, __c131, 4)),
+          spokeStateCounts: S.optional(__S(2102, __c131, 6)),
+          spokeStateReasonCounts: S.optional(__S(2104, __c131, 8)),
         }),
-      ).annotate({ identifier: "ExportPscConfig" });
+      ).annotate({ identifier: "SpokeSummary" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          spokeSummary: S.optional(__S(2102, __c131, 6)),
-          updateTime: S.optional(S.String),
-          exportPsc: S.optional(S.Boolean),
-          routingVpcs: S.optional(__S(2104, __c131, 8)),
-          routeTables: S.optional(__S(1888, __c118, 0)),
-          presetTopology: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          exportPscConfig: S.optional(__S(2105, __c131, 9)),
-          policyMode: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
           createTime: S.optional(S.String),
-          uniqueId: S.optional(S.String),
+          policyMode: S.optional(S.String),
+          routeTables: S.optional(__S(1888, __c118, 0)),
+          routingVpcs: S.optional(__S(2097, __c131, 1)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          exportPscConfig: S.optional(__S(2098, __c131, 2)),
+          spokeSummary: S.optional(__S(2105, __c131, 9)),
           description: S.optional(S.String),
+          presetTopology: S.optional(S.String),
+          state: S.optional(S.String),
+          exportPsc: S.optional(S.Boolean),
+          uniqueId: S.optional(S.String),
+          labels: S.optional(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "Hub" });
   }
@@ -8271,9 +8279,9 @@ function __c132(j: number): any {
         S.Extend(
           __S(242, __c15, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8292,8 +8300,8 @@ function __c133(j: number): any {
         S.Extend(
           __S(321, __c20, 1),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -8313,9 +8321,9 @@ function __c134(j: number): any {
         S.Extend(
           __S(354, __c22, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8336,9 +8344,9 @@ function __c135(j: number): any {
         S.Extend(
           __S(1424, __c89, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8357,9 +8365,9 @@ function __c136(j: number): any {
         S.Extend(
           __S(472, __c29, 8),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8378,9 +8386,9 @@ function __c137(j: number): any {
         S.Extend(
           __S(500, __c31, 4),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8400,8 +8408,8 @@ function __c138(j: number): any {
           __S(572, __c35, 12),
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8420,8 +8428,8 @@ function __c139(j: number): any {
         S.Extend(
           __S(592, __c37, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -8441,8 +8449,8 @@ function __c140(j: number): any {
         S.Extend(
           __S(624, __c39, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -8460,12 +8468,12 @@ function __c141(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           groupBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8477,21 +8485,21 @@ function __c141(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          targetGroup: S.optional(S.String),
-          sourceGroup: S.optional(S.String),
-          code: S.optional(S.String),
-          targetSpoke: S.optional(S.String),
           message: S.optional(S.String),
-          sourceSpoke: S.optional(S.String),
+          targetGroup: S.optional(S.String),
           sourceForwardingRule: S.optional(S.String),
+          sourceSpoke: S.optional(S.String),
+          sourceGroup: S.optional(S.String),
+          targetSpoke: S.optional(S.String),
+          code: S.optional(S.String),
         }),
       ).annotate({ identifier: "PscPropagationStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          count: S.optional(S.Number),
           pscPropagationStatus: S.optional(__S(2257, __c141, 1)),
           groupBy: S.optional(S.String),
-          count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HubStatusEntry" });
     case 3:

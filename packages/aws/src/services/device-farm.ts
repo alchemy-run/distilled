@@ -171,6 +171,7 @@ export type DeviceAttribute =
   | "ARN"
   | "PLATFORM"
   | "FORM_FACTOR"
+  | "DEVICE_TYPE"
   | "MANUFACTURER"
   | "REMOTE_ACCESS_ENABLED"
   | "REMOTE_DEBUG_ENABLED"
@@ -359,6 +360,7 @@ export type ExecutionResult =
   | (string & {});
 export type DeviceFormFactor = "PHONE" | "TABLET" | (string & {});
 export type DevicePlatform = "ANDROID" | "IOS" | (string & {});
+export type DeviceType = "PHYSICAL" | "VIRTUAL" | (string & {});
 export interface CPU {
   frequency?: string | undefined;
   architecture?: string | undefined;
@@ -393,6 +395,7 @@ export interface Device {
   modelId?: string | undefined;
   formFactor?: DeviceFormFactor | undefined;
   platform?: DevicePlatform | undefined;
+  type?: DeviceType | undefined;
   os?: string | undefined;
   cpu?: CPU | undefined;
   resolution?: Resolution | undefined;
@@ -850,6 +853,7 @@ export type DeviceFilterAttribute =
   | "MODEL"
   | "AVAILABILITY"
   | "FORM_FACTOR"
+  | "DEVICE_TYPE"
   | "MANUFACTURER"
   | "REMOTE_ACCESS_ENABLED"
   | "REMOTE_DEBUG_ENABLED"
@@ -3946,6 +3950,7 @@ function __c18(j: number): any {
           modelId: S.optional(S.String),
           formFactor: S.optional(S.String),
           platform: S.optional(S.String),
+          type: S.optional(S.String),
           os: S.optional(S.String),
           cpu: S.optional(__S(144, __c18, 0)),
           resolution: S.optional(__S(145, __c18, 1)),

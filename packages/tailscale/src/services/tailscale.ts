@@ -2195,7 +2195,7 @@ export interface UpdateTailnetSettingsRequest {
   /** Whether provisioning of [HTTPS certificates](/docs/how-to/set-up-https-certificates) is enabled for this tailnet. */
   httpsEnabled?: boolean | null | undefined;
 }
-/** The role of the user. Learn more about [user roles](/docs/reference/user-roles). */
+/** The role of the user. Learn more about [user roles](/docs/reference/user-roles). A pending user cannot be made the owner until they are approved. */
 export type UpdateUserRoleRequestRole =
   | "owner"
   | "member"
@@ -2207,7 +2207,7 @@ export type UpdateUserRoleRequestRole =
 export interface UpdateUserRoleRequest {
   /** ID of the user. */
   userId: string;
-  /** The role of the user. Learn more about [user roles](/docs/reference/user-roles). */
+  /** The role of the user. Learn more about [user roles](/docs/reference/user-roles). A pending user cannot be made the owner until they are approved. */
   role?: UpdateUserRoleRequestRole | (string & {}) | undefined;
 }
 export interface UpdateUserRoleResponse {}
@@ -3009,7 +3009,7 @@ export const getSplitDns: API.OperationMethod<
 }));
 
 export type GetTailnetSettingsError = BadRequest | NotFound | TailnetNotFound | TailscaleOpError;
-/** Get tailnet settings Retrieve the settings for a specific tailnet. OAuth Scope: `feature_settings:read` - required to view all settings except those governed by the below scopes. OAuth Scope: `logs:network:read` - required to view the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings:read` - required to view the `httpsCertificates` setting. OAuth Scope: `policy_file:read` - required to view the `aclsExternallyManagedOn` & `aclsExternalLink` settings. */
+/** Get tailnet settings Retrieve the settings for a specific tailnet. OAuth Scope: `feature_settings:read` - required to view all settings except those governed by the below scopes. OAuth Scope: `logs:network:read` - required to view the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings:read` - required to view the `httpsEnabled` setting. OAuth Scope: `policy_file:read` - required to view the `aclsExternallyManagedOn` & `aclsExternalLink` settings. */
 export const getTailnetSettings: API.OperationMethod<
   GetTailnetSettingsRequest,
   TailnetSettings,
@@ -3904,7 +3904,7 @@ export type UpdateTailnetSettingsError =
   | FeatureNotAvailable
   | TailnetNotFound
   | TailscaleOpError;
-/** Update tailnet settings Update the settings for a specific tailnet. OAuth Scope: `feature_settings` - required to update all settings except those governed by the below scopes. OAuth Scope: `logs:network` - required to update the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings` - required to update the `httpsCertificates` setting. OAuth Scope: `policy_file` - required to update the `aclsExternallyManagedOn` & `aclsExternalLink` settings. */
+/** Update tailnet settings Update the settings for a specific tailnet. OAuth Scope: `feature_settings` - required to update all settings except those governed by the below scopes. OAuth Scope: `logs:network` - required to update the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings` - required to update the `httpsEnabled` setting. OAuth Scope: `policy_file` - required to update the `aclsExternallyManagedOn` & `aclsExternalLink` settings. */
 export const updateTailnetSettings: API.OperationMethod<
   UpdateTailnetSettingsRequest,
   TailnetSettings,

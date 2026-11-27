@@ -98,6 +98,8 @@ export interface GetSelfResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -121,6 +123,8 @@ export interface GetUserResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -145,6 +149,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -239,6 +245,7 @@ function __c0(j: number): any {
           object: S.String,
           name: S.NullOr(S.String),
           avatar_url: S.NullOr(S.String),
+          agent_id: S.optional(S.String),
           type: S.optional(S.String),
           person: S.optional(__S(4, __c1, 0)),
           bot: S.optional(S.Unknown),
@@ -272,6 +279,7 @@ function __c2(j: number): any {
           object: S.String,
           name: S.NullOr(S.String),
           avatar_url: S.NullOr(S.String),
+          agent_id: S.optional(S.String),
           type: S.optional(S.String),
           person: S.optional(__S(4, __c1, 0)),
           bot: S.optional(S.Unknown),
@@ -295,6 +303,7 @@ function __c3(j: number): any {
           object: S.String,
           name: S.NullOr(S.String),
           avatar_url: S.NullOr(S.String),
+          agent_id: S.optional(S.String),
           type: S.optional(S.String),
           person: S.optional(__S(4, __c1, 0)),
           bot: S.optional(S.Unknown),

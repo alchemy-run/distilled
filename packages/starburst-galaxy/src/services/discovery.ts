@@ -113,7 +113,7 @@ export interface RoleWithName2 {
   /** Role name (read only) */
   roleName: string;
 }
-/** Any tags set for this catalog (read only) */
+/** Tags assigned directly to this catalog (read only) */
 export interface TagName {
   /** Tag ID (read only) */
   tagId: string;

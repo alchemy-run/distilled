@@ -94,7 +94,7 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(945, __c59, 1)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(961, __c60, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -110,7 +110,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(945, __c59, 1)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(961, __c60, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -137,7 +137,7 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(945, __c59, 1)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(961, __c60, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -155,7 +155,7 @@ export class UnprocessableEntity
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(945, __c59, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(961, __c60, 1)),
           S.String,
         ]),
       ),
@@ -514,6 +514,43 @@ export interface V2GetAppsResponse {
   data: V2GetAppsResponseDataList;
   metadata?: V2ResponseMetadata | undefined;
   page?: V2Page | undefined;
+}
+export interface GetV2AppSyncRequest {
+  /** The user-defined app ID */
+  appId: string;
+  /** Sync UUID */
+  syncId: string;
+}
+export interface V2SyncAppError {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+/** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
+export type V2SyncStatus = "pending" | "success" | "error" | "duplicate";
+export interface V2Sync {
+  /** The user-defined app ID */
+  appId?: string | undefined;
+  /** App version reported by this sync */
+  appVersion?: string | undefined;
+  /** When the sync was created */
+  createdAt?: string | undefined;
+  error?: V2SyncAppError | undefined;
+  /** Framework reported by this sync */
+  framework?: string | undefined;
+  /** Sync UUID, matching the ID returned by SyncApp */
+  id?: string | undefined;
+  /** SDK language reported by this sync */
+  sdkLanguage?: string | undefined;
+  /** SDK version reported by this sync */
+  sdkVersion?: string | undefined;
+  /** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
+  status?: V2SyncStatus | undefined;
+  /** URL for the Inngest endpoint in the app */
+  url?: string | undefined;
+}
+export interface V2GetAppSyncResponse {
+  data?: V2Sync | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface GetV2BuildRequest {
   buildId: string;
@@ -897,6 +934,20 @@ export interface V2GetSandboxSnapshotResponse {
   data?: V2SandboxSnapshot | undefined;
   metadata?: V2SandboxResponseMetadata | undefined;
 }
+export interface ListV2AppSyncsRequest {
+  /** The user-defined app ID */
+  appId: string;
+  /** Pagination cursor from previous response: the UUID of the last returned sync */
+  cursor?: string | undefined;
+  /** Number of syncs to return per page: 1-100; 0 or omitted uses 20 */
+  limit?: number | undefined;
+}
+export type V2ListAppSyncsResponseDataList = Array<V2Sync>;
+export interface V2ListAppSyncsResponse {
+  data: V2ListAppSyncsResponseDataList;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
+}
 export interface ListV2BuildsRequest {}
 /** The most recent 100 builds in the selected workspace. */
 export type V2ListBuildsResponseDataList = Array<V2Build>;
@@ -1220,12 +1271,9 @@ export interface PauseV2FunctionsRequest {
   /** Function IDs in the app. 1 to 500 unique strings, at most 256 bytes each. Send IDs as plain strings, not URL-encoded. */
   functionIds: PauseV2FunctionsRequestFunctionIdsList;
 }
-export interface V2Error {
-  code?: string | undefined;
-  message?: string | undefined;
-}
+export type V2Error = V2SyncAppError;
 export interface V2FunctionPauseResult {
-  error?: V2Error | undefined;
+  error?: V2SyncAppError | undefined;
   function?: V2Function | undefined;
   functionId?: string | undefined;
 }
@@ -1302,13 +1350,12 @@ export interface SyncV2AppRequest {
   /** URL for the Inngest endpoint in the app */
   url?: string | undefined;
 }
-export type V2SyncAppError = V2Error;
 /** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
 export type V2SyncAppDataStatus = "pending" | "success" | "error" | "duplicate";
 export interface V2SyncAppData {
   /** App ID */
   appId?: string | undefined;
-  error?: V2Error | undefined;
+  error?: V2SyncAppError | undefined;
   /** ID */
   id?: string | undefined;
   /** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
@@ -1579,7 +1626,7 @@ export interface V2WaitSandboxProcessResponse {
   data?: V2SandboxProcess | undefined;
   metadata?: V2SandboxResponseMetadata | undefined;
 }
-export type V2ErrorResponseErrorsList = Array<V2Error>;
+export type V2ErrorResponseErrorsList = Array<V2SyncAppError>;
 export interface V2ErrorResponse {
   errors?: V2ErrorResponseErrorsList | undefined;
 }
@@ -1591,8 +1638,8 @@ export const cancelV2Build: API.OperationMethod<
   CancelV2BuildError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<CancelV2BuildRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2BuildResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<CancelV2BuildRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2BuildResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1628,7 +1675,7 @@ export const commitV2Build: API.OperationMethod<
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CommitV2BuildRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2BuildResponse>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2BuildResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1828,6 +1875,24 @@ export const getV2Apps: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type GetV2AppSyncError = InngestOpError;
+/** Get app sync Gets an app sync. Cloud keeps syncs until the app is deleted, with no separate retention window. The dev server does not support sync history and returns 501 for both list and get. Use GetApp latestSync for the dev server's current state. */
+export const getV2AppSync: API.OperationMethod<
+  GetV2AppSyncRequest,
+  V2GetAppSyncResponse,
+  GetV2AppSyncError,
+  InngestOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<GetV2AppSyncRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<V2GetAppSyncResponse>,
+  errors: [],
+  serviceErrors: InngestServiceErrors,
+  protocol: InngestProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2AppSync",
+}));
+
 export type GetV2BuildError = InngestOpError;
 /** Get a build */
 export const getV2Build: API.OperationMethod<
@@ -1836,8 +1901,8 @@ export const getV2Build: API.OperationMethod<
   GetV2BuildError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetV2BuildRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2BuildResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetV2BuildRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2BuildResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1854,8 +1919,8 @@ export const getV2Event: API.OperationMethod<
   GetV2EventError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetV2EventRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<V2GetEventResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetV2EventRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<V2GetEventResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1874,8 +1939,8 @@ export const getV2EventRuns: API.PaginatedOperationMethod<
   V2FunctionRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(512, __c32, 0) as any as S.Schema<GetV2EventRunsRequest>,
-    output: __S(577, __c36, 1) as any as S.Schema<V2GetEventRunsResponse>,
+    input: __S(544, __c34, 0) as any as S.Schema<GetV2EventRunsRequest>,
+    output: __S(609, __c38, 1) as any as S.Schema<V2GetEventRunsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -1901,8 +1966,8 @@ export const getV2Experiment: API.OperationMethod<
   GetV2ExperimentError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetV2ExperimentRequest>,
-  output: __S(600, __c37, 8) as any as S.Schema<V2GetExperimentResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetV2ExperimentRequest>,
+  output: __S(632, __c39, 8) as any as S.Schema<V2GetExperimentResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1919,8 +1984,8 @@ export const getV2Function: API.OperationMethod<
   GetV2FunctionError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetV2FunctionRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<V2GetFunctionResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetV2FunctionRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<V2GetFunctionResponse>,
   errors: [FunctionNotFound],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1937,8 +2002,8 @@ export const getV2FunctionRun: API.OperationMethod<
   GetV2FunctionRunError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetV2FunctionRunRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<V2GetFunctionRunResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetV2FunctionRunRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<V2GetFunctionRunResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -1957,8 +2022,8 @@ export const getV2Functions: API.PaginatedOperationMethod<
   V2Function
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c42, 0) as any as S.Schema<GetV2FunctionsRequest>,
-    output: __S(674, __c42, 2) as any as S.Schema<V2GetFunctionsResponse>,
+    input: __S(704, __c44, 0) as any as S.Schema<GetV2FunctionsRequest>,
+    output: __S(706, __c44, 2) as any as S.Schema<V2GetFunctionsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -1984,8 +2049,8 @@ export const getV2FunctionTrace: API.OperationMethod<
   GetV2FunctionTraceError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetV2FunctionTraceRequest>,
-  output: __S(694, __c43, 6) as any as S.Schema<V2GetFunctionTraceResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetV2FunctionTraceRequest>,
+  output: __S(726, __c45, 6) as any as S.Schema<V2GetFunctionTraceResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2002,7 +2067,7 @@ export const getV2Sandbox: API.OperationMethod<
   GetV2SandboxError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetV2SandboxRequest>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetV2SandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<V2GetSandboxResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2020,8 +2085,8 @@ export const getV2SandboxProcess: API.OperationMethod<
   GetV2SandboxProcessError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetV2SandboxProcessRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<V2GetSandboxProcessResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetV2SandboxProcessRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<V2GetSandboxProcessResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2038,8 +2103,8 @@ export const getV2SandboxProcessOutput: API.OperationMethod<
   GetV2SandboxProcessOutputError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetV2SandboxProcessOutputRequest>,
-  output: __S(771, __c48, 3) as any as S.Schema<V2GetSandboxProcessOutputResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetV2SandboxProcessOutputRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<V2GetSandboxProcessOutputResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2056,7 +2121,7 @@ export const getV2SandboxSnapshot: API.OperationMethod<
   GetV2SandboxSnapshotError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetV2SandboxSnapshotRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetV2SandboxSnapshotRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<V2GetSandboxSnapshotResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2066,6 +2131,35 @@ export const getV2SandboxSnapshot: API.OperationMethod<
   span: "GetV2SandboxSnapshot",
 }));
 
+export type ListV2AppSyncsError = InngestOpError;
+/** List app syncs Lists app syncs newest first. Cloud keeps syncs until the app is deleted, with no separate retention window. The dev server does not support sync history and returns 501 for both list and get. Use GetApp latestSync for the dev server's current state. */
+export const listV2AppSyncs: API.PaginatedOperationMethod<
+  ListV2AppSyncsRequest,
+  V2ListAppSyncsResponse,
+  ListV2AppSyncsError,
+  InngestOpContext,
+  V2Sync
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(848, __c53, 0) as any as S.Schema<ListV2AppSyncsRequest>,
+    output: __S(850, __c53, 2) as any as S.Schema<V2ListAppSyncsResponse>,
+    errors: [],
+    serviceErrors: InngestServiceErrors,
+    protocol: InngestProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2AppSyncs",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "page.cursor",
+      items: "data",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type ListV2BuildsError = InngestOpError;
 /** List recent workspace builds */
 export const listV2Builds: API.OperationMethod<
@@ -2074,8 +2168,8 @@ export const listV2Builds: API.OperationMethod<
   ListV2BuildsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListV2BuildsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<V2ListBuildsResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListV2BuildsRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<V2ListBuildsResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2092,8 +2186,8 @@ export const listV2Deploys: API.OperationMethod<
   ListV2DeploysError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListV2DeploysRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<V2ListDeploysResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListV2DeploysRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<V2ListDeploysResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2112,8 +2206,8 @@ export const listV2Events: API.PaginatedOperationMethod<
   V2Event
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(864, __c54, 0) as any as S.Schema<ListV2EventsRequest>,
-    output: __S(866, __c54, 2) as any as S.Schema<V2ListEventsResponse>,
+    input: __S(912, __c57, 0) as any as S.Schema<ListV2EventsRequest>,
+    output: __S(914, __c57, 2) as any as S.Schema<V2ListEventsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2141,8 +2235,8 @@ export const listV2Experiments: API.PaginatedOperationMethod<
   V2Experiment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(880, __c55, 0) as any as S.Schema<ListV2ExperimentsRequest>,
-    output: __S(898, __c56, 2) as any as S.Schema<V2ListExperimentsResponse>,
+    input: __S(928, __c58, 0) as any as S.Schema<ListV2ExperimentsRequest>,
+    output: __S(946, __c59, 2) as any as S.Schema<V2ListExperimentsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2170,8 +2264,8 @@ export const listV2Experiments2: API.PaginatedOperationMethod<
   V2Experiment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(912, __c57, 0) as any as S.Schema<ListV2Experiments2Request>,
-    output: __S(898, __c56, 2) as any as S.Schema<V2ListExperimentsResponse>,
+    input: __S(976, __c61, 0) as any as S.Schema<ListV2Experiments2Request>,
+    output: __S(946, __c59, 2) as any as S.Schema<V2ListExperimentsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2199,8 +2293,8 @@ export const listV2FunctionRuns: API.PaginatedOperationMethod<
   V2FunctionRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c58, 0) as any as S.Schema<ListV2FunctionRunsRequest>,
-    output: __S(577, __c36, 1) as any as S.Schema<V2ListFunctionRunsResponse>,
+    input: __S(992, __c62, 0) as any as S.Schema<ListV2FunctionRunsRequest>,
+    output: __S(609, __c38, 1) as any as S.Schema<V2ListFunctionRunsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2228,8 +2322,8 @@ export const listV2InsightsEventSchemas: API.PaginatedOperationMethod<
   V2InsightsEventSchema
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(960, __c60, 0) as any as S.Schema<ListV2InsightsEventSchemasRequest>,
-    output: __S(963, __c60, 3) as any as S.Schema<V2ListInsightsEventSchemasResponse>,
+    input: __S(1008, __c63, 0) as any as S.Schema<ListV2InsightsEventSchemasRequest>,
+    output: __S(1011, __c63, 3) as any as S.Schema<V2ListInsightsEventSchemasResponse>,
     errors: [BadRequest, Forbidden],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2255,8 +2349,8 @@ export const listV2InsightsTables: API.OperationMethod<
   ListV2InsightsTablesError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListV2InsightsTablesRequest>,
-  output: __S(981, __c61, 5) as any as S.Schema<V2ListInsightsTablesResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListV2InsightsTablesRequest>,
+  output: __S(1029, __c64, 5) as any as S.Schema<V2ListInsightsTablesResponse>,
   errors: [Forbidden],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2275,8 +2369,8 @@ export const listV2Runs: API.PaginatedOperationMethod<
   V2FunctionRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c62, 0) as any as S.Schema<ListV2RunsRequest>,
-    output: __S(577, __c36, 1) as any as S.Schema<V2ListRunsResponse>,
+    input: __S(1040, __c65, 0) as any as S.Schema<ListV2RunsRequest>,
+    output: __S(609, __c38, 1) as any as S.Schema<V2ListRunsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2304,8 +2398,8 @@ export const listV2Sandboxes: API.PaginatedOperationMethod<
   V2Sandbox
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1008, __c63, 0) as any as S.Schema<ListV2SandboxesRequest>,
-    output: __S(1010, __c63, 2) as any as S.Schema<V2ListSandboxesResponse>,
+    input: __S(1056, __c66, 0) as any as S.Schema<ListV2SandboxesRequest>,
+    output: __S(1058, __c66, 2) as any as S.Schema<V2ListSandboxesResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2333,8 +2427,8 @@ export const listV2SandboxProcesses: API.PaginatedOperationMethod<
   V2SandboxProcess
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1024, __c64, 0) as any as S.Schema<ListV2SandboxProcessesRequest>,
-    output: __S(1026, __c64, 2) as any as S.Schema<V2ListSandboxProcessesResponse>,
+    input: __S(1072, __c67, 0) as any as S.Schema<ListV2SandboxProcessesRequest>,
+    output: __S(1074, __c67, 2) as any as S.Schema<V2ListSandboxProcessesResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2362,8 +2456,8 @@ export const listV2SandboxSnapshots: API.PaginatedOperationMethod<
   V2SandboxSnapshot
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1040, __c65, 0) as any as S.Schema<ListV2SandboxSnapshotsRequest>,
-    output: __S(1042, __c65, 2) as any as S.Schema<V2ListSandboxSnapshotsResponse>,
+    input: __S(1088, __c68, 0) as any as S.Schema<ListV2SandboxSnapshotsRequest>,
+    output: __S(1090, __c68, 2) as any as S.Schema<V2ListSandboxSnapshotsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2391,8 +2485,8 @@ export const listV2SessionKeys: API.PaginatedOperationMethod<
   V2SessionKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1056, __c66, 0) as any as S.Schema<ListV2SessionKeysRequest>,
-    output: __S(1059, __c66, 3) as any as S.Schema<V2ListSessionKeysResponse>,
+    input: __S(1104, __c69, 0) as any as S.Schema<ListV2SessionKeysRequest>,
+    output: __S(1107, __c69, 3) as any as S.Schema<V2ListSessionKeysResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2420,8 +2514,8 @@ export const listV2SessionRuns: API.PaginatedOperationMethod<
   V2SessionRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1072, __c67, 0) as any as S.Schema<ListV2SessionRunsRequest>,
-    output: __S(1075, __c67, 3) as any as S.Schema<V2ListSessionRunsResponse>,
+    input: __S(1120, __c70, 0) as any as S.Schema<ListV2SessionRunsRequest>,
+    output: __S(1123, __c70, 3) as any as S.Schema<V2ListSessionRunsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2449,8 +2543,8 @@ export const listV2Sessions: API.PaginatedOperationMethod<
   V2SessionGroup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1088, __c68, 0) as any as S.Schema<ListV2SessionsRequest>,
-    output: __S(1092, __c68, 4) as any as S.Schema<V2ListSessionsResponse>,
+    input: __S(1136, __c71, 0) as any as S.Schema<ListV2SessionsRequest>,
+    output: __S(1140, __c71, 4) as any as S.Schema<V2ListSessionsResponse>,
     errors: [],
     serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
@@ -2476,8 +2570,8 @@ export const pauseV2Function: API.OperationMethod<
   PauseV2FunctionError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<PauseV2FunctionRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<V2PauseFunctionResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<PauseV2FunctionRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<V2PauseFunctionResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2494,8 +2588,8 @@ export const pauseV2Functions: API.OperationMethod<
   PauseV2FunctionsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<PauseV2FunctionsRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<V2PauseFunctionsResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<PauseV2FunctionsRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<V2PauseFunctionsResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2512,7 +2606,7 @@ export const pauseV2Sandbox: API.OperationMethod<
   PauseV2SandboxError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<PauseV2SandboxRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<PauseV2SandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<V2PauseSandboxResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2530,8 +2624,8 @@ export const readV2SandboxFile: API.OperationMethod<
   ReadV2SandboxFileError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ReadV2SandboxFileRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ReadV2SandboxFileResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ReadV2SandboxFileRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ReadV2SandboxFileResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2548,8 +2642,8 @@ export const resumeV2Function: API.OperationMethod<
   ResumeV2FunctionError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ResumeV2FunctionRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<V2ResumeFunctionResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ResumeV2FunctionRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<V2ResumeFunctionResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2566,8 +2660,8 @@ export const resumeV2Functions: API.OperationMethod<
   ResumeV2FunctionsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ResumeV2FunctionsRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<V2ResumeFunctionsResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ResumeV2FunctionsRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<V2ResumeFunctionsResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2584,7 +2678,7 @@ export const resumeV2Sandbox: API.OperationMethod<
   ResumeV2SandboxError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ResumeV2SandboxRequest>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ResumeV2SandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<V2ResumeSandboxResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2602,7 +2696,7 @@ export const signalV2SandboxProcess: API.OperationMethod<
   SignalV2SandboxProcessError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<SignalV2SandboxProcessRequest>,
+  input: __S(1280, __c80, 0) as any as S.Schema<SignalV2SandboxProcessRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<SignalV2SandboxProcessResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2620,8 +2714,8 @@ export const startV2SandboxProcess: API.OperationMethod<
   StartV2SandboxProcessError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<StartV2SandboxProcessRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<V2StartSandboxProcessResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<StartV2SandboxProcessRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<V2StartSandboxProcessResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2646,7 +2740,7 @@ export const syncV2App: API.OperationMethod<
   SyncV2AppError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<SyncV2AppRequest>,
+  input: __S(1312, __c82, 0) as any as S.Schema<SyncV2AppRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<V2SyncAppResponse>,
   errors: [
     BadRequest,
@@ -2672,8 +2766,8 @@ export const v2CancelDeploy: API.OperationMethod<
   V2CancelDeployError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<V2CancelDeployRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2DeployResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<V2CancelDeployRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2DeployResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2690,8 +2784,8 @@ export const v2CommitDeploy: API.OperationMethod<
   V2CommitDeployError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<V2CommitDeployRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2DeployResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<V2CommitDeployRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2DeployResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2708,7 +2802,7 @@ export const v2CreateDeploy: API.OperationMethod<
   V2CreateDeployError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1317, __c82, 5) as any as S.Schema<V2CreateDeployRequest>,
+  input: __S(1365, __c85, 5) as any as S.Schema<V2CreateDeployRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<V2CreateDeployResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2726,7 +2820,7 @@ export const v2DestroySandbox: API.OperationMethod<
   V2DestroySandboxError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<V2DestroySandboxRequest>,
+  input: __S(1376, __c86, 0) as any as S.Schema<V2DestroySandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<V2DestroySandboxResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2744,8 +2838,8 @@ export const v2GetDeploy: API.OperationMethod<
   V2GetDeployError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<V2GetDeployRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<V2DeployResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<V2GetDeployRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<V2DeployResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2767,8 +2861,8 @@ export const v2QueryInsights: API.OperationMethod<
   V2QueryInsightsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<V2QueryInsightsRequest>,
-  output: __S(1374, __c85, 14) as any as S.Schema<V2QueryInsightsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<V2QueryInsightsRequest>,
+  output: __S(1422, __c88, 14) as any as S.Schema<V2QueryInsightsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2789,8 +2883,8 @@ export const v2QueryInsightsPrompt: API.OperationMethod<
   V2QueryInsightsPromptError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<V2QueryInsightsPromptRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<V2QueryInsightsPromptResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<V2QueryInsightsPromptRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<V2QueryInsightsPromptResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2807,7 +2901,7 @@ export const v2Rerun: API.OperationMethod<
   V2RerunError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c88, 1) as any as S.Schema<V2RerunRequest>,
+  input: __S(1457, __c91, 1) as any as S.Schema<V2RerunRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<V2RerunResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
@@ -2825,8 +2919,8 @@ export const v2StreamSandboxLogs: API.OperationMethod<
   V2StreamSandboxLogsError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<V2StreamSandboxLogsRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<V2StreamSandboxLogsResponse2>,
+  input: __S(1472, __c92, 0) as any as S.Schema<V2StreamSandboxLogsRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<V2StreamSandboxLogsResponse2>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2843,8 +2937,8 @@ export const v2StreamSandboxProcessOutput: API.OperationMethod<
   V2StreamSandboxProcessOutputError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<V2StreamSandboxProcessOutputRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<V2StreamSandboxProcessOutputResponse2>,
+  input: __S(1520, __c95, 0) as any as S.Schema<V2StreamSandboxProcessOutputRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<V2StreamSandboxProcessOutputResponse2>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2861,8 +2955,8 @@ export const v2WriteSandboxFile: API.OperationMethod<
   V2WriteSandboxFileError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<V2WriteSandboxFileRequest>,
-  output: __S(1490, __c93, 2) as any as S.Schema<V2WriteSandboxFileResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<V2WriteSandboxFileRequest>,
+  output: __S(1538, __c96, 2) as any as S.Schema<V2WriteSandboxFileResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2879,8 +2973,8 @@ export const waitV2SandboxProcess: API.OperationMethod<
   WaitV2SandboxProcessError,
   InngestOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<WaitV2SandboxProcessRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<V2WaitSandboxProcessResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<WaitV2SandboxProcessRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<V2WaitSandboxProcessResponse>,
   errors: [],
   serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
@@ -2898,7 +2992,7 @@ function __c0(j: number): any {
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "V2Error" });
+      ).annotate({ identifier: "V2SyncAppError" });
   }
 }
 function __c1(j: number): any {
@@ -3003,7 +3097,7 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1536, __c96, 0)),
+          data: S.optional(__S(1584, __c99, 0)),
           expiresAt: S.optional(S.String),
           uploadHeaders: S.optional(__S(112, __c7, 0)),
           uploadUrl: S.optional(S.String),
@@ -3401,12 +3495,49 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appId: S.String.pipe(T.Label()),
+          syncId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/syncs/{syncId}", code: 200 })),
+      ).annotate({ identifier: "GetV2AppSyncRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(480, __c30, 0)),
+          metadata: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "V2GetAppSyncResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.optional(S.String),
+          appVersion: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          error: S.optional(__S(0, __c0, 0)),
+          framework: S.optional(S.String),
+          id: S.optional(S.String),
+          sdkLanguage: S.optional(S.String),
+          sdkVersion: S.optional(S.String),
+          status: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "V2Sync" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           buildId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/builds/{buildId}", code: 200 })),
       ).annotate({ identifier: "GetV2BuildRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3418,13 +3549,13 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(497, __c31, 1)),
+          data: S.optional(__S(529, __c33, 1)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2GetEventResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3442,13 +3573,13 @@ function __c31(j: number): any {
           occurredAt: S.optional(S.String),
           payload: S.optional(S.Unknown),
           receivedAt: S.optional(S.String),
-          source: S.optional(__S(496, __c31, 0)),
+          source: S.optional(__S(528, __c33, 0)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2Event" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3461,7 +3592,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetV2EventRunsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3471,12 +3602,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "V2AppRef" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(528, __c33, 0)),
+          app: S.optional(__S(560, __c35, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           slug: S.optional(S.String),
@@ -3484,7 +3615,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "V2FunctionRef" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3506,37 +3637,37 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(528, __c33, 0)),
-          deferredFrom: S.optional(__S(560, __c35, 0)),
+          app: S.optional(__S(560, __c35, 0)),
+          deferredFrom: S.optional(__S(592, __c37, 0)),
           durationMs: S.optional(S.String),
           endedAt: S.optional(S.String),
-          function: S.optional(__S(544, __c34, 0)),
+          function: S.optional(__S(576, __c36, 0)),
           id: S.optional(S.String),
           isDeferred: S.optional(S.Boolean),
           output: S.optional(S.Unknown),
           queuedAt: S.optional(S.String),
           startedAt: S.optional(S.String),
           status: S.optional(S.String),
-          trigger: S.optional(__S(561, __c35, 1)),
+          trigger: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "V2FunctionRun" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(594, __c37, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(576, __c36, 0),
+          data: __S(608, __c38, 0),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2GetEventRunsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3563,7 +3694,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "V2ExperimentVariantWeight" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3574,17 +3705,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "V2ExperimentVariantMetric" });
     case 4:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(627, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(596, __c37, 4)),
+          metrics: S.optional(__S(628, __c39, 4)),
           runCount: S.optional(S.Number),
           variantName: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2ExperimentVariantMetrics" });
     case 6:
-      return S.Array(__S(597, __c37, 5));
+      return S.Array(__S(629, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3592,20 +3723,20 @@ function __c37(j: number): any {
           id: S.optional(S.String),
           lastSeen: S.optional(S.String),
           selectionStrategy: S.optional(S.String),
-          variantWeights: S.optional(__S(594, __c37, 2)),
-          variants: S.optional(__S(598, __c37, 6)),
+          variantWeights: S.optional(__S(626, __c39, 2)),
+          variants: S.optional(__S(630, __c39, 6)),
         }),
       ).annotate({ identifier: "V2ExperimentDetail" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(599, __c37, 7)),
+          data: S.optional(__S(631, __c39, 7)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2GetExperimentResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3617,7 +3748,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetV2FunctionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3628,7 +3759,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "V2FunctionCancellationConfiguration" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(656, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3640,12 +3771,12 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          limit: S.optional(__S(626, __c39, 2)),
+          limit: S.optional(__S(658, __c41, 2)),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2FunctionConcurrencyConfiguration" });
     case 4:
-      return S.Array(__S(627, __c39, 3));
+      return S.Array(__S(659, __c41, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3695,15 +3826,15 @@ function __c39(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          cancellations: S.optional(__S(625, __c39, 1)),
-          concurrency: S.optional(__S(628, __c39, 4)),
-          debounce: S.optional(__S(629, __c39, 5)),
-          eventsBatch: S.optional(__S(630, __c39, 6)),
+          cancellations: S.optional(__S(657, __c41, 1)),
+          concurrency: S.optional(__S(660, __c41, 4)),
+          debounce: S.optional(__S(661, __c41, 5)),
+          eventsBatch: S.optional(__S(662, __c41, 6)),
           priority: S.optional(S.String),
-          rateLimit: S.optional(__S(631, __c39, 7)),
-          retries: S.optional(__S(632, __c39, 8)),
-          singleton: S.optional(__S(633, __c39, 9)),
-          throttle: S.optional(__S(634, __c39, 10)),
+          rateLimit: S.optional(__S(663, __c41, 7)),
+          retries: S.optional(__S(664, __c41, 8)),
+          singleton: S.optional(__S(665, __c41, 9)),
+          throttle: S.optional(__S(666, __c41, 10)),
         }),
       ).annotate({ identifier: "V2FunctionConfiguration" });
     case 12:
@@ -3722,35 +3853,35 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "V2FunctionTrigger" });
     case 14:
-      return S.Array(__S(637, __c39, 13));
+      return S.Array(__S(669, __c41, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(528, __c33, 0)),
-          configuration: S.optional(__S(635, __c39, 11)),
-          failureHandler: S.optional(__S(636, __c39, 12)),
+          app: S.optional(__S(560, __c35, 0)),
+          configuration: S.optional(__S(667, __c41, 11)),
+          failureHandler: S.optional(__S(668, __c41, 12)),
           id: S.optional(S.String),
           isArchived: S.optional(S.Boolean),
           isPaused: S.optional(S.Boolean),
           name: S.optional(S.String),
           slug: S.optional(S.String),
-          triggers: S.optional(__S(638, __c39, 14)),
+          triggers: S.optional(__S(670, __c41, 14)),
         }),
       ).annotate({ identifier: "V2Function" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(639, __c39, 15)),
+          data: S.optional(__S(671, __c41, 15)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2GetFunctionResponse" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3762,13 +3893,13 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(562, __c35, 2)),
+          data: S.optional(__S(594, __c37, 2)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2GetFunctionRunResponse" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3780,18 +3911,18 @@ function __c42(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions", code: 200 })),
       ).annotate({ identifier: "GetV2FunctionsRequest" });
     case 1:
-      return S.Array(__S(639, __c39, 15));
+      return S.Array(__S(671, __c41, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(673, __c42, 1),
+          data: __S(705, __c44, 1),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2GetFunctionsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3801,7 +3932,7 @@ function __c43(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/runs/{runId}/trace", code: 200 })),
       ).annotate({ identifier: "GetV2FunctionTraceRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(692, __c43, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(724, __c45, 4)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3813,17 +3944,17 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "V2TraceSpanMetadata" });
     case 3:
-      return S.Array(__S(690, __c43, 2));
+      return S.Array(__S(722, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          children: S.optional(__S(689, __c43, 1)),
+          children: S.optional(__S(721, __c45, 1)),
           durationMs: S.optional(S.String),
           endedAt: S.optional(S.String),
           groupKind: S.optional(S.String),
           id: S.optional(S.String),
           input: S.optional(S.Unknown),
-          metadata: S.optional(__S(691, __c43, 3)),
+          metadata: S.optional(__S(723, __c45, 3)),
           name: S.optional(S.String),
           origin: S.optional(S.String),
           output: S.optional(S.Unknown),
@@ -3838,20 +3969,20 @@ function __c43(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rootSpan: S.optional(__S(692, __c43, 4)),
+          rootSpan: S.optional(__S(724, __c45, 4)),
           runId: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2FunctionTrace" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(693, __c43, 5)),
+          data: S.optional(__S(725, __c45, 5)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2GetFunctionTraceResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3861,7 +3992,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetV2SandboxRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3874,7 +4005,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetV2SandboxProcessRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,18 +4022,18 @@ function __c46(j: number): any {
       ).annotate({ identifier: "V2SandboxProcess" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(736, __c46, 0)),
+          data: S.optional(__S(768, __c48, 0)),
           metadata: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "V2GetSandboxProcessResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3919,23 +4050,23 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "GetV2SandboxProcessOutputRequest" });
     case 1:
-      return S.Array(__S(784, __c49, 0));
+      return S.Array(__S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          chunks: S.optional(__S(769, __c48, 1)),
+          chunks: S.optional(__S(801, __c50, 1)),
         }),
       ).annotate({ identifier: "V2GetSandboxProcessOutputData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(770, __c48, 2)),
+          data: S.optional(__S(802, __c50, 2)),
           metadata: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "V2GetSandboxProcessOutputResponse" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3948,7 +4079,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "V2SandboxLogChunk" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3958,7 +4089,29 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetV2SandboxSnapshotRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/syncs", code: 200 })),
+      ).annotate({ identifier: "ListV2AppSyncsRequest" });
+    case 1:
+      return S.Array(__S(480, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(849, __c53, 1),
+          metadata: S.optional(__S(17, __c1, 1)),
+          page: S.optional(__S(448, __c28, 0)),
+        }),
+      ).annotate({ identifier: "V2ListAppSyncsResponse" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3966,19 +4119,19 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListV2BuildsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1536, __c96, 0));
+      return S.Array(__S(1584, __c99, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(832, __c52, 0)),
+          data: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "V2ListBuildsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3986,7 +4139,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListV2DeploysRequest" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4000,18 +4153,18 @@ function __c54(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
       ).annotate({ identifier: "ListV2EventsRequest" });
     case 1:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(529, __c33, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(865, __c54, 1),
+          data: __S(913, __c57, 1),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListEventsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4026,13 +4179,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListV2ExperimentsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           firstSeen: S.optional(S.String),
-          function: S.optional(__S(544, __c34, 0)),
+          function: S.optional(__S(576, __c36, 0)),
           id: S.optional(S.String),
           lastSeen: S.optional(S.String),
           selectionStrategy: S.optional(S.String),
@@ -4042,18 +4195,30 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "V2Experiment" });
     case 1:
-      return S.Array(__S(896, __c56, 0));
+      return S.Array(__S(944, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(897, __c56, 1),
+          data: __S(945, __c59, 1),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListExperimentsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(0, __c0, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(960, __c60, 0)),
+        }),
+      ).annotate({ identifier: "V2ErrorResponse" });
+  }
+}
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +4239,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListV2Experiments2Request" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4097,19 +4262,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ListV2FunctionRunsRequest" });
   }
 }
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(0, __c0, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(944, __c59, 0)),
-        }),
-      ).annotate({ identifier: "V2ErrorResponse" });
-  }
-}
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4126,18 +4279,18 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "V2InsightsEventSchema" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(962, __c60, 2),
+          data: __S(1010, __c63, 2),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListInsightsEventSchemasResponse" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4152,27 +4305,27 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "V2InsightsTableColumn" });
     case 2:
-      return S.Array(__S(977, __c61, 1));
+      return S.Array(__S(1025, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(978, __c61, 2)),
+          columns: S.optional(__S(1026, __c64, 2)),
           description: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2InsightsTable" });
     case 4:
-      return S.Array(__S(979, __c61, 3));
+      return S.Array(__S(1027, __c64, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(980, __c61, 4)),
+          data: S.optional(__S(1028, __c64, 4)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2ListInsightsTablesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4193,7 +4346,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ListV2RunsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4207,14 +4360,14 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1009, __c63, 1),
+          data: __S(1057, __c66, 1),
           metadata: S.optional(__S(208, __c13, 0)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSandboxesResponse" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4225,18 +4378,18 @@ function __c64(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/processes", code: 200 })),
       ).annotate({ identifier: "ListV2SandboxProcessesRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1025, __c64, 1),
+          data: __S(1073, __c67, 1),
           metadata: S.optional(__S(208, __c13, 0)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSandboxProcessesResponse" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4251,14 +4404,14 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1041, __c65, 1),
+          data: __S(1089, __c68, 1),
           metadata: S.optional(__S(208, __c13, 0)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSandboxSnapshotsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4276,18 +4429,18 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "V2SessionKey" });
     case 2:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(1105, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1058, __c66, 2),
+          data: __S(1106, __c69, 2),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSessionKeysResponse" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4307,7 +4460,7 @@ function __c67(j: number): any {
         S.Struct({
           endedAt: S.optional(S.String),
           eventName: S.optional(S.String),
-          function: S.optional(__S(544, __c34, 0)),
+          function: S.optional(__S(576, __c36, 0)),
           id: S.optional(S.String),
           queuedAt: S.optional(S.String),
           startedAt: S.optional(S.String),
@@ -4315,18 +4468,18 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "V2SessionRun" });
     case 2:
-      return S.Array(__S(1073, __c67, 1));
+      return S.Array(__S(1121, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1074, __c67, 2),
+          data: __S(1122, __c70, 2),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSessionRunsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4340,31 +4493,31 @@ function __c68(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sessions/{sessionKey}", code: 200 })),
       ).annotate({ identifier: "ListV2SessionsRequest" });
     case 1:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           failedRunCount: S.optional(S.Number),
           failureRate: S.optional(S.Number),
-          functions: S.optional(__S(1089, __c68, 1)),
+          functions: S.optional(__S(1137, __c71, 1)),
           id: S.optional(S.String),
           lastActiveAt: S.optional(S.String),
           runCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "V2SessionGroup" });
     case 3:
-      return S.Array(__S(1090, __c68, 2));
+      return S.Array(__S(1138, __c71, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1091, __c68, 3),
+          data: __S(1139, __c71, 3),
           metadata: S.optional(__S(17, __c1, 1)),
           page: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "V2ListSessionsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4377,7 +4530,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PauseV2FunctionRequest" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4388,28 +4541,28 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PauseV2FunctionsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(__S(0, __c0, 0)),
-          function: S.optional(__S(639, __c39, 15)),
+          function: S.optional(__S(671, __c41, 15)),
           functionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2FunctionPauseResult" });
     case 1:
-      return S.Array(__S(1136, __c71, 0));
+      return S.Array(__S(1184, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1137, __c71, 1)),
+          data: S.optional(__S(1185, __c74, 1)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2PauseFunctionsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4419,7 +4572,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PauseV2SandboxRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4434,7 +4587,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4447,7 +4600,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ResumeV2FunctionRequest" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4458,7 +4611,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ResumeV2FunctionsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4468,7 +4621,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ResumeV2SandboxRequest" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4487,7 +4640,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SignalV2SandboxProcessRequest" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4500,7 +4653,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "StartV2SandboxProcessRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4512,7 +4665,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SyncV2AppRequest" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4522,7 +4675,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "V2CancelDeployRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4533,7 +4686,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "V2CommitDeployRequest" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4567,11 +4720,11 @@ function __c82(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connect: S.optional(__S(1312, __c82, 0)),
+          connect: S.optional(__S(1360, __c85, 0)),
           description: S.optional(S.String),
-          serve: S.optional(__S(1313, __c82, 1)),
-          serveConfig: S.optional(__S(1314, __c82, 2)),
-          spec: S.optional(__S(1315, __c82, 3)),
+          serve: S.optional(__S(1361, __c85, 1)),
+          serveConfig: S.optional(__S(1362, __c85, 2)),
+          spec: S.optional(__S(1363, __c85, 3)),
         }),
       ).annotate({ identifier: "V2DeployConfig" });
     case 5:
@@ -4579,7 +4732,7 @@ function __c82(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           architecture: S.optional(S.String),
-          config: S.optional(__S(1316, __c82, 4)),
+          config: S.optional(__S(1364, __c85, 4)),
           tag: S.optional(S.String),
           uploadSha256: S.optional(S.String),
           uploadSizeBytes: S.optional(S.String),
@@ -4587,7 +4740,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "V2CreateDeployRequest" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4597,7 +4750,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "V2DestroySandboxRequest" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,7 +4760,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "V2GetDeployRequest" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4623,26 +4776,26 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "V2InsightsPathSegment" });
     case 2:
-      return S.Array(__S(1361, __c85, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           hint: S.optional(S.String),
-          path: S.optional(__S(1362, __c85, 2)),
+          path: S.optional(__S(1410, __c88, 2)),
         }),
       ).annotate({ identifier: "V2InsightsPathHint" });
     case 4:
-      return S.Array(__S(1363, __c85, 3));
+      return S.Array(__S(1411, __c88, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          pathHints: S.optional(__S(1364, __c85, 4)),
+          pathHints: S.optional(__S(1412, __c88, 4)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2InsightsOutputColumn" });
     case 6:
-      return S.Array(__S(1365, __c85, 5));
+      return S.Array(__S(1413, __c88, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4656,12 +4809,12 @@ function __c85(j: number): any {
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          position: S.optional(__S(1367, __c85, 7)),
+          position: S.optional(__S(1415, __c88, 7)),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2InsightsDiagnostic" });
     case 9:
-      return S.Array(__S(1368, __c85, 8));
+      return S.Array(__S(1416, __c88, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -4673,36 +4826,36 @@ function __c85(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1376, __c86, 0)),
+          values: S.optional(__S(1424, __c89, 0)),
         }),
       ).annotate({ identifier: "V2InsightsRow" });
     case 12:
-      return S.Array(__S(1371, __c85, 11));
+      return S.Array(__S(1419, __c88, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1366, __c85, 6)),
-          diagnostics: S.optional(__S(1369, __c85, 9)),
-          info: S.optional(__S(1370, __c85, 10)),
-          rows: S.optional(__S(1372, __c85, 12)),
+          columns: S.optional(__S(1414, __c88, 6)),
+          diagnostics: S.optional(__S(1417, __c88, 9)),
+          info: S.optional(__S(1418, __c88, 10)),
+          rows: S.optional(__S(1420, __c88, 12)),
         }),
       ).annotate({ identifier: "V2QueryInsightsData" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1373, __c85, 13)),
+          data: S.optional(__S(1421, __c88, 13)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2QueryInsightsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4720,18 +4873,18 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1393, __c87, 1)),
+          data: S.optional(__S(1441, __c90, 1)),
           metadata: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "V2QueryInsightsPromptResponse" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          input: S.optional(__S(1376, __c86, 0)),
+          input: S.optional(__S(1424, __c89, 0)),
           stepId: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2RerunFromStep" });
@@ -4739,12 +4892,12 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           runId: S.String.pipe(T.Label()),
-          fromStep: S.optional(__S(1408, __c88, 0)),
+          fromStep: S.optional(__S(1456, __c91, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/runs/{runId}/rerun", code: 200 })),
       ).annotate({ identifier: "V2RerunRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4755,32 +4908,32 @@ function __c89(j: number): any {
       ).annotate({ identifier: "V2StreamSandboxLogsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(1457, __c91, 1)),
+          details: S.optional(__S(1505, __c94, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "RpcStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(784, __c49, 0)),
+          data: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "V2StreamSandboxLogsResponse" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1440, __c90, 0)),
-          result: S.optional(__S(1441, __c90, 1)),
+          error: S.optional(__S(1488, __c93, 0)),
+          result: S.optional(__S(1489, __c93, 1)),
         }),
       ).annotate({ identifier: "V2StreamSandboxLogsResponse2" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4792,10 +4945,10 @@ function __c91(j: number): any {
         ),
       ).annotate({ identifier: "ProtobufAny" });
     case 1:
-      return S.Array(__S(1456, __c91, 0));
+      return S.Array(__S(1504, __c94, 0));
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4813,7 +4966,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "V2StreamSandboxProcessOutputRequest" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4823,7 +4976,7 @@ function __c93(j: number): any {
           mode: S.optional(S.String.pipe(T.Query())),
           contentType: S.optional(S.String),
           data: S.optional(S.String),
-          extensions: S.optional(__S(1457, __c91, 1)),
+          extensions: S.optional(__S(1505, __c94, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/sandboxes/{sandboxId}/files", code: 200 })),
       ).annotate({ identifier: "V2WriteSandboxFileRequest" });
     case 1:
@@ -4836,13 +4989,13 @@ function __c93(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1489, __c93, 1)),
+          data: S.optional(__S(1537, __c96, 1)),
           metadata: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "V2WriteSandboxFileResponse" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4860,7 +5013,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "WaitV2SandboxProcessRequest" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4870,7 +5023,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CancelV2BuildRequest" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4889,12 +5042,12 @@ function __c96(j: number): any {
       ).annotate({ identifier: "V2Build" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1536, __c96, 0)),
+          data: S.optional(__S(1584, __c99, 0)),
         }),
       ).annotate({ identifier: "V2BuildResponse" });
   }

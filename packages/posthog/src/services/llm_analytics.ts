@@ -25,6 +25,23 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface CreateLlmAnalyticsClusteringConfigSetEnabledRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Enable or disable automated clustering for this project. */
+  enabled: boolean;
+}
+export type ClusteringConfigEventFiltersItemMap = { [key: string]: unknown | undefined };
+/** PostHog property filters that scope automated clustering jobs. Empty array means no saved filters. */
+export type ClusteringConfigEventFiltersList = Array<ClusteringConfigEventFiltersItemMap>;
+export interface ClusteringConfig {
+  /** Whether this project has opted in to automated clustering. */
+  enabled: boolean;
+  /** PostHog property filters that scope automated clustering jobs. Empty array means no saved filters. */
+  event_filters: ClusteringConfigEventFiltersList;
+  created_at: string;
+  updated_at: string;
+}
 export type CreateLlmAnalyticsClusteringConfigSetEventFilterRequestEventFiltersItemMap = {
   [key: string]: unknown | undefined;
 };
@@ -37,17 +54,8 @@ export interface CreateLlmAnalyticsClusteringConfigSetEventFilterRequest {
   /** PostHog property filters to save for automated clustering jobs. Pass an empty array to clear filters. */
   event_filters: CreateLlmAnalyticsClusteringConfigSetEventFilterRequestEventFiltersList;
 }
-export type ClusteringConfigEventFiltersItemMap = { [key: string]: unknown | undefined };
-/** PostHog property filters that scope automated clustering jobs. Empty array means no saved filters. */
-export type ClusteringConfigEventFiltersList = Array<ClusteringConfigEventFiltersItemMap>;
-export interface ClusteringConfig {
-  /** PostHog property filters that scope automated clustering jobs. Empty array means no saved filters. */
-  event_filters: ClusteringConfigEventFiltersList;
-  created_at: string;
-  updated_at: string;
-}
 /** * `trace` - trace * `generation` - generation * `evaluation` - evaluation */
-export type AnalysisLevelEnum = "trace" | "generation" | "evaluation";
+export type ClusteringAnalysisLevelEnum = "trace" | "generation" | "evaluation";
 export type CreateLlmAnalyticsClusteringJobRequestEventFiltersItemMap = {
   [key: string]: unknown | undefined;
 };
@@ -58,7 +66,7 @@ export interface CreateLlmAnalyticsClusteringJobRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name?: string | undefined;
-  analysis_level?: AnalysisLevelEnum | (string & {}) | undefined;
+  analysis_level?: ClusteringAnalysisLevelEnum | (string & {}) | undefined;
   /** PostHog property filters that scope this clustering job. Empty array means no filters. */
   event_filters?: CreateLlmAnalyticsClusteringJobRequestEventFiltersList | undefined;
   enabled?: boolean | undefined;
@@ -69,7 +77,7 @@ export type ClusteringJobEventFiltersList = Array<ClusteringJobEventFiltersItemM
 export interface ClusteringJob {
   id?: string | undefined;
   name?: string | undefined;
-  analysis_level?: AnalysisLevelEnum | undefined;
+  analysis_level?: ClusteringAnalysisLevelEnum | undefined;
   /** PostHog property filters that scope this clustering job. Empty array means no filters. */
   event_filters?: ClusteringJobEventFiltersList | undefined;
   enabled?: boolean | undefined;
@@ -249,7 +257,7 @@ export interface CreateLlmAnalyticsEvaluationReportRequest {
   report_prompt_guidance?: string | undefined;
   /** Number of new evaluation results that triggers a report (every_n mode only). Min 100, max 10000. Defaults to 100. Required when frequency is 'every_n'. */
   trigger_threshold?: number | null | undefined;
-  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 60. */
+  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 1440. */
   cooldown_minutes?: number | undefined;
   /** Maximum count-triggered report runs per calendar day (UTC). Min 1, max 24 (one per cooldown window). Defaults to 10. */
   daily_run_cap?: number | undefined;
@@ -284,7 +292,7 @@ export interface EvaluationReport {
   report_prompt_guidance?: string | undefined;
   /** Number of new evaluation results that triggers a report (every_n mode only). Min 100, max 10000. Defaults to 100. Required when frequency is 'every_n'. */
   trigger_threshold?: number | null | undefined;
-  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 60. */
+  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 1440. */
   cooldown_minutes?: number | undefined;
   /** Maximum count-triggered report runs per calendar day (UTC). Min 1, max 24 (one per cooldown window). Defaults to 10. */
   daily_run_cap?: number | undefined;
@@ -296,14 +304,14 @@ export interface CreateLlmAnalyticsParserRecipeRequest {
   project_id: string;
   /** Human-readable recipe name shown in the editor. */
   name: string;
-  /** Raw YAML recipe source. Must parse as YAML; recipe semantics are compiled and validated client-side. */
+  /** Raw YAML recipe source. Must compile as a parser recipe; a 400 response names the first problem found. */
   source: string;
 }
 export interface ParserRecipe {
   id: string;
   /** Human-readable recipe name shown in the editor. */
   name: string;
-  /** Raw YAML recipe source. Must parse as YAML; recipe semantics are compiled and validated client-side. */
+  /** Raw YAML recipe source. Must compile as a parser recipe; a 400 response names the first problem found. */
   source: string;
   /** User who created the recipe. */
   created_by: UserBasic | null;
@@ -377,6 +385,22 @@ export interface ReviewQueueItem {
 }
 /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
 export type CreateLlmAnalyticsScoreDefinitionRequestTagsList = Array<string>;
+/** * `reported` - Reported * `composite` - Composite */
+export type ScoreDefinitionCalculationEnum = "reported" | "composite";
+export interface CompositeInput {
+  /** Input name used in the formula. Start with a lowercase letter; use letters, digits, and underscores. */
+  alias: string;
+  /** Exact immutable version of an ordinary input scorer. */
+  scorer_version_id: string;
+}
+/** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
+export type CompositeConfigInputsList = Array<CompositeInput>;
+export interface CompositeConfig {
+  /** Formula using the declared input aliases. Supports +, -, *, /, comparisons, and/or/not, conditional expressions, and number(), min(), max(), abs(). Boolean inputs are raw values: number(True) is 1 and number(False) is 0, regardless of passing rules. Categorical inputs are lists of keys: use "good" in relevance. Examples: (2 * precision + recall) / 3; safe and correct; "good" if correct else "bad". Every input alias must appear. Line breaks are allowed. Arithmetic results use 12 significant digits. Up to 1,024 characters and 16 input scorers. */
+  expression: string;
+  /** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
+  inputs: CompositeConfigInputsList;
+}
 /** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
 export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
 export interface CategoricalScoreOption {
@@ -442,6 +466,10 @@ export interface CreateLlmAnalyticsScoreDefinitionRequest {
   project_id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
   tags?: CreateLlmAnalyticsScoreDefinitionRequestTagsList | undefined;
+  /** Reported or composite. This cannot be changed after creation. * `reported` - Reported * `composite` - Composite */
+  calculation?: ScoreDefinitionCalculationEnum | (string & {}) | undefined;
+  /** Required for composite scorers: expression and exact input versions. */
+  composition?: CompositeConfig | null | undefined;
   /** Human-readable scorer name. */
   name?: string | undefined;
   /** Optional compact label. Blank uses the full name. */
@@ -457,6 +485,28 @@ export interface CreateLlmAnalyticsScoreDefinitionRequest {
 }
 /** Project tag names assigned to this resource. */
 export type ScoreDefinitionTagsList = Array<string>;
+export interface CompositeInputRead {
+  /** Input name in the formula. */
+  alias: string;
+  /** Pinned immutable input version. */
+  scorer_version_id: string;
+  /** Input scorer definition. */
+  definition_id: string;
+  /** Input scorer name. */
+  name: string;
+  /** Input value kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+  kind: ScoreDefinitionKindEnum;
+  /** Pinned input version number. */
+  version: number;
+  /** Scoring rules of the pinned input version. */
+  config: ScoreDefinitionConfig;
+  /** Current input version. Updating requires a new composite version. */
+  latest_version_id: string | null;
+  /** Current input version number. */
+  latest_version: number | null;
+}
+/** Pinned inputs and their latest versions. Empty for reported scorers. */
+export type ScoreDefinitionInputScorersList = Array<CompositeInputRead>;
 export interface ScoreDefinition {
   id?: string | undefined;
   name?: string | undefined;
@@ -466,6 +516,14 @@ export interface ScoreDefinition {
   /** Project tag names assigned to this resource. */
   tags: ScoreDefinitionTagsList;
   kind?: ScoreDefinitionKindEnum | undefined;
+  /** Whether results are reported by the caller or calculated from other item scores. * `reported` - Reported * `composite` - Composite */
+  calculation: ScoreDefinitionCalculationEnum;
+  /** Formula and exact input versions for a composite scorer. */
+  composition: CompositeConfig | null;
+  /** Pinned inputs and their latest versions. Empty for reported scorers. */
+  input_scorers: ScoreDefinitionInputScorersList;
+  /** Accessible active composite scorers whose current version depends on a version of this scorer. */
+  dependent_composite_count: number;
   archived?: boolean | undefined;
   /** Current immutable configuration version number. */
   current_version?: number | undefined;
@@ -475,10 +533,12 @@ export interface ScoreDefinition {
   config?: ScoreDefinitionConfig | undefined;
   /** User who created the scorer. */
   created_by?: UserBasic | null | undefined;
+  created_by_project_key_id: string | null;
   created_at?: string | undefined;
   updated_at?: string | null | undefined;
   /** User who last updated the scorer or created a version. */
   updated_by: UserBasic | null;
+  updated_by_project_key_id: string | null;
   team?: number | undefined;
 }
 export interface CreateLlmAnalyticsScoreDefinitionsNewVersionRequest {
@@ -486,6 +546,8 @@ export interface CreateLlmAnalyticsScoreDefinitionsNewVersionRequest {
   project_id: string;
   /** A UUID string identifying this score definition. */
   id: string;
+  /** Required for a composite scorer. Creates a new immutable formula and input selection. */
+  composition?: CompositeConfig | null | undefined;
   /** Updated compact label, saved with this version. */
   short_name?: string | undefined;
   /** Updated scorer name, saved with this version. */
@@ -565,6 +627,8 @@ export interface TraceReview {
   created_by?: UserBasic | null | undefined;
   /** User who last saved this review. */
   reviewed_by?: UserBasic | null | undefined;
+  /** Public ID of the project key that last saved this review. */
+  reviewed_by_project_key_id: string | null;
   /** Saved scorer values for this review. */
   scores?: TraceReviewScoresList | undefined;
   team?: number | undefined;
@@ -627,7 +691,7 @@ export interface LLMProviderModelsSummary {
   provider: string;
   /** How many of this provider's models appear in `models`. */
   model_count: number;
-  /** True when this provider's models can only be listed by passing `key_id` for one of the team's provider keys, so `model_count` is 0 until a key is supplied. False means PostHog funds some of the provider's models in the playground. LLM-judge evaluations and LLM taggers always run on one of the team's own provider keys, whatever this value is. */
+  /** True when this provider's models can only be listed by passing `key_id` for one of the team's provider keys, so `model_count` is 0 until a key is supplied. False means PostHog funds some of the provider's models in the playground. LLM-judge evaluations always run on one of the team's own provider keys, whatever this value is. */
   requires_provider_key: boolean;
 }
 /** One entry per provider covered by this response. Read it to tell an unsupported provider apart from a provider whose models need a team key before they can be listed. */
@@ -655,6 +719,41 @@ export interface GetLlmAnalyticsProviderKeysDependentConfigRequest {
   project_id: string;
   /** A UUID string identifying this llm provider key. */
   id: string;
+}
+export interface ProviderKeyDependentEvaluation {
+  /** Evaluation ID. */
+  id: string;
+  /** Evaluation name. */
+  name: string;
+  /** Model configuration that pins this key. Absent for evaluations on the active key. */
+  model_configuration_id?: string | undefined;
+  /** Whether the evaluation is running. */
+  enabled: boolean;
+  /** Why the system turned the evaluation off, such as provider_key_quota_exceeded. */
+  status_reason: string | null;
+}
+/** Evaluations whose model configuration pins this key. */
+export type ProviderKeyDependentConfigsEvaluationsList = Array<ProviderKeyDependentEvaluation>;
+export interface ProviderKeyAlternative {
+  /** Provider key ID. */
+  id: string;
+  /** Provider key name. */
+  name: string;
+  /** Provider of the key. */
+  provider: string;
+}
+/** Working keys for the same provider that could replace this one. */
+export type ProviderKeyDependentConfigsAlternativeKeysList = Array<ProviderKeyAlternative>;
+/** Errored evaluations with no pinned key, which run on this key while it is the project's active key. */
+export type ProviderKeyDependentConfigsActiveKeyEvaluationsList =
+  Array<ProviderKeyDependentEvaluation>;
+export interface ProviderKeyDependentConfigs {
+  /** Evaluations whose model configuration pins this key. */
+  evaluations: ProviderKeyDependentConfigsEvaluationsList;
+  /** Working keys for the same provider that could replace this one. */
+  alternative_keys: ProviderKeyDependentConfigsAlternativeKeysList;
+  /** Errored evaluations with no pinned key, which run on this key while it is the project's active key. */
+  active_key_evaluations: ProviderKeyDependentConfigsActiveKeyEvaluationsList;
 }
 export interface GetLlmAnalyticsReviewQueueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -691,12 +790,17 @@ export interface ScoreDefinitionVersion {
   version: number;
   /** Scorer value kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
   kind: ScoreDefinitionKindEnum;
+  /** How this scorer's results are produced. * `reported` - Reported * `composite` - Composite */
+  calculation: ScoreDefinitionCalculationEnum;
+  /** Immutable formula and input versions, or null for reported scores. */
+  composition: CompositeConfig | null;
   /** Immutable configuration for this exact version. */
   config: ScoreDefinitionConfig;
   /** Time this version was created. */
   created_at: string;
   /** User who created this version. */
   created_by: UserBasic | null;
+  created_by_project_key_id: string | null;
 }
 export interface GetLlmAnalyticsTraceReviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -855,7 +959,7 @@ export interface EvaluationReportMetrics {
   previous_result_counts?: EvaluationReportMetricsPreviousResultCountsMap | null | undefined;
   /** Percentage by result label for the previous period, or null when unavailable. */
   previous_result_rates?: EvaluationReportMetricsPreviousResultRatesMap | null | undefined;
-  /** Pass percentage excluding N/A. With no applicable results, numeric and categorical reports return null; boolean reports return 0. */
+  /** Pass percentage excluding N/A. Null when no results passed or failed. */
   pass_rate?: number | null | undefined;
   /** Pass percentage for boolean, numeric, or categorical results in the previous period, or null when unavailable. */
   previous_pass_rate?: number | null | undefined;
@@ -883,6 +987,16 @@ export type EvaluationReportRunDeliveryStatusEnum =
   | "failed";
 /** Delivery error messages. Empty when all configured deliveries succeeded. */
 export type EvaluationReportRunDeliveryErrorsList = Array<string>;
+/** * `slack` - Slack * `email` - Email */
+export type EvaluationReportRunDestinationTypeEnum = "slack" | "email";
+export interface EvaluationReportDestination {
+  /** Destination kind: 'slack' or 'email'. * `slack` - Slack * `email` - Email */
+  type: EvaluationReportRunDestinationTypeEnum;
+  /** Slack channel name or email address. */
+  name: string;
+}
+/** Slack channels and email addresses this report was addressed to, including any that failed (see delivery_errors). Empty for reports sent before this was recorded. */
+export type EvaluationReportRunDeliveryDestinationsList = Array<EvaluationReportDestination>;
 export interface EvaluationReportRun {
   /** UUID of this report run. */
   id?: string | undefined;
@@ -900,6 +1014,8 @@ export interface EvaluationReportRun {
   delivery_status?: EvaluationReportRunDeliveryStatusEnum | undefined;
   /** Delivery error messages. Empty when all configured deliveries succeeded. */
   delivery_errors?: EvaluationReportRunDeliveryErrorsList | undefined;
+  /** Slack channels and email addresses this report was addressed to, including any that failed (see delivery_errors). Empty for reports sent before this was recorded. */
+  delivery_destinations: EvaluationReportRunDeliveryDestinationsList;
   /** When this report run was created. */
   created_at?: string | undefined;
 }
@@ -1012,14 +1128,19 @@ export interface PaginatedReviewQueueList {
   previous?: string | null | undefined;
   results?: PaginatedReviewQueueListResultsList | undefined;
 }
+export type ListLlmAnalyticsScoreDefinitionsRequestCalculation = "composite" | "reported";
 export type ListLlmAnalyticsScoreDefinitionsRequestTagMatch = "any" | "all";
 export interface ListLlmAnalyticsScoreDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by archived state. */
   archived?: boolean | undefined;
+  /** Filter reported or composite scorers. * `reported` - Reported * `composite` - Composite */
+  calculation?: ListLlmAnalyticsScoreDefinitionsRequestCalculation | (string & {}) | undefined;
   /** Filter by the creator's user ID. */
   created_by?: number | undefined;
+  /** Find current composite scorers that depend on this input scorer. */
+  input_definition_id?: string | undefined;
   /** Filter by scorer kind. */
   kind?: string | undefined;
   /** Number of results to return per page. */
@@ -1147,6 +1268,20 @@ export interface LlmAnalyticsProviderKeysValidateCreateRequest {
   api_version?: string | undefined;
   set_as_active?: boolean | undefined;
 }
+export interface LlmAnalyticsScoreDefinitionsValidateCompositionCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Expected formula output kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+  kind: ScoreDefinitionKindEnum | (string & {});
+  /** Formula and pinned input versions to validate without saving. */
+  composition: CompositeConfig;
+  /** Output configuration to check literal categories and composite scoring rules. */
+  config?: ScoreDefinitionConfig | undefined;
+}
+export interface CompositeValidationResponse {
+  /** Whether the formula and any supplied output configuration are valid. */
+  valid: boolean;
+}
 export interface LlmAnalyticsTraceReviewsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1180,7 +1315,7 @@ export interface UpdateLlmAnalyticsClusteringJobRequest {
   /** A UUID string identifying this clustering job. */
   id: string;
   name?: string | undefined;
-  analysis_level?: AnalysisLevelEnum | (string & {}) | undefined;
+  analysis_level?: ClusteringAnalysisLevelEnum | (string & {}) | undefined;
   /** PostHog property filters that scope this clustering job. Empty array means no filters. */
   event_filters?: UpdateLlmAnalyticsClusteringJobRequestEventFiltersList | undefined;
   enabled?: boolean | undefined;
@@ -1197,7 +1332,7 @@ export interface UpdateLlmAnalyticsClusteringJobsPartialRequest {
   /** A UUID string identifying this clustering job. */
   id: string;
   name?: string | undefined;
-  analysis_level?: AnalysisLevelEnum | (string & {}) | undefined;
+  analysis_level?: ClusteringAnalysisLevelEnum | (string & {}) | undefined;
   /** PostHog property filters that scope this clustering job. Empty array means no filters. */
   event_filters?: UpdateLlmAnalyticsClusteringJobsPartialRequestEventFiltersList | undefined;
   enabled?: boolean | undefined;
@@ -1221,7 +1356,7 @@ export interface UpdateLlmAnalyticsEvaluationReportRequest {
   report_prompt_guidance?: string | undefined;
   /** Number of new evaluation results that triggers a report (every_n mode only). Min 100, max 10000. Defaults to 100. Required when frequency is 'every_n'. */
   trigger_threshold?: number | null | undefined;
-  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 60. */
+  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 1440. */
   cooldown_minutes?: number | undefined;
   /** Maximum count-triggered report runs per calendar day (UTC). Min 1, max 24 (one per cooldown window). Defaults to 10. */
   daily_run_cap?: number | undefined;
@@ -1256,7 +1391,7 @@ export interface EvaluationReportUpdate {
   report_prompt_guidance?: string | undefined;
   /** Number of new evaluation results that triggers a report (every_n mode only). Min 100, max 10000. Defaults to 100. Required when frequency is 'every_n'. */
   trigger_threshold?: number | null | undefined;
-  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 60. */
+  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 1440. */
   cooldown_minutes?: number | undefined;
   /** Maximum count-triggered report runs per calendar day (UTC). Min 1, max 24 (one per cooldown window). Defaults to 10. */
   daily_run_cap?: number | undefined;
@@ -1282,7 +1417,7 @@ export interface UpdateLlmAnalyticsEvaluationReportsPartialRequest {
   report_prompt_guidance?: string | undefined;
   /** Number of new evaluation results that triggers a report (every_n mode only). Min 100, max 10000. Defaults to 100. Required when frequency is 'every_n'. */
   trigger_threshold?: number | null | undefined;
-  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 60. */
+  /** Minimum minutes between count-triggered reports to prevent spam (every_n mode only). Min 60, max 1440 (24 hours). Defaults to 1440. */
   cooldown_minutes?: number | undefined;
   /** Maximum count-triggered report runs per calendar day (UTC). Min 1, max 24 (one per cooldown window). Defaults to 10. */
   daily_run_cap?: number | undefined;
@@ -1294,7 +1429,7 @@ export interface UpdateLlmAnalyticsParserRecipesPartialRequest {
   id: string;
   /** Human-readable recipe name shown in the editor. */
   name?: string | undefined;
-  /** Raw YAML recipe source. Must parse as YAML; recipe semantics are compiled and validated client-side. */
+  /** Raw YAML recipe source. Must compile as a parser recipe; a 400 response names the first problem found. */
   source?: string | undefined;
 }
 export interface UpdateLlmAnalyticsProviderKeyRequest {
@@ -1383,6 +1518,24 @@ export interface UpdateLlmAnalyticsTraceReviewsPartialRequest {
   /** Optional review queue ID for queue-context saves. When provided, the matching pending queue item is cleared after the review is saved. If omitted, any pending queue item for the same trace is cleared. */
   queue_id?: string | null | undefined;
 }
+export type CreateLlmAnalyticsClusteringConfigSetEnabledError = PosthogOpError;
+/** Team-level clustering configuration (event filters for automated pipelines). */
+export const createLlmAnalyticsClusteringConfigSetEnabled: API.OperationMethod<
+  CreateLlmAnalyticsClusteringConfigSetEnabledRequest,
+  ClusteringConfig,
+  CreateLlmAnalyticsClusteringConfigSetEnabledError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateLlmAnalyticsClusteringConfigSetEnabledRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ClusteringConfig>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsClusteringConfigSetEnabled",
+}));
+
 export type CreateLlmAnalyticsClusteringConfigSetEventFilterError = PosthogOpError;
 /** Team-level clustering configuration (event filters for automated pipelines). */
 export const createLlmAnalyticsClusteringConfigSetEventFilter: API.OperationMethod<
@@ -1392,8 +1545,8 @@ export const createLlmAnalyticsClusteringConfigSetEventFilter: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    0,
-    __c0,
+    64,
+    __c4,
     0,
   ) as any as S.Schema<CreateLlmAnalyticsClusteringConfigSetEventFilterRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClusteringConfig>,
@@ -1413,8 +1566,8 @@ export const createLlmAnalyticsClusteringJob: API.OperationMethod<
   CreateLlmAnalyticsClusteringJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateLlmAnalyticsClusteringJobRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ClusteringJob>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateLlmAnalyticsClusteringJobRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ClusteringJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1431,8 +1584,8 @@ export const createLlmAnalyticsClusteringRun: API.OperationMethod<
   CreateLlmAnalyticsClusteringRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateLlmAnalyticsClusteringRunRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<ClusteringRunRequest>,
+  input: __S(544, __c34, 0) as any as S.Schema<CreateLlmAnalyticsClusteringRunRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<ClusteringRunRequest>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1450,11 +1603,11 @@ export const createLlmAnalyticsEvaluationConfigSetActiveKey: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<EvaluationConfigOutput>,
+  output: __S(752, __c47, 0) as any as S.Schema<EvaluationConfigOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1471,8 +1624,8 @@ export const createLlmAnalyticsEvaluationReport: API.OperationMethod<
   CreateLlmAnalyticsEvaluationReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateLlmAnalyticsEvaluationReportRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<EvaluationReport>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateLlmAnalyticsEvaluationReportRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvaluationReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1488,8 +1641,8 @@ export const createLlmAnalyticsParserRecipe: API.OperationMethod<
   CreateLlmAnalyticsParserRecipeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateLlmAnalyticsParserRecipeRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<ParserRecipe>,
+  input: __S(1168, __c73, 0) as any as S.Schema<CreateLlmAnalyticsParserRecipeRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<ParserRecipe>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1505,8 +1658,8 @@ export const createLlmAnalyticsProviderKey: API.OperationMethod<
   CreateLlmAnalyticsProviderKeyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LLMProviderKeyOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1523,8 +1676,8 @@ export const createLlmAnalyticsProviderKeyValidation: API.OperationMethod<
   CreateLlmAnalyticsProviderKeyValidationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyValidationRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyValidationResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyValidationRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<CreateLlmAnalyticsProviderKeyValidationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1540,8 +1693,8 @@ export const createLlmAnalyticsReviewQueue: API.OperationMethod<
   CreateLlmAnalyticsReviewQueueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CreateLlmAnalyticsReviewQueueRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<ReviewQueue>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateLlmAnalyticsReviewQueueRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<ReviewQueue>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1557,8 +1710,8 @@ export const createLlmAnalyticsReviewQueueItem: API.OperationMethod<
   CreateLlmAnalyticsReviewQueueItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<CreateLlmAnalyticsReviewQueueItemRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<ReviewQueueItem>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateLlmAnalyticsReviewQueueItemRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ReviewQueueItem>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1574,8 +1727,8 @@ export const createLlmAnalyticsScoreDefinition: API.OperationMethod<
   CreateLlmAnalyticsScoreDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateLlmAnalyticsScoreDefinitionRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ScoreDefinition>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateLlmAnalyticsScoreDefinitionRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ScoreDefinition>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1591,8 +1744,8 @@ export const createLlmAnalyticsScoreDefinitionsNewVersion: API.OperationMethod<
   CreateLlmAnalyticsScoreDefinitionsNewVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateLlmAnalyticsScoreDefinitionsNewVersionRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ScoreDefinition>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateLlmAnalyticsScoreDefinitionsNewVersionRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ScoreDefinition>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1608,8 +1761,8 @@ export const createLlmAnalyticsTraceReview: API.OperationMethod<
   CreateLlmAnalyticsTraceReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateLlmAnalyticsTraceReviewRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<TraceReview>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateLlmAnalyticsTraceReviewRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<TraceReview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1626,8 +1779,8 @@ export const createLlmAnalyticsTranslate: API.OperationMethod<
   CreateLlmAnalyticsTranslateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateLlmAnalyticsTranslateRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<CreateLlmAnalyticsTranslateResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateLlmAnalyticsTranslateRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<CreateLlmAnalyticsTranslateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1644,8 +1797,8 @@ export const getLlmAnalyticsClusteringJob: API.OperationMethod<
   GetLlmAnalyticsClusteringJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetLlmAnalyticsClusteringJobRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ClusteringJob>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetLlmAnalyticsClusteringJobRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ClusteringJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1662,8 +1815,8 @@ export const getLlmAnalyticsEvaluationConfig: API.OperationMethod<
   GetLlmAnalyticsEvaluationConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetLlmAnalyticsEvaluationConfigRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<EvaluationConfigOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetLlmAnalyticsEvaluationConfigRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<EvaluationConfigOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1680,8 +1833,8 @@ export const getLlmAnalyticsEvaluationReport: API.OperationMethod<
   GetLlmAnalyticsEvaluationReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetLlmAnalyticsEvaluationReportRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<EvaluationReport>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetLlmAnalyticsEvaluationReportRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvaluationReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1698,8 +1851,8 @@ export const getLlmAnalyticsModel: API.OperationMethod<
   GetLlmAnalyticsModelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetLlmAnalyticsModelRequest>,
-  output: __S(277, __c17, 5) as any as S.Schema<LLMModelsListResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetLlmAnalyticsModelRequest>,
+  output: __S(309, __c19, 5) as any as S.Schema<LLMModelsListResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1715,8 +1868,8 @@ export const getLlmAnalyticsParserRecipe: API.OperationMethod<
   GetLlmAnalyticsParserRecipeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetLlmAnalyticsParserRecipeRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<ParserRecipe>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetLlmAnalyticsParserRecipeRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<ParserRecipe>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1732,8 +1885,8 @@ export const getLlmAnalyticsProviderKey: API.OperationMethod<
   GetLlmAnalyticsProviderKeyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetLlmAnalyticsProviderKeyRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetLlmAnalyticsProviderKeyRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LLMProviderKeyOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1746,12 +1899,12 @@ export type GetLlmAnalyticsProviderKeysDependentConfigError = PosthogOpError;
 /** Get evaluations using this key and alternative keys for replacement. */
 export const getLlmAnalyticsProviderKeysDependentConfig: API.OperationMethod<
   GetLlmAnalyticsProviderKeysDependentConfigRequest,
-  LLMProviderKeyOutput,
+  ProviderKeyDependentConfigs,
   GetLlmAnalyticsProviderKeysDependentConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetLlmAnalyticsProviderKeysDependentConfigRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetLlmAnalyticsProviderKeysDependentConfigRequest>,
+  output: __S(389, __c24, 5) as any as S.Schema<ProviderKeyDependentConfigs>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1767,8 +1920,8 @@ export const getLlmAnalyticsReviewQueue: API.OperationMethod<
   GetLlmAnalyticsReviewQueueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetLlmAnalyticsReviewQueueRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<ReviewQueue>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetLlmAnalyticsReviewQueueRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<ReviewQueue>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1784,8 +1937,8 @@ export const getLlmAnalyticsReviewQueueItem: API.OperationMethod<
   GetLlmAnalyticsReviewQueueItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetLlmAnalyticsReviewQueueItemRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<ReviewQueueItem>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetLlmAnalyticsReviewQueueItemRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ReviewQueueItem>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1801,8 +1954,8 @@ export const getLlmAnalyticsScoreDefinition: API.OperationMethod<
   GetLlmAnalyticsScoreDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetLlmAnalyticsScoreDefinitionRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ScoreDefinition>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetLlmAnalyticsScoreDefinitionRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ScoreDefinition>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1818,8 +1971,8 @@ export const getLlmAnalyticsScoreDefinitionsVersion: API.OperationMethod<
   GetLlmAnalyticsScoreDefinitionsVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetLlmAnalyticsScoreDefinitionsVersionRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<ScoreDefinitionVersion>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetLlmAnalyticsScoreDefinitionsVersionRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<ScoreDefinitionVersion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1835,8 +1988,8 @@ export const getLlmAnalyticsTraceReview: API.OperationMethod<
   GetLlmAnalyticsTraceReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetLlmAnalyticsTraceReviewRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<TraceReview>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetLlmAnalyticsTraceReviewRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<TraceReview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1853,7 +2006,7 @@ export const listLlmAnalyticsClusteringConfig: API.OperationMethod<
   ListLlmAnalyticsClusteringConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListLlmAnalyticsClusteringConfigRequest>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListLlmAnalyticsClusteringConfigRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClusteringConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1871,8 +2024,8 @@ export const listLlmAnalyticsClusteringJobs: API.OperationMethod<
   ListLlmAnalyticsClusteringJobsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListLlmAnalyticsClusteringJobsRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<PaginatedClusteringJobList>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListLlmAnalyticsClusteringJobsRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<PaginatedClusteringJobList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1889,8 +2042,8 @@ export const listLlmAnalyticsEvaluationReports: API.OperationMethod<
   ListLlmAnalyticsEvaluationReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListLlmAnalyticsEvaluationReportsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<PaginatedEvaluationReportList>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListLlmAnalyticsEvaluationReportsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<PaginatedEvaluationReportList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1907,8 +2060,8 @@ export const listLlmAnalyticsEvaluationReportsRuns: API.OperationMethod<
   ListLlmAnalyticsEvaluationReportsRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListLlmAnalyticsEvaluationReportsRunsRequest>,
-  output: __S(509, __c31, 13) as any as S.Schema<PaginatedEvaluationReportRunList>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListLlmAnalyticsEvaluationReportsRunsRequest>,
+  output: __S(575, __c35, 15) as any as S.Schema<PaginatedEvaluationReportRunList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2080,7 +2233,7 @@ export const llmAnalyticsEvaluationReportsDestroy: API.OperationMethod<
   LlmAnalyticsEvaluationReportsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<LlmAnalyticsEvaluationReportsDestroyRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<LlmAnalyticsEvaluationReportsDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<LlmAnalyticsEvaluationReportsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2098,7 +2251,7 @@ export const llmAnalyticsEvaluationReportsGenerateCreate: API.OperationMethod<
   LlmAnalyticsEvaluationReportsGenerateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<LlmAnalyticsEvaluationReportsGenerateCreateRequest>,
+  input: __S(816, __c51, 0) as any as S.Schema<LlmAnalyticsEvaluationReportsGenerateCreateRequest>,
   output: __S(
     720,
     __c45,
@@ -2119,7 +2272,7 @@ export const llmAnalyticsParserRecipesDestroy: API.OperationMethod<
   LlmAnalyticsParserRecipesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<LlmAnalyticsParserRecipesDestroyRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<LlmAnalyticsParserRecipesDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<LlmAnalyticsParserRecipesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2136,7 +2289,7 @@ export const llmAnalyticsProviderKeysDestroy: API.OperationMethod<
   LlmAnalyticsProviderKeysDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<LlmAnalyticsProviderKeysDestroyRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<LlmAnalyticsProviderKeysDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<LlmAnalyticsProviderKeysDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2153,14 +2306,35 @@ export const llmAnalyticsProviderKeysValidateCreate: API.OperationMethod<
   LlmAnalyticsProviderKeysValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<LlmAnalyticsProviderKeysValidateCreateRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(864, __c54, 0) as any as S.Schema<LlmAnalyticsProviderKeysValidateCreateRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LLMProviderKeyOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LlmAnalyticsProviderKeysValidateCreate",
+}));
+
+export type LlmAnalyticsScoreDefinitionsValidateCompositionCreateError = PosthogOpError;
+export const llmAnalyticsScoreDefinitionsValidateCompositionCreate: API.OperationMethod<
+  LlmAnalyticsScoreDefinitionsValidateCompositionCreateRequest,
+  CompositeValidationResponse,
+  LlmAnalyticsScoreDefinitionsValidateCompositionCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    880,
+    __c55,
+    0,
+  ) as any as S.Schema<LlmAnalyticsScoreDefinitionsValidateCompositionCreateRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<CompositeValidationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsScoreDefinitionsValidateCompositionCreate",
 }));
 
 export type LlmAnalyticsTraceReviewsDestroyError = PosthogOpError;
@@ -2170,7 +2344,7 @@ export const llmAnalyticsTraceReviewsDestroy: API.OperationMethod<
   LlmAnalyticsTraceReviewsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<LlmAnalyticsTraceReviewsDestroyRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<LlmAnalyticsTraceReviewsDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<LlmAnalyticsTraceReviewsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2187,7 +2361,7 @@ export const reviewLlmAnalyticsQueueItemsDestroy: API.OperationMethod<
   ReviewLlmAnalyticsQueueItemsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ReviewLlmAnalyticsQueueItemsDestroyRequest>,
+  input: __S(912, __c57, 0) as any as S.Schema<ReviewLlmAnalyticsQueueItemsDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<ReviewLlmAnalyticsQueueItemsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2204,7 +2378,7 @@ export const reviewLlmAnalyticsQueuesDestroy: API.OperationMethod<
   ReviewLlmAnalyticsQueuesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ReviewLlmAnalyticsQueuesDestroyRequest>,
+  input: __S(928, __c58, 0) as any as S.Schema<ReviewLlmAnalyticsQueuesDestroyRequest>,
   output: __S(720, __c45, 0) as any as S.Schema<ReviewLlmAnalyticsQueuesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2222,8 +2396,8 @@ export const updateLlmAnalyticsClusteringJob: API.OperationMethod<
   UpdateLlmAnalyticsClusteringJobError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<UpdateLlmAnalyticsClusteringJobRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ClusteringJob>,
+  input: __S(944, __c59, 0) as any as S.Schema<UpdateLlmAnalyticsClusteringJobRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ClusteringJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2240,8 +2414,8 @@ export const updateLlmAnalyticsClusteringJobsPartial: API.OperationMethod<
   UpdateLlmAnalyticsClusteringJobsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<UpdateLlmAnalyticsClusteringJobsPartialRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ClusteringJob>,
+  input: __S(992, __c62, 0) as any as S.Schema<UpdateLlmAnalyticsClusteringJobsPartialRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ClusteringJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2258,8 +2432,8 @@ export const updateLlmAnalyticsEvaluationReport: API.OperationMethod<
   UpdateLlmAnalyticsEvaluationReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<UpdateLlmAnalyticsEvaluationReportRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<EvaluationReportUpdate>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdateLlmAnalyticsEvaluationReportRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<EvaluationReportUpdate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2276,8 +2450,8 @@ export const updateLlmAnalyticsEvaluationReportsPartial: API.OperationMethod<
   UpdateLlmAnalyticsEvaluationReportsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UpdateLlmAnalyticsEvaluationReportsPartialRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<EvaluationReportUpdate>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UpdateLlmAnalyticsEvaluationReportsPartialRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<EvaluationReportUpdate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2293,8 +2467,8 @@ export const updateLlmAnalyticsParserRecipesPartial: API.OperationMethod<
   UpdateLlmAnalyticsParserRecipesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateLlmAnalyticsParserRecipesPartialRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<ParserRecipe>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UpdateLlmAnalyticsParserRecipesPartialRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<ParserRecipe>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2310,8 +2484,8 @@ export const updateLlmAnalyticsProviderKey: API.OperationMethod<
   UpdateLlmAnalyticsProviderKeyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateLlmAnalyticsProviderKeyRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(1072, __c67, 0) as any as S.Schema<UpdateLlmAnalyticsProviderKeyRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LLMProviderKeyOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2327,8 +2501,8 @@ export const updateLlmAnalyticsProviderKeysPartial: API.OperationMethod<
   UpdateLlmAnalyticsProviderKeysPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateLlmAnalyticsProviderKeysPartialRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<LLMProviderKeyOutput>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UpdateLlmAnalyticsProviderKeysPartialRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<LLMProviderKeyOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2344,8 +2518,8 @@ export const updateLlmAnalyticsReviewQueueItemPartial: API.OperationMethod<
   UpdateLlmAnalyticsReviewQueueItemPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateLlmAnalyticsReviewQueueItemPartialRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<ReviewQueueItem>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateLlmAnalyticsReviewQueueItemPartialRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ReviewQueueItem>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2361,8 +2535,8 @@ export const updateLlmAnalyticsReviewQueuePartial: API.OperationMethod<
   UpdateLlmAnalyticsReviewQueuePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<UpdateLlmAnalyticsReviewQueuePartialRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<ReviewQueue>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateLlmAnalyticsReviewQueuePartialRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<ReviewQueue>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2378,8 +2552,8 @@ export const updateLlmAnalyticsScoreDefinitionsPartial: API.OperationMethod<
   UpdateLlmAnalyticsScoreDefinitionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateLlmAnalyticsScoreDefinitionsPartialRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ScoreDefinition>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateLlmAnalyticsScoreDefinitionsPartialRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ScoreDefinition>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2395,8 +2569,8 @@ export const updateLlmAnalyticsTraceReviewsPartial: API.OperationMethod<
   UpdateLlmAnalyticsTraceReviewsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UpdateLlmAnalyticsTraceReviewsPartialRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<TraceReview>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateLlmAnalyticsTraceReviewsPartialRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<TraceReview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2412,15 +2586,15 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          event_filters: __S(16, __c1, 0),
+          enabled: S.Boolean,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/clustering_config/set_event_filters/",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_config/set_enabled/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateLlmAnalyticsClusteringConfigSetEventFilterRequest" });
+      ).annotate({ identifier: "CreateLlmAnalyticsClusteringConfigSetEnabledRequest" });
   }
 }
 function __c1(j: number): any {
@@ -2440,6 +2614,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          enabled: S.Boolean,
           event_filters: __S(16, __c1, 0),
           created_at: S.String,
           updated_at: S.String,
@@ -2453,18 +2628,15 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          analysis_level: S.optional(S.String),
-          event_filters: S.optional(__S(16, __c1, 0)),
-          enabled: S.optional(S.Boolean),
+          event_filters: __S(16, __c1, 0),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_config/set_event_filters/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateLlmAnalyticsClusteringJobRequest" });
+      ).annotate({ identifier: "CreateLlmAnalyticsClusteringConfigSetEventFilterRequest" });
   }
 }
 function __c5(j: number): any {
@@ -2472,15 +2644,17 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          analysis_level: S.optional(S.String),
-          event_filters: S.optional(__S(16, __c1, 0)),
-          enabled: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClusteringJob" });
+          project_id: S.String.pipe(T.Label()),
+          queue_id: S.optional(S.String),
+          trace_id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLlmAnalyticsReviewQueueItemRequest" });
   }
 }
 function __c6(j: number): any {
@@ -2488,8 +2662,27 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.String),
+          queue_id: S.optional(S.String),
+          queue_name: S.optional(S.String),
+          trace_id: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.NullOr(S.String)),
+          created_by: S.optional(S.NullOr(__S(768, __c48, 0))),
+          team: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ReviewQueueItem" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(128, __c8, 0)),
+          calculation: S.optional(S.String),
+          composition: S.optional(S.NullOr(__S(146, __c9, 2))),
           name: S.optional(S.String),
           short_name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
@@ -2506,34 +2699,10 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsScoreDefinitionRequest" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          short_name: S.String,
-          description: S.optional(S.String),
-          tags: __S(112, __c7, 0),
-          kind: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          current_version: S.optional(S.Number),
-          current_version_id: S.optional(S.NullOr(S.String)),
-          config: S.optional(S.Unknown),
-          created_by: S.optional(S.NullOr(__S(544, __c34, 0))),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.NullOr(S.String)),
-          updated_by: S.NullOr(__S(544, __c34, 0)),
-          team: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ScoreDefinition" });
+      return S.Array(S.String);
   }
 }
 function __c9(j: number): any {
@@ -2541,8 +2710,75 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          alias: S.String,
+          scorer_version_id: S.String,
+        }),
+      ).annotate({ identifier: "CompositeInput" });
+    case 1:
+      return S.Array(__S(144, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          inputs: __S(145, __c9, 1),
+        }),
+      ).annotate({ identifier: "CompositeConfig" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.String,
+          scorer_version_id: S.String,
+          definition_id: S.String,
+          name: S.String,
+          kind: S.String,
+          version: S.Number,
+          config: S.Unknown,
+          latest_version_id: S.NullOr(S.String),
+          latest_version: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "CompositeInputRead" });
+    case 1:
+      return S.Array(__S(160, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          short_name: S.String,
+          description: S.optional(S.String),
+          tags: __S(128, __c8, 0),
+          kind: S.optional(S.String),
+          calculation: S.String,
+          composition: S.NullOr(__S(146, __c9, 2)),
+          input_scorers: __S(161, __c10, 1),
+          dependent_composite_count: S.Number,
+          archived: S.optional(S.Boolean),
+          current_version: S.optional(S.Number),
+          current_version_id: S.optional(S.NullOr(S.String)),
+          config: S.optional(S.Unknown),
+          created_by: S.optional(S.NullOr(__S(768, __c48, 0))),
+          created_by_project_key_id: S.NullOr(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.NullOr(S.String)),
+          updated_by: S.NullOr(__S(768, __c48, 0)),
+          updated_by_project_key_id: S.NullOr(S.String),
+          team: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ScoreDefinition" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          composition: S.optional(S.NullOr(__S(146, __c9, 2))),
           short_name: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
@@ -2558,7 +2794,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsScoreDefinitionsNewVersionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2566,7 +2802,7 @@ function __c10(j: number): any {
           project_id: S.String.pipe(T.Label()),
           trace_id: S.optional(S.String),
           comment: S.optional(S.NullOr(S.String)),
-          scores: S.optional(__S(193, __c12, 1)),
+          scores: S.optional(__S(225, __c14, 1)),
           queue_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -2578,7 +2814,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsTraceReviewRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2591,7 +2827,7 @@ function __c11(j: number): any {
           definition_version_id: S.optional(S.String),
           definition_version: S.optional(S.Number),
           definition_config: S.optional(S.Unknown),
-          categorical_values: S.optional(S.NullOr(__S(112, __c7, 0))),
+          categorical_values: S.optional(S.NullOr(__S(128, __c8, 0))),
           numeric_value: S.optional(S.NullOr(S.String)),
           boolean_value: S.optional(S.NullOr(S.Boolean)),
           created_at: S.optional(S.String),
@@ -2599,7 +2835,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "TraceReviewScore" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2609,31 +2845,32 @@ function __c11(j: number): any {
           comment: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(544, __c34, 0))),
-          reviewed_by: S.optional(S.NullOr(__S(544, __c34, 0))),
-          scores: S.optional(__S(177, __c11, 1)),
+          created_by: S.optional(S.NullOr(__S(768, __c48, 0))),
+          reviewed_by: S.optional(S.NullOr(__S(768, __c48, 0))),
+          reviewed_by_project_key_id: S.NullOr(S.String),
+          scores: S.optional(__S(209, __c13, 1)),
           team: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TraceReview" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           definition_id: S.optional(S.String),
           definition_version_id: S.optional(S.NullOr(S.String)),
-          categorical_values: S.optional(S.NullOr(__S(112, __c7, 0))),
+          categorical_values: S.optional(S.NullOr(__S(128, __c8, 0))),
           numeric_value: S.optional(S.NullOr(S.String)),
           boolean_value: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "TraceReviewScoreWrite" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(224, __c14, 0));
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2651,7 +2888,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsTranslateRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,7 +2905,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetLlmAnalyticsClusteringJobRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2684,7 +2921,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetLlmAnalyticsEvaluationConfigRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2701,7 +2938,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetLlmAnalyticsEvaluationReportRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2725,7 +2962,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "LLMModelInfo" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2735,17 +2972,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "LLMProviderModelsSummary" });
     case 4:
-      return S.Array(__S(275, __c17, 3));
+      return S.Array(__S(307, __c19, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          models: __S(274, __c17, 2),
-          providers: __S(276, __c17, 4),
+          models: __S(306, __c19, 2),
+          providers: __S(308, __c19, 4),
         }),
       ).annotate({ identifier: "LLMModelsListResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2762,7 +2999,43 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetLlmAnalyticsParserRecipeRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          analysis_level: S.optional(S.String),
+          event_filters: S.optional(__S(16, __c1, 0)),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLlmAnalyticsClusteringJobRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          analysis_level: S.optional(S.String),
+          event_filters: S.optional(__S(16, __c1, 0)),
+          enabled: S.optional(S.Boolean),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusteringJob" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2779,7 +3052,234 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetLlmAnalyticsProviderKeyRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/dependent_configs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsProviderKeysDependentConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          model_configuration_id: S.optional(S.String),
+          enabled: S.Boolean,
+          status_reason: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ProviderKeyDependentEvaluation" });
+    case 2:
+      return S.Array(__S(385, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          provider: S.String,
+        }),
+      ).annotate({ identifier: "ProviderKeyAlternative" });
+    case 4:
+      return S.Array(__S(387, __c24, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          evaluations: __S(386, __c24, 2),
+          alternative_keys: __S(388, __c24, 4),
+          active_key_evaluations: __S(386, __c24, 2),
+        }),
+      ).annotate({ identifier: "ProviderKeyDependentConfigs" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/review_queues/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsReviewQueueRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsReviewQueueItemRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsScoreDefinitionRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          version_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/{version_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsScoreDefinitionsVersionRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          definition_id: S.String,
+          version: S.Number,
+          kind: S.String,
+          calculation: S.String,
+          composition: S.NullOr(__S(146, __c9, 2)),
+          config: S.Unknown,
+          created_at: S.String,
+          created_by: S.NullOr(__S(768, __c48, 0)),
+          created_by_project_key_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ScoreDefinitionVersion" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/trace_reviews/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLlmAnalyticsTraceReviewRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_config/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListLlmAnalyticsClusteringConfigRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListLlmAnalyticsClusteringJobsRequest" });
+    case 1:
+      return S.Array(__S(352, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(513, __c32, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedClusteringJobList" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          evaluation: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/llm_analytics/evaluation_reports/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListLlmAnalyticsEvaluationReportsRequest" });
+    case 1:
+      return S.Array(__S(976, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(529, __c33, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedEvaluationReportList" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2828,201 +3328,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ClusteringRunRequest" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/dependent_configs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsProviderKeysDependentConfigRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/review_queues/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsReviewQueueRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsReviewQueueItemRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsScoreDefinitionRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          version_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/{version_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsScoreDefinitionsVersionRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          definition_id: S.String,
-          version: S.Number,
-          kind: S.String,
-          config: S.Unknown,
-          created_at: S.String,
-          created_by: S.NullOr(__S(544, __c34, 0)),
-        }),
-      ).annotate({ identifier: "ScoreDefinitionVersion" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/trace_reviews/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLlmAnalyticsTraceReviewRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/clustering_config/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLlmAnalyticsClusteringConfigRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLlmAnalyticsClusteringJobsRequest" });
-    case 1:
-      return S.Array(__S(80, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(465, __c29, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedClusteringJobList" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          evaluation: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/llm_analytics/evaluation_reports/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLlmAnalyticsEvaluationReportsRequest" });
-    case 1:
-      return S.Array(__S(768, __c48, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(481, __c30, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedEvaluationReportList" });
-  }
-}
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3047,7 +3353,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "EvaluationReportSection" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3058,7 +3364,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "EvaluationReportCitation" });
     case 4:
-      return S.Array(__S(499, __c31, 3));
+      return S.Array(__S(563, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3067,7 +3373,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "EvaluationReportMetricsOutputConfigOptionsItem" });
     case 6:
-      return S.Array(__S(501, __c31, 5));
+      return S.Array(__S(565, __c35, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3077,7 +3383,7 @@ function __c31(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(502, __c31, 6)),
+          options: S.optional(__S(566, __c35, 6)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -3087,16 +3393,16 @@ function __c31(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          output_config: S.optional(__S(503, __c31, 7)),
+          output_config: S.optional(__S(567, __c35, 7)),
           output_type: S.optional(S.String),
           total_runs: S.optional(S.Number),
-          result_counts: S.optional(__S(504, __c31, 8)),
-          result_rates: S.optional(__S(504, __c31, 8)),
+          result_counts: S.optional(__S(568, __c35, 8)),
+          result_rates: S.optional(__S(568, __c35, 8)),
           period_start: S.optional(S.String),
           period_end: S.optional(S.String),
           previous_total_runs: S.optional(S.NullOr(S.Number)),
-          previous_result_counts: S.optional(S.NullOr(__S(504, __c31, 8))),
-          previous_result_rates: S.optional(S.NullOr(__S(504, __c31, 8))),
+          previous_result_counts: S.optional(S.NullOr(__S(568, __c35, 8))),
+          previous_result_rates: S.optional(S.NullOr(__S(568, __c35, 8))),
           pass_rate: S.optional(S.NullOr(S.Number)),
           previous_pass_rate: S.optional(S.NullOr(S.Number)),
         }),
@@ -3106,106 +3412,47 @@ function __c31(j: number): any {
         S.Struct({
           evaluation_target: S.optional(S.String),
           title: S.optional(S.String),
-          sections: S.optional(__S(498, __c31, 2)),
-          citations: S.optional(__S(500, __c31, 4)),
+          sections: S.optional(__S(562, __c35, 2)),
+          citations: S.optional(__S(564, __c35, 4)),
           generation_status: S.optional(S.String),
-          metrics: S.optional(S.NullOr(__S(505, __c31, 9))),
+          metrics: S.optional(S.NullOr(__S(569, __c35, 9))),
         }),
       ).annotate({ identifier: "EvaluationReportRunContent" });
     case 11:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "EvaluationReportDestination" });
+    case 12:
+      return S.Array(__S(571, __c35, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           report: S.optional(S.String),
-          content: S.optional(__S(506, __c31, 10)),
-          metadata: S.optional(S.NullOr(__S(505, __c31, 9))),
+          content: S.optional(__S(570, __c35, 10)),
+          metadata: S.optional(S.NullOr(__S(569, __c35, 9))),
           period_start: S.optional(S.String),
           period_end: S.optional(S.String),
           delivery_status: S.optional(S.String),
-          delivery_errors: S.optional(__S(112, __c7, 0)),
+          delivery_errors: S.optional(__S(128, __c8, 0)),
+          delivery_destinations: __S(572, __c35, 12),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "EvaluationReportRun" });
-    case 12:
-      return S.Array(__S(507, __c31, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(573, __c35, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(508, __c31, 12)),
+          results: S.optional(__S(574, __c35, 14)),
         }),
       ).annotate({ identifier: "PaginatedEvaluationReportRunList" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          key_id: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/evaluation_config/set_active_key/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active_provider_key: S.NullOr(__S(560, __c35, 0)),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "EvaluationConfigOutput" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(32, __c2, 0))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          provider: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          error_message: S.optional(S.NullOr(S.String)),
-          api_key_masked: S.optional(S.String),
-          base_url_display: S.optional(S.NullOr(S.String)),
-          system_one_model_display: S.optional(S.NullOr(S.String)),
-          azure_endpoint_display: S.optional(S.NullOr(S.String)),
-          api_version_display: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(544, __c34, 0))),
-          last_used_at: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "LLMProviderKeyOutput" });
   }
 }
 function __c36(j: number): any {
@@ -3225,7 +3472,7 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsParserRecipesRequest" });
     case 1:
-      return S.Array(__S(976, __c61, 0));
+      return S.Array(__S(1184, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3254,7 +3501,7 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsProviderKeysRequest" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3324,7 +3571,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsReviewQueueItemsRequest" });
     case 1:
-      return S.Array(__S(1216, __c76, 0));
+      return S.Array(__S(96, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3356,7 +3603,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsReviewQueuesRequest" });
     case 1:
-      return S.Array(__S(1184, __c74, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3375,7 +3622,9 @@ function __c41(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           archived: S.optional(S.Boolean.pipe(T.Query())),
+          calculation: S.optional(S.String.pipe(T.Query())),
           created_by: S.optional(S.Number.pipe(T.Query())),
+          input_definition_id: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -3392,7 +3641,7 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsScoreDefinitionsRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(162, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3422,7 +3671,7 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsScoreDefinitionsVersionsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3458,7 +3707,7 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListLlmAnalyticsTraceReviewsRequest" });
     case 1:
-      return S.Array(__S(178, __c11, 2));
+      return S.Array(__S(210, __c13, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3501,6 +3750,75 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          key_id: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/evaluation_config/set_active_key/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLlmAnalyticsEvaluationConfigSetActiveKeyRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active_provider_key: S.NullOr(__S(784, __c49, 0)),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "EvaluationConfigOutput" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(32, __c2, 0))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          provider: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          error_message: S.optional(S.NullOr(S.String)),
+          api_key_masked: S.optional(S.String),
+          base_url_display: S.optional(S.NullOr(S.String)),
+          system_one_model_display: S.optional(S.NullOr(S.String)),
+          azure_endpoint_display: S.optional(S.NullOr(S.String)),
+          api_version_display: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          created_by: S.optional(S.NullOr(__S(768, __c48, 0))),
+          last_used_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LLMProviderKeyOutput" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3512,7 +3830,180 @@ function __c46(j: number): any {
       ).annotate({ identifier: "LlmAnalyticsEvaluationReportsDestroyRequest" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/evaluation_reports/{id}/generate/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsEvaluationReportsGenerateCreateRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/llm_analytics/parser_recipes/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsParserRecipesDestroyRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsProviderKeysDestroyRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          provider: S.optional(S.String),
+          name: S.optional(S.String),
+          api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          base_url: S.optional(S.String),
+          system_one_model: S.optional(S.String),
+          azure_endpoint: S.optional(S.String),
+          api_version: S.optional(S.String),
+          set_as_active: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/validate/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsProviderKeysValidateCreateRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          kind: S.String,
+          composition: __S(146, __c9, 2),
+          config: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/score_definitions/validate_composition/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsScoreDefinitionsValidateCompositionCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          valid: S.Boolean,
+        }),
+      ).annotate({ identifier: "CompositeValidationResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/llm_analytics/trace_reviews/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LlmAnalyticsTraceReviewsDestroyRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewLlmAnalyticsQueueItemsDestroyRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/llm_analytics/review_queues/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewLlmAnalyticsQueuesDestroyRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          analysis_level: S.optional(S.String),
+          event_filters: S.optional(__S(16, __c1, 0)),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLlmAnalyticsClusteringJobRequest" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3538,7 +4029,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsEvaluationReportRequest" });
   }
 }
-function __c48(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3567,155 +4058,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "EvaluationReport" });
   }
 }
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/evaluation_reports/{id}/generate/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LlmAnalyticsEvaluationReportsGenerateCreateRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/llm_analytics/parser_recipes/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LlmAnalyticsParserRecipesDestroyRequest" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LlmAnalyticsProviderKeysDestroyRequest" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          provider: S.optional(S.String),
-          name: S.optional(S.String),
-          api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          base_url: S.optional(S.String),
-          system_one_model: S.optional(S.String),
-          azure_endpoint: S.optional(S.String),
-          api_version: S.optional(S.String),
-          set_as_active: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/provider_keys/{id}/validate/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LlmAnalyticsProviderKeysValidateCreateRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/llm_analytics/trace_reviews/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LlmAnalyticsTraceReviewsDestroyRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReviewLlmAnalyticsQueueItemsDestroyRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/llm_analytics/review_queues/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReviewLlmAnalyticsQueuesDestroyRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          analysis_level: S.optional(S.String),
-          event_filters: S.optional(__S(16, __c1, 0)),
-          enabled: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/llm_analytics/clustering_jobs/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateLlmAnalyticsClusteringJobRequest" });
-  }
-}
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3736,7 +4079,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsClusteringJobsPartialRequest" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3762,7 +4105,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsEvaluationReportRequest" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3791,40 +4134,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "EvaluationReportUpdate" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          name: S.String,
-          source: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/parser_recipes/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateLlmAnalyticsParserRecipeRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          source: S.String,
-          created_by: S.NullOr(__S(544, __c34, 0)),
-          created_at: S.String,
-          updated_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ParserRecipe" });
-  }
-}
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3850,7 +4160,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsEvaluationReportsPartialRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3869,7 +4179,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsParserRecipesPartialRequest" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3894,7 +4204,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsProviderKeyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3919,7 +4229,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsProviderKeysPartialRequest" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3937,7 +4247,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsReviewQueueItemPartialRequest" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3955,14 +4265,14 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsReviewQueuePartialRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          tags: S.optional(__S(112, __c7, 0)),
+          tags: S.optional(__S(128, __c8, 0)),
           name: S.optional(S.String),
           short_name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
@@ -3977,7 +4287,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsScoreDefinitionsPartialRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3986,7 +4296,7 @@ function __c69(j: number): any {
           id: S.String.pipe(T.Label()),
           trace_id: S.optional(S.String),
           comment: S.optional(S.NullOr(S.String)),
-          scores: S.optional(__S(193, __c12, 1)),
+          scores: S.optional(__S(225, __c14, 1)),
           queue_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -3998,7 +4308,40 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateLlmAnalyticsTraceReviewsPartialRequest" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String,
+          source: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_analytics/parser_recipes/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateLlmAnalyticsParserRecipeRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          source: S.String,
+          created_by: S.NullOr(__S(768, __c48, 0)),
+          created_at: S.String,
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ParserRecipe" });
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4022,7 +4365,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsProviderKeyRequest" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4038,7 +4381,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsProviderKeyValidationRequest" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => __S(32, __c2, 0).pipe(T.RawResponseRoot())).annotate({
@@ -4046,7 +4389,7 @@ function __c72(j: number): any {
       });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4063,7 +4406,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateLlmAnalyticsReviewQueueRequest" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4073,45 +4416,10 @@ function __c74(j: number): any {
           pending_item_count: S.optional(S.Number),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(544, __c34, 0))),
+          created_by: S.optional(S.NullOr(__S(768, __c48, 0))),
           team: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReviewQueue" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          queue_id: S.optional(S.String),
-          trace_id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/llm_analytics/review_queue_items/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateLlmAnalyticsReviewQueueItemRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          queue_id: S.optional(S.String),
-          queue_name: S.optional(S.String),
-          trace_id: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(544, __c34, 0))),
-          team: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ReviewQueueItem" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

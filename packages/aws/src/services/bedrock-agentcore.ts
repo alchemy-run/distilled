@@ -3103,11 +3103,16 @@ export interface WebSearchFilters {
   domainFilter?: DomainFilter | undefined;
   publishedDateFilter?: PublishedDateFilter | undefined;
 }
+export type WebSearchCountryCode = string;
+export interface WebSearchUserLocation {
+  country?: string | undefined;
+}
 export interface InvokeWebSearchInput {
   webSearchId: string;
   searchQuery: string;
   maxResults?: number | undefined;
   filters?: WebSearchFilters | undefined;
+  userLocation?: WebSearchUserLocation | undefined;
 }
 export interface WebSearchResult {
   title?: string | undefined;
@@ -5515,8 +5520,8 @@ export const invokeWebSearch: API.OperationMethod<
   InvokeWebSearchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2371, __c74, 3) as any as S.Schema<InvokeWebSearchInput>,
-  output: __S(2374, __c74, 6) as any as S.Schema<InvokeWebSearchOutput>,
+  input: __S(2372, __c74, 4) as any as S.Schema<InvokeWebSearchInput>,
+  output: __S(2375, __c74, 7) as any as S.Schema<InvokeWebSearchOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9871,12 +9876,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "WebSearchFilters" });
     case 3:
+      return S.suspend(() => S.Struct({ country: S.optional(S.String) })).annotate({
+        identifier: "WebSearchUserLocation",
+      });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           webSearchId: S.String.pipe(T.HttpLabel("webSearchId")),
           searchQuery: S.String,
           maxResults: S.optional(S.Number),
           filters: S.optional(__S(2370, __c74, 2)),
+          userLocation: S.optional(__S(2371, __c74, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/web-search/{webSearchId}/invoke" }),
@@ -9888,7 +9898,7 @@ function __c74(j: number): any {
           ),
         ),
       ).annotate({ identifier: "InvokeWebSearchInput" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
@@ -9897,10 +9907,10 @@ function __c74(j: number): any {
           publishedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "WebSearchResult" });
-    case 5:
-      return S.Array(__S(2372, __c74, 4));
     case 6:
-      return S.suspend(() => S.Struct({ results: __S(2373, __c74, 5) })).annotate({
+      return S.Array(__S(2373, __c74, 5));
+    case 7:
+      return S.suspend(() => S.Struct({ results: __S(2374, __c74, 6) })).annotate({
         identifier: "InvokeWebSearchOutput",
       });
   }

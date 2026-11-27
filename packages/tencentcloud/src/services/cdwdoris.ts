@@ -175,6 +175,7 @@ export interface CreateInstanceNewRequest {
   IsSSC?: boolean | undefined;
   SSCCU?: number | undefined;
   CacheDataDiskSize?: number | undefined;
+  CacheDiskType?: string | undefined;
   DiskEncrypt?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
@@ -191,6 +192,7 @@ export interface WorkloadGroupConfig {
   MemoryLimit?: number | undefined;
   EnableMemoryOverCommit?: boolean | undefined;
   CpuHardLimit?: string | undefined;
+  ComputeGroup?: string | undefined;
   MinCpuPercent?: number | undefined;
   MinMemoryPercent?: number | undefined;
   MaxConcurrencyNum?: number | undefined;
@@ -222,6 +224,7 @@ export interface DeleteBackUpDataResponse {
 export interface DeleteWorkloadGroupRequest {
   InstanceId: string;
   WorkloadGroupName?: string | undefined;
+  ComputeGroup?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1128,6 +1131,7 @@ export type WorkloadGroupConfigList = Array<WorkloadGroupConfig>;
 export interface DescribeWorkloadGroupResponse {
   WorkloadGroups?: WorkloadGroupConfigList | undefined;
   Status?: string | undefined;
+  NeedPodRebuild?: boolean | undefined;
   ErrorMsg?: string | undefined;
   MonitorStatus?: number | undefined;
   RequestId?: string | undefined;
@@ -1289,6 +1293,7 @@ export interface ModifyWorkloadGroupResponse {
 export interface ModifyWorkloadGroupStatusRequest {
   InstanceId: string;
   OperationType?: string | undefined;
+  RestartType?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -3977,6 +3982,7 @@ function __c43(j: number): any {
         S.Struct({
           WorkloadGroups: S.optional(__S(689, __c43, 1)),
           Status: S.optional(S.String),
+          NeedPodRebuild: S.optional(S.Boolean),
           ErrorMsg: S.optional(S.String),
           MonitorStatus: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -4258,6 +4264,7 @@ function __c56(j: number): any {
         S.Struct({
           InstanceId: S.String,
           OperationType: S.optional(S.String),
+          RestartType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -4319,6 +4326,7 @@ function __c57(j: number): any {
           IsSSC: S.optional(S.Boolean),
           SSCCU: S.optional(S.Number),
           CacheDataDiskSize: S.optional(S.Number),
+          CacheDiskType: S.optional(S.String),
           DiskEncrypt: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -4563,6 +4571,7 @@ function __c71(j: number): any {
           MemoryLimit: S.optional(S.Number),
           EnableMemoryOverCommit: S.optional(S.Boolean),
           CpuHardLimit: S.optional(S.String),
+          ComputeGroup: S.optional(S.String),
           MinCpuPercent: S.optional(S.Number),
           MinMemoryPercent: S.optional(S.Number),
           MaxConcurrencyNum: S.optional(S.Number),
@@ -4595,6 +4604,7 @@ function __c73(j: number): any {
         S.Struct({
           InstanceId: S.String,
           WorkloadGroupName: S.optional(S.String),
+          ComputeGroup: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cdwdoris", version: "2021-12-28", action: "DeleteWorkloadGroup" }),

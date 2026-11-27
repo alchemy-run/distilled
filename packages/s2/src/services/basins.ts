@@ -176,7 +176,7 @@ export const deleteBasin: API.OperationMethod<
 }));
 
 export type EnsureBasinError = S2OpError;
-/** Ensure a basin. */
+/** Ensure a basin. Creates the basin if it does not exist. If it already exists, sets its configuration to match the request, with omitted fields taking their default values (unlike reconfigure, which leaves omitted fields unchanged). */
 export const ensureBasin: API.OperationMethod<
   EnsureBasinRequest2,
   BasinInfo,

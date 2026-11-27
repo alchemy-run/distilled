@@ -411,6 +411,8 @@ export interface CreateDispatchNamespaceRequest {
   accountId: string;
   /** The name of the dispatch namespace. */
   name?: string | undefined;
+  /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
+  trustedWorkers?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDispatchNamespaceResponse {
@@ -504,6 +506,35 @@ export interface DeleteDispatchNamespaceScriptTagRequest {
 }
 export type DispatchNamespacesScriptsTagsDeleteResultMap = { [key: string]: string | undefined };
 export type DeleteDispatchNamespaceScriptTagResponse = DispatchNamespacesScriptsTagsDeleteResultMap;
+export interface EditDispatchNamespaceRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the Workers for Platforms dispatch namespace. */
+  dispatchNamespace: string;
+  /** The name of the dispatch namespace. If set, must match the namespace's current name. Dispatch namespaces cannot be renamed. */
+  name?: string | undefined;
+  /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
+  trustedWorkers?: boolean | undefined;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface EditDispatchNamespaceResponse {
+  /** Identifier. */
+  createdBy?: string | null | undefined;
+  /** When the script was created. */
+  createdOn?: string | null | undefined;
+  /** Identifier. */
+  modifiedBy?: string | null | undefined;
+  /** When the script was last modified. */
+  modifiedOn?: string | null | undefined;
+  /** API Resource UUID tag. */
+  namespaceId?: string | null | undefined;
+  /** Name of the Workers for Platforms dispatch namespace. */
+  namespaceName?: string | null | undefined;
+  /** The current number of scripts in this Dispatch Namespace. */
+  scriptCount?: number | null | undefined;
+  /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
+  trustedWorkers?: boolean | null | undefined;
+}
 export interface GetDispatchNamespaceRequest {
   /** Identifier. */
   accountId: string;
@@ -654,6 +685,14 @@ export interface DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem {
 }
 export type DispatchNamespacesScriptsGetResponseScriptNamedHandlersList =
   Array<DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem>;
+export interface DispatchNamespacesScriptsGetResponseScriptObservabilityAgents {
+  /** Whether Agents observability is enabled for the Worker. */
+  enabled?: boolean | null | undefined;
+  /** The sampling rate for Agents observability. From 0 to 1 (1 = 100%, 0.1 = 10%). Defaults to the root head_sampling_rate. */
+  headSamplingRate?: number | null | undefined;
+  /** Whether Agents observability data is persisted for the Worker. */
+  persist?: boolean | null | undefined;
+}
 export interface DispatchNamespacesScriptsGetResponseScriptObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
   enabled?: boolean | null | undefined;
@@ -701,6 +740,8 @@ export interface DispatchNamespacesScriptsGetResponseScriptObservabilityTraces {
 export interface DispatchNamespacesScriptsGetResponseScriptObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsGetResponseScriptObservabilityAgents | null | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -2386,6 +2427,8 @@ export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMu
 export type DispatchNamespacesScriptsSettingsGetResponseMigrations =
   | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigration
   | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrations;
+export type DispatchNamespacesScriptsSettingsGetResponseObservabilityAgents =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityAgents;
 export type DispatchNamespacesScriptsSettingsGetResponseObservabilityIssues =
   DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
 export type DispatchNamespacesScriptsSettingsGetResponseObservabilityLogsDestinationsList =
@@ -2431,6 +2474,8 @@ export interface DispatchNamespacesScriptsSettingsGetResponseObservabilityTraces
 export interface DispatchNamespacesScriptsSettingsGetResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsGetResponseScriptObservabilityAgents | null | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -3550,6 +3595,14 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsW
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrations =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigration
   | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrations;
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityAgents {
+  /** Whether Agents observability is enabled for the Worker. */
+  enabled?: boolean | undefined;
+  /** The sampling rate for Agents observability. From 0 to 1 (1 = 100%, 0.1 = 10%). Defaults to the root head_sampling_rate. */
+  headSamplingRate?: number | undefined;
+  /** Whether Agents observability data is persisted for the Worker. */
+  persist?: boolean | undefined;
+}
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
   enabled?: boolean | undefined;
@@ -3595,6 +3648,8 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabili
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityAgents | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -4575,6 +4630,8 @@ export interface DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersM
 export type DispatchNamespacesScriptsSettingsEditResponseMigrations =
   | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigration
   | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrations;
+export type DispatchNamespacesScriptsSettingsEditResponseObservabilityAgents =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityAgents;
 export type DispatchNamespacesScriptsSettingsEditResponseObservabilityIssues =
   DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
 export type DispatchNamespacesScriptsSettingsEditResponseObservabilityLogsDestinationsList =
@@ -4620,6 +4677,8 @@ export interface DispatchNamespacesScriptsSettingsEditResponseObservabilityTrace
 export interface DispatchNamespacesScriptsSettingsEditResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsGetResponseScriptObservabilityAgents | null | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -5426,6 +5485,8 @@ export interface DispatchNamespacesScriptsUpdateResponseNamedHandlersItem {
 }
 export type DispatchNamespacesScriptsUpdateResponseNamedHandlersList =
   Array<DispatchNamespacesScriptsUpdateResponseNamedHandlersItem>;
+export type DispatchNamespacesScriptsUpdateResponseObservabilityAgents =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityAgents;
 export type DispatchNamespacesScriptsUpdateResponseObservabilityIssues =
   DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
 export type DispatchNamespacesScriptsUpdateResponseObservabilityLogsDestinationsList =
@@ -5471,6 +5532,8 @@ export interface DispatchNamespacesScriptsUpdateResponseObservabilityTraces {
 export interface DispatchNamespacesScriptsUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsGetResponseScriptObservabilityAgents | null | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -5809,6 +5872,8 @@ export interface DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItem
 }
 export type DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList =
   Array<DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItem>;
+export type DispatchNamespacesScriptsContentUpdateResponseObservabilityAgents =
+  DispatchNamespacesScriptsGetResponseScriptObservabilityAgents;
 export type DispatchNamespacesScriptsContentUpdateResponseObservabilityIssues =
   DispatchNamespacesScriptsGetResponseScriptObservabilityIssues;
 export type DispatchNamespacesScriptsContentUpdateResponseObservabilityLogsDestinationsList =
@@ -5854,6 +5919,8 @@ export interface DispatchNamespacesScriptsContentUpdateResponseObservabilityTrac
 export interface DispatchNamespacesScriptsContentUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
+  /** Agents observability settings for the Worker. */
+  agents?: DispatchNamespacesScriptsGetResponseScriptObservabilityAgents | null | undefined;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
   headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
@@ -6172,6 +6239,35 @@ export interface PutDispatchNamespaceScriptTagResponse {
   /** Pagination info from the envelope's `result_info`. */
   resultInfo?: ResultInfo | null | undefined;
 }
+export interface UpdateDispatchNamespaceRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the Workers for Platforms dispatch namespace. */
+  dispatchNamespace: string;
+  /** The name of the dispatch namespace. Must match the namespace's current name. Dispatch namespaces cannot be renamed. */
+  name?: string | undefined;
+  /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
+  trustedWorkers?: boolean | undefined;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateDispatchNamespaceResponse {
+  /** Identifier. */
+  createdBy?: string | null | undefined;
+  /** When the script was created. */
+  createdOn?: string | null | undefined;
+  /** Identifier. */
+  modifiedBy?: string | null | undefined;
+  /** When the script was last modified. */
+  modifiedOn?: string | null | undefined;
+  /** API Resource UUID tag. */
+  namespaceId?: string | null | undefined;
+  /** Name of the Workers for Platforms dispatch namespace. */
+  namespaceName?: string | null | undefined;
+  /** The current number of scripts in this Dispatch Namespace. */
+  scriptCount?: number | null | undefined;
+  /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
+  trustedWorkers?: boolean | null | undefined;
+}
 export type BulkUpdateDispatchNamespaceScriptSecretsError = CloudflareOpError;
 /** Create, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
 export const bulkUpdateDispatchNamespaceScriptSecrets: API.OperationMethod<
@@ -6308,6 +6404,24 @@ export const deleteDispatchNamespaceScriptTag: API.OperationMethod<
   span: "DeleteDispatchNamespaceScriptTag",
 }));
 
+export type EditDispatchNamespaceError = CloudflareOpError;
+/** Patch a Workers for Platforms dispatch namespace. Omitted fields are left unchanged. */
+export const editDispatchNamespace: API.OperationMethod<
+  EditDispatchNamespaceRequest,
+  EditDispatchNamespaceResponse,
+  EditDispatchNamespaceError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c11, 0) as any as S.Schema<EditDispatchNamespaceRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<EditDispatchNamespaceResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDispatchNamespace",
+}));
+
 export type GetDispatchNamespaceError = DispatchNamespaceNotFound | Forbidden | CloudflareOpError;
 /** Get a Workers for Platforms dispatch namespace. */
 export const getDispatchNamespace: API.OperationMethod<
@@ -6316,7 +6430,7 @@ export const getDispatchNamespace: API.OperationMethod<
   GetDispatchNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetDispatchNamespaceRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetDispatchNamespaceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<GetDispatchNamespaceResponse>,
   errors: [DispatchNamespaceNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
@@ -6338,8 +6452,8 @@ export const getDispatchNamespaceScript: API.OperationMethod<
   GetDispatchNamespaceScriptError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetDispatchNamespaceScriptRequest>,
-  output: __S(389, __c12, 5) as any as S.Schema<GetDispatchNamespaceScriptResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetDispatchNamespaceScriptRequest>,
+  output: __S(421, __c13, 5) as any as S.Schema<GetDispatchNamespaceScriptResponse>,
   errors: [DispatchNamespaceNotFound, DispatchNamespaceScriptNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6358,8 +6472,8 @@ export const getDispatchNamespaceScriptBinding: API.PaginatedOperationMethod<
   DispatchNamespacesScriptsBindingsGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(480, __c15, 0) as any as S.Schema<GetDispatchNamespaceScriptBindingRequest>,
-    output: __S(483, __c15, 3) as any as S.Schema<GetDispatchNamespaceScriptBindingResponse>,
+    input: __S(512, __c16, 0) as any as S.Schema<GetDispatchNamespaceScriptBindingRequest>,
+    output: __S(515, __c16, 3) as any as S.Schema<GetDispatchNamespaceScriptBindingResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6379,8 +6493,8 @@ export const getDispatchNamespaceScriptContent: API.OperationMethod<
   GetDispatchNamespaceScriptContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetDispatchNamespaceScriptContentRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<GetDispatchNamespaceScriptContentResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetDispatchNamespaceScriptContentRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<GetDispatchNamespaceScriptContentResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6397,8 +6511,8 @@ export const getDispatchNamespaceScriptSecret: API.OperationMethod<
   GetDispatchNamespaceScriptSecretError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetDispatchNamespaceScriptSecretRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<GetDispatchNamespaceScriptSecretResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetDispatchNamespaceScriptSecretRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<GetDispatchNamespaceScriptSecretResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6420,8 +6534,8 @@ export const getDispatchNamespaceScriptSetting: API.OperationMethod<
   GetDispatchNamespaceScriptSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetDispatchNamespaceScriptSettingRequest>,
-  output: __S(583, __c18, 7) as any as S.Schema<GetDispatchNamespaceScriptSettingResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetDispatchNamespaceScriptSettingRequest>,
+  output: __S(615, __c19, 7) as any as S.Schema<GetDispatchNamespaceScriptSettingResponse>,
   errors: [
     DispatchNamespaceNotFound,
     DispatchNamespaceScriptNotFound,
@@ -6445,8 +6559,8 @@ export const listDispatchNamespaces: API.PaginatedOperationMethod<
   DispatchNamespacesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(640, __c20, 0) as any as S.Schema<ListDispatchNamespacesRequest>,
-    output: __S(643, __c20, 3) as any as S.Schema<ListDispatchNamespacesResponse>,
+    input: __S(672, __c21, 0) as any as S.Schema<ListDispatchNamespacesRequest>,
+    output: __S(675, __c21, 3) as any as S.Schema<ListDispatchNamespacesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6468,8 +6582,8 @@ export const listDispatchNamespaceScriptSecrets: API.PaginatedOperationMethod<
   DispatchNamespacesScriptsSecretsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c21, 0) as any as S.Schema<ListDispatchNamespaceScriptSecretsRequest>,
-    output: __S(675, __c21, 3) as any as S.Schema<ListDispatchNamespaceScriptSecretsResponse>,
+    input: __S(704, __c22, 0) as any as S.Schema<ListDispatchNamespaceScriptSecretsRequest>,
+    output: __S(707, __c22, 3) as any as S.Schema<ListDispatchNamespaceScriptSecretsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6491,8 +6605,8 @@ export const listDispatchNamespaceScriptTags: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(704, __c22, 0) as any as S.Schema<ListDispatchNamespaceScriptTagsRequest>,
-    output: __S(736, __c23, 0) as any as S.Schema<ListDispatchNamespaceScriptTagsResponse>,
+    input: __S(736, __c23, 0) as any as S.Schema<ListDispatchNamespaceScriptTagsRequest>,
+    output: __S(768, __c24, 0) as any as S.Schema<ListDispatchNamespaceScriptTagsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6512,8 +6626,8 @@ export const patchDispatchNamespaceScriptSetting: API.OperationMethod<
   PatchDispatchNamespaceScriptSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(785, __c24, 17) as any as S.Schema<PatchDispatchNamespaceScriptSettingRequest>,
-  output: __S(792, __c24, 24) as any as S.Schema<PatchDispatchNamespaceScriptSettingResponse>,
+  input: __S(818, __c25, 18) as any as S.Schema<PatchDispatchNamespaceScriptSettingRequest>,
+  output: __S(825, __c25, 25) as any as S.Schema<PatchDispatchNamespaceScriptSettingResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6544,8 +6658,8 @@ export const putDispatchNamespaceScript: API.OperationMethod<
   PutDispatchNamespaceScriptError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(851, __c26, 19) as any as S.Schema<PutDispatchNamespaceScriptRequest>,
-  output: __S(855, __c26, 23) as any as S.Schema<PutDispatchNamespaceScriptResponse>,
+  input: __S(883, __c27, 19) as any as S.Schema<PutDispatchNamespaceScriptRequest>,
+  output: __S(887, __c27, 23) as any as S.Schema<PutDispatchNamespaceScriptResponse>,
   errors: [
     DispatchNamespaceNotFound,
     Forbidden,
@@ -6576,8 +6690,8 @@ export const putDispatchNamespaceScriptContent: API.OperationMethod<
   PutDispatchNamespaceScriptContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c27, 1) as any as S.Schema<PutDispatchNamespaceScriptContentRequest>,
-  output: __S(869, __c27, 5) as any as S.Schema<PutDispatchNamespaceScriptContentResponse>,
+  input: __S(897, __c28, 1) as any as S.Schema<PutDispatchNamespaceScriptContentRequest>,
+  output: __S(901, __c28, 5) as any as S.Schema<PutDispatchNamespaceScriptContentResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6594,8 +6708,8 @@ export const putDispatchNamespaceScriptSecret: API.OperationMethod<
   PutDispatchNamespaceScriptSecretError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<PutDispatchNamespaceScriptSecretRequest>,
-  output: __S(899, __c28, 3) as any as S.Schema<PutDispatchNamespaceScriptSecretResponse>,
+  input: __S(929, __c29, 1) as any as S.Schema<PutDispatchNamespaceScriptSecretRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<PutDispatchNamespaceScriptSecretResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6614,8 +6728,8 @@ export const putDispatchNamespaceScriptTag: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c29, 0) as any as S.Schema<PutDispatchNamespaceScriptTagRequest>,
-    output: __S(736, __c23, 0) as any as S.Schema<PutDispatchNamespaceScriptTagResponse>,
+    input: __S(960, __c30, 0) as any as S.Schema<PutDispatchNamespaceScriptTagRequest>,
+    output: __S(768, __c24, 0) as any as S.Schema<PutDispatchNamespaceScriptTagResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6626,6 +6740,24 @@ export const putDispatchNamespaceScriptTag: API.PaginatedOperationMethod<
   }),
   cloudflarePaginate,
 ) as any;
+
+export type UpdateDispatchNamespaceError = CloudflareOpError;
+/** Update a Workers for Platforms dispatch namespace. */
+export const updateDispatchNamespace: API.OperationMethod<
+  UpdateDispatchNamespaceRequest,
+  UpdateDispatchNamespaceResponse,
+  UpdateDispatchNamespaceError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateDispatchNamespaceRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<UpdateDispatchNamespaceResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDispatchNamespace",
+}));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -6687,6 +6819,7 @@ function __c1(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.optional(S.String),
+          trustedWorkers: S.optional(S.Boolean.pipe(T.Body("trusted_workers"))),
         })
           .pipe(
             T.Http({
@@ -6870,6 +7003,27 @@ function __c11(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
+          name: S.optional(S.String),
+          trustedWorkers: S.optional(S.Boolean.pipe(T.Body("trusted_workers"))),
+        })
+          .pipe(
+            T.Http({
+              method: "PATCH",
+              uri: "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "EditDispatchNamespaceRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
         })
           .pipe(
             T.Http({
@@ -6882,7 +7036,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDispatchNamespaceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6912,7 +7066,7 @@ function __c12(j: number): any {
         ]),
       );
     case 2:
-      return S.Record(S.String, __S(385, __c12, 1));
+      return S.Record(S.String, __S(417, __c13, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -6930,14 +7084,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          cacheOptions: S.optional(S.NullOr(__S(416, __c13, 0)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(448, __c14, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(128, __c4, 0)).pipe(T.Body("compatibility_flags")),
           ),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
           etag: S.optional(S.NullOr(S.String)),
-          exports: S.optional(S.NullOr(__S(386, __c12, 2))),
+          exports: S.optional(S.NullOr(__S(418, __c13, 2))),
           handlers: S.optional(S.NullOr(__S(128, __c4, 0))),
           hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
           hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -6945,14 +7099,14 @@ function __c12(j: number): any {
           logpush: S.optional(S.NullOr(S.Boolean)),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          namedHandlers: S.optional(S.NullOr(__S(449, __c14, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(387, __c12, 3))),
+          namedHandlers: S.optional(S.NullOr(__S(481, __c15, 1)).pipe(T.Body("named_handlers"))),
+          observability: S.optional(S.NullOr(__S(453, __c14, 5))),
+          placement: S.optional(S.NullOr(__S(419, __c13, 3))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(422, __c13, 6)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(455, __c14, 7)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScript" });
@@ -6962,12 +7116,12 @@ function __c12(j: number): any {
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
           dispatchNamespace: S.optional(S.NullOr(S.String).pipe(T.Body("dispatch_namespace"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          script: S.optional(S.NullOr(__S(388, __c12, 4))),
+          script: S.optional(S.NullOr(__S(420, __c13, 4))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDispatchNamespaceScriptResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6980,9 +7134,17 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.NullOr(S.Boolean)),
+          headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+          persist: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptObservabilityAgents" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptObservabilityIssues" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
@@ -6992,7 +7154,7 @@ function __c13(j: number): any {
           persist: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptObservabilityLogs" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(S.NullOr(__S(128, __c4, 0))),
@@ -7002,18 +7164,19 @@ function __c13(j: number): any {
           propagationPolicy: S.optional(S.NullOr(S.String).pipe(T.Body("propagation_policy"))),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptObservabilityTraces" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
+          agents: S.optional(S.NullOr(__S(449, __c14, 1))),
           headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
-          issues: S.optional(S.NullOr(__S(417, __c13, 1))),
-          logs: S.optional(S.NullOr(__S(418, __c13, 2))),
+          issues: S.optional(S.NullOr(__S(450, __c14, 2))),
+          logs: S.optional(S.NullOr(__S(451, __c14, 3))),
           redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
-          traces: S.optional(S.NullOr(__S(419, __c13, 3))),
+          traces: S.optional(S.NullOr(__S(452, __c14, 4))),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptObservability" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           service: S.String,
@@ -7021,11 +7184,11 @@ function __c13(j: number): any {
           namespace: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptTailConsumersItem" });
-    case 6:
-      return S.Array(__S(421, __c13, 5));
+    case 7:
+      return S.Array(__S(454, __c14, 6));
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7035,10 +7198,10 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(480, __c15, 0));
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7202,17 +7365,17 @@ function __c15(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(482, __c15, 2).pipe(T.EnvelopePayload()),
+          result: __S(514, __c16, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDispatchNamespaceScriptBindingResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7236,7 +7399,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7268,11 +7431,11 @@ function __c17(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(545, __c17, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(577, __c18, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDispatchNamespaceScriptSecretResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7436,7 +7599,7 @@ function __c18(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -7449,7 +7612,7 @@ function __c18(j: number): any {
         ]),
       );
     case 4:
-      return S.Record(S.String, __S(579, __c18, 3));
+      return S.Record(S.String, __S(611, __c19, 3));
     case 5:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -7481,29 +7644,29 @@ function __c18(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(S.NullOr(__S(578, __c18, 2))),
-          cacheOptions: S.optional(S.NullOr(__S(416, __c13, 0)).pipe(T.Body("cache_options"))),
+          bindings: S.optional(S.NullOr(__S(610, __c19, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(448, __c14, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(128, __c4, 0)).pipe(T.Body("compatibility_flags")),
           ),
-          exports: S.optional(S.NullOr(__S(580, __c18, 4))),
+          exports: S.optional(S.NullOr(__S(612, __c19, 4))),
           exportsReconciliation: S.optional(
-            S.NullOr(__S(618, __c19, 10)).pipe(T.Body("exports_reconciliation")),
+            S.NullOr(__S(650, __c20, 10)).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(S.NullOr(__S(619, __c19, 11))),
+          limits: S.optional(S.NullOr(__S(651, __c20, 11))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          migrations: S.optional(S.NullOr(__S(581, __c18, 5))),
-          observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(582, __c18, 6))),
+          migrations: S.optional(S.NullOr(__S(613, __c19, 5))),
+          observability: S.optional(S.NullOr(__S(453, __c14, 5))),
+          placement: S.optional(S.NullOr(__S(614, __c19, 6))),
           tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(422, __c13, 6)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(455, __c14, 7)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDispatchNamespaceScriptSettingResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7520,7 +7683,7 @@ function __c19(j: number): any {
         identifier: "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoItem",
       });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7531,7 +7694,7 @@ function __c19(j: number): any {
         identifier: "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationRenamedItem",
       });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(642, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7543,7 +7706,7 @@ function __c19(j: number): any {
           "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationTransferPendingItem",
       });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(644, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -7556,7 +7719,7 @@ function __c19(j: number): any {
           "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationTransferredItem",
       });
     case 7:
-      return S.Array(__S(614, __c19, 6));
+      return S.Array(__S(646, __c20, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -7569,19 +7732,19 @@ function __c19(j: number): any {
         identifier: "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationWarningsItem",
       });
     case 9:
-      return S.Array(__S(616, __c19, 8));
+      return S.Array(__S(648, __c20, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           created: __S(128, __c4, 0),
           deleted: __S(128, __c4, 0),
-          info: __S(609, __c19, 1),
+          info: __S(641, __c20, 1),
           removableEntries: __S(128, __c4, 0).pipe(T.Body("removable_entries")),
-          renamed: __S(611, __c19, 3),
-          transferPending: __S(613, __c19, 5).pipe(T.Body("transfer_pending")),
-          transferred: __S(615, __c19, 7),
+          renamed: __S(643, __c20, 3),
+          transferPending: __S(645, __c20, 5).pipe(T.Body("transfer_pending")),
+          transferred: __S(647, __c20, 7),
           updated: __S(128, __c4, 0),
-          warnings: __S(617, __c19, 9),
+          warnings: __S(649, __c20, 9),
         }),
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsGetResponseExportsReconciliation",
@@ -7595,7 +7758,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DispatchNamespacesScriptsSettingsGetResponseLimits" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7625,17 +7788,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "DispatchNamespacesListResultItem" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(642, __c20, 2).pipe(T.EnvelopePayload()),
+          result: __S(674, __c21, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListDispatchNamespacesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7664,17 +7827,17 @@ function __c21(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(674, __c21, 2).pipe(T.EnvelopePayload()),
+          result: __S(706, __c22, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListDispatchNamespaceScriptSecretsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7694,7 +7857,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListDispatchNamespaceScriptTagsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7705,7 +7868,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListDispatchNamespaceScriptTagsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -7853,7 +8016,7 @@ function __c24(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7875,7 +8038,7 @@ function __c24(j: number): any {
         ]),
       );
     case 4:
-      return S.Record(S.String, __S(771, __c24, 3));
+      return S.Record(S.String, __S(803, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7890,7 +8053,7 @@ function __c24(j: number): any {
           "DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoItem",
       });
     case 6:
-      return S.Array(__S(773, __c24, 5));
+      return S.Array(__S(805, __c25, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -7904,19 +8067,19 @@ function __c24(j: number): any {
           "DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationWarningsItem",
       });
     case 8:
-      return S.Array(__S(775, __c24, 7));
+      return S.Array(__S(807, __c25, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           created: __S(128, __c4, 0),
           deleted: __S(128, __c4, 0),
-          info: __S(774, __c24, 6),
+          info: __S(806, __c25, 6),
           removableEntries: __S(128, __c4, 0).pipe(T.Body("removable_entries")),
-          renamed: __S(611, __c19, 3),
-          transferPending: __S(613, __c19, 5).pipe(T.Body("transfer_pending")),
-          transferred: __S(615, __c19, 7),
+          renamed: __S(643, __c20, 3),
+          transferPending: __S(645, __c20, 5).pipe(T.Body("transfer_pending")),
+          transferred: __S(647, __c20, 7),
           updated: __S(128, __c4, 0),
-          warnings: __S(776, __c24, 8),
+          warnings: __S(808, __c25, 8),
         }),
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliation",
@@ -7940,11 +8103,21 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
+          headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
+          persist: S.optional(S.Boolean),
+        }),
+      ).annotate({
+        identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityAgents",
+      });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues",
       });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
@@ -7956,7 +8129,7 @@ function __c24(j: number): any {
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogs",
       });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(__S(128, __c4, 0)),
@@ -7968,20 +8141,21 @@ function __c24(j: number): any {
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTraces",
       });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
+          agents: S.optional(__S(811, __c25, 11)),
           headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
-          issues: S.optional(__S(779, __c24, 11)),
-          logs: S.optional(__S(780, __c24, 12)),
+          issues: S.optional(__S(812, __c25, 12)),
+          logs: S.optional(__S(813, __c25, 13)),
           redactQueryString: S.optional(S.Boolean.pipe(T.Body("redact_query_string"))),
-          traces: S.optional(__S(781, __c24, 13)),
+          traces: S.optional(__S(814, __c25, 14)),
         }),
       ).annotate({
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsObservability",
       });
-    case 15:
+    case 16:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["mode"],
@@ -7994,34 +8168,34 @@ function __c24(j: number): any {
           ["mode", "target"],
         ]),
       );
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(769, __c24, 1)),
-          cacheOptions: S.optional(__S(770, __c24, 2).pipe(T.Body("cache_options"))),
+          bindings: S.optional(__S(801, __c25, 1)),
+          cacheOptions: S.optional(__S(802, __c25, 2).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.String.pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(__S(128, __c4, 0).pipe(T.Body("compatibility_flags"))),
-          exports: S.optional(__S(772, __c24, 4)),
+          exports: S.optional(__S(804, __c25, 4)),
           exportsReconciliation: S.optional(
-            __S(777, __c24, 9).pipe(T.Body("exports_reconciliation")),
+            __S(809, __c25, 9).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(__S(800, __c25, 0)),
+          limits: S.optional(__S(832, __c26, 0)),
           logpush: S.optional(S.Boolean),
-          migrations: S.optional(__S(778, __c24, 10)),
-          observability: S.optional(__S(782, __c24, 14)),
-          placement: S.optional(__S(783, __c24, 15)),
+          migrations: S.optional(__S(810, __c25, 10)),
+          observability: S.optional(__S(815, __c25, 15)),
+          placement: S.optional(__S(816, __c25, 16)),
           tags: S.optional(__S(128, __c4, 0)),
-          tailConsumers: S.optional(__S(802, __c25, 2).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(834, __c26, 2).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.String.pipe(T.Body("usage_model"))),
         }),
       ).annotate({ identifier: "DispatchNamespacesScriptsSettingsEditRequestSettings" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
           scriptName: S.String.pipe(T.Label("script_name")),
-          settings: S.optional(__S(784, __c24, 16)),
+          settings: S.optional(__S(817, __c25, 17)),
         })
           .pipe(
             T.Http({
@@ -8033,7 +8207,7 @@ function __c24(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchDispatchNamespaceScriptSettingRequest" });
-    case 18:
+    case 19:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
           [
@@ -8178,9 +8352,9 @@ function __c24(j: number): any {
           ],
         ),
       );
-    case 19:
-      return S.Array(__S(786, __c24, 18));
     case 20:
+      return S.Array(__S(819, __c25, 19));
+    case 21:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "cache", "state"],
@@ -8191,9 +8365,9 @@ function __c24(j: number): any {
           ["state", "storage", "transferFrom", "type", "container"],
         ]),
       );
-    case 21:
-      return S.Record(S.String, __S(788, __c24, 20));
     case 22:
+      return S.Record(S.String, __S(821, __c25, 21));
+    case 23:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -8208,7 +8382,7 @@ function __c24(j: number): any {
           ["newTag", "oldTag", "steps"],
         ]),
       );
-    case 23:
+    case 24:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["mode"],
@@ -8221,32 +8395,32 @@ function __c24(j: number): any {
           ["mode", "target"],
         ]),
       );
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(S.NullOr(__S(787, __c24, 19))),
-          cacheOptions: S.optional(S.NullOr(__S(416, __c13, 0)).pipe(T.Body("cache_options"))),
+          bindings: S.optional(S.NullOr(__S(820, __c25, 20))),
+          cacheOptions: S.optional(S.NullOr(__S(448, __c14, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(128, __c4, 0)).pipe(T.Body("compatibility_flags")),
           ),
-          exports: S.optional(S.NullOr(__S(789, __c24, 21))),
+          exports: S.optional(S.NullOr(__S(822, __c25, 22))),
           exportsReconciliation: S.optional(
-            S.NullOr(__S(618, __c19, 10)).pipe(T.Body("exports_reconciliation")),
+            S.NullOr(__S(650, __c20, 10)).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(S.NullOr(__S(619, __c19, 11))),
+          limits: S.optional(S.NullOr(__S(651, __c20, 11))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          migrations: S.optional(S.NullOr(__S(790, __c24, 22))),
-          observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(791, __c24, 23))),
+          migrations: S.optional(S.NullOr(__S(823, __c25, 23))),
+          observability: S.optional(S.NullOr(__S(453, __c14, 5))),
+          placement: S.optional(S.NullOr(__S(824, __c25, 24))),
           tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(422, __c13, 6)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(455, __c14, 7)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchDispatchNamespaceScriptSettingResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8266,10 +8440,10 @@ function __c25(j: number): any {
         identifier: "DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsumersItem",
       });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(833, __c26, 1));
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8294,7 +8468,7 @@ function __c26(j: number): any {
         S.Struct({
           htmlHandling: S.optional(S.String.pipe(T.Body("html_handling"))),
           notFoundHandling: S.optional(S.String.pipe(T.Body("not_found_handling"))),
-          runWorkerFirst: S.optional(__S(834, __c26, 2).pipe(T.Body("run_worker_first"))),
+          runWorkerFirst: S.optional(__S(866, __c27, 2).pipe(T.Body("run_worker_first"))),
           serveDirectly: S.optional(S.Boolean.pipe(T.Body("serve_directly"))),
           headers: S.optional(S.String.pipe(T.Body("_headers"))),
           redirects: S.optional(S.String.pipe(T.Body("_redirects"))),
@@ -8303,7 +8477,7 @@ function __c26(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(835, __c26, 3)),
+          config: S.optional(__S(867, __c27, 3)),
           jwt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadataAssets" });
@@ -8453,7 +8627,7 @@ function __c26(j: number): any {
         ),
       );
     case 6:
-      return S.Array(__S(837, __c26, 5));
+      return S.Array(__S(869, __c27, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -8463,7 +8637,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptContainer" });
     case 8:
-      return S.Array(__S(839, __c26, 7));
+      return S.Array(__S(871, __c27, 7));
     case 9:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -8504,9 +8678,9 @@ function __c26(j: number): any {
         S.Struct({
           enabled: S.optional(S.Boolean),
           headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
-          logs: S.optional(S.NullOr(__S(842, __c26, 10))),
-          traces: S.optional(S.NullOr(__S(843, __c26, 11))),
-          issues: S.optional(__S(832, __c26, 0)),
+          logs: S.optional(S.NullOr(__S(874, __c27, 10))),
+          traces: S.optional(S.NullOr(__S(875, __c27, 11))),
+          issues: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadataObservability" });
     case 13:
@@ -8540,7 +8714,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          cache: S.optional(__S(846, __c26, 14)),
+          cache: S.optional(__S(878, __c27, 14)),
           storage: S.optional(S.String),
           container: S.optional(S.String),
           state: S.optional(S.String),
@@ -8550,34 +8724,34 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadataExport" });
     case 17:
-      return S.Record(S.String, __S(848, __c26, 16));
+      return S.Record(S.String, __S(880, __c27, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(833, __c26, 1)),
-          assets: S.optional(__S(836, __c26, 4)),
-          bindings: S.optional(__S(838, __c26, 6)),
+          annotations: S.optional(__S(865, __c27, 1)),
+          assets: S.optional(__S(868, __c27, 4)),
+          bindings: S.optional(__S(870, __c27, 6)),
           bodyPart: S.optional(S.String.pipe(T.Body("body_part"))),
           compatibilityDate: S.optional(S.String.pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(__S(128, __c4, 0).pipe(T.Body("compatibility_flags"))),
-          containers: S.optional(__S(840, __c26, 8)),
+          containers: S.optional(__S(872, __c27, 8)),
           keepAssets: S.optional(S.Boolean.pipe(T.Body("keep_assets"))),
           keepBindings: S.optional(__S(128, __c4, 0).pipe(T.Body("keep_bindings"))),
-          limits: S.optional(__S(800, __c25, 0)),
+          limits: S.optional(__S(832, __c26, 0)),
           logpush: S.optional(S.Boolean),
           mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
-          migrations: S.optional(__S(841, __c26, 9)),
-          observability: S.optional(__S(844, __c26, 12)),
-          placement: S.optional(__S(845, __c26, 13)),
+          migrations: S.optional(__S(873, __c27, 9)),
+          observability: S.optional(__S(876, __c27, 12)),
+          placement: S.optional(__S(877, __c27, 13)),
           tags: S.optional(__S(128, __c4, 0)),
-          tailConsumers: S.optional(S.NullOr(__S(802, __c25, 2)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(834, __c26, 2)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.String.pipe(T.Body("usage_model"))),
-          cacheOptions: S.optional(__S(846, __c26, 14).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(__S(878, __c27, 14).pipe(T.Body("cache_options"))),
           streamingTailConsumers: S.optional(
-            S.NullOr(__S(802, __c25, 2)).pipe(T.Body("streaming_tail_consumers")),
+            S.NullOr(__S(834, __c26, 2)).pipe(T.Body("streaming_tail_consumers")),
           ),
-          codeUpdateStrategy: S.optional(__S(847, __c26, 15).pipe(T.Body("code_update_strategy"))),
-          exports: S.optional(__S(849, __c26, 17).pipe(T.KeyDictionary({}))),
+          codeUpdateStrategy: S.optional(__S(879, __c27, 15).pipe(T.Body("code_update_strategy"))),
+          exports: S.optional(__S(881, __c27, 17).pipe(T.KeyDictionary({}))),
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadata" });
     case 19:
@@ -8587,7 +8761,7 @@ function __c26(j: number): any {
           dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
           scriptName: S.String.pipe(T.Label("script_name")),
           bindingsInherit: S.optional(S.String.pipe(T.Query("bindings_inherit"))),
-          metadata: __S(850, __c26, 18).pipe(
+          metadata: __S(882, __c27, 18).pipe(
             T.KeyDictionary({
               abrLevel: "abr_level",
               allowedDestinationAddresses: "allowed_destination_addresses",
@@ -8718,7 +8892,7 @@ function __c26(j: number): any {
         ]),
       );
     case 21:
-      return S.Record(S.String, __S(852, __c26, 20));
+      return S.Record(S.String, __S(884, __c27, 20));
     case 22:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -8737,7 +8911,7 @@ function __c26(j: number): any {
         S.Struct({
           startupTimeMs: S.Number.pipe(T.Body("startup_time_ms")),
           id: S.optional(S.NullOr(S.String)),
-          cacheOptions: S.optional(S.NullOr(__S(416, __c13, 0)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(448, __c14, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(128, __c4, 0)).pipe(T.Body("compatibility_flags")),
@@ -8745,7 +8919,7 @@ function __c26(j: number): any {
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
           entryPoint: S.optional(S.NullOr(S.String).pipe(T.Body("entry_point"))),
           etag: S.optional(S.NullOr(S.String)),
-          exports: S.optional(S.NullOr(__S(853, __c26, 21))),
+          exports: S.optional(S.NullOr(__S(885, __c27, 21))),
           handlers: S.optional(S.NullOr(__S(128, __c4, 0))),
           hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
           hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -8753,20 +8927,20 @@ function __c26(j: number): any {
           logpush: S.optional(S.NullOr(S.Boolean)),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          namedHandlers: S.optional(S.NullOr(__S(449, __c14, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(854, __c26, 22))),
+          namedHandlers: S.optional(S.NullOr(__S(481, __c15, 1)).pipe(T.Body("named_handlers"))),
+          observability: S.optional(S.NullOr(__S(453, __c14, 5))),
+          placement: S.optional(S.NullOr(__S(886, __c27, 22))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(422, __c13, 6)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(455, __c14, 7)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutDispatchNamespaceScriptResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8781,7 +8955,7 @@ function __c27(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
           scriptName: S.String.pipe(T.Label("script_name")),
-          metadata: __S(864, __c27, 0),
+          metadata: __S(896, __c28, 0),
           files: S.optional(__S(128, __c4, 0)),
           cfworkerbodypart: S.optional(S.String.pipe(T.Header("CF-WORKER-BODY-PART"))),
           cfworkermainmodulepart: S.optional(S.String.pipe(T.Header("CF-WORKER-MAIN-MODULE-PART"))),
@@ -8807,7 +8981,7 @@ function __c27(j: number): any {
         ]),
       );
     case 3:
-      return S.Record(S.String, __S(866, __c27, 2));
+      return S.Record(S.String, __S(898, __c28, 2));
     case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -8825,14 +8999,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          cacheOptions: S.optional(S.NullOr(__S(416, __c13, 0)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(448, __c14, 0)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(128, __c4, 0)).pipe(T.Body("compatibility_flags")),
           ),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
           etag: S.optional(S.NullOr(S.String)),
-          exports: S.optional(S.NullOr(__S(867, __c27, 3))),
+          exports: S.optional(S.NullOr(__S(899, __c28, 3))),
           handlers: S.optional(S.NullOr(__S(128, __c4, 0))),
           hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
           hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -8840,20 +9014,20 @@ function __c27(j: number): any {
           logpush: S.optional(S.NullOr(S.Boolean)),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          namedHandlers: S.optional(S.NullOr(__S(449, __c14, 1)).pipe(T.Body("named_handlers"))),
-          observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(868, __c27, 4))),
+          namedHandlers: S.optional(S.NullOr(__S(481, __c15, 1)).pipe(T.Body("named_handlers"))),
+          observability: S.optional(S.NullOr(__S(453, __c14, 5))),
+          placement: S.optional(S.NullOr(__S(900, __c28, 4))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(128, __c4, 0))),
-          tailConsumers: S.optional(S.NullOr(__S(422, __c13, 6)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(455, __c14, 7)).pipe(T.Body("tail_consumers"))),
           usageModel: S.optional(S.NullOr(S.String).pipe(T.Body("usage_model"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutDispatchNamespaceScriptContentResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -8868,7 +9042,7 @@ function __c28(j: number): any {
           type: S.String,
           algorithm: S.optional(S.Unknown),
           format: S.optional(S.String),
-          usages: S.optional(__S(896, __c28, 0)),
+          usages: S.optional(__S(928, __c29, 0)),
           keyBase64: S.optional(S.String.pipe(T.Body("key_base64"))),
           keyJwk: S.optional(S.Unknown.pipe(T.Body("key_jwk"))),
         })
@@ -8893,11 +9067,11 @@ function __c28(j: number): any {
       );
     case 3:
       return S.suspend(() =>
-        __S(898, __c28, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(930, __c29, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutDispatchNamespaceScriptSecretResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8916,6 +9090,27 @@ function __c29(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutDispatchNamespaceScriptTagRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
+          name: S.optional(S.String),
+          trustedWorkers: S.optional(S.Boolean.pipe(T.Body("trusted_workers"))),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateDispatchNamespaceRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

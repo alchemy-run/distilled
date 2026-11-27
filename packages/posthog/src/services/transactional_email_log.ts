@@ -25,6 +25,17 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export class Forbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withAuthError),
+    [{ status: 403 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -70,6 +81,12 @@ export interface TransactionalEmailLogEvent {
 }
 /** Everything that happened, oldest first. */
 export type TransactionalEmailLogDetailTimelineList = Array<TransactionalEmailLogEvent>;
+export interface TransactionalEmailTracking {
+  /** False when the email went out with open tracking off, so it can never record an open. */
+  opens: boolean;
+  /** False when the email went out with click tracking off, so it can never record a click. */
+  clicks: boolean;
+}
 export interface TransactionalEmailLogDetail {
   /** The `message_id` that the send returned. */
   message_id: string;
@@ -89,6 +106,8 @@ export interface TransactionalEmailLogDetail {
   template_id: string | null;
   /** The template's name. Empty when it was deleted. */
   template_name: string;
+  /** The email sent from code under a `template_key`, for a send that has no template. Null otherwise. */
+  code_email_id: string | null;
   /** The domain the email was sent from. Empty before it was sent. */
   sending_domain: string;
   /** Whether the recipient opened the email. */
@@ -105,6 +124,106 @@ export interface TransactionalEmailLogDetail {
   action_id: string;
   /** True when the template is marked sensitive, so no rendered body or subject values are kept. */
   sensitive: boolean;
+  /** What PostHog tracked for this email, in the terms of the send request's `tracking` option. Each kind reads true until the email's sent status arrives, and for an email sent before PostHog recorded it. */
+  tracking: TransactionalEmailTracking;
+}
+export interface GetTransactionalEmailLogActivityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The `message_id` that the send returned. */
+  id: string;
+}
+export interface TransactionalEmailActivityEvent {
+  /** The event's UUID. */
+  uuid: string;
+  /** The event name, such as `$pageview` or a custom event. */
+  event: string;
+  /** When the event happened. */
+  timestamp: string;
+  /** The page the person was on. Null when not set. */
+  current_url: string | null;
+  /** The path of that page, such as `/pricing`. */
+  pathname: string | null;
+  /** The session the event belongs to. Use it to find the session recording. Null for events captured without a session, such as server-side events. */
+  session_id: string | null;
+  /** What an autocaptured event did, such as `click` or `submit`. Null otherwise. */
+  event_type: string | null;
+  /** The element an autocaptured event happened on, with its parents. Empty for other events. */
+  elements_chain: string;
+}
+/** The person's events in the week before the send, oldest first. */
+export type TransactionalEmailActivityBeforeList = Array<TransactionalEmailActivityEvent>;
+/** The person's events in the week after the send, oldest first. */
+export type TransactionalEmailActivityAfterList = Array<TransactionalEmailActivityEvent>;
+export interface TransactionalEmailActivitySession {
+  /** The session ID, the same one session recordings use. */
+  session_id: string;
+  /** The first event of this session in the window. */
+  first_event_at: string;
+  /** The last event of this session in the window. */
+  last_event_at: string;
+  /** How many of the returned events belong to this session. */
+  event_count: number;
+  /** True when none of the session's events came before the send, so the person started it after the email. */
+  started_after_send: boolean;
+}
+/** The sessions the returned events belong to, in the order they first appear. */
+export type TransactionalEmailActivitySessionsList = Array<TransactionalEmailActivitySession>;
+export interface TransactionalEmailActivity {
+  /** The distinct ID the send named. Empty when it named none, and then there are no events. */
+  distinct_id: string;
+  /** When the email went to the provider, or when it was queued if it was never sent. */
+  sent_at: string;
+  /** The person's events in the week before the send, oldest first. */
+  before: TransactionalEmailActivityBeforeList;
+  /** The person's events in the week after the send, oldest first. */
+  after: TransactionalEmailActivityAfterList;
+  /** True when older events in the window were left out. */
+  has_more_before: boolean;
+  /** True when later events in the window were left out. */
+  has_more_after: boolean;
+  /** The sessions the returned events belong to, in the order they first appear. */
+  sessions: TransactionalEmailActivitySessionsList;
+}
+export interface GetTransactionalEmailLogImpactRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Only sends queued at or after this time. Defaults to 7 days ago. The log keeps sends for 30 days. */
+  date_from?: string | undefined;
+  /** Only sends queued before this time. Defaults to now. */
+  date_to?: string | undefined;
+  /** The event that counts as a conversion, such as `signed_up`. Leave it out for the funnel alone. */
+  event?: string | undefined;
+  /** The workflow behind the transactional email. */
+  workflow_id: string;
+}
+export interface TransactionalEmailConversions {
+  /** Sends in this group that named a person, newest 10,000 at most. */
+  sends: number;
+  /** Of those, sends whose person did the event within window_days of the click, or of the send when nobody clicked. */
+  converted: number;
+}
+export interface TransactionalEmailImpact {
+  /** Sends that left PostHog, including those that bounced. */
+  sent: number;
+  /** Sends the recipient's mail server accepted. */
+  delivered: number;
+  /** Sends opened at least once. */
+  opened: number;
+  /** Sends with at least one tracked link click. */
+  clicked: number;
+  /** Delivered sends nobody clicked, of those that tracked clicks. */
+  not_clicked: number;
+  /** Sends that went out with open and click tracking off, counted by when they were queued like the other counts. They can't record an open or a click. */
+  untracked: number;
+  /** Sends that went out with opens tracked and click tracking off, counted like `untracked`. They can't record a click, so `not_clicked` and `without_click` leave them out, along with the `untracked` sends. */
+  clicks_untracked: number;
+  /** How many days after the click or the send the event counts. */
+  window_days: number;
+  /** Clicked sends and how many converted. Null without an event. */
+  after_click: TransactionalEmailConversions | null;
+  /** Delivered sends nobody clicked and how many converted. Null without an event. */
+  without_click: TransactionalEmailConversions | null;
 }
 export interface GetTransactionalEmailLogResultRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -148,6 +267,10 @@ export interface TransactionalEmailStatsRow {
   key: string;
   /** The template name or the sending domain. Empty for a deleted template. */
   label: string;
+  /** The template that sent this row's emails. Null for a deleted template, emails sent from code, and a sending domain. */
+  template_id: string | null;
+  /** The email sent from code under a `template_key`, for a row of sends that have no template. Null otherwise. */
+  code_email_id: string | null;
   /** Emails that reached the email provider. */
   sent: number;
   /** Emails the recipient's mail server accepted. */
@@ -227,6 +350,8 @@ export interface ListTransactionalEmailLogRequest {
   limit?: number | undefined;
   /** Sends to skip. */
   offset?: number | undefined;
+  /** Only sends whose delivery status has this reason, such as `soft` for a soft bounce or `sending_paused` for a send skipped while sending was paused. */
+  reason?: string | undefined;
   /** A `message_id` for an exact match, or part of the recipient's email address. */
   search?: string | undefined;
   /** Only sends in this delivery status. * `queued` - Queued * `failed` - Failed * `sent` - Sent * `delivered` - Delivered * `bounced` - Bounced * `complained` - Complained */
@@ -253,6 +378,8 @@ export interface TransactionalEmailLogEntry {
   template_id: string | null;
   /** The template's name. Empty when it was deleted. */
   template_name: string;
+  /** The email sent from code under a `template_key`, for a send that has no template. Null otherwise. */
+  code_email_id: string | null;
   /** The domain the email was sent from. Empty before it was sent. */
   sending_domain: string;
   /** Whether the recipient opened the email. */
@@ -277,7 +404,7 @@ export const getTransactionalEmailLog: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetTransactionalEmailLogRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<TransactionalEmailLogDetail>,
+  output: __S(4, __c0, 4) as any as S.Schema<TransactionalEmailLogDetail>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -286,7 +413,43 @@ export const getTransactionalEmailLog: API.OperationMethod<
   span: "GetTransactionalEmailLog",
 }));
 
-export type GetTransactionalEmailLogResultError = NotFound | PosthogOpError;
+export type GetTransactionalEmailLogActivityError = Forbidden | NotFound | PosthogOpError;
+/** Get what a transactional email's recipient did around the send The recipient's events in the 7 days before and after one send, with the sessions they belong to. */
+export const getTransactionalEmailLogActivity: API.OperationMethod<
+  GetTransactionalEmailLogActivityRequest,
+  TransactionalEmailActivity,
+  GetTransactionalEmailLogActivityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<GetTransactionalEmailLogActivityRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<TransactionalEmailActivity>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionalEmailLogActivity",
+}));
+
+export type GetTransactionalEmailLogImpactError = Forbidden | NotFound | PosthogOpError;
+/** Get how far a transactional email's sends got Count one email's sends that were sent, delivered, opened and clicked. With an event, also count the clicked sends whose person did it within a week of the click, against delivered sends nobody clicked. */
+export const getTransactionalEmailLogImpact: API.OperationMethod<
+  GetTransactionalEmailLogImpactRequest,
+  TransactionalEmailImpact,
+  GetTransactionalEmailLogImpactError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c2, 0) as any as S.Schema<GetTransactionalEmailLogImpactRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<TransactionalEmailImpact>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionalEmailLogImpact",
+}));
+
+export type GetTransactionalEmailLogResultError = Forbidden | NotFound | PosthogOpError;
 /** Get what happened after a transactional email Of the people a transactional email was sent to, count those who did an event within a window after their first send, and add up the revenue on those events. */
 export const getTransactionalEmailLogResult: API.OperationMethod<
   GetTransactionalEmailLogResultRequest,
@@ -294,9 +457,9 @@ export const getTransactionalEmailLogResult: API.OperationMethod<
   GetTransactionalEmailLogResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetTransactionalEmailLogResultRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<TransactionalEmailResults>,
-  errors: [NotFound],
+  input: __S(24, __c3, 0) as any as S.Schema<GetTransactionalEmailLogResultRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<TransactionalEmailResults>,
+  errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -312,8 +475,8 @@ export const getTransactionalEmailLogStat: API.OperationMethod<
   GetTransactionalEmailLogStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetTransactionalEmailLogStatRequest>,
-  output: __S(19, __c2, 3) as any as S.Schema<TransactionalEmailStats>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetTransactionalEmailLogStatRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<TransactionalEmailStats>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -330,8 +493,8 @@ export const getTransactionalEmailLogStatsOverTime: API.OperationMethod<
   GetTransactionalEmailLogStatsOverTimeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetTransactionalEmailLogStatsOverTimeRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<TransactionalEmailStatsOverTime>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetTransactionalEmailLogStatsOverTimeRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<TransactionalEmailStatsOverTime>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -348,8 +511,8 @@ export const listTransactionalEmailLog: API.OperationMethod<
   ListTransactionalEmailLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListTransactionalEmailLogRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<TransactionalEmailLogList>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListTransactionalEmailLogRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<TransactionalEmailLogList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -387,6 +550,13 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          opens: S.Boolean,
+          clicks: S.Boolean,
+        }),
+      ).annotate({ identifier: "TransactionalEmailTracking" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           message_id: S.String,
           created_at: S.String,
           status: S.String,
@@ -396,6 +566,7 @@ function __c0(j: number): any {
           workflow_id: S.String,
           template_id: S.NullOr(S.String),
           template_name: S.String,
+          code_email_id: S.NullOr(S.String),
           sending_domain: S.String,
           opened: S.Boolean,
           clicked: S.Boolean,
@@ -404,11 +575,110 @@ function __c0(j: number): any {
           distinct_id: S.String,
           action_id: S.String,
           sensitive: S.Boolean,
+          tracking: __S(3, __c0, 3),
         }),
       ).annotate({ identifier: "TransactionalEmailLogDetail" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/transactional_email_log/{id}/activity/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTransactionalEmailLogActivityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String,
+          event: S.String,
+          timestamp: S.String,
+          current_url: S.NullOr(S.String),
+          pathname: S.NullOr(S.String),
+          session_id: S.NullOr(S.String),
+          event_type: S.NullOr(S.String),
+          elements_chain: S.String,
+        }),
+      ).annotate({ identifier: "TransactionalEmailActivityEvent" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          session_id: S.String,
+          first_event_at: S.String,
+          last_event_at: S.String,
+          event_count: S.Number,
+          started_after_send: S.Boolean,
+        }),
+      ).annotate({ identifier: "TransactionalEmailActivitySession" });
+    case 4:
+      return S.Array(__S(11, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          distinct_id: S.String,
+          sent_at: S.String,
+          before: __S(10, __c1, 2),
+          after: __S(10, __c1, 2),
+          has_more_before: S.Boolean,
+          has_more_after: S.Boolean,
+          sessions: __S(12, __c1, 4),
+        }),
+      ).annotate({ identifier: "TransactionalEmailActivity" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          event: S.optional(S.String.pipe(T.Query())),
+          workflow_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/transactional_email_log/impact/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTransactionalEmailLogImpactRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sends: S.Number,
+          converted: S.Number,
+        }),
+      ).annotate({ identifier: "TransactionalEmailConversions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sent: S.Number,
+          delivered: S.Number,
+          opened: S.Number,
+          clicked: S.Number,
+          not_clicked: S.Number,
+          untracked: S.Number,
+          clicks_untracked: S.Number,
+          window_days: S.Number,
+          after_click: S.NullOr(__S(17, __c2, 1)),
+          without_click: S.NullOr(__S(17, __c2, 1)),
+        }),
+      ).annotate({ identifier: "TransactionalEmailImpact" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -439,7 +709,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "TransactionalEmailResults" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -461,6 +731,8 @@ function __c2(j: number): any {
         S.Struct({
           key: S.String,
           label: S.String,
+          template_id: S.NullOr(S.String),
+          code_email_id: S.NullOr(S.String),
           sent: S.Number,
           delivered: S.Number,
           bounced: S.Number,
@@ -471,16 +743,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "TransactionalEmailStatsRow" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(33, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(18, __c2, 2),
+          results: __S(34, __c4, 2),
         }),
       ).annotate({ identifier: "TransactionalEmailStats" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -510,23 +782,23 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           start: S.String,
-          counts: __S(25, __c3, 1),
+          counts: __S(41, __c5, 1),
         }),
       ).annotate({ identifier: "TransactionalEmailStatsBucket" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(42, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           interval: S.String,
           timezone: S.String,
-          buckets: __S(27, __c3, 3),
-          previous: S.NullOr(__S(25, __c3, 1)),
+          buckets: __S(43, __c5, 3),
+          previous: S.NullOr(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "TransactionalEmailStatsOverTime" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -536,6 +808,7 @@ function __c4(j: number): any {
           date_to: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          reason: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           workflow_id: S.optional(S.String.pipe(T.Query())),
@@ -559,17 +832,18 @@ function __c4(j: number): any {
           workflow_id: S.String,
           template_id: S.NullOr(S.String),
           template_name: S.String,
+          code_email_id: S.NullOr(S.String),
           sending_domain: S.String,
           opened: S.Boolean,
           clicked: S.Boolean,
         }),
       ).annotate({ identifier: "TransactionalEmailLogEntry" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(34, __c4, 2),
+          results: __S(50, __c6, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "TransactionalEmailLogList" });

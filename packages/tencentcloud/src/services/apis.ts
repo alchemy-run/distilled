@@ -98,11 +98,40 @@ export interface CreateAgentAppServicesResponse {
   Data?: ResultIDVO | undefined;
   RequestId?: string | undefined;
 }
+export interface AgentCredentialContentHeaderDTO {
+  Key?: string | undefined;
+  Value?: string | undefined;
+}
+export type AgentCredentialContentHeaderDTOList = Array<AgentCredentialContentHeaderDTO>;
+export interface AgentCredentialApiKeyDTO {
+  Value?: string | Redacted.Redacted<string> | undefined;
+}
+export type AgentCredentialApiKeyDTOList = Array<AgentCredentialApiKeyDTO>;
+export interface FaultToleranceDTO {
+  Enabled?: boolean | undefined;
+  ErrorCodes?: StringList | undefined;
+  ErrorCount?: number | undefined;
+  IsolationTime?: number | undefined;
+  MaxSwitchCount?: number | undefined;
+  SwitchTimeout?: number | undefined;
+}
+export interface AgentCredentialContentDTO {
+  STSSystem?: string | undefined;
+  STSService?: string | undefined;
+  Headers?: AgentCredentialContentHeaderDTOList | undefined;
+  ApiKeys?: AgentCredentialApiKeyDTOList | null | undefined;
+  FaultTolerance?: FaultToleranceDTO | null | undefined;
+}
 export interface CreateAgentCredentialRequest {
+  InstanceID: string;
+  Name: string;
+  Type: string;
+  Content: AgentCredentialContentDTO;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface CreateAgentCredentialResponse {
+  Data?: ResultIDVO | undefined;
   RequestId?: string | undefined;
 }
 export interface TargetHostDTO {
@@ -219,11 +248,13 @@ export interface TmsConfigDTO {
   BizType?: string | null | undefined;
   InterceptMessage?: string | null | undefined;
   ContextScope?: string | null | undefined;
+  CheckTargets?: StringList | undefined;
 }
 export interface PromptModerateConfigDTO {
   Action?: string | null | undefined;
   InterceptMessage?: string | null | undefined;
   ContextScope?: string | null | undefined;
+  CheckTargets?: StringList | undefined;
 }
 export interface SensitiveDataCheckConfigDTO {
   Action?: string | null | undefined;
@@ -330,10 +361,13 @@ export interface DeleteAgentAppServicesResponse {
   RequestId?: string | undefined;
 }
 export interface DeleteAgentCredentialRequest {
+  InstanceID: string;
+  ID: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface DeleteAgentCredentialResponse {
+  Data?: ResultIDVO | undefined;
   RequestId?: string | undefined;
 }
 export interface DeleteMcpServerRequest {
@@ -422,30 +456,6 @@ export interface DescribeAgentAppMcpServersRequest {
   Keyword?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
-}
-export interface AgentCredentialContentHeaderDTO {
-  Key?: string | undefined;
-  Value?: string | undefined;
-}
-export type AgentCredentialContentHeaderDTOList = Array<AgentCredentialContentHeaderDTO>;
-export interface AgentCredentialApiKeyDTO {
-  Value?: string | Redacted.Redacted<string> | undefined;
-}
-export type AgentCredentialApiKeyDTOList = Array<AgentCredentialApiKeyDTO>;
-export interface FaultToleranceDTO {
-  Enabled?: boolean | undefined;
-  ErrorCodes?: StringList | undefined;
-  ErrorCount?: number | undefined;
-  IsolationTime?: number | undefined;
-  MaxSwitchCount?: number | undefined;
-  SwitchTimeout?: number | undefined;
-}
-export interface AgentCredentialContentDTO {
-  STSSystem?: string | undefined;
-  STSService?: string | undefined;
-  Headers?: AgentCredentialContentHeaderDTOList | undefined;
-  ApiKeys?: AgentCredentialApiKeyDTOList | null | undefined;
-  FaultTolerance?: FaultToleranceDTO | null | undefined;
 }
 export interface DescribeAgentCredentialResp {
   AppID?: number | undefined;
@@ -791,6 +801,8 @@ export interface ServiceVO {
   CredentialID?: string | undefined;
   CredentialName?: string | undefined;
   RequestProtocolType?: string | null | undefined;
+  ServiceSecurityRules?: BindMcpSecurityRuleDTOList | undefined;
+  ServiceSecurityRulesVO?: McpSecurityRulesVOList | undefined;
 }
 export interface AgentAppServiceVO {
   ID?: string | undefined;
@@ -815,17 +827,42 @@ export interface DescribeAgentAppServicesResponse {
   RequestId?: string | undefined;
 }
 export interface DescribeAgentCredentialRequest {
+  InstanceID: string;
+  ID: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface DescribeAgentCredentialResponse {
+  Data?: DescribeAgentCredentialResp | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribeAgentCredentialsSortDTO {
+  CreateTime?: number | undefined;
+  UpdateTime?: number | undefined;
+  Name?: number | undefined;
+  Status?: number | undefined;
+  Type?: number | undefined;
+}
 export interface DescribeAgentCredentialsRequest {
+  Limit: number;
+  InstanceID?: string | undefined;
+  NotIDs?: StringList | undefined;
+  Status?: string | undefined;
+  Offset?: number | undefined;
+  Keyword?: string | undefined;
+  IDs?: StringList | undefined;
+  Type?: string | undefined;
+  Sort?: DescribeAgentCredentialsSortDTO | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export type DescribeAgentCredentialRespList = Array<DescribeAgentCredentialResp>;
+export interface DescribeAgentCredentialsResp {
+  Total?: number | undefined;
+  Items?: DescribeAgentCredentialRespList | undefined;
+}
 export interface DescribeAgentCredentialsResponse {
+  Data?: DescribeAgentCredentialsResp | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeMcpServerRequest {
@@ -1039,10 +1076,16 @@ export interface ModifyAgentAppModelServicesResponse {
   RequestId?: string | undefined;
 }
 export interface ModifyAgentCredentialRequest {
+  InstanceID: string;
+  ID: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Content?: AgentCredentialContentDTO | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface ModifyAgentCredentialResponse {
+  Data?: ResultIDVO | undefined;
   RequestId?: string | undefined;
 }
 export interface ModifyMcpServerRequest {
@@ -1247,7 +1290,7 @@ export const createAgentCredential: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateAgentCredentialRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<CreateAgentCredentialResponse>,
+  output: __S(97, __c3, 1) as any as S.Schema<CreateAgentCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1280,7 +1323,7 @@ export const createModel: API.OperationMethod<
   CreateModelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<CreateModelRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<CreateModelRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CreateModelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1297,7 +1340,7 @@ export const createModelService: API.OperationMethod<
   CreateModelServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateModelServiceRequest>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateModelServiceRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CreateModelServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1314,8 +1357,8 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<CreateServiceResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CreateServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1331,7 +1374,7 @@ export const deleteAgentApp: API.OperationMethod<
   DeleteAgentAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteAgentAppRequest>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteAgentAppRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<DeleteAgentAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1400,7 +1443,7 @@ export const deleteAgentCredential: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteAgentCredentialRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DeleteAgentCredentialResponse>,
+  output: __S(97, __c3, 1) as any as S.Schema<DeleteAgentCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1468,7 +1511,7 @@ export const deleteService: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DeleteServiceResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1519,7 +1562,7 @@ export const describeAgentAppModelServices: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DescribeAgentAppModelServicesRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DescribeAgentAppModelServicesResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DescribeAgentAppModelServicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1570,7 +1613,7 @@ export const describeAgentCredential: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DescribeAgentCredentialRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DescribeAgentCredentialResponse>,
+  output: __S(769, __c24, 1) as any as S.Schema<DescribeAgentCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1586,8 +1629,8 @@ export const describeAgentCredentials: API.OperationMethod<
   DescribeAgentCredentialsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DescribeAgentCredentialsRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DescribeAgentCredentialsResponse>,
+  input: __S(801, __c25, 1) as any as S.Schema<DescribeAgentCredentialsRequest>,
+  output: __S(804, __c25, 4) as any as S.Schema<DescribeAgentCredentialsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1706,7 +1749,7 @@ export const describeService: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DescribeServiceRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DescribeServiceResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DescribeServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1723,7 +1766,7 @@ export const describeServices: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DescribeServicesRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<DescribeServicesResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DescribeServicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1774,7 +1817,7 @@ export const modifyAgentCredential: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ModifyAgentCredentialRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<ModifyAgentCredentialResponse>,
+  output: __S(97, __c3, 1) as any as S.Schema<ModifyAgentCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1842,7 +1885,7 @@ export const modifyService: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ModifyServiceRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<ModifyServiceResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ModifyServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1986,6 +2029,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceID: S.String,
+          ID: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apis", version: "2024-08-01", action: "DeleteAgentCredential" }),
@@ -2135,8 +2180,8 @@ function __c14(j: number): any {
           ID: S.optional(S.String),
           NeedAuth: S.optional(S.Boolean),
           AgentCredentialID: S.optional(S.String),
-          AgentCredentialVO: S.optional(__S(486, __c15, 6)),
-          McpServerVO: S.optional(__S(555, __c17, 11)),
+          AgentCredentialVO: S.optional(__S(480, __c15, 0)),
+          McpServerVO: S.optional(__S(553, __c17, 9)),
           RelateTime: S.optional(S.String),
           SSEResourceIdentifier: S.optional(S.NullOr(S.String)),
           StreamableResourceIdentifier: S.optional(S.NullOr(S.String)),
@@ -2168,44 +2213,6 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Key: S.optional(S.String),
-          Value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentCredentialContentHeaderDTO" });
-    case 1:
-      return S.Array(__S(480, __c15, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Value: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "AgentCredentialApiKeyDTO" });
-    case 3:
-      return S.Array(__S(482, __c15, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          Enabled: S.optional(S.Boolean),
-          ErrorCodes: S.optional(__S(32, __c1, 0)),
-          ErrorCount: S.optional(S.Number),
-          IsolationTime: S.optional(S.Number),
-          MaxSwitchCount: S.optional(S.Number),
-          SwitchTimeout: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FaultToleranceDTO" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          STSSystem: S.optional(S.String),
-          STSService: S.optional(S.String),
-          Headers: S.optional(__S(481, __c15, 1)),
-          ApiKeys: S.optional(S.NullOr(__S(483, __c15, 3))),
-          FaultTolerance: S.optional(S.NullOr(__S(484, __c15, 4))),
-        }),
-      ).annotate({ identifier: "AgentCredentialContentDTO" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           AppID: S.optional(S.Number),
           Uin: S.optional(S.String),
           InstanceID: S.optional(S.String),
@@ -2215,7 +2222,7 @@ function __c15(j: number): any {
           RelateMcpServerNum: S.optional(S.Number),
           RelateModelNum: S.optional(S.NullOr(S.Number)),
           RelateServiceNum: S.optional(S.NullOr(S.Number)),
-          Content: S.optional(__S(485, __c15, 5)),
+          Content: S.optional(__S(1445, __c45, 5)),
           CreateTime: S.optional(S.String),
           LastUpdateTime: S.optional(S.String),
           Type: S.optional(S.String),
@@ -2235,6 +2242,24 @@ function __c16(j: number): any {
     case 1:
       return S.Array(__S(512, __c16, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ID: S.optional(S.String),
+          Type: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          RiskLevel: S.optional(S.String),
+          VersionNumber: S.optional(S.String),
+          Status: S.optional(S.String),
+          Act: S.optional(S.String),
+          SupportActs: S.optional(__S(32, __c1, 0)),
+          BodyType: S.optional(S.String),
+          IconType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "McpSecurityRulesVO" });
+    case 3:
+      return S.Array(__S(514, __c16, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.NullOr(S.String)),
@@ -2262,51 +2287,33 @@ function __c17(j: number): any {
           Description: S.optional(S.String),
           RiskLevel: S.optional(S.String),
           VersionNumber: S.optional(S.String),
-          Status: S.optional(S.String),
-          Act: S.optional(S.String),
-          SupportActs: S.optional(__S(32, __c1, 0)),
-          BodyType: S.optional(S.String),
-          IconType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "McpSecurityRulesVO" });
-    case 1:
-      return S.Array(__S(544, __c17, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ID: S.optional(S.String),
-          Type: S.optional(S.String),
-          Name: S.optional(S.String),
-          Description: S.optional(S.String),
-          RiskLevel: S.optional(S.String),
-          VersionNumber: S.optional(S.String),
           Act: S.optional(S.String),
           SupportActs: S.optional(__S(32, __c1, 0)),
           BodyType: S.optional(S.String),
           IconType: S.optional(S.String),
         }),
       ).annotate({ identifier: "BindMcpSecurityRuleVO" });
-    case 3:
-      return S.Array(__S(546, __c17, 2));
-    case 4:
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ToolName: S.optional(S.String),
           InvokeLimitConfigStatus: S.optional(S.Boolean),
-          InvokeLimitConfig: S.optional(__S(514, __c16, 2)),
-          McpSecurityRules: S.optional(__S(547, __c17, 3)),
+          InvokeLimitConfig: S.optional(__S(516, __c16, 4)),
+          McpSecurityRules: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "ToolConfigVO" });
-    case 5:
-      return S.Array(__S(548, __c17, 4));
-    case 6:
+    case 3:
+      return S.Array(__S(546, __c17, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           SSEUrl: S.optional(S.String),
           StreamAbleUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "McpUrlObj" });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.NullOr(S.String)),
@@ -2315,7 +2322,7 @@ function __c17(j: number): any {
           Description: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "McpInputOutSchema" });
-    case 8:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.NullOr(S.String)),
@@ -2325,19 +2332,19 @@ function __c17(j: number): any {
           OpenWorldHint: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "McpToolAnnotation" });
-    case 9:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.NullOr(S.String)),
           Description: S.optional(S.NullOr(S.String)),
-          InputSchema: S.optional(S.NullOr(__S(551, __c17, 7))),
-          Annotations: S.optional(S.NullOr(__S(552, __c17, 8))),
-          OutputSchema: S.optional(S.NullOr(__S(551, __c17, 7))),
+          InputSchema: S.optional(S.NullOr(__S(549, __c17, 5))),
+          Annotations: S.optional(S.NullOr(__S(550, __c17, 6))),
+          OutputSchema: S.optional(S.NullOr(__S(549, __c17, 5))),
         }),
       ).annotate({ identifier: "McpTool" });
-    case 10:
-      return S.Array(__S(553, __c17, 9));
-    case 11:
+    case 8:
+      return S.Array(__S(551, __c17, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           InstanceID: S.optional(S.NullOr(S.String)),
@@ -2346,7 +2353,7 @@ function __c17(j: number): any {
           LabelIDs: S.optional(S.NullOr(__S(32, __c1, 0))),
           CategoryIDs: S.optional(S.NullOr(__S(32, __c1, 0))),
           TargetSelect: S.optional(S.NullOr(S.String)),
-          TargetHosts: S.optional(S.NullOr(__S(1569, __c49, 1))),
+          TargetHosts: S.optional(S.NullOr(__S(1601, __c50, 1))),
           HttpProtocolType: S.optional(S.NullOr(S.String)),
           CheckTargetCertsError: S.optional(S.NullOr(S.Boolean)),
           TargetPath: S.optional(S.NullOr(S.String)),
@@ -2371,14 +2378,14 @@ function __c17(j: number): any {
           McpVersion: S.optional(S.String),
           WrapServices: S.optional(S.NullOr(__S(32, __c1, 0))),
           ToolNum: S.optional(S.Number),
-          McpSecurityRulesVO: S.optional(__S(545, __c17, 1)),
-          ToolConfigs: S.optional(S.NullOr(__S(549, __c17, 5))),
-          UrlObj: S.optional(__S(550, __c17, 6)),
+          McpSecurityRulesVO: S.optional(__S(515, __c16, 3)),
+          ToolConfigs: S.optional(S.NullOr(__S(547, __c17, 3))),
+          UrlObj: S.optional(__S(548, __c17, 4)),
           ToolMessage: S.optional(S.String),
-          Tools: S.optional(__S(554, __c17, 10)),
+          Tools: S.optional(__S(552, __c17, 8)),
           WrapPaasID: S.optional(S.String),
           RelateAgentAppNum: S.optional(S.Number),
-          PluginConfigs: S.optional(S.NullOr(__S(1603, __c50, 3))),
+          PluginConfigs: S.optional(S.NullOr(__S(1635, __c51, 3))),
           IgnoreHealthCheck: S.optional(S.Boolean),
           CredentialID: S.optional(S.String),
           CredentialName: S.optional(S.String),
@@ -2554,7 +2561,7 @@ function __c22(j: number): any {
         S.Struct({
           ID: S.optional(S.NullOr(S.String)),
           Name: S.optional(S.NullOr(S.String)),
-          TargetHosts: S.optional(S.NullOr(__S(1569, __c49, 1))),
+          TargetHosts: S.optional(S.NullOr(__S(1601, __c50, 1))),
           TargetHostType: S.optional(S.NullOr(S.Number)),
           ServiceCount: S.optional(S.NullOr(S.Number)),
           CreateTime: S.optional(S.NullOr(S.String)),
@@ -2604,7 +2611,7 @@ function __c22(j: number): any {
           TargetSelect: S.optional(S.NullOr(S.String)),
           PubPath: S.optional(S.NullOr(S.String)),
           RequestMethod: S.optional(S.NullOr(S.String)),
-          TargetHosts: S.optional(S.NullOr(__S(1569, __c49, 1))),
+          TargetHosts: S.optional(S.NullOr(__S(1601, __c50, 1))),
           HttpProtocolType: S.optional(S.NullOr(S.String)),
           CheckTargetCertsError: S.optional(S.NullOr(S.Boolean)),
           HttpProtocolVersion: S.optional(S.NullOr(S.String)),
@@ -2622,7 +2629,7 @@ function __c22(j: number): any {
           IpWhiteList: S.optional(S.NullOr(__S(32, __c1, 0))),
           IpBlackStatus: S.optional(S.NullOr(S.Boolean)),
           IpBlackList: S.optional(S.NullOr(__S(32, __c1, 0))),
-          PluginConfigs: S.optional(S.NullOr(__S(1603, __c50, 3))),
+          PluginConfigs: S.optional(S.NullOr(__S(1635, __c51, 3))),
           ID: S.optional(S.NullOr(S.String)),
           Status: S.optional(S.NullOr(S.String)),
           Url: S.optional(S.NullOr(S.String)),
@@ -2655,6 +2662,8 @@ function __c22(j: number): any {
           CredentialID: S.optional(S.String),
           CredentialName: S.optional(S.String),
           RequestProtocolType: S.optional(S.NullOr(S.String)),
+          ServiceSecurityRules: S.optional(__S(1537, __c48, 1)),
+          ServiceSecurityRulesVO: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "ServiceVO" });
     case 17:
@@ -2664,12 +2673,12 @@ function __c22(j: number): any {
           AgentAppID: S.optional(S.String),
           ServiceID: S.optional(S.String),
           InvokeLimitConfigStatus: S.optional(S.Boolean),
-          InvokeLimitConfig: S.optional(__S(514, __c16, 2)),
+          InvokeLimitConfig: S.optional(__S(516, __c16, 4)),
           ServiceVO: S.optional(__S(720, __c22, 16)),
           RelateTime: S.optional(S.String),
           NeedAuth: S.optional(S.Boolean),
           AgentCredentialID: S.optional(S.String),
-          AgentCredentialVO: S.optional(__S(486, __c15, 6)),
+          AgentCredentialVO: S.optional(__S(480, __c15, 0)),
           AgentAppVO: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "AgentAppServiceVO" });
@@ -2728,11 +2737,20 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceID: S.String,
+          ID: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apis", version: "2024-08-01", action: "DescribeAgentCredential" }),
         ),
       ).annotate({ identifier: "DescribeAgentCredentialRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(__S(480, __c15, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeAgentCredentialResponse" });
   }
 }
 function __c25(j: number): any {
@@ -2740,11 +2758,46 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          CreateTime: S.optional(S.Number),
+          UpdateTime: S.optional(S.Number),
+          Name: S.optional(S.Number),
+          Status: S.optional(S.Number),
+          Type: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DescribeAgentCredentialsSortDTO" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Limit: S.Number,
+          InstanceID: S.optional(S.String),
+          NotIDs: S.optional(__S(32, __c1, 0)),
+          Status: S.optional(S.String),
+          Offset: S.optional(S.Number),
+          Keyword: S.optional(S.String),
+          IDs: S.optional(__S(32, __c1, 0)),
+          Type: S.optional(S.String),
+          Sort: S.optional(__S(800, __c25, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apis", version: "2024-08-01", action: "DescribeAgentCredentials" }),
         ),
       ).annotate({ identifier: "DescribeAgentCredentialsRequest" });
+    case 2:
+      return S.Array(__S(480, __c15, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Total: S.optional(S.Number),
+          Items: S.optional(__S(802, __c25, 2)),
+        }),
+      ).annotate({ identifier: "DescribeAgentCredentialsResp" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(__S(803, __c25, 3)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeAgentCredentialsResponse" });
   }
 }
 function __c26(j: number): any {
@@ -2760,7 +2813,7 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(555, __c17, 11)),
+          Data: S.optional(__S(553, __c17, 9)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMcpServerResponse" });
@@ -2785,7 +2838,7 @@ function __c27(j: number): any {
         }).pipe(T.Action({ service: "apis", version: "2024-08-01", action: "DescribeMcpServers" })),
       ).annotate({ identifier: "DescribeMcpServersRequest" });
     case 1:
-      return S.Array(__S(555, __c17, 11));
+      return S.Array(__S(553, __c17, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2838,7 +2891,7 @@ function __c29(j: number): any {
           CheckTargetCertsError: S.optional(S.Boolean),
           HttpProtocolVersion: S.optional(S.String),
           TargetPath: S.optional(S.String),
-          TargetHosts: S.optional(__S(1569, __c49, 1)),
+          TargetHosts: S.optional(__S(1601, __c50, 1)),
           ModelServiceCount: S.optional(S.Number),
           CreateTime: S.optional(S.String),
           LastUpdateTime: S.optional(S.String),
@@ -2924,35 +2977,35 @@ function __c32(j: number): any {
           Description: S.optional(S.String),
           PubPath: S.optional(S.String),
           PathMatchType: S.optional(S.String),
-          TargetModels: S.optional(S.NullOr(__S(1697, __c53, 1))),
+          TargetModels: S.optional(S.NullOr(__S(1729, __c54, 1))),
           ModelNames: S.optional(S.NullOr(__S(32, __c1, 0))),
           CreateTime: S.optional(S.String),
           LastUpdateTime: S.optional(S.String),
           TmsStatus: S.optional(S.Boolean),
-          TmsConfig: S.optional(__S(1698, __c53, 2)),
+          TmsConfig: S.optional(__S(1730, __c54, 2)),
           IpWhiteStatus: S.optional(S.Boolean),
           IpWhiteList: S.optional(S.NullOr(__S(32, __c1, 0))),
           IpBlackStatus: S.optional(S.Boolean),
           IpBlackList: S.optional(S.NullOr(__S(32, __c1, 0))),
-          PluginConfigs: S.optional(S.NullOr(__S(1603, __c50, 3))),
+          PluginConfigs: S.optional(S.NullOr(__S(1635, __c51, 3))),
           Timeout: S.optional(S.Number),
           Status: S.optional(S.String),
           RelateAgentAppNum: S.optional(S.Number),
           Url: S.optional(S.String),
           PromptModerateStatus: S.optional(S.NullOr(S.Boolean)),
-          PromptModerateConfig: S.optional(S.NullOr(__S(1699, __c53, 3))),
+          PromptModerateConfig: S.optional(S.NullOr(__S(1731, __c54, 3))),
           SensitiveDataCheckStatus: S.optional(S.NullOr(S.Boolean)),
-          SensitiveDataCheckConfig: S.optional(S.NullOr(__S(1700, __c53, 4))),
+          SensitiveDataCheckConfig: S.optional(S.NullOr(__S(1732, __c54, 4))),
           TargetSelect: S.optional(S.NullOr(S.String)),
           FindHostKeyMethod: S.optional(S.NullOr(S.String)),
           HostKeyHeaderName: S.optional(S.NullOr(S.String)),
           FallbackStatus: S.optional(S.NullOr(S.Boolean)),
-          FallbackModels: S.optional(S.NullOr(__S(1697, __c53, 1))),
+          FallbackModels: S.optional(S.NullOr(__S(1729, __c54, 1))),
           ModelProtocol: S.optional(S.NullOr(S.String)),
           RawCustomModelProtocolConfig: S.optional(S.String),
           RouteStrategy: S.optional(S.NullOr(S.String)),
-          TokenLengthRoute: S.optional(S.NullOr(__S(1702, __c53, 6))),
-          TaskComplexityRoute: S.optional(S.NullOr(__S(1703, __c53, 7))),
+          TokenLengthRoute: S.optional(S.NullOr(__S(1734, __c54, 6))),
+          TaskComplexityRoute: S.optional(S.NullOr(__S(1735, __c54, 7))),
           Domain: S.optional(S.NullOr(S.String)),
           RequestProtocolType: S.optional(S.NullOr(S.String)),
         }),
@@ -3083,6 +3136,11 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceID: S.String,
+          ID: S.String,
+          Name: S.optional(S.String),
+          Type: S.optional(S.String),
+          Content: S.optional(__S(1445, __c45, 5)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apis", version: "2024-08-01", action: "ModifyAgentCredential" }),
@@ -3103,7 +3161,7 @@ function __c40(j: number): any {
           Description: S.optional(S.String),
           WrapServices: S.optional(__S(32, __c1, 0)),
           TargetSelect: S.optional(S.String),
-          TargetHosts: S.optional(__S(1569, __c49, 1)),
+          TargetHosts: S.optional(__S(1601, __c50, 1)),
           HttpProtocolType: S.optional(S.String),
           CheckTargetCertsError: S.optional(S.Boolean),
           TargetPath: S.optional(S.String),
@@ -3115,10 +3173,10 @@ function __c40(j: number): any {
           CustomHttpHost: S.optional(S.String),
           HttpHostType: S.optional(S.String),
           Timeout: S.optional(S.Number),
-          McpSecurityRules: S.optional(__S(1537, __c48, 1)),
-          ToolConfigs: S.optional(__S(1541, __c48, 5)),
+          McpSecurityRules: S.optional(__S(1569, __c49, 1)),
+          ToolConfigs: S.optional(__S(1571, __c49, 3)),
           WrapPaasID: S.optional(S.String),
-          PluginConfigs: S.optional(__S(1603, __c50, 3)),
+          PluginConfigs: S.optional(__S(1635, __c51, 3)),
           IgnoreHealthCheck: S.optional(S.Boolean),
           CredentialID: S.optional(S.String),
           Domain: S.optional(S.String),
@@ -3138,7 +3196,7 @@ function __c41(j: number): any {
           Name: S.optional(S.String),
           HttpProtocolType: S.optional(S.String),
           TargetPath: S.optional(S.String),
-          TargetHosts: S.optional(__S(1569, __c49, 1)),
+          TargetHosts: S.optional(__S(1601, __c50, 1)),
           CredentialID: S.optional(S.String),
           CheckTargetCertsError: S.optional(S.Boolean),
           HttpProtocolVersion: S.optional(S.String),
@@ -3158,29 +3216,29 @@ function __c42(j: number): any {
           ID: S.String,
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          TargetModels: S.optional(__S(1697, __c53, 1)),
+          TargetModels: S.optional(__S(1729, __c54, 1)),
           TmsStatus: S.optional(S.Boolean),
-          TmsConfig: S.optional(__S(1698, __c53, 2)),
+          TmsConfig: S.optional(__S(1730, __c54, 2)),
           IpWhiteStatus: S.optional(S.Boolean),
           IpWhiteList: S.optional(__S(32, __c1, 0)),
           IpBlackStatus: S.optional(S.Boolean),
           IpBlackList: S.optional(__S(32, __c1, 0)),
-          PluginConfigs: S.optional(__S(1603, __c50, 3)),
+          PluginConfigs: S.optional(__S(1635, __c51, 3)),
           Timeout: S.optional(S.Number),
           PromptModerateStatus: S.optional(S.Boolean),
-          PromptModerateConfig: S.optional(__S(1699, __c53, 3)),
+          PromptModerateConfig: S.optional(__S(1731, __c54, 3)),
           SensitiveDataCheckStatus: S.optional(S.Boolean),
-          SensitiveDataCheckConfig: S.optional(__S(1700, __c53, 4)),
+          SensitiveDataCheckConfig: S.optional(__S(1732, __c54, 4)),
           TargetSelect: S.optional(S.String),
           FindHostKeyMethod: S.optional(S.String),
           HostKeyHeaderName: S.optional(S.String),
           FallbackStatus: S.optional(S.Boolean),
-          FallbackModels: S.optional(__S(1697, __c53, 1)),
+          FallbackModels: S.optional(__S(1729, __c54, 1)),
           ModelProtocol: S.optional(S.String),
           RawCustomModelProtocolConfig: S.optional(S.String),
           RouteStrategy: S.optional(S.String),
-          TokenLengthRoute: S.optional(__S(1702, __c53, 6)),
-          TaskComplexityRoute: S.optional(__S(1703, __c53, 7)),
+          TokenLengthRoute: S.optional(__S(1734, __c54, 6)),
+          TaskComplexityRoute: S.optional(__S(1735, __c54, 7)),
           Domain: S.optional(S.String),
           RequestProtocolType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -3218,7 +3276,7 @@ function __c43(j: number): any {
           IpWhiteList: S.optional(__S(32, __c1, 0)),
           IpBlackStatus: S.optional(S.Boolean),
           IpBlackList: S.optional(__S(32, __c1, 0)),
-          PluginConfigs: S.optional(__S(1603, __c50, 3)),
+          PluginConfigs: S.optional(__S(1635, __c51, 3)),
           ID: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "apis", version: "2024-08-01", action: "ModifyService" })),
@@ -3230,6 +3288,10 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceID: S.String,
+          Name: S.String,
+          Type: S.String,
+          Content: __S(1445, __c45, 5),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apis", version: "2024-08-01", action: "CreateAgentCredential" }),
@@ -3242,9 +3304,41 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RequestId: S.optional(S.String),
+          Key: S.optional(S.String),
+          Value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateAgentCredentialResponse" });
+      ).annotate({ identifier: "AgentCredentialContentHeaderDTO" });
+    case 1:
+      return S.Array(__S(1440, __c45, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Value: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "AgentCredentialApiKeyDTO" });
+    case 3:
+      return S.Array(__S(1442, __c45, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          ErrorCodes: S.optional(__S(32, __c1, 0)),
+          ErrorCount: S.optional(S.Number),
+          IsolationTime: S.optional(S.Number),
+          MaxSwitchCount: S.optional(S.Number),
+          SwitchTimeout: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FaultToleranceDTO" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          STSSystem: S.optional(S.String),
+          STSService: S.optional(S.String),
+          Headers: S.optional(__S(1441, __c45, 1)),
+          ApiKeys: S.optional(S.NullOr(__S(1443, __c45, 3))),
+          FaultTolerance: S.optional(S.NullOr(__S(1444, __c45, 4))),
+        }),
+      ).annotate({ identifier: "AgentCredentialContentDTO" });
   }
 }
 function __c46(j: number): any {
@@ -3259,7 +3353,7 @@ function __c46(j: number): any {
           Description: S.String,
           WrapServices: S.optional(__S(32, __c1, 0)),
           TargetSelect: S.optional(S.String),
-          TargetHosts: S.optional(__S(1569, __c49, 1)),
+          TargetHosts: S.optional(__S(1601, __c50, 1)),
           HttpProtocolType: S.optional(S.String),
           CheckTargetCertsError: S.optional(S.Boolean),
           TargetPath: S.optional(S.String),
@@ -3270,10 +3364,10 @@ function __c46(j: number): any {
           CustomHttpHost: S.optional(S.String),
           HttpHostType: S.optional(S.String),
           Timeout: S.optional(S.Number),
-          McpSecurityRules: S.optional(__S(1537, __c48, 1)),
-          ToolConfigs: S.optional(__S(1541, __c48, 5)),
+          McpSecurityRules: S.optional(__S(1569, __c49, 1)),
+          ToolConfigs: S.optional(__S(1571, __c49, 3)),
           WrapPaasID: S.optional(S.String),
-          PluginConfigs: S.optional(__S(1603, __c50, 3)),
+          PluginConfigs: S.optional(__S(1635, __c51, 3)),
           IgnoreHealthCheck: S.optional(S.Boolean),
           CredentialID: S.optional(S.String),
           Domain: S.optional(S.String),
@@ -3311,33 +3405,37 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
+          Act: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BindMcpSecurityRuleDTO" });
+    case 1:
+      return S.Array(__S(1536, __c48, 0));
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ID: S.optional(S.String),
           Status: S.optional(S.String),
           Act: S.optional(S.String),
         }),
       ).annotate({ identifier: "McpSecurityRule" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ID: S.optional(S.String),
-          Act: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BindMcpSecurityRuleDTO" });
-    case 3:
-      return S.Array(__S(1538, __c48, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           ToolName: S.optional(S.NullOr(S.String)),
-          McpSecurityRules: S.optional(__S(1539, __c48, 3)),
+          McpSecurityRules: S.optional(__S(1537, __c48, 1)),
         }),
       ).annotate({ identifier: "ToolConfigDTO" });
-    case 5:
-      return S.Array(__S(1540, __c48, 4));
+    case 3:
+      return S.Array(__S(1570, __c49, 2));
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3347,10 +3445,10 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "TargetHostDTO" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1600, __c50, 0));
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3360,7 +3458,7 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "PluginFormValueDTO" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3369,14 +3467,14 @@ function __c50(j: number): any {
           Description: S.optional(S.NullOr(S.String)),
           PluginID: S.optional(S.NullOr(S.String)),
           Level: S.optional(S.NullOr(S.Number)),
-          PluginFormValues: S.optional(S.NullOr(__S(1601, __c50, 1))),
+          PluginFormValues: S.optional(S.NullOr(__S(1633, __c51, 1))),
         }),
       ).annotate({ identifier: "PluginConfigDTO" });
     case 3:
-      return S.Array(__S(1602, __c50, 2));
+      return S.Array(__S(1634, __c51, 2));
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3385,7 +3483,7 @@ function __c51(j: number): any {
           Name: S.String,
           HttpProtocolType: S.optional(S.String),
           TargetPath: S.optional(S.String),
-          TargetHosts: S.optional(__S(1569, __c49, 1)),
+          TargetHosts: S.optional(__S(1601, __c50, 1)),
           Provider: S.optional(S.String),
           ApiKeys: S.optional(__S(32, __c1, 0)),
           CredentialID: S.optional(S.String),
@@ -3398,7 +3496,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateModelRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3407,29 +3505,29 @@ function __c52(j: number): any {
           Name: S.String,
           Description: S.String,
           PubPath: S.String,
-          TargetModels: __S(1697, __c53, 1),
+          TargetModels: __S(1729, __c54, 1),
           PathMatchType: S.optional(S.String),
           TmsStatus: S.optional(S.Boolean),
-          TmsConfig: S.optional(__S(1698, __c53, 2)),
+          TmsConfig: S.optional(__S(1730, __c54, 2)),
           IpWhiteStatus: S.optional(S.Boolean),
           IpWhiteList: S.optional(__S(32, __c1, 0)),
           IpBlackList: S.optional(__S(32, __c1, 0)),
-          PluginConfigs: S.optional(__S(1603, __c50, 3)),
+          PluginConfigs: S.optional(__S(1635, __c51, 3)),
           Timeout: S.optional(S.Number),
           PromptModerateStatus: S.optional(S.Boolean),
-          PromptModerateConfig: S.optional(__S(1699, __c53, 3)),
+          PromptModerateConfig: S.optional(__S(1731, __c54, 3)),
           SensitiveDataCheckStatus: S.optional(S.Boolean),
-          SensitiveDataCheckConfig: S.optional(__S(1700, __c53, 4)),
+          SensitiveDataCheckConfig: S.optional(__S(1732, __c54, 4)),
           TargetSelect: S.optional(S.String),
           FindHostKeyMethod: S.optional(S.String),
           HostKeyHeaderName: S.optional(S.String),
           FallbackStatus: S.optional(S.Boolean),
-          FallbackModels: S.optional(__S(1697, __c53, 1)),
+          FallbackModels: S.optional(__S(1729, __c54, 1)),
           ModelProtocol: S.optional(S.String),
           RawCustomModelProtocolConfig: S.optional(S.String),
           RouteStrategy: S.optional(S.String),
-          TokenLengthRoute: S.optional(__S(1702, __c53, 6)),
-          TaskComplexityRoute: S.optional(__S(1703, __c53, 7)),
+          TokenLengthRoute: S.optional(__S(1734, __c54, 6)),
+          TaskComplexityRoute: S.optional(__S(1735, __c54, 7)),
           Domain: S.optional(S.String),
           RequestProtocolType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -3437,7 +3535,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateModelServiceRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3448,7 +3546,7 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "TargetModelDTO" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3459,6 +3557,7 @@ function __c53(j: number): any {
           BizType: S.optional(S.NullOr(S.String)),
           InterceptMessage: S.optional(S.NullOr(S.String)),
           ContextScope: S.optional(S.NullOr(S.String)),
+          CheckTargets: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "TmsConfigDTO" });
     case 3:
@@ -3467,6 +3566,7 @@ function __c53(j: number): any {
           Action: S.optional(S.NullOr(S.String)),
           InterceptMessage: S.optional(S.NullOr(S.String)),
           ContextScope: S.optional(S.NullOr(S.String)),
+          CheckTargets: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "PromptModerateConfigDTO" });
     case 4:
@@ -3483,22 +3583,22 @@ function __c53(j: number): any {
         S.Struct({
           MinTokens: S.optional(S.NullOr(S.Number)),
           MaxTokens: S.optional(S.NullOr(S.Number)),
-          TargetModels: S.optional(S.NullOr(__S(1697, __c53, 1))),
+          TargetModels: S.optional(S.NullOr(__S(1729, __c54, 1))),
         }),
       ).annotate({ identifier: "TokenLengthRouteDTO" });
     case 6:
-      return S.Array(__S(1701, __c53, 5));
+      return S.Array(__S(1733, __c54, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           ComplexityBias: S.optional(S.NullOr(S.Number)),
-          SimpleTargetModels: S.optional(S.NullOr(__S(1697, __c53, 1))),
-          ComplexTargetModels: S.optional(S.NullOr(__S(1697, __c53, 1))),
+          SimpleTargetModels: S.optional(S.NullOr(__S(1729, __c54, 1))),
+          ComplexTargetModels: S.optional(S.NullOr(__S(1729, __c54, 1))),
         }),
       ).annotate({ identifier: "TaskComplexityRouteDTO" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3508,7 +3608,17 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateServiceResponse" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

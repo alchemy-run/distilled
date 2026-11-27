@@ -1438,6 +1438,12 @@ export interface AsesBgpRouteResponse {
   asns: BgpRoutesAsesResponseAsnsList;
   meta: BgpRoutesAsesResponseMeta;
 }
+export type DnsTopAsesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type DnsTopAsesRequestAsCategoryList = Array<DnsTopAsesRequestAsCategory | (string & {})>;
 export type DnsTopAsesRequestAsnList = Array<string>;
 export type DnsTopAsesRequestCacheHitList = Array<boolean>;
 export type DnsTopAsesRequestContinentList = Array<string>;
@@ -1582,6 +1588,8 @@ export type DnsTopAsesRequestResponseTtl =
   | "GT_1W";
 export type DnsTopAsesRequestResponseTtlList = Array<DnsTopAsesRequestResponseTtl | (string & {})>;
 export interface AsesDnsTopRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: DnsTopAsesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTopAsesRequestAsnList | undefined;
   /** Filters results based on cache status. */
@@ -1716,6 +1724,14 @@ export interface AsesDnsTopResponse {
   meta: DnsTopAsesResponseMeta;
   top_0: DnsTopAsesResponseTop0List;
 }
+export type NetflowsTopAsesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type NetflowsTopAsesRequestAsCategoryList = Array<
+  NetflowsTopAsesRequestAsCategory | (string & {})
+>;
 export type NetflowsTopAsesRequestAsnList = Array<string>;
 export type NetflowsTopAsesRequestContinentList = Array<string>;
 export type NetflowsTopAsesRequestDateEndList = Array<string>;
@@ -1726,6 +1742,8 @@ export type NetflowsTopAsesRequestGeoIdList = Array<string>;
 export type NetflowsTopAsesRequestLocationList = Array<string>;
 export type NetflowsTopAsesRequestNameList = Array<string>;
 export interface AsesNetflowTopRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: NetflowsTopAsesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTopAsesRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -11491,7 +11509,13 @@ export interface GetEntityAsnRequest {
   asn: number;
   /** Format in which results will be returned. */
   format?: EntitiesAsnsGetRequestFormat | (string & {}) | undefined;
+  /** Include the traffic data confidence level in the response. Set to `false` to skip it and get a faster response. */
+  includeConfidenceLevel?: boolean | undefined;
 }
+export type EntitiesAsnsGetResponseAsnCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
 export interface EntitiesAsnsGetResponseAsnEstimatedUsersLocationsItem {
   locationAlpha2: string;
   locationName: string;
@@ -11505,8 +11529,14 @@ export interface EntitiesAsnsGetResponseAsnEstimatedUsers {
   /** Total estimated users. */
   estimatedUsers?: number | null | undefined;
 }
+export type EntitiesAsnsGetResponseAsnRelatedItemCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
 export interface EntitiesAsnsGetResponseAsnRelatedItem {
   asn: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: EntitiesAsnsGetResponseAsnRelatedItemCategory;
   name: string;
   aka?: string | null | undefined;
   /** Total estimated users. */
@@ -11515,7 +11545,8 @@ export interface EntitiesAsnsGetResponseAsnRelatedItem {
 export type EntitiesAsnsGetResponseAsnRelatedList = Array<EntitiesAsnsGetResponseAsnRelatedItem>;
 export interface EntitiesAsnsGetResponseAsn {
   asn: number;
-  confidenceLevel: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: EntitiesAsnsGetResponseAsnCategory;
   country: string;
   countryName: string;
   estimatedUsers: EntitiesAsnsGetResponseAsnEstimatedUsers;
@@ -11526,6 +11557,8 @@ export interface EntitiesAsnsGetResponseAsn {
   source: string;
   website: string;
   aka?: string | null | undefined;
+  /** Omitted when `includeConfidenceLevel` is `false`. */
+  confidenceLevel?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetEntityAsnResponse {
@@ -11609,6 +11642,12 @@ export interface GeolocationsGetResponseGeolocation {
 export interface GetGeolocationResponse {
   geolocation: GeolocationsGetResponseGeolocation;
 }
+export type HttpAsesGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesGetRequestAsCategoryList = Array<HttpAsesGetRequestAsCategory | (string & {})>;
 export type HttpAsesGetRequestAsnList = Array<string>;
 export type HttpAsesGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesGetRequestBotClassList = Array<HttpAsesGetRequestBotClass | (string & {})>;
@@ -11653,6 +11692,8 @@ export type HttpAsesGetRequestTlsVersion =
   | "TLSvQUIC";
 export type HttpAsesGetRequestTlsVersionList = Array<HttpAsesGetRequestTlsVersion | (string & {})>;
 export interface GetHttpAsRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -11778,6 +11819,14 @@ export interface GetHttpAsResponse {
   top_0: HttpAsesGetResponseTop0List;
 }
 export type HttpAsesBotClassGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
+export type HttpAsesBotClassGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesBotClassGetRequestAsCategoryList = Array<
+  HttpAsesBotClassGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesBotClassGetRequestAsnList = Array<string>;
 export type HttpAsesBotClassGetRequestBrowserFamily = "CHROME" | "EDGE" | "FIREFOX" | "SAFARI";
 export type HttpAsesBotClassGetRequestBrowserFamilyList = Array<
@@ -11828,6 +11877,8 @@ export type HttpAsesBotClassGetRequestTlsVersionList = Array<
 export interface GetHttpAsBotClassRequest {
   /** Bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass: HttpAsesBotClassGetRequestBotClass | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesBotClassGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesBotClassGetRequestAsnList | undefined;
   /** Filters results by browser family. */
@@ -11952,6 +12003,14 @@ export interface GetHttpAsBotClassResponse {
   top_0: HttpAsesBotClassGetResponseTop0List;
 }
 export type HttpAsesBrowserFamilyGetRequestBrowserFamily = "CHROME" | "EDGE" | "FIREFOX" | "SAFARI";
+export type HttpAsesBrowserFamilyGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesBrowserFamilyGetRequestAsCategoryList = Array<
+  HttpAsesBrowserFamilyGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesBrowserFamilyGetRequestAsnList = Array<string>;
 export type HttpAsesBrowserFamilyGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesBrowserFamilyGetRequestBotClassList = Array<
@@ -12004,6 +12063,8 @@ export type HttpAsesBrowserFamilyGetRequestTlsVersionList = Array<
 export interface GetHttpAsBrowserFamilyRequest {
   /** Browser family. */
   browserFamily: HttpAsesBrowserFamilyGetRequestBrowserFamily | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesBrowserFamilyGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesBrowserFamilyGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -12132,6 +12193,14 @@ export interface GetHttpAsBrowserFamilyResponse {
   top_0: HttpAsesBrowserFamilyGetResponseTop0List;
 }
 export type HttpAsesDeviceTypeGetRequestDeviceType = "DESKTOP" | "MOBILE" | "OTHER";
+export type HttpAsesDeviceTypeGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesDeviceTypeGetRequestAsCategoryList = Array<
+  HttpAsesDeviceTypeGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesDeviceTypeGetRequestAsnList = Array<string>;
 export type HttpAsesDeviceTypeGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesDeviceTypeGetRequestBotClassList = Array<
@@ -12184,6 +12253,8 @@ export type HttpAsesDeviceTypeGetRequestTlsVersionList = Array<
 export interface GetHttpAsDeviceTypeRequest {
   /** Device type. */
   deviceType: HttpAsesDeviceTypeGetRequestDeviceType | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesDeviceTypeGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesDeviceTypeGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -12308,6 +12379,14 @@ export interface GetHttpAsDeviceTypeResponse {
   top_0: HttpAsesDeviceTypeGetResponseTop0List;
 }
 export type HttpAsesHttpMethodGetRequestHttpVersion = "HTTPv1" | "HTTPv2" | "HTTPv3";
+export type HttpAsesHttpMethodGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesHttpMethodGetRequestAsCategoryList = Array<
+  HttpAsesHttpMethodGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesHttpMethodGetRequestAsnList = Array<string>;
 export type HttpAsesHttpMethodGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesHttpMethodGetRequestBotClassList = Array<
@@ -12360,6 +12439,8 @@ export type HttpAsesHttpMethodGetRequestTlsVersionList = Array<
 export interface GetHttpAsHttpMethodRequest {
   /** HTTP version. */
   httpVersion: HttpAsesHttpMethodGetRequestHttpVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesHttpMethodGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesHttpMethodGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -12484,6 +12565,14 @@ export interface GetHttpAsHttpMethodResponse {
   top_0: HttpAsesHttpMethodGetResponseTop0List;
 }
 export type HttpAsesHttpProtocolGetRequestHttpProtocol = "HTTP" | "HTTPS";
+export type HttpAsesHttpProtocolGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesHttpProtocolGetRequestAsCategoryList = Array<
+  HttpAsesHttpProtocolGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesHttpProtocolGetRequestAsnList = Array<string>;
 export type HttpAsesHttpProtocolGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesHttpProtocolGetRequestBotClassList = Array<
@@ -12536,6 +12625,8 @@ export type HttpAsesHttpProtocolGetRequestTlsVersionList = Array<
 export interface GetHttpAsHttpProtocolRequest {
   /** HTTP protocol (HTTP vs. HTTPS). */
   httpProtocol: HttpAsesHttpProtocolGetRequestHttpProtocol | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesHttpProtocolGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesHttpProtocolGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -12664,6 +12755,14 @@ export interface GetHttpAsHttpProtocolResponse {
   top_0: HttpAsesHttpProtocolGetResponseTop0List;
 }
 export type HttpAsesIpVersionGetRequestIpVersion = "IPv4" | "IPv6";
+export type HttpAsesIpVersionGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesIpVersionGetRequestAsCategoryList = Array<
+  HttpAsesIpVersionGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesIpVersionGetRequestAsnList = Array<string>;
 export type HttpAsesIpVersionGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesIpVersionGetRequestBotClassList = Array<
@@ -12716,6 +12815,8 @@ export type HttpAsesIpVersionGetRequestTlsVersionList = Array<
 export interface GetHttpAsIpVersionRequest {
   /** IP version. */
   ipVersion: HttpAsesIpVersionGetRequestIpVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesIpVersionGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesIpVersionGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -12847,6 +12948,14 @@ export type HttpAsesOsGetRequestOs =
   | "CHROMEOS"
   | "LINUX"
   | "SMART_TV";
+export type HttpAsesOsGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesOsGetRequestAsCategoryList = Array<
+  HttpAsesOsGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesOsGetRequestAsnList = Array<string>;
 export type HttpAsesOsGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesOsGetRequestBotClassList = Array<HttpAsesOsGetRequestBotClass | (string & {})>;
@@ -12890,6 +12999,8 @@ export type HttpAsesOsGetRequestTlsVersionList = Array<
 export interface GetHttpAsOsRequest {
   /** Operating system. */
   os: HttpAsesOsGetRequestOs | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesOsGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesOsGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -13018,6 +13129,14 @@ export type HttpAsesTlsVersionGetRequestTlsVersion =
   | "TLSv1_2"
   | "TLSv1_3"
   | "TLSvQUIC";
+export type HttpAsesTlsVersionGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpAsesTlsVersionGetRequestAsCategoryList = Array<
+  HttpAsesTlsVersionGetRequestAsCategory | (string & {})
+>;
 export type HttpAsesTlsVersionGetRequestAsnList = Array<string>;
 export type HttpAsesTlsVersionGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpAsesTlsVersionGetRequestBotClassList = Array<
@@ -13065,6 +13184,8 @@ export type HttpAsesTlsVersionGetRequestOsList = Array<
 export interface GetHttpAsTlsVersionRequest {
   /** TLS version. */
   tlsVersion: HttpAsesTlsVersionGetRequestTlsVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpAsesTlsVersionGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpAsesTlsVersionGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -13188,6 +13309,14 @@ export interface GetHttpAsTlsVersionResponse {
   meta: HttpAsesTlsVersionGetResponseMeta;
   top_0: HttpAsesTlsVersionGetResponseTop0List;
 }
+export type HttpLocationsGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsGetRequestAsCategoryList = Array<
+  HttpLocationsGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsGetRequestAsnList = Array<string>;
 export type HttpLocationsGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsGetRequestBotClassList = Array<
@@ -13240,6 +13369,8 @@ export type HttpLocationsGetRequestTlsVersionList = Array<
   HttpLocationsGetRequestTlsVersion | (string & {})
 >;
 export interface GetHttpLocationRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -13365,6 +13496,14 @@ export interface GetHttpLocationResponse {
   top_0: HttpLocationsGetResponseTop0List;
 }
 export type HttpLocationsBotClassGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
+export type HttpLocationsBotClassGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsBotClassGetRequestAsCategoryList = Array<
+  HttpLocationsBotClassGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsBotClassGetRequestAsnList = Array<string>;
 export type HttpLocationsBotClassGetRequestBrowserFamily = "CHROME" | "EDGE" | "FIREFOX" | "SAFARI";
 export type HttpLocationsBotClassGetRequestBrowserFamilyList = Array<
@@ -13417,6 +13556,8 @@ export type HttpLocationsBotClassGetRequestTlsVersionList = Array<
 export interface GetHttpLocationBotClassRequest {
   /** Bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass: HttpLocationsBotClassGetRequestBotClass | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsBotClassGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsBotClassGetRequestAsnList | undefined;
   /** Filters results by browser family. */
@@ -13549,6 +13690,14 @@ export type HttpLocationsBrowserFamilyGetRequestBrowserFamily =
   | "EDGE"
   | "FIREFOX"
   | "SAFARI";
+export type HttpLocationsBrowserFamilyGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsBrowserFamilyGetRequestAsCategoryList = Array<
+  HttpLocationsBrowserFamilyGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsBrowserFamilyGetRequestAsnList = Array<string>;
 export type HttpLocationsBrowserFamilyGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsBrowserFamilyGetRequestBotClassList = Array<
@@ -13601,6 +13750,8 @@ export type HttpLocationsBrowserFamilyGetRequestTlsVersionList = Array<
 export interface GetHttpLocationBrowserFamilyRequest {
   /** Browser family. */
   browserFamily: HttpLocationsBrowserFamilyGetRequestBrowserFamily | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsBrowserFamilyGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsBrowserFamilyGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -13729,6 +13880,14 @@ export interface GetHttpLocationBrowserFamilyResponse {
   top_0: HttpLocationsBrowserFamilyGetResponseTop0List;
 }
 export type HttpLocationsDeviceTypeGetRequestDeviceType = "DESKTOP" | "MOBILE" | "OTHER";
+export type HttpLocationsDeviceTypeGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsDeviceTypeGetRequestAsCategoryList = Array<
+  HttpLocationsDeviceTypeGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsDeviceTypeGetRequestAsnList = Array<string>;
 export type HttpLocationsDeviceTypeGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsDeviceTypeGetRequestBotClassList = Array<
@@ -13785,6 +13944,8 @@ export type HttpLocationsDeviceTypeGetRequestTlsVersionList = Array<
 export interface GetHttpLocationDeviceTypeRequest {
   /** Device type. */
   deviceType: HttpLocationsDeviceTypeGetRequestDeviceType | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsDeviceTypeGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsDeviceTypeGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -13913,6 +14074,14 @@ export interface GetHttpLocationDeviceTypeResponse {
   top_0: HttpLocationsDeviceTypeGetResponseTop0List;
 }
 export type HttpLocationsHttpMethodGetRequestHttpVersion = "HTTPv1" | "HTTPv2" | "HTTPv3";
+export type HttpLocationsHttpMethodGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsHttpMethodGetRequestAsCategoryList = Array<
+  HttpLocationsHttpMethodGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsHttpMethodGetRequestAsnList = Array<string>;
 export type HttpLocationsHttpMethodGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsHttpMethodGetRequestBotClassList = Array<
@@ -13969,6 +14138,8 @@ export type HttpLocationsHttpMethodGetRequestTlsVersionList = Array<
 export interface GetHttpLocationHttpMethodRequest {
   /** HTTP version. */
   httpVersion: HttpLocationsHttpMethodGetRequestHttpVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsHttpMethodGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsHttpMethodGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -14097,6 +14268,14 @@ export interface GetHttpLocationHttpMethodResponse {
   top_0: HttpLocationsHttpMethodGetResponseTop0List;
 }
 export type HttpLocationsHttpProtocolGetRequestHttpProtocol = "HTTP" | "HTTPS";
+export type HttpLocationsHttpProtocolGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsHttpProtocolGetRequestAsCategoryList = Array<
+  HttpLocationsHttpProtocolGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsHttpProtocolGetRequestAsnList = Array<string>;
 export type HttpLocationsHttpProtocolGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsHttpProtocolGetRequestBotClassList = Array<
@@ -14153,6 +14332,8 @@ export type HttpLocationsHttpProtocolGetRequestTlsVersionList = Array<
 export interface GetHttpLocationHttpProtocolRequest {
   /** HTTP protocol (HTTP vs. HTTPS). */
   httpProtocol: HttpLocationsHttpProtocolGetRequestHttpProtocol | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsHttpProtocolGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsHttpProtocolGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -14281,6 +14462,14 @@ export interface GetHttpLocationHttpProtocolResponse {
   top_0: HttpLocationsHttpProtocolGetResponseTop0List;
 }
 export type HttpLocationsIpVersionGetRequestIpVersion = "IPv4" | "IPv6";
+export type HttpLocationsIpVersionGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsIpVersionGetRequestAsCategoryList = Array<
+  HttpLocationsIpVersionGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsIpVersionGetRequestAsnList = Array<string>;
 export type HttpLocationsIpVersionGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsIpVersionGetRequestBotClassList = Array<
@@ -14337,6 +14526,8 @@ export type HttpLocationsIpVersionGetRequestTlsVersionList = Array<
 export interface GetHttpLocationIpVersionRequest {
   /** IP version. */
   ipVersion: HttpLocationsIpVersionGetRequestIpVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsIpVersionGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsIpVersionGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -14472,6 +14663,14 @@ export type HttpLocationsOsGetRequestOs =
   | "CHROMEOS"
   | "LINUX"
   | "SMART_TV";
+export type HttpLocationsOsGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsOsGetRequestAsCategoryList = Array<
+  HttpLocationsOsGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsOsGetRequestAsnList = Array<string>;
 export type HttpLocationsOsGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsOsGetRequestBotClassList = Array<
@@ -14517,6 +14716,8 @@ export type HttpLocationsOsGetRequestTlsVersionList = Array<
 export interface GetHttpLocationOsRequest {
   /** Operating system. */
   os: HttpLocationsOsGetRequestOs | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsOsGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsOsGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -14646,6 +14847,14 @@ export type HttpLocationsTlsVersionGetRequestTlsVersion =
   | "TLSv1_2"
   | "TLSv1_3"
   | "TLSvQUIC";
+export type HttpLocationsTlsVersionGetRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpLocationsTlsVersionGetRequestAsCategoryList = Array<
+  HttpLocationsTlsVersionGetRequestAsCategory | (string & {})
+>;
 export type HttpLocationsTlsVersionGetRequestAsnList = Array<string>;
 export type HttpLocationsTlsVersionGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpLocationsTlsVersionGetRequestBotClassList = Array<
@@ -14697,6 +14906,8 @@ export type HttpLocationsTlsVersionGetRequestOsList = Array<
 export interface GetHttpLocationTlsVersionRequest {
   /** TLS version. */
   tlsVersion: HttpLocationsTlsVersionGetRequestTlsVersion | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpLocationsTlsVersionGetRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpLocationsTlsVersionGetRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -17665,6 +17876,10 @@ export interface IpEntityAsnRequest {
   /** Format in which results will be returned. */
   format?: EntitiesAsnsIpRequestFormat | (string & {}) | undefined;
 }
+export type EntitiesAsnsIpResponseAsnCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
 export type EntitiesAsnsIpResponseAsnEstimatedUsersLocationsItem =
   EntitiesAsnsGetResponseAsnEstimatedUsersLocationsItem;
 export type EntitiesAsnsIpResponseAsnEstimatedUsersLocationsList =
@@ -17674,10 +17889,24 @@ export interface EntitiesAsnsIpResponseAsnEstimatedUsers {
   /** Total estimated users. */
   estimatedUsers?: number | null | undefined;
 }
-export type EntitiesAsnsIpResponseAsnRelatedItem = EntitiesAsnsGetResponseAsnRelatedItem;
-export type EntitiesAsnsIpResponseAsnRelatedList = Array<EntitiesAsnsGetResponseAsnRelatedItem>;
+export type EntitiesAsnsIpResponseAsnRelatedItemCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
+export interface EntitiesAsnsIpResponseAsnRelatedItem {
+  asn: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: EntitiesAsnsIpResponseAsnRelatedItemCategory;
+  name: string;
+  aka?: string | null | undefined;
+  /** Total estimated users. */
+  estimatedUsers?: number | null | undefined;
+}
+export type EntitiesAsnsIpResponseAsnRelatedList = Array<EntitiesAsnsIpResponseAsnRelatedItem>;
 export interface EntitiesAsnsIpResponseAsn {
   asn: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: EntitiesAsnsIpResponseAsnCategory;
   country: string;
   countryName: string;
   estimatedUsers: EntitiesAsnsIpResponseAsnEstimatedUsers;
@@ -20764,12 +20993,18 @@ export interface ListEntityAsnsRequest {
   /** Specifies the metric to order the ASNs by. */
   orderBy?: EntitiesAsnsListRequestOrderBy | (string & {}) | undefined;
 }
+export type EntitiesAsnsListResponseAsnsItemCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
 export interface EntitiesAsnsListResponseAsnsItemEstimatedUsers {
   /** Total estimated users. */
   estimatedUsers?: number | null | undefined;
 }
 export interface EntitiesAsnsListResponseAsnsItem {
   asn: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: EntitiesAsnsListResponseAsnsItemCategory;
   country: string;
   countryName: string;
   estimatedUsers: EntitiesAsnsListResponseAsnsItemEstimatedUsers;
@@ -21065,6 +21300,14 @@ export interface LocationsAs112TopResponse {
   meta: As112TopLocationsResponseMeta;
   top_0: As112TopLocationsResponseTop0List;
 }
+export type DnsTopLocationsRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type DnsTopLocationsRequestAsCategoryList = Array<
+  DnsTopLocationsRequestAsCategory | (string & {})
+>;
 export type DnsTopLocationsRequestAsnList = Array<string>;
 export type DnsTopLocationsRequestCacheHitList = Array<boolean>;
 export type DnsTopLocationsRequestContinentList = Array<string>;
@@ -21220,6 +21463,8 @@ export type DnsTopLocationsRequestResponseTtlList = Array<
 >;
 export type DnsTopLocationsRequestTldList = Array<string>;
 export interface LocationsDnsTopRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: DnsTopLocationsRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTopLocationsRequestAsnList | undefined;
   /** Filters results based on cache status. */
@@ -21352,6 +21597,14 @@ export interface LocationsDnsTopResponse {
   meta: DnsTopLocationsResponseMeta;
   top_0: DnsTopLocationsResponseTop0List;
 }
+export type NetflowsTopLocationsRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type NetflowsTopLocationsRequestAsCategoryList = Array<
+  NetflowsTopLocationsRequestAsCategory | (string & {})
+>;
 export type NetflowsTopLocationsRequestAsnList = Array<string>;
 export type NetflowsTopLocationsRequestContinentList = Array<string>;
 export type NetflowsTopLocationsRequestDateEndList = Array<string>;
@@ -21362,6 +21615,8 @@ export type NetflowsTopLocationsRequestGeoIdList = Array<string>;
 export type NetflowsTopLocationsRequestLocationList = Array<string>;
 export type NetflowsTopLocationsRequestNameList = Array<string>;
 export interface LocationsNetflowTopRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: NetflowsTopLocationsRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTopLocationsRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -23670,6 +23925,14 @@ export interface OriginAttackLayer3TopLocationResponse {
   meta: AttacksLayer3TopLocationsOriginResponseMeta;
   top_0: AttacksLayer3TopLocationsOriginResponseTop0List;
 }
+export type AttacksLayer7TopAsesOriginRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type AttacksLayer7TopAsesOriginRequestAsCategoryList = Array<
+  AttacksLayer7TopAsesOriginRequestAsCategory | (string & {})
+>;
 export type AttacksLayer7TopAsesOriginRequestContinentList = Array<string>;
 export type AttacksLayer7TopAsesOriginRequestDateEndList = Array<string>;
 export type AttacksLayer7TopAsesOriginRequestDateRangeList = Array<string>;
@@ -23747,6 +24010,8 @@ export type AttacksLayer7TopAsesOriginRequestMitigationProductList = Array<
 >;
 export type AttacksLayer7TopAsesOriginRequestNameList = Array<string>;
 export interface OriginAttackLayer7TopAsRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: AttacksLayer7TopAsesOriginRequestAsCategoryList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopAsesOriginRequestContinentList | undefined;
   /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
@@ -23870,6 +24135,14 @@ export interface OriginAttackLayer7TopAsResponse {
   meta: AttacksLayer7TopAsesOriginResponseMeta;
   top_0: AttacksLayer7TopAsesOriginResponseTop0List;
 }
+export type AttacksLayer7TopLocationsOriginRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type AttacksLayer7TopLocationsOriginRequestAsCategoryList = Array<
+  AttacksLayer7TopLocationsOriginRequestAsCategory | (string & {})
+>;
 export type AttacksLayer7TopLocationsOriginRequestAsnList = Array<string>;
 export type AttacksLayer7TopLocationsOriginRequestContinentList = Array<string>;
 export type AttacksLayer7TopLocationsOriginRequestDateEndList = Array<string>;
@@ -23947,6 +24220,8 @@ export type AttacksLayer7TopLocationsOriginRequestMitigationProductList = Array<
 >;
 export type AttacksLayer7TopLocationsOriginRequestNameList = Array<string>;
 export interface OriginAttackLayer7TopLocationRequest {
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: AttacksLayer7TopLocationsOriginRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer7TopLocationsOriginRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -28779,10 +29054,47 @@ export interface SearchGlobalRequest {
   /** Limits the number of objects per search category. */
   limitPerGroup?: number | undefined;
 }
+export type SearchGlobalResponseSearchItemEntityCase0Category =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION";
+export interface SearchGlobalResponseSearchItemEntityCase0 {
+  /** Alternative name of the AS. */
+  aka: string;
+  /** AS number. */
+  asn: number;
+  /** Inferred network type of the AS: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs) or `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers). `null` when the AS is not classified. */
+  category: SearchGlobalResponseSearchItemEntityCase0Category;
+  /** Alpha-2 code of the country or territory where the AS is registered. */
+  country: string;
+  /** AS name. */
+  name: string;
+}
+export interface SearchGlobalResponseSearchItemEntityCase1Parent {
+  /** Code of the parent: alpha-2 code for a country, subdivision code for an `adm1`. */
+  code: string;
+  /** Localized name of the parent geolocation. */
+  name: string;
+  /** Type of the parent geolocation, such as `COUNTRY` or `ADM1`. */
+  type: string;
+}
+export interface SearchGlobalResponseSearchItemEntityCase1 {
+  /** GeoNames ID of the geolocation. */
+  geoId: string;
+  /** Localized name of the geolocation. */
+  name: string;
+  /** Parent geolocation (country for `adm1`, `adm1` for `adm2`). */
+  parent: SearchGlobalResponseSearchItemEntityCase1Parent;
+}
+export type SearchGlobalResponseSearchItemEntity =
+  | SearchGlobalResponseSearchItemEntityCase0
+  | SearchGlobalResponseSearchItemEntityCase1;
 export interface SearchGlobalResponseSearchItem {
   code: string;
   name: string;
   type: string;
+  /** Matched entity: an AS for `asn` results, a geolocation for `adm1` and `adm2`. Null for other types. */
+  entity?: SearchGlobalResponseSearchItemEntity | null | undefined;
 }
 export type SearchGlobalResponseSearchList = Array<SearchGlobalResponseSearchItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -32053,6 +32365,7 @@ export interface SummaryV2AttackLayer3Response {
   summary_0: AttacksLayer3SummaryV2ResponseSummary0Map;
 }
 export type AttacksLayer7SummaryV2RequestDimension =
+  | "AS_CATEGORY"
   | "HTTP_METHOD"
   | "HTTP_VERSION"
   | "IP_VERSION"
@@ -32060,6 +32373,14 @@ export type AttacksLayer7SummaryV2RequestDimension =
   | "MITIGATION_PRODUCT"
   | "VERTICAL"
   | "INDUSTRY";
+export type AttacksLayer7SummaryV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type AttacksLayer7SummaryV2RequestAsCategoryList = Array<
+  AttacksLayer7SummaryV2RequestAsCategory | (string & {})
+>;
 export type AttacksLayer7SummaryV2RequestAsnList = Array<string>;
 export type AttacksLayer7SummaryV2RequestContinentList = Array<string>;
 export type AttacksLayer7SummaryV2RequestDateEndList = Array<string>;
@@ -32140,6 +32461,8 @@ export type AttacksLayer7SummaryV2RequestNameList = Array<string>;
 export interface SummaryV2AttackLayer7Request {
   /** Specifies the attribute by which to group the results. */
   dimension: AttacksLayer7SummaryV2RequestDimension | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: AttacksLayer7SummaryV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer7SummaryV2RequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -32256,6 +32579,7 @@ export interface SummaryV2AttackLayer7Response {
 }
 export type DnsSummaryV2RequestDimension =
   | "AS"
+  | "AS_CATEGORY"
   | "CACHE_HIT"
   | "DNSSEC"
   | "DNSSEC_AWARE"
@@ -32269,6 +32593,14 @@ export type DnsSummaryV2RequestDimension =
   | "RESPONSE_TTL"
   | "TLD"
   | "TLD_DNS_MAGNITUDE";
+export type DnsSummaryV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type DnsSummaryV2RequestAsCategoryList = Array<
+  DnsSummaryV2RequestAsCategory | (string & {})
+>;
 export type DnsSummaryV2RequestAsnList = Array<string>;
 export type DnsSummaryV2RequestCacheHitList = Array<boolean>;
 export type DnsSummaryV2RequestContinentList = Array<string>;
@@ -32419,6 +32751,8 @@ export type DnsSummaryV2RequestTldList = Array<string>;
 export interface SummaryV2DnsRequest {
   /** Specifies the attribute by which to group the results. Grouping by `TLD_DNS_MAGNITUDE` does not support sub-daily aggregation intervals; `15m` and `1h` are raised to `1d`. */
   dimension: DnsSummaryV2RequestDimension | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: DnsSummaryV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsSummaryV2RequestAsnList | undefined;
   /** Filters results based on cache status. */
@@ -32851,6 +33185,7 @@ export type HttpSummaryV2RequestDimension =
   | "ADM1"
   | "API_TRAFFIC"
   | "AS"
+  | "AS_CATEGORY"
   | "BOT_CLASS"
   | "BROWSER"
   | "BROWSER_FAMILY"
@@ -32866,6 +33201,14 @@ export type HttpSummaryV2RequestDimension =
 export type HttpSummaryV2RequestApiTraffic = "API" | "NON_API";
 export type HttpSummaryV2RequestApiTrafficList = Array<
   HttpSummaryV2RequestApiTraffic | (string & {})
+>;
+export type HttpSummaryV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpSummaryV2RequestAsCategoryList = Array<
+  HttpSummaryV2RequestAsCategory | (string & {})
 >;
 export type HttpSummaryV2RequestAsnList = Array<string>;
 export type HttpSummaryV2RequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
@@ -32937,6 +33280,8 @@ export interface SummaryV2HttpRequest {
   dimension: HttpSummaryV2RequestDimension | (string & {});
   /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpSummaryV2RequestApiTrafficList | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpSummaryV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpSummaryV2RequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -33194,7 +33539,20 @@ export interface SummaryV2LeakedCredentialResponse {
   meta: LeakedCredentialsSummaryV2ResponseMeta;
   summary_0: LeakedCredentialsSummaryV2ResponseSummary0Map;
 }
-export type NetflowsSummaryV2RequestDimension = "ADM1" | "AS" | "LOCATION" | "PRODUCT";
+export type NetflowsSummaryV2RequestDimension =
+  | "ADM1"
+  | "AS"
+  | "AS_CATEGORY"
+  | "LOCATION"
+  | "PRODUCT";
+export type NetflowsSummaryV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type NetflowsSummaryV2RequestAsCategoryList = Array<
+  NetflowsSummaryV2RequestAsCategory | (string & {})
+>;
 export type NetflowsSummaryV2RequestAsnList = Array<string>;
 export type NetflowsSummaryV2RequestContinentList = Array<string>;
 export type NetflowsSummaryV2RequestDateEndList = Array<string>;
@@ -33211,6 +33569,8 @@ export type NetflowsSummaryV2RequestProductList = Array<
 export interface SummaryV2NetflowRequest {
   /** Specifies the NetFlows attribute by which to group the results. */
   dimension: NetflowsSummaryV2RequestDimension | (string & {});
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: NetflowsSummaryV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsSummaryV2RequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -34843,6 +35203,14 @@ export interface TimeseriesAttackLayer3Response {
   meta: AttacksLayer3TimeseriesResponseMeta;
 }
 export type AttacksLayer7TimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type AttacksLayer7TimeseriesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type AttacksLayer7TimeseriesRequestAsCategoryList = Array<
+  AttacksLayer7TimeseriesRequestAsCategory | (string & {})
+>;
 export type AttacksLayer7TimeseriesRequestAsnList = Array<string>;
 export type AttacksLayer7TimeseriesRequestContinentList = Array<string>;
 export type AttacksLayer7TimeseriesRequestDateEndList = Array<string>;
@@ -34924,6 +35292,8 @@ export type AttacksLayer7TimeseriesRequestNormalization = "PERCENTAGE_CHANGE" | 
 export interface TimeseriesAttackLayer7Request {
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AttacksLayer7TimeseriesRequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: AttacksLayer7TimeseriesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer7TimeseriesRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -35750,6 +36120,14 @@ export interface TimeseriesCtResponse {
   meta: CtTimeseriesResponseMeta;
 }
 export type DnsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type DnsTimeseriesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type DnsTimeseriesRequestAsCategoryList = Array<
+  DnsTimeseriesRequestAsCategory | (string & {})
+>;
 export type DnsTimeseriesRequestAsnList = Array<string>;
 export type DnsTimeseriesRequestCacheHitList = Array<boolean>;
 export type DnsTimeseriesRequestContinentList = Array<string>;
@@ -35904,6 +36282,8 @@ export type DnsTimeseriesRequestTldList = Array<string>;
 export interface TimeseriesDnsRequest {
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesRequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: DnsTimeseriesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesRequestAsnList | undefined;
   /** Filters results based on cache status. */
@@ -36878,8 +37258,21 @@ export interface TimeseriesGroupsCtResponse {
   meta: CtTimeseriesGroupsResponseMeta;
   serie_0: CtTimeseriesGroupsResponseSerie0;
 }
-export type NetflowsTimeseriesGroupsRequestDimension = "ADM1" | "AS" | "LOCATION" | "PRODUCT";
+export type NetflowsTimeseriesGroupsRequestDimension =
+  | "ADM1"
+  | "AS"
+  | "AS_CATEGORY"
+  | "LOCATION"
+  | "PRODUCT";
 export type NetflowsTimeseriesGroupsRequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type NetflowsTimeseriesGroupsRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type NetflowsTimeseriesGroupsRequestAsCategoryList = Array<
+  NetflowsTimeseriesGroupsRequestAsCategory | (string & {})
+>;
 export type NetflowsTimeseriesGroupsRequestAsnList = Array<string>;
 export type NetflowsTimeseriesGroupsRequestContinentList = Array<string>;
 export type NetflowsTimeseriesGroupsRequestDateEndList = Array<string>;
@@ -36902,6 +37295,8 @@ export interface TimeseriesGroupsNetflowRequest {
   dimension: NetflowsTimeseriesGroupsRequestDimension | (string & {});
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: NetflowsTimeseriesGroupsRequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: NetflowsTimeseriesGroupsRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTimeseriesGroupsRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -38250,6 +38645,7 @@ export interface TimeseriesGroupsV2AttackLayer3Response {
   serie_0: AttacksLayer3TimeseriesGroupsV2ResponseSerie0;
 }
 export type AttacksLayer7TimeseriesGroupsV2RequestDimension =
+  | "AS_CATEGORY"
   | "HTTP_METHOD"
   | "HTTP_VERSION"
   | "IP_VERSION"
@@ -38258,6 +38654,14 @@ export type AttacksLayer7TimeseriesGroupsV2RequestDimension =
   | "VERTICAL"
   | "INDUSTRY";
 export type AttacksLayer7TimeseriesGroupsV2RequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type AttacksLayer7TimeseriesGroupsV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type AttacksLayer7TimeseriesGroupsV2RequestAsCategoryList = Array<
+  AttacksLayer7TimeseriesGroupsV2RequestAsCategory | (string & {})
+>;
 export type AttacksLayer7TimeseriesGroupsV2RequestAsnList = Array<string>;
 export type AttacksLayer7TimeseriesGroupsV2RequestContinentList = Array<string>;
 export type AttacksLayer7TimeseriesGroupsV2RequestDateEndList = Array<string>;
@@ -38341,6 +38745,8 @@ export interface TimeseriesGroupsV2AttackLayer7Request {
   dimension: AttacksLayer7TimeseriesGroupsV2RequestDimension | (string & {});
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AttacksLayer7TimeseriesGroupsV2RequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: AttacksLayer7TimeseriesGroupsV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer7TimeseriesGroupsV2RequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -38474,6 +38880,7 @@ export interface TimeseriesGroupsV2AttackLayer7Response {
 }
 export type DnsTimeseriesGroupsV2RequestDimension =
   | "AS"
+  | "AS_CATEGORY"
   | "CACHE_HIT"
   | "DNSSEC"
   | "DNSSEC_AWARE"
@@ -38488,6 +38895,14 @@ export type DnsTimeseriesGroupsV2RequestDimension =
   | "TLD"
   | "TLD_DNS_MAGNITUDE";
 export type DnsTimeseriesGroupsV2RequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type DnsTimeseriesGroupsV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type DnsTimeseriesGroupsV2RequestAsCategoryList = Array<
+  DnsTimeseriesGroupsV2RequestAsCategory | (string & {})
+>;
 export type DnsTimeseriesGroupsV2RequestAsnList = Array<string>;
 export type DnsTimeseriesGroupsV2RequestCacheHitList = Array<boolean>;
 export type DnsTimeseriesGroupsV2RequestContinentList = Array<string>;
@@ -38649,6 +39064,8 @@ export interface TimeseriesGroupsV2DnsRequest {
   dimension: DnsTimeseriesGroupsV2RequestDimension | (string & {});
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsV2RequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: DnsTimeseriesGroupsV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsV2RequestAsnList | undefined;
   /** Filters results based on cache status. */
@@ -39135,6 +39552,7 @@ export type HttpTimeseriesGroupsV2RequestDimension =
   | "ADM1"
   | "API_TRAFFIC"
   | "AS"
+  | "AS_CATEGORY"
   | "BOT_CLASS"
   | "BROWSER"
   | "BROWSER_FAMILY"
@@ -39151,6 +39569,14 @@ export type HttpTimeseriesGroupsV2RequestAggInterval = "15m" | "1h" | "1d" | "1w
 export type HttpTimeseriesGroupsV2RequestApiTraffic = "API" | "NON_API";
 export type HttpTimeseriesGroupsV2RequestApiTrafficList = Array<
   HttpTimeseriesGroupsV2RequestApiTraffic | (string & {})
+>;
+export type HttpTimeseriesGroupsV2RequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpTimeseriesGroupsV2RequestAsCategoryList = Array<
+  HttpTimeseriesGroupsV2RequestAsCategory | (string & {})
 >;
 export type HttpTimeseriesGroupsV2RequestAsnList = Array<string>;
 export type HttpTimeseriesGroupsV2RequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
@@ -39229,6 +39655,8 @@ export interface TimeseriesGroupsV2HttpRequest {
   aggInterval?: HttpTimeseriesGroupsV2RequestAggInterval | (string & {}) | undefined;
   /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpTimeseriesGroupsV2RequestApiTrafficList | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpTimeseriesGroupsV2RequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsV2RequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -39540,6 +39968,14 @@ export type HttpTimeseriesRequestApiTraffic = "API" | "NON_API";
 export type HttpTimeseriesRequestApiTrafficList = Array<
   HttpTimeseriesRequestApiTraffic | (string & {})
 >;
+export type HttpTimeseriesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type HttpTimeseriesRequestAsCategoryList = Array<
+  HttpTimeseriesRequestAsCategory | (string & {})
+>;
 export type HttpTimeseriesRequestAsnList = Array<string>;
 export type HttpTimeseriesRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export type HttpTimeseriesRequestBotClassList = Array<
@@ -39617,6 +40053,8 @@ export interface TimeseriesHttpRequest {
   aggInterval?: HttpTimeseriesRequestAggInterval | (string & {}) | undefined;
   /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpTimeseriesRequestApiTrafficList | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: HttpTimeseriesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesRequestAsnList | undefined;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
@@ -39749,6 +40187,14 @@ export interface TimeseriesHttpResponse {
   meta: HttpTimeseriesResponseMeta;
 }
 export type NetflowsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
+export type NetflowsTimeseriesRequestAsCategory =
+  | "ACCESS_ISP"
+  | "HOSTING_CLOUD_CONTENT"
+  | "ORGANIZATION"
+  | "UNCLASSIFIED";
+export type NetflowsTimeseriesRequestAsCategoryList = Array<
+  NetflowsTimeseriesRequestAsCategory | (string & {})
+>;
 export type NetflowsTimeseriesRequestAsnList = Array<string>;
 export type NetflowsTimeseriesRequestContinentList = Array<string>;
 export type NetflowsTimeseriesRequestDateEndList = Array<string>;
@@ -39766,6 +40212,8 @@ export type NetflowsTimeseriesRequestProductList = Array<
 export interface TimeseriesNetflowRequest {
   /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: NetflowsTimeseriesRequestAggInterval | (string & {}) | undefined;
+  /** Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01. */
+  asCategory?: NetflowsTimeseriesRequestAsCategoryList | undefined;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTimeseriesRequestAsnList | undefined;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
@@ -46065,7 +46513,7 @@ export const responseTTLDnsTimeseriesGroup: API.OperationMethod<
 }));
 
 export type SearchGlobalError = CloudflareOpError;
-/** Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). */
+/** Searches for locations, autonomous systems, reports, bots, bot operators, certificate logs, certificate authorities, industries and verticals. Location names can be localized by sending an `Accept-Language` HTTP header with a BCP 47 language tag (e.g., `Accept-Language: pt-PT`). The full quality-value chain is supported (e.g., `pt-PT,pt;q=0.9,en;q=0.8`). ASN, ADM1 and ADM2 results include an `entity` with details about the matched entity. */
 export const searchGlobal: API.OperationMethod<
   SearchGlobalRequest,
   SearchGlobalResponse,
@@ -46073,7 +46521,7 @@ export const searchGlobal: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<SearchGlobalRequest>,
-  output: __S(2003, __c125, 3) as any as S.Schema<SearchGlobalResponse>,
+  output: __S(2004, __c125, 4) as any as S.Schema<SearchGlobalResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -47914,6 +48362,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -48507,6 +48956,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           asn: S.Number,
+          category: S.String,
           country: S.String,
           countryName: S.String,
           estimatedUsers: __S(4818, __c301, 2),
@@ -49369,6 +49819,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           asn: S.Number,
+          category: S.String,
           country: S.String,
           countryName: S.String,
           estimatedUsers: __S(961, __c60, 1),
@@ -49586,6 +50037,7 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           cacheHit: S.optional(__S(5120, __c320, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -49619,6 +50071,7 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -50160,6 +50613,7 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateRange: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -50201,6 +50655,7 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -51304,19 +51759,27 @@ function __c125(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SearchGlobalRequest" });
     case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["aka", "asn", "category", "country", "name"],
+          ["geoId", "name", "parent"],
+        ]),
+      );
+    case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           name: S.String,
           type: S.String,
+          entity: S.optional(S.NullOr(__S(2001, __c125, 1))),
         }),
       ).annotate({ identifier: "SearchGlobalResponseSearchItem" });
-    case 2:
-      return S.Array(__S(2001, __c125, 1));
     case 3:
+      return S.Array(__S(2002, __c125, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          search: __S(2002, __c125, 2),
+          search: __S(2003, __c125, 3),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SearchGlobalResponse" });
   }
@@ -52204,6 +52667,7 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dimension: S.String.pipe(T.Label()),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -52231,6 +52695,7 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dimension: S.String.pipe(T.Label()),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           cacheHit: S.optional(__S(5120, __c320, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -52316,6 +52781,7 @@ function __c159(j: number): any {
         S.Struct({
           dimension: S.String.pipe(T.Label()),
           apiTraffic: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           contentType: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -52424,6 +52890,7 @@ function __c162(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dimension: S.String.pipe(T.Label()),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -52799,6 +53266,7 @@ function __c176(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -53109,6 +53577,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           cacheHit: S.optional(__S(5120, __c320, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -53303,6 +53772,7 @@ function __c192(j: number): any {
         S.Struct({
           dimension: S.String.pipe(T.Label()),
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -53593,6 +54063,7 @@ function __c203(j: number): any {
         S.Struct({
           dimension: S.String.pipe(T.Label()),
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -53626,6 +54097,7 @@ function __c204(j: number): any {
         S.Struct({
           dimension: S.String.pipe(T.Label()),
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           cacheHit: S.optional(__S(5120, __c320, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -53725,6 +54197,7 @@ function __c207(j: number): any {
           dimension: S.String.pipe(T.Label()),
           aggInterval: S.optional(S.String.pipe(T.Query())),
           apiTraffic: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           contentType: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -53821,6 +54294,7 @@ function __c210(j: number): any {
         S.Struct({
           aggInterval: S.optional(S.String.pipe(T.Query())),
           apiTraffic: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -53852,6 +54326,7 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aggInterval: S.optional(S.String.pipe(T.Query())),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           dateEnd: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -56406,6 +56881,7 @@ function __c300(j: number): any {
         S.Struct({
           asn: S.Number.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
+          includeConfidenceLevel: S.optional(S.Boolean.pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/{asn}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -56414,7 +56890,7 @@ function __c300(j: number): any {
       return S.suspend(() =>
         S.Struct({
           asn: S.Number,
-          confidenceLevel: S.Number,
+          category: S.String,
           country: S.String,
           countryName: S.String,
           estimatedUsers: __S(4818, __c301, 2),
@@ -56424,6 +56900,7 @@ function __c300(j: number): any {
           source: S.String,
           website: S.String,
           aka: S.optional(S.NullOr(S.String)),
+          confidenceLevel: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "EntitiesAsnsGetResponseAsn" });
     case 2:
@@ -56457,6 +56934,7 @@ function __c301(j: number): any {
       return S.suspend(() =>
         S.Struct({
           asn: S.Number,
+          category: S.String,
           name: S.String,
           aka: S.optional(S.NullOr(S.String)),
           estimatedUsers: S.optional(S.NullOr(S.Number)),
@@ -56564,6 +57042,7 @@ function __c305(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56594,6 +57073,7 @@ function __c306(j: number): any {
       return S.suspend(() =>
         S.Struct({
           botClass: S.String.pipe(T.Label("bot_class")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -56673,6 +57153,7 @@ function __c308(j: number): any {
       return S.suspend(() =>
         S.Struct({
           browserFamily: S.String.pipe(T.Label("browser_family")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -56708,6 +57189,7 @@ function __c309(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceType: S.String.pipe(T.Label("device_type")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56743,6 +57225,7 @@ function __c310(j: number): any {
       return S.suspend(() =>
         S.Struct({
           httpVersion: S.String.pipe(T.Label("http_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56778,6 +57261,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           httpProtocol: S.String.pipe(T.Label("http_protocol")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56813,6 +57297,7 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ipVersion: S.String.pipe(T.Label("ip_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56848,6 +57333,7 @@ function __c313(j: number): any {
       return S.suspend(() =>
         S.Struct({
           os: S.String.pipe(T.Label()),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56877,6 +57363,7 @@ function __c314(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tlsVersion: S.String.pipe(T.Label("tls_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56911,6 +57398,7 @@ function __c315(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -56941,6 +57429,7 @@ function __c316(j: number): any {
       return S.suspend(() =>
         S.Struct({
           botClass: S.String.pipe(T.Label("bot_class")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -56976,6 +57465,7 @@ function __c317(j: number): any {
       return S.suspend(() =>
         S.Struct({
           browserFamily: S.String.pipe(T.Label("browser_family")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -57010,6 +57500,7 @@ function __c318(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           cacheHit: S.optional(__S(5120, __c320, 0).pipe(T.Query())),
           continent: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -57070,6 +57561,7 @@ function __c321(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceType: S.String.pipe(T.Label("device_type")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -57105,6 +57597,7 @@ function __c322(j: number): any {
       return S.suspend(() =>
         S.Struct({
           httpVersion: S.String.pipe(T.Label("http_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -57140,6 +57633,7 @@ function __c323(j: number): any {
       return S.suspend(() =>
         S.Struct({
           httpProtocol: S.String.pipe(T.Label("http_protocol")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -57175,6 +57669,7 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ipVersion: S.String.pipe(T.Label("ip_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -57210,6 +57705,7 @@ function __c325(j: number): any {
       return S.suspend(() =>
         S.Struct({
           os: S.String.pipe(T.Label()),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),
@@ -57239,6 +57735,7 @@ function __c326(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tlsVersion: S.String.pipe(T.Label("tls_version")),
+          asCategory: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           asn: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           botClass: S.optional(__S(80, __c5, 0).pipe(T.Query())),
           browserFamily: S.optional(__S(80, __c5, 0).pipe(T.Query())),

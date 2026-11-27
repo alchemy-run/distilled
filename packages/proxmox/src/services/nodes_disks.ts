@@ -89,6 +89,7 @@ export interface GetNodesByNodeDisksListResultItem {
   parent?: string | undefined;
   serial?: string | undefined;
   size: number;
+  transport?: string | undefined;
   used?: string | undefined;
   vendor?: string | undefined;
   wwn?: string | undefined;
@@ -836,6 +837,7 @@ function __c15(j: number): any {
           parent: S.optional(S.String),
           serial: S.optional(S.String),
           size: S.Number,
+          transport: S.optional(S.String),
           used: S.optional(S.String),
           vendor: S.optional(S.String),
           wwn: S.optional(S.String),

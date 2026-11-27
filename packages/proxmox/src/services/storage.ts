@@ -25,6 +25,7 @@ const TELEMETRY = {
 } as const;
 
 export interface DeleteStorageByStorageRequest {
+  digest?: string | undefined;
   storage: string;
 }
 export type DeleteStorageByStorageResponse = null;
@@ -39,6 +40,7 @@ export type GetStorageRequestType =
   | "lvm"
   | "lvmthin"
   | "nfs"
+  | "nvmeof"
   | "pbs"
   | "rbd"
   | "zfs"
@@ -56,88 +58,7 @@ export interface GetStorageByStorageRequest {
 }
 export type GetStorageByStorageResult = { [key: string]: unknown | undefined };
 export type GetStorageByStorageResponse = GetStorageByStorageResult;
-export type PostStorageRequestFormat = "raw" | "qcow2" | "subvol" | "vmdk";
-export type PostStorageRequestPreallocation = "off" | "metadata" | "falloc" | "full";
-export type PostStorageRequestSmbversion = "default" | "2.0" | "2.1" | "3" | "3.0" | "3.11";
-export type PostStorageRequestType =
-  | "btrfs"
-  | "cephfs"
-  | "cifs"
-  | "dir"
-  | "esxi"
-  | "iscsi"
-  | "iscsidirect"
-  | "lvm"
-  | "lvmthin"
-  | "nfs"
-  | "pbs"
-  | "rbd"
-  | "zfs"
-  | "zfspool";
-export interface PostStorageRequest {
-  authsupported?: string | undefined;
-  base?: string | undefined;
-  blocksize?: string | undefined;
-  bwlimit?: string | undefined;
-  comstar_hg?: string | undefined;
-  comstar_tg?: string | undefined;
-  content?: string | undefined;
-  "content-dirs"?: string | undefined;
-  "create-base-path"?: boolean | 0 | 1 | undefined;
-  "create-subdirs"?: boolean | 0 | 1 | undefined;
-  "data-pool"?: string | undefined;
-  datastore?: string | undefined;
-  disable?: boolean | 0 | 1 | undefined;
-  domain?: string | undefined;
-  "encryption-key"?: string | Redacted.Redacted<string> | undefined;
-  export?: string | undefined;
-  fingerprint?: string | undefined;
-  format?: PostStorageRequestFormat | (string & {}) | undefined;
-  "fs-name"?: string | undefined;
-  fuse?: boolean | 0 | 1 | undefined;
-  is_mountpoint?: string | undefined;
-  iscsiprovider?: string | undefined;
-  keyring?: string | undefined;
-  krbd?: boolean | 0 | 1 | undefined;
-  lio_tpg?: string | undefined;
-  "master-pubkey"?: string | undefined;
-  "max-protected-backups"?: number | undefined;
-  mkdir?: boolean | 0 | 1 | undefined;
-  monhost?: string | undefined;
-  mountpoint?: string | undefined;
-  namespace?: string | undefined;
-  nocow?: boolean | 0 | 1 | undefined;
-  nodes?: string | undefined;
-  nowritecache?: boolean | 0 | 1 | undefined;
-  "on-volume-remove"?: string | undefined;
-  options?: string | undefined;
-  password?: string | Redacted.Redacted<string> | undefined;
-  path?: string | undefined;
-  pool?: string | undefined;
-  port?: number | undefined;
-  portal?: string | undefined;
-  preallocation?: PostStorageRequestPreallocation | (string & {}) | undefined;
-  "prune-backups"?: string | undefined;
-  saferemove?: boolean | 0 | 1 | undefined;
-  "saferemove-stepsize"?: number | undefined;
-  saferemove_throughput?: string | undefined;
-  server?: string | undefined;
-  share?: string | undefined;
-  shared?: boolean | 0 | 1 | undefined;
-  "skip-cert-verification"?: boolean | 0 | 1 | undefined;
-  smbversion?: PostStorageRequestSmbversion | (string & {}) | undefined;
-  "snapshot-as-volume-chain"?: boolean | 0 | 1 | undefined;
-  sparse?: boolean | 0 | 1 | undefined;
-  storage: string;
-  subdir?: string | undefined;
-  tagged_only?: boolean | 0 | 1 | undefined;
-  target?: string | undefined;
-  thinpool?: string | undefined;
-  type: PostStorageRequestType | (string & {});
-  username?: string | undefined;
-  vgname?: string | undefined;
-  "zfs-base-path"?: string | undefined;
-}
+export interface PostStorageRequest {}
 export interface PostStorageResultConfig {
   "encryption-key"?: string | Redacted.Redacted<string> | undefined;
 }
@@ -152,6 +73,7 @@ export type PostStorageResultType =
   | "lvm"
   | "lvmthin"
   | "nfs"
+  | "nvmeof"
   | "pbs"
   | "rbd"
   | "zfs"
@@ -162,63 +84,7 @@ export interface PostStorageResult {
   type: PostStorageResultType;
 }
 export type PostStorageResponse = PostStorageResult;
-export type PutStorageByStorageRequestFormat = "raw" | "qcow2" | "subvol" | "vmdk";
-export type PutStorageByStorageRequestPreallocation = "off" | "metadata" | "falloc" | "full";
-export type PutStorageByStorageRequestSmbversion = "default" | "2.0" | "2.1" | "3" | "3.0" | "3.11";
-export interface PutStorageByStorageRequest {
-  blocksize?: string | undefined;
-  bwlimit?: string | undefined;
-  comstar_hg?: string | undefined;
-  comstar_tg?: string | undefined;
-  content?: string | undefined;
-  "content-dirs"?: string | undefined;
-  "create-base-path"?: boolean | 0 | 1 | undefined;
-  "create-subdirs"?: boolean | 0 | 1 | undefined;
-  "data-pool"?: string | undefined;
-  delete?: string | undefined;
-  digest?: string | undefined;
-  disable?: boolean | 0 | 1 | undefined;
-  domain?: string | undefined;
-  "encryption-key"?: string | Redacted.Redacted<string> | undefined;
-  fingerprint?: string | undefined;
-  format?: PutStorageByStorageRequestFormat | (string & {}) | undefined;
-  "fs-name"?: string | undefined;
-  fuse?: boolean | 0 | 1 | undefined;
-  is_mountpoint?: string | undefined;
-  keyring?: string | undefined;
-  krbd?: boolean | 0 | 1 | undefined;
-  lio_tpg?: string | undefined;
-  "master-pubkey"?: string | undefined;
-  "max-protected-backups"?: number | undefined;
-  mkdir?: boolean | 0 | 1 | undefined;
-  monhost?: string | undefined;
-  mountpoint?: string | undefined;
-  namespace?: string | undefined;
-  nocow?: boolean | 0 | 1 | undefined;
-  nodes?: string | undefined;
-  nowritecache?: boolean | 0 | 1 | undefined;
-  "on-volume-remove"?: string | undefined;
-  options?: string | undefined;
-  password?: string | Redacted.Redacted<string> | undefined;
-  pool?: string | undefined;
-  port?: number | undefined;
-  preallocation?: PutStorageByStorageRequestPreallocation | (string & {}) | undefined;
-  "prune-backups"?: string | undefined;
-  saferemove?: boolean | 0 | 1 | undefined;
-  "saferemove-stepsize"?: number | undefined;
-  saferemove_throughput?: string | undefined;
-  server?: string | undefined;
-  shared?: boolean | 0 | 1 | undefined;
-  "skip-cert-verification"?: boolean | 0 | 1 | undefined;
-  smbversion?: PutStorageByStorageRequestSmbversion | (string & {}) | undefined;
-  "snapshot-as-volume-chain"?: boolean | 0 | 1 | undefined;
-  sparse?: boolean | 0 | 1 | undefined;
-  storage: string;
-  subdir?: string | undefined;
-  tagged_only?: boolean | 0 | 1 | undefined;
-  username?: string | undefined;
-  "zfs-base-path"?: string | undefined;
-}
+export interface PutStorageByStorageRequest {}
 export type PutStorageByStorageResultConfig = PostStorageResultConfig;
 export type PutStorageByStorageResultType =
   | "btrfs"
@@ -231,6 +97,7 @@ export type PutStorageByStorageResultType =
   | "lvm"
   | "lvmthin"
   | "nfs"
+  | "nvmeof"
   | "pbs"
   | "rbd"
   | "zfs"
@@ -332,6 +199,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          digest: S.optional(S.String.pipe(T.Query())),
           storage: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/storage/{storage}", code: 200 })),
       ).annotate({ identifier: "DeleteStorageByStorageRequest" });
@@ -383,70 +251,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authsupported: S.optional(S.String),
-          base: S.optional(S.String),
-          blocksize: S.optional(S.String),
-          bwlimit: S.optional(S.String),
-          comstar_hg: S.optional(S.String),
-          comstar_tg: S.optional(S.String),
-          content: S.optional(S.String),
-          "content-dirs": S.optional(S.String),
-          "create-base-path": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "create-subdirs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "data-pool": S.optional(S.String),
-          datastore: S.optional(S.String),
-          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          domain: S.optional(S.String),
-          "encryption-key": S.optional(S.String.pipe(T.SensitiveValue({}))),
-          export: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-          format: S.optional(S.String),
-          "fs-name": S.optional(S.String),
-          fuse: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          is_mountpoint: S.optional(S.String),
-          iscsiprovider: S.optional(S.String),
-          keyring: S.optional(S.String),
-          krbd: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          lio_tpg: S.optional(S.String),
-          "master-pubkey": S.optional(S.String),
-          "max-protected-backups": S.optional(S.Number),
-          mkdir: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          monhost: S.optional(S.String),
-          mountpoint: S.optional(S.String),
-          namespace: S.optional(S.String),
-          nocow: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          nodes: S.optional(S.String),
-          nowritecache: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "on-volume-remove": S.optional(S.String),
-          options: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          path: S.optional(S.String),
-          pool: S.optional(S.String),
-          port: S.optional(S.Number),
-          portal: S.optional(S.String),
-          preallocation: S.optional(S.String),
-          "prune-backups": S.optional(S.String),
-          saferemove: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "saferemove-stepsize": S.optional(S.Number),
-          saferemove_throughput: S.optional(S.String),
-          server: S.optional(S.String),
-          share: S.optional(S.String),
-          shared: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "skip-cert-verification": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          smbversion: S.optional(S.String),
-          "snapshot-as-volume-chain": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          sparse: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          storage: S.String,
-          subdir: S.optional(S.String),
-          tagged_only: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          target: S.optional(S.String),
-          thinpool: S.optional(S.String),
-          type: S.String,
-          username: S.optional(S.String),
-          vgname: S.optional(S.String),
-          "zfs-base-path": S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/storage", code: 200 })),
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/storage", code: 200 })),
       ).annotate({ identifier: "PostStorageRequest" });
   }
 }
@@ -476,60 +281,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blocksize: S.optional(S.String),
-          bwlimit: S.optional(S.String),
-          comstar_hg: S.optional(S.String),
-          comstar_tg: S.optional(S.String),
-          content: S.optional(S.String),
-          "content-dirs": S.optional(S.String),
-          "create-base-path": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "create-subdirs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "data-pool": S.optional(S.String),
-          delete: S.optional(S.String),
-          digest: S.optional(S.String),
-          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          domain: S.optional(S.String),
-          "encryption-key": S.optional(S.String.pipe(T.SensitiveValue({}))),
-          fingerprint: S.optional(S.String),
-          format: S.optional(S.String),
-          "fs-name": S.optional(S.String),
-          fuse: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          is_mountpoint: S.optional(S.String),
-          keyring: S.optional(S.String),
-          krbd: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          lio_tpg: S.optional(S.String),
-          "master-pubkey": S.optional(S.String),
-          "max-protected-backups": S.optional(S.Number),
-          mkdir: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          monhost: S.optional(S.String),
-          mountpoint: S.optional(S.String),
-          namespace: S.optional(S.String),
-          nocow: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          nodes: S.optional(S.String),
-          nowritecache: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "on-volume-remove": S.optional(S.String),
-          options: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          pool: S.optional(S.String),
-          port: S.optional(S.Number),
-          preallocation: S.optional(S.String),
-          "prune-backups": S.optional(S.String),
-          saferemove: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "saferemove-stepsize": S.optional(S.Number),
-          saferemove_throughput: S.optional(S.String),
-          server: S.optional(S.String),
-          shared: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "skip-cert-verification": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          smbversion: S.optional(S.String),
-          "snapshot-as-volume-chain": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          sparse: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          storage: S.String.pipe(T.Label()),
-          subdir: S.optional(S.String),
-          tagged_only: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          username: S.optional(S.String),
-          "zfs-base-path": S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/storage/{storage}", code: 200 })),
+        S.Struct({}).pipe(T.Http({ method: "PUT", uri: "/storage/{storage}", code: 200 })),
       ).annotate({ identifier: "PutStorageByStorageRequest" });
   }
 }

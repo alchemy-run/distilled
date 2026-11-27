@@ -138,9 +138,8 @@ export type IncrementalFieldTypeEnum =
   | "timestamp"
   | "objectid"
   | "xid";
-/** * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-export type ExternalDataSchemaSyncFrequencyEnum =
-  | "never"
+/** * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+export type SettableSyncFrequencyEnum =
   | "5min"
   | "15min"
   | "30min"
@@ -156,6 +155,7 @@ export type ExternalDataSchemaOutputPrimaryKeyColumnsList = Array<string>;
 export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
 /** * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
 export type IncrementalSyncBlockedReasonEnum = "missing_primary_key" | "duplicate_primary_key";
+export type WebhookIssueEnum = "not_registered" | "missing_inputs" | "not_routed";
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
 export type ExternalDataSchemaOutputEnabledColumnsList = Array<string>;
 /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
@@ -208,6 +208,7 @@ export interface ExternalDataSchemaOutputSource {
   id?: string | undefined;
   source_type?: string | undefined;
   access_method?: string | undefined;
+  direct_query_enabled?: boolean | undefined;
   supports_column_selection?: boolean | undefined;
   supports_row_filters?: boolean | undefined;
   requires_exact_column_metadata?: boolean | undefined;
@@ -215,6 +216,7 @@ export interface ExternalDataSchemaOutputSource {
   api_version?: string | null | undefined;
   supported_api_versions?: ExternalDataSchemaOutputSourceSupportedApiVersionsList | undefined;
   file_name?: string | null | undefined;
+  supports_table_discovery?: boolean | undefined;
 }
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -233,7 +235,13 @@ export interface ExternalDataSchemaOutput {
   /** The id of the warehouse table this schema syncs into. Set before the first sync for a table the schema already names, such as a migrated one. Null when there is none. */
   table_id: string | null;
   should_sync?: boolean | undefined;
+  /** Whether this table is queryable live on a synced source with live queries on, without syncing it. Synced tables are always queryable live. */
+  live_query_enabled?: boolean | undefined;
+  /** Why this table can't be made queryable live without syncing it, or null when it can. */
+  live_query_unavailable_reason: string | null;
   last_synced_at?: string | null | undefined;
+  /** When the last successful sync of the source started, including runs that found no new rows. Use this, not `last_synced_at`, to judge whether a table is stale: `last_synced_at` can stay put while every run succeeds because the source has nothing new. Null until the first successful sync. */
+  last_checked_at: string | null;
   /** The latest error that occurred when syncing this schema. */
   latest_error?: string | null | undefined;
   incremental?: boolean | undefined;
@@ -248,8 +256,8 @@ export interface ExternalDataSchemaOutput {
   incremental_field_type?: IncrementalFieldTypeEnum | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null | undefined;
-  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null | undefined;
+  /** How often to sync. One of 5min, 15min, 30min, 1hour, 6hour, 12hour, 24hour, 7day or 30day; the fastest is 5 minutes. Common spellings are mapped to these: hourly = 1hour, daily = 24hour, weekly = 7day, monthly = 30day, and durations such as 60min, 1h, 24h, 1day or 1week. To stop a table syncing, set should_sync to false instead. * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: SettableSyncFrequencyEnum | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
@@ -267,6 +275,8 @@ export interface ExternalDataSchemaOutput {
   incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null | undefined;
   /** Whether this table uses webhook sync, but its source has no enabled webhook. Such a table gets no webhook updates. Each sync polls the source API instead, which is slower and can read the whole table. Set up the webhook on the source, or change `sync_type`. */
   webhook_not_registered: boolean;
+  /** Why this webhook-sync table gets no webhook rows, or null when nothing stops them. `not_registered`: the source has no enabled webhook. `missing_inputs`: the webhook lacks a required setting such as its signing secret, so it drops every delivery. `not_routed`: the webhook has no route for this table, so it drops the table's events. Fix the last two from the source's webhook setup (`external-data-sources-webhook-info-retrieve` lists the missing inputs; creating the webhook again adds the route). */
+  webhook_issue: WebhookIssueEnum | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: ExternalDataSchemaOutputEnabledColumnsList | null | undefined;
   /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
@@ -281,7 +291,7 @@ export interface ExternalDataSchemaOutput {
   source_column_metadata_available?: boolean | undefined;
   /** Name of the history table that keeps every version of each row, or `null` when the table keeps no history. A history table created before `_history` names existed keeps its `_cdc` name. */
   history_table_name: string | null;
-  /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table`, a name means the history table was kept, for example because a sync started meanwhile. */
+  /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table` to stop writing history, a name means the history table was kept, for example because a sync started meanwhile. An update that adds a mask with `drop_history_table` keeps the table and its access rules, and deletes only its contents. */
   registered_history_table_name: string | null;
   /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
   source?: ExternalDataSchemaOutputSource | null | undefined;
@@ -335,6 +345,8 @@ export interface GetExternalDataSchemasLogResponse {}
 export interface ListExternalDataSchemasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Return one short row per table (id, name, source_id, should_sync, sync_type, status, last_synced_at, last_checked_at and a truncated latest_error) instead of the full sync configuration. Use it to check table health. */
+  compact?: boolean | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
@@ -365,6 +377,8 @@ export interface UpdateExternalDataSchemaRequest {
   /** A UUID string identifying this external data schema. */
   id: string;
   should_sync?: boolean | undefined;
+  /** Whether this table is queryable live on a synced source with live queries on, without syncing it. Synced tables are always queryable live. */
+  live_query_enabled?: boolean | undefined;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
   sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
   /** Column name used to track sync progress. */
@@ -373,8 +387,8 @@ export interface UpdateExternalDataSchemaRequest {
   incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null | undefined;
-  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null | undefined;
+  /** How often to sync. One of 5min, 15min, 30min, 1hour, 6hour, 12hour, 24hour, 7day or 30day; the fastest is 5 minutes. Common spellings are mapped to these: hourly = 1hour, daily = 24hour, weekly = 7day, monthly = 30day, and durations such as 60min, 1h, 24h, 1day or 1week. To stop a table syncing, set should_sync to false instead. * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: SettableSyncFrequencyEnum | (string & {}) | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
@@ -385,6 +399,8 @@ export interface UpdateExternalDataSchemaRequest {
   primary_key_columns?: UpdateExternalDataSchemaRequestPrimaryKeyColumnsList | null | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
+  /** When the table keeps history after this update, replace the history table's access rules with the table's own rules. If the history table doesn't exist yet, the rules are copied when its first snapshot loads. Requires the right to manage access to both tables. */
+  copy_access_rules_to_history?: boolean | undefined;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: UpdateExternalDataSchemaRequestEnabledColumnsList | null | undefined;
   /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
@@ -426,6 +442,8 @@ export interface UpdateExternalDataSchemasPartialRequest {
   /** A UUID string identifying this external data schema. */
   id: string;
   should_sync?: boolean | undefined;
+  /** Whether this table is queryable live on a synced source with live queries on, without syncing it. Synced tables are always queryable live. */
+  live_query_enabled?: boolean | undefined;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
   sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
   /** Column name used to track sync progress. */
@@ -434,8 +452,8 @@ export interface UpdateExternalDataSchemasPartialRequest {
   incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null | undefined;
-  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null | undefined;
+  /** How often to sync. One of 5min, 15min, 30min, 1hour, 6hour, 12hour, 24hour, 7day or 30day; the fastest is 5 minutes. Common spellings are mapped to these: hourly = 1hour, daily = 24hour, weekly = 7day, monthly = 30day, and durations such as 60min, 1h, 24h, 1day or 1week. To stop a table syncing, set should_sync to false instead. * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: SettableSyncFrequencyEnum | (string & {}) | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
@@ -449,6 +467,8 @@ export interface UpdateExternalDataSchemasPartialRequest {
     | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
+  /** When the table keeps history after this update, replace the history table's access rules with the table's own rules. If the history table doesn't exist yet, the rules are copied when its first snapshot loads. Requires the right to manage access to both tables. */
+  copy_access_rules_to_history?: boolean | undefined;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: UpdateExternalDataSchemasPartialRequestEnabledColumnsList | null | undefined;
   /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
@@ -801,6 +821,7 @@ function __c3(j: number): any {
           id: S.optional(S.String),
           source_type: S.optional(S.String),
           access_method: S.optional(S.String),
+          direct_query_enabled: S.optional(S.Boolean),
           supports_column_selection: S.optional(S.Boolean),
           supports_row_filters: S.optional(S.Boolean),
           requires_exact_column_metadata: S.optional(S.Boolean),
@@ -808,6 +829,7 @@ function __c3(j: number): any {
           api_version: S.optional(S.NullOr(S.String)),
           supported_api_versions: S.optional(__S(32, __c2, 0)),
           file_name: S.optional(S.NullOr(S.String)),
+          supports_table_discovery: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ExternalDataSchemaOutputSource" });
     case 8:
@@ -827,7 +849,10 @@ function __c3(j: number): any {
           table: S.optional(S.NullOr(__S(48, __c3, 0))),
           table_id: S.NullOr(S.String),
           should_sync: S.optional(S.Boolean),
+          live_query_enabled: S.optional(S.Boolean),
+          live_query_unavailable_reason: S.NullOr(S.String),
           last_synced_at: S.optional(S.NullOr(S.String)),
+          last_checked_at: S.NullOr(S.String),
           latest_error: S.optional(S.NullOr(S.String)),
           incremental: S.optional(S.Boolean),
           status: S.optional(S.NullOr(S.String)),
@@ -846,6 +871,7 @@ function __c3(j: number): any {
           cdc_table_mode: S.optional(S.NullOr(S.String)),
           incremental_sync_blocked: S.optional(S.NullOr(S.String)),
           webhook_not_registered: S.Boolean,
+          webhook_issue: S.NullOr(S.String),
           enabled_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           masked_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           row_filters: S.optional(S.NullOr(__S(50, __c3, 2))),
@@ -921,6 +947,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          compact: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -953,6 +980,7 @@ function __c8(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           should_sync: S.optional(S.Boolean),
+          live_query_enabled: S.optional(S.Boolean),
           sync_type: S.optional(S.NullOr(S.String)),
           incremental_field: S.optional(S.NullOr(S.String)),
           incremental_field_type: S.optional(S.NullOr(S.String)),
@@ -963,6 +991,7 @@ function __c8(j: number): any {
           full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
           primary_key_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           cdc_table_mode: S.optional(S.NullOr(S.String)),
+          copy_access_rules_to_history: S.optional(S.Boolean),
           enabled_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           masked_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           row_filters: S.optional(S.NullOr(__S(50, __c3, 2))),
@@ -1004,6 +1033,7 @@ function __c10(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           should_sync: S.optional(S.Boolean),
+          live_query_enabled: S.optional(S.Boolean),
           sync_type: S.optional(S.NullOr(S.String)),
           incremental_field: S.optional(S.NullOr(S.String)),
           incremental_field_type: S.optional(S.NullOr(S.String)),
@@ -1014,6 +1044,7 @@ function __c10(j: number): any {
           full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
           primary_key_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           cdc_table_mode: S.optional(S.NullOr(S.String)),
+          copy_access_rules_to_history: S.optional(S.Boolean),
           enabled_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           masked_columns: S.optional(S.NullOr(__S(32, __c2, 0))),
           row_filters: S.optional(S.NullOr(__S(50, __c3, 2))),

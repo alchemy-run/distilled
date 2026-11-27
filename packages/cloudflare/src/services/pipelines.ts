@@ -1510,22 +1510,38 @@ export interface SinksGetResponseSchema {
   fields?: SinksGetResponseSchemaFieldsList | null | undefined;
   inferred?: boolean | null | undefined;
 }
+export type SinksGetResponseUsedByItemType = "pipeline";
+export interface SinksGetResponseUsedByItem {
+  /** Indicates the unique identifier of the pipeline. */
+  id: string;
+  /** Indicates the API URL of the pipeline. */
+  href: string;
+  /** Indicates the type of resource using this sink. */
+  type: SinksGetResponseUsedByItemType;
+}
+export type SinksGetResponseUsedByList = Array<SinksGetResponseUsedByItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkResponse {
   /** Indicates a unique identifier for this sink. */
   id: string;
   createdAt: string;
+  /** Indicates the latest version of this sink. */
+  latest: number;
   modifiedAt: string;
   /** Defines the name of the Sink. */
   name: string;
   /** Specifies the type of sink. */
   type: SinksGetResponseType;
+  /** Indicates the version of this sink. */
+  version: number;
   /** Defines the configuration of the R2 Sink. */
   config?: SinksGetResponseConfig | null | undefined;
   /** Defines the output data format of a sink. */
   format?: SinksGetResponseFormat | null | undefined;
   /** Defines the schema of the events in the data stream. */
   schema?: SinksGetResponseSchema | null | undefined;
+  /** Lists the pipelines that use this sink. Omitted when no pipeline uses it. */
+  usedBy?: SinksGetResponseUsedByList | null | undefined;
 }
 export interface GetStreamRequest {
   /** Specifies the public ID of the account. */
@@ -1728,6 +1744,8 @@ export interface GetV1PipelineResponse {
   modifiedAt: string;
   /** Indicates the name of the Pipeline. */
   name: string;
+  /** Indicates that a stream or sink has a newer version than the one this pipeline uses. Update Pipeline Tables moves the pipeline to the latest versions. */
+  outdated: boolean;
   /** Specifies SQL for the Pipeline processing flow. */
   sql: string;
   /** Indicates the current status of the Pipeline. */
@@ -1743,7 +1761,7 @@ export interface ListPipelinesRequest {
   /** Specifies which page to retrieve. */
   page?: string | undefined;
   /** Specifies the number of pipelines per page. */
-  perPage?: string | undefined;
+  perPage?: number | undefined;
   /** Specifies the prefix of pipeline name to search. */
   search?: string | undefined;
 }
@@ -2802,7 +2820,7 @@ export const getSink: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetSinkRequest>,
-  output: __S(230, __c14, 6) as any as S.Schema<GetSinkResponse>,
+  output: __S(232, __c14, 8) as any as S.Schema<GetSinkResponse>,
   errors: [SinkNotFound, InvalidSinkId],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3771,13 +3789,26 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
+          href: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "SinksGetResponseUsedByItem" });
+    case 7:
+      return S.Array(__S(230, __c14, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
+          latest: S.Number,
           modifiedAt: S.String.pipe(T.Body("modified_at")),
           name: S.String,
           type: S.String,
+          version: S.Number,
           config: S.optional(S.NullOr(__S(225, __c14, 1))),
           format: S.optional(S.NullOr(__S(226, __c14, 2))),
           schema: S.optional(S.NullOr(__S(229, __c14, 5))),
+          usedBy: S.optional(S.NullOr(__S(231, __c14, 7)).pipe(T.Body("used_by"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSinkResponse" });
   }
@@ -3905,6 +3936,7 @@ function __c16(j: number): any {
           createdAt: S.String.pipe(T.Body("created_at")),
           modifiedAt: S.String.pipe(T.Body("modified_at")),
           name: S.String,
+          outdated: S.Boolean,
           sql: S.String,
           status: S.String,
           tables: __S(258, __c16, 2),
@@ -3920,7 +3952,7 @@ function __c17(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           page: S.optional(S.String.pipe(T.Query())),
-          perPage: S.optional(S.String.pipe(T.Query("per_page"))),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           search: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines", code: 200 }))

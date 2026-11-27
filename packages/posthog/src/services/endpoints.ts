@@ -95,6 +95,14 @@ export interface CreateEndpointRequest {
     | null
     | undefined;
 }
+export interface EndpointPlanClamp {
+  /** The data freshness, in seconds, the endpoint had before the rewrite. Null when it had none. */
+  previous_data_freshness_seconds: number | null;
+  /** The data freshness, in seconds, the endpoint was set to: the fastest the organization's plan allowed. */
+  plan_floor_seconds: number;
+  /** When the data freshness was rewritten. */
+  at: string;
+}
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -170,6 +178,10 @@ export interface EndpointResponse {
   is_active?: boolean | undefined;
   /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
   data_freshness_seconds?: number | undefined;
+  /** The fastest data freshness, in seconds, the organization's plan allows for a materialized endpoint. A faster value can't be saved while the endpoint is materialized. Null when the plan sets no minimum. */
+  plan_refresh_floor_seconds: number | null;
+  /** Set when a scheduled run slowed this materialized endpoint's data freshness to the fastest one the organization's plan allows. Saving a different data freshness clears it. Null when no such rewrite stands. */
+  plan_clamp: EndpointPlanClamp | null;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
   endpoint_path?: string | undefined;
   /** Absolute URL to execute this endpoint. */
@@ -225,7 +237,13 @@ export type QueryScanFixLocation =
   | "view"
   | "insight_date_range"
   | "dashboard_date_filter";
-export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export type QueryScanFindingKind =
+  | "no_event_filter"
+  | "no_start_date"
+  | "persons_join"
+  | "repeated_cte_expansion"
+  | "cross_join_equality"
+  | "date_arrays_before_breakdown_limit";
 export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
@@ -962,6 +980,10 @@ export interface EndpointVersionResponse {
   is_active?: boolean | undefined;
   /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
   data_freshness_seconds?: number | undefined;
+  /** The fastest data freshness, in seconds, the organization's plan allows for a materialized endpoint. A faster value can't be saved while the endpoint is materialized. Null when the plan sets no minimum. */
+  plan_refresh_floor_seconds: number | null;
+  /** Set when a scheduled run slowed this materialized endpoint's data freshness to the fastest one the organization's plan allows. Saving a different data freshness clears it. Null when no such rewrite stands. */
+  plan_clamp: EndpointPlanClamp | null;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
   endpoint_path?: string | undefined;
   /** Absolute URL to execute this endpoint. */
@@ -1617,12 +1639,14 @@ function __c8(j: number): any {
           query: S.optional(S.Unknown),
           is_active: S.optional(S.Boolean),
           data_freshness_seconds: S.optional(S.Number),
+          plan_refresh_floor_seconds: S.NullOr(S.Number),
+          plan_clamp: S.NullOr(__S(192, __c12, 0)),
           endpoint_path: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
           ui_url: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
+          created_by: S.optional(S.NullOr(__S(193, __c12, 1))),
           is_materialized: S.optional(S.Boolean),
           current_version: S.optional(S.Number),
           current_version_id: S.optional(S.NullOr(S.String)),
@@ -1631,7 +1655,7 @@ function __c8(j: number): any {
           last_executed_at: S.optional(S.NullOr(S.String)),
           materialization: S.optional(__S(176, __c11, 0)),
           bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
-          columns: S.optional(__S(194, __c12, 2)),
+          columns: S.optional(__S(195, __c12, 3)),
           tags: S.optional(__S(144, __c9, 0)),
           optional_breakdown_properties: S.optional(__S(144, __c9, 0)),
         }),
@@ -1673,6 +1697,14 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          previous_data_freshness_seconds: S.NullOr(S.Number),
+          plan_floor_seconds: S.Number,
+          at: S.String,
+        }),
+      ).annotate({ identifier: "EndpointPlanClamp" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.Number),
           uuid: S.optional(S.String),
           distinct_id: S.optional(S.NullOr(S.String)),
@@ -1684,15 +1716,15 @@ function __c12(j: number): any {
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointColumn" });
-    case 2:
-      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.Array(__S(194, __c12, 2));
   }
 }
 function __c13(j: number): any {
@@ -2015,12 +2047,14 @@ function __c20(j: number): any {
           query: S.optional(S.Unknown),
           is_active: S.optional(S.Boolean),
           data_freshness_seconds: S.optional(S.Number),
+          plan_refresh_floor_seconds: S.NullOr(S.Number),
+          plan_clamp: S.NullOr(__S(192, __c12, 0)),
           endpoint_path: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
           ui_url: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
+          created_by: S.optional(S.NullOr(__S(193, __c12, 1))),
           is_materialized: S.optional(S.Boolean),
           current_version: S.optional(S.Number),
           current_version_id: S.optional(S.NullOr(S.String)),
@@ -2029,7 +2063,7 @@ function __c20(j: number): any {
           last_executed_at: S.optional(S.NullOr(S.String)),
           materialization: S.optional(__S(176, __c11, 0)),
           bucket_overrides: S.optional(S.NullOr(__S(160, __c10, 0))),
-          columns: S.optional(__S(194, __c12, 2)),
+          columns: S.optional(__S(195, __c12, 3)),
           tags: S.optional(__S(144, __c9, 0)),
           optional_breakdown_properties: S.optional(__S(144, __c9, 0)),
           version: S.optional(S.Number),
@@ -2037,7 +2071,7 @@ function __c20(j: number): any {
           endpoint_is_active: S.optional(S.Boolean),
           version_created_at: S.optional(S.String),
           version_updated_at: S.optional(S.NullOr(S.String)),
-          version_created_by: S.optional(S.NullOr(__S(192, __c12, 0))),
+          version_created_by: S.optional(S.NullOr(__S(193, __c12, 1))),
         }),
       ).annotate({ identifier: "EndpointVersionResponse" });
   }

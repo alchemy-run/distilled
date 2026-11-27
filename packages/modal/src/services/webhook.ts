@@ -62,8 +62,11 @@ export interface CreateWebhookTokenResponse {
   tokenId: string;
   tokenSecret: string | Redacted.Redacted<string>;
 }
+export type StringList = Array<string>;
 export interface DeleteWebhookTokenRequest {
   tokenId?: string | undefined;
+  tokenIds?: StringList | undefined;
+  allowMissing?: boolean | undefined;
 }
 export interface DeleteWebhookTokenResponse {}
 export interface ListWebhookTokenRequest {}
@@ -85,7 +88,6 @@ export interface ListWebhookTokenResponse {
 export interface ListWebhookTokenEnvironmentRequest {
   tokenId?: string | undefined;
 }
-export type StringList = Array<string>;
 export interface ListWebhookTokenEnvironmentResponse {
   environmentIds: StringList;
 }
@@ -119,7 +121,7 @@ export const addWebhookTokenEnvironment: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddWebhookTokenEnvironmentRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<AddWebhookTokenEnvironmentResponse>,
+  output: __S(2, __c1, 0) as any as S.Schema<AddWebhookTokenEnvironmentResponse>,
   errors: [WebhookTokenNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -136,8 +138,8 @@ export const createWebhookToken: API.OperationMethod<
   CreateWebhookTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateWebhookTokenRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<CreateWebhookTokenResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<CreateWebhookTokenRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<CreateWebhookTokenResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -153,8 +155,8 @@ export const deleteWebhookToken: API.OperationMethod<
   DeleteWebhookTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteWebhookTokenRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DeleteWebhookTokenResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<DeleteWebhookTokenRequest>,
+  output: __S(2, __c1, 0) as any as S.Schema<DeleteWebhookTokenResponse>,
   errors: [WebhookTokenNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -170,8 +172,8 @@ export const listWebhookToken: API.OperationMethod<
   ListWebhookTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListWebhookTokenRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<ListWebhookTokenResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<ListWebhookTokenRequest>,
+  output: __S(15, __c7, 1) as any as S.Schema<ListWebhookTokenResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -187,8 +189,8 @@ export const listWebhookTokenEnvironment: API.OperationMethod<
   ListWebhookTokenEnvironmentError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListWebhookTokenEnvironmentRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<ListWebhookTokenEnvironmentResponse>,
+  input: __S(16, __c8, 0) as any as S.Schema<ListWebhookTokenEnvironmentRequest>,
+  output: __S(17, __c8, 1) as any as S.Schema<ListWebhookTokenEnvironmentResponse>,
   errors: [WebhookTokenNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -204,8 +206,8 @@ export const removeWebhookTokenEnvironment: API.OperationMethod<
   RemoveWebhookTokenEnvironmentError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentResponse>,
+  input: __S(18, __c9, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentRequest>,
+  output: __S(2, __c1, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentResponse>,
   errors: [WebhookTokenNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -221,8 +223,8 @@ export const updateWebhookToken: API.OperationMethod<
   UpdateWebhookTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<UpdateWebhookTokenRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<UpdateWebhookTokenResponse>,
+  input: __S(20, __c10, 0) as any as S.Schema<UpdateWebhookTokenRequest>,
+  output: __S(13, __c6, 1) as any as S.Schema<UpdateWebhookTokenResponse>,
   errors: [WebhookTokenNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -238,8 +240,8 @@ export const webhookTokenListForEnvironment: API.OperationMethod<
   WebhookTokenListForEnvironmentError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<WebhookTokenListForEnvironmentRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<WebhookTokenListForEnvironmentResponse>,
+  input: __S(22, __c11, 0) as any as S.Schema<WebhookTokenListForEnvironmentRequest>,
+  output: __S(15, __c7, 1) as any as S.Schema<WebhookTokenListForEnvironmentResponse>,
   errors: [EnvironmentNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -304,6 +306,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenId: S.optional(S.String),
+          tokenIds: S.optional(__S(8, __c4, 0)),
+          allowMissing: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -317,6 +321,12 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/WebhookTokenList", code: 200 }),
@@ -324,7 +334,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListWebhookTokenRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -340,24 +350,24 @@ function __c5(j: number): any {
           createdAt: S.Number,
           scoped: S.Boolean,
           name: S.String,
-          createdBy: S.optional(__S(20, __c5, 0)),
+          createdBy: S.optional(__S(12, __c6, 0)),
         }),
       ).annotate({ identifier: "WebhookToken" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(13, __c6, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(24, __c6, 0),
+          tokens: __S(14, __c7, 0),
         }),
       ).annotate({ identifier: "ListWebhookTokenResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -372,16 +382,14 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListWebhookTokenEnvironmentRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentIds: __S(29, __c7, 1),
+          environmentIds: __S(8, __c4, 0),
         }),
       ).annotate({ identifier: "ListWebhookTokenEnvironmentResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -398,7 +406,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RemoveWebhookTokenEnvironmentRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -415,7 +423,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateWebhookTokenRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

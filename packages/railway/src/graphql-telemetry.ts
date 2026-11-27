@@ -31,7 +31,6 @@ export const TELEMETRY: GraphQLTelemetry = {
       sourceEnvironmentId: [{ name: "railway.source_environment_id" }],
       targetEnvironmentId: [{ name: "railway.target_environment_id" }],
     },
-    "query.changelogBlockImage": { id: [{ name: "railway.string_id" }] },
     "query.cloudAgent": {
       environmentId: [{ name: "railway.environment_id" }],
       id: [{ name: "railway.cloud_agent_id" }],
@@ -111,7 +110,10 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "query.environmentHistory": { environmentId: [{ name: "railway.environment_id" }] },
     "query.environmentLogs": { environmentId: [{ name: "railway.environment_id" }] },
-    "query.environmentPatch": { id: [{ name: "railway.environment_patch_id" }] },
+    "query.environmentPatch": {
+      environmentId: [{ name: "railway.environment_id" }],
+      id: [{ name: "railway.environment_patch_id" }],
+    },
     "query.environmentPatches": { environmentId: [{ name: "railway.environment_id" }] },
     "query.environmentPendingWork": { environmentId: [{ name: "railway.environment_id" }] },
     "query.environments": { projectId: [{ name: "railway.project_id" }] },
@@ -140,8 +142,6 @@ export const TELEMETRY: GraphQLTelemetry = {
       environmentId: [{ name: "railway.environment_id" }],
       serviceId: [{ name: "railway.service_id" }],
     },
-    "query.integrationAuth": { providerId: [{ name: "railway.provider_id" }] },
-    "query.integrations": { projectId: [{ name: "railway.project_id" }] },
     "query.metrics": {
       environmentId: [{ name: "railway.environment_id" }],
       projectId: [{ name: "railway.project_id" }],
@@ -173,10 +173,9 @@ export const TELEMETRY: GraphQLTelemetry = {
       environmentId: [{ name: "railway.environment_id" }],
       rootServiceId: [{ name: "railway.root_service_id" }],
     },
-    "query.plugin": { id: [{ name: "railway.plugin_id" }] },
-    "query.pluginLogs": {
+    "query.postgresHaClusterUptime": {
       environmentId: [{ name: "railway.environment_id" }],
-      pluginId: [{ name: "railway.plugin_id" }],
+      serviceId: [{ name: "railway.service_id" }],
     },
     "query.privateNetworkEndpoint": {
       environmentId: [{ name: "railway.environment_id" }],
@@ -334,7 +333,10 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.cloudAgentCheckpointDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.cloudAgentDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.cloudAgentDeploy": { id: [{ name: "railway.cloud_agent_deploy_result_id" }] },
-    "mutation.cloudAgentFork": { id: [{ name: "railway.cloud_agent_id" }] },
+    "mutation.cloudAgentFork": {
+      id: [{ name: "railway.cloud_agent_id" }],
+      sessionId: [{ name: "railway.session_id" }],
+    },
     "mutation.cloudAgentHarnessToken": {
       environmentId: [{ name: "railway.environment_id" }],
       id: [{ name: "railway.string_id" }],
@@ -389,6 +391,7 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.environmentPatchCommitStaged": {
       environmentId: [{ name: "railway.environment_id" }],
     },
+    "mutation.environmentPatchDismissFailure": { patchId: [{ name: "railway.patch_id" }] },
     "mutation.environmentPatchRestage": { patchId: [{ name: "railway.patch_id" }] },
     "mutation.environmentPreviewChangeSet": { environmentId: [{ name: "railway.environment_id" }] },
     "mutation.environmentRename": { id: [{ name: "railway.environment_id" }] },
@@ -397,29 +400,19 @@ export const TELEMETRY: GraphQLTelemetry = {
       environmentId: [{ name: "railway.environment_id" }],
       serviceId: [{ name: "railway.service_id" }],
     },
-    "mutation.integrationDelete": { id: [{ name: "railway.boolean_id" }] },
-    "mutation.integrationUpdate": { id: [{ name: "railway.integration_id" }] },
     "mutation.notificationRuleDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.notificationRuleUpdate": { id: [{ name: "railway.notification_rule_id" }] },
+    "mutation.observabilityDashboardMonitorCreate": {
+      dashboardItemId: [{ name: "railway.dashboard_item_id" }],
+    },
+    "mutation.observabilityDashboardMonitorRemove": { id: [{ name: "railway.boolean_id" }] },
+    "mutation.observabilityDashboardMonitorUpdate": { id: [{ name: "railway.boolean_id" }] },
     "mutation.observabilityDashboardReset": { id: [{ name: "railway.boolean_id" }] },
     "mutation.observabilityDashboardUpdate": { id: [{ name: "railway.boolean_id" }] },
     "mutation.passkeyDelete": { id: [{ name: "railway.boolean_id" }] },
-    "mutation.pluginDelete": {
-      environmentId: [{ name: "railway.environment_id" }],
-      id: [{ name: "railway.boolean_id" }],
-    },
-    "mutation.pluginReset": { id: [{ name: "railway.boolean_id" }] },
-    "mutation.pluginResetCredentials": { id: [{ name: "railway.string_id" }] },
-    "mutation.pluginRestart": { id: [{ name: "railway.plugin_id" }] },
-    "mutation.pluginStart": { id: [{ name: "railway.boolean_id" }] },
-    "mutation.pluginUpdate": { id: [{ name: "railway.plugin_id" }] },
-    "mutation.privateNetworkEndpointDelete": { id: [{ name: "railway.boolean_id" }] },
     "mutation.privateNetworkEndpointRename": {
       id: [{ name: "railway.boolean_id" }],
       privateNetworkId: [{ name: "railway.private_network_id" }],
-    },
-    "mutation.privateNetworksForEnvironmentDelete": {
-      environmentId: [{ name: "railway.environment_id" }],
     },
     "mutation.projectClaim": {
       id: [{ name: "railway.project_id" }],

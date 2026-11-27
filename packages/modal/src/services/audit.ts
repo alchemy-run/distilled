@@ -82,6 +82,10 @@ export interface AuditLogActor {
   /** "user", "service_user", "oauth_grant" or "system" */
   type: string;
   id: string;
+  /** Display or service user name; OAuth authorizing user's name. Empty if unresolved. */
+  name: string;
+  /** User or OAuth authorizing user's email. Empty if unresolved. */
+  email: string;
 }
 export interface AuditLogTarget {
   /** For example "app", "function" or "secret" */
@@ -96,6 +100,8 @@ export interface AuditLogContext {
   source: string;
   ipAddress: string;
   isModalAdmin: boolean;
+  /** Empty if unresolved. */
+  environmentName: string;
 }
 export interface AuditLogEntry {
   id: string;
@@ -109,6 +115,7 @@ export interface AuditLogEntry {
   status: string;
   /** JSON-encoded string */
   metadataJson: string;
+  eventAtTimestamp?: string | undefined;
 }
 export type AuditLogEntryList = Array<AuditLogEntry>;
 export interface ListAuditLogResponse {
@@ -177,7 +184,7 @@ export const listAuditLog: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListAuditLogRequest>,
-  output: __S(38, __c4, 6) as any as S.Schema<ListAuditLogResponse>,
+  output: __S(39, __c4, 7) as any as S.Schema<ListAuditLogResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -286,11 +293,20 @@ function __c4(j: number): any {
         S.Struct({
           type: S.String,
           id: S.String,
+          name: S.String,
+          email: S.String,
         }),
       ).annotate({ identifier: "AuditLogActor" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "AuditLogTarget" });
     case 3:
+      return S.Array(__S(34, __c4, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           workspaceId: S.String,
@@ -298,27 +314,29 @@ function __c4(j: number): any {
           source: S.String,
           ipAddress: S.String,
           isModalAdmin: S.Boolean,
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "AuditLogContext" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           actor: S.optional(__S(33, __c4, 1)),
           action: S.String,
-          targets: __S(34, __c4, 2),
-          context: S.optional(__S(35, __c4, 3)),
+          targets: __S(35, __c4, 3),
+          context: S.optional(__S(36, __c4, 4)),
           eventAt: S.String,
           status: S.String,
           metadataJson: S.String,
+          eventAtTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogEntry" });
-    case 5:
-      return S.Array(__S(36, __c4, 4));
     case 6:
+      return S.Array(__S(37, __c4, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(37, __c4, 5),
+          items: __S(38, __c4, 6),
           nextCursor: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ListAuditLogResponse" });

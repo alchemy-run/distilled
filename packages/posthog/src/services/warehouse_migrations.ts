@@ -68,13 +68,46 @@ export interface WarehouseMigration {
   created_at: string;
   /** How many connections fall into each group. */
   item_counts: WarehouseMigrationItemCounts;
+  /** False when an agent uploaded the vendor account. Such a migration cannot be refreshed; upload the connections again instead. */
+  has_vendor_key: boolean;
 }
-export interface CreateWarehouseMigrationsItemsSkipRequest {
+/** The Fivetran account info response, unchanged. Send it once, with the first upload. */
+export type CreateWarehouseMigrationsConnectionRequestAccountMap = {
+  [key: string]: unknown | undefined;
+};
+export type CreateWarehouseMigrationsConnectionRequestDestinationsItemMap = {
+  [key: string]: unknown | undefined;
+};
+/** Fivetran destination details responses, unchanged. Send them before the connections that use them, so PostHog reads each connection's sync time in its destination's time zone. */
+export type CreateWarehouseMigrationsConnectionRequestDestinationsList =
+  Array<CreateWarehouseMigrationsConnectionRequestDestinationsItemMap>;
+/** The Fivetran connection details response, unchanged. The `code` and `data` envelope may stay. */
+export type WarehouseMigrationUploadedConnectionConnectionMap = {
+  [key: string]: unknown | undefined;
+};
+/** The Fivetran schema config response for this connection, unchanged. Null when Fivetran has none. */
+export type WarehouseMigrationUploadedConnectionSchemaConfigMap = {
+  [key: string]: unknown | undefined;
+};
+export interface WarehouseMigrationUploadedConnection {
+  /** The Fivetran connection details response, unchanged. The `code` and `data` envelope may stay. */
+  connection: WarehouseMigrationUploadedConnectionConnectionMap;
+  /** The Fivetran schema config response for this connection, unchanged. Null when Fivetran has none. */
+  schema_config?: WarehouseMigrationUploadedConnectionSchemaConfigMap | null | undefined;
+}
+/** At most 25 connections. A connection uploaded again replaces its plan, unless it is already created in PostHog or skipped. */
+export type CreateWarehouseMigrationsConnectionRequestConnectionsList =
+  Array<WarehouseMigrationUploadedConnection>;
+export interface CreateWarehouseMigrationsConnectionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  /** Item ID. */
-  item_id: string;
+  /** The Fivetran account info response, unchanged. Send it once, with the first upload. */
+  account?: CreateWarehouseMigrationsConnectionRequestAccountMap | null | undefined;
+  /** Fivetran destination details responses, unchanged. Send them before the connections that use them, so PostHog reads each connection's sync time in its destination's time zone. */
+  destinations?: CreateWarehouseMigrationsConnectionRequestDestinationsList | undefined;
+  /** At most 25 connections. A connection uploaded again replaces its plan, unless it is already created in PostHog or skipped. */
+  connections?: CreateWarehouseMigrationsConnectionRequestConnectionsList | undefined;
 }
 /** * `as_is` - Moves as is * `caveats` - Moves with caveats * `unsupported` - Not supported */
 export type WarehouseMigrationItemVerdictEnum = "as_is" | "caveats" | "unsupported";
@@ -171,6 +204,12 @@ export type WarehouseMigrationItemStatusEnum =
   | "applied"
   | "skipped"
   | "failed";
+export interface WarehouseMigrationCreator {
+  /** First name of the person who prepared the migration. */
+  first_name: string;
+  /** Email of the person who prepared the migration. */
+  email: string;
+}
 export interface WarehouseMigrationItem {
   /** Item ID. Pass it to the apply and skip actions. */
   id: string;
@@ -192,11 +231,33 @@ export interface WarehouseMigrationItem {
   external_data_source_id: string | null;
   /** Why the last apply attempt failed, if it did. */
   error: string;
+  /** Who prepared the migration, and so chose the connection settings in `proposal.prefill`. */
+  created_by: WarehouseMigrationCreator | null;
+}
+/** The planned items for the uploaded connections. */
+export type WarehouseMigrationUploadResponseItemsList = Array<WarehouseMigrationItem>;
+export interface WarehouseMigrationUploadResponse {
+  /** The planned items for the uploaded connections. */
+  items: WarehouseMigrationUploadResponseItemsList;
+}
+export interface CreateWarehouseMigrationsItemsSkipRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Item ID. */
+  item_id: string;
 }
 export interface GetWarehouseMigrationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
+}
+export interface GetWarehouseMigrationsItemRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Item ID. */
+  item_id: string;
 }
 export interface ListWarehouseMigrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -278,6 +339,12 @@ export interface WarehouseMigrationsRefreshCreateRequest {
   project_id: string;
   id: string;
 }
+export interface WarehouseMigrationsUploadCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The ETL vendor to import from. * `fivetran` - Fivetran */
+  provider: WarehouseMigrationProviderEnum | (string & {});
+}
 export type CreateWarehouseMigrationError = PosthogOpError;
 /** Import a team's Fivetran setup and plan the PostHog sources that replace it. */
 export const createWarehouseMigration: API.OperationMethod<
@@ -296,6 +363,24 @@ export const createWarehouseMigration: API.OperationMethod<
   span: "CreateWarehouseMigration",
 }));
 
+export type CreateWarehouseMigrationsConnectionError = PosthogOpError;
+/** Plan vendor connections an agent read, and add them to an uploaded migration. */
+export const createWarehouseMigrationsConnection: API.OperationMethod<
+  CreateWarehouseMigrationsConnectionRequest,
+  WarehouseMigrationUploadResponse,
+  CreateWarehouseMigrationsConnectionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(35, __c2, 3) as any as S.Schema<CreateWarehouseMigrationsConnectionRequest>,
+  output: __S(36, __c2, 4) as any as S.Schema<WarehouseMigrationUploadResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseMigrationsConnection",
+}));
+
 export type CreateWarehouseMigrationsItemsSkipError = PosthogOpError;
 /** Import a team's Fivetran setup and plan the PostHog sources that replace it. */
 export const createWarehouseMigrationsItemsSkip: API.OperationMethod<
@@ -304,8 +389,8 @@ export const createWarehouseMigrationsItemsSkip: API.OperationMethod<
   CreateWarehouseMigrationsItemsSkipError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateWarehouseMigrationsItemsSkipRequest>,
-  output: __S(57, __c3, 9) as any as S.Schema<WarehouseMigrationItem>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateWarehouseMigrationsItemsSkipRequest>,
+  output: __S(58, __c3, 10) as any as S.Schema<WarehouseMigrationItem>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -322,7 +407,7 @@ export const getWarehouseMigration: API.OperationMethod<
   GetWarehouseMigrationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetWarehouseMigrationRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetWarehouseMigrationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -330,6 +415,24 @@ export const getWarehouseMigration: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWarehouseMigration",
+}));
+
+export type GetWarehouseMigrationsItemError = PosthogOpError;
+/** Import a team's Fivetran setup and plan the PostHog sources that replace it. */
+export const getWarehouseMigrationsItem: API.OperationMethod<
+  GetWarehouseMigrationsItemRequest,
+  WarehouseMigrationItem,
+  GetWarehouseMigrationsItemError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c10, 0) as any as S.Schema<GetWarehouseMigrationsItemRequest>,
+  output: __S(58, __c3, 10) as any as S.Schema<WarehouseMigrationItem>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseMigrationsItem",
 }));
 
 export type ListWarehouseMigrationsError = PosthogOpError;
@@ -340,8 +443,8 @@ export const listWarehouseMigrations: API.OperationMethod<
   ListWarehouseMigrationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListWarehouseMigrationsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<PaginatedWarehouseMigrationList>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListWarehouseMigrationsRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<PaginatedWarehouseMigrationList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -358,8 +461,8 @@ export const listWarehouseMigrationsItems: API.OperationMethod<
   ListWarehouseMigrationsItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListWarehouseMigrationsItemsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<PaginatedWarehouseMigrationItemList>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListWarehouseMigrationsItemsRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<PaginatedWarehouseMigrationItemList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -376,8 +479,8 @@ export const warehouseMigrationsConnectLinkRetrieve: API.OperationMethod<
   WarehouseMigrationsConnectLinkRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<WarehouseMigrationsConnectLinkRetrieveRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<WarehouseMigrationConnectLink>,
+  input: __S(208, __c13, 0) as any as S.Schema<WarehouseMigrationsConnectLinkRetrieveRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<WarehouseMigrationConnectLink>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -394,8 +497,8 @@ export const warehouseMigrationsDestroy: API.OperationMethod<
   WarehouseMigrationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<WarehouseMigrationsDestroyRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<WarehouseMigrationsDestroyResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<WarehouseMigrationsDestroyRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<WarehouseMigrationsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -412,8 +515,8 @@ export const warehouseMigrationsItemsBulkSkipCreate: API.OperationMethod<
   WarehouseMigrationsItemsBulkSkipCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<WarehouseMigrationsItemsBulkSkipCreateRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<WarehouseMigrationSkipItemsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<WarehouseMigrationsItemsBulkSkipCreateRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<WarehouseMigrationSkipItemsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -430,7 +533,7 @@ export const warehouseMigrationsRefreshCreate: API.OperationMethod<
   WarehouseMigrationsRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<WarehouseMigrationsRefreshCreateRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<WarehouseMigrationsRefreshCreateRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -438,6 +541,24 @@ export const warehouseMigrationsRefreshCreate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WarehouseMigrationsRefreshCreate",
+}));
+
+export type WarehouseMigrationsUploadCreateError = PosthogOpError;
+/** Start a migration that an agent fills with what it reads from the vendor, without a vendor key. */
+export const warehouseMigrationsUploadCreate: API.OperationMethod<
+  WarehouseMigrationsUploadCreateRequest,
+  WarehouseMigration,
+  WarehouseMigrationsUploadCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<WarehouseMigrationsUploadCreateRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseMigrationsUploadCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -483,6 +604,7 @@ function __c1(j: number): any {
           latest_error: S.String,
           created_at: S.String,
           item_counts: __S(16, __c1, 0),
+          has_vendor_key: S.Boolean,
         }),
       ).annotate({ identifier: "WarehouseMigration" });
   }
@@ -490,19 +612,38 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(48, __c3, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          connection: __S(48, __c3, 0),
+          schema_config: S.optional(S.NullOr(__S(48, __c3, 0))),
+        }),
+      ).annotate({ identifier: "WarehouseMigrationUploadedConnection" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          item_id: S.String.pipe(T.Label()),
+          account: S.optional(S.NullOr(__S(48, __c3, 0))),
+          destinations: S.optional(__S(32, __c2, 0)),
+          connections: S.optional(__S(34, __c2, 2)),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/items/{item_id}/skip/",
+            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/connections/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateWarehouseMigrationsItemsSkipRequest" });
+      ).annotate({ identifier: "CreateWarehouseMigrationsConnectionRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "WarehouseMigrationUploadResponse" });
   }
 }
 function __c3(j: number): any {
@@ -569,6 +710,13 @@ function __c3(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          first_name: S.String,
+          email: S.String,
+        }),
+      ).annotate({ identifier: "WarehouseMigrationCreator" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           vendor_connection_id: S.String,
           vendor_service: S.String,
@@ -579,6 +727,7 @@ function __c3(j: number): any {
           status: S.String,
           external_data_source_id: S.NullOr(S.String),
           error: S.String,
+          created_by: S.NullOr(__S(57, __c3, 9)),
         }),
       ).annotate({ identifier: "WarehouseMigrationItem" });
   }
@@ -590,6 +739,64 @@ function __c4(j: number): any {
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(58, __c3, 10));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/refresh/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseMigrationsRefreshCreateRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          provider: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_migrations/upload/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseMigrationsUploadCreateRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          item_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/items/{item_id}/skip/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateWarehouseMigrationsItemsSkipRequest" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -606,7 +813,25 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetWarehouseMigrationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          item_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/items/{item_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetWarehouseMigrationsItemRequest" });
+  }
+}
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -630,12 +855,12 @@ function __c6(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(97, __c6, 1),
+          results: __S(177, __c11, 1),
         }),
       ).annotate({ identifier: "PaginatedWarehouseMigrationList" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,19 +878,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListWarehouseMigrationsItemsRequest" });
     case 1:
-      return S.Array(__S(57, __c3, 9));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(113, __c7, 1),
+          results: __S(80, __c5, 0),
         }),
       ).annotate({ identifier: "PaginatedWarehouseMigrationItemList" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -690,7 +913,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "WarehouseMigrationConnectLink" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -711,7 +934,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,23 +958,6 @@ function __c10(j: number): any {
           not_skipped_item_ids: __S(64, __c4, 0),
         }),
       ).annotate({ identifier: "WarehouseMigrationSkipItemsResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/warehouse_migrations/{id}/refresh/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WarehouseMigrationsRefreshCreateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

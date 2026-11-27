@@ -76,9 +76,12 @@ export type CreateCustomRoleRequestPermissionsValueList = Array<string>;
 export type CreateCustomRoleRequestPermissionsMap = {
   [key: string]: CreateCustomRoleRequestPermissionsValueList | undefined;
 };
+export type CreateCustomRoleRequestAllowedDomainsList = Array<string>;
 export interface CreateCustomRoleRequest {
   roleName: string;
   permissions: CreateCustomRoleRequestPermissionsMap;
+  allowedDomains?: CreateCustomRoleRequestAllowedDomainsList | undefined;
+  requireHttps?: boolean | undefined;
 }
 export type CreateCustomRoleResponse = unknown;
 export interface DeleteCustomRoleRequest {
@@ -97,10 +100,13 @@ export type UpdateCustomRoleRequestPermissionsValueList = Array<string>;
 export type UpdateCustomRoleRequestPermissionsMap = {
   [key: string]: UpdateCustomRoleRequestPermissionsValueList | undefined;
 };
+export type UpdateCustomRoleRequestAllowedDomainsList = Array<string>;
 export interface UpdateCustomRoleRequest {
   roleName: string;
   newRoleName?: string | undefined;
   permissions: UpdateCustomRoleRequestPermissionsMap;
+  allowedDomains?: UpdateCustomRoleRequestAllowedDomainsList | undefined;
+  requireHttps?: boolean | undefined;
 }
 export type UpdateCustomRoleResponse = unknown;
 export interface ErrorBADREQUESTIssuesItem {
@@ -271,6 +277,8 @@ function __c1(j: number): any {
         S.Struct({
           roleName: S.String,
           permissions: __S(13, __c3, 1),
+          allowedDomains: S.optional(__S(12, __c3, 0)),
+          requireHttps: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/customRole.create", code: 200 })),
       ).annotate({ identifier: "CreateCustomRoleRequest" });
   }
@@ -335,6 +343,8 @@ function __c8(j: number): any {
           roleName: S.String,
           newRoleName: S.optional(S.String),
           permissions: __S(13, __c3, 1),
+          allowedDomains: S.optional(__S(12, __c3, 0)),
+          requireHttps: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/customRole.update", code: 200 })),
       ).annotate({ identifier: "UpdateCustomRoleRequest" });
   }

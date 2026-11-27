@@ -157,7 +157,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1345, __c84, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(1361, __c85, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -1866,6 +1866,22 @@ export interface ListAutonomousDatabasePeersOutput {
   nextToken?: string | undefined;
   autonomousDatabasePeers: AutonomousDatabasePeerSummary[];
 }
+export interface ListAutonomousDatabaseRefreshableClonesInput {
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  autonomousDatabaseId: string;
+}
+export interface AutonomousDatabaseRefreshableCloneSummary {
+  autonomousDatabaseId?: string | undefined;
+  autonomousDatabaseArn?: string | undefined;
+  ocid?: string | undefined;
+  region?: string | undefined;
+}
+export type AutonomousDatabaseRefreshableCloneList = AutonomousDatabaseRefreshableCloneSummary[];
+export interface ListAutonomousDatabaseRefreshableClonesOutput {
+  nextToken?: string | undefined;
+  autonomousDatabaseRefreshableClones: AutonomousDatabaseRefreshableCloneSummary[];
+}
 export interface ListAutonomousDatabasesInput {
   maxResults?: number | undefined;
   nextToken?: string | undefined;
@@ -2476,6 +2492,17 @@ export interface StartAutonomousDatabaseOutput {
   status?: AutonomousDatabaseResourceStatus | undefined;
   statusReason?: string | undefined;
 }
+export interface StartAutonomousDatabaseRefreshInput {
+  autonomousDatabaseId: string;
+  timeOfRefreshCutoff?: Date | undefined;
+}
+export interface StartAutonomousDatabaseRefreshOutput {
+  autonomousDatabaseId: string;
+  displayName?: string | undefined;
+  status?: AutonomousDatabaseResourceStatus | undefined;
+  statusReason?: string | undefined;
+  refreshableStatus?: RefreshableStatus | undefined;
+}
 export interface StartDbNodeInput {
   cloudVmClusterId?: string | undefined;
   exadbVmClusterId?: string | undefined;
@@ -2756,8 +2783,8 @@ export const acceptMarketplaceRegistration: API.OperationMethod<
   AcceptMarketplaceRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<AcceptMarketplaceRegistrationInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<AcceptMarketplaceRegistrationOutput>,
+  input: __S(1536, __c96, 0) as any as S.Schema<AcceptMarketplaceRegistrationInput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<AcceptMarketplaceRegistrationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2790,8 +2817,8 @@ export const associateIamRoleToResource: API.OperationMethod<
   AssociateIamRoleToResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<AssociateIamRoleToResourceInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<AssociateIamRoleToResourceOutput>,
+  input: __S(1744, __c109, 0) as any as S.Schema<AssociateIamRoleToResourceInput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<AssociateIamRoleToResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2825,8 +2852,8 @@ export const associateVirtualMachinesToCloudVmCluster: API.OperationMethod<
   AssociateVirtualMachinesToCloudVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterInput>,
-  output: __S(1936, __c121, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterOutput>,
+  input: __S(1920, __c120, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterInput>,
+  output: __S(1952, __c122, 0) as any as S.Schema<AssociateVirtualMachinesToCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3078,7 +3105,7 @@ export const createCloudVmCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateCloudVmClusterInput>,
-  output: __S(1936, __c121, 0) as any as S.Schema<CreateCloudVmClusterOutput>,
+  output: __S(1952, __c122, 0) as any as S.Schema<CreateCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3262,7 +3289,7 @@ export const deleteAutonomousDatabase: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteAutonomousDatabaseInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteAutonomousDatabaseOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3297,7 +3324,7 @@ export const deleteAutonomousDatabaseBackup: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3331,7 +3358,7 @@ export const deleteCloudAutonomousVmCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteCloudAutonomousVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3365,7 +3392,7 @@ export const deleteCloudExadataInfrastructure: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<DeleteCloudExadataInfrastructureInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudExadataInfrastructureOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3399,7 +3426,7 @@ export const deleteCloudVmCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<DeleteCloudVmClusterInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteCloudVmClusterOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3433,7 +3460,7 @@ export const deleteExadbVmCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<DeleteExadbVmClusterInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteExadbVmClusterOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3468,7 +3495,7 @@ export const deleteExascaleDbStorageVault: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteExascaleDbStorageVaultInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteExascaleDbStorageVaultOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3502,7 +3529,7 @@ export const deleteOdbNetwork: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteOdbNetworkInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteOdbNetworkOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3537,7 +3564,7 @@ export const deleteOdbPeeringConnection: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteOdbPeeringConnectionInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DeleteOdbPeeringConnectionOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DeleteOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3571,7 +3598,7 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DisassociateIamRoleFromResourceInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<DisassociateIamRoleFromResourceOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<DisassociateIamRoleFromResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3607,8 +3634,8 @@ export const disassociateVirtualMachinesFromCloudVmCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DisassociateVirtualMachinesFromCloudVmClusterInput>,
   output: __S(
-    1936,
-    __c121,
+    1952,
+    __c122,
     0,
   ) as any as S.Schema<DisassociateVirtualMachinesFromCloudVmClusterOutput>,
   errors: [
@@ -4181,7 +4208,7 @@ export const initializeService: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<InitializeServiceInput>,
-  output: __S(1536, __c96, 0) as any as S.Schema<InitializeServiceOutput>,
+  output: __S(1552, __c97, 0) as any as S.Schema<InitializeServiceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4332,7 +4359,7 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
   AutonomousDatabasePeerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListAutonomousDatabasePeersInput>,
-  output: __S(1219, __c76, 3) as any as S.Schema<ListAutonomousDatabasePeersOutput>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ListAutonomousDatabasePeersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4354,6 +4381,46 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
   span: "ListAutonomousDatabasePeers",
 })) as any;
 
+export type ListAutonomousDatabaseRefreshableClonesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the refreshable clones of the specified Autonomous Database.
+ */
+export const listAutonomousDatabaseRefreshableClones: API.PaginatedOperationMethod<
+  ListAutonomousDatabaseRefreshableClonesInput & RegionInput,
+  ListAutonomousDatabaseRefreshableClonesOutput,
+  ListAutonomousDatabaseRefreshableClonesError,
+  Credentials | HttpClient.HttpClient,
+  AutonomousDatabaseRefreshableCloneSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1248, __c78, 0) as any as S.Schema<ListAutonomousDatabaseRefreshableClonesInput>,
+  output: __S(1249, __c78, 1) as any as S.Schema<ListAutonomousDatabaseRefreshableClonesOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAutonomousDatabaseRefreshableClones",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "autonomousDatabaseRefreshableClones",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseRefreshableClones",
+})) as any;
+
 export type ListAutonomousDatabasesError =
   | AccessDeniedException
   | InternalServerException
@@ -4370,8 +4437,8 @@ export const listAutonomousDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListAutonomousDatabasesInput>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ListAutonomousDatabasesOutput>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListAutonomousDatabasesInput>,
+  output: __S(1265, __c79, 1) as any as S.Schema<ListAutonomousDatabasesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4408,8 +4475,8 @@ export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousDatabaseVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListAutonomousDatabaseVersionsInput>,
-  output: __S(1251, __c78, 3) as any as S.Schema<ListAutonomousDatabaseVersionsOutput>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListAutonomousDatabaseVersionsInput>,
+  output: __S(1283, __c80, 3) as any as S.Schema<ListAutonomousDatabaseVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4447,8 +4514,8 @@ export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutonomousVirtualMachineSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListAutonomousVirtualMachinesInput>,
-  output: __S(1267, __c79, 3) as any as S.Schema<ListAutonomousVirtualMachinesOutput>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListAutonomousVirtualMachinesInput>,
+  output: __S(1299, __c81, 3) as any as S.Schema<ListAutonomousVirtualMachinesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4487,8 +4554,8 @@ export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudAutonomousVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListCloudAutonomousVmClustersInput>,
-  output: __S(1282, __c80, 2) as any as S.Schema<ListCloudAutonomousVmClustersOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListCloudAutonomousVmClustersInput>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ListCloudAutonomousVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4526,8 +4593,8 @@ export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudExadataInfrastructureSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListCloudExadataInfrastructuresInput>,
-  output: __S(1298, __c81, 2) as any as S.Schema<ListCloudExadataInfrastructuresOutput>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListCloudExadataInfrastructuresInput>,
+  output: __S(1330, __c83, 2) as any as S.Schema<ListCloudExadataInfrastructuresOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4565,8 +4632,8 @@ export const listCloudVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CloudVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListCloudVmClustersInput>,
-  output: __S(1314, __c82, 2) as any as S.Schema<ListCloudVmClustersOutput>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListCloudVmClustersInput>,
+  output: __S(1346, __c84, 2) as any as S.Schema<ListCloudVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4605,8 +4672,8 @@ export const listDbNodes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbNodeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListDbNodesInput>,
-  output: __S(1331, __c83, 3) as any as S.Schema<ListDbNodesOutput>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListDbNodesInput>,
+  output: __S(1379, __c86, 3) as any as S.Schema<ListDbNodesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4645,8 +4712,8 @@ export const listDbServers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbServerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListDbServersInput>,
-  output: __S(1362, __c85, 2) as any as S.Schema<ListDbServersOutput>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListDbServersInput>,
+  output: __S(1394, __c87, 2) as any as S.Schema<ListDbServersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4684,8 +4751,8 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DbSystemShapeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListDbSystemShapesInput>,
-  output: __S(1379, __c86, 3) as any as S.Schema<ListDbSystemShapesOutput>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListDbSystemShapesInput>,
+  output: __S(1411, __c88, 3) as any as S.Schema<ListDbSystemShapesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4723,8 +4790,8 @@ export const listExadbVmClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExadbVmClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListExadbVmClustersInput>,
-  output: __S(1394, __c87, 2) as any as S.Schema<ListExadbVmClustersOutput>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListExadbVmClustersInput>,
+  output: __S(1426, __c89, 2) as any as S.Schema<ListExadbVmClustersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4763,8 +4830,8 @@ export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExascaleDbStorageVaultSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListExascaleDbStorageVaultsInput>,
-  output: __S(1410, __c88, 2) as any as S.Schema<ListExascaleDbStorageVaultsOutput>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListExascaleDbStorageVaultsInput>,
+  output: __S(1442, __c90, 2) as any as S.Schema<ListExascaleDbStorageVaultsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4802,8 +4869,8 @@ export const listFlexComponents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FlexComponentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListFlexComponentsInput>,
-  output: __S(1427, __c89, 3) as any as S.Schema<ListFlexComponentsOutput>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListFlexComponentsInput>,
+  output: __S(1459, __c91, 3) as any as S.Schema<ListFlexComponentsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4840,8 +4907,8 @@ export const listGiMinorVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GiMinorVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListGiMinorVersionsInput>,
-  output: __S(1443, __c90, 3) as any as S.Schema<ListGiMinorVersionsOutput>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListGiMinorVersionsInput>,
+  output: __S(1475, __c92, 3) as any as S.Schema<ListGiMinorVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4878,8 +4945,8 @@ export const listGiVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GiVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListGiVersionsInput>,
-  output: __S(1459, __c91, 3) as any as S.Schema<ListGiVersionsOutput>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListGiVersionsInput>,
+  output: __S(1491, __c93, 3) as any as S.Schema<ListGiVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4916,8 +4983,8 @@ export const listOdbNetworks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OdbNetworkSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListOdbNetworksInput>,
-  output: __S(1474, __c92, 2) as any as S.Schema<ListOdbNetworksOutput>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListOdbNetworksInput>,
+  output: __S(1506, __c94, 2) as any as S.Schema<ListOdbNetworksOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4955,8 +5022,8 @@ export const listOdbPeeringConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OdbPeeringConnectionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListOdbPeeringConnectionsInput>,
-  output: __S(1490, __c93, 2) as any as S.Schema<ListOdbPeeringConnectionsOutput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<ListOdbPeeringConnectionsInput>,
+  output: __S(1522, __c95, 2) as any as S.Schema<ListOdbPeeringConnectionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4995,8 +5062,8 @@ export const listSystemVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SystemVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListSystemVersionsInput>,
-  output: __S(1507, __c94, 3) as any as S.Schema<ListSystemVersionsOutput>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListSystemVersionsInput>,
+  output: __S(1571, __c98, 3) as any as S.Schema<ListSystemVersionsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5028,8 +5095,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5056,7 +5123,7 @@ export const rebootAutonomousDatabase: API.OperationMethod<
   RebootAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<RebootAutonomousDatabaseInput>,
+  input: __S(1600, __c100, 0) as any as S.Schema<RebootAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<RebootAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5090,8 +5157,8 @@ export const rebootDbNode: API.OperationMethod<
   RebootDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<RebootDbNodeInput>,
-  output: __S(1600, __c100, 0) as any as S.Schema<RebootDbNodeOutput>,
+  input: __S(1616, __c101, 0) as any as S.Schema<RebootDbNodeInput>,
+  output: __S(1632, __c102, 0) as any as S.Schema<RebootDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5124,7 +5191,7 @@ export const restoreAutonomousDatabase: API.OperationMethod<
   RestoreAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<RestoreAutonomousDatabaseInput>,
+  input: __S(1648, __c103, 0) as any as S.Schema<RestoreAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<RestoreAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5159,7 +5226,7 @@ export const shrinkAutonomousDatabase: API.OperationMethod<
   ShrinkAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ShrinkAutonomousDatabaseInput>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ShrinkAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<ShrinkAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5194,7 +5261,7 @@ export const startAutonomousDatabase: API.OperationMethod<
   StartAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<StartAutonomousDatabaseInput>,
+  input: __S(1680, __c105, 0) as any as S.Schema<StartAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<StartAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5210,6 +5277,41 @@ export const startAutonomousDatabase: API.OperationMethod<
   operationName: "StartAutonomousDatabase",
   telemetry: TELEMETRY,
   span: "StartAutonomousDatabase",
+}));
+
+export type StartAutonomousDatabaseRefreshError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a refresh of the specified refreshable clone Autonomous Database with data from its source database. The refresh runs asynchronously. To track its progress, check the `refreshableStatus` of the Autonomous Database.
+ */
+export const startAutonomousDatabaseRefresh: API.OperationMethod<
+  StartAutonomousDatabaseRefreshInput & RegionInput,
+  StartAutonomousDatabaseRefreshOutput,
+  StartAutonomousDatabaseRefreshError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c106, 0) as any as S.Schema<StartAutonomousDatabaseRefreshInput>,
+  output: __S(1697, __c106, 1) as any as S.Schema<StartAutonomousDatabaseRefreshOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartAutonomousDatabaseRefresh",
+  telemetry: TELEMETRY,
+  span: "StartAutonomousDatabaseRefresh",
 }));
 
 export type StartDbNodeError =
@@ -5228,8 +5330,8 @@ export const startDbNode: API.OperationMethod<
   StartDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<StartDbNodeInput>,
-  output: __S(1600, __c100, 0) as any as S.Schema<StartDbNodeOutput>,
+  input: __S(1712, __c107, 0) as any as S.Schema<StartDbNodeInput>,
+  output: __S(1632, __c102, 0) as any as S.Schema<StartDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5262,7 +5364,7 @@ export const stopAutonomousDatabase: API.OperationMethod<
   StopAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<StopAutonomousDatabaseInput>,
+  input: __S(1728, __c108, 0) as any as S.Schema<StopAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<StopAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5296,8 +5398,8 @@ export const stopDbNode: API.OperationMethod<
   StopDbNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<StopDbNodeInput>,
-  output: __S(1600, __c100, 0) as any as S.Schema<StopDbNodeOutput>,
+  input: __S(1760, __c110, 0) as any as S.Schema<StopDbNodeInput>,
+  output: __S(1632, __c102, 0) as any as S.Schema<StopDbNodeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5330,7 +5432,7 @@ export const switchoverAutonomousDatabase: API.OperationMethod<
   SwitchoverAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<SwitchoverAutonomousDatabaseInput>,
+  input: __S(1776, __c111, 0) as any as S.Schema<SwitchoverAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<SwitchoverAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5361,8 +5463,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1552, __c97, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5382,8 +5484,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1552, __c97, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5410,7 +5512,7 @@ export const updateAutonomousDatabase: API.OperationMethod<
   UpdateAutonomousDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdateAutonomousDatabaseInput>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateAutonomousDatabaseInput>,
   output: __S(128, __c8, 0) as any as S.Schema<UpdateAutonomousDatabaseOutput>,
   errors: [
     AccessDeniedException,
@@ -5445,7 +5547,7 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   UpdateAutonomousDatabaseBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupInput>,
+  input: __S(1840, __c115, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateAutonomousDatabaseBackupOutput>,
   errors: [
     AccessDeniedException,
@@ -5480,7 +5582,7 @@ export const updateCloudAutonomousVmCluster: API.OperationMethod<
   UpdateCloudAutonomousVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateCloudAutonomousVmClusterInput>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateCloudAutonomousVmClusterInput>,
   output: __S(256, __c16, 0) as any as S.Schema<UpdateCloudAutonomousVmClusterOutput>,
   errors: [
     AccessDeniedException,
@@ -5515,7 +5617,7 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   UpdateCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UpdateCloudExadataInfrastructureInput>,
+  input: __S(1872, __c117, 0) as any as S.Schema<UpdateCloudExadataInfrastructureInput>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
@@ -5551,8 +5653,8 @@ export const updateCloudExadataInfrastructureStorageCapacity: API.OperationMetho
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1840,
-    __c115,
+    1888,
+    __c118,
     0,
   ) as any as S.Schema<UpdateCloudExadataInfrastructureStorageCapacityInput>,
   output: __S(
@@ -5593,8 +5695,8 @@ export const updateCloudVmCluster: API.OperationMethod<
   UpdateCloudVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<UpdateCloudVmClusterInput>,
-  output: __S(1936, __c121, 0) as any as S.Schema<UpdateCloudVmClusterOutput>,
+  input: __S(1904, __c119, 0) as any as S.Schema<UpdateCloudVmClusterInput>,
+  output: __S(1952, __c122, 0) as any as S.Schema<UpdateCloudVmClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5628,7 +5730,7 @@ export const updateExadbVmCluster: API.OperationMethod<
   UpdateExadbVmClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<UpdateExadbVmClusterInput>,
+  input: __S(1968, __c123, 0) as any as S.Schema<UpdateExadbVmClusterInput>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateExadbVmClusterOutput>,
   errors: [
     AccessDeniedException,
@@ -5663,7 +5765,7 @@ export const updateExascaleCloudExadataInfrastructure: API.OperationMethod<
   UpdateExascaleCloudExadataInfrastructureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureInput>,
+  input: __S(1984, __c124, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureInput>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateExascaleCloudExadataInfrastructureOutput>,
   errors: [
     AccessDeniedException,
@@ -5698,7 +5800,7 @@ export const updateExascaleDbStorageVault: API.OperationMethod<
   UpdateExascaleDbStorageVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<UpdateExascaleDbStorageVaultInput>,
+  input: __S(2000, __c125, 0) as any as S.Schema<UpdateExascaleDbStorageVaultInput>,
   output: __S(384, __c24, 0) as any as S.Schema<UpdateExascaleDbStorageVaultOutput>,
   errors: [
     AccessDeniedException,
@@ -5733,7 +5835,7 @@ export const updateOdbNetwork: API.OperationMethod<
   UpdateOdbNetworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<UpdateOdbNetworkInput>,
+  input: __S(2016, __c126, 0) as any as S.Schema<UpdateOdbNetworkInput>,
   output: __S(416, __c26, 0) as any as S.Schema<UpdateOdbNetworkOutput>,
   errors: [
     AccessDeniedException,
@@ -5768,7 +5870,7 @@ export const updateOdbPeeringConnection: API.OperationMethod<
   UpdateOdbPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<UpdateOdbPeeringConnectionInput>,
+  input: __S(2032, __c127, 0) as any as S.Schema<UpdateOdbPeeringConnectionInput>,
   output: __S(448, __c28, 0) as any as S.Schema<UpdateOdbPeeringConnectionOutput>,
   errors: [
     AccessDeniedException,
@@ -5900,8 +6002,8 @@ function __c2(j: number): any {
           resourcePoolLeaderId: S.optional(S.String),
           resourcePoolSummary: S.optional(__S(144, __c9, 0)),
           scheduledOperations: S.optional(__S(146, __c9, 2)),
-          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
-          allowlistedIps: S.optional(__S(1920, __c120, 0)),
+          standbyAllowlistedIps: S.optional(__S(1936, __c121, 0)),
+          allowlistedIps: S.optional(__S(1936, __c121, 0)),
           transportableTablespace: S.optional(__S(32, __c2, 0)),
           isBackupRetentionLocked: S.optional(S.Boolean),
           isLocalDataGuardEnabled: S.optional(S.Boolean),
@@ -6083,7 +6185,7 @@ function __c14(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           autonomousDataStorageSizeInTBs: S.Number,
           cpuCoreCountPerNode: S.Number,
-          dbServers: S.optional(__S(1920, __c120, 0)),
+          dbServers: S.optional(__S(1936, __c121, 0)),
           description: S.optional(S.String),
           isMtlsEnabledVmCluster: S.optional(S.Boolean),
           licenseModel: S.optional(S.String),
@@ -6180,13 +6282,13 @@ function __c19(j: number): any {
           displayName: S.String,
           giVersion: S.String,
           hostname: S.String,
-          sshPublicKeys: __S(1920, __c120, 0),
+          sshPublicKeys: __S(1936, __c121, 0),
           odbNetworkId: S.String,
           clusterName: S.optional(S.String),
           dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(1920, __c120, 0)),
+          dbServers: S.optional(__S(1936, __c121, 0)),
           tags: S.optional(__S(48, __c3, 0)),
           isLocalBackupEnabled: S.optional(S.Boolean),
           isSparseDiskgroupEnabled: S.optional(S.Boolean),
@@ -6235,7 +6337,7 @@ function __c22(j: number): any {
           nodeCount: S.Number,
           odbNetworkId: S.String,
           shape: S.String,
-          sshPublicKeys: __S(1920, __c120, 0),
+          sshPublicKeys: __S(1936, __c121, 0),
           totalEcpuCount: S.Number,
           vmFileSystemStorageTotalSizeInGBs: S.Number,
           clusterName: S.optional(S.String),
@@ -6306,7 +6408,7 @@ function __c25(j: number): any {
           s3PolicyDocument: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
-          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1920, __c120, 0)),
+          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1936, __c121, 0)),
           tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateOdbNetworkInput" });
@@ -6333,8 +6435,8 @@ function __c27(j: number): any {
           odbNetworkId: S.String,
           peerNetworkId: S.String,
           displayName: S.optional(S.String),
-          peerNetworkCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
-          peerNetworkRouteTableIds: S.optional(__S(1920, __c120, 0)),
+          peerNetworkCidrsToBeAdded: S.optional(__S(1936, __c121, 0)),
+          peerNetworkRouteTableIds: S.optional(__S(1936, __c121, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(48, __c3, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -6461,7 +6563,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
-          dbServers: __S(1920, __c120, 0),
+          dbServers: __S(1936, __c121, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DisassociateVirtualMachinesFromCloudVmClusterInput" });
   }
@@ -6470,7 +6572,7 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ exadbVmClusterId: S.String, dbNodeIds: __S(1920, __c120, 0) }).pipe(
+        S.Struct({ exadbVmClusterId: S.String, dbNodeIds: __S(1936, __c121, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DisassociateVirtualMachinesFromExadbVmClusterInput" });
@@ -6650,7 +6752,7 @@ function __c44(j: number): any {
           isMtlsConnectionRequired: S.optional(S.Boolean),
           autonomousMaintenanceScheduleType: S.optional(S.String),
           netServicesArchitecture: S.optional(S.String),
-          availableUpgradeVersions: S.optional(__S(1920, __c120, 0)),
+          availableUpgradeVersions: S.optional(__S(1936, __c121, 0)),
           byolComputeCountLimit: S.optional(S.Number),
           connectionStringDetails: S.optional(__S(706, __c44, 2)),
           serviceConsoleUrl: S.optional(S.String),
@@ -6688,14 +6790,14 @@ function __c44(j: number): any {
           privateEndpoint: S.optional(S.String),
           privateEndpointIp: S.optional(S.String),
           privateEndpointLabel: S.optional(S.String),
-          allowlistedIps: S.optional(__S(1920, __c120, 0)),
-          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
+          allowlistedIps: S.optional(__S(1936, __c121, 0)),
+          standbyAllowlistedIps: S.optional(__S(1936, __c121, 0)),
           standbyAllowlistedIpsSource: S.optional(S.String),
           isLocalDataGuardEnabled: S.optional(S.Boolean),
           isRemoteDataGuardEnabled: S.optional(S.Boolean),
           localDisasterRecoveryType: S.optional(S.String),
           role: S.optional(S.String),
-          peerDbIds: S.optional(__S(1920, __c120, 0)),
+          peerDbIds: S.optional(__S(1936, __c121, 0)),
           failedDataRecoveryInSeconds: S.optional(S.Number),
           localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
           remoteDisasterRecoveryConfiguration: S.optional(__S(710, __c44, 6)),
@@ -6886,7 +6988,7 @@ function __c51(j: number): any {
           dataStorageSizeInGBs: S.optional(S.Number),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(1920, __c120, 0)),
+          dbServers: S.optional(__S(1936, __c121, 0)),
           description: S.optional(S.String),
           domain: S.optional(S.String),
           exadataStorageInTBsLowestScaledValue: S.optional(S.Number),
@@ -7001,7 +7103,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
-          dbServers: S.optional(__S(1920, __c120, 0)),
+          dbServers: S.optional(__S(1936, __c121, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetCloudExadataInfrastructureUnallocatedResourcesInput" });
     case 1:
@@ -7095,7 +7197,7 @@ function __c57(j: number): any {
           dataCollectionOptions: S.optional(__S(320, __c20, 0)),
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
-          dbServers: S.optional(__S(1920, __c120, 0)),
+          dbServers: S.optional(__S(1936, __c121, 0)),
           diskRedundancy: S.optional(S.String),
           giVersion: S.optional(S.String),
           hostname: S.optional(S.String),
@@ -7113,14 +7215,14 @@ function __c57(j: number): any {
           domain: S.optional(S.String),
           scanDnsName: S.optional(S.String),
           scanDnsRecordId: S.optional(S.String),
-          scanIpIds: S.optional(__S(1920, __c120, 0)),
+          scanIpIds: S.optional(__S(1936, __c121, 0)),
           shape: S.optional(S.String),
           sshPublicKeys: S.optional(__S(912, __c57, 0)),
           storageSizeInGBs: S.optional(S.Number),
           systemVersion: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           timeZone: S.optional(S.String),
-          vipIds: S.optional(__S(1920, __c120, 0)),
+          vipIds: S.optional(__S(1936, __c121, 0)),
           odbNetworkId: S.optional(S.String),
           odbNetworkArn: S.optional(S.String),
           percentProgress: S.optional(S.Number),
@@ -7224,10 +7326,10 @@ function __c60(j: number): any {
           memorySizeInGBs: S.optional(S.Number),
           shape: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          vmClusterIds: S.optional(__S(1920, __c120, 0)),
+          vmClusterIds: S.optional(__S(1936, __c121, 0)),
           computeModel: S.optional(S.String),
-          autonomousVmClusterIds: S.optional(__S(1920, __c120, 0)),
-          autonomousVirtualMachineIds: S.optional(__S(1920, __c120, 0)),
+          autonomousVmClusterIds: S.optional(__S(1936, __c121, 0)),
+          autonomousVirtualMachineIds: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "DbServer" });
   }
@@ -7284,20 +7386,20 @@ function __c62(j: number): any {
           percentProgress: S.optional(S.Number),
           scanDnsName: S.optional(S.String),
           scanDnsRecordId: S.optional(S.String),
-          scanIpIds: S.optional(__S(1920, __c120, 0)),
+          scanIpIds: S.optional(__S(1936, __c121, 0)),
           scanListenerPortTcp: S.optional(S.Number),
           scanListenerPortTcpSsl: S.optional(S.Number),
           shape: S.optional(S.String),
           shapeAttribute: S.optional(S.String),
           snapshotFileSystemStorage: S.optional(__S(992, __c62, 0)),
-          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
+          sshPublicKeys: S.optional(__S(1936, __c121, 0)),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
           systemVersion: S.optional(S.String),
           timeZone: S.optional(S.String),
           totalEcpuCount: S.optional(S.Number),
           totalFileSystemStorage: S.optional(__S(992, __c62, 0)),
-          vipIds: S.optional(__S(1920, __c120, 0)),
+          vipIds: S.optional(__S(1936, __c121, 0)),
           vmFileSystemStorage: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "ExadbVmCluster" });
@@ -7346,9 +7448,9 @@ function __c65(j: number): any {
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          vmClusterArns: S.optional(__S(1920, __c120, 0)),
+          vmClusterArns: S.optional(__S(1936, __c121, 0)),
           vmClusterCount: S.optional(S.Number),
-          vmClusterIds: S.optional(__S(1920, __c120, 0)),
+          vmClusterIds: S.optional(__S(1936, __c121, 0)),
           exascaleDbStorageVaultArn: S.optional(S.String),
           highCapacityDatabaseStorage: S.optional(__S(1040, __c65, 0)),
           isAutoscaleEnabled: S.optional(S.Boolean),
@@ -7443,7 +7545,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ServiceNetworkEndpoint" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ status: S.optional(S.String), ipv4Addresses: S.optional(__S(1920, __c120, 0)) }),
+        S.Struct({ status: S.optional(S.String), ipv4Addresses: S.optional(__S(1936, __c121, 0)) }),
       ).annotate({ identifier: "ManagedS3BackupAccess" });
     case 4:
       return S.suspend(() =>
@@ -7453,7 +7555,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
+          ipv4Addresses: S.optional(__S(1936, __c121, 0)),
           domainName: S.optional(S.String),
           s3PolicyDocument: S.optional(S.String),
         }),
@@ -7462,7 +7564,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
+          ipv4Addresses: S.optional(__S(1936, __c121, 0)),
           domainName: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
         }),
@@ -7471,7 +7573,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
+          ipv4Addresses: S.optional(__S(1936, __c121, 0)),
           domainName: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
         }),
@@ -7480,7 +7582,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           region: S.optional(S.String),
-          ipv4Addresses: S.optional(__S(1920, __c120, 0)),
+          ipv4Addresses: S.optional(__S(1936, __c121, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CrossRegionS3RestoreSourcesAccess" });
@@ -7491,7 +7593,7 @@ function __c68(j: number): any {
         S.Struct({
           serviceNetworkArn: S.optional(S.String),
           resourceGatewayArn: S.optional(S.String),
-          managedServicesIpv4Cidrs: S.optional(__S(1920, __c120, 0)),
+          managedServicesIpv4Cidrs: S.optional(__S(1936, __c121, 0)),
           serviceNetworkEndpoint: S.optional(__S(1090, __c68, 2)),
           managedS3BackupAccess: S.optional(__S(1091, __c68, 3)),
           zeroEtlAccess: S.optional(__S(1092, __c68, 4)),
@@ -7515,7 +7617,7 @@ function __c68(j: number): any {
           backupSubnetCidr: S.optional(S.String),
           customDomainName: S.optional(S.String),
           defaultDnsPrefix: S.optional(S.String),
-          peeredCidrs: S.optional(__S(1920, __c120, 0)),
+          peeredCidrs: S.optional(__S(1936, __c121, 0)),
           ociNetworkAnchorId: S.optional(S.String),
           ociNetworkAnchorUrl: S.optional(S.String),
           ociResourceAnchorName: S.optional(S.String),
@@ -7525,7 +7627,7 @@ function __c68(j: number): any {
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           percentProgress: S.optional(S.Number),
           managedServices: S.optional(__S(1098, __c68, 10)),
-          ec2PlacementGroupIds: S.optional(__S(1920, __c120, 0)),
+          ec2PlacementGroupIds: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "OdbNetwork" });
   }
@@ -7557,7 +7659,7 @@ function __c70(j: number): any {
           odbNetworkArn: S.optional(S.String),
           peerNetworkArn: S.optional(S.String),
           odbPeeringConnectionType: S.optional(S.String),
-          peerNetworkCidrs: S.optional(__S(1920, __c120, 0)),
+          peerNetworkCidrs: S.optional(__S(1936, __c121, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           percentProgress: S.optional(S.Number),
         }),
@@ -7660,6 +7762,14 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ListAutonomousDatabasePeersInput" });
     case 1:
       return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), autonomousDatabasePeers: __S(1233, __c77, 1) }),
+      ).annotate({ identifier: "ListAutonomousDatabasePeersOutput" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           autonomousDatabaseId: S.optional(S.String),
           autonomousDatabaseArn: S.optional(S.String),
@@ -7667,15 +7777,30 @@ function __c76(j: number): any {
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabasePeerSummary" });
-    case 2:
-      return S.Array(__S(1217, __c76, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), autonomousDatabasePeers: __S(1218, __c76, 2) }),
-      ).annotate({ identifier: "ListAutonomousDatabasePeersOutput" });
+    case 1:
+      return S.Array(__S(1232, __c77, 0));
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          autonomousDatabaseId: S.String.pipe(T.HttpLabel("autonomousDatabaseId")),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutonomousDatabaseRefreshableClonesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String),
+          autonomousDatabaseRefreshableClones: __S(1233, __c77, 1),
+        }),
+      ).annotate({ identifier: "ListAutonomousDatabaseRefreshableClonesOutput" });
+  }
+}
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7690,7 +7815,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListAutonomousDatabasesOutput" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7709,17 +7834,17 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDatabaseVersionSummary" });
     case 2:
-      return S.Array(__S(1249, __c78, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousDatabaseVersions: __S(1250, __c78, 2),
+          autonomousDatabaseVersions: __S(1282, __c80, 2),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseVersionsOutput" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7748,17 +7873,17 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousVirtualMachineSummary" });
     case 2:
-      return S.Array(__S(1265, __c79, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          autonomousVirtualMachines: __S(1266, __c79, 2),
+          autonomousVirtualMachines: __S(1298, __c81, 2),
         }),
       ).annotate({ identifier: "ListAutonomousVirtualMachinesOutput" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7774,12 +7899,12 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          cloudAutonomousVmClusters: __S(1281, __c80, 1),
+          cloudAutonomousVmClusters: __S(1313, __c82, 1),
         }),
       ).annotate({ identifier: "ListCloudAutonomousVmClustersOutput" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7794,12 +7919,12 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          cloudExadataInfrastructures: __S(1297, __c81, 1),
+          cloudExadataInfrastructures: __S(1329, __c83, 1),
         }),
       ).annotate({ identifier: "ListCloudExadataInfrastructuresOutput" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7813,11 +7938,21 @@ function __c82(j: number): any {
       return S.Array(__S(913, __c57, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), cloudVmClusters: __S(1313, __c82, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), cloudVmClusters: __S(1345, __c84, 1) }),
       ).annotate({ identifier: "ListCloudVmClustersOutput" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1360, __c85, 0));
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7860,24 +7995,14 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "DbNodeSummary" });
     case 2:
-      return S.Array(__S(1329, __c83, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbNodes: __S(1330, __c83, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), dbNodes: __S(1378, __c86, 2) }),
       ).annotate({ identifier: "ListDbNodesOutput" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(1344, __c84, 0));
-  }
-}
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7891,11 +8016,11 @@ function __c85(j: number): any {
       return S.Array(__S(961, __c60, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbServers: __S(1361, __c85, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), dbServers: __S(1393, __c87, 1) }),
       ).annotate({ identifier: "ListDbServersOutput" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7938,14 +8063,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "DbSystemShapeSummary" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), dbSystemShapes: __S(1378, __c86, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), dbSystemShapes: __S(1410, __c88, 2) }),
       ).annotate({ identifier: "ListDbSystemShapesOutput" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7961,11 +8086,11 @@ function __c87(j: number): any {
       return S.Array(__S(993, __c62, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), exadbVmClusters: __S(1393, __c87, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), exadbVmClusters: __S(1425, __c89, 1) }),
       ).annotate({ identifier: "ListExadbVmClustersOutput" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7980,11 +8105,11 @@ function __c88(j: number): any {
       return S.Array(__S(1041, __c65, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), exascaleDbStorageVaults: __S(1409, __c88, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), exascaleDbStorageVaults: __S(1441, __c90, 1) }),
       ).annotate({ identifier: "ListExascaleDbStorageVaultsOutput" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8011,14 +8136,14 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "FlexComponentSummary" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1457, __c91, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), flexComponents: __S(1426, __c89, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), flexComponents: __S(1458, __c91, 2) }),
       ).annotate({ identifier: "ListFlexComponentsOutput" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8036,14 +8161,14 @@ function __c90(j: number): any {
         S.Struct({ version: S.String, gridImageId: S.optional(S.String) }),
       ).annotate({ identifier: "GiMinorVersionSummary" });
     case 2:
-      return S.Array(__S(1441, __c90, 1));
+      return S.Array(__S(1473, __c92, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), giMinorVersions: __S(1442, __c90, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), giMinorVersions: __S(1474, __c92, 2) }),
       ).annotate({ identifier: "ListGiMinorVersionsOutput" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8058,14 +8183,14 @@ function __c91(j: number): any {
         identifier: "GiVersionSummary",
       });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1489, __c93, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), giVersions: __S(1458, __c91, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), giVersions: __S(1490, __c93, 2) }),
       ).annotate({ identifier: "ListGiVersionsOutput" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8078,11 +8203,11 @@ function __c92(j: number): any {
       return S.Array(__S(1099, __c68, 11));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), odbNetworks: __S(1473, __c92, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), odbNetworks: __S(1505, __c94, 1) }),
       ).annotate({ identifier: "ListOdbNetworksOutput" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8096,11 +8221,29 @@ function __c93(j: number): any {
       return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), odbPeeringConnections: __S(1489, __c93, 1) }),
+        S.Struct({ nextToken: S.optional(S.String), odbPeeringConnections: __S(1521, __c95, 1) }),
       ).annotate({ identifier: "ListOdbPeeringConnectionsOutput" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ marketplaceRegistrationToken: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AcceptMarketplaceRegistrationInput" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AcceptMarketplaceRegistrationOutput",
+      });
+  }
+}
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8116,36 +8259,18 @@ function __c94(j: number): any {
         S.Struct({
           giVersion: S.optional(S.String),
           shape: S.optional(S.String),
-          systemVersions: S.optional(__S(1920, __c120, 0)),
+          systemVersions: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "SystemVersionSummary" });
     case 2:
-      return S.Array(__S(1505, __c94, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), systemVersions: __S(1506, __c94, 2) }),
+        S.Struct({ nextToken: S.optional(S.String), systemVersions: __S(1570, __c98, 2) }),
       ).annotate({ identifier: "ListSystemVersionsOutput" });
   }
 }
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ marketplaceRegistrationToken: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "AcceptMarketplaceRegistrationInput" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AcceptMarketplaceRegistrationOutput",
-      });
-  }
-}
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8159,7 +8284,7 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8169,7 +8294,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "RebootAutonomousDatabaseInput" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8181,7 +8306,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RebootDbNodeInput" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8193,7 +8318,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "RebootDbNodeOutput" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8204,7 +8329,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "RestoreAutonomousDatabaseInput" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8214,7 +8339,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ShrinkAutonomousDatabaseInput" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8224,7 +8349,28 @@ function __c103(j: number): any {
       ).annotate({ identifier: "StartAutonomousDatabaseInput" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          autonomousDatabaseId: S.String,
+          timeOfRefreshCutoff: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartAutonomousDatabaseRefreshInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          autonomousDatabaseId: S.String,
+          displayName: S.optional(S.String),
+          status: S.optional(S.String),
+          statusReason: S.optional(S.String),
+          refreshableStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartAutonomousDatabaseRefreshOutput" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8236,7 +8382,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "StartDbNodeInput" });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8246,7 +8392,17 @@ function __c105(j: number): any {
       ).annotate({ identifier: "StopAutonomousDatabaseInput" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ iamRoleArn: S.String, awsIntegration: S.String, resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateIamRoleToResourceInput" });
+  }
+}
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8258,7 +8414,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "StopDbNodeInput" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8268,17 +8424,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "SwitchoverAutonomousDatabaseInput" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ iamRoleArn: S.String, awsIntegration: S.String, resourceArn: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "AssociateIamRoleToResourceInput" });
-  }
-}
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8288,18 +8434,18 @@ function __c109(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(1920, __c120, 0),
+          tagKeys: __S(1936, __c121, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c111(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8340,8 +8486,8 @@ function __c111(j: number): any {
           resourcePoolLeaderId: S.optional(S.String),
           resourcePoolSummary: S.optional(__S(144, __c9, 0)),
           standbyAllowlistedIpsSource: S.optional(S.String),
-          standbyAllowlistedIps: S.optional(__S(1920, __c120, 0)),
-          allowlistedIps: S.optional(__S(1920, __c120, 0)),
+          standbyAllowlistedIps: S.optional(__S(1936, __c121, 0)),
+          allowlistedIps: S.optional(__S(1936, __c121, 0)),
           autoRefreshFrequencyInSeconds: S.optional(S.Number),
           autoRefreshPointLagInSeconds: S.optional(S.Number),
           timeOfAutoRefreshStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -8353,7 +8499,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateAutonomousDatabaseInput" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8364,7 +8510,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateAutonomousDatabaseBackupInput" });
   }
 }
-function __c113(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8381,7 +8527,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateCloudAutonomousVmClusterInput" });
   }
 }
-function __c114(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8395,7 +8541,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateCloudExadataInfrastructureInput" });
   }
 }
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8405,7 +8551,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateCloudExadataInfrastructureStorageCapacityInput" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8416,7 +8562,7 @@ function __c116(j: number): any {
           dataStorageSizeInTBs: S.optional(S.Number),
           dbNodeStorageSizeInGBs: S.optional(S.Number),
           displayName: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
+          sshPublicKeys: S.optional(__S(1936, __c121, 0)),
           licenseModel: S.optional(S.String),
           memorySizeInGBs: S.optional(S.Number),
           storageSizeInGBs: S.optional(S.Number),
@@ -8424,56 +8570,24 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateCloudVmClusterInput" });
   }
 }
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exadbVmClusterId: S.String,
-          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
-          displayName: S.optional(S.String),
-          enabledEcpuCount: S.optional(S.Number),
-          gridImageId: S.optional(S.String),
-          licenseModel: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(1920, __c120, 0)),
-          systemVersion: S.optional(S.String),
-          totalEcpuCount: S.optional(S.Number),
-          updateAction: S.optional(S.String),
-          vmFileSystemStorageTotalSizeInGBs: S.optional(S.Number),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateExadbVmClusterInput" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
-          totalStorageSizeInGBs: S.Number,
-          totalVmStorageSizeInGBs: S.optional(S.Number),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateExascaleCloudExadataInfrastructureInput" });
-  }
-}
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
-          dbServers: __S(1920, __c120, 0),
+          dbServers: __S(1936, __c121, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AssociateVirtualMachinesToCloudVmClusterInput" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8486,7 +8600,39 @@ function __c121(j: number): any {
       ).annotate({ identifier: "AssociateVirtualMachinesToCloudVmClusterOutput" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          exadbVmClusterId: S.String,
+          dataCollectionOptions: S.optional(__S(320, __c20, 0)),
+          displayName: S.optional(S.String),
+          enabledEcpuCount: S.optional(S.Number),
+          gridImageId: S.optional(S.String),
+          licenseModel: S.optional(S.String),
+          sshPublicKeys: S.optional(__S(1936, __c121, 0)),
+          systemVersion: S.optional(S.String),
+          totalEcpuCount: S.optional(S.Number),
+          updateAction: S.optional(S.String),
+          vmFileSystemStorageTotalSizeInGBs: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateExadbVmClusterInput" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel("cloudExadataInfrastructureId")),
+          totalStorageSizeInGBs: S.Number,
+          totalVmStorageSizeInGBs: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateExascaleCloudExadataInfrastructureInput" });
+  }
+}
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8502,15 +8648,15 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateExascaleDbStorageVaultInput" });
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
           displayName: S.optional(S.String),
-          peeredCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
-          peeredCidrsToBeRemoved: S.optional(__S(1920, __c120, 0)),
+          peeredCidrsToBeAdded: S.optional(__S(1936, __c121, 0)),
+          peeredCidrsToBeRemoved: S.optional(__S(1936, __c121, 0)),
           s3Access: S.optional(S.String),
           zeroEtlAccess: S.optional(S.String),
           stsAccess: S.optional(S.String),
@@ -8518,21 +8664,21 @@ function __c123(j: number): any {
           s3PolicyDocument: S.optional(S.String),
           stsPolicyDocument: S.optional(S.String),
           kmsPolicyDocument: S.optional(S.String),
-          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1920, __c120, 0)),
-          crossRegionS3RestoreSourcesToDisable: S.optional(__S(1920, __c120, 0)),
+          crossRegionS3RestoreSourcesToEnable: S.optional(__S(1936, __c121, 0)),
+          crossRegionS3RestoreSourcesToDisable: S.optional(__S(1936, __c121, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOdbNetworkInput" });
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           odbPeeringConnectionId: S.String.pipe(T.HttpLabel("odbPeeringConnectionId")),
           displayName: S.optional(S.String),
-          peerNetworkCidrsToBeAdded: S.optional(__S(1920, __c120, 0)),
-          peerNetworkCidrsToBeRemoved: S.optional(__S(1920, __c120, 0)),
+          peerNetworkCidrsToBeAdded: S.optional(__S(1936, __c121, 0)),
+          peerNetworkCidrsToBeRemoved: S.optional(__S(1936, __c121, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOdbPeeringConnectionInput" });
   }

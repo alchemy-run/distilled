@@ -254,6 +254,7 @@ export interface ResourceInfo {
   Version?: string | undefined;
   ClusterId?: string | undefined;
   ClusterRole?: number | undefined;
+  SyncStatus?: string | undefined;
 }
 export type ResourceInfoList = Array<ResourceInfo>;
 export interface DescribeVsmsResponse {
@@ -1058,6 +1059,7 @@ function __c17(j: number): any {
           Version: S.optional(S.String),
           ClusterId: S.optional(S.String),
           ClusterRole: S.optional(S.Number),
+          SyncStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceInfo" });
     case 4:

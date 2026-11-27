@@ -410,6 +410,7 @@ export interface VietnamAdditionalInfo {
   electronicTransactionCodeNumber?: string | undefined;
   paymentVoucherNumber?: string | undefined;
   paymentVoucherNumberDate?: string | undefined;
+  vatCreditMethod?: boolean | undefined;
 }
 export type UniqueIdentificationNumber = string;
 export interface EgyptAdditionalInfo {
@@ -462,6 +463,32 @@ export interface MexicoAdditionalInfo {
   taxRegimeFullName?: string | undefined;
   cfdiUsageCode?: string | undefined;
 }
+export type UaeTaxRegistrationNumberType =
+  | "VATTaxRegistrationNumber"
+  | "LocalTaxRegistrationNumber"
+  | (string & {});
+export type UaePeppolId = string;
+export type UaeTradeLicenseNumber = string;
+export type UaeEmiratesId = string;
+export interface UnitedArabEmiratesAdditionalInfo {
+  taxRegistrationNumberType?: UaeTaxRegistrationNumberType | undefined;
+  peppolId?: string | undefined;
+  tradeLicenseNumber?: string | undefined;
+  emiratesId?: string | undefined;
+}
+export type NorwayTaxRegistrationNumberType =
+  | "TaxRegistrationNumber"
+  | "LocalRegistrationNumber"
+  | (string & {});
+export type NorwayPeppolId = string;
+export interface NorwayAdditionalInfo {
+  taxRegistrationNumberType?: NorwayTaxRegistrationNumberType | undefined;
+  peppolId?: string | undefined;
+}
+export type NewZealandPeppolId = string;
+export interface NewZealandAdditionalInfo {
+  peppolId?: string | undefined;
+}
 export interface AdditionalInfoRequest {
   malaysiaAdditionalInfo?: MalaysiaAdditionalInfo | undefined;
   israelAdditionalInfo?: IsraelAdditionalInfo | undefined;
@@ -489,6 +516,9 @@ export interface AdditionalInfoRequest {
   monacoAdditionalInfo?: MonacoAdditionalInfo | undefined;
   germanyAdditionalInfo?: GermanyAdditionalInfo | undefined;
   mexicoAdditionalInfo?: MexicoAdditionalInfo | undefined;
+  unitedArabEmiratesAdditionalInfo?: UnitedArabEmiratesAdditionalInfo | undefined;
+  norwayAdditionalInfo?: NorwayAdditionalInfo | undefined;
+  newZealandAdditionalInfo?: NewZealandAdditionalInfo | undefined;
 }
 export type DateOfBirth = string;
 export type S3BucketName = string;
@@ -613,6 +643,9 @@ export interface AdditionalInfoResponse {
   germanyAdditionalInfo?: GermanyAdditionalInfo | undefined;
   mexicoAdditionalInfo?: MexicoAdditionalInfo | undefined;
   colombiaAdditionalInfo?: ColombiaAdditionalInfo | undefined;
+  unitedArabEmiratesAdditionalInfo?: UnitedArabEmiratesAdditionalInfo | undefined;
+  norwayAdditionalInfo?: NorwayAdditionalInfo | undefined;
+  newZealandAdditionalInfo?: NewZealandAdditionalInfo | undefined;
 }
 export type StatusReasonCode = string;
 export type StatusReasonMessage = string;
@@ -922,6 +955,18 @@ export type BatchPutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **New Zealand**
+ *
+ * - You can optionally specify the `sector`. Valid values are `Government` and `Business`. Non-government customers use `Business`.
+ *
+ * - If your `sector` is `Government`, you can optionally specify the `peppolId` in the `newZealandAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Norway**
+ *
+ * - You can optionally specify the `taxRegistrationNumberType` in the `norwayAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `TaxRegistrationNumber` and `LocalRegistrationNumber`. Use `LocalRegistrationNumber` to register a Norwegian Organisation Number for a business that isn't VAT registered. In that case, the `registrationId` must be the 9-digit Organisation Number.
+ *
+ * - You can optionally specify the `peppolId` in the `norwayAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
  * **Saudi Arabia**
  *
  * - For `address`, you must specify `addressLine3`.
@@ -962,9 +1007,23 @@ export type BatchPutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **United Arab Emirates**
+ *
+ * - You must specify the `taxRegistrationNumberType` in the `unitedArabEmiratesAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `VATTaxRegistrationNumber` and `LocalTaxRegistrationNumber` (Corporate Tax).
+ *
+ * - You can optionally specify the `peppolId`, `tradeLicenseNumber`, and `emiratesId` in the `unitedArabEmiratesAdditionalInfo` field.
+ *
  * **Uruguay**
  *
  * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
+ * **Vietnam**
+ *
+ * - You must specify the `vatCreditMethod` in the `vietnamAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * - If `vatCreditMethod` is `true`, the sector must be `Business`, and you must specify the `enterpriseIdentificationNumber`, `electronicTransactionCodeNumber`, `paymentVoucherNumber`, and `paymentVoucherNumberDate`.
+ *
+ * - If `vatCreditMethod` is `false`, the sector must be `Individual`, and you must not specify those four fields. The tax registration number can also be 12 digits.
  *
  * **Philippines**
  *
@@ -1457,6 +1516,18 @@ export type PutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **New Zealand**
+ *
+ * - You can optionally specify the `sector`. Valid values are `Government` and `Business`. Non-government customers use `Business`.
+ *
+ * - If your `sector` is `Government`, you can optionally specify the `peppolId` in the `newZealandAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Norway**
+ *
+ * - You can optionally specify the `taxRegistrationNumberType` in the `norwayAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `TaxRegistrationNumber` and `LocalRegistrationNumber`. Use `LocalRegistrationNumber` to register a Norwegian Organisation Number for a business that isn't VAT registered. In that case, the `registrationId` must be the 9-digit Organisation Number.
+ *
+ * - You can optionally specify the `peppolId` in the `norwayAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
  * **Saudi Arabia**
  *
  * - For `address`, you must specify `addressLine3`.
@@ -1497,9 +1568,23 @@ export type PutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **United Arab Emirates**
+ *
+ * - You must specify the `taxRegistrationNumberType` in the `unitedArabEmiratesAdditionalInfo` field of the `additionalTaxInformation` object. Valid values are `VATTaxRegistrationNumber` and `LocalTaxRegistrationNumber` (Corporate Tax).
+ *
+ * - You can optionally specify the `peppolId`, `tradeLicenseNumber`, and `emiratesId` in the `unitedArabEmiratesAdditionalInfo` field.
+ *
  * **Uruguay**
  *
  * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
+ * **Vietnam**
+ *
+ * - You must specify the `vatCreditMethod` in the `vietnamAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * - If `vatCreditMethod` is `true`, the sector must be `Business`, and you must specify the `enterpriseIdentificationNumber`, `electronicTransactionCodeNumber`, `paymentVoucherNumber`, and `paymentVoucherNumberDate`.
+ *
+ * - If `vatCreditMethod` is `false`, the sector must be `Individual`, and you must not specify those four fields. The tax registration number can also be 12 digits.
  *
  * **Philippines**
  *
@@ -1733,6 +1818,9 @@ function __c7(j: number): any {
           germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
           mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
           colombiaAdditionalInfo: S.optional(__S(227, __c7, 3)),
+          unitedArabEmiratesAdditionalInfo: S.optional(__S(826, __c25, 26)),
+          norwayAdditionalInfo: S.optional(__S(827, __c25, 27)),
+          newZealandAdditionalInfo: S.optional(__S(828, __c25, 28)),
         }),
       ).annotate({ identifier: "AdditionalInfoResponse" });
     case 5:
@@ -2254,6 +2342,7 @@ function __c25(j: number): any {
           electronicTransactionCodeNumber: S.optional(S.String),
           paymentVoucherNumber: S.optional(S.String),
           paymentVoucherNumberDate: S.optional(S.String),
+          vatCreditMethod: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VietnamAdditionalInfo" });
     case 16:
@@ -2309,6 +2398,26 @@ function __c25(j: number): any {
           cfdiUsageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "MexicoAdditionalInfo" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          taxRegistrationNumberType: S.optional(S.String),
+          peppolId: S.optional(S.String),
+          tradeLicenseNumber: S.optional(S.String),
+          emiratesId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UnitedArabEmiratesAdditionalInfo" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          taxRegistrationNumberType: S.optional(S.String),
+          peppolId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NorwayAdditionalInfo" });
+    case 28:
+      return S.suspend(() => S.Struct({ peppolId: S.optional(S.String) })).annotate({
+        identifier: "NewZealandAdditionalInfo",
+      });
   }
 }
 function __c26(j: number): any {
@@ -2342,6 +2451,9 @@ function __c26(j: number): any {
           monacoAdditionalInfo: S.optional(__S(823, __c25, 23)),
           germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
           mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
+          unitedArabEmiratesAdditionalInfo: S.optional(__S(826, __c25, 26)),
+          norwayAdditionalInfo: S.optional(__S(827, __c25, 27)),
+          newZealandAdditionalInfo: S.optional(__S(828, __c25, 28)),
         }),
       ).annotate({ identifier: "AdditionalInfoRequest" });
     case 1:

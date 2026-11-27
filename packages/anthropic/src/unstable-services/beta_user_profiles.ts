@@ -26,25 +26,17 @@ const TELEMETRY = {
 } as const;
 
 export type AnthropicBetaCase1 =
-  | "message-batches-2024-09-24"
-  | "prompt-caching-2024-07-31"
   | "computer-use-2024-10-22"
   | "computer-use-2025-01-24"
-  | "pdfs-2024-09-25"
-  | "token-counting-2024-11-01"
-  | "token-efficient-tools-2025-02-19"
   | "output-128k-2025-02-19"
-  | "files-api-2025-04-14"
   | "mcp-client-2025-04-04"
   | "mcp-client-2025-11-20"
   | "dev-full-thinking-2025-05-14"
   | "interleaved-thinking-2025-05-14"
   | "code-execution-2025-05-22"
-  | "extended-cache-ttl-2025-04-11"
   | "context-1m-2025-08-07"
   | "context-management-2025-06-27"
   | "model-context-window-exceeded-2025-08-26"
-  | "skills-2025-10-02"
   | "fast-mode-2026-02-01"
   | "output-300k-2026-03-24"
   | "user-profiles-2026-03-24"
@@ -52,7 +44,6 @@ export type AnthropicBetaCase1 =
   | "user-profiles-2026-09-04"
   | "advisor-tool-2026-03-01"
   | "managed-agents-2026-04-01"
-  | "cache-diagnosis-2026-04-07"
   | "dreaming-2026-04-21"
   | "thinking-token-count-2026-05-13"
   | "server-side-fallback-2026-06-01"
@@ -67,7 +58,6 @@ export type AnthropicBetaCase1 =
   | "structured-outputs-2025-11-13"
   | "task-budgets-2026-03-13"
   | "thinking-display-updates-2026-08-18"
-  | "ce-user-management-2026-07-13"
   | "mid-conversation-output-config-2026-07-01"
   | "thinking-binding-controls-2026-08-01"
   | "mid-conversation-system-clear-at-2026-08-21"
@@ -81,7 +71,21 @@ export type AnthropicBetaCase1 =
   | "admin-user-sign-out-2026-10-08"
   | "message-threads-2026-08-12"
   | "analytics-usage-cost-2026-08-24"
-  | "experimental-claude-tag-2026-10-21";
+  | "experimental-claude-tag-2026-10-21"
+  | "message-batches-2024-09-24"
+  | "prompt-caching-2024-07-31"
+  | "pdfs-2024-09-25"
+  | "token-counting-2024-11-01"
+  | "token-efficient-tools-2025-02-19"
+  | "files-api-2025-04-14"
+  | "extended-cache-ttl-2025-04-11"
+  | "skills-2025-10-02"
+  | "cache-diagnosis-2026-04-07"
+  | "ce-user-management-2026-07-13"
+  | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
+  | "google-managed-data-controls-2026-09-01"
+  | "user-profiles-billing-2026-10-01";
 /** Beta names you can send in the `anthropic-beta` header. See [Beta headers](https://platform.claude.com/docs/en/api/beta-headers) for how to send them and where to find the name a feature needs. */
 export type AnthropicBeta = string | AnthropicBetaCase1;
 /** Optional header to specify the beta version(s) you want to use. */
@@ -255,6 +259,258 @@ export interface BetaDeletedUserProfile {
   /** Object type. Always `user_profile_deleted`. */
   type: string;
 }
+/** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+export type GetGoogleManagedDataControlsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface GetGoogleManagedDataControlsRequest {
+  /** The ID of the user profile whose Google-managed data controls to retrieve (`uprof_...`). */
+  user_profile_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+  anthropicBeta?: GetGoogleManagedDataControlsRequestAnthropicBetaList | undefined;
+  /** Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace. */
+  anthropicWorkspaceId?: string | undefined;
+}
+/** A key that a region has retired. Keep the key usable until `expires_at`. */
+export interface BetaGoogleManagedRetiredKey {
+  /** The ID of the retired External Key (`ekey_...`). */
+  external_key_id: string;
+  /** The code of the region that retired the key. */
+  region: string;
+  /** When this entry is removed, in RFC 3339 format. */
+  expires_at: string;
+}
+/** Keys that a region has retired, earliest `expires_at` first. */
+export type BetaGoogleManagedCmekDisabledRetiredKeysList = Array<BetaGoogleManagedRetiredKey>;
+/** The control is off and has no keys. */
+export interface BetaGoogleManagedCmekDisabled {
+  type: string;
+  /** Keys that a region has retired, earliest `expires_at` first. */
+  retired_keys: BetaGoogleManagedCmekDisabledRetiredKeysList;
+}
+/** The ID of the External Key configured for each region (`ekey_...`), keyed by region code. A region with no key is left out. */
+export type BetaGoogleManagedCmekEnabledExternalKeyIdsMap = { [key: string]: string | undefined };
+/** No key is set for this region. */
+export interface BetaGoogleManagedCmekRegionNotConfigured {
+  type: string;
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+}
+/** The region is validating the configured key, or the key has passed validation and the region has not started to apply it. */
+export interface BetaGoogleManagedCmekRegionPending {
+  type: string;
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** Why the latest validation attempt failed. `null` when no attempt has failed. */
+  error: string | null;
+}
+/** The configured key passed validation, and the region applies it. */
+export interface BetaGoogleManagedCmekRegionActive {
+  type: string;
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** When the status last became `active`, in RFC 3339 format. */
+  validated_at: string;
+  /** When the region last got a successful answer from Google Cloud KMS for the key, in RFC 3339 format. `null` when it has none to report. */
+  last_checked_at: string | null;
+  /** Why Google Cloud KMS refused the region's latest use of the key. `null` when the region has no refusal to report. A `null` does not mean that the key works. */
+  error: string | null;
+}
+/** The region stopped retrying validation before the configured key passed. To restart validation, send the region a key again. It can be the same key. */
+export interface BetaGoogleManagedCmekRegionFailed {
+  type: string;
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** Why the region cannot use the configured key. */
+  error: string;
+}
+/** Anthropic has withdrawn or paused its approval of customer-managed keys for this profile, so the region does not apply the control. */
+export type BetaGoogleManagedCmekRegionSuspended = BetaGoogleManagedCmekRegionNotConfigured;
+/** One region's status for the `cmek` control, discriminated by `type`. */
+export type BetaGoogleManagedCmekRegionStatus =
+  | BetaGoogleManagedCmekRegionNotConfigured
+  | BetaGoogleManagedCmekRegionPending
+  | BetaGoogleManagedCmekRegionActive
+  | BetaGoogleManagedCmekRegionFailed
+  | BetaGoogleManagedCmekRegionNotConfigured;
+/** One status for each region, keyed by region code. */
+export type BetaGoogleManagedCmekRegionStatuses = {
+  [key: string]: BetaGoogleManagedCmekRegionStatus | undefined;
+};
+/** Keys that a region has retired, earliest `expires_at` first. */
+export type BetaGoogleManagedCmekEnabledRetiredKeysList = Array<BetaGoogleManagedRetiredKey>;
+/** The control is on and has a key for at least one region. */
+export interface BetaGoogleManagedCmekEnabled {
+  type: string;
+  /** The ID of the External Key configured for each region (`ekey_...`), keyed by region code. A region with no key is left out. */
+  external_key_ids: BetaGoogleManagedCmekEnabledExternalKeyIdsMap;
+  /** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+  status: BetaGoogleManagedCmekRegionStatuses;
+  /** Keys that a region has retired, earliest `expires_at` first. */
+  retired_keys: BetaGoogleManagedCmekEnabledRetiredKeysList;
+}
+/** The customer-managed encryption key control, discriminated by `type`. */
+export type BetaGoogleManagedCmekControl =
+  | BetaGoogleManagedCmekDisabled
+  | BetaGoogleManagedCmekEnabled;
+/** A bucket that a region has retired. Until `expires_at`, keep the bucket and Anthropic's access to it as they were when the bucket passed verification. */
+export interface BetaGoogleManagedRetiredBucket {
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+  /** The code of the region that retired the bucket. */
+  region: string;
+  /** When this entry is removed, in RFC 3339 format. */
+  expires_at: string;
+}
+/** Buckets that a region has retired, earliest `expires_at` first. */
+export type BetaGoogleManagedStorageDisabledRetiredBucketsList =
+  Array<BetaGoogleManagedRetiredBucket>;
+/** The control is off and has no buckets. */
+export interface BetaGoogleManagedStorageDisabled {
+  type: string;
+  /** Buckets that a region has retired, earliest `expires_at` first. */
+  retired_buckets: BetaGoogleManagedStorageDisabledRetiredBucketsList;
+}
+/** The bucket configured for a region. */
+export interface BetaGoogleManagedStorageBucket {
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+  /** The ID of the project that holds the bucket. `null` until the region has confirmed the bucket. */
+  project_id: string | null;
+  /** The resource name of the Cloud KMS key that the bucket encrypts objects under by default. `null` until the region has confirmed the bucket, and when the bucket has no default key. */
+  kms_key_name: string | null;
+  /** The bucket's location, as Cloud Storage reports it. `null` until the region has confirmed the bucket. */
+  location: string | null;
+}
+/** The bucket configured for each region, keyed by region code. A region with no bucket is left out. */
+export type BetaGoogleManagedStorageEnabledBucketsMap = {
+  [key: string]: BetaGoogleManagedStorageBucket | undefined;
+};
+/** A Cloud Storage bucket, named by the project that holds it and by its own name. */
+export interface BetaGoogleManagedBucketReference {
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+}
+/** No bucket is set for this region. */
+export interface BetaGoogleManagedStorageRegionNotConfigured {
+  type: string;
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaGoogleManagedBucketReference | null;
+}
+/** Which check failed, such as `label_mismatch` or `grant_mismatch`. Anthropic may add values. */
+export type BetaGoogleManagedStorageFailedCheckCheck =
+  | "label_mismatch"
+  | "location_mismatch"
+  | "encryption"
+  | "versioning"
+  | "bucket_settings"
+  | "lifecycle_rules"
+  | "deletion_policy"
+  | "grant_mismatch"
+  | "kms_key_refused"
+  | "probe_failed"
+  | "project_not_verified";
+export type BetaGoogleManagedStorageFailedCheckRole =
+  | "ingest"
+  | "read"
+  | "maintenance"
+  | "media_erasure"
+  | "verify";
+/** One check that a verification attempt failed. */
+export interface BetaGoogleManagedStorageFailedCheck {
+  /** Which check failed, such as `label_mismatch` or `grant_mismatch`. Anthropic may add values. */
+  check: BetaGoogleManagedStorageFailedCheckCheck;
+  /** On a check about one of the accounts that Anthropic uses to reach the bucket, that account's kind of access, such as `ingest`. `null` on any other check. Anthropic may add values. */
+  role: BetaGoogleManagedStorageFailedCheckRole | null;
+  /** What failed and, where the end customer can fix it, what to change. */
+  message: string;
+}
+/** The checks that the latest reported verification attempt failed. Empty when none has failed. */
+export type BetaGoogleManagedStorageRegionPendingFailedChecksList =
+  Array<BetaGoogleManagedStorageFailedCheck>;
+/** The region is verifying the configured bucket. */
+export interface BetaGoogleManagedStorageRegionPending {
+  type: string;
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaGoogleManagedBucketReference | null;
+  /** The checks that the latest reported verification attempt failed. Empty when none has failed. */
+  failed_checks: BetaGoogleManagedStorageRegionPendingFailedChecksList;
+}
+/** The checks that the latest reported daily verification failed. Empty when it passed. */
+export type BetaGoogleManagedStorageRegionActiveFailedChecksList =
+  Array<BetaGoogleManagedStorageFailedCheck>;
+/** The configured bucket passed verification, and the region applies it. */
+export interface BetaGoogleManagedStorageRegionActive {
+  type: string;
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaGoogleManagedBucketReference | null;
+  /** When the status last became `active`, in RFC 3339 format. */
+  validated_at: string;
+  /** The checks that the latest reported daily verification failed. Empty when it passed. */
+  failed_checks: BetaGoogleManagedStorageRegionActiveFailedChecksList;
+}
+/** The checks that the last reported verification attempt failed. */
+export type BetaGoogleManagedStorageRegionFailedFailedChecksList =
+  Array<BetaGoogleManagedStorageFailedCheck>;
+/** The region stopped retrying verification before the configured bucket passed. To restart verification, send the region a bucket again. It can be the same bucket. */
+export interface BetaGoogleManagedStorageRegionFailed {
+  type: string;
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaGoogleManagedBucketReference | null;
+  /** The checks that the last reported verification attempt failed. */
+  failed_checks: BetaGoogleManagedStorageRegionFailedFailedChecksList;
+}
+/** Anthropic has withdrawn or paused its approval of customer-owned storage for this profile, so the region does not apply the control. */
+export type BetaGoogleManagedStorageRegionSuspended = BetaGoogleManagedStorageRegionNotConfigured;
+/** One region's status for the `storage` control, discriminated by `type`. */
+export type BetaGoogleManagedStorageRegionStatus =
+  | BetaGoogleManagedStorageRegionNotConfigured
+  | BetaGoogleManagedStorageRegionPending
+  | BetaGoogleManagedStorageRegionActive
+  | BetaGoogleManagedStorageRegionFailed
+  | BetaGoogleManagedStorageRegionNotConfigured;
+/** One status for each region, keyed by region code. */
+export type BetaGoogleManagedStorageRegionStatuses = {
+  [key: string]: BetaGoogleManagedStorageRegionStatus | undefined;
+};
+/** Buckets that a region has retired, earliest `expires_at` first. */
+export type BetaGoogleManagedStorageEnabledRetiredBucketsList =
+  Array<BetaGoogleManagedRetiredBucket>;
+/** The control is on and has a bucket for at least one region. */
+export interface BetaGoogleManagedStorageEnabled {
+  type: string;
+  /** The bucket configured for each region, keyed by region code. A region with no bucket is left out. */
+  buckets: BetaGoogleManagedStorageEnabledBucketsMap;
+  /** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+  status: BetaGoogleManagedStorageRegionStatuses;
+  /** Buckets that a region has retired, earliest `expires_at` first. */
+  retired_buckets: BetaGoogleManagedStorageEnabledRetiredBucketsList;
+}
+/** The customer-owned storage control, discriminated by `type`. */
+export type BetaGoogleManagedStorageControl =
+  | BetaGoogleManagedStorageDisabled
+  | BetaGoogleManagedStorageEnabled;
+/** A user profile's encryption key and storage bucket settings for Claude on Google Cloud's Agent Platform. Every user profile has one of these objects. You can read and update it, but not create or delete it. Keys and buckets are set for each region. A request's region depends on the Google endpoint it is sent to: `us` is the US multi-region endpoint and the regional endpoint of every location whose name starts with `us-`, `eu` is the EU multi-region endpoint and the regional endpoint of every location whose name starts with `europe-`, `sg` is the `asia-southeast1` regional endpoint, and `global` is the global endpoint, wherever Google serves the request. Anthropic may add regions. */
+export interface BetaGoogleManagedDataControls {
+  /** Object type. Always `google_managed_data_controls`. */
+  type: string;
+  /** The ID of the user profile that these controls belong to (`uprof_...`). */
+  user_profile_id: string;
+  /** The customer-managed encryption key control: the key in the end customer's Google Cloud KMS that is set for each region. */
+  cmek: BetaGoogleManagedCmekControl;
+  /** When an update last changed a control, or a region's status last changed, in RFC 3339 format. A region that starts or stops reading `suspended`, a change to `last_checked_at` alone, and the removal of a retired entry do not count. */
+  updated_at: string;
+  /** The customer-owned storage control: the end customer's Cloud Storage bucket that is set for each region. */
+  storage: BetaGoogleManagedStorageControl;
+  /** The label value that every bucket set up for this profile must have. It never changes. */
+  bucket_label_value: string;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type GetUserProfileRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetUserProfileRequest {
@@ -298,6 +554,53 @@ export interface BetaListUserProfilesResponse {
   /** Cursor for the next page, or `null` when there are no more results. */
   next_page: string | null;
 }
+/** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+export type UpdateGoogleManagedDataControlsRequestAnthropicBetaList = Array<AnthropicBeta>;
+/** Turns the control off and removes every region's key. */
+export type BetaGoogleManagedCmekDisabledParams = BetaUserProfileEnrollEndUserAction;
+export type BetaGoogleManagedCmekEnabledParamsExternalKeyIdsMap = {
+  [key: string]: string | null | undefined;
+};
+/** Turns the control on, or changes its keys while it is on. */
+export interface BetaGoogleManagedCmekEnabledParams {
+  type: string;
+  /** The External Key to use in each region, keyed by region code, such as `us` or `eu`. An External Key ID (`ekey_...`) sets that region's key, `null` removes it, and a region you leave out keeps its key. While the control is on, at least one region must have a key. */
+  external_key_ids?: BetaGoogleManagedCmekEnabledParamsExternalKeyIdsMap | null | undefined;
+}
+/** How to set the `cmek` control, discriminated by `type`. */
+export type BetaGoogleManagedCmekControlParams =
+  | BetaUserProfileEnrollEndUserAction
+  | BetaGoogleManagedCmekEnabledParams;
+/** Turns the control off and removes every region's bucket. */
+export type BetaGoogleManagedStorageDisabledParams = BetaUserProfileEnrollEndUserAction;
+/** The bucket to use in each region, keyed by region code, such as `us` or `eu`. An object with `project_number` and `bucket_name` sets that region's bucket, `null` removes it, and a region you leave out keeps its bucket. A bucket can serve only one region. While the control is on, at least one region must have a bucket. */
+export type BetaGoogleManagedStorageEnabledParamsBucketsMap = {
+  [key: string]: BetaGoogleManagedBucketReference | null | undefined;
+};
+/** Turns the control on, or changes its buckets while it is on. */
+export interface BetaGoogleManagedStorageEnabledParams {
+  type: string;
+  /** The bucket to use in each region, keyed by region code, such as `us` or `eu`. An object with `project_number` and `bucket_name` sets that region's bucket, `null` removes it, and a region you leave out keeps its bucket. A bucket can serve only one region. While the control is on, at least one region must have a bucket. */
+  buckets?: BetaGoogleManagedStorageEnabledParamsBucketsMap | undefined;
+}
+/** How to set the `storage` control, discriminated by `type`. */
+export type BetaGoogleManagedStorageControlParams =
+  | BetaUserProfileEnrollEndUserAction
+  | BetaGoogleManagedStorageEnabledParams;
+export interface UpdateGoogleManagedDataControlsRequest {
+  /** The ID of the user profile whose Google-managed data controls to update (`uprof_...`). */
+  user_profile_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+  anthropicBeta?: UpdateGoogleManagedDataControlsRequestAnthropicBetaList | undefined;
+  /** Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace. */
+  anthropicWorkspaceId?: string | undefined;
+  /** The customer-managed encryption key control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+  cmek?: BetaGoogleManagedCmekControlParams | undefined;
+  /** The customer-owned storage control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+  storage?: BetaGoogleManagedStorageControlParams | undefined;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type UpdateUserProfileRequestAnthropicBetaList = Array<AnthropicBeta>;
 /** Key-value pairs to merge into the stored metadata. Keys provided overwrite existing values. To remove a key, set its value to an empty string. Keys not provided are left unchanged. Maximum 16 keys, with keys up to 64 characters and values up to 512 characters. */
@@ -325,7 +628,7 @@ export interface UpdateUserProfileRequest {
   external_user_details?: BetaUserProfileExternalUserDetailsParams | undefined;
 }
 export type CreateEnrollmentUrlError = AnthropicOpError;
-/** Create Enrollment URL */
+/** Create Enrollment URL Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS. On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal) for when to create the link and what the end customer sees. */
 export const createEnrollmentUrl: API.OperationMethod<
   CreateEnrollmentUrlRequest,
   BetaEnrollmentUrl,
@@ -343,7 +646,7 @@ export const createEnrollmentUrl: API.OperationMethod<
 }));
 
 export type CreateUserProfileError = AnthropicOpError;
-/** Create User Profile */
+/** Create User Profile Register one of your end customers and get the ID to send on the requests you make for them. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#create-a-profile-for-each-end-customer) for what to send. */
 export const createUserProfile: API.OperationMethod<
   CreateUserProfileRequest,
   BetaUserProfile,
@@ -361,7 +664,7 @@ export const createUserProfile: API.OperationMethod<
 }));
 
 export type CreateUserProfileActionUrlError = AnthropicOpError;
-/** Create Action URL */
+/** Create Action URL Create a link that sends the profile's end customer to the Verification Portal. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal) for when to create the link and what the end customer sees. */
 export const createUserProfileActionUrl: API.OperationMethod<
   CreateUserProfileActionUrlRequest,
   BetaUserProfileActionUrl,
@@ -379,7 +682,7 @@ export const createUserProfileActionUrl: API.OperationMethod<
 }));
 
 export type DeleteUserProfileError = AnthropicOpError;
-/** Delete User Profile */
+/** Delete User Profile Delete a user profile, for example when the end customer closes their account. Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#delete-a-profile) for what happens after a delete. */
 export const deleteUserProfile: API.OperationMethod<
   DeleteUserProfileRequest,
   BetaDeletedUserProfile,
@@ -396,15 +699,33 @@ export const deleteUserProfile: API.OperationMethod<
   span: "DeleteUserProfile",
 }));
 
+export type GetGoogleManagedDataControlsError = AnthropicOpError;
+/** Get Google-Managed Data Controls Get the profile's encryption keys and storage buckets for Claude on Google Cloud's Agent Platform, with each region's status. */
+export const getGoogleManagedDataControls: API.OperationMethod<
+  GetGoogleManagedDataControlsRequest,
+  BetaGoogleManagedDataControls,
+  GetGoogleManagedDataControlsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<GetGoogleManagedDataControlsRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<BetaGoogleManagedDataControls>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleManagedDataControls",
+}));
+
 export type GetUserProfileError = AnthropicOpError;
-/** Get User Profile */
+/** Get User Profile Get a user profile by ID to check the details stored for it. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles) for how to set up and manage profiles. */
 export const getUserProfile: API.OperationMethod<
   GetUserProfileRequest,
   BetaUserProfile,
   GetUserProfileError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetUserProfileRequest>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetUserProfileRequest>,
   output: __S(28, __c3, 4) as any as S.Schema<BetaUserProfile>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
@@ -415,7 +736,7 @@ export const getUserProfile: API.OperationMethod<
 }));
 
 export type ListUserProfilesError = AnthropicOpError;
-/** List User Profiles */
+/** List User Profiles List the user profiles in your organization, newest first by default. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles) for how to set up and manage profiles. */
 export const listUserProfiles: API.PaginatedOperationMethod<
   ListUserProfilesRequest,
   BetaListUserProfilesResponse,
@@ -424,8 +745,8 @@ export const listUserProfiles: API.PaginatedOperationMethod<
   BetaUserProfile
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListUserProfilesRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<BetaListUserProfilesResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListUserProfilesRequest>,
+    output: __S(82, __c10, 2) as any as S.Schema<BetaListUserProfilesResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -443,15 +764,33 @@ export const listUserProfiles: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type UpdateGoogleManagedDataControlsError = AnthropicOpError;
+/** Update Google-Managed Data Controls Turn a control on or off, or change the key or bucket set for a region. Controls and regions that you leave out stay as they are. */
+export const updateGoogleManagedDataControls: API.OperationMethod<
+  UpdateGoogleManagedDataControlsRequest,
+  BetaGoogleManagedDataControls,
+  UpdateGoogleManagedDataControlsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateGoogleManagedDataControlsRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<BetaGoogleManagedDataControls>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGoogleManagedDataControls",
+}));
+
 export type UpdateUserProfileError = AnthropicOpError;
-/** Update User Profile */
+/** Update User Profile Change the details of a user profile, leaving the fields that you don't send as they are. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#update-a-profile) for how each field is updated. */
 export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileRequest,
   BetaUserProfile,
   UpdateUserProfileError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateUserProfileRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateUserProfileRequest>,
   output: __S(28, __c3, 4) as any as S.Schema<BetaUserProfile>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
@@ -636,11 +975,45 @@ function __c7(j: number): any {
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: S.optional(__S(8, __c1, 0).pipe(T.Header("anthropic-beta"))),
           anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/user_profiles/{user_profile_id}/providers/google/data_controls",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetGoogleManagedDataControlsRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          user_profile_id: S.String,
+          cmek: S.Unknown,
+          updated_at: S.String,
+          storage: S.Unknown,
+          bucket_label_value: S.String,
+        }),
+      ).annotate({ identifier: "BetaGoogleManagedDataControls" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_profile_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(8, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/user_profiles/{user_profile_id}", code: 200 })),
       ).annotate({ identifier: "GetUserProfileRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -659,13 +1032,34 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(65, __c8, 1),
+          data: __S(81, __c10, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListUserProfilesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_profile_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(8, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
+          cmek: S.optional(S.Unknown),
+          storage: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/user_profiles/{user_profile_id}/providers/google/data_controls",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateGoogleManagedDataControlsRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -340,6 +340,19 @@ export interface CreateAuditTemplateResponse {
   TemplateId?: number | undefined;
   RequestId?: string | undefined;
 }
+export interface CreateAvatarEditingLiveRequest {
+  ChannelId: string;
+  ImageUrl: string;
+  EditingType?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreateAvatarEditingLiveResponse {
+  LiveId?: string | undefined;
+  Status?: string | undefined;
+  ChannelId?: string | undefined;
+  RequestId?: string | undefined;
+}
 export interface CreateCasterRequest {
   CasterName?: string | undefined;
   Description?: string | undefined;
@@ -1551,6 +1564,23 @@ export interface DescribeAuditTemplatesRequest {
 export type AuditTemplateList = Array<AuditTemplate>;
 export interface DescribeAuditTemplatesResponse {
   AuditTemplates?: AuditTemplateList | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeAvatarEditingLiveRequest {
+  ChannelId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DescribeAvatarEditingLiveResponse {
+  ChannelId?: string | undefined;
+  LiveId?: string | undefined;
+  Status?: string | undefined;
+  Phase?: string | undefined;
+  CallMode?: string | undefined;
+  CreatedAt?: string | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  TraceId?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeBackupStreamListRequest {
@@ -4388,6 +4418,27 @@ export interface StartLiveStreamMonitorRequest {
 export interface StartLiveStreamMonitorResponse {
   RequestId?: string | undefined;
 }
+export interface StartLiveSubtitleRequest {
+  AppName: string;
+  PushDomainName: string;
+  StreamName: string;
+  Operator?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface StartLiveSubtitleResponse {
+  RequestId?: string | undefined;
+}
+export interface StopAvatarEditingLiveRequest {
+  ChannelId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface StopAvatarEditingLiveResponse {
+  ChannelId?: string | undefined;
+  LiveId?: string | undefined;
+  RequestId?: string | undefined;
+}
 export interface StopCasterPgmRequest {
   CasterId: number;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -4441,6 +4492,17 @@ export interface StopLiveStreamMonitorRequest {
 export interface StopLiveStreamMonitorResponse {
   RequestId?: string | undefined;
 }
+export interface StopLiveSubtitleRequest {
+  AppName: string;
+  PushDomainName: string;
+  StreamName: string;
+  Operator?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface StopLiveSubtitleResponse {
+  RequestId?: string | undefined;
+}
 export interface StopRecordTaskRequest {
   TaskId: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -4455,6 +4517,18 @@ export interface StopScreenshotTaskRequest {
   region?: string | undefined;
 }
 export interface StopScreenshotTaskResponse {
+  RequestId?: string | undefined;
+}
+export interface SwitchAvatarEditingSceneRequest {
+  ChannelId: string;
+  EditingType?: string | undefined;
+  ImageUrl?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface SwitchAvatarEditingSceneResponse {
+  ChannelId?: string | undefined;
+  LiveId?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface SwitchBackupStreamRequest {
@@ -4544,7 +4618,7 @@ export const addCasterMarkPicInfo: API.OperationMethod<
   AddCasterMarkPicInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<AddCasterMarkPicInfoRequest>,
+  input: __S(1112, __c139, 0) as any as S.Schema<AddCasterMarkPicInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<AddCasterMarkPicInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4561,7 +4635,7 @@ export const addCasterMarkWordInfo: API.OperationMethod<
   AddCasterMarkWordInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c214, 0) as any as S.Schema<AddCasterMarkWordInfoRequest>,
+  input: __S(1776, __c222, 0) as any as S.Schema<AddCasterMarkWordInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<AddCasterMarkWordInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4578,7 +4652,7 @@ export const addCasterOutputInfo: API.OperationMethod<
   AddCasterOutputInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<AddCasterOutputInfoRequest>,
+  input: __S(1896, __c237, 0) as any as S.Schema<AddCasterOutputInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<AddCasterOutputInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4595,7 +4669,7 @@ export const addDelayLiveStream: API.OperationMethod<
   AddDelayLiveStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<AddDelayLiveStreamRequest>,
+  input: __S(2008, __c251, 0) as any as S.Schema<AddDelayLiveStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<AddDelayLiveStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4612,7 +4686,7 @@ export const addLiveDomain: API.OperationMethod<
   AddLiveDomainError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<AddLiveDomainRequest>,
+  input: __S(2096, __c262, 0) as any as S.Schema<AddLiveDomainRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<AddLiveDomainResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4629,8 +4703,8 @@ export const addLiveWatermark: API.OperationMethod<
   AddLiveWatermarkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2120, __c265, 0) as any as S.Schema<AddLiveWatermarkRequest>,
-  output: __S(2121, __c265, 1) as any as S.Schema<AddLiveWatermarkResponse>,
+  input: __S(2184, __c273, 0) as any as S.Schema<AddLiveWatermarkRequest>,
+  output: __S(2185, __c273, 1) as any as S.Schema<AddLiveWatermarkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4646,8 +4720,8 @@ export const authenticateDomainOwner: API.OperationMethod<
   AuthenticateDomainOwnerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c276, 0) as any as S.Schema<AuthenticateDomainOwnerRequest>,
-  output: __S(2209, __c276, 1) as any as S.Schema<AuthenticateDomainOwnerResponse>,
+  input: __S(2272, __c284, 0) as any as S.Schema<AuthenticateDomainOwnerRequest>,
+  output: __S(2273, __c284, 1) as any as S.Schema<AuthenticateDomainOwnerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4663,7 +4737,7 @@ export const cancelCommonMixStream: API.OperationMethod<
   CancelCommonMixStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2296, __c287, 0) as any as S.Schema<CancelCommonMixStreamRequest>,
+  input: __S(2360, __c295, 0) as any as S.Schema<CancelCommonMixStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CancelCommonMixStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4697,8 +4771,8 @@ export const copyCaster: API.OperationMethod<
   CopyCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<CopyCasterRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<CopyCasterResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<CopyCasterRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<CopyCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4714,8 +4788,8 @@ export const copyLiveAvatarRoom: API.OperationMethod<
   CopyLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CopyLiveAvatarRoomRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<CopyLiveAvatarRoomResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<CopyLiveAvatarRoomRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<CopyLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4748,8 +4822,8 @@ export const createAuditKeywordLib: API.OperationMethod<
   CreateAuditKeywordLibError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<CreateAuditKeywordLibRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<CreateAuditKeywordLibResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<CreateAuditKeywordLibRequest>,
+  output: __S(489, __c61, 1) as any as S.Schema<CreateAuditKeywordLibResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4765,8 +4839,8 @@ export const createAuditKeywords: API.OperationMethod<
   CreateAuditKeywordsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(578, __c72, 2) as any as S.Schema<CreateAuditKeywordsRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<CreateAuditKeywordsResponse>,
+  input: __S(586, __c73, 2) as any as S.Schema<CreateAuditKeywordsRequest>,
+  output: __S(587, __c73, 3) as any as S.Schema<CreateAuditKeywordsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4799,14 +4873,31 @@ export const createAuditTemplate: API.OperationMethod<
   CreateAuditTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<CreateAuditTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateAuditTemplateResponse>,
+  input: __S(800, __c100, 0) as any as S.Schema<CreateAuditTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateAuditTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAuditTemplate",
+}));
+
+export type CreateAvatarEditingLiveError = TencentCloudOpError;
+export const createAvatarEditingLive: API.OperationMethod<
+  CreateAvatarEditingLiveRequest,
+  CreateAvatarEditingLiveResponse,
+  CreateAvatarEditingLiveError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(920, __c115, 0) as any as S.Schema<CreateAvatarEditingLiveRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<CreateAvatarEditingLiveResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAvatarEditingLive",
 }));
 
 export type CreateCasterError = TencentCloudOpError;
@@ -4816,8 +4907,8 @@ export const createCaster: API.OperationMethod<
   CreateCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<CreateCasterRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<CreateCasterResponse>,
+  input: __S(1016, __c127, 0) as any as S.Schema<CreateCasterRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<CreateCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4833,8 +4924,8 @@ export const createCasterInputPushUrl: API.OperationMethod<
   CreateCasterInputPushUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<CreateCasterInputPushUrlRequest>,
-  output: __S(1009, __c126, 1) as any as S.Schema<CreateCasterInputPushUrlResponse>,
+  input: __S(1128, __c141, 0) as any as S.Schema<CreateCasterInputPushUrlRequest>,
+  output: __S(1129, __c141, 1) as any as S.Schema<CreateCasterInputPushUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4850,8 +4941,8 @@ export const createCasterPgm: API.OperationMethod<
   CreateCasterPgmError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<CreateCasterPgmRequest>,
-  output: __S(1128, __c141, 0) as any as S.Schema<CreateCasterPgmResponse>,
+  input: __S(1216, __c152, 0) as any as S.Schema<CreateCasterPgmRequest>,
+  output: __S(1224, __c153, 0) as any as S.Schema<CreateCasterPgmResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4867,8 +4958,8 @@ export const createCasterPgmFromPvw: API.OperationMethod<
   CreateCasterPgmFromPvwError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<CreateCasterPgmFromPvwRequest>,
-  output: __S(1128, __c141, 0) as any as S.Schema<CreateCasterPgmFromPvwResponse>,
+  input: __S(1328, __c166, 0) as any as S.Schema<CreateCasterPgmFromPvwRequest>,
+  output: __S(1224, __c153, 0) as any as S.Schema<CreateCasterPgmFromPvwResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4884,8 +4975,8 @@ export const createCasterPvw: API.OperationMethod<
   CreateCasterPvwError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<CreateCasterPvwRequest>,
-  output: __S(1321, __c165, 1) as any as S.Schema<CreateCasterPvwResponse>,
+  input: __S(1416, __c177, 0) as any as S.Schema<CreateCasterPvwRequest>,
+  output: __S(1417, __c177, 1) as any as S.Schema<CreateCasterPvwResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4901,7 +4992,7 @@ export const createCommonMixStream: API.OperationMethod<
   CreateCommonMixStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1415, __c176, 7) as any as S.Schema<CreateCommonMixStreamRequest>,
+  input: __S(1511, __c188, 7) as any as S.Schema<CreateCommonMixStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateCommonMixStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4918,8 +5009,8 @@ export const createLiveAvatarCloneFigure: API.OperationMethod<
   CreateLiveAvatarCloneFigureError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1496, __c187, 0) as any as S.Schema<CreateLiveAvatarCloneFigureRequest>,
-  output: __S(1497, __c187, 1) as any as S.Schema<CreateLiveAvatarCloneFigureResponse>,
+  input: __S(1592, __c199, 0) as any as S.Schema<CreateLiveAvatarCloneFigureRequest>,
+  output: __S(1593, __c199, 1) as any as S.Schema<CreateLiveAvatarCloneFigureResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4935,8 +5026,8 @@ export const createLiveAvatarRoom: API.OperationMethod<
   CreateLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c198, 0) as any as S.Schema<CreateLiveAvatarRoomRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<CreateLiveAvatarRoomResponse>,
+  input: __S(1688, __c211, 0) as any as S.Schema<CreateLiveAvatarRoomRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<CreateLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4952,8 +5043,8 @@ export const createLiveAvatarScript: API.OperationMethod<
   CreateLiveAvatarScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<CreateLiveAvatarScriptRequest>,
-  output: __S(1673, __c209, 1) as any as S.Schema<CreateLiveAvatarScriptResponse>,
+  input: __S(1752, __c219, 0) as any as S.Schema<CreateLiveAvatarScriptRequest>,
+  output: __S(1753, __c219, 1) as any as S.Schema<CreateLiveAvatarScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4969,7 +5060,7 @@ export const createLiveCallbackRule: API.OperationMethod<
   CreateLiveCallbackRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1688, __c211, 0) as any as S.Schema<CreateLiveCallbackRuleRequest>,
+  input: __S(1760, __c220, 0) as any as S.Schema<CreateLiveCallbackRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveCallbackRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4986,8 +5077,8 @@ export const createLiveCallbackTemplate: API.OperationMethod<
   CreateLiveCallbackTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<CreateLiveCallbackTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveCallbackTemplateResponse>,
+  input: __S(1768, __c221, 0) as any as S.Schema<CreateLiveCallbackTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveCallbackTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5003,8 +5094,8 @@ export const createLiveCloudEffect: API.OperationMethod<
   CreateLiveCloudEffectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1704, __c213, 0) as any as S.Schema<CreateLiveCloudEffectRequest>,
-  output: __S(1705, __c213, 1) as any as S.Schema<CreateLiveCloudEffectResponse>,
+  input: __S(1792, __c224, 0) as any as S.Schema<CreateLiveCloudEffectRequest>,
+  output: __S(1793, __c224, 1) as any as S.Schema<CreateLiveCloudEffectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5020,7 +5111,7 @@ export const createLivePadRule: API.OperationMethod<
   CreateLivePadRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c216, 0) as any as S.Schema<CreateLivePadRuleRequest>,
+  input: __S(1800, __c225, 0) as any as S.Schema<CreateLivePadRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLivePadRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5037,8 +5128,8 @@ export const createLivePadTemplate: API.OperationMethod<
   CreateLivePadTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1736, __c217, 0) as any as S.Schema<CreateLivePadTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLivePadTemplateResponse>,
+  input: __S(1808, __c226, 0) as any as S.Schema<CreateLivePadTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLivePadTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5054,8 +5145,8 @@ export const createLivePullStreamTask: API.OperationMethod<
   CreateLivePullStreamTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<CreateLivePullStreamTaskRequest>,
-  output: __S(1760, __c220, 0) as any as S.Schema<CreateLivePullStreamTaskResponse>,
+  input: __S(1816, __c227, 0) as any as S.Schema<CreateLivePullStreamTaskRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<CreateLivePullStreamTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5071,8 +5162,8 @@ export const createLiveRecord: API.OperationMethod<
   CreateLiveRecordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<CreateLiveRecordRequest>,
-  output: __S(1769, __c221, 1) as any as S.Schema<CreateLiveRecordResponse>,
+  input: __S(1840, __c230, 0) as any as S.Schema<CreateLiveRecordRequest>,
+  output: __S(1841, __c230, 1) as any as S.Schema<CreateLiveRecordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5088,7 +5179,7 @@ export const createLiveRecordRule: API.OperationMethod<
   CreateLiveRecordRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<CreateLiveRecordRuleRequest>,
+  input: __S(1848, __c231, 0) as any as S.Schema<CreateLiveRecordRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveRecordRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5105,8 +5196,8 @@ export const createLiveRecordTemplate: API.OperationMethod<
   CreateLiveRecordTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<CreateLiveRecordTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveRecordTemplateResponse>,
+  input: __S(1856, __c232, 0) as any as S.Schema<CreateLiveRecordTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveRecordTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5122,7 +5213,7 @@ export const createLiveSmartEraseRule: API.OperationMethod<
   CreateLiveSmartEraseRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<CreateLiveSmartEraseRuleRequest>,
+  input: __S(1872, __c234, 0) as any as S.Schema<CreateLiveSmartEraseRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveSmartEraseRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5139,8 +5230,8 @@ export const createLiveSmartEraseTemplate: API.OperationMethod<
   CreateLiveSmartEraseTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<CreateLiveSmartEraseTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveSmartEraseTemplateResponse>,
+  input: __S(1880, __c235, 0) as any as S.Schema<CreateLiveSmartEraseTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveSmartEraseTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5156,7 +5247,7 @@ export const createLiveSnapshotRule: API.OperationMethod<
   CreateLiveSnapshotRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<CreateLiveSnapshotRuleRequest>,
+  input: __S(1888, __c236, 0) as any as S.Schema<CreateLiveSnapshotRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveSnapshotRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5173,8 +5264,8 @@ export const createLiveSnapshotTemplate: API.OperationMethod<
   CreateLiveSnapshotTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<CreateLiveSnapshotTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveSnapshotTemplateResponse>,
+  input: __S(1912, __c239, 0) as any as S.Schema<CreateLiveSnapshotTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveSnapshotTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5190,8 +5281,8 @@ export const createLiveStreamMonitor: API.OperationMethod<
   CreateLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<CreateLiveStreamMonitorRequest>,
-  output: __S(1849, __c231, 1) as any as S.Schema<CreateLiveStreamMonitorResponse>,
+  input: __S(1920, __c240, 0) as any as S.Schema<CreateLiveStreamMonitorRequest>,
+  output: __S(1921, __c240, 1) as any as S.Schema<CreateLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5207,7 +5298,7 @@ export const createLiveTimeShiftRule: API.OperationMethod<
   CreateLiveTimeShiftRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1864, __c233, 0) as any as S.Schema<CreateLiveTimeShiftRuleRequest>,
+  input: __S(1936, __c242, 0) as any as S.Schema<CreateLiveTimeShiftRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveTimeShiftRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5224,8 +5315,8 @@ export const createLiveTimeShiftTemplate: API.OperationMethod<
   CreateLiveTimeShiftTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<CreateLiveTimeShiftTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveTimeShiftTemplateResponse>,
+  input: __S(1944, __c243, 0) as any as S.Schema<CreateLiveTimeShiftTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveTimeShiftTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5241,7 +5332,7 @@ export const createLiveTranscodeRule: API.OperationMethod<
   CreateLiveTranscodeRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<CreateLiveTranscodeRuleRequest>,
+  input: __S(1952, __c244, 0) as any as S.Schema<CreateLiveTranscodeRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveTranscodeRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5258,8 +5349,8 @@ export const createLiveTranscodeTemplate: API.OperationMethod<
   CreateLiveTranscodeTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<CreateLiveTranscodeTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<CreateLiveTranscodeTemplateResponse>,
+  input: __S(1960, __c245, 0) as any as S.Schema<CreateLiveTranscodeTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<CreateLiveTranscodeTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5275,7 +5366,7 @@ export const createLiveWatermarkRule: API.OperationMethod<
   CreateLiveWatermarkRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<CreateLiveWatermarkRuleRequest>,
+  input: __S(1976, __c247, 0) as any as S.Schema<CreateLiveWatermarkRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<CreateLiveWatermarkRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5292,8 +5383,8 @@ export const createPullStreamConfig: API.OperationMethod<
   CreatePullStreamConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<CreatePullStreamConfigRequest>,
-  output: __S(1913, __c239, 1) as any as S.Schema<CreatePullStreamConfigResponse>,
+  input: __S(1984, __c248, 0) as any as S.Schema<CreatePullStreamConfigRequest>,
+  output: __S(1985, __c248, 1) as any as S.Schema<CreatePullStreamConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5309,8 +5400,8 @@ export const createRecordTask: API.OperationMethod<
   CreateRecordTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<CreateRecordTaskRequest>,
-  output: __S(1760, __c220, 0) as any as S.Schema<CreateRecordTaskResponse>,
+  input: __S(1992, __c249, 0) as any as S.Schema<CreateRecordTaskRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<CreateRecordTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5326,8 +5417,8 @@ export const createSceneVideoTask: API.OperationMethod<
   CreateSceneVideoTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1934, __c241, 6) as any as S.Schema<CreateSceneVideoTaskRequest>,
-  output: __S(1760, __c220, 0) as any as S.Schema<CreateSceneVideoTaskResponse>,
+  input: __S(2006, __c250, 6) as any as S.Schema<CreateSceneVideoTaskRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<CreateSceneVideoTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5343,8 +5434,8 @@ export const createScreenshotTask: API.OperationMethod<
   CreateScreenshotTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<CreateScreenshotTaskRequest>,
-  output: __S(1760, __c220, 0) as any as S.Schema<CreateScreenshotTaskResponse>,
+  input: __S(2016, __c252, 0) as any as S.Schema<CreateScreenshotTaskRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<CreateScreenshotTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5360,8 +5451,8 @@ export const createVideoRedrawTask: API.OperationMethod<
   CreateVideoRedrawTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1955, __c244, 3) as any as S.Schema<CreateVideoRedrawTaskRequest>,
-  output: __S(1760, __c220, 0) as any as S.Schema<CreateVideoRedrawTaskResponse>,
+  input: __S(2027, __c253, 3) as any as S.Schema<CreateVideoRedrawTaskRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<CreateVideoRedrawTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5377,8 +5468,8 @@ export const deleteAuditImages: API.OperationMethod<
   DeleteAuditImagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<DeleteAuditImagesRequest>,
-  output: __S(1963, __c245, 3) as any as S.Schema<DeleteAuditImagesResponse>,
+  input: __S(2032, __c254, 0) as any as S.Schema<DeleteAuditImagesRequest>,
+  output: __S(2035, __c254, 3) as any as S.Schema<DeleteAuditImagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5394,7 +5485,7 @@ export const deleteAuditKeywordLib: API.OperationMethod<
   DeleteAuditKeywordLibError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<DeleteAuditKeywordLibRequest>,
+  input: __S(2040, __c255, 0) as any as S.Schema<DeleteAuditKeywordLibRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteAuditKeywordLibResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5411,8 +5502,8 @@ export const deleteAuditKeywords: API.OperationMethod<
   DeleteAuditKeywordsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1976, __c247, 0) as any as S.Schema<DeleteAuditKeywordsRequest>,
-  output: __S(1979, __c247, 3) as any as S.Schema<DeleteAuditKeywordsResponse>,
+  input: __S(2048, __c256, 0) as any as S.Schema<DeleteAuditKeywordsRequest>,
+  output: __S(2051, __c256, 3) as any as S.Schema<DeleteAuditKeywordsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5428,7 +5519,7 @@ export const deleteAuditRule: API.OperationMethod<
   DeleteAuditRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<DeleteAuditRuleRequest>,
+  input: __S(2056, __c257, 0) as any as S.Schema<DeleteAuditRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteAuditRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5445,7 +5536,7 @@ export const deleteAuditTemplate: API.OperationMethod<
   DeleteAuditTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<DeleteAuditTemplateRequest>,
+  input: __S(2064, __c258, 0) as any as S.Schema<DeleteAuditTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteAuditTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5462,7 +5553,7 @@ export const deleteCaster: API.OperationMethod<
   DeleteCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<DeleteCasterRequest>,
+  input: __S(2072, __c259, 0) as any as S.Schema<DeleteCasterRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5479,7 +5570,7 @@ export const deleteCasterInputInfo: API.OperationMethod<
   DeleteCasterInputInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<DeleteCasterInputInfoRequest>,
+  input: __S(2080, __c260, 0) as any as S.Schema<DeleteCasterInputInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterInputInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5496,7 +5587,7 @@ export const deleteCasterLayoutInfo: API.OperationMethod<
   DeleteCasterLayoutInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c252, 0) as any as S.Schema<DeleteCasterLayoutInfoRequest>,
+  input: __S(2088, __c261, 0) as any as S.Schema<DeleteCasterLayoutInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterLayoutInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5513,7 +5604,7 @@ export const deleteCasterMarkPicInfo: API.OperationMethod<
   DeleteCasterMarkPicInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<DeleteCasterMarkPicInfoRequest>,
+  input: __S(2104, __c263, 0) as any as S.Schema<DeleteCasterMarkPicInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterMarkPicInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5530,7 +5621,7 @@ export const deleteCasterMarkWordInfo: API.OperationMethod<
   DeleteCasterMarkWordInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<DeleteCasterMarkWordInfoRequest>,
+  input: __S(2112, __c264, 0) as any as S.Schema<DeleteCasterMarkWordInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterMarkWordInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5547,7 +5638,7 @@ export const deleteCasterOutputInfo: API.OperationMethod<
   DeleteCasterOutputInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<DeleteCasterOutputInfoRequest>,
+  input: __S(2120, __c265, 0) as any as S.Schema<DeleteCasterOutputInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteCasterOutputInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5564,7 +5655,7 @@ export const deleteLiveAvatarCloneFigure: API.OperationMethod<
   DeleteLiveAvatarCloneFigureError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2056, __c257, 0) as any as S.Schema<DeleteLiveAvatarCloneFigureRequest>,
+  input: __S(2128, __c266, 0) as any as S.Schema<DeleteLiveAvatarCloneFigureRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveAvatarCloneFigureResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5581,7 +5672,7 @@ export const deleteLiveAvatarRoom: API.OperationMethod<
   DeleteLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c258, 0) as any as S.Schema<DeleteLiveAvatarRoomRequest>,
+  input: __S(2136, __c267, 0) as any as S.Schema<DeleteLiveAvatarRoomRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5598,7 +5689,7 @@ export const deleteLiveAvatarScript: API.OperationMethod<
   DeleteLiveAvatarScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2072, __c259, 0) as any as S.Schema<DeleteLiveAvatarScriptRequest>,
+  input: __S(2144, __c268, 0) as any as S.Schema<DeleteLiveAvatarScriptRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveAvatarScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5615,7 +5706,7 @@ export const deleteLiveCallbackRule: API.OperationMethod<
   DeleteLiveCallbackRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c260, 0) as any as S.Schema<DeleteLiveCallbackRuleRequest>,
+  input: __S(2152, __c269, 0) as any as S.Schema<DeleteLiveCallbackRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveCallbackRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5632,7 +5723,7 @@ export const deleteLiveCallbackTemplate: API.OperationMethod<
   DeleteLiveCallbackTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2088, __c261, 0) as any as S.Schema<DeleteLiveCallbackTemplateRequest>,
+  input: __S(2160, __c270, 0) as any as S.Schema<DeleteLiveCallbackTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveCallbackTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5649,7 +5740,7 @@ export const deleteLiveDomain: API.OperationMethod<
   DeleteLiveDomainError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c262, 0) as any as S.Schema<DeleteLiveDomainRequest>,
+  input: __S(2168, __c271, 0) as any as S.Schema<DeleteLiveDomainRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveDomainResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5666,7 +5757,7 @@ export const deleteLivePadRule: API.OperationMethod<
   DeleteLivePadRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2104, __c263, 0) as any as S.Schema<DeleteLivePadRuleRequest>,
+  input: __S(2176, __c272, 0) as any as S.Schema<DeleteLivePadRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLivePadRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5683,7 +5774,7 @@ export const deleteLivePadTemplate: API.OperationMethod<
   DeleteLivePadTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c264, 0) as any as S.Schema<DeleteLivePadTemplateRequest>,
+  input: __S(2192, __c274, 0) as any as S.Schema<DeleteLivePadTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLivePadTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5700,7 +5791,7 @@ export const deleteLivePullStreamTask: API.OperationMethod<
   DeleteLivePullStreamTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c266, 0) as any as S.Schema<DeleteLivePullStreamTaskRequest>,
+  input: __S(2200, __c275, 0) as any as S.Schema<DeleteLivePullStreamTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLivePullStreamTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5717,7 +5808,7 @@ export const deleteLiveRecord: API.OperationMethod<
   DeleteLiveRecordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2136, __c267, 0) as any as S.Schema<DeleteLiveRecordRequest>,
+  input: __S(2208, __c276, 0) as any as S.Schema<DeleteLiveRecordRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveRecordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5734,7 +5825,7 @@ export const deleteLiveRecordRule: API.OperationMethod<
   DeleteLiveRecordRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c268, 0) as any as S.Schema<DeleteLiveRecordRuleRequest>,
+  input: __S(2216, __c277, 0) as any as S.Schema<DeleteLiveRecordRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveRecordRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5751,7 +5842,7 @@ export const deleteLiveRecordTemplate: API.OperationMethod<
   DeleteLiveRecordTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2152, __c269, 0) as any as S.Schema<DeleteLiveRecordTemplateRequest>,
+  input: __S(2224, __c278, 0) as any as S.Schema<DeleteLiveRecordTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveRecordTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5768,7 +5859,7 @@ export const deleteLiveSmartEraseRule: API.OperationMethod<
   DeleteLiveSmartEraseRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c270, 0) as any as S.Schema<DeleteLiveSmartEraseRuleRequest>,
+  input: __S(2232, __c279, 0) as any as S.Schema<DeleteLiveSmartEraseRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveSmartEraseRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5785,7 +5876,7 @@ export const deleteLiveSmartEraseTemplate: API.OperationMethod<
   DeleteLiveSmartEraseTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2168, __c271, 0) as any as S.Schema<DeleteLiveSmartEraseTemplateRequest>,
+  input: __S(2240, __c280, 0) as any as S.Schema<DeleteLiveSmartEraseTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveSmartEraseTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5802,7 +5893,7 @@ export const deleteLiveSnapshotRule: API.OperationMethod<
   DeleteLiveSnapshotRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c272, 0) as any as S.Schema<DeleteLiveSnapshotRuleRequest>,
+  input: __S(2248, __c281, 0) as any as S.Schema<DeleteLiveSnapshotRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveSnapshotRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5819,7 +5910,7 @@ export const deleteLiveSnapshotTemplate: API.OperationMethod<
   DeleteLiveSnapshotTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2184, __c273, 0) as any as S.Schema<DeleteLiveSnapshotTemplateRequest>,
+  input: __S(2256, __c282, 0) as any as S.Schema<DeleteLiveSnapshotTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveSnapshotTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5836,7 +5927,7 @@ export const deleteLiveStreamMonitor: API.OperationMethod<
   DeleteLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c274, 0) as any as S.Schema<DeleteLiveStreamMonitorRequest>,
+  input: __S(2264, __c283, 0) as any as S.Schema<DeleteLiveStreamMonitorRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5853,7 +5944,7 @@ export const deleteLiveTimeShiftRule: API.OperationMethod<
   DeleteLiveTimeShiftRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2200, __c275, 0) as any as S.Schema<DeleteLiveTimeShiftRuleRequest>,
+  input: __S(2280, __c285, 0) as any as S.Schema<DeleteLiveTimeShiftRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveTimeShiftRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5870,7 +5961,7 @@ export const deleteLiveTimeShiftTemplate: API.OperationMethod<
   DeleteLiveTimeShiftTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2216, __c277, 0) as any as S.Schema<DeleteLiveTimeShiftTemplateRequest>,
+  input: __S(2288, __c286, 0) as any as S.Schema<DeleteLiveTimeShiftTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveTimeShiftTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5887,7 +5978,7 @@ export const deleteLiveTranscodeRule: API.OperationMethod<
   DeleteLiveTranscodeRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c278, 0) as any as S.Schema<DeleteLiveTranscodeRuleRequest>,
+  input: __S(2296, __c287, 0) as any as S.Schema<DeleteLiveTranscodeRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveTranscodeRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5904,7 +5995,7 @@ export const deleteLiveTranscodeTemplate: API.OperationMethod<
   DeleteLiveTranscodeTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2232, __c279, 0) as any as S.Schema<DeleteLiveTranscodeTemplateRequest>,
+  input: __S(2304, __c288, 0) as any as S.Schema<DeleteLiveTranscodeTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveTranscodeTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5921,7 +6012,7 @@ export const deleteLiveWatermark: API.OperationMethod<
   DeleteLiveWatermarkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c280, 0) as any as S.Schema<DeleteLiveWatermarkRequest>,
+  input: __S(2312, __c289, 0) as any as S.Schema<DeleteLiveWatermarkRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveWatermarkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5938,7 +6029,7 @@ export const deleteLiveWatermarkRule: API.OperationMethod<
   DeleteLiveWatermarkRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2248, __c281, 0) as any as S.Schema<DeleteLiveWatermarkRuleRequest>,
+  input: __S(2320, __c290, 0) as any as S.Schema<DeleteLiveWatermarkRuleRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteLiveWatermarkRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5955,7 +6046,7 @@ export const deletePullStreamConfig: API.OperationMethod<
   DeletePullStreamConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c282, 0) as any as S.Schema<DeletePullStreamConfigRequest>,
+  input: __S(2328, __c291, 0) as any as S.Schema<DeletePullStreamConfigRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeletePullStreamConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5972,7 +6063,7 @@ export const deleteRecordTask: API.OperationMethod<
   DeleteRecordTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2264, __c283, 0) as any as S.Schema<DeleteRecordTaskRequest>,
+  input: __S(2336, __c292, 0) as any as S.Schema<DeleteRecordTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteRecordTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5989,7 +6080,7 @@ export const deleteScreenshotTask: API.OperationMethod<
   DeleteScreenshotTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c284, 0) as any as S.Schema<DeleteScreenshotTaskRequest>,
+  input: __S(2344, __c293, 0) as any as S.Schema<DeleteScreenshotTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteScreenshotTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6006,8 +6097,8 @@ export const describeAIGCTaskStatus: API.OperationMethod<
   DescribeAIGCTaskStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2280, __c285, 0) as any as S.Schema<DescribeAIGCTaskStatusRequest>,
-  output: __S(2281, __c285, 1) as any as S.Schema<DescribeAIGCTaskStatusResponse>,
+  input: __S(2352, __c294, 0) as any as S.Schema<DescribeAIGCTaskStatusRequest>,
+  output: __S(2353, __c294, 1) as any as S.Schema<DescribeAIGCTaskStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6023,8 +6114,8 @@ export const describeAllStreamPlayInfoList: API.OperationMethod<
   DescribeAllStreamPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c286, 0) as any as S.Schema<DescribeAllStreamPlayInfoListRequest>,
-  output: __S(2291, __c286, 3) as any as S.Schema<DescribeAllStreamPlayInfoListResponse>,
+  input: __S(2368, __c296, 0) as any as S.Schema<DescribeAllStreamPlayInfoListRequest>,
+  output: __S(2371, __c296, 3) as any as S.Schema<DescribeAllStreamPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6040,8 +6131,8 @@ export const describeAreaBillBandwidthAndFluxList: API.OperationMethod<
   DescribeAreaBillBandwidthAndFluxListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c288, 0) as any as S.Schema<DescribeAreaBillBandwidthAndFluxListRequest>,
-  output: __S(2309, __c288, 5) as any as S.Schema<DescribeAreaBillBandwidthAndFluxListResponse>,
+  input: __S(2376, __c297, 0) as any as S.Schema<DescribeAreaBillBandwidthAndFluxListRequest>,
+  output: __S(2381, __c297, 5) as any as S.Schema<DescribeAreaBillBandwidthAndFluxListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6057,8 +6148,8 @@ export const describeAuditGroupTag: API.OperationMethod<
   DescribeAuditGroupTagError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c290, 0) as any as S.Schema<DescribeAuditGroupTagRequest>,
-  output: __S(2327, __c290, 7) as any as S.Schema<DescribeAuditGroupTagResponse>,
+  input: __S(2392, __c299, 0) as any as S.Schema<DescribeAuditGroupTagRequest>,
+  output: __S(2399, __c299, 7) as any as S.Schema<DescribeAuditGroupTagResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6074,8 +6165,8 @@ export const describeAuditImages: API.OperationMethod<
   DescribeAuditImagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2328, __c291, 0) as any as S.Schema<DescribeAuditImagesRequest>,
-  output: __S(2331, __c291, 3) as any as S.Schema<DescribeAuditImagesResponse>,
+  input: __S(2400, __c300, 0) as any as S.Schema<DescribeAuditImagesRequest>,
+  output: __S(2403, __c300, 3) as any as S.Schema<DescribeAuditImagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6091,8 +6182,8 @@ export const describeAuditKeywordLibs: API.OperationMethod<
   DescribeAuditKeywordLibsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c292, 0) as any as S.Schema<DescribeAuditKeywordLibsRequest>,
-  output: __S(2339, __c292, 3) as any as S.Schema<DescribeAuditKeywordLibsResponse>,
+  input: __S(2408, __c301, 0) as any as S.Schema<DescribeAuditKeywordLibsRequest>,
+  output: __S(2411, __c301, 3) as any as S.Schema<DescribeAuditKeywordLibsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6108,8 +6199,8 @@ export const describeAuditKeywords: API.OperationMethod<
   DescribeAuditKeywordsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2344, __c293, 0) as any as S.Schema<DescribeAuditKeywordsRequest>,
-  output: __S(2345, __c293, 1) as any as S.Schema<DescribeAuditKeywordsResponse>,
+  input: __S(2416, __c302, 0) as any as S.Schema<DescribeAuditKeywordsRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<DescribeAuditKeywordsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6125,8 +6216,8 @@ export const describeAuditRules: API.OperationMethod<
   DescribeAuditRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c294, 0) as any as S.Schema<DescribeAuditRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeAuditRulesResponse>,
+  input: __S(2424, __c303, 0) as any as S.Schema<DescribeAuditRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeAuditRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6142,8 +6233,8 @@ export const describeAuditTemplate: API.OperationMethod<
   DescribeAuditTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c296, 0) as any as S.Schema<DescribeAuditTemplateRequest>,
-  output: __S(2369, __c296, 1) as any as S.Schema<DescribeAuditTemplateResponse>,
+  input: __S(2440, __c305, 0) as any as S.Schema<DescribeAuditTemplateRequest>,
+  output: __S(2441, __c305, 1) as any as S.Schema<DescribeAuditTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6159,14 +6250,31 @@ export const describeAuditTemplates: API.OperationMethod<
   DescribeAuditTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2376, __c297, 0) as any as S.Schema<DescribeAuditTemplatesRequest>,
-  output: __S(2378, __c297, 2) as any as S.Schema<DescribeAuditTemplatesResponse>,
+  input: __S(2448, __c306, 0) as any as S.Schema<DescribeAuditTemplatesRequest>,
+  output: __S(2450, __c306, 2) as any as S.Schema<DescribeAuditTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeAuditTemplates",
+}));
+
+export type DescribeAvatarEditingLiveError = TencentCloudOpError;
+export const describeAvatarEditingLive: API.OperationMethod<
+  DescribeAvatarEditingLiveRequest,
+  DescribeAvatarEditingLiveResponse,
+  DescribeAvatarEditingLiveError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2456, __c307, 0) as any as S.Schema<DescribeAvatarEditingLiveRequest>,
+  output: __S(2457, __c307, 1) as any as S.Schema<DescribeAvatarEditingLiveResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeAvatarEditingLive",
 }));
 
 export type DescribeBackupStreamListError = TencentCloudOpError;
@@ -6176,8 +6284,8 @@ export const describeBackupStreamList: API.OperationMethod<
   DescribeBackupStreamListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c298, 0) as any as S.Schema<DescribeBackupStreamListRequest>,
-  output: __S(2389, __c298, 5) as any as S.Schema<DescribeBackupStreamListResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DescribeBackupStreamListRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<DescribeBackupStreamListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6193,8 +6301,8 @@ export const describeBillBandwidthAndFluxList: API.OperationMethod<
   DescribeBillBandwidthAndFluxListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2392, __c299, 0) as any as S.Schema<DescribeBillBandwidthAndFluxListRequest>,
-  output: __S(2400, __c300, 0) as any as S.Schema<DescribeBillBandwidthAndFluxListResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DescribeBillBandwidthAndFluxListRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DescribeBillBandwidthAndFluxListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6210,8 +6318,8 @@ export const describeCallbackRecordsList: API.OperationMethod<
   DescribeCallbackRecordsListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DescribeCallbackRecordsListRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<DescribeCallbackRecordsListResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DescribeCallbackRecordsListRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<DescribeCallbackRecordsListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6227,8 +6335,8 @@ export const describeCaster: API.OperationMethod<
   DescribeCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DescribeCasterRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<DescribeCasterResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DescribeCasterRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<DescribeCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6244,8 +6352,8 @@ export const describeCasterDisplayInfo: API.OperationMethod<
   DescribeCasterDisplayInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DescribeCasterDisplayInfoRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<DescribeCasterDisplayInfoResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DescribeCasterDisplayInfoRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<DescribeCasterDisplayInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6261,8 +6369,8 @@ export const describeCasterEmergencyStatus: API.OperationMethod<
   DescribeCasterEmergencyStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DescribeCasterEmergencyStatusRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DescribeCasterEmergencyStatusResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DescribeCasterEmergencyStatusRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DescribeCasterEmergencyStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6278,8 +6386,8 @@ export const describeCasterInputInfos: API.OperationMethod<
   DescribeCasterInputInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DescribeCasterInputInfosRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<DescribeCasterInputInfosResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DescribeCasterInputInfosRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<DescribeCasterInputInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6295,8 +6403,8 @@ export const describeCasterLayoutInfos: API.OperationMethod<
   DescribeCasterLayoutInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DescribeCasterLayoutInfosRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<DescribeCasterLayoutInfosResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<DescribeCasterLayoutInfosRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<DescribeCasterLayoutInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6312,8 +6420,8 @@ export const describeCasterList: API.OperationMethod<
   DescribeCasterListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DescribeCasterListRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<DescribeCasterListResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DescribeCasterListRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<DescribeCasterListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6329,8 +6437,8 @@ export const describeCasterMarkPicInfos: API.OperationMethod<
   DescribeCasterMarkPicInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DescribeCasterMarkPicInfosRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<DescribeCasterMarkPicInfosResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<DescribeCasterMarkPicInfosRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<DescribeCasterMarkPicInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6346,8 +6454,8 @@ export const describeCasterMarkWordInfos: API.OperationMethod<
   DescribeCasterMarkWordInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DescribeCasterMarkWordInfosRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<DescribeCasterMarkWordInfosResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<DescribeCasterMarkWordInfosRequest>,
+  output: __S(178, __c22, 2) as any as S.Schema<DescribeCasterMarkWordInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6363,8 +6471,8 @@ export const describeCasterOutputInfos: API.OperationMethod<
   DescribeCasterOutputInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DescribeCasterOutputInfosRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<DescribeCasterOutputInfosResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<DescribeCasterOutputInfosRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<DescribeCasterOutputInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6380,8 +6488,8 @@ export const describeCasterPlayUrl: API.OperationMethod<
   DescribeCasterPlayUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DescribeCasterPlayUrlRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<DescribeCasterPlayUrlResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<DescribeCasterPlayUrlRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<DescribeCasterPlayUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6397,8 +6505,8 @@ export const describeCasterTransitionTypes: API.OperationMethod<
   DescribeCasterTransitionTypesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DescribeCasterTransitionTypesRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<DescribeCasterTransitionTypesResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DescribeCasterTransitionTypesRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<DescribeCasterTransitionTypesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6414,8 +6522,8 @@ export const describeCasterUserStatus: API.OperationMethod<
   DescribeCasterUserStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DescribeCasterUserStatusRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<DescribeCasterUserStatusResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<DescribeCasterUserStatusRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<DescribeCasterUserStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6431,8 +6539,8 @@ export const describeConcurrentRecordStreamNum: API.OperationMethod<
   DescribeConcurrentRecordStreamNumError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DescribeConcurrentRecordStreamNumRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<DescribeConcurrentRecordStreamNumResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<DescribeConcurrentRecordStreamNumRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<DescribeConcurrentRecordStreamNumResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6448,8 +6556,8 @@ export const describeDeliverBandwidthList: API.OperationMethod<
   DescribeDeliverBandwidthListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<DescribeDeliverBandwidthListRequest>,
-  output: __S(211, __c26, 3) as any as S.Schema<DescribeDeliverBandwidthListResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<DescribeDeliverBandwidthListRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<DescribeDeliverBandwidthListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6465,8 +6573,8 @@ export const describeDeliverLogDownList: API.OperationMethod<
   DescribeDeliverLogDownListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<DescribeDeliverLogDownListRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<DescribeDeliverLogDownListResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<DescribeDeliverLogDownListRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<DescribeDeliverLogDownListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6482,8 +6590,8 @@ export const describeGroupProIspPlayInfoList: API.OperationMethod<
   DescribeGroupProIspPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<DescribeGroupProIspPlayInfoListRequest>,
-  output: __S(235, __c29, 3) as any as S.Schema<DescribeGroupProIspPlayInfoListResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<DescribeGroupProIspPlayInfoListRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<DescribeGroupProIspPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6499,8 +6607,8 @@ export const describeHttpStatusInfoList: API.OperationMethod<
   DescribeHttpStatusInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<DescribeHttpStatusInfoListRequest>,
-  output: __S(253, __c31, 5) as any as S.Schema<DescribeHttpStatusInfoListResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<DescribeHttpStatusInfoListRequest>,
+  output: __S(277, __c34, 5) as any as S.Schema<DescribeHttpStatusInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6516,8 +6624,8 @@ export const describeLiveAvatarBackgroundList: API.OperationMethod<
   DescribeLiveAvatarBackgroundListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<DescribeLiveAvatarBackgroundListRequest>,
-  output: __S(259, __c32, 3) as any as S.Schema<DescribeLiveAvatarBackgroundListResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<DescribeLiveAvatarBackgroundListRequest>,
+  output: __S(299, __c37, 3) as any as S.Schema<DescribeLiveAvatarBackgroundListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6533,8 +6641,8 @@ export const describeLiveAvatarCloneFigureList: API.OperationMethod<
   DescribeLiveAvatarCloneFigureListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<DescribeLiveAvatarCloneFigureListRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<DescribeLiveAvatarCloneFigureListResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<DescribeLiveAvatarCloneFigureListRequest>,
+  output: __S(307, __c38, 3) as any as S.Schema<DescribeLiveAvatarCloneFigureListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6550,8 +6658,8 @@ export const describeLiveAvatarImageList: API.OperationMethod<
   DescribeLiveAvatarImageListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<DescribeLiveAvatarImageListRequest>,
-  output: __S(292, __c36, 4) as any as S.Schema<DescribeLiveAvatarImageListResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<DescribeLiveAvatarImageListRequest>,
+  output: __S(316, __c39, 4) as any as S.Schema<DescribeLiveAvatarImageListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6567,8 +6675,8 @@ export const describeLiveAvatarRooms: API.OperationMethod<
   DescribeLiveAvatarRoomsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DescribeLiveAvatarRoomsRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<DescribeLiveAvatarRoomsResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<DescribeLiveAvatarRoomsRequest>,
+  output: __S(323, __c40, 3) as any as S.Schema<DescribeLiveAvatarRoomsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6584,8 +6692,8 @@ export const describeLiveAvatarScripts: API.OperationMethod<
   DescribeLiveAvatarScriptsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<DescribeLiveAvatarScriptsRequest>,
-  output: __S(307, __c38, 3) as any as S.Schema<DescribeLiveAvatarScriptsResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<DescribeLiveAvatarScriptsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<DescribeLiveAvatarScriptsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6601,8 +6709,8 @@ export const describeLiveAvatarTemporaryScriptList: API.OperationMethod<
   DescribeLiveAvatarTemporaryScriptListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DescribeLiveAvatarTemporaryScriptListRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<DescribeLiveAvatarTemporaryScriptListResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<DescribeLiveAvatarTemporaryScriptListRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<DescribeLiveAvatarTemporaryScriptListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6618,8 +6726,8 @@ export const describeLiveAvatarTimbreList: API.OperationMethod<
   DescribeLiveAvatarTimbreListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DescribeLiveAvatarTimbreListRequest>,
-  output: __S(325, __c40, 5) as any as S.Schema<DescribeLiveAvatarTimbreListResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<DescribeLiveAvatarTimbreListRequest>,
+  output: __S(349, __c43, 5) as any as S.Schema<DescribeLiveAvatarTimbreListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6635,8 +6743,8 @@ export const describeLiveCallbackRules: API.OperationMethod<
   DescribeLiveCallbackRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DescribeLiveCallbackRulesRequest>,
-  output: __S(331, __c41, 3) as any as S.Schema<DescribeLiveCallbackRulesResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<DescribeLiveCallbackRulesRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<DescribeLiveCallbackRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6652,8 +6760,8 @@ export const describeLiveCallbackTemplate: API.OperationMethod<
   DescribeLiveCallbackTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<DescribeLiveCallbackTemplateRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<DescribeLiveCallbackTemplateResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<DescribeLiveCallbackTemplateRequest>,
+  output: __S(361, __c45, 1) as any as S.Schema<DescribeLiveCallbackTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6669,8 +6777,8 @@ export const describeLiveCallbackTemplates: API.OperationMethod<
   DescribeLiveCallbackTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<DescribeLiveCallbackTemplatesRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<DescribeLiveCallbackTemplatesResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<DescribeLiveCallbackTemplatesRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<DescribeLiveCallbackTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6686,8 +6794,8 @@ export const describeLiveCert: API.OperationMethod<
   DescribeLiveCertError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<DescribeLiveCertRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<DescribeLiveCertResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<DescribeLiveCertRequest>,
+  output: __S(393, __c49, 1) as any as S.Schema<DescribeLiveCertResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6703,8 +6811,8 @@ export const describeLiveCerts: API.OperationMethod<
   DescribeLiveCertsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<DescribeLiveCertsRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<DescribeLiveCertsResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<DescribeLiveCertsRequest>,
+  output: __S(410, __c51, 2) as any as S.Schema<DescribeLiveCertsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6720,8 +6828,8 @@ export const describeLiveCloudEffectConfig: API.OperationMethod<
   DescribeLiveCloudEffectConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<DescribeLiveCloudEffectConfigRequest>,
-  output: __S(395, __c49, 3) as any as S.Schema<DescribeLiveCloudEffectConfigResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<DescribeLiveCloudEffectConfigRequest>,
+  output: __S(419, __c52, 3) as any as S.Schema<DescribeLiveCloudEffectConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6737,8 +6845,8 @@ export const describeLiveCloudEffectList: API.OperationMethod<
   DescribeLiveCloudEffectListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<DescribeLiveCloudEffectListRequest>,
-  output: __S(403, __c50, 3) as any as S.Schema<DescribeLiveCloudEffectListResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<DescribeLiveCloudEffectListRequest>,
+  output: __S(427, __c53, 3) as any as S.Schema<DescribeLiveCloudEffectListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6754,8 +6862,8 @@ export const describeLiveDelayInfoList: API.OperationMethod<
   DescribeLiveDelayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<DescribeLiveDelayInfoListRequest>,
-  output: __S(411, __c51, 3) as any as S.Schema<DescribeLiveDelayInfoListResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<DescribeLiveDelayInfoListRequest>,
+  output: __S(435, __c54, 3) as any as S.Schema<DescribeLiveDelayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6771,8 +6879,8 @@ export const describeLiveDomain: API.OperationMethod<
   DescribeLiveDomainError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<DescribeLiveDomainRequest>,
-  output: __S(417, __c52, 1) as any as S.Schema<DescribeLiveDomainResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<DescribeLiveDomainRequest>,
+  output: __S(441, __c55, 1) as any as S.Schema<DescribeLiveDomainResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6788,8 +6896,8 @@ export const describeLiveDomainCert: API.OperationMethod<
   DescribeLiveDomainCertError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<DescribeLiveDomainCertRequest>,
-  output: __S(434, __c54, 2) as any as S.Schema<DescribeLiveDomainCertResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<DescribeLiveDomainCertRequest>,
+  output: __S(458, __c57, 2) as any as S.Schema<DescribeLiveDomainCertResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6805,8 +6913,8 @@ export const describeLiveDomainCertBindings: API.OperationMethod<
   DescribeLiveDomainCertBindingsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<DescribeLiveDomainCertBindingsRequest>,
-  output: __S(443, __c55, 3) as any as S.Schema<DescribeLiveDomainCertBindingsResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<DescribeLiveDomainCertBindingsRequest>,
+  output: __S(467, __c58, 3) as any as S.Schema<DescribeLiveDomainCertBindingsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6822,8 +6930,8 @@ export const describeLiveDomainPlayInfoList: API.OperationMethod<
   DescribeLiveDomainPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<DescribeLiveDomainPlayInfoListRequest>,
-  output: __S(453, __c56, 5) as any as S.Schema<DescribeLiveDomainPlayInfoListResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<DescribeLiveDomainPlayInfoListRequest>,
+  output: __S(477, __c59, 5) as any as S.Schema<DescribeLiveDomainPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6839,8 +6947,8 @@ export const describeLiveDomainReferer: API.OperationMethod<
   DescribeLiveDomainRefererError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<DescribeLiveDomainRefererRequest>,
-  output: __S(458, __c57, 2) as any as S.Schema<DescribeLiveDomainRefererResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<DescribeLiveDomainRefererRequest>,
+  output: __S(482, __c60, 2) as any as S.Schema<DescribeLiveDomainRefererResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6856,8 +6964,8 @@ export const describeLiveDomains: API.OperationMethod<
   DescribeLiveDomainsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<DescribeLiveDomainsRequest>,
-  output: __S(466, __c58, 2) as any as S.Schema<DescribeLiveDomainsResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<DescribeLiveDomainsRequest>,
+  output: __S(498, __c62, 2) as any as S.Schema<DescribeLiveDomainsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6873,8 +6981,8 @@ export const describeLiveEnhanceInfoList: API.OperationMethod<
   DescribeLiveEnhanceInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<DescribeLiveEnhanceInfoListRequest>,
-  output: __S(475, __c59, 3) as any as S.Schema<DescribeLiveEnhanceInfoListResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<DescribeLiveEnhanceInfoListRequest>,
+  output: __S(507, __c63, 3) as any as S.Schema<DescribeLiveEnhanceInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6890,8 +6998,8 @@ export const describeLivePackageInfo: API.OperationMethod<
   DescribeLivePackageInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<DescribeLivePackageInfoRequest>,
-  output: __S(491, __c61, 3) as any as S.Schema<DescribeLivePackageInfoResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<DescribeLivePackageInfoRequest>,
+  output: __S(515, __c64, 3) as any as S.Schema<DescribeLivePackageInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6907,8 +7015,8 @@ export const describeLivePadRules: API.OperationMethod<
   DescribeLivePadRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<DescribeLivePadRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLivePadRulesResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<DescribeLivePadRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLivePadRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6924,8 +7032,8 @@ export const describeLivePadStreamList: API.OperationMethod<
   DescribeLivePadStreamListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<DescribeLivePadStreamListRequest>,
-  output: __S(507, __c63, 3) as any as S.Schema<DescribeLivePadStreamListResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<DescribeLivePadStreamListRequest>,
+  output: __S(531, __c66, 3) as any as S.Schema<DescribeLivePadStreamListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6941,8 +7049,8 @@ export const describeLivePadTemplate: API.OperationMethod<
   DescribeLivePadTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<DescribeLivePadTemplateRequest>,
-  output: __S(513, __c64, 1) as any as S.Schema<DescribeLivePadTemplateResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<DescribeLivePadTemplateRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<DescribeLivePadTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6958,8 +7066,8 @@ export const describeLivePadTemplates: API.OperationMethod<
   DescribeLivePadTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<DescribeLivePadTemplatesRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<DescribeLivePadTemplatesResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<DescribeLivePadTemplatesRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<DescribeLivePadTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6975,8 +7083,8 @@ export const describeLivePlayAuthKey: API.OperationMethod<
   DescribeLivePlayAuthKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<DescribeLivePlayAuthKeyRequest>,
-  output: __S(538, __c67, 2) as any as S.Schema<DescribeLivePlayAuthKeyResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<DescribeLivePlayAuthKeyRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<DescribeLivePlayAuthKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6992,8 +7100,8 @@ export const describeLivePullStreamTasks: API.OperationMethod<
   DescribeLivePullStreamTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<DescribeLivePullStreamTasksRequest>,
-  output: __S(548, __c68, 4) as any as S.Schema<DescribeLivePullStreamTasksResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<DescribeLivePullStreamTasksRequest>,
+  output: __S(572, __c71, 4) as any as S.Schema<DescribeLivePullStreamTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7009,8 +7117,8 @@ export const describeLivePullStreamTaskStatus: API.OperationMethod<
   DescribeLivePullStreamTaskStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<DescribeLivePullStreamTaskStatusRequest>,
-  output: __S(554, __c69, 2) as any as S.Schema<DescribeLivePullStreamTaskStatusResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<DescribeLivePullStreamTaskStatusRequest>,
+  output: __S(578, __c72, 2) as any as S.Schema<DescribeLivePullStreamTaskStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7026,8 +7134,8 @@ export const describeLivePushAuthKey: API.OperationMethod<
   DescribeLivePushAuthKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<DescribeLivePushAuthKeyRequest>,
-  output: __S(562, __c70, 2) as any as S.Schema<DescribeLivePushAuthKeyResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<DescribeLivePushAuthKeyRequest>,
+  output: __S(602, __c75, 2) as any as S.Schema<DescribeLivePushAuthKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7043,8 +7151,8 @@ export const describeLiveRecordRules: API.OperationMethod<
   DescribeLiveRecordRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<DescribeLiveRecordRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveRecordRulesResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<DescribeLiveRecordRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveRecordRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7060,8 +7168,8 @@ export const describeLiveRecordTemplate: API.OperationMethod<
   DescribeLiveRecordTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<DescribeLiveRecordTemplateRequest>,
-  output: __S(593, __c74, 1) as any as S.Schema<DescribeLiveRecordTemplateResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<DescribeLiveRecordTemplateRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<DescribeLiveRecordTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7077,8 +7185,8 @@ export const describeLiveRecordTemplates: API.OperationMethod<
   DescribeLiveRecordTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<DescribeLiveRecordTemplatesRequest>,
-  output: __S(610, __c76, 2) as any as S.Schema<DescribeLiveRecordTemplatesResponse>,
+  input: __S(632, __c79, 0) as any as S.Schema<DescribeLiveRecordTemplatesRequest>,
+  output: __S(634, __c79, 2) as any as S.Schema<DescribeLiveRecordTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7094,8 +7202,8 @@ export const describeLiveSmartEraseRules: API.OperationMethod<
   DescribeLiveSmartEraseRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<DescribeLiveSmartEraseRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveSmartEraseRulesResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<DescribeLiveSmartEraseRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveSmartEraseRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7111,8 +7219,8 @@ export const describeLiveSmartEraseTemplate: API.OperationMethod<
   DescribeLiveSmartEraseTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<DescribeLiveSmartEraseTemplateRequest>,
-  output: __S(625, __c78, 1) as any as S.Schema<DescribeLiveSmartEraseTemplateResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<DescribeLiveSmartEraseTemplateRequest>,
+  output: __S(649, __c81, 1) as any as S.Schema<DescribeLiveSmartEraseTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7128,8 +7236,8 @@ export const describeLiveSmartEraseTemplates: API.OperationMethod<
   DescribeLiveSmartEraseTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<DescribeLiveSmartEraseTemplatesRequest>,
-  output: __S(642, __c80, 2) as any as S.Schema<DescribeLiveSmartEraseTemplatesResponse>,
+  input: __S(664, __c83, 0) as any as S.Schema<DescribeLiveSmartEraseTemplatesRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<DescribeLiveSmartEraseTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7145,8 +7253,8 @@ export const describeLiveSnapshotRules: API.OperationMethod<
   DescribeLiveSnapshotRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<DescribeLiveSnapshotRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveSnapshotRulesResponse>,
+  input: __S(672, __c84, 0) as any as S.Schema<DescribeLiveSnapshotRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveSnapshotRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7162,8 +7270,8 @@ export const describeLiveSnapshotTemplate: API.OperationMethod<
   DescribeLiveSnapshotTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<DescribeLiveSnapshotTemplateRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<DescribeLiveSnapshotTemplateResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<DescribeLiveSnapshotTemplateRequest>,
+  output: __S(681, __c85, 1) as any as S.Schema<DescribeLiveSnapshotTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7179,8 +7287,8 @@ export const describeLiveSnapshotTemplates: API.OperationMethod<
   DescribeLiveSnapshotTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<DescribeLiveSnapshotTemplatesRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<DescribeLiveSnapshotTemplatesResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<DescribeLiveSnapshotTemplatesRequest>,
+  output: __S(698, __c87, 2) as any as S.Schema<DescribeLiveSnapshotTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7196,8 +7304,8 @@ export const describeLiveStreamEventList: API.OperationMethod<
   DescribeLiveStreamEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<DescribeLiveStreamEventListRequest>,
-  output: __S(683, __c85, 3) as any as S.Schema<DescribeLiveStreamEventListResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<DescribeLiveStreamEventListRequest>,
+  output: __S(715, __c89, 3) as any as S.Schema<DescribeLiveStreamEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7213,8 +7321,8 @@ export const describeLiveStreamMonitor: API.OperationMethod<
   DescribeLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<DescribeLiveStreamMonitorRequest>,
-  output: __S(689, __c86, 1) as any as S.Schema<DescribeLiveStreamMonitorResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<DescribeLiveStreamMonitorRequest>,
+  output: __S(721, __c90, 1) as any as S.Schema<DescribeLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7230,8 +7338,8 @@ export const describeLiveStreamMonitorList: API.OperationMethod<
   DescribeLiveStreamMonitorListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<DescribeLiveStreamMonitorListRequest>,
-  output: __S(714, __c89, 2) as any as S.Schema<DescribeLiveStreamMonitorListResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<DescribeLiveStreamMonitorListRequest>,
+  output: __S(738, __c92, 2) as any as S.Schema<DescribeLiveStreamMonitorListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7247,8 +7355,8 @@ export const describeLiveStreamOnlineList: API.OperationMethod<
   DescribeLiveStreamOnlineListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<DescribeLiveStreamOnlineListRequest>,
-  output: __S(725, __c90, 5) as any as S.Schema<DescribeLiveStreamOnlineListResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<DescribeLiveStreamOnlineListRequest>,
+  output: __S(749, __c93, 5) as any as S.Schema<DescribeLiveStreamOnlineListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7264,8 +7372,8 @@ export const describeLiveStreamPublishedList: API.OperationMethod<
   DescribeLiveStreamPublishedListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<DescribeLiveStreamPublishedListRequest>,
-  output: __S(731, __c91, 3) as any as S.Schema<DescribeLiveStreamPublishedListResponse>,
+  input: __S(752, __c94, 0) as any as S.Schema<DescribeLiveStreamPublishedListRequest>,
+  output: __S(755, __c94, 3) as any as S.Schema<DescribeLiveStreamPublishedListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7281,8 +7389,8 @@ export const describeLiveStreamPushInfoList: API.OperationMethod<
   DescribeLiveStreamPushInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<DescribeLiveStreamPushInfoListRequest>,
-  output: __S(739, __c92, 3) as any as S.Schema<DescribeLiveStreamPushInfoListResponse>,
+  input: __S(760, __c95, 0) as any as S.Schema<DescribeLiveStreamPushInfoListRequest>,
+  output: __S(763, __c95, 3) as any as S.Schema<DescribeLiveStreamPushInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7298,8 +7406,8 @@ export const describeLiveStreamState: API.OperationMethod<
   DescribeLiveStreamStateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<DescribeLiveStreamStateRequest>,
-  output: __S(745, __c93, 1) as any as S.Schema<DescribeLiveStreamStateResponse>,
+  input: __S(768, __c96, 0) as any as S.Schema<DescribeLiveStreamStateRequest>,
+  output: __S(769, __c96, 1) as any as S.Schema<DescribeLiveStreamStateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7315,8 +7423,8 @@ export const describeLiveTimeShiftBillInfoList: API.OperationMethod<
   DescribeLiveTimeShiftBillInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<DescribeLiveTimeShiftBillInfoListRequest>,
-  output: __S(755, __c94, 3) as any as S.Schema<DescribeLiveTimeShiftBillInfoListResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<DescribeLiveTimeShiftBillInfoListRequest>,
+  output: __S(779, __c97, 3) as any as S.Schema<DescribeLiveTimeShiftBillInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7332,8 +7440,8 @@ export const describeLiveTimeShiftRules: API.OperationMethod<
   DescribeLiveTimeShiftRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<DescribeLiveTimeShiftRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveTimeShiftRulesResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<DescribeLiveTimeShiftRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveTimeShiftRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7349,8 +7457,8 @@ export const describeLiveTimeShiftTemplates: API.OperationMethod<
   DescribeLiveTimeShiftTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<DescribeLiveTimeShiftTemplatesRequest>,
-  output: __S(771, __c96, 3) as any as S.Schema<DescribeLiveTimeShiftTemplatesResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<DescribeLiveTimeShiftTemplatesRequest>,
+  output: __S(795, __c99, 3) as any as S.Schema<DescribeLiveTimeShiftTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7366,8 +7474,8 @@ export const describeLiveTimeShiftWriteSizeInfoList: API.OperationMethod<
   DescribeLiveTimeShiftWriteSizeInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<DescribeLiveTimeShiftWriteSizeInfoListRequest>,
-  output: __S(779, __c97, 3) as any as S.Schema<DescribeLiveTimeShiftWriteSizeInfoListResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<DescribeLiveTimeShiftWriteSizeInfoListRequest>,
+  output: __S(827, __c103, 3) as any as S.Schema<DescribeLiveTimeShiftWriteSizeInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7383,8 +7491,8 @@ export const describeLiveTranscodeDetailInfo: API.OperationMethod<
   DescribeLiveTranscodeDetailInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<DescribeLiveTranscodeDetailInfoRequest>,
-  output: __S(787, __c98, 3) as any as S.Schema<DescribeLiveTranscodeDetailInfoResponse>,
+  input: __S(832, __c104, 0) as any as S.Schema<DescribeLiveTranscodeDetailInfoRequest>,
+  output: __S(835, __c104, 3) as any as S.Schema<DescribeLiveTranscodeDetailInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7400,8 +7508,8 @@ export const describeLiveTranscodeRules: API.OperationMethod<
   DescribeLiveTranscodeRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<DescribeLiveTranscodeRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveTranscodeRulesResponse>,
+  input: __S(840, __c105, 0) as any as S.Schema<DescribeLiveTranscodeRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveTranscodeRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7417,8 +7525,8 @@ export const describeLiveTranscodeTemplate: API.OperationMethod<
   DescribeLiveTranscodeTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<DescribeLiveTranscodeTemplateRequest>,
-  output: __S(825, __c103, 1) as any as S.Schema<DescribeLiveTranscodeTemplateResponse>,
+  input: __S(848, __c106, 0) as any as S.Schema<DescribeLiveTranscodeTemplateRequest>,
+  output: __S(849, __c106, 1) as any as S.Schema<DescribeLiveTranscodeTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7434,8 +7542,8 @@ export const describeLiveTranscodeTemplates: API.OperationMethod<
   DescribeLiveTranscodeTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<DescribeLiveTranscodeTemplatesRequest>,
-  output: __S(842, __c105, 2) as any as S.Schema<DescribeLiveTranscodeTemplatesResponse>,
+  input: __S(864, __c108, 0) as any as S.Schema<DescribeLiveTranscodeTemplatesRequest>,
+  output: __S(866, __c108, 2) as any as S.Schema<DescribeLiveTranscodeTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7451,8 +7559,8 @@ export const describeLiveTranscodeTotalInfo: API.OperationMethod<
   DescribeLiveTranscodeTotalInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<DescribeLiveTranscodeTotalInfoRequest>,
-  output: __S(851, __c106, 3) as any as S.Schema<DescribeLiveTranscodeTotalInfoResponse>,
+  input: __S(872, __c109, 0) as any as S.Schema<DescribeLiveTranscodeTotalInfoRequest>,
+  output: __S(875, __c109, 3) as any as S.Schema<DescribeLiveTranscodeTotalInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7468,8 +7576,8 @@ export const describeLiveWatermark: API.OperationMethod<
   DescribeLiveWatermarkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<DescribeLiveWatermarkRequest>,
-  output: __S(857, __c107, 1) as any as S.Schema<DescribeLiveWatermarkResponse>,
+  input: __S(880, __c110, 0) as any as S.Schema<DescribeLiveWatermarkRequest>,
+  output: __S(881, __c110, 1) as any as S.Schema<DescribeLiveWatermarkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7485,8 +7593,8 @@ export const describeLiveWatermarkRules: API.OperationMethod<
   DescribeLiveWatermarkRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<DescribeLiveWatermarkRulesRequest>,
-  output: __S(2362, __c295, 2) as any as S.Schema<DescribeLiveWatermarkRulesResponse>,
+  input: __S(896, __c112, 0) as any as S.Schema<DescribeLiveWatermarkRulesRequest>,
+  output: __S(2434, __c304, 2) as any as S.Schema<DescribeLiveWatermarkRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7502,8 +7610,8 @@ export const describeLiveWatermarks: API.OperationMethod<
   DescribeLiveWatermarksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<DescribeLiveWatermarksRequest>,
-  output: __S(882, __c110, 2) as any as S.Schema<DescribeLiveWatermarksResponse>,
+  input: __S(904, __c113, 0) as any as S.Schema<DescribeLiveWatermarksRequest>,
+  output: __S(906, __c113, 2) as any as S.Schema<DescribeLiveWatermarksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7519,8 +7627,8 @@ export const describeLiveXP2PDetailInfoList: API.OperationMethod<
   DescribeLiveXP2PDetailInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<DescribeLiveXP2PDetailInfoListRequest>,
-  output: __S(891, __c111, 3) as any as S.Schema<DescribeLiveXP2PDetailInfoListResponse>,
+  input: __S(912, __c114, 0) as any as S.Schema<DescribeLiveXP2PDetailInfoListRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<DescribeLiveXP2PDetailInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7536,8 +7644,8 @@ export const describeLogDownloadList: API.OperationMethod<
   DescribeLogDownloadListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<DescribeLogDownloadListRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<DescribeLogDownloadListResponse>,
+  input: __S(928, __c116, 0) as any as S.Schema<DescribeLogDownloadListRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<DescribeLogDownloadListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7553,8 +7661,8 @@ export const describeMonitorReport: API.OperationMethod<
   DescribeMonitorReportError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<DescribeMonitorReportRequest>,
-  output: __S(907, __c113, 3) as any as S.Schema<DescribeMonitorReportResponse>,
+  input: __S(936, __c117, 0) as any as S.Schema<DescribeMonitorReportRequest>,
+  output: __S(939, __c117, 3) as any as S.Schema<DescribeMonitorReportResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7570,8 +7678,8 @@ export const describeOriginStreamInfo: API.OperationMethod<
   DescribeOriginStreamInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<DescribeOriginStreamInfoRequest>,
-  output: __S(921, __c115, 1) as any as S.Schema<DescribeOriginStreamInfoResponse>,
+  input: __S(944, __c118, 0) as any as S.Schema<DescribeOriginStreamInfoRequest>,
+  output: __S(945, __c118, 1) as any as S.Schema<DescribeOriginStreamInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7587,7 +7695,7 @@ export const describeOriginWhiteIpList: API.OperationMethod<
   DescribeOriginWhiteIpListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<DescribeOriginWhiteIpListRequest>,
+  input: __S(960, __c120, 0) as any as S.Schema<DescribeOriginWhiteIpListRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DescribeOriginWhiteIpListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -7604,8 +7712,8 @@ export const describePlayErrorCodeDetailInfoList: API.OperationMethod<
   DescribePlayErrorCodeDetailInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<DescribePlayErrorCodeDetailInfoListRequest>,
-  output: __S(949, __c118, 5) as any as S.Schema<DescribePlayErrorCodeDetailInfoListResponse>,
+  input: __S(968, __c121, 0) as any as S.Schema<DescribePlayErrorCodeDetailInfoListRequest>,
+  output: __S(973, __c121, 5) as any as S.Schema<DescribePlayErrorCodeDetailInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7621,8 +7729,8 @@ export const describePlayErrorCodeSumInfoList: API.OperationMethod<
   DescribePlayErrorCodeSumInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<DescribePlayErrorCodeSumInfoListRequest>,
-  output: __S(957, __c119, 5) as any as S.Schema<DescribePlayErrorCodeSumInfoListResponse>,
+  input: __S(976, __c122, 0) as any as S.Schema<DescribePlayErrorCodeSumInfoListRequest>,
+  output: __S(981, __c122, 5) as any as S.Schema<DescribePlayErrorCodeSumInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7638,8 +7746,8 @@ export const describeProIspPlaySumInfoList: API.OperationMethod<
   DescribeProIspPlaySumInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<DescribeProIspPlaySumInfoListRequest>,
-  output: __S(963, __c120, 3) as any as S.Schema<DescribeProIspPlaySumInfoListResponse>,
+  input: __S(984, __c123, 0) as any as S.Schema<DescribeProIspPlaySumInfoListRequest>,
+  output: __S(987, __c123, 3) as any as S.Schema<DescribeProIspPlaySumInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7655,8 +7763,8 @@ export const describeProvinceIspPlayInfoList: API.OperationMethod<
   DescribeProvinceIspPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<DescribeProvinceIspPlayInfoListRequest>,
-  output: __S(971, __c121, 3) as any as S.Schema<DescribeProvinceIspPlayInfoListResponse>,
+  input: __S(992, __c124, 0) as any as S.Schema<DescribeProvinceIspPlayInfoListRequest>,
+  output: __S(995, __c124, 3) as any as S.Schema<DescribeProvinceIspPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7672,8 +7780,8 @@ export const describePullStreamConfigs: API.OperationMethod<
   DescribePullStreamConfigsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<DescribePullStreamConfigsRequest>,
-  output: __S(979, __c122, 3) as any as S.Schema<DescribePullStreamConfigsResponse>,
+  input: __S(1000, __c125, 0) as any as S.Schema<DescribePullStreamConfigsRequest>,
+  output: __S(1003, __c125, 3) as any as S.Schema<DescribePullStreamConfigsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7689,8 +7797,8 @@ export const describePullTransformPushInfo: API.OperationMethod<
   DescribePullTransformPushInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<DescribePullTransformPushInfoRequest>,
-  output: __S(987, __c123, 3) as any as S.Schema<DescribePullTransformPushInfoResponse>,
+  input: __S(1008, __c126, 0) as any as S.Schema<DescribePullTransformPushInfoRequest>,
+  output: __S(1011, __c126, 3) as any as S.Schema<DescribePullTransformPushInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7706,8 +7814,8 @@ export const describePullTransformPushInfoList: API.OperationMethod<
   DescribePullTransformPushInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<DescribePullTransformPushInfoListRequest>,
-  output: __S(995, __c124, 3) as any as S.Schema<DescribePullTransformPushInfoListResponse>,
+  input: __S(1024, __c128, 0) as any as S.Schema<DescribePullTransformPushInfoListRequest>,
+  output: __S(1027, __c128, 3) as any as S.Schema<DescribePullTransformPushInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7723,8 +7831,8 @@ export const describePushBandwidthAndFluxList: API.OperationMethod<
   DescribePushBandwidthAndFluxListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<DescribePushBandwidthAndFluxListRequest>,
-  output: __S(2400, __c300, 0) as any as S.Schema<DescribePushBandwidthAndFluxListResponse>,
+  input: __S(1032, __c129, 0) as any as S.Schema<DescribePushBandwidthAndFluxListRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DescribePushBandwidthAndFluxListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7740,8 +7848,8 @@ export const describeRecordTask: API.OperationMethod<
   DescribeRecordTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<DescribeRecordTaskRequest>,
-  output: __S(1026, __c128, 2) as any as S.Schema<DescribeRecordTaskResponse>,
+  input: __S(1040, __c130, 0) as any as S.Schema<DescribeRecordTaskRequest>,
+  output: __S(1050, __c131, 2) as any as S.Schema<DescribeRecordTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7757,8 +7865,8 @@ export const describeSceneVideoTask: API.OperationMethod<
   DescribeSceneVideoTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<DescribeSceneVideoTaskRequest>,
-  output: __S(1035, __c129, 3) as any as S.Schema<DescribeSceneVideoTaskResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<DescribeSceneVideoTaskRequest>,
+  output: __S(1059, __c132, 3) as any as S.Schema<DescribeSceneVideoTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7774,8 +7882,8 @@ export const describeScreenShotSheetNumList: API.OperationMethod<
   DescribeScreenShotSheetNumListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<DescribeScreenShotSheetNumListRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<DescribeScreenShotSheetNumListResponse>,
+  input: __S(1064, __c133, 0) as any as S.Schema<DescribeScreenShotSheetNumListRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<DescribeScreenShotSheetNumListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7791,8 +7899,8 @@ export const describeScreenshotTask: API.OperationMethod<
   DescribeScreenshotTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<DescribeScreenshotTaskRequest>,
-  output: __S(1026, __c128, 2) as any as S.Schema<DescribeScreenshotTaskResponse>,
+  input: __S(1072, __c134, 0) as any as S.Schema<DescribeScreenshotTaskRequest>,
+  output: __S(1050, __c131, 2) as any as S.Schema<DescribeScreenshotTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7808,8 +7916,8 @@ export const describeStreamDayPlayInfoList: API.OperationMethod<
   DescribeStreamDayPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<DescribeStreamDayPlayInfoListRequest>,
-  output: __S(1059, __c132, 3) as any as S.Schema<DescribeStreamDayPlayInfoListResponse>,
+  input: __S(1080, __c135, 0) as any as S.Schema<DescribeStreamDayPlayInfoListRequest>,
+  output: __S(1083, __c135, 3) as any as S.Schema<DescribeStreamDayPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7825,8 +7933,8 @@ export const describeStreamPackageIngestStatistics: API.OperationMethod<
   DescribeStreamPackageIngestStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<DescribeStreamPackageIngestStatisticsRequest>,
-  output: __S(1067, __c133, 3) as any as S.Schema<DescribeStreamPackageIngestStatisticsResponse>,
+  input: __S(1088, __c136, 0) as any as S.Schema<DescribeStreamPackageIngestStatisticsRequest>,
+  output: __S(1091, __c136, 3) as any as S.Schema<DescribeStreamPackageIngestStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7842,8 +7950,8 @@ export const describeStreamPackageOutputStatistics: API.OperationMethod<
   DescribeStreamPackageOutputStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<DescribeStreamPackageOutputStatisticsRequest>,
-  output: __S(1075, __c134, 3) as any as S.Schema<DescribeStreamPackageOutputStatisticsResponse>,
+  input: __S(1096, __c137, 0) as any as S.Schema<DescribeStreamPackageOutputStatisticsRequest>,
+  output: __S(1099, __c137, 3) as any as S.Schema<DescribeStreamPackageOutputStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7859,8 +7967,8 @@ export const describeStreamPackageRemuxStatistics: API.OperationMethod<
   DescribeStreamPackageRemuxStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<DescribeStreamPackageRemuxStatisticsRequest>,
-  output: __S(1083, __c135, 3) as any as S.Schema<DescribeStreamPackageRemuxStatisticsResponse>,
+  input: __S(1104, __c138, 0) as any as S.Schema<DescribeStreamPackageRemuxStatisticsRequest>,
+  output: __S(1107, __c138, 3) as any as S.Schema<DescribeStreamPackageRemuxStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7876,8 +7984,8 @@ export const describeStreamPlayInfoList: API.OperationMethod<
   DescribeStreamPlayInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<DescribeStreamPlayInfoListRequest>,
-  output: __S(1089, __c136, 1) as any as S.Schema<DescribeStreamPlayInfoListResponse>,
+  input: __S(1136, __c142, 0) as any as S.Schema<DescribeStreamPlayInfoListRequest>,
+  output: __S(1137, __c142, 1) as any as S.Schema<DescribeStreamPlayInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7893,8 +8001,8 @@ export const describeStreamPushInfoList: API.OperationMethod<
   DescribeStreamPushInfoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<DescribeStreamPushInfoListRequest>,
-  output: __S(1099, __c137, 3) as any as S.Schema<DescribeStreamPushInfoListResponse>,
+  input: __S(1144, __c143, 0) as any as S.Schema<DescribeStreamPushInfoListRequest>,
+  output: __S(1147, __c143, 3) as any as S.Schema<DescribeStreamPushInfoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7979,7 +8087,7 @@ export const describeUploadStreamNums: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c148, 0) as any as S.Schema<DescribeUploadStreamNumsRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<DescribeUploadStreamNumsResponse>,
+  output: __S(226, __c28, 2) as any as S.Schema<DescribeUploadStreamNumsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8046,7 +8154,7 @@ export const enableOptimalSwitching: API.OperationMethod<
   EnableOptimalSwitchingError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<EnableOptimalSwitchingRequest>,
+  input: __S(1248, __c156, 0) as any as S.Schema<EnableOptimalSwitchingRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<EnableOptimalSwitchingResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8063,7 +8171,7 @@ export const forbidLiveDomain: API.OperationMethod<
   ForbidLiveDomainError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<ForbidLiveDomainRequest>,
+  input: __S(1256, __c157, 0) as any as S.Schema<ForbidLiveDomainRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ForbidLiveDomainResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8080,7 +8188,7 @@ export const forbidLiveStream: API.OperationMethod<
   ForbidLiveStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<ForbidLiveStreamRequest>,
+  input: __S(1264, __c158, 0) as any as S.Schema<ForbidLiveStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ForbidLiveStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8097,8 +8205,8 @@ export const generateLiveAvatarScriptBroadcast: API.OperationMethod<
   GenerateLiveAvatarScriptBroadcastError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<GenerateLiveAvatarScriptBroadcastRequest>,
-  output: __S(1249, __c156, 1) as any as S.Schema<GenerateLiveAvatarScriptBroadcastResponse>,
+  input: __S(1272, __c159, 0) as any as S.Schema<GenerateLiveAvatarScriptBroadcastRequest>,
+  output: __S(1273, __c159, 1) as any as S.Schema<GenerateLiveAvatarScriptBroadcastResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8114,7 +8222,7 @@ export const insertTaskTemporaryFiles: API.OperationMethod<
   InsertTaskTemporaryFilesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<InsertTaskTemporaryFilesRequest>,
+  input: __S(1280, __c160, 0) as any as S.Schema<InsertTaskTemporaryFilesRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<InsertTaskTemporaryFilesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8131,7 +8239,7 @@ export const modifyAuditKeywordLib: API.OperationMethod<
   ModifyAuditKeywordLibError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<ModifyAuditKeywordLibRequest>,
+  input: __S(1288, __c161, 0) as any as S.Schema<ModifyAuditKeywordLibRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyAuditKeywordLibResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8148,8 +8256,8 @@ export const modifyAuditTemplate: API.OperationMethod<
   ModifyAuditTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<ModifyAuditTemplateRequest>,
-  output: __S(800, __c100, 0) as any as S.Schema<ModifyAuditTemplateResponse>,
+  input: __S(1296, __c162, 0) as any as S.Schema<ModifyAuditTemplateRequest>,
+  output: __S(808, __c101, 0) as any as S.Schema<ModifyAuditTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8165,7 +8273,7 @@ export const modifyCaster: API.OperationMethod<
   ModifyCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<ModifyCasterRequest>,
+  input: __S(1304, __c163, 0) as any as S.Schema<ModifyCasterRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8182,7 +8290,7 @@ export const modifyCasterInputInfo: API.OperationMethod<
   ModifyCasterInputInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1288, __c161, 0) as any as S.Schema<ModifyCasterInputInfoRequest>,
+  input: __S(1312, __c164, 0) as any as S.Schema<ModifyCasterInputInfoRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<ModifyCasterInputInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8199,7 +8307,7 @@ export const modifyCasterLayoutInfo: API.OperationMethod<
   ModifyCasterLayoutInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<ModifyCasterLayoutInfoRequest>,
+  input: __S(1320, __c165, 0) as any as S.Schema<ModifyCasterLayoutInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyCasterLayoutInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8216,7 +8324,7 @@ export const modifyCasterMarkPicInfo: API.OperationMethod<
   ModifyCasterMarkPicInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<ModifyCasterMarkPicInfoRequest>,
+  input: __S(1336, __c167, 0) as any as S.Schema<ModifyCasterMarkPicInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyCasterMarkPicInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8233,7 +8341,7 @@ export const modifyCasterMarkWordInfo: API.OperationMethod<
   ModifyCasterMarkWordInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<ModifyCasterMarkWordInfoRequest>,
+  input: __S(1344, __c168, 0) as any as S.Schema<ModifyCasterMarkWordInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyCasterMarkWordInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8250,7 +8358,7 @@ export const modifyCasterOutputInfo: API.OperationMethod<
   ModifyCasterOutputInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c166, 0) as any as S.Schema<ModifyCasterOutputInfoRequest>,
+  input: __S(1352, __c169, 0) as any as S.Schema<ModifyCasterOutputInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyCasterOutputInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8267,7 +8375,7 @@ export const modifyLiveAvatarRoom: API.OperationMethod<
   ModifyLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<ModifyLiveAvatarRoomRequest>,
+  input: __S(1360, __c170, 0) as any as S.Schema<ModifyLiveAvatarRoomRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8284,7 +8392,7 @@ export const modifyLiveAvatarScript: API.OperationMethod<
   ModifyLiveAvatarScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c168, 0) as any as S.Schema<ModifyLiveAvatarScriptRequest>,
+  input: __S(1368, __c171, 0) as any as S.Schema<ModifyLiveAvatarScriptRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveAvatarScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8301,7 +8409,7 @@ export const modifyLiveCallbackTemplate: API.OperationMethod<
   ModifyLiveCallbackTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<ModifyLiveCallbackTemplateRequest>,
+  input: __S(1376, __c172, 0) as any as S.Schema<ModifyLiveCallbackTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveCallbackTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8318,8 +8426,8 @@ export const modifyLiveDomainCertBindings: API.OperationMethod<
   ModifyLiveDomainCertBindingsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1362, __c170, 2) as any as S.Schema<ModifyLiveDomainCertBindingsRequest>,
-  output: __S(1365, __c170, 5) as any as S.Schema<ModifyLiveDomainCertBindingsResponse>,
+  input: __S(1386, __c173, 2) as any as S.Schema<ModifyLiveDomainCertBindingsRequest>,
+  output: __S(1389, __c173, 5) as any as S.Schema<ModifyLiveDomainCertBindingsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8335,7 +8443,7 @@ export const modifyLiveDomainReferer: API.OperationMethod<
   ModifyLiveDomainRefererError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1368, __c171, 0) as any as S.Schema<ModifyLiveDomainRefererRequest>,
+  input: __S(1392, __c174, 0) as any as S.Schema<ModifyLiveDomainRefererRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveDomainRefererResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8352,7 +8460,7 @@ export const modifyLivePadTemplate: API.OperationMethod<
   ModifyLivePadTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c172, 0) as any as S.Schema<ModifyLivePadTemplateRequest>,
+  input: __S(1400, __c175, 0) as any as S.Schema<ModifyLivePadTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLivePadTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8369,7 +8477,7 @@ export const modifyLivePlayAuthKey: API.OperationMethod<
   ModifyLivePlayAuthKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1384, __c173, 0) as any as S.Schema<ModifyLivePlayAuthKeyRequest>,
+  input: __S(1408, __c176, 0) as any as S.Schema<ModifyLivePlayAuthKeyRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLivePlayAuthKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8386,7 +8494,7 @@ export const modifyLivePlayDomain: API.OperationMethod<
   ModifyLivePlayDomainError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c174, 0) as any as S.Schema<ModifyLivePlayDomainRequest>,
+  input: __S(1424, __c178, 0) as any as S.Schema<ModifyLivePlayDomainRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLivePlayDomainResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8403,7 +8511,7 @@ export const modifyLivePullStreamTask: API.OperationMethod<
   ModifyLivePullStreamTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<ModifyLivePullStreamTaskRequest>,
+  input: __S(1432, __c179, 0) as any as S.Schema<ModifyLivePullStreamTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLivePullStreamTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8420,7 +8528,7 @@ export const modifyLivePushAuthKey: API.OperationMethod<
   ModifyLivePushAuthKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1416, __c177, 0) as any as S.Schema<ModifyLivePushAuthKeyRequest>,
+  input: __S(1440, __c180, 0) as any as S.Schema<ModifyLivePushAuthKeyRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLivePushAuthKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8437,7 +8545,7 @@ export const modifyLiveRecordTemplate: API.OperationMethod<
   ModifyLiveRecordTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<ModifyLiveRecordTemplateRequest>,
+  input: __S(1448, __c181, 0) as any as S.Schema<ModifyLiveRecordTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveRecordTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8454,7 +8562,7 @@ export const modifyLiveSmartEraseTemplate: API.OperationMethod<
   ModifyLiveSmartEraseTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1432, __c179, 0) as any as S.Schema<ModifyLiveSmartEraseTemplateRequest>,
+  input: __S(1456, __c182, 0) as any as S.Schema<ModifyLiveSmartEraseTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveSmartEraseTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8471,7 +8579,7 @@ export const modifyLiveSnapshotTemplate: API.OperationMethod<
   ModifyLiveSnapshotTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<ModifyLiveSnapshotTemplateRequest>,
+  input: __S(1464, __c183, 0) as any as S.Schema<ModifyLiveSnapshotTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveSnapshotTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8488,7 +8596,7 @@ export const modifyLiveStreamMonitor: API.OperationMethod<
   ModifyLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1448, __c181, 0) as any as S.Schema<ModifyLiveStreamMonitorRequest>,
+  input: __S(1472, __c184, 0) as any as S.Schema<ModifyLiveStreamMonitorRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8505,7 +8613,7 @@ export const modifyLiveTimeShiftTemplate: API.OperationMethod<
   ModifyLiveTimeShiftTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<ModifyLiveTimeShiftTemplateRequest>,
+  input: __S(1480, __c185, 0) as any as S.Schema<ModifyLiveTimeShiftTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveTimeShiftTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8522,7 +8630,7 @@ export const modifyLiveTranscodeTemplate: API.OperationMethod<
   ModifyLiveTranscodeTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<ModifyLiveTranscodeTemplateRequest>,
+  input: __S(1488, __c186, 0) as any as S.Schema<ModifyLiveTranscodeTemplateRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyLiveTranscodeTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8539,7 +8647,7 @@ export const modifyOriginStreamInfo: API.OperationMethod<
   ModifyOriginStreamInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<ModifyOriginStreamInfoRequest>,
+  input: __S(1496, __c187, 0) as any as S.Schema<ModifyOriginStreamInfoRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyOriginStreamInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8556,7 +8664,7 @@ export const modifyPullStreamConfig: API.OperationMethod<
   ModifyPullStreamConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<ModifyPullStreamConfigRequest>,
+  input: __S(1512, __c189, 0) as any as S.Schema<ModifyPullStreamConfigRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyPullStreamConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8573,7 +8681,7 @@ export const modifyPullStreamStatus: API.OperationMethod<
   ModifyPullStreamStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<ModifyPullStreamStatusRequest>,
+  input: __S(1520, __c190, 0) as any as S.Schema<ModifyPullStreamStatusRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ModifyPullStreamStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8590,7 +8698,7 @@ export const releaseCaster: API.OperationMethod<
   ReleaseCasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<ReleaseCasterRequest>,
+  input: __S(1528, __c191, 0) as any as S.Schema<ReleaseCasterRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ReleaseCasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8607,7 +8715,7 @@ export const restartLivePullStreamTask: API.OperationMethod<
   RestartLivePullStreamTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1512, __c189, 0) as any as S.Schema<RestartLivePullStreamTaskRequest>,
+  input: __S(1536, __c192, 0) as any as S.Schema<RestartLivePullStreamTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<RestartLivePullStreamTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8624,7 +8732,7 @@ export const resumeDelayLiveStream: API.OperationMethod<
   ResumeDelayLiveStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<ResumeDelayLiveStreamRequest>,
+  input: __S(1544, __c193, 0) as any as S.Schema<ResumeDelayLiveStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ResumeDelayLiveStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8641,7 +8749,7 @@ export const resumeLiveStream: API.OperationMethod<
   ResumeLiveStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1528, __c191, 0) as any as S.Schema<ResumeLiveStreamRequest>,
+  input: __S(1552, __c194, 0) as any as S.Schema<ResumeLiveStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ResumeLiveStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8658,7 +8766,7 @@ export const sendLiveCloudEffect: API.OperationMethod<
   SendLiveCloudEffectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<SendLiveCloudEffectRequest>,
+  input: __S(1560, __c195, 0) as any as S.Schema<SendLiveCloudEffectRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SendLiveCloudEffectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8675,7 +8783,7 @@ export const sendTemporaryScriptToAvatarRoom: API.OperationMethod<
   SendTemporaryScriptToAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1544, __c193, 0) as any as S.Schema<SendTemporaryScriptToAvatarRoomRequest>,
+  input: __S(1568, __c196, 0) as any as S.Schema<SendTemporaryScriptToAvatarRoomRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SendTemporaryScriptToAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8692,7 +8800,7 @@ export const startLiveAvatarRoom: API.OperationMethod<
   StartLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<StartLiveAvatarRoomRequest>,
+  input: __S(1576, __c197, 0) as any as S.Schema<StartLiveAvatarRoomRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StartLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8709,7 +8817,7 @@ export const startLivePadStream: API.OperationMethod<
   StartLivePadStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<StartLivePadStreamRequest>,
+  input: __S(1584, __c198, 0) as any as S.Schema<StartLivePadStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StartLivePadStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8726,7 +8834,7 @@ export const startLiveStreamMonitor: API.OperationMethod<
   StartLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<StartLiveStreamMonitorRequest>,
+  input: __S(1600, __c200, 0) as any as S.Schema<StartLiveStreamMonitorRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StartLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8736,6 +8844,40 @@ export const startLiveStreamMonitor: API.OperationMethod<
   span: "StartLiveStreamMonitor",
 }));
 
+export type StartLiveSubtitleError = TencentCloudOpError;
+export const startLiveSubtitle: API.OperationMethod<
+  StartLiveSubtitleRequest,
+  StartLiveSubtitleResponse,
+  StartLiveSubtitleError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1608, __c201, 0) as any as S.Schema<StartLiveSubtitleRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<StartLiveSubtitleResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartLiveSubtitle",
+}));
+
+export type StopAvatarEditingLiveError = TencentCloudOpError;
+export const stopAvatarEditingLive: API.OperationMethod<
+  StopAvatarEditingLiveRequest,
+  StopAvatarEditingLiveResponse,
+  StopAvatarEditingLiveError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1616, __c202, 0) as any as S.Schema<StopAvatarEditingLiveRequest>,
+  output: __S(1624, __c203, 0) as any as S.Schema<StopAvatarEditingLiveResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopAvatarEditingLive",
+}));
+
 export type StopCasterPgmError = TencentCloudOpError;
 export const stopCasterPgm: API.OperationMethod<
   StopCasterPgmRequest,
@@ -8743,7 +8885,7 @@ export const stopCasterPgm: API.OperationMethod<
   StopCasterPgmError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<StopCasterPgmRequest>,
+  input: __S(1632, __c204, 0) as any as S.Schema<StopCasterPgmRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopCasterPgmResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8760,7 +8902,7 @@ export const stopCasterPvw: API.OperationMethod<
   StopCasterPvwError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<StopCasterPvwRequest>,
+  input: __S(1640, __c205, 0) as any as S.Schema<StopCasterPvwRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopCasterPvwResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8777,7 +8919,7 @@ export const stopLiveAvatarRoom: API.OperationMethod<
   StopLiveAvatarRoomError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c200, 0) as any as S.Schema<StopLiveAvatarRoomRequest>,
+  input: __S(1648, __c206, 0) as any as S.Schema<StopLiveAvatarRoomRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopLiveAvatarRoomResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8794,7 +8936,7 @@ export const stopLivePadStream: API.OperationMethod<
   StopLivePadStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<StopLivePadStreamRequest>,
+  input: __S(1656, __c207, 0) as any as S.Schema<StopLivePadStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopLivePadStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8811,7 +8953,7 @@ export const stopLiveRecord: API.OperationMethod<
   StopLiveRecordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c202, 0) as any as S.Schema<StopLiveRecordRequest>,
+  input: __S(1664, __c208, 0) as any as S.Schema<StopLiveRecordRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopLiveRecordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8828,7 +8970,7 @@ export const stopLiveStreamMonitor: API.OperationMethod<
   StopLiveStreamMonitorError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<StopLiveStreamMonitorRequest>,
+  input: __S(1672, __c209, 0) as any as S.Schema<StopLiveStreamMonitorRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopLiveStreamMonitorResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8838,6 +8980,23 @@ export const stopLiveStreamMonitor: API.OperationMethod<
   span: "StopLiveStreamMonitor",
 }));
 
+export type StopLiveSubtitleError = TencentCloudOpError;
+export const stopLiveSubtitle: API.OperationMethod<
+  StopLiveSubtitleRequest,
+  StopLiveSubtitleResponse,
+  StopLiveSubtitleError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1680, __c210, 0) as any as S.Schema<StopLiveSubtitleRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<StopLiveSubtitleResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopLiveSubtitle",
+}));
+
 export type StopRecordTaskError = TencentCloudOpError;
 export const stopRecordTask: API.OperationMethod<
   StopRecordTaskRequest,
@@ -8845,7 +9004,7 @@ export const stopRecordTask: API.OperationMethod<
   StopRecordTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c204, 0) as any as S.Schema<StopRecordTaskRequest>,
+  input: __S(1696, __c212, 0) as any as S.Schema<StopRecordTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopRecordTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8862,7 +9021,7 @@ export const stopScreenshotTask: API.OperationMethod<
   StopScreenshotTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<StopScreenshotTaskRequest>,
+  input: __S(1704, __c213, 0) as any as S.Schema<StopScreenshotTaskRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<StopScreenshotTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8872,6 +9031,23 @@ export const stopScreenshotTask: API.OperationMethod<
   span: "StopScreenshotTask",
 }));
 
+export type SwitchAvatarEditingSceneError = TencentCloudOpError;
+export const switchAvatarEditingScene: API.OperationMethod<
+  SwitchAvatarEditingSceneRequest,
+  SwitchAvatarEditingSceneResponse,
+  SwitchAvatarEditingSceneError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1712, __c214, 0) as any as S.Schema<SwitchAvatarEditingSceneRequest>,
+  output: __S(1624, __c203, 0) as any as S.Schema<SwitchAvatarEditingSceneResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwitchAvatarEditingScene",
+}));
+
 export type SwitchBackupStreamError = TencentCloudOpError;
 export const switchBackupStream: API.OperationMethod<
   SwitchBackupStreamRequest,
@@ -8879,7 +9055,7 @@ export const switchBackupStream: API.OperationMethod<
   SwitchBackupStreamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c206, 0) as any as S.Schema<SwitchBackupStreamRequest>,
+  input: __S(1720, __c215, 0) as any as S.Schema<SwitchBackupStreamRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SwitchBackupStreamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8896,8 +9072,8 @@ export const switchCasterToEmergency: API.OperationMethod<
   SwitchCasterToEmergencyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<SwitchCasterToEmergencyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<SwitchCasterToEmergencyResponse>,
+  input: __S(1728, __c216, 0) as any as S.Schema<SwitchCasterToEmergencyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SwitchCasterToEmergencyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8913,7 +9089,7 @@ export const unBindLiveDomainCert: API.OperationMethod<
   UnBindLiveDomainCertError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<UnBindLiveDomainCertRequest>,
+  input: __S(1736, __c217, 0) as any as S.Schema<UnBindLiveDomainCertRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<UnBindLiveDomainCertResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8930,7 +9106,7 @@ export const updateLiveWatermark: API.OperationMethod<
   UpdateLiveWatermarkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<UpdateLiveWatermarkRequest>,
+  input: __S(1744, __c218, 0) as any as S.Schema<UpdateLiveWatermarkRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<UpdateLiveWatermarkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9057,6 +9233,89 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          StreamName: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "DescribeBackupStreamList" }),
+        ),
+      ).annotate({ identifier: "DescribeBackupStreamListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.optional(S.String),
+          AppName: S.optional(S.String),
+          PublishTime: S.optional(S.String),
+          UpstreamSequence: S.optional(S.String),
+          SourceFrom: S.optional(S.String),
+          MasterFlag: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BackupStreamDetailData" });
+    case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          StreamName: S.optional(S.String),
+          BackupList: S.optional(__S(66, __c8, 2)),
+          OptimalEnable: S.optional(S.Number),
+          HostGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupStreamGroupInfo" });
+    case 4:
+      return S.Array(__S(67, __c8, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          StreamInfoList: S.optional(__S(68, __c8, 4)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeBackupStreamListResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.String,
+          EndTime: S.String,
+          PlayDomains: S.optional(__S(16, __c2, 0)),
+          MainlandOrOversea: S.optional(S.String),
+          Granularity: S.optional(S.Number),
+          ServiceName: S.optional(S.String),
+          RegionNames: S.optional(__S(16, __c2, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "live",
+            version: "2018-08-01",
+            action: "DescribeBillBandwidthAndFluxList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeBillBandwidthAndFluxListRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PeakBandwidthTime: S.optional(S.String),
+          PeakBandwidth: S.optional(S.Number),
+          P95PeakBandwidthTime: S.optional(S.String),
+          P95PeakBandwidth: S.optional(S.Number),
+          SumFlux: S.optional(S.Number),
+          DataInfoList: S.optional(__S(2385, __c298, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeBillBandwidthAndFluxListResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           StartTime: S.String,
           EndTime: S.String,
           StreamName: S.String,
@@ -9086,11 +9345,11 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "CallbackEventInfo" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(66, __c8, 2)),
+          DataInfoList: S.optional(__S(90, __c11, 2)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -9100,7 +9359,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DescribeCallbackRecordsListResponse" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9135,13 +9394,13 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CasterInfo: S.optional(__S(73, __c9, 1)),
+          CasterInfo: S.optional(__S(97, __c12, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9156,15 +9415,15 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.Number),
-          PvwDisplayInfo: S.optional(__S(1136, __c142, 0)),
-          PgmDisplayInfo: S.optional(__S(1136, __c142, 0)),
+          PvwDisplayInfo: S.optional(__S(1232, __c154, 0)),
+          PgmDisplayInfo: S.optional(__S(1232, __c154, 0)),
           StartLiveTime: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterDisplayInfoResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9181,7 +9440,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DescribeCasterEmergencyStatusRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9192,7 +9451,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DescribeCasterEmergencyStatusResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9208,13 +9467,13 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          InputInfos: S.optional(__S(105, __c13, 1)),
+          InputInfos: S.optional(__S(129, __c16, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterInputInfosResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9230,13 +9489,13 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          LayoutInfos: S.optional(__S(113, __c14, 1)),
+          LayoutInfos: S.optional(__S(137, __c17, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterLayoutInfosResponse" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9259,17 +9518,17 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "CasterBriefInfo" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CasterList: S.optional(__S(122, __c15, 2)),
+          CasterList: S.optional(__S(146, __c18, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterListResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9285,17 +9544,41 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCasterMarkPicInfosRequest" });
     case 1:
-      return S.Array(__S(1112, __c139, 0));
+      return S.Array(__S(1120, __c140, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          MarkPicInfos: S.optional(__S(129, __c16, 1)),
+          MarkPicInfos: S.optional(__S(153, __c19, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterMarkPicInfosResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          CasterName: S.optional(S.String),
+          OutputStreamId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CopyCaster" })),
+      ).annotate({ identifier: "CopyCasterRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CopyCasterResponse" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9311,17 +9594,17 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCasterMarkWordInfosRequest" });
     case 1:
-      return S.Array(__S(1720, __c215, 0));
+      return S.Array(__S(1784, __c223, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          MarkWordInfos: S.optional(__S(137, __c17, 1)),
+          MarkWordInfos: S.optional(__S(177, __c22, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterMarkWordInfosResponse" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9333,41 +9616,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCasterOutputInfosRequest" });
     case 1:
-      return S.Array(__S(1840, __c230, 0));
+      return S.Array(__S(1904, __c238, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          OutputInfos: S.optional(__S(145, __c18, 1)),
+          OutputInfos: S.optional(__S(185, __c23, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterOutputInfosResponse" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          CasterName: S.optional(S.String),
-          OutputStreamId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CopyCaster" })),
-      ).annotate({ identifier: "CopyCasterRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CopyCasterResponse" });
-  }
-}
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9390,7 +9649,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DescribeCasterPlayUrlResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9414,17 +9673,17 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "TransitionTypeInfo" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TransitionTypes: S.optional(__S(178, __c22, 2)),
+          TransitionTypes: S.optional(__S(202, __c25, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCasterTransitionTypesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9443,7 +9702,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DescribeCasterUserStatusResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9464,7 +9723,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DescribeConcurrentRecordStreamNumRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9474,17 +9733,17 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ConcurrentRecordStreamNum" });
     case 1:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(201, __c25, 1)),
+          DataInfoList: S.optional(__S(225, __c28, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConcurrentRecordStreamNumResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9508,17 +9767,17 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "BandwidthInfo" });
     case 2:
-      return S.Array(__S(209, __c26, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(210, __c26, 2)),
+          DataInfoList: S.optional(__S(234, __c29, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeliverBandwidthListResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9537,7 +9796,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DescribeDeliverLogDownListRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9549,18 +9808,18 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "PushLogInfo" });
     case 1:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          LogInfoList: S.optional(__S(225, __c28, 1)),
+          LogInfoList: S.optional(__S(249, __c31, 1)),
           TotalNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeliverLogDownListResponse" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9585,21 +9844,21 @@ function __c29(j: number): any {
         S.Struct({
           ProvinceName: S.optional(S.String),
           IspName: S.optional(S.String),
-          DetailInfoList: S.optional(__S(241, __c30, 1)),
+          DetailInfoList: S.optional(__S(265, __c33, 1)),
         }),
       ).annotate({ identifier: "GroupProIspDataInfo" });
     case 2:
-      return S.Array(__S(233, __c29, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(234, __c29, 2)),
+          DataInfoList: S.optional(__S(258, __c32, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGroupProIspPlayInfoListResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9612,10 +9871,10 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "CdnPlayStatData" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(264, __c33, 0));
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9640,26 +9899,51 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "HttpStatusInfo" });
     case 2:
-      return S.Array(__S(249, __c31, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Time: S.optional(S.String),
-          HttpStatusInfoList: S.optional(__S(250, __c31, 2)),
+          HttpStatusInfoList: S.optional(__S(274, __c34, 2)),
         }),
       ).annotate({ identifier: "HttpStatusData" });
     case 4:
-      return S.Array(__S(251, __c31, 3));
+      return S.Array(__S(275, __c34, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(252, __c31, 4)),
+          DataInfoList: S.optional(__S(276, __c34, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeHttpStatusInfoListResponse" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          SourceRoomId: S.String,
+          IsCopyScript: S.optional(S.Boolean),
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CopyLiveAvatarRoom" })),
+      ).annotate({ identifier: "CopyLiveAvatarRoomRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RoomId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CopyLiveAvatarRoomResponse" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9683,17 +9967,17 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AvatarBackgroundInfo" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(297, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(258, __c32, 2)),
+          InfoList: S.optional(__S(298, __c37, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveAvatarBackgroundListResponse" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9736,43 +10020,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "LiveAvatarCloneFigureInfo" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(305, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CloneFigureList: S.optional(__S(266, __c33, 2)),
+          CloneFigureList: S.optional(__S(306, __c38, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveAvatarCloneFigureListResponse" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          SourceRoomId: S.String,
-          IsCopyScript: S.optional(S.Boolean),
-          Operator: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CopyLiveAvatarRoom" })),
-      ).annotate({ identifier: "CopyLiveAvatarRoomRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RoomId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CopyLiveAvatarRoomResponse" });
-  }
-}
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9803,23 +10062,23 @@ function __c36(j: number): any {
           PoseImage: S.optional(S.String),
           PoseImageResolution: S.optional(S.String),
           ReferenceVideoSegmentUrl: S.optional(S.String),
-          HorizontalAvatar: S.optional(__S(289, __c36, 1)),
-          VerticalAvatar: S.optional(__S(289, __c36, 1)),
+          HorizontalAvatar: S.optional(__S(313, __c39, 1)),
+          VerticalAvatar: S.optional(__S(313, __c39, 1)),
           SuggestTimbreKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvatarAnchorInfo" });
     case 3:
-      return S.Array(__S(290, __c36, 2));
+      return S.Array(__S(314, __c39, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ImageInfoList: S.optional(__S(291, __c36, 3)),
+          ImageInfoList: S.optional(__S(315, __c39, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveAvatarImageListResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9855,11 +10114,11 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "AvatarRoomInfo" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(321, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(298, __c37, 2)),
+          InfoList: S.optional(__S(322, __c40, 2)),
           LimitCreateNum: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -9867,7 +10126,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DescribeLiveAvatarRoomsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9898,11 +10157,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "AvatarScriptInfo" });
     case 2:
-      return S.Array(__S(305, __c38, 1));
+      return S.Array(__S(329, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(306, __c38, 2)),
+          InfoList: S.optional(__S(330, __c41, 2)),
           LimitCreateNum: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -9910,7 +10169,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DescribeLiveAvatarScriptsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9933,17 +10192,17 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "AvatarTemporaryScriptInfo" });
     case 2:
-      return S.Array(__S(313, __c39, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(314, __c39, 2)),
+          InfoList: S.optional(__S(338, __c42, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveAvatarTemporaryScriptListResponse" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9969,26 +10228,26 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "AvatarTimbreInfo" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(345, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TimbreType: S.optional(S.String),
-          TimbreInfoList: S.optional(__S(322, __c40, 2)),
+          TimbreInfoList: S.optional(__S(346, __c43, 2)),
         }),
       ).annotate({ identifier: "AvatarTimbreList" });
     case 4:
-      return S.Array(__S(323, __c40, 3));
+      return S.Array(__S(347, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TimbreList: S.optional(__S(324, __c40, 4)),
+          TimbreList: S.optional(__S(348, __c43, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveAvatarTimbreListResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10009,17 +10268,17 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "CallBackRuleInfo" });
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Rules: S.optional(__S(330, __c41, 2)),
+          Rules: S.optional(__S(354, __c44, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveCallbackRulesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10037,13 +10296,13 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(344, __c43, 0)),
+          Template: S.optional(__S(368, __c46, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveCallbackTemplateResponse" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10066,7 +10325,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CallBackTemplateInfo" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10081,68 +10340,14 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveCallbackTemplatesRequest" });
     case 1:
-      return S.Array(__S(344, __c43, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Templates: S.optional(__S(353, __c44, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeLiveCallbackTemplatesResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CertId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "DescribeLiveCert" })),
-      ).annotate({ identifier: "DescribeLiveCertRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CertInfo: S.optional(__S(368, __c46, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeLiveCertResponse" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CertId: S.optional(S.Number),
-          CertName: S.optional(S.String),
-          Description: S.optional(S.String),
-          CreateTime: S.optional(S.String),
-          HttpsCrt: S.optional(S.String),
-          CertType: S.optional(S.Number),
-          CertExpireTime: S.optional(S.String),
-          DomainList: S.optional(__S(16, __c2, 0)),
-        }),
-      ).annotate({ identifier: "CertInfo" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "DescribeLiveCerts" })),
-      ).annotate({ identifier: "DescribeLiveCertsRequest" });
-    case 1:
       return S.Array(__S(368, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CertInfoSet: S.optional(__S(377, __c47, 1)),
+          Templates: S.optional(__S(377, __c47, 1)),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DescribeLiveCertsResponse" });
+      ).annotate({ identifier: "DescribeLiveCallbackTemplatesResponse" });
   }
 }
 function __c48(j: number): any {
@@ -10190,6 +10395,60 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          CertId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "DescribeLiveCert" })),
+      ).annotate({ identifier: "DescribeLiveCertRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CertInfo: S.optional(__S(400, __c50, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeLiveCertResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CertId: S.optional(S.Number),
+          CertName: S.optional(S.String),
+          Description: S.optional(S.String),
+          CreateTime: S.optional(S.String),
+          HttpsCrt: S.optional(S.String),
+          CertType: S.optional(S.Number),
+          CertExpireTime: S.optional(S.String),
+          DomainList: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "CertInfo" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "DescribeLiveCerts" })),
+      ).annotate({ identifier: "DescribeLiveCertsRequest" });
+    case 1:
+      return S.Array(__S(400, __c50, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CertInfoSet: S.optional(__S(409, __c51, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeLiveCertsResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10210,18 +10469,18 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "CloudEffectTemplateInfo" });
     case 2:
-      return S.Array(__S(393, __c49, 1));
+      return S.Array(__S(417, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          EffectTemplateList: S.optional(__S(394, __c49, 2)),
-          PunishmentEffectTemplateList: S.optional(__S(394, __c49, 2)),
+          EffectTemplateList: S.optional(__S(418, __c52, 2)),
+          PunishmentEffectTemplateList: S.optional(__S(418, __c52, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveCloudEffectConfigResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10254,11 +10513,11 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "CloudEffectInfo" });
     case 2:
-      return S.Array(__S(401, __c50, 1));
+      return S.Array(__S(425, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(402, __c50, 2)),
+          InfoList: S.optional(__S(426, __c53, 2)),
           EnableCreateNum: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -10266,7 +10525,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DescribeLiveCloudEffectListResponse" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10289,17 +10548,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "DelayInfo" });
     case 2:
-      return S.Array(__S(409, __c51, 1));
+      return S.Array(__S(433, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DelayInfoList: S.optional(__S(410, __c51, 2)),
+          DelayInfoList: S.optional(__S(434, __c54, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDelayInfoListResponse" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10311,13 +10570,13 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DomainInfo: S.optional(__S(424, __c53, 0)),
+          DomainInfo: S.optional(__S(448, __c56, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainResponse" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10338,7 +10597,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DomainInfo" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10368,13 +10627,13 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DomainCertInfo: S.optional(__S(433, __c54, 1)),
+          DomainCertInfo: S.optional(__S(457, __c57, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainCertResponse" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10407,18 +10666,18 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "LiveDomainCertBindings" });
     case 2:
-      return S.Array(__S(441, __c55, 1));
+      return S.Array(__S(465, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LiveDomainCertBindings: S.optional(__S(442, __c55, 2)),
+          LiveDomainCertBindings: S.optional(__S(466, __c58, 2)),
           TotalNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainCertBindingsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10444,16 +10703,16 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "DomainDetailInfo" });
     case 2:
-      return S.Array(__S(449, __c56, 1));
+      return S.Array(__S(473, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Domain: S.optional(S.String),
-          DetailInfoList: S.optional(__S(450, __c56, 2)),
+          DetailInfoList: S.optional(__S(474, __c59, 2)),
         }),
       ).annotate({ identifier: "DomainInfoList" });
     case 4:
-      return S.Array(__S(451, __c56, 3));
+      return S.Array(__S(475, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10462,13 +10721,13 @@ function __c56(j: number): any {
           TotalFlux: S.optional(S.Number),
           TotalRequest: S.optional(S.Number),
           TotalOnline: S.optional(S.Number),
-          DomainInfoList: S.optional(__S(452, __c56, 4)),
+          DomainInfoList: S.optional(__S(476, __c59, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainPlayInfoListResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10492,13 +10751,36 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          RefererAuthConfig: S.optional(__S(457, __c57, 1)),
+          RefererAuthConfig: S.optional(__S(481, __c60, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainRefererResponse" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.String,
+          Suggestion: S.String,
+          MatchType: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditKeywordLib" }),
+        ),
+      ).annotate({ identifier: "CreateAuditKeywordLibRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LibId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAuditKeywordLibResponse" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10516,20 +10798,20 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveDomainsRequest" });
     case 1:
-      return S.Array(__S(424, __c53, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           AllCount: S.optional(S.Number),
-          DomainList: S.optional(__S(465, __c58, 1)),
+          DomainList: S.optional(__S(497, __c62, 1)),
           CreateLimitCount: S.optional(S.Number),
-          PlayTypeCount: S.optional(__S(1144, __c143, 0)),
+          PlayTypeCount: S.optional(__S(1240, __c155, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveDomainsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10562,40 +10844,17 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "LiveEnhanceInfo" });
     case 2:
-      return S.Array(__S(473, __c59, 1));
+      return S.Array(__S(505, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(474, __c59, 2)),
+          DataInfoList: S.optional(__S(506, __c63, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveEnhanceInfoListResponse" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          Description: S.String,
-          Suggestion: S.String,
-          MatchType: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditKeywordLib" }),
-        ),
-      ).annotate({ identifier: "CreateAuditKeywordLibRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          LibId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAuditKeywordLibResponse" });
-  }
-}
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10625,11 +10884,11 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "LivePackageInfo" });
     case 2:
-      return S.Array(__S(489, __c61, 1));
+      return S.Array(__S(513, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LivePackageInfoList: S.optional(__S(490, __c61, 2)),
+          LivePackageInfoList: S.optional(__S(514, __c64, 2)),
           PackageBillMode: S.optional(S.Number),
           TotalPage: S.optional(S.NullOr(S.Number)),
           TotalNum: S.optional(S.NullOr(S.Number)),
@@ -10641,7 +10900,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DescribeLivePackageInfoResponse" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10653,7 +10912,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DescribeLivePadRulesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10679,11 +10938,11 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "PadStreamInfo" });
     case 2:
-      return S.Array(__S(505, __c63, 1));
+      return S.Array(__S(529, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StreamInfoList: S.optional(__S(506, __c63, 2)),
+          StreamInfoList: S.optional(__S(530, __c66, 2)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -10693,7 +10952,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DescribeLivePadStreamListResponse" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10707,13 +10966,13 @@ function __c64(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(520, __c65, 0)),
+          Template: S.optional(__S(544, __c68, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLivePadTemplateResponse" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10732,7 +10991,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PadTemplate" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10743,17 +11002,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLivePadTemplatesRequest" });
     case 1:
-      return S.Array(__S(520, __c65, 0));
+      return S.Array(__S(544, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(529, __c66, 1)),
+          Templates: S.optional(__S(553, __c69, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLivePadTemplatesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10777,13 +11036,13 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          PlayAuthKeyInfo: S.optional(__S(537, __c67, 1)),
+          PlayAuthKeyInfo: S.optional(__S(561, __c70, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLivePlayAuthKeyResponse" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10834,11 +11093,11 @@ function __c68(j: number): any {
           CallbackInfo: S.optional(S.String),
           ErrorInfo: S.optional(S.String),
           Status: S.optional(S.String),
-          RecentPullInfo: S.optional(__S(545, __c68, 1)),
+          RecentPullInfo: S.optional(__S(569, __c71, 1)),
           Comment: S.optional(S.String),
           BackupSourceType: S.optional(S.String),
           BackupSourceUrl: S.optional(S.String),
-          WatermarkList: S.optional(__S(1753, __c219, 1)),
+          WatermarkList: S.optional(__S(1825, __c228, 1)),
           VodLocalMode: S.optional(S.Number),
           RecordTemplateId: S.optional(S.String),
           BackupToUrl: S.optional(S.String),
@@ -10846,11 +11105,11 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "PullStreamTaskInfo" });
     case 3:
-      return S.Array(__S(546, __c68, 2));
+      return S.Array(__S(570, __c71, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          TaskInfos: S.optional(__S(547, __c68, 3)),
+          TaskInfos: S.optional(__S(571, __c71, 3)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -10861,7 +11120,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DescribeLivePullStreamTasksResponse" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10891,13 +11150,60 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TaskStatusInfo: S.optional(__S(553, __c69, 1)),
+          TaskStatusInfo: S.optional(__S(577, __c72, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLivePullStreamTaskStatusResponse" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Content: S.String,
+          Label: S.String,
+        }),
+      ).annotate({ identifier: "AuditKeyword" });
+    case 1:
+      return S.Array(__S(584, __c73, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Keywords: __S(585, __c73, 1),
+          LibId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditKeywords" }),
+        ),
+      ).annotate({ identifier: "CreateAuditKeywordsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          KeywordIds: S.optional(__S(16, __c2, 0)),
+          DupInfos: S.optional(__S(593, __c74, 1)),
+          Keywords: S.optional(__S(592, __c74, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAuditKeywordsResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KeywordId: S.optional(S.String),
+          Content: S.optional(S.String),
+          Label: S.optional(S.String),
+          CreateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditKeywordInfo" });
+    case 1:
+      return S.Array(__S(592, __c74, 0));
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10921,13 +11227,13 @@ function __c70(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          PushAuthKeyInfo: S.optional(__S(561, __c70, 1)),
+          PushAuthKeyInfo: S.optional(__S(601, __c75, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLivePushAuthKeyResponse" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10939,54 +11245,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DescribeLiveRecordRulesRequest" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Content: S.String,
-          Label: S.String,
-        }),
-      ).annotate({ identifier: "AuditKeyword" });
-    case 1:
-      return S.Array(__S(576, __c72, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Keywords: __S(577, __c72, 1),
-          LibId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditKeywords" }),
-        ),
-      ).annotate({ identifier: "CreateAuditKeywordsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          KeywordIds: S.optional(__S(16, __c2, 0)),
-          DupInfos: S.optional(__S(585, __c73, 1)),
-          Keywords: S.optional(__S(584, __c73, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAuditKeywordsResponse" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          KeywordId: S.optional(S.String),
-          Content: S.optional(S.String),
-          Label: S.optional(S.String),
-          CreateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditKeywordInfo" });
-    case 1:
-      return S.Array(__S(584, __c73, 0));
-  }
-}
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11004,13 +11263,13 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(600, __c75, 0)),
+          Template: S.optional(__S(624, __c78, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveRecordTemplateResponse" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11018,21 +11277,21 @@ function __c75(j: number): any {
           TemplateId: S.optional(S.Number),
           TemplateName: S.optional(S.String),
           Description: S.optional(S.String),
-          FlvParam: S.optional(__S(1792, __c224, 0)),
-          HlsParam: S.optional(__S(1792, __c224, 0)),
-          Mp4Param: S.optional(__S(1792, __c224, 0)),
-          AacParam: S.optional(__S(1792, __c224, 0)),
+          FlvParam: S.optional(__S(1864, __c233, 0)),
+          HlsParam: S.optional(__S(1864, __c233, 0)),
+          Mp4Param: S.optional(__S(1864, __c233, 0)),
+          AacParam: S.optional(__S(1864, __c233, 0)),
           IsDelayLive: S.optional(S.Number),
-          HlsSpecialParam: S.optional(__S(1793, __c224, 1)),
-          Mp3Param: S.optional(__S(1792, __c224, 0)),
+          HlsSpecialParam: S.optional(__S(1865, __c233, 1)),
+          Mp3Param: S.optional(__S(1864, __c233, 0)),
           RemoveWatermark: S.optional(S.NullOr(S.Boolean)),
           CosStore: S.optional(S.NullOr(S.Number)),
-          FlvSpecialParam: S.optional(S.NullOr(__S(1794, __c224, 2))),
+          FlvSpecialParam: S.optional(S.NullOr(__S(1866, __c233, 2))),
         }),
       ).annotate({ identifier: "RecordTemplateInfo" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11048,17 +11307,17 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveRecordTemplatesRequest" });
     case 1:
-      return S.Array(__S(600, __c75, 0));
+      return S.Array(__S(624, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(609, __c76, 1)),
+          Templates: S.optional(__S(633, __c79, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveRecordTemplatesResponse" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11074,7 +11333,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DescribeLiveSmartEraseRulesRequest" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11092,13 +11351,13 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(632, __c79, 0)),
+          Template: S.optional(__S(656, __c82, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveSmartEraseTemplateResponse" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11121,7 +11380,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SmartEraseTemplate" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11136,17 +11395,17 @@ function __c80(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveSmartEraseTemplatesRequest" });
     case 1:
-      return S.Array(__S(632, __c79, 0));
+      return S.Array(__S(656, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(641, __c80, 1)),
+          Templates: S.optional(__S(665, __c83, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveSmartEraseTemplatesResponse" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11158,7 +11417,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DescribeLiveSnapshotRulesRequest" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11176,13 +11435,13 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(664, __c83, 0)),
+          Template: S.optional(__S(688, __c86, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveSnapshotTemplateResponse" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11205,7 +11464,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SnapshotTemplateInfo" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11220,17 +11479,31 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveSnapshotTemplatesRequest" });
     case 1:
-      return S.Array(__S(664, __c83, 0));
+      return S.Array(__S(688, __c86, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(673, __c84, 1)),
+          Templates: S.optional(__S(697, __c87, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveSnapshotTemplatesResponse" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          AppName: S.String,
+          TemplateId: S.Number,
+          StreamName: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditRule" })),
+      ).annotate({ identifier: "CreateAuditRuleRequest" });
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11269,11 +11542,11 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "StreamEventInfo" });
     case 2:
-      return S.Array(__S(681, __c85, 1));
+      return S.Array(__S(713, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          EventList: S.optional(__S(682, __c85, 2)),
+          EventList: S.optional(__S(714, __c89, 2)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -11283,7 +11556,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DescribeLiveStreamEventListResponse" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11297,34 +11570,34 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          LiveStreamMonitor: S.optional(__S(696, __c87, 0)),
+          LiveStreamMonitor: S.optional(__S(728, __c91, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveStreamMonitorResponse" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MonitorId: S.optional(S.String),
           MonitorName: S.optional(S.String),
-          OutputInfo: S.optional(__S(1856, __c232, 0)),
-          InputList: S.optional(__S(1858, __c232, 2)),
+          OutputInfo: S.optional(__S(1928, __c241, 0)),
+          InputList: S.optional(__S(1930, __c241, 2)),
           Status: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
-          NotifyPolicy: S.optional(__S(1859, __c232, 3)),
-          AudibleInputIndexList: S.optional(__S(1144, __c143, 0)),
-          AiAsrInputIndexList: S.optional(__S(1144, __c143, 0)),
+          NotifyPolicy: S.optional(__S(1931, __c241, 3)),
+          AudibleInputIndexList: S.optional(__S(1240, __c155, 0)),
+          AiAsrInputIndexList: S.optional(__S(1240, __c155, 0)),
           CheckStreamBroken: S.optional(S.Number),
           CheckStreamLowFrameRate: S.optional(S.Number),
           AsrLanguage: S.optional(S.Number),
           OcrLanguage: S.optional(S.Number),
-          AiOcrInputIndexList: S.optional(__S(1144, __c143, 0)),
+          AiOcrInputIndexList: S.optional(__S(1240, __c155, 0)),
           AllowMonitorReport: S.optional(S.Number),
           AiFormatDiagnose: S.optional(S.Number),
           AiQualityControl: S.optional(S.Number),
@@ -11334,21 +11607,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "LiveStreamMonitorInfo" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DomainName: S.String,
-          AppName: S.String,
-          TemplateId: S.Number,
-          StreamName: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditRule" })),
-      ).annotate({ identifier: "CreateAuditRuleRequest" });
-  }
-}
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11365,18 +11624,18 @@ function __c89(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveStreamMonitorListRequest" });
     case 1:
-      return S.Array(__S(696, __c87, 0));
+      return S.Array(__S(728, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalNum: S.optional(S.Number),
-          LiveStreamMonitors: S.optional(__S(713, __c89, 1)),
+          LiveStreamMonitors: S.optional(__S(737, __c92, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveStreamMonitorListResponse" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11402,19 +11661,19 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "PublishTime" });
     case 2:
-      return S.Array(__S(721, __c90, 1));
+      return S.Array(__S(745, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.optional(S.String),
-          PublishTimeList: S.optional(__S(722, __c90, 2)),
+          PublishTimeList: S.optional(__S(746, __c93, 2)),
           AppName: S.optional(S.String),
           DomainName: S.optional(S.String),
           PushToDelay: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StreamOnlineInfo" });
     case 4:
-      return S.Array(__S(723, __c90, 3));
+      return S.Array(__S(747, __c93, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11422,13 +11681,13 @@ function __c90(j: number): any {
           TotalPage: S.optional(S.Number),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          OnlineInfo: S.optional(__S(724, __c90, 4)),
+          OnlineInfo: S.optional(__S(748, __c93, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveStreamOnlineListResponse" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11464,11 +11723,11 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "StreamName" });
     case 2:
-      return S.Array(__S(729, __c91, 1));
+      return S.Array(__S(753, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PublishInfo: S.optional(__S(730, __c91, 2)),
+          PublishInfo: S.optional(__S(754, __c94, 2)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -11478,7 +11737,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DescribeLiveStreamPublishedListResponse" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11519,11 +11778,11 @@ function __c92(j: number): any {
         }),
       ).annotate({ identifier: "PushDataInfo" });
     case 2:
-      return S.Array(__S(737, __c92, 1));
+      return S.Array(__S(761, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(738, __c92, 2)),
+          DataInfoList: S.optional(__S(762, __c95, 2)),
           TotalNum: S.optional(S.Number),
           TotalPage: S.optional(S.Number),
           PageNum: S.optional(S.Number),
@@ -11533,7 +11792,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DescribeLiveStreamPushInfoListResponse" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11555,7 +11814,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DescribeLiveStreamStateResponse" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11583,17 +11842,17 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "TimeShiftBillData" });
     case 2:
-      return S.Array(__S(753, __c94, 1));
+      return S.Array(__S(777, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(754, __c94, 2)),
+          DataInfoList: S.optional(__S(778, __c97, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTimeShiftBillInfoListResponse" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11609,7 +11868,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DescribeLiveTimeShiftRulesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11633,21 +11892,89 @@ function __c96(j: number): any {
           Description: S.optional(S.String),
           Area: S.optional(S.String),
           RemoveWatermark: S.optional(S.Boolean),
-          TranscodeTemplateIds: S.optional(__S(1144, __c143, 0)),
+          TranscodeTemplateIds: S.optional(__S(1240, __c155, 0)),
         }),
       ).annotate({ identifier: "TimeShiftTemplate" });
     case 2:
-      return S.Array(__S(769, __c96, 1));
+      return S.Array(__S(793, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(770, __c96, 2)),
+          Templates: S.optional(__S(794, __c99, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTimeShiftTemplatesResponse" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AuditTemplate: __S(820, __c102, 4),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditTemplate" }),
+        ),
+      ).annotate({ identifier: "CreateAuditTemplateRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateId: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAuditTemplateResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StrategyType: S.NullOr(S.String),
+          BizType: S.NullOr(S.String),
+          Status: S.NullOr(S.Boolean),
+          StrategyConfig: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CMSBizInfo" });
+    case 1:
+      return S.Array(__S(816, __c102, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          BizInfos: S.optional(__S(817, __c102, 1)),
+          SceneID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CMSSceneDetail" });
+    case 3:
+      return S.Array(__S(818, __c102, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateId: S.optional(S.Number),
+          TemplateName: S.optional(S.String),
+          Description: S.optional(S.String),
+          CosBucket: S.optional(S.String),
+          CosRegion: S.optional(S.String),
+          CosFilePath: S.optional(S.String),
+          AuditImage: S.optional(S.Boolean),
+          AuditAudio: S.optional(S.Boolean),
+          SnapshotInterval: S.optional(S.Number),
+          AudioInterval: S.optional(S.Number),
+          EnableFailoverCos: S.optional(S.Boolean),
+          FailoverCosBucket: S.optional(S.String),
+          FailoverCosRegion: S.optional(S.String),
+          SceneInfos: S.optional(S.NullOr(__S(819, __c102, 3))),
+          AuditText: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AuditTemplate" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11656,7 +11983,7 @@ function __c97(j: number): any {
           EndTime: S.String,
           DomainNames: S.optional(__S(16, __c2, 0)),
           Dimensions: S.optional(__S(16, __c2, 0)),
-          StorageDays: S.optional(__S(1144, __c143, 0)),
+          StorageDays: S.optional(__S(1240, __c155, 0)),
           Granularity: S.optional(S.Number),
           MainlandOrOversea: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11679,17 +12006,17 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "TimeShiftWriteSizeData" });
     case 2:
-      return S.Array(__S(777, __c97, 1));
+      return S.Array(__S(825, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(778, __c97, 2)),
+          DataInfoList: S.optional(__S(826, __c103, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTimeShiftWriteSizeInfoListResponse" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11726,11 +12053,11 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "TranscodeDetailInfo" });
     case 2:
-      return S.Array(__S(785, __c98, 1));
+      return S.Array(__S(833, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(786, __c98, 2)),
+          DataInfoList: S.optional(__S(834, __c104, 2)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
@@ -11740,80 +12067,12 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DescribeLiveTranscodeDetailInfoResponse" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AuditTemplate: __S(812, __c101, 4),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateAuditTemplate" }),
-        ),
-      ).annotate({ identifier: "CreateAuditTemplateRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateId: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAuditTemplateResponse" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StrategyType: S.NullOr(S.String),
-          BizType: S.NullOr(S.String),
-          Status: S.NullOr(S.Boolean),
-          StrategyConfig: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CMSBizInfo" });
-    case 1:
-      return S.Array(__S(808, __c101, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          BizInfos: S.optional(__S(809, __c101, 1)),
-          SceneID: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CMSSceneDetail" });
-    case 3:
-      return S.Array(__S(810, __c101, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateId: S.optional(S.Number),
-          TemplateName: S.optional(S.String),
-          Description: S.optional(S.String),
-          CosBucket: S.optional(S.String),
-          CosRegion: S.optional(S.String),
-          CosFilePath: S.optional(S.String),
-          AuditImage: S.optional(S.Boolean),
-          AuditAudio: S.optional(S.Boolean),
-          SnapshotInterval: S.optional(S.Number),
-          AudioInterval: S.optional(S.Number),
-          EnableFailoverCos: S.optional(S.Boolean),
-          FailoverCosBucket: S.optional(S.String),
-          FailoverCosRegion: S.optional(S.String),
-          SceneInfos: S.optional(S.NullOr(__S(811, __c101, 3))),
-          AuditText: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AuditTemplate" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateIds: S.optional(__S(1144, __c143, 0)),
+          TemplateIds: S.optional(__S(1240, __c155, 0)),
           DomainNames: S.optional(__S(16, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11826,7 +12085,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DescribeLiveTranscodeRulesRequest" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11844,13 +12103,13 @@ function __c103(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Template: S.optional(__S(832, __c104, 0)),
+          Template: S.optional(__S(856, __c107, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTranscodeTemplateResponse" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11879,14 +12138,14 @@ function __c104(j: number): any {
           DRMType: S.optional(S.NullOr(S.String)),
           DRMTracks: S.optional(S.NullOr(S.String)),
           IsAdaptiveBitRate: S.optional(S.NullOr(S.Number)),
-          AdaptiveChildren: S.optional(S.NullOr(__S(1897, __c237, 1))),
+          AdaptiveChildren: S.optional(S.NullOr(__S(1969, __c246, 1))),
           AudienceDrivenTranscode: S.optional(S.Number),
           AudienceThreshold: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TemplateInfo" });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11902,17 +12161,17 @@ function __c105(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveTranscodeTemplatesRequest" });
     case 1:
-      return S.Array(__S(832, __c104, 0));
+      return S.Array(__S(856, __c107, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(841, __c105, 1)),
+          Templates: S.optional(__S(865, __c108, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTranscodeTemplatesResponse" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11940,17 +12199,17 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "TranscodeTotalInfo" });
     case 2:
-      return S.Array(__S(849, __c106, 1));
+      return S.Array(__S(873, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(850, __c106, 2)),
+          DataInfoList: S.optional(__S(874, __c109, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveTranscodeTotalInfoResponse" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11964,13 +12223,13 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Watermark: S.optional(__S(864, __c108, 0)),
+          Watermark: S.optional(__S(888, __c111, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveWatermarkResponse" });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11990,7 +12249,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "WatermarkInfo" });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12006,7 +12265,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DescribeLiveWatermarkRulesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12020,18 +12279,18 @@ function __c110(j: number): any {
         ),
       ).annotate({ identifier: "DescribeLiveWatermarksRequest" });
     case 1:
-      return S.Array(__S(864, __c108, 0));
+      return S.Array(__S(888, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalNum: S.optional(S.Number),
-          WatermarkList: S.optional(__S(881, __c110, 1)),
+          WatermarkList: S.optional(__S(905, __c113, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveWatermarksResponse" });
   }
 }
-function __c111(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12066,17 +12325,41 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "XP2PDetailInfo" });
     case 2:
-      return S.Array(__S(889, __c111, 1));
+      return S.Array(__S(913, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(890, __c111, 2)),
+          DataInfoList: S.optional(__S(914, __c114, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLiveXP2PDetailInfoListResponse" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.String,
+          ImageUrl: S.String,
+          EditingType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateAvatarEditingLive" }),
+        ),
+      ).annotate({ identifier: "CreateAvatarEditingLiveRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LiveId: S.optional(S.String),
+          Status: S.optional(S.String),
+          ChannelId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAvatarEditingLiveResponse" });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12092,7 +12375,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DescribeLogDownloadListRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12122,36 +12405,14 @@ function __c113(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MPSResult: S.optional(__S(905, __c113, 1)),
-          DiagnoseResult: S.optional(__S(906, __c113, 2)),
+          MPSResult: S.optional(__S(937, __c117, 1)),
+          DiagnoseResult: S.optional(__S(938, __c117, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMonitorReportResponse" });
   }
 }
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterName: S.optional(S.String),
-          Description: S.optional(S.String),
-          ExpireTime: S.optional(S.Number),
-          DelayTime: S.optional(S.Number),
-          TransitionType: S.optional(S.String),
-          PgmWidth: S.optional(S.Number),
-          PgmHeight: S.optional(S.Number),
-          PgmFps: S.optional(S.Number),
-          PgmBitRate: S.optional(S.Number),
-          FeeType: S.optional(S.Number),
-          PgmAudioBitRate: S.optional(S.Number),
-          PgmVcodec: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCaster" })),
-      ).annotate({ identifier: "CreateCasterRequest" });
-  }
-}
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12197,14 +12458,14 @@ function __c115(j: number): any {
           MediaPackageChannelTypes: S.optional(__S(16, __c2, 0)),
           IndexerHeader: S.optional(S.NullOr(__S(16, __c2, 0))),
           FragmentHeader: S.optional(S.NullOr(__S(16, __c2, 0))),
-          CustomizationRules: S.optional(S.NullOr(__S(929, __c116, 1))),
+          CustomizationRules: S.optional(S.NullOr(__S(953, __c119, 1))),
           CacheFormatRule: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeOriginStreamInfoResponse" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12229,10 +12490,10 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "OriginStreamCustomizationRule" });
     case 1:
-      return S.Array(__S(928, __c116, 0));
+      return S.Array(__S(952, __c119, 0));
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12245,7 +12506,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DescribeOriginWhiteIpListRequest" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12274,27 +12535,27 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "HttpCodeValue" });
     case 2:
-      return S.Array(__S(945, __c118, 1));
+      return S.Array(__S(969, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           HttpCode: S.optional(S.String),
-          ValueList: S.optional(__S(946, __c118, 2)),
+          ValueList: S.optional(__S(970, __c121, 2)),
         }),
       ).annotate({ identifier: "HttpCodeInfo" });
     case 4:
-      return S.Array(__S(947, __c118, 3));
+      return S.Array(__S(971, __c121, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          HttpCodeList: S.optional(__S(948, __c118, 4)),
+          HttpCodeList: S.optional(__S(972, __c121, 4)),
           StatType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePlayErrorCodeDetailInfoListResponse" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12329,7 +12590,7 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "ProIspPlayCodeDataInfo" });
     case 2:
-      return S.Array(__S(953, __c119, 1));
+      return S.Array(__S(977, __c122, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12338,15 +12599,15 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "PlayCodeTotalInfo" });
     case 4:
-      return S.Array(__S(955, __c119, 3));
+      return S.Array(__S(979, __c122, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ProIspInfoList: S.optional(__S(954, __c119, 2)),
+          ProIspInfoList: S.optional(__S(978, __c122, 2)),
           TotalCodeAll: S.optional(S.Number),
           TotalCode4xx: S.optional(S.Number),
           TotalCode5xx: S.optional(S.Number),
-          TotalCodeList: S.optional(__S(956, __c119, 4)),
+          TotalCodeList: S.optional(__S(980, __c122, 4)),
           PageNum: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPage: S.optional(S.Number),
@@ -12358,7 +12619,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DescribePlayErrorCodeSumInfoListResponse" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12390,7 +12651,7 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "ProIspPlaySumInfo" });
     case 2:
-      return S.Array(__S(961, __c120, 1));
+      return S.Array(__S(985, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12401,14 +12662,14 @@ function __c120(j: number): any {
           PageNum: S.optional(S.Number),
           TotalNum: S.optional(S.Number),
           TotalPage: S.optional(S.Number),
-          DataInfoList: S.optional(__S(962, __c120, 2)),
+          DataInfoList: S.optional(__S(986, __c123, 2)),
           AvgFluxPerSecond: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProIspPlaySumInfoListResponse" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12439,18 +12700,18 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "PlayStatInfo" });
     case 2:
-      return S.Array(__S(969, __c121, 1));
+      return S.Array(__S(993, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(970, __c121, 2)),
+          DataInfoList: S.optional(__S(994, __c124, 2)),
           StatType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProvinceIspPlayInfoListResponse" });
   }
 }
-function __c122(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12475,17 +12736,17 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "PullStreamConfig" });
     case 2:
-      return S.Array(__S(977, __c122, 1));
+      return S.Array(__S(1001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PullStreamConfigs: S.optional(__S(978, __c122, 2)),
+          PullStreamConfigs: S.optional(__S(1002, __c125, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePullStreamConfigsResponse" });
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12512,11 +12773,11 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "TaskDurationInfo" });
     case 2:
-      return S.Array(__S(985, __c123, 1));
+      return S.Array(__S(1009, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(986, __c123, 2)),
+          DataInfoList: S.optional(__S(1010, __c126, 2)),
           TotalDuration: S.optional(S.Number),
           TotalDurationSecond: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -12524,7 +12785,29 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DescribePullTransformPushInfoResponse" });
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterName: S.optional(S.String),
+          Description: S.optional(S.String),
+          ExpireTime: S.optional(S.Number),
+          DelayTime: S.optional(S.Number),
+          TransitionType: S.optional(S.String),
+          PgmWidth: S.optional(S.Number),
+          PgmHeight: S.optional(S.Number),
+          PgmFps: S.optional(S.Number),
+          PgmBitRate: S.optional(S.Number),
+          FeeType: S.optional(S.Number),
+          PgmAudioBitRate: S.optional(S.Number),
+          PgmVcodec: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCaster" })),
+      ).annotate({ identifier: "CreateCasterRequest" });
+  }
+}
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12553,17 +12836,17 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "TurnPushInfo" });
     case 2:
-      return S.Array(__S(993, __c124, 1));
+      return S.Array(__S(1025, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(994, __c124, 2)),
+          DataInfoList: S.optional(__S(1026, __c128, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePullTransformPushInfoListResponse" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12586,29 +12869,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DescribePushBandwidthAndFluxListRequest" });
   }
 }
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          InputIndex: S.Number,
-          Protocol: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterInputPushUrl" }),
-        ),
-      ).annotate({ identifier: "CreateCasterInputPushUrlRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          PushUrl: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCasterInputPushUrlResponse" });
-  }
-}
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12624,7 +12885,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DescribeRecordTaskRequest" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12640,18 +12901,18 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "RecordTask" });
     case 1:
-      return S.Array(__S(1024, __c128, 0));
+      return S.Array(__S(1048, __c131, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ScrollToken: S.optional(S.String),
-          TaskList: S.optional(__S(1025, __c128, 1)),
+          TaskList: S.optional(__S(1049, __c131, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRecordTaskResponse" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12670,11 +12931,11 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "SceneVideoOutputInfo" });
     case 2:
-      return S.Array(__S(1033, __c129, 1));
+      return S.Array(__S(1057, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InfoList: S.optional(__S(1034, __c129, 2)),
+          InfoList: S.optional(__S(1058, __c132, 2)),
           Status: S.optional(S.String),
           Resolution: S.optional(S.String),
           Message: S.optional(S.String),
@@ -12684,7 +12945,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DescribeSceneVideoTaskResponse" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12705,7 +12966,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DescribeScreenShotSheetNumListRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12723,7 +12984,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DescribeScreenshotTaskRequest" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12751,11 +13012,11 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "PlayDataInfoByStream" });
     case 2:
-      return S.Array(__S(1057, __c132, 1));
+      return S.Array(__S(1081, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(1058, __c132, 2)),
+          DataInfoList: S.optional(__S(1082, __c135, 2)),
           TotalNum: S.optional(S.Number),
           TotalPage: S.optional(S.Number),
           PageNum: S.optional(S.Number),
@@ -12765,7 +13026,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DescribeStreamDayPlayInfoListResponse" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12795,18 +13056,18 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "IngestStatisticsDataInfo" });
     case 2:
-      return S.Array(__S(1065, __c133, 1));
+      return S.Array(__S(1089, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(1066, __c133, 2)),
+          DataInfoList: S.optional(__S(1090, __c136, 2)),
           TotalIngest: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStreamPackageIngestStatisticsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12836,18 +13097,18 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "OutputStatisticsDataInfo" });
     case 2:
-      return S.Array(__S(1073, __c134, 1));
+      return S.Array(__S(1097, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(1074, __c134, 2)),
+          DataInfoList: S.optional(__S(1098, __c137, 2)),
           TotalOutput: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStreamPackageOutputStatisticsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12875,18 +13136,72 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "RemuxStatisticsDataInfo" });
     case 2:
-      return S.Array(__S(1081, __c135, 1));
+      return S.Array(__S(1105, __c138, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(1082, __c135, 2)),
+          DataInfoList: S.optional(__S(1106, __c138, 2)),
           TotalRemux: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStreamPackageRemuxStatisticsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          MarkPicInfo: __S(1120, __c140, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterMarkPicInfo" }),
+        ),
+      ).annotate({ identifier: "AddCasterMarkPicInfoRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MarkPicIndex: S.Number,
+          MarkPicId: S.optional(S.Number),
+          MarkPicWidth: S.optional(S.Number),
+          MarkPicHeight: S.optional(S.Number),
+          MarkPicLocationX: S.optional(S.Number),
+          MarkPicLocationY: S.optional(S.Number),
+          MarkPicUrl: S.optional(S.String),
+          Description: S.optional(S.String),
+          IsEqualProportion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CasterMarkPicInfo" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          InputIndex: S.Number,
+          Protocol: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterInputPushUrl" }),
+        ),
+      ).annotate({ identifier: "CreateCasterInputPushUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PushUrl: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCasterInputPushUrlResponse" });
+  }
+}
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12909,13 +13224,13 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(241, __c30, 1)),
+          DataInfoList: S.optional(__S(265, __c33, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStreamPlayInfoListResponse" });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12964,94 +13279,14 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "PushQualityData" });
     case 2:
-      return S.Array(__S(1097, __c137, 1));
+      return S.Array(__S(1145, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(1098, __c137, 2)),
+          DataInfoList: S.optional(__S(1146, __c143, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStreamPushInfoListResponse" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          MarkPicInfo: __S(1112, __c139, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterMarkPicInfo" }),
-        ),
-      ).annotate({ identifier: "AddCasterMarkPicInfoRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MarkPicIndex: S.Number,
-          MarkPicId: S.optional(S.Number),
-          MarkPicWidth: S.optional(S.Number),
-          MarkPicHeight: S.optional(S.Number),
-          MarkPicLocationX: S.optional(S.Number),
-          MarkPicLocationY: S.optional(S.Number),
-          MarkPicUrl: S.optional(S.String),
-          Description: S.optional(S.String),
-          IsEqualProportion: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CasterMarkPicInfo" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PgmDisplayInfo: __S(1136, __c142, 0),
-          CasterId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPgm" })),
-      ).annotate({ identifier: "CreateCasterPgmRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PgmPlayUrl: S.optional(S.String),
-          CdnPlayUrl: S.optional(S.String),
-          CdnStreamId: S.optional(S.String),
-          PgmWebRTCPlayUrl: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCasterPgmResponse" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          LayoutIndex: S.optional(S.Number),
-          MarkPicIndexList: S.optional(__S(1144, __c143, 0)),
-          MarkWordIndexList: S.optional(__S(1144, __c143, 0)),
-          TransitionType: S.optional(S.String),
-          AudioIndexList: S.optional(__S(1144, __c143, 0)),
-          InputStartType: S.optional(S.Number),
-          LayoutIndexType: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CasterDisplayInfo" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 function __c144(j: number): any {
@@ -13323,6 +13558,54 @@ function __c152(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          PgmDisplayInfo: __S(1232, __c154, 0),
+          CasterId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPgm" })),
+      ).annotate({ identifier: "CreateCasterPgmRequest" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PgmPlayUrl: S.optional(S.String),
+          CdnPlayUrl: S.optional(S.String),
+          CdnStreamId: S.optional(S.String),
+          PgmWebRTCPlayUrl: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCasterPgmResponse" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LayoutIndex: S.optional(S.Number),
+          MarkPicIndexList: S.optional(__S(1240, __c155, 0)),
+          MarkWordIndexList: S.optional(__S(1240, __c155, 0)),
+          TransitionType: S.optional(S.String),
+          AudioIndexList: S.optional(__S(1240, __c155, 0)),
+          InputStartType: S.optional(S.Number),
+          LayoutIndexType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CasterDisplayInfo" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           StreamName: S.String,
           EnableSwitch: S.optional(S.Number),
           HostGroupName: S.optional(S.String),
@@ -13333,7 +13616,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "EnableOptimalSwitchingRequest" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13344,20 +13627,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ForbidLiveDomainRequest" });
   }
 }
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPgmFromPvw" }),
-        ),
-      ).annotate({ identifier: "CreateCasterPgmFromPvwRequest" });
-  }
-}
-function __c155(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13372,7 +13642,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ForbidLiveStreamRequest" });
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13400,7 +13670,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GenerateLiveAvatarScriptBroadcastResponse" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13418,7 +13688,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "InsertTaskTemporaryFilesRequest" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13434,12 +13704,12 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ModifyAuditKeywordLibRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AuditTemplate: __S(812, __c101, 4),
+          AuditTemplate: __S(820, __c102, 4),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "ModifyAuditTemplate" }),
@@ -13447,7 +13717,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ModifyAuditTemplateRequest" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13473,7 +13743,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ModifyCasterRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13487,7 +13757,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ModifyCasterInputInfoRequest" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13501,13 +13771,26 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ModifyCasterLayoutInfoRequest" });
   }
 }
-function __c163(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CasterId: S.Number,
-          MarkPicInfo: __S(1112, __c139, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPgmFromPvw" }),
+        ),
+      ).annotate({ identifier: "CreateCasterPgmFromPvwRequest" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          MarkPicInfo: __S(1120, __c140, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "ModifyCasterMarkPicInfo" }),
@@ -13515,13 +13798,13 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ModifyCasterMarkPicInfoRequest" });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CasterId: S.Number,
-          MarkWordInfo: __S(1720, __c215, 0),
+          MarkWordInfo: __S(1784, __c223, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "ModifyCasterMarkWordInfo" }),
@@ -13529,33 +13812,13 @@ function __c164(j: number): any {
       ).annotate({ identifier: "ModifyCasterMarkWordInfoRequest" });
   }
 }
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PvwDisplayInfo: __S(1136, __c142, 0),
-          CasterId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPvw" })),
-      ).annotate({ identifier: "CreateCasterPvwRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          PvwPlayUrl: S.optional(S.String),
-          PvwWebRTCPlayUrl: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCasterPvwResponse" });
-  }
-}
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CasterId: S.Number,
-          OutputInfo: __S(1840, __c230, 0),
+          OutputInfo: __S(1904, __c238, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "ModifyCasterOutputInfo" }),
@@ -13563,7 +13826,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ModifyCasterOutputInfoRequest" });
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13587,7 +13850,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ModifyLiveAvatarRoomRequest" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13604,7 +13867,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "ModifyLiveAvatarScriptRequest" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13634,7 +13897,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "ModifyLiveCallbackTemplateRequest" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13644,11 +13907,11 @@ function __c170(j: number): any {
         }),
       ).annotate({ identifier: "LiveCertDomainInfo" });
     case 1:
-      return S.Array(__S(1360, __c170, 0));
+      return S.Array(__S(1384, __c173, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DomainInfos: __S(1361, __c170, 1),
+          DomainInfos: __S(1385, __c173, 1),
           CloudCertId: S.optional(S.String),
           CertificatePublicKey: S.optional(S.String),
           CertificatePrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -13671,18 +13934,18 @@ function __c170(j: number): any {
         }),
       ).annotate({ identifier: "BatchDomainOperateErrors" });
     case 4:
-      return S.Array(__S(1363, __c170, 3));
+      return S.Array(__S(1387, __c173, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           MismatchedDomainNames: S.optional(__S(16, __c2, 0)),
-          Errors: S.optional(__S(1364, __c170, 4)),
+          Errors: S.optional(__S(1388, __c173, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyLiveDomainCertBindingsResponse" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13699,7 +13962,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ModifyLiveDomainRefererRequest" });
   }
 }
-function __c172(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13719,7 +13982,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "ModifyLivePadTemplateRequest" });
   }
 }
-function __c173(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13736,7 +13999,27 @@ function __c173(j: number): any {
       ).annotate({ identifier: "ModifyLivePlayAuthKeyRequest" });
   }
 }
-function __c174(j: number): any {
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PvwDisplayInfo: __S(1232, __c154, 0),
+          CasterId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "CreateCasterPvw" })),
+      ).annotate({ identifier: "CreateCasterPvwRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PvwPlayUrl: S.optional(S.String),
+          PvwWebRTCPlayUrl: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCasterPvwResponse" });
+  }
+}
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13750,7 +14033,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "ModifyLivePlayDomainRequest" });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13772,7 +14055,7 @@ function __c175(j: number): any {
           Comment: S.optional(S.String),
           BackupSourceType: S.optional(S.String),
           BackupSourceUrl: S.optional(S.String),
-          WatermarkList: S.optional(__S(1753, __c219, 1)),
+          WatermarkList: S.optional(__S(1825, __c228, 1)),
           VodLocalMode: S.optional(S.Number),
           BackupToUrl: S.optional(S.String),
           BackupVodUrl: S.optional(S.String),
@@ -13783,87 +14066,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "ModifyLivePullStreamTaskRequest" });
   }
 }
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageLayer: S.Number,
-          InputType: S.optional(S.Number),
-          ImageHeight: S.optional(S.Number),
-          ImageWidth: S.optional(S.Number),
-          LocationX: S.optional(S.Number),
-          LocationY: S.optional(S.Number),
-          Color: S.optional(S.String),
-          WatermarkId: S.optional(S.Number),
-          WebPageUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommonMixLayoutParams" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CropWidth: S.optional(S.Number),
-          CropHeight: S.optional(S.Number),
-          CropStartLocationX: S.optional(S.Number),
-          CropStartLocationY: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CommonMixCropParams" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Color: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MixPortraitSegmentParams" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          InputStreamName: S.String,
-          LayoutParams: __S(1408, __c176, 0),
-          CropParams: S.optional(__S(1409, __c176, 1)),
-          PortraitSegmentParams: S.optional(__S(1410, __c176, 2)),
-        }),
-      ).annotate({ identifier: "CommonMixInputParam" });
-    case 4:
-      return S.Array(__S(1411, __c176, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          OutputStreamName: S.String,
-          OutputStreamType: S.optional(S.Number),
-          OutputStreamBitRate: S.optional(S.Number),
-          OutputStreamGop: S.optional(S.Number),
-          OutputStreamFrameRate: S.optional(S.Number),
-          OutputAudioBitRate: S.optional(S.Number),
-          OutputAudioSampleRate: S.optional(S.Number),
-          OutputAudioChannels: S.optional(S.Number),
-          MixSei: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommonMixOutputParams" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          UseMixCropCenter: S.optional(S.Number),
-          AllowCopy: S.optional(S.Number),
-          PassInputSei: S.optional(S.Number),
-          UsePictureTransparent: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CommonMixControlParams" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          MixStreamSessionId: S.String,
-          InputStreamList: __S(1412, __c176, 4),
-          OutputParams: __S(1413, __c176, 5),
-          MixStreamTemplateId: S.optional(S.Number),
-          ControlParams: S.optional(__S(1414, __c176, 6)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CreateCommonMixStream" }),
-        ),
-      ).annotate({ identifier: "CreateCommonMixStreamRequest" });
-  }
-}
-function __c177(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13880,7 +14083,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "ModifyLivePushAuthKeyRequest" });
   }
 }
-function __c178(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13888,14 +14091,14 @@ function __c178(j: number): any {
           TemplateId: S.Number,
           TemplateName: S.optional(S.String),
           Description: S.optional(S.String),
-          FlvParam: S.optional(__S(1792, __c224, 0)),
-          HlsParam: S.optional(__S(1792, __c224, 0)),
-          Mp4Param: S.optional(__S(1792, __c224, 0)),
-          AacParam: S.optional(__S(1792, __c224, 0)),
-          HlsSpecialParam: S.optional(__S(1793, __c224, 1)),
-          Mp3Param: S.optional(__S(1792, __c224, 0)),
+          FlvParam: S.optional(__S(1864, __c233, 0)),
+          HlsParam: S.optional(__S(1864, __c233, 0)),
+          Mp4Param: S.optional(__S(1864, __c233, 0)),
+          AacParam: S.optional(__S(1864, __c233, 0)),
+          HlsSpecialParam: S.optional(__S(1865, __c233, 1)),
+          Mp3Param: S.optional(__S(1864, __c233, 0)),
           RemoveWatermark: S.optional(S.Boolean),
-          FlvSpecialParam: S.optional(__S(1794, __c224, 2)),
+          FlvSpecialParam: S.optional(__S(1866, __c233, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "ModifyLiveRecordTemplate" }),
@@ -13903,7 +14106,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "ModifyLiveRecordTemplateRequest" });
   }
 }
-function __c179(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13931,7 +14134,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ModifyLiveSmartEraseTemplateRequest" });
   }
 }
-function __c180(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13959,20 +14162,20 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ModifyLiveSnapshotTemplateRequest" });
   }
 }
-function __c181(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MonitorId: S.String,
           MonitorName: S.optional(S.String),
-          OutputInfo: S.optional(__S(1856, __c232, 0)),
-          InputList: S.optional(__S(1858, __c232, 2)),
-          NotifyPolicy: S.optional(__S(1859, __c232, 3)),
+          OutputInfo: S.optional(__S(1928, __c241, 0)),
+          InputList: S.optional(__S(1930, __c241, 2)),
+          NotifyPolicy: S.optional(__S(1931, __c241, 3)),
           AsrLanguage: S.optional(S.Number),
           OcrLanguage: S.optional(S.Number),
-          AiAsrInputIndexList: S.optional(__S(1144, __c143, 0)),
-          AiOcrInputIndexList: S.optional(__S(1144, __c143, 0)),
+          AiAsrInputIndexList: S.optional(__S(1240, __c155, 0)),
+          AiOcrInputIndexList: S.optional(__S(1240, __c155, 0)),
           CheckStreamBroken: S.optional(S.Number),
           CheckStreamLowFrameRate: S.optional(S.Number),
           AllowMonitorReport: S.optional(S.Number),
@@ -13985,7 +14188,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ModifyLiveStreamMonitorRequest" });
   }
 }
-function __c182(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13996,7 +14199,7 @@ function __c182(j: number): any {
           Duration: S.optional(S.Number),
           ItemDuration: S.optional(S.Number),
           RemoveWatermark: S.optional(S.Boolean),
-          TranscodeTemplateIds: S.optional(__S(1144, __c143, 0)),
+          TranscodeTemplateIds: S.optional(__S(1240, __c155, 0)),
           Area: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14009,7 +14212,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ModifyLiveTimeShiftTemplateRequest" });
   }
 }
-function __c183(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14036,7 +14239,7 @@ function __c183(j: number): any {
           DRMType: S.optional(S.String),
           DRMTracks: S.optional(S.String),
           IsAdaptiveBitRate: S.optional(S.Number),
-          AdaptiveChildren: S.optional(__S(1897, __c237, 1)),
+          AdaptiveChildren: S.optional(__S(1969, __c246, 1)),
           AudienceDrivenTranscode: S.optional(S.Number),
           AudienceThreshold: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14050,7 +14253,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ModifyLiveTranscodeTemplateRequest" });
   }
 }
-function __c184(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14085,7 +14288,7 @@ function __c184(j: number): any {
           MediaPackageChannelTypes: S.optional(__S(16, __c2, 0)),
           IndexerHeader: S.optional(__S(16, __c2, 0)),
           FragmentHeader: S.optional(__S(16, __c2, 0)),
-          CustomizationRules: S.optional(__S(929, __c116, 1)),
+          CustomizationRules: S.optional(__S(953, __c119, 1)),
           CacheFormatRule: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14094,7 +14297,87 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ModifyOriginStreamInfoRequest" });
   }
 }
-function __c185(j: number): any {
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageLayer: S.Number,
+          InputType: S.optional(S.Number),
+          ImageHeight: S.optional(S.Number),
+          ImageWidth: S.optional(S.Number),
+          LocationX: S.optional(S.Number),
+          LocationY: S.optional(S.Number),
+          Color: S.optional(S.String),
+          WatermarkId: S.optional(S.Number),
+          WebPageUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommonMixLayoutParams" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CropWidth: S.optional(S.Number),
+          CropHeight: S.optional(S.Number),
+          CropStartLocationX: S.optional(S.Number),
+          CropStartLocationY: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CommonMixCropParams" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Color: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MixPortraitSegmentParams" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          InputStreamName: S.String,
+          LayoutParams: __S(1504, __c188, 0),
+          CropParams: S.optional(__S(1505, __c188, 1)),
+          PortraitSegmentParams: S.optional(__S(1506, __c188, 2)),
+        }),
+      ).annotate({ identifier: "CommonMixInputParam" });
+    case 4:
+      return S.Array(__S(1507, __c188, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          OutputStreamName: S.String,
+          OutputStreamType: S.optional(S.Number),
+          OutputStreamBitRate: S.optional(S.Number),
+          OutputStreamGop: S.optional(S.Number),
+          OutputStreamFrameRate: S.optional(S.Number),
+          OutputAudioBitRate: S.optional(S.Number),
+          OutputAudioSampleRate: S.optional(S.Number),
+          OutputAudioChannels: S.optional(S.Number),
+          MixSei: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommonMixOutputParams" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          UseMixCropCenter: S.optional(S.Number),
+          AllowCopy: S.optional(S.Number),
+          PassInputSei: S.optional(S.Number),
+          UsePictureTransparent: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CommonMixControlParams" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          MixStreamSessionId: S.String,
+          InputStreamList: __S(1508, __c188, 4),
+          OutputParams: __S(1509, __c188, 5),
+          MixStreamTemplateId: S.optional(S.Number),
+          ControlParams: S.optional(__S(1510, __c188, 6)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CreateCommonMixStream" }),
+        ),
+      ).annotate({ identifier: "CreateCommonMixStreamRequest" });
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14113,7 +14396,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ModifyPullStreamConfigRequest" });
   }
 }
-function __c186(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14127,7 +14410,134 @@ function __c186(j: number): any {
       ).annotate({ identifier: "ModifyPullStreamStatusRequest" });
   }
 }
-function __c187(j: number): any {
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "ReleaseCaster" })),
+      ).annotate({ identifier: "ReleaseCasterRequest" });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TaskId: S.String,
+          Operator: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "RestartLivePullStreamTask" }),
+        ),
+      ).annotate({ identifier: "RestartLivePullStreamTaskRequest" });
+  }
+}
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          DomainName: S.String,
+          StreamName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "ResumeDelayLiveStream" }),
+        ),
+      ).annotate({ identifier: "ResumeDelayLiveStreamRequest" });
+  }
+}
+function __c194(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          DomainName: S.String,
+          StreamName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "ResumeLiveStream" })),
+      ).annotate({ identifier: "ResumeLiveStreamRequest" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          PushDomainName: S.String,
+          StreamName: S.String,
+          Id: S.String,
+          LoopTimes: S.optional(S.Number),
+          Operator: S.optional(S.String),
+          ZoomFactor: S.optional(S.Number),
+          XPosition: S.optional(S.String),
+          YPosition: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "SendLiveCloudEffect" }),
+        ),
+      ).annotate({ identifier: "SendLiveCloudEffectRequest" });
+  }
+}
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RoomId: S.String,
+          Content: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "live",
+            version: "2018-08-01",
+            action: "SendTemporaryScriptToAvatarRoom",
+          }),
+        ),
+      ).annotate({ identifier: "SendTemporaryScriptToAvatarRoomRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RoomId: S.String,
+          Comment: S.String,
+          ToUrl: S.String,
+          Operator: S.optional(S.String),
+          RoomType: S.optional(S.String),
+          SessionProtocol: S.optional(S.String),
+          TrtcSdkAppId: S.optional(S.String),
+          TrtcUserSig: S.optional(S.String),
+          TrtcRoomId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "StartLiveAvatarRoom" }),
+        ),
+      ).annotate({ identifier: "StartLiveAvatarRoomRequest" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          PushDomainName: S.String,
+          StreamName: S.String,
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StartLivePadStream" })),
+      ).annotate({ identifier: "StartLivePadStreamRequest" });
+  }
+}
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14158,140 +14568,13 @@ function __c187(j: number): any {
       ).annotate({ identifier: "CreateLiveAvatarCloneFigureResponse" });
   }
 }
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "ReleaseCaster" })),
-      ).annotate({ identifier: "ReleaseCasterRequest" });
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TaskId: S.String,
-          Operator: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "RestartLivePullStreamTask" }),
-        ),
-      ).annotate({ identifier: "RestartLivePullStreamTaskRequest" });
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          DomainName: S.String,
-          StreamName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "ResumeDelayLiveStream" }),
-        ),
-      ).annotate({ identifier: "ResumeDelayLiveStreamRequest" });
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          DomainName: S.String,
-          StreamName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "ResumeLiveStream" })),
-      ).annotate({ identifier: "ResumeLiveStreamRequest" });
-  }
-}
-function __c192(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          PushDomainName: S.String,
-          StreamName: S.String,
-          Id: S.String,
-          LoopTimes: S.optional(S.Number),
-          Operator: S.optional(S.String),
-          ZoomFactor: S.optional(S.Number),
-          XPosition: S.optional(S.String),
-          YPosition: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "SendLiveCloudEffect" }),
-        ),
-      ).annotate({ identifier: "SendLiveCloudEffectRequest" });
-  }
-}
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RoomId: S.String,
-          Content: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "live",
-            version: "2018-08-01",
-            action: "SendTemporaryScriptToAvatarRoom",
-          }),
-        ),
-      ).annotate({ identifier: "SendTemporaryScriptToAvatarRoomRequest" });
-  }
-}
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RoomId: S.String,
-          Comment: S.String,
-          ToUrl: S.String,
-          Operator: S.optional(S.String),
-          RoomType: S.optional(S.String),
-          SessionProtocol: S.optional(S.String),
-          TrtcSdkAppId: S.optional(S.String),
-          TrtcUserSig: S.optional(S.String),
-          TrtcRoomId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "StartLiveAvatarRoom" }),
-        ),
-      ).annotate({ identifier: "StartLiveAvatarRoomRequest" });
-  }
-}
-function __c195(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          PushDomainName: S.String,
-          StreamName: S.String,
-          Operator: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StartLivePadStream" })),
-      ).annotate({ identifier: "StartLivePadStreamRequest" });
-  }
-}
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MonitorId: S.String,
-          AudibleInputIndexList: S.optional(__S(1144, __c143, 0)),
+          AudibleInputIndexList: S.optional(__S(1240, __c155, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "StartLiveStreamMonitor" }),
@@ -14299,7 +14582,46 @@ function __c196(j: number): any {
       ).annotate({ identifier: "StartLiveStreamMonitorRequest" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          PushDomainName: S.String,
+          StreamName: S.String,
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StartLiveSubtitle" })),
+      ).annotate({ identifier: "StartLiveSubtitleRequest" });
+  }
+}
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "StopAvatarEditingLive" }),
+        ),
+      ).annotate({ identifier: "StopAvatarEditingLiveRequest" });
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.optional(S.String),
+          LiveId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StopAvatarEditingLiveResponse" });
+  }
+}
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14310,7 +14632,83 @@ function __c197(j: number): any {
       ).annotate({ identifier: "StopCasterPgmRequest" });
   }
 }
-function __c198(j: number): any {
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopCasterPvw" })),
+      ).annotate({ identifier: "StopCasterPvwRequest" });
+  }
+}
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RoomId: S.String,
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLiveAvatarRoom" })),
+      ).annotate({ identifier: "StopLiveAvatarRoomRequest" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          PushDomainName: S.String,
+          StreamName: S.String,
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLivePadStream" })),
+      ).annotate({ identifier: "StopLivePadStreamRequest" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StreamName: S.String,
+          TaskId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLiveRecord" })),
+      ).annotate({ identifier: "StopLiveRecordRequest" });
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MonitorId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "StopLiveStreamMonitor" }),
+        ),
+      ).annotate({ identifier: "StopLiveStreamMonitorRequest" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          PushDomainName: S.String,
+          StreamName: S.String,
+          Operator: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLiveSubtitle" })),
+      ).annotate({ identifier: "StopLiveSubtitleRequest" });
+  }
+}
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14327,69 +14725,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreateLiveAvatarRoomRequest" });
   }
 }
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopCasterPvw" })),
-      ).annotate({ identifier: "StopCasterPvwRequest" });
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RoomId: S.String,
-          Operator: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLiveAvatarRoom" })),
-      ).annotate({ identifier: "StopLiveAvatarRoomRequest" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          PushDomainName: S.String,
-          StreamName: S.String,
-          Operator: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLivePadStream" })),
-      ).annotate({ identifier: "StopLivePadStreamRequest" });
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StreamName: S.String,
-          TaskId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "StopLiveRecord" })),
-      ).annotate({ identifier: "StopLiveRecordRequest" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MonitorId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "StopLiveStreamMonitor" }),
-        ),
-      ).annotate({ identifier: "StopLiveStreamMonitorRequest" });
-  }
-}
-function __c204(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14400,7 +14736,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "StopRecordTaskRequest" });
   }
 }
-function __c205(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14411,7 +14747,22 @@ function __c205(j: number): any {
       ).annotate({ identifier: "StopScreenshotTaskRequest" });
   }
 }
-function __c206(j: number): any {
+function __c214(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.String,
+          EditingType: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "SwitchAvatarEditingScene" }),
+        ),
+      ).annotate({ identifier: "SwitchAvatarEditingSceneRequest" });
+  }
+}
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14425,7 +14776,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "SwitchBackupStreamRequest" });
   }
 }
-function __c207(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14439,7 +14790,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "SwitchCasterToEmergencyRequest" });
   }
 }
-function __c208(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14453,7 +14804,28 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UnBindLiveDomainCertRequest" });
   }
 }
-function __c209(j: number): any {
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WatermarkId: S.Number,
+          PictureUrl: S.String,
+          XPosition: S.Number,
+          YPosition: S.Number,
+          WatermarkName: S.optional(S.String),
+          Width: S.optional(S.Number),
+          Height: S.optional(S.Number),
+          BackgroundWidth: S.optional(S.Number),
+          BackgroundHeight: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "UpdateLiveWatermark" }),
+        ),
+      ).annotate({ identifier: "UpdateLiveWatermarkRequest" });
+  }
+}
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14478,28 +14850,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "CreateLiveAvatarScriptResponse" });
   }
 }
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WatermarkId: S.Number,
-          PictureUrl: S.String,
-          XPosition: S.Number,
-          YPosition: S.Number,
-          WatermarkName: S.optional(S.String),
-          Width: S.optional(S.Number),
-          Height: S.optional(S.Number),
-          BackgroundWidth: S.optional(S.Number),
-          BackgroundHeight: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "UpdateLiveWatermark" }),
-        ),
-      ).annotate({ identifier: "UpdateLiveWatermarkRequest" });
-  }
-}
-function __c211(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14514,7 +14865,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "CreateLiveCallbackRuleRequest" });
   }
 }
-function __c212(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14544,7 +14895,42 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CreateLiveCallbackTemplateRequest" });
   }
 }
-function __c213(j: number): any {
+function __c222(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          MarkWordInfo: __S(1784, __c223, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterMarkWordInfo" }),
+        ),
+      ).annotate({ identifier: "AddCasterMarkWordInfoRequest" });
+  }
+}
+function __c223(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MarkWordIndex: S.Number,
+          MarkWordText: S.optional(S.String),
+          MarkWordFontSize: S.optional(S.Number),
+          MarkWordFontColor: S.optional(S.String),
+          MarkWordFontType: S.optional(S.Number),
+          MarkWordLocationX: S.optional(S.Number),
+          MarkWordLocationY: S.optional(S.Number),
+          MarkWordRollEnable: S.optional(S.Boolean),
+          MarkWordRollOnceTime: S.optional(S.Number),
+          MarkWordRollDirection: S.optional(S.Number),
+          MarkWordRollStartLocationX: S.optional(S.Number),
+          MarkWordRollEndLocationX: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CasterMarkWordInfo" });
+  }
+}
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14568,42 +14954,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateLiveCloudEffectResponse" });
   }
 }
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          MarkWordInfo: __S(1720, __c215, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterMarkWordInfo" }),
-        ),
-      ).annotate({ identifier: "AddCasterMarkWordInfoRequest" });
-  }
-}
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MarkWordIndex: S.Number,
-          MarkWordText: S.optional(S.String),
-          MarkWordFontSize: S.optional(S.Number),
-          MarkWordFontColor: S.optional(S.String),
-          MarkWordFontType: S.optional(S.Number),
-          MarkWordLocationX: S.optional(S.Number),
-          MarkWordLocationY: S.optional(S.Number),
-          MarkWordRollEnable: S.optional(S.Boolean),
-          MarkWordRollOnceTime: S.optional(S.Number),
-          MarkWordRollDirection: S.optional(S.Number),
-          MarkWordRollStartLocationX: S.optional(S.Number),
-          MarkWordRollEndLocationX: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CasterMarkWordInfo" });
-  }
-}
-function __c216(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14617,7 +14968,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreateLivePadRuleRequest" });
   }
 }
-function __c217(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14636,7 +14987,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateLivePadTemplateRequest" });
   }
 }
-function __c218(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14662,7 +15013,7 @@ function __c218(j: number): any {
           OffsetTime: S.optional(S.Number),
           BackupSourceType: S.optional(S.String),
           BackupSourceUrl: S.optional(S.String),
-          WatermarkList: S.optional(__S(1753, __c219, 1)),
+          WatermarkList: S.optional(__S(1825, __c228, 1)),
           VodLocalMode: S.optional(S.Number),
           RecordTemplateId: S.optional(S.String),
           BackupToUrl: S.optional(S.String),
@@ -14674,7 +15025,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "CreateLivePullStreamTaskRequest" });
   }
 }
-function __c219(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14688,10 +15039,10 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "PullPushWatermarkInfo" });
     case 1:
-      return S.Array(__S(1752, __c219, 0));
+      return S.Array(__S(1824, __c228, 0));
   }
 }
-function __c220(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14702,7 +15053,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "CreateLivePullStreamTaskResponse" });
   }
 }
-function __c221(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14729,7 +15080,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CreateLiveRecordResponse" });
   }
 }
-function __c222(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14745,23 +15096,23 @@ function __c222(j: number): any {
       ).annotate({ identifier: "CreateLiveRecordRuleRequest" });
   }
 }
-function __c223(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateName: S.String,
           Description: S.optional(S.String),
-          FlvParam: S.optional(__S(1792, __c224, 0)),
-          HlsParam: S.optional(__S(1792, __c224, 0)),
-          Mp4Param: S.optional(__S(1792, __c224, 0)),
-          AacParam: S.optional(__S(1792, __c224, 0)),
+          FlvParam: S.optional(__S(1864, __c233, 0)),
+          HlsParam: S.optional(__S(1864, __c233, 0)),
+          Mp4Param: S.optional(__S(1864, __c233, 0)),
+          AacParam: S.optional(__S(1864, __c233, 0)),
           IsDelayLive: S.optional(S.Number),
-          HlsSpecialParam: S.optional(__S(1793, __c224, 1)),
-          Mp3Param: S.optional(__S(1792, __c224, 0)),
+          HlsSpecialParam: S.optional(__S(1865, __c233, 1)),
+          Mp3Param: S.optional(__S(1864, __c233, 0)),
           CosStore: S.optional(S.Number),
           RemoveWatermark: S.optional(S.Boolean),
-          FlvSpecialParam: S.optional(__S(1794, __c224, 2)),
+          FlvSpecialParam: S.optional(__S(1866, __c233, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "CreateLiveRecordTemplate" }),
@@ -14769,7 +15120,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateLiveRecordTemplateRequest" });
   }
 }
-function __c224(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14801,7 +15152,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "FlvSpecialParam" });
   }
 }
-function __c225(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14817,7 +15168,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateLiveSmartEraseRuleRequest" });
   }
 }
-function __c226(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14844,7 +15195,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CreateLiveSmartEraseTemplateRequest" });
   }
 }
-function __c227(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14860,7 +15211,38 @@ function __c227(j: number): any {
       ).annotate({ identifier: "CreateLiveSnapshotRuleRequest" });
   }
 }
-function __c228(j: number): any {
+function __c237(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          OutputInfo: __S(1904, __c238, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterOutputInfo" }),
+        ),
+      ).annotate({ identifier: "AddCasterOutputInfoRequest" });
+  }
+}
+function __c238(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          OutputIndex: S.Number,
+          OutputUrl: S.optional(S.String),
+          Description: S.optional(S.String),
+          OutputStreamId: S.optional(S.String),
+          OutputType: S.optional(S.Number),
+          OutputDomainName: S.optional(S.String),
+          OutputAppName: S.optional(S.String),
+          OutputParam: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CasterOutputInfo" });
+  }
+}
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14887,50 +15269,19 @@ function __c228(j: number): any {
       ).annotate({ identifier: "CreateLiveSnapshotTemplateRequest" });
   }
 }
-function __c229(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CasterId: S.Number,
-          OutputInfo: __S(1840, __c230, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "AddCasterOutputInfo" }),
-        ),
-      ).annotate({ identifier: "AddCasterOutputInfoRequest" });
-  }
-}
-function __c230(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          OutputIndex: S.Number,
-          OutputUrl: S.optional(S.String),
-          Description: S.optional(S.String),
-          OutputStreamId: S.optional(S.String),
-          OutputType: S.optional(S.Number),
-          OutputDomainName: S.optional(S.String),
-          OutputAppName: S.optional(S.String),
-          OutputParam: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CasterOutputInfo" });
-  }
-}
-function __c231(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          OutputInfo: __S(1856, __c232, 0),
-          InputList: __S(1858, __c232, 2),
+          OutputInfo: __S(1928, __c241, 0),
+          InputList: __S(1930, __c241, 2),
           MonitorName: S.optional(S.String),
-          NotifyPolicy: S.optional(__S(1859, __c232, 3)),
+          NotifyPolicy: S.optional(__S(1931, __c241, 3)),
           AsrLanguage: S.optional(S.Number),
           OcrLanguage: S.optional(S.Number),
-          AiAsrInputIndexList: S.optional(__S(1144, __c143, 0)),
-          AiOcrInputIndexList: S.optional(__S(1144, __c143, 0)),
+          AiAsrInputIndexList: S.optional(__S(1240, __c155, 0)),
+          AiOcrInputIndexList: S.optional(__S(1240, __c155, 0)),
           CheckStreamBroken: S.optional(S.Number),
           CheckStreamLowFrameRate: S.optional(S.Number),
           AllowMonitorReport: S.optional(S.Number),
@@ -14952,7 +15303,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateLiveStreamMonitorResponse" });
   }
 }
-function __c232(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14978,7 +15329,7 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "LiveStreamMonitorInputInfo" });
     case 2:
-      return S.Array(__S(1857, __c232, 1));
+      return S.Array(__S(1929, __c241, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14988,7 +15339,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "LiveStreamMonitorNotifyPolicy" });
   }
 }
-function __c233(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15004,7 +15355,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CreateLiveTimeShiftRuleRequest" });
   }
 }
-function __c234(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15015,7 +15366,7 @@ function __c234(j: number): any {
           Area: S.optional(S.String),
           ItemDuration: S.optional(S.Number),
           RemoveWatermark: S.optional(S.Boolean),
-          TranscodeTemplateIds: S.optional(__S(1144, __c143, 0)),
+          TranscodeTemplateIds: S.optional(__S(1240, __c155, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15027,7 +15378,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateLiveTimeShiftTemplateRequest" });
   }
 }
-function __c235(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15043,7 +15394,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CreateLiveTranscodeRuleRequest" });
   }
 }
-function __c236(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15071,7 +15422,7 @@ function __c236(j: number): any {
           DRMType: S.optional(S.String),
           DRMTracks: S.optional(S.String),
           IsAdaptiveBitRate: S.optional(S.Number),
-          AdaptiveChildren: S.optional(__S(1897, __c237, 1)),
+          AdaptiveChildren: S.optional(__S(1969, __c246, 1)),
           AudienceDrivenTranscode: S.optional(S.Number),
           AudienceThreshold: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -15085,7 +15436,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateLiveTranscodeTemplateRequest" });
   }
 }
-function __c237(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15111,10 +15462,10 @@ function __c237(j: number): any {
         }),
       ).annotate({ identifier: "ChildTemplateInfo" });
     case 1:
-      return S.Array(__S(1896, __c237, 0));
+      return S.Array(__S(1968, __c246, 0));
   }
 }
-function __c238(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15130,7 +15481,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CreateLiveWatermarkRuleRequest" });
   }
 }
-function __c239(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15155,7 +15506,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreatePullStreamConfigResponse" });
   }
 }
-function __c240(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15173,7 +15524,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "CreateRecordTaskRequest" });
   }
 }
-function __c241(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15184,7 +15535,7 @@ function __c241(j: number): any {
         }),
       ).annotate({ identifier: "SceneVideoReferenceImageInfo" });
     case 1:
-      return S.Array(__S(1928, __c241, 0));
+      return S.Array(__S(2000, __c250, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15192,7 +15543,7 @@ function __c241(j: number): any {
         }),
       ).annotate({ identifier: "SceneVideoReferenceVideoInfo" });
     case 3:
-      return S.Array(__S(1930, __c241, 2));
+      return S.Array(__S(2002, __c250, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -15224,11 +15575,11 @@ function __c241(j: number): any {
           Duration: S.optional(S.Number),
           ImageUrl: S.optional(S.String),
           LastImageUrl: S.optional(S.String),
-          ImageInfos: S.optional(__S(1929, __c241, 1)),
-          VideoInfos: S.optional(__S(1931, __c241, 3)),
-          ExtraParameters: S.optional(__S(1932, __c241, 4)),
+          ImageInfos: S.optional(__S(2001, __c250, 1)),
+          VideoInfos: S.optional(__S(2003, __c250, 3)),
+          ExtraParameters: S.optional(__S(2004, __c250, 4)),
           AdditionalParameters: S.optional(S.String),
-          StoreCosParam: S.optional(__S(1933, __c241, 5)),
+          StoreCosParam: S.optional(__S(2005, __c250, 5)),
           Operator: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -15237,7 +15588,22 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateSceneVideoTaskRequest" });
   }
 }
-function __c242(j: number): any {
+function __c251(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppName: S.String,
+          DomainName: S.String,
+          StreamName: S.String,
+          DelayTime: S.Number,
+          ExpireTime: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "AddDelayLiveStream" })),
+      ).annotate({ identifier: "AddDelayLiveStreamRequest" });
+  }
+}
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15257,22 +15623,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CreateScreenshotTaskRequest" });
   }
 }
-function __c243(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppName: S.String,
-          DomainName: S.String,
-          StreamName: S.String,
-          DelayTime: S.Number,
-          ExpireTime: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "live", version: "2018-08-01", action: "AddDelayLiveStream" })),
-      ).annotate({ identifier: "AddDelayLiveStreamRequest" });
-  }
-}
-function __c244(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15300,9 +15651,9 @@ function __c244(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Input: __S(1952, __c244, 0),
-          CosInfo: S.optional(__S(1953, __c244, 1)),
-          TaskInfo: S.optional(__S(1954, __c244, 2)),
+          Input: __S(2024, __c253, 0),
+          CosInfo: S.optional(__S(2025, __c253, 1)),
+          TaskInfo: S.optional(__S(2026, __c253, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "CreateVideoRedrawTask" }),
@@ -15310,7 +15661,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "CreateVideoRedrawTaskRequest" });
   }
 }
-function __c245(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15330,17 +15681,17 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "AuditImageDeleteDetail" });
     case 2:
-      return S.Array(__S(1961, __c245, 1));
+      return S.Array(__S(2033, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Infos: S.optional(__S(1962, __c245, 2)),
+          Infos: S.optional(__S(2034, __c254, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteAuditImagesResponse" });
   }
 }
-function __c246(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15353,7 +15704,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "DeleteAuditKeywordLibRequest" });
   }
 }
-function __c247(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15375,18 +15726,18 @@ function __c247(j: number): any {
         }),
       ).annotate({ identifier: "AuditKeywordDeleteDetail" });
     case 2:
-      return S.Array(__S(1977, __c247, 1));
+      return S.Array(__S(2049, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           SuccessCount: S.optional(S.Number),
-          Infos: S.optional(__S(1978, __c247, 2)),
+          Infos: S.optional(__S(2050, __c256, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteAuditKeywordsResponse" });
   }
 }
-function __c248(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15399,7 +15750,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DeleteAuditRuleRequest" });
   }
 }
-function __c249(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15412,7 +15763,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DeleteAuditTemplateRequest" });
   }
 }
-function __c250(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15423,7 +15774,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "DeleteCasterRequest" });
   }
 }
-function __c251(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15437,7 +15788,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "DeleteCasterInputInfoRequest" });
   }
 }
-function __c252(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15451,21 +15802,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "DeleteCasterLayoutInfoRequest" });
   }
 }
-function __c253(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CasterId: S.Number,
-          MarkPicIndex: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "DeleteCasterMarkPicInfo" }),
-        ),
-      ).annotate({ identifier: "DeleteCasterMarkPicInfoRequest" });
-  }
-}
-function __c254(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15481,7 +15818,21 @@ function __c254(j: number): any {
       ).annotate({ identifier: "AddLiveDomainRequest" });
   }
 }
-function __c255(j: number): any {
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CasterId: S.Number,
+          MarkPicIndex: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "DeleteCasterMarkPicInfo" }),
+        ),
+      ).annotate({ identifier: "DeleteCasterMarkPicInfoRequest" });
+  }
+}
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15495,7 +15846,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "DeleteCasterMarkWordInfoRequest" });
   }
 }
-function __c256(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15509,7 +15860,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "DeleteCasterOutputInfoRequest" });
   }
 }
-function __c257(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15526,7 +15877,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "DeleteLiveAvatarCloneFigureRequest" });
   }
 }
-function __c258(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15539,7 +15890,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DeleteLiveAvatarRoomRequest" });
   }
 }
-function __c259(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15552,7 +15903,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeleteLiveAvatarScriptRequest" });
   }
 }
-function __c260(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15566,7 +15917,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteLiveCallbackRuleRequest" });
   }
 }
-function __c261(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15583,7 +15934,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeleteLiveCallbackTemplateRequest" });
   }
 }
-function __c262(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15595,7 +15946,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteLiveDomainRequest" });
   }
 }
-function __c263(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15609,20 +15960,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "DeleteLivePadRuleRequest" });
   }
 }
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TemplateId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "DeleteLivePadTemplate" }),
-        ),
-      ).annotate({ identifier: "DeleteLivePadTemplateRequest" });
-  }
-}
-function __c265(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15647,7 +15985,20 @@ function __c265(j: number): any {
       ).annotate({ identifier: "AddLiveWatermarkResponse" });
   }
 }
-function __c266(j: number): any {
+function __c274(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "DeleteLivePadTemplate" }),
+        ),
+      ).annotate({ identifier: "DeleteLivePadTemplateRequest" });
+  }
+}
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15662,7 +16013,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteLivePullStreamTaskRequest" });
   }
 }
-function __c267(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15674,7 +16025,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DeleteLiveRecordRequest" });
   }
 }
-function __c268(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15689,7 +16040,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteLiveRecordRuleRequest" });
   }
 }
-function __c269(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15702,7 +16053,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "DeleteLiveRecordTemplateRequest" });
   }
 }
-function __c270(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15718,7 +16069,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "DeleteLiveSmartEraseRuleRequest" });
   }
 }
-function __c271(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15735,7 +16086,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeleteLiveSmartEraseTemplateRequest" });
   }
 }
-function __c272(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15750,7 +16101,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "DeleteLiveSnapshotRuleRequest" });
   }
 }
-function __c273(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15767,7 +16118,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteLiveSnapshotTemplateRequest" });
   }
 }
-function __c274(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15780,22 +16131,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteLiveStreamMonitorRequest" });
   }
 }
-function __c275(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DomainName: S.String,
-          AppName: S.String,
-          StreamName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "DeleteLiveTimeShiftRule" }),
-        ),
-      ).annotate({ identifier: "DeleteLiveTimeShiftRuleRequest" });
-  }
-}
-function __c276(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15818,7 +16154,22 @@ function __c276(j: number): any {
       ).annotate({ identifier: "AuthenticateDomainOwnerResponse" });
   }
 }
-function __c277(j: number): any {
+function __c285(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          AppName: S.String,
+          StreamName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "DeleteLiveTimeShiftRule" }),
+        ),
+      ).annotate({ identifier: "DeleteLiveTimeShiftRuleRequest" });
+  }
+}
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15835,7 +16186,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteLiveTimeShiftTemplateRequest" });
   }
 }
-function __c278(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15851,7 +16202,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DeleteLiveTranscodeRuleRequest" });
   }
 }
-function __c279(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15868,7 +16219,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteLiveTranscodeTemplateRequest" });
   }
 }
-function __c280(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15881,7 +16232,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeleteLiveWatermarkRequest" });
   }
 }
-function __c281(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15896,7 +16247,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeleteLiveWatermarkRuleRequest" });
   }
 }
-function __c282(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15909,7 +16260,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeletePullStreamConfigRequest" });
   }
 }
-function __c283(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15920,7 +16271,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeleteRecordTaskRequest" });
   }
 }
-function __c284(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15933,7 +16284,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeleteScreenshotTaskRequest" });
   }
 }
-function __c285(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15962,7 +16313,20 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DescribeAIGCTaskStatusResponse" });
   }
 }
-function __c286(j: number): any {
+function __c295(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MixStreamSessionId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "live", version: "2018-08-01", action: "CancelCommonMixStream" }),
+        ),
+      ).annotate({ identifier: "CancelCommonMixStreamRequest" });
+  }
+}
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15991,31 +16355,18 @@ function __c286(j: number): any {
         }),
       ).annotate({ identifier: "MonitorStreamPlayInfo" });
     case 2:
-      return S.Array(__S(2289, __c286, 1));
+      return S.Array(__S(2369, __c296, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           QueryTime: S.optional(S.String),
-          DataInfoList: S.optional(__S(2290, __c286, 2)),
+          DataInfoList: S.optional(__S(2370, __c296, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAllStreamPlayInfoListResponse" });
   }
 }
-function __c287(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MixStreamSessionId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "CancelCommonMixStream" }),
-        ),
-      ).annotate({ identifier: "CancelCommonMixStreamRequest" });
-  }
-}
-function __c288(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16036,30 +16387,30 @@ function __c288(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          BandInfoList: S.optional(__S(2313, __c289, 1)),
+          BandInfoList: S.optional(__S(2385, __c298, 1)),
         }),
       ).annotate({ identifier: "BillCountryInfo" });
     case 2:
-      return S.Array(__S(2305, __c288, 1));
+      return S.Array(__S(2377, __c297, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Countrys: S.optional(__S(2306, __c288, 2)),
+          Countrys: S.optional(__S(2378, __c297, 2)),
         }),
       ).annotate({ identifier: "BillAreaInfo" });
     case 4:
-      return S.Array(__S(2307, __c288, 3));
+      return S.Array(__S(2379, __c297, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          DataInfoList: S.optional(__S(2308, __c288, 4)),
+          DataInfoList: S.optional(__S(2380, __c297, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAreaBillBandwidthAndFluxListResponse" });
   }
 }
-function __c289(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16071,10 +16422,10 @@ function __c289(j: number): any {
         }),
       ).annotate({ identifier: "BillDataInfo" });
     case 1:
-      return S.Array(__S(2312, __c289, 0));
+      return S.Array(__S(2384, __c298, 0));
   }
 }
-function __c290(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16094,36 +16445,36 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "AuditLabelGroupInfo" });
     case 2:
-      return S.Array(__S(2321, __c290, 1));
+      return S.Array(__S(2393, __c299, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           GroupClassName: S.optional(S.String),
           GroupClassEname: S.optional(S.String),
-          LabelGroupList: S.optional(S.NullOr(__S(2322, __c290, 2))),
+          LabelGroupList: S.optional(S.NullOr(__S(2394, __c299, 2))),
         }),
       ).annotate({ identifier: "AuditGroupClassInfo" });
     case 4:
-      return S.Array(__S(2323, __c290, 3));
+      return S.Array(__S(2395, __c299, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TagType: S.optional(S.String),
-          GroupClassList: S.optional(S.NullOr(__S(2324, __c290, 4))),
+          GroupClassList: S.optional(S.NullOr(__S(2396, __c299, 4))),
         }),
       ).annotate({ identifier: "AuditGroupInfo" });
     case 6:
-      return S.Array(__S(2325, __c290, 5));
+      return S.Array(__S(2397, __c299, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          GroupTypeList: S.optional(__S(2326, __c290, 6)),
+          GroupTypeList: S.optional(__S(2398, __c299, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditGroupTagResponse" });
   }
 }
-function __c291(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16143,18 +16494,18 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "AuditImageInfo" });
     case 2:
-      return S.Array(__S(2329, __c291, 1));
+      return S.Array(__S(2401, __c300, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Infos: S.optional(__S(2330, __c291, 2)),
+          Infos: S.optional(__S(2402, __c300, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditImagesResponse" });
   }
 }
-function __c292(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16179,18 +16530,18 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "AuditKeywordLibInfo" });
     case 2:
-      return S.Array(__S(2337, __c292, 1));
+      return S.Array(__S(2409, __c301, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Infos: S.optional(__S(2338, __c292, 2)),
+          Infos: S.optional(__S(2410, __c301, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditKeywordLibsResponse" });
   }
 }
-function __c293(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16199,7 +16550,7 @@ function __c293(j: number): any {
           Limit: S.Number,
           LibId: S.String,
           Content: S.String,
-          Labels: S.optional(__S(1144, __c143, 0)),
+          Labels: S.optional(__S(1240, __c155, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "live", version: "2018-08-01", action: "DescribeAuditKeywords" }),
@@ -16209,13 +16560,13 @@ function __c293(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Infos: S.optional(__S(585, __c73, 1)),
+          Infos: S.optional(__S(593, __c74, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditKeywordsResponse" });
   }
 }
-function __c294(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16229,7 +16580,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "DescribeAuditRulesRequest" });
   }
 }
-function __c295(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16243,17 +16594,17 @@ function __c295(j: number): any {
         }),
       ).annotate({ identifier: "RuleInfo" });
     case 1:
-      return S.Array(__S(2360, __c295, 0));
+      return S.Array(__S(2432, __c304, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Rules: S.optional(__S(2361, __c295, 1)),
+          Rules: S.optional(__S(2433, __c304, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditRulesResponse" });
   }
 }
-function __c296(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16267,13 +16618,13 @@ function __c296(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AuditTemplate: S.optional(__S(812, __c101, 4)),
+          AuditTemplate: S.optional(__S(820, __c102, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditTemplateResponse" });
   }
 }
-function __c297(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16287,97 +16638,42 @@ function __c297(j: number): any {
         ),
       ).annotate({ identifier: "DescribeAuditTemplatesRequest" });
     case 1:
-      return S.Array(__S(812, __c101, 4));
+      return S.Array(__S(820, __c102, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AuditTemplates: S.optional(__S(2377, __c297, 1)),
+          AuditTemplates: S.optional(__S(2449, __c306, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditTemplatesResponse" });
   }
 }
-function __c298(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamName: S.optional(S.String),
+          ChannelId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({ service: "live", version: "2018-08-01", action: "DescribeBackupStreamList" }),
+          T.Action({ service: "live", version: "2018-08-01", action: "DescribeAvatarEditingLive" }),
         ),
-      ).annotate({ identifier: "DescribeBackupStreamListRequest" });
+      ).annotate({ identifier: "DescribeAvatarEditingLiveRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DomainName: S.optional(S.String),
-          AppName: S.optional(S.String),
-          PublishTime: S.optional(S.String),
-          UpstreamSequence: S.optional(S.String),
-          SourceFrom: S.optional(S.String),
-          MasterFlag: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BackupStreamDetailData" });
-    case 2:
-      return S.Array(__S(2385, __c298, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          StreamName: S.optional(S.String),
-          BackupList: S.optional(__S(2386, __c298, 2)),
-          OptimalEnable: S.optional(S.Number),
-          HostGroupName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupStreamGroupInfo" });
-    case 4:
-      return S.Array(__S(2387, __c298, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          StreamInfoList: S.optional(__S(2388, __c298, 4)),
+          ChannelId: S.optional(S.String),
+          LiveId: S.optional(S.String),
+          Status: S.optional(S.String),
+          Phase: S.optional(S.String),
+          CallMode: S.optional(S.String),
+          CreatedAt: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          TraceId: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DescribeBackupStreamListResponse" });
-  }
-}
-function __c299(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StartTime: S.String,
-          EndTime: S.String,
-          PlayDomains: S.optional(__S(16, __c2, 0)),
-          MainlandOrOversea: S.optional(S.String),
-          Granularity: S.optional(S.Number),
-          ServiceName: S.optional(S.String),
-          RegionNames: S.optional(__S(16, __c2, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "live",
-            version: "2018-08-01",
-            action: "DescribeBillBandwidthAndFluxList",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeBillBandwidthAndFluxListRequest" });
-  }
-}
-function __c300(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PeakBandwidthTime: S.optional(S.String),
-          PeakBandwidth: S.optional(S.Number),
-          P95PeakBandwidthTime: S.optional(S.String),
-          P95PeakBandwidth: S.optional(S.Number),
-          SumFlux: S.optional(S.Number),
-          DataInfoList: S.optional(__S(2313, __c289, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeBillBandwidthAndFluxListResponse" });
+      ).annotate({ identifier: "DescribeAvatarEditingLiveResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

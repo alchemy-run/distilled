@@ -308,7 +308,7 @@ export interface AttachServerIPRequest {
   ip_id?: string | undefined;
   /** Whether the IP should be the default IP. */
   default?: boolean | undefined;
-  /** Whether moving the IP is allowed. */
+  /** When enabled, allows attaching the IP even if it is already attached to another server. */
   move_allowed?: boolean | undefined;
 }
 export type AttachServerPrivateNetworkInterfaceRequestZone =
@@ -390,7 +390,11 @@ export type CreatePlacementGroupRequestZone =
   | "it-mil-1"
   | "it-mil-2"
   | "it-mil-3";
-export type PlacementGroupPolicyType = "unknown_policy_type" | "low_latency" | "max_availability";
+export type PlacementGroupPolicyType =
+  | "unknown_policy_type"
+  | "low_latency"
+  | "max_availability"
+  | "max_availability_enforced";
 /** Tags of the placement group. */
 export type CreatePlacementGroupRequestTagsList = Array<string>;
 export interface CreatePlacementGroupRequest {
@@ -416,7 +420,7 @@ export interface PlacementGroup {
   project_id?: string | undefined;
   /** Placement group name. */
   name?: string | undefined;
-  /** Select the behavior of the placement group, either low_latency (group) or max_availability (spread). */
+  /** Type of the placement group. The type determines how servers within the Placement Group (members) will be allocated, by constraining their location. With `low_latency`, the members are allocated as close to each other as possible. With `max_availability` or `max_availability_enforced`, the members are spread across different physical hosts to maximize availability. The difference between `max_availability` and `max_availability_enforced` is the behavior when the policy cannot be satisfied: - with `max_availability`, the member is allowed to start on a physical node that already holds another member; - with `max_availability_enforced`, the member will fail to start after a short amount of time. */
   policy_type?: PlacementGroupPolicyType | undefined;
   /** Placement group tags. */
   tags?: PlacementGroupTagsList | undefined;
@@ -1144,10 +1148,6 @@ export interface ResourceCounts {
   private_network_interfaces?: number | undefined;
   /** Number of templates. */
   templates?: number | undefined;
-  /** Number of flexible IPs. */
-  flexible_ips?: number | undefined;
-  /** Number of flexible IPs not attached to any server. */
-  unused_flexible_ips?: number | undefined;
   /** Number of images. */
   images?: number | undefined;
 }
@@ -4211,8 +4211,6 @@ function __c25(j: number): any {
           volumes_scratch: S.optional(S.Number),
           private_network_interfaces: S.optional(S.Number),
           templates: S.optional(S.Number),
-          flexible_ips: S.optional(S.Number),
-          unused_flexible_ips: S.optional(S.Number),
           images: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ResourceCounts" });

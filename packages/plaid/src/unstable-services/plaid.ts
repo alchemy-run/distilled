@@ -105,6 +105,7 @@ export type Products =
   | "cra_home_lending"
   | "cra_lend_score_complete"
   | "cra_income_complete"
+  | "cra_home_lending_voa"
   | "layer"
   | "pay_by_bank"
   | "protect_linked_bank"

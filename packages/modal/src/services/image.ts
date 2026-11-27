@@ -63,6 +63,7 @@ export interface ImageFromIdRequest {
   imageId?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
 export interface ImageMetadata {
   /** The output of `python -VV. Not set if missing */
   pythonVersionInfo?: string | undefined;
@@ -74,6 +75,10 @@ export interface ImageMetadata {
   libcVersionInfo?: string | undefined;
   /** The builder version for/with which the image was created. */
   imageBuilderVersion?: string | undefined;
+  /** The image's ENTRYPOINT, including one inherited from a base image. Empty if unset. */
+  entrypoint: StringList;
+  /** The image's CMD: the default arguments to the entrypoint when a container is started without any, including a CMD inherited from a base image. Empty if unset. */
+  cmd: StringList;
 }
 export interface ImageFromIdResponse {
   imageId: string;
@@ -93,7 +98,6 @@ export interface BaseImage {
   dockerTag?: string | undefined;
 }
 export type BaseImageList = Array<BaseImage>;
-export type StringList = Array<string>;
 export interface ImageContextFile {
   filename?: string | undefined;
   data?: string | undefined;
@@ -158,6 +162,8 @@ export interface VolumeMount {
 export type VolumeMountList = Array<VolumeMount>;
 /** CPU architecture an image is built for and must run on. */
 export type Arch = "ARCH_UNSPECIFIED" | "ARCH_X86_64" | "ARCH_AARCH64";
+/** OS that an image is built for and runs on. */
+export type Os = "OS_UNSPECIFIED" | "OS_LINUX" | "OS_WINDOWS_SERVER" | "OS_DARWIN";
 export interface Image {
   baseImages?: BaseImageList | undefined;
   dockerfileCommands?: StringList | undefined;
@@ -183,6 +189,10 @@ export interface Image {
   volumeMounts?: VolumeMountList | undefined;
   /** CPU architecture the image is built for. Images with an unspecified arch predate this field and are treated as x86_64. */
   arch?: Arch | (string & {}) | undefined;
+  /** OS_UNSPECIFIED means Linux. */
+  os?: Os | (string & {}) | undefined;
+  /** OCI platform "<os>/<arch>", e.g. "linux/arm64". The server parses it into os and arch and clears it. */
+  platform?: string | undefined;
 }
 export type DeploymentNamespace =
   | "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
@@ -453,8 +463,8 @@ export const imageGetOrCreate: API.OperationMethod<
   ImageGetOrCreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c8, 12) as any as S.Schema<ImageGetOrCreateRequest>,
-  output: __S(141, __c8, 13) as any as S.Schema<ImageGetOrCreateResponse>,
+  input: __S(139, __c8, 11) as any as S.Schema<ImageGetOrCreateRequest>,
+  output: __S(140, __c8, 12) as any as S.Schema<ImageGetOrCreateResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -648,7 +658,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           imageId: S.String,
-          metadata: S.optional(__S(97, __c6, 1)),
+          metadata: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "ImageFromIdResponse" });
   }
@@ -658,6 +668,8 @@ function __c6(j: number): any {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           pythonVersionInfo: S.optional(S.String),
@@ -665,6 +677,8 @@ function __c6(j: number): any {
           workdir: S.optional(S.String),
           libcVersionInfo: S.optional(S.String),
           imageBuilderVersion: S.optional(S.String),
+          entrypoint: __S(97, __c6, 1),
+          cmd: __S(97, __c6, 1),
         }),
       ).annotate({ identifier: "ImageMetadata" });
   }
@@ -700,17 +714,15 @@ function __c8(j: number): any {
     case 1:
       return S.Array(__S(128, __c8, 0));
     case 2:
-      return S.Array(S.String);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           filename: S.optional(S.String),
           data: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageContextFile" });
+    case 3:
+      return S.Array(__S(130, __c8, 2));
     case 4:
-      return S.Array(__S(131, __c8, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -718,14 +730,14 @@ function __c8(j: number): any {
           gpuType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GPUConfig" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           registryAuthType: S.optional(S.String),
           secretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageRegistryConfig" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           args: S.optional(S.String),
@@ -735,15 +747,15 @@ function __c8(j: number): any {
           methodName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionInput" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           definition: S.optional(S.String),
           globals: S.optional(S.String),
-          input: S.optional(__S(135, __c8, 7)),
+          input: S.optional(__S(134, __c8, 6)),
         }),
       ).annotate({ identifier: "BuildFunction" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           volumeId: S.optional(S.String),
@@ -753,33 +765,35 @@ function __c8(j: number): any {
           subPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "VolumeMount" });
+    case 9:
+      return S.Array(__S(136, __c8, 8));
     case 10:
-      return S.Array(__S(137, __c8, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
           baseImages: S.optional(__S(129, __c8, 1)),
-          dockerfileCommands: S.optional(__S(130, __c8, 2)),
-          contextFiles: S.optional(__S(132, __c8, 4)),
+          dockerfileCommands: S.optional(__S(97, __c6, 1)),
+          contextFiles: S.optional(__S(131, __c8, 3)),
           version: S.optional(S.String),
-          secretIds: S.optional(__S(130, __c8, 2)),
+          secretIds: S.optional(__S(97, __c6, 1)),
           contextMountId: S.optional(S.String),
-          gpuConfig: S.optional(__S(133, __c8, 5)),
-          imageRegistryConfig: S.optional(__S(134, __c8, 6)),
+          gpuConfig: S.optional(__S(132, __c8, 4)),
+          imageRegistryConfig: S.optional(__S(133, __c8, 5)),
           buildFunctionDef: S.optional(S.String),
           buildFunctionGlobals: S.optional(S.String),
           runtime: S.optional(S.String),
           runtimeDebug: S.optional(S.Boolean),
-          buildFunction: S.optional(__S(136, __c8, 8)),
+          buildFunction: S.optional(__S(135, __c8, 7)),
           buildArgs: S.optional(__S(96, __c6, 0)),
-          volumeMounts: S.optional(__S(138, __c8, 10)),
+          volumeMounts: S.optional(__S(137, __c8, 9)),
           arch: S.optional(S.String),
+          os: S.optional(S.String),
+          platform: S.optional(S.String),
         }),
       ).annotate({ identifier: "Image" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(139, __c8, 11)),
+          image: S.optional(__S(138, __c8, 10)),
           appId: S.optional(S.String),
           existingImageId: S.optional(S.String),
           buildFunctionId: S.optional(S.String),
@@ -792,12 +806,12 @@ function __c8(j: number): any {
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/ImageGetOrCreate", code: 200 }),
         ),
       ).annotate({ identifier: "ImageGetOrCreateRequest" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           imageId: S.String,
           result: S.optional(__S(144, __c9, 0)),
-          metadata: S.optional(__S(97, __c6, 1)),
+          metadata: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "ImageGetOrCreateResponse" });
   }
@@ -870,7 +884,7 @@ function __c10(j: number): any {
           taskLogs: __S(163, __c10, 3),
           entryId: S.String,
           eof: S.Boolean,
-          metadata: S.optional(__S(97, __c6, 1)),
+          metadata: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "ImageJoinStreamingResponse" });
     case 5:

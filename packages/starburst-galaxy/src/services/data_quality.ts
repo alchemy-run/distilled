@@ -80,17 +80,9 @@ export class PreconditionFailed
     [{ status: 412 }],
   ) {}
 
-/** Severity level of check failures */
-export type CreateDataQualityCheckRequestSeverity = "Low" | "Medium" | "High" | "Critical";
-/** Category of data quality check */
-export type CreateDataQualityCheckRequestCategory =
-  | "Validity"
-  | "Completeness"
-  | "Consistency"
-  | "Accuracy"
-  | "None";
-/** Kind of data quality check */
-export type CreateDataQualityCheckRequestKind = "QualityExpression" | "SqlQuery";
+export type Severity = "Low" | "Medium" | "High" | "Critical";
+export type Category = "Validity" | "Completeness" | "Consistency" | "Accuracy" | "None";
+export type Kind = "QualityExpression" | "SqlQuery";
 export interface CreateDataQualityCheckRequest {
   /** Name of the data quality check */
   name: string;
@@ -105,25 +97,14 @@ export interface CreateDataQualityCheckRequest {
   /** Either expression or SQL query that implements the data quality check logic. */
   query: string;
   /** Severity level of check failures */
-  severity: CreateDataQualityCheckRequestSeverity | (string & {});
+  severity: Severity | (string & {});
   /** Category of data quality check */
-  category: CreateDataQualityCheckRequestCategory | (string & {});
+  category: Category | (string & {});
   /** Kind of data quality check */
-  kind: CreateDataQualityCheckRequestKind | (string & {});
+  kind: Kind | (string & {});
   /** ClusterId to validate expression on. Required for 'SqlQuery' kind quality checks. If missing, attempt will be made to use cluster that was already configured for the schedule. */
   clusterId?: string | undefined;
 }
-/** Kind of data quality check. */
-export type DataQualityCheckDetailsKind = "QualityExpression" | "SqlQuery";
-/** Severity level of check failures */
-export type DataQualityCheckDetailsSeverity = "Low" | "Medium" | "High" | "Critical";
-/** Category of data quality check */
-export type DataQualityCheckDetailsCategory =
-  | "Validity"
-  | "Completeness"
-  | "Consistency"
-  | "Accuracy"
-  | "None";
 /** Data quality check definition */
 export interface DataQualityCheckDetails {
   /** Data Quality check ID (read only) */
@@ -141,11 +122,11 @@ export interface DataQualityCheckDetails {
   /** Either expression or SQL query that implements the data quality check logic. */
   query: string;
   /** Kind of data quality check. */
-  kind: DataQualityCheckDetailsKind;
+  kind: Kind;
   /** Severity level of check failures */
-  severity: DataQualityCheckDetailsSeverity;
+  severity: Severity;
   /** Category of data quality check */
-  category: DataQualityCheckDetailsCategory;
+  category: Category;
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
   syncToken: string;
 }
@@ -174,19 +155,7 @@ export interface GetDataQualityCheckEvaluationsRequest {
   /** Data quality check */
   dataQualityCheckId: string;
 }
-/** Kind of data quality check. */
-export type DataQualityCheckWithEvaluationsKind = "QualityExpression" | "SqlQuery";
-/** Severity level of check failures */
-export type DataQualityCheckWithEvaluationsSeverity = "Low" | "Medium" | "High" | "Critical";
-/** Category of data quality check */
-export type DataQualityCheckWithEvaluationsCategory =
-  | "Validity"
-  | "Completeness"
-  | "Consistency"
-  | "Accuracy"
-  | "None";
-/** Evaluation Status (read only) */
-export type DataQualityCheckEvaluationStatus = "Failure" | "Success";
+export type EvaluationStatus = "Failure" | "Success";
 /** List of evaluations */
 export interface DataQualityCheckEvaluation {
   /** Time of evaluation (read only) */
@@ -194,7 +163,7 @@ export interface DataQualityCheckEvaluation {
   /** For 'QualityExpression' kind quality checks - time of stats that were used to evaluate. (read only) */
   basedOnStatsAt?: string | undefined;
   /** Evaluation Status (read only) */
-  status: DataQualityCheckEvaluationStatus;
+  status: EvaluationStatus;
   /** Predicate used for evaluation (read only) */
   predicate: string;
 }
@@ -217,11 +186,11 @@ export interface DataQualityCheckWithEvaluations {
   /** Either expression or SQL query that implements the data quality check logic. */
   query: string;
   /** Kind of data quality check. */
-  kind: DataQualityCheckWithEvaluationsKind;
+  kind: Kind;
   /** Severity level of check failures */
-  severity: DataQualityCheckWithEvaluationsSeverity;
+  severity: Severity;
   /** Category of data quality check */
-  category: DataQualityCheckWithEvaluationsCategory;
+  category: Category;
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
   syncToken: string;
   /** List of evaluations */
@@ -231,30 +200,8 @@ export interface GetLatestDataQualityCheckEvaluationRequest {
   /** Data quality check */
   dataQualityCheckId: string;
 }
-/** Kind of data quality check. */
-export type DataQualityCheckWithEvaluationKind = "QualityExpression" | "SqlQuery";
-/** Severity level of check failures */
-export type DataQualityCheckWithEvaluationSeverity = "Low" | "Medium" | "High" | "Critical";
-/** Category of data quality check */
-export type DataQualityCheckWithEvaluationCategory =
-  | "Validity"
-  | "Completeness"
-  | "Consistency"
-  | "Accuracy"
-  | "None";
-/** Evaluation Status (read only) */
-export type DataQualityCheckEvaluation2Status = "Failure" | "Success";
 /** Latest evaluation (read only) */
-export interface DataQualityCheckEvaluation2 {
-  /** Time of evaluation (read only) */
-  evaluatedAt: string;
-  /** For 'QualityExpression' kind quality checks - time of stats that were used to evaluate. (read only) */
-  basedOnStatsAt?: string | undefined;
-  /** Evaluation Status (read only) */
-  status: DataQualityCheckEvaluation2Status;
-  /** Predicate used for evaluation (read only) */
-  predicate: string;
-}
+export type DataQualityCheckEvaluation2 = DataQualityCheckEvaluation;
 /** Data quality with latest evaluation */
 export interface DataQualityCheckWithEvaluation {
   /** Data Quality check ID (read only) */
@@ -272,14 +219,14 @@ export interface DataQualityCheckWithEvaluation {
   /** Either expression or SQL query that implements the data quality check logic. */
   query: string;
   /** Kind of data quality check. */
-  kind: DataQualityCheckWithEvaluationKind;
+  kind: Kind;
   /** Severity level of check failures */
-  severity: DataQualityCheckWithEvaluationSeverity;
+  severity: Severity;
   /** Category of data quality check */
-  category: DataQualityCheckWithEvaluationCategory;
+  category: Category;
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
   syncToken: string;
-  latestEvaluation?: DataQualityCheckEvaluation2 | undefined;
+  latestEvaluation?: DataQualityCheckEvaluation | undefined;
 }
 export interface ListDataQualityChecksRequest {
   /** Query filter */
@@ -318,15 +265,6 @@ export interface PaginatedDataQualityCheckListItem {
   /** A page of results. */
   result: PaginatedDataQualityCheckListItemResultList;
 }
-/** Severity level of check failures */
-export type UpdateDataQualityCheckRequestSeverity = "Low" | "Medium" | "High" | "Critical";
-/** Category of data quality check */
-export type UpdateDataQualityCheckRequestCategory =
-  | "Validity"
-  | "Completeness"
-  | "Consistency"
-  | "Accuracy"
-  | "None";
 export interface UpdateDataQualityCheckRequest {
   /** Data quality check */
   dataQualityCheckId: string;
@@ -337,9 +275,9 @@ export interface UpdateDataQualityCheckRequest {
   /** Either expression or SQL query that implements the data quality check logic. */
   query?: string | undefined;
   /** Severity level of check failures */
-  severity?: UpdateDataQualityCheckRequestSeverity | (string & {}) | undefined;
+  severity?: Severity | (string & {}) | undefined;
   /** Category of data quality check */
-  category?: UpdateDataQualityCheckRequestCategory | (string & {}) | undefined;
+  category?: Category | (string & {}) | undefined;
   /** ClusterId to validate expression on. Required for 'SqlQuery' kind quality checks. */
   clusterId?: string | undefined;
 }
@@ -382,12 +320,11 @@ export interface NotFound2 {
   /** Any fields/values that weren't found */
   fields?: NotFoundFieldsList | undefined;
 }
-/** Violation type */
-export type ViolationType = "TermsOfService";
+export type TypeEnum = "TermsOfService";
 /** Field violations (read only) */
 export interface Violation {
   /** Violation type */
-  type: ViolationType;
+  type: TypeEnum;
   /** Violation subject */
   subject: string;
   /** Violation description */

@@ -96,12 +96,12 @@ export interface CreateTurnRequest {
 export interface CreateTurnResponse {
   /** The date and time the item was created. */
   created: string;
-  /** Bearer token */
-  key: string;
   /** The date and time the item was last modified. */
   modified: string;
   /** A short description of a TURN key, not shown to end users. */
   name: string;
+  /** Bearer token */
+  secret: string;
   /** A Cloudflare-generated unique identifier for a item. */
   uid: string;
 }
@@ -253,7 +253,7 @@ export const createSfu: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreateSfuRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<CreateSfuResponse>,
+  output: __S(16, __c4, 0) as any as S.Schema<CreateSfuResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -270,8 +270,8 @@ export const createTurn: API.OperationMethod<
   CreateTurnError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CreateTurnRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<CreateTurnResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<CreateTurnRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<CreateTurnResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -288,8 +288,8 @@ export const deleteSfu: API.OperationMethod<
   DeleteSfuError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DeleteSfuRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteSfuResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteSfuRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<DeleteSfuResponse>,
   errors: [CallsAppNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -306,8 +306,8 @@ export const deleteTurn: API.OperationMethod<
   DeleteTurnError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DeleteTurnRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteTurnResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<DeleteTurnRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<DeleteTurnResponse>,
   errors: [TurnKeyNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -324,8 +324,8 @@ export const getSfu: API.OperationMethod<
   GetSfuError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetSfuRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<GetSfuResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetSfuRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetSfuResponse>,
   errors: [CallsAppNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -342,8 +342,8 @@ export const getTurn: API.OperationMethod<
   GetTurnError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetTurnRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<GetTurnResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetTurnRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetTurnResponse>,
   errors: [TurnKeyNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -362,8 +362,8 @@ export const listSfus: API.PaginatedOperationMethod<
   SfuListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c10, 0) as any as S.Schema<ListSfusRequest>,
-    output: __S(46, __c11, 2) as any as S.Schema<ListSfusResponse>,
+    input: __S(44, __c11, 0) as any as S.Schema<ListSfusRequest>,
+    output: __S(50, __c12, 2) as any as S.Schema<ListSfusResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -386,7 +386,7 @@ export const listTurns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(0, __c0, 0) as any as S.Schema<ListTurnsRequest>,
-    output: __S(46, __c11, 2) as any as S.Schema<ListTurnsResponse>,
+    output: __S(50, __c12, 2) as any as S.Schema<ListTurnsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -407,7 +407,7 @@ export const updateSfu: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<UpdateSfuRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateSfuResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<UpdateSfuResponse>,
   errors: [CallsAppNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -425,7 +425,7 @@ export const updateTurn: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<UpdateTurnRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateTurnResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<UpdateTurnResponse>,
   errors: [TurnKeyNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -494,7 +494,11 @@ function __c3(j: number): any {
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/calls/apps", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateSfuRequest" });
-    case 1:
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           created: S.String,
@@ -506,7 +510,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateSfuResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -519,19 +523,9 @@ function __c4(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateTurnRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.String,
-          key: S.String,
-          modified: S.String,
-          name: S.String,
-          uid: S.String,
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateTurnResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -550,7 +544,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteSfuRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -563,7 +557,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteSfuResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -582,7 +576,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteTurnRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -597,7 +591,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSfuRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -616,7 +610,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetTurnRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -628,7 +622,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ListSfusRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -640,11 +634,11 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "SfuListResultItem" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(48, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(45, __c11, 1).pipe(T.EnvelopePayload()),
+          result: __S(49, __c12, 1).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSfusResponse" });

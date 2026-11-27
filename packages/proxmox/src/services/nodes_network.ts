@@ -119,6 +119,7 @@ export interface GetNodesByNodeNetworkResultItem {
   gateway?: string | undefined;
   gateway6?: string | undefined;
   iface: string;
+  "ip-forward"?: boolean | 0 | 1 | undefined;
   "link-type"?: string | undefined;
   method?: GetNodesByNodeNetworkResultItemMethod | undefined;
   method6?: GetNodesByNodeNetworkResultItemMethod6 | undefined;
@@ -139,6 +140,7 @@ export interface GetNodesByNodeNetworkResultItem {
   "vlan-id"?: number | undefined;
   "vlan-protocol"?: GetNodesByNodeNetworkResultItemVlanProtocol | undefined;
   "vlan-raw-device"?: string | undefined;
+  vrf?: string | undefined;
   "vxlan-id"?: number | undefined;
   "vxlan-local-tunnelip"?: string | undefined;
   "vxlan-physdev"?: string | undefined;
@@ -153,6 +155,7 @@ export interface GetNodesByNodeNetworkByIfaceRequest {
 export interface GetNodesByNodeNetworkByIfaceResult {
   method: string;
   type: string;
+  "vrf-readonly"?: boolean | 0 | 1 | undefined;
 }
 export type GetNodesByNodeNetworkByIfaceResponse = GetNodesByNodeNetworkByIfaceResult;
 export type PostNodesByNodeNetworkRequestBondMode =
@@ -200,6 +203,7 @@ export interface PostNodesByNodeNetworkRequest {
   gateway?: string | undefined;
   gateway6?: string | undefined;
   iface: string;
+  "ip-forward"?: boolean | 0 | 1 | undefined;
   mtu?: number | undefined;
   netmask?: string | undefined;
   netmask6?: number | undefined;
@@ -213,6 +217,7 @@ export interface PostNodesByNodeNetworkRequest {
   type: PostNodesByNodeNetworkRequestType | (string & {});
   "vlan-id"?: number | undefined;
   "vlan-raw-device"?: string | undefined;
+  vrf?: string | undefined;
 }
 export type PostNodesByNodeNetworkResponse = null;
 export interface PutNodesByNodeNetworkRequest {
@@ -269,6 +274,7 @@ export interface PutNodesByNodeNetworkByIfaceRequest {
   gateway?: string | undefined;
   gateway6?: string | undefined;
   iface: string;
+  "ip-forward"?: boolean | 0 | 1 | undefined;
   mtu?: number | undefined;
   netmask?: string | undefined;
   netmask6?: number | undefined;
@@ -282,6 +288,7 @@ export interface PutNodesByNodeNetworkByIfaceRequest {
   type: PutNodesByNodeNetworkByIfaceRequestType | (string & {});
   "vlan-id"?: number | undefined;
   "vlan-raw-device"?: string | undefined;
+  vrf?: string | undefined;
 }
 export type PutNodesByNodeNetworkByIfaceResponse = null;
 export type DeleteNodesByNodeNetworkError = ProxmoxOpError;
@@ -473,6 +480,7 @@ function __c3(j: number): any {
           gateway: S.optional(S.String),
           gateway6: S.optional(S.String),
           iface: S.String,
+          "ip-forward": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "link-type": S.optional(S.String),
           method: S.optional(S.String),
           method6: S.optional(S.String),
@@ -493,6 +501,7 @@ function __c3(j: number): any {
           "vlan-id": S.optional(S.Number),
           "vlan-protocol": S.optional(S.String),
           "vlan-raw-device": S.optional(S.String),
+          vrf: S.optional(S.String),
           "vxlan-id": S.optional(S.Number),
           "vxlan-local-tunnelip": S.optional(S.String),
           "vxlan-physdev": S.optional(S.String),
@@ -521,6 +530,7 @@ function __c4(j: number): any {
         S.Struct({
           method: S.String,
           type: S.String,
+          "vrf-readonly": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
         }),
       ).annotate({ identifier: "GetNodesByNodeNetworkByIfaceResult" });
     case 2:
@@ -550,6 +560,7 @@ function __c5(j: number): any {
           gateway: S.optional(S.String),
           gateway6: S.optional(S.String),
           iface: S.String,
+          "ip-forward": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           mtu: S.optional(S.Number),
           netmask: S.optional(S.String),
           netmask6: S.optional(S.Number),
@@ -563,6 +574,7 @@ function __c5(j: number): any {
           type: S.String,
           "vlan-id": S.optional(S.Number),
           "vlan-raw-device": S.optional(S.String),
+          vrf: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/nodes/{node}/network", code: 200 })),
       ).annotate({ identifier: "PostNodesByNodeNetworkRequest" });
   }
@@ -604,6 +616,7 @@ function __c7(j: number): any {
           gateway: S.optional(S.String),
           gateway6: S.optional(S.String),
           iface: S.String.pipe(T.Label()),
+          "ip-forward": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           mtu: S.optional(S.Number),
           netmask: S.optional(S.String),
           netmask6: S.optional(S.Number),
@@ -617,6 +630,7 @@ function __c7(j: number): any {
           type: S.String,
           "vlan-id": S.optional(S.Number),
           "vlan-raw-device": S.optional(S.String),
+          vrf: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/nodes/{node}/network/{iface}", code: 200 })),
       ).annotate({ identifier: "PutNodesByNodeNetworkByIfaceRequest" });
   }

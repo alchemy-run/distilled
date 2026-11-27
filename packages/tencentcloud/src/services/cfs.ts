@@ -89,6 +89,18 @@ export interface CreateAccessCertResponse {
   CertId?: string | undefined;
   RequestId?: string | undefined;
 }
+export type StringList = Array<string>;
+export interface CreateAutoDeletePolicyRequest {
+  FileSystemId: string;
+  PolicyName: string;
+  Paths: StringList;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreateAutoDeletePolicyResponse {
+  PolicyId?: string | undefined;
+  RequestId?: string | undefined;
+}
 export interface TagInfo {
   TagKey: string;
   TagValue: string;
@@ -283,6 +295,15 @@ export interface CreateMigrationTaskResponse {
   TaskId?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface DeleteAutoDeletePolicyRequest {
+  FileSystemId: string;
+  PolicyId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DeleteAutoDeletePolicyResponse {
+  RequestId?: string | undefined;
+}
 export interface DeleteAutoSnapshotPolicyRequest {
   AutoSnapshotPolicyId: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -321,7 +342,6 @@ export interface DeleteCfsRuleResponse {
   PGroupId?: string | undefined;
   RequestId?: string | undefined;
 }
-export type StringList = Array<string>;
 export interface DeleteCfsSnapshotRequest {
   SnapshotId?: string | undefined;
   SnapshotIds?: StringList | undefined;
@@ -374,6 +394,30 @@ export interface DeleteUserQuotaRequest {
   region?: string | undefined;
 }
 export interface DeleteUserQuotaResponse {
+  RequestId?: string | undefined;
+}
+export interface DescribeAutoDeletePoliciesRequest {
+  FileSystemId?: string | undefined;
+  Offset?: number | undefined;
+  Limit?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface AutoDeletePolicy {
+  PolicyId?: string | undefined;
+  FileSystemId?: string | undefined;
+  PolicyName?: string | undefined;
+  Paths?: StringList | undefined;
+  Status?: string | undefined;
+  CreateTime?: string | undefined;
+  UpdateTime?: string | undefined;
+  Region?: string | undefined;
+  ErrMsg?: string | undefined;
+}
+export type AutoDeletePolicyList = Array<AutoDeletePolicy>;
+export interface DescribeAutoDeletePoliciesResponse {
+  Policies?: AutoDeletePolicyList | undefined;
+  TotalCount?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface Filter {
@@ -652,6 +696,7 @@ export interface SnapshotInfo {
   Tags?: TagInfoList | undefined;
   SnapshotType?: string | null | undefined;
   SnapshotTime?: string | null | undefined;
+  FinishTime?: string | undefined;
 }
 export type SnapshotInfoList = Array<SnapshotInfo>;
 export interface DescribeCfsSnapshotsResponse {
@@ -935,6 +980,18 @@ export interface DoDirectoryOperationRequest {
 }
 export interface DoDirectoryOperationResponse {
   Result?: number | undefined;
+  RequestId?: string | undefined;
+}
+export interface ModifyAutoDeletePolicyRequest {
+  FileSystemId: string;
+  PolicyId: string;
+  Paths?: StringList | undefined;
+  PolicyName?: string | undefined;
+  Status?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyAutoDeletePolicyResponse {
   RequestId?: string | undefined;
 }
 export interface ModifyDataFlowRequest {
@@ -1223,14 +1280,31 @@ export const createAccessCert: API.OperationMethod<
   CreateAccessCertError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateAccessCertRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<CreateAccessCertResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateAccessCertRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<CreateAccessCertResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAccessCert",
+}));
+
+export type CreateAutoDeletePolicyError = TencentCloudOpError;
+export const createAutoDeletePolicy: API.OperationMethod<
+  CreateAutoDeletePolicyRequest,
+  CreateAutoDeletePolicyResponse,
+  CreateAutoDeletePolicyError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Schema<CreateAutoDeletePolicyRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<CreateAutoDeletePolicyResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoDeletePolicy",
 }));
 
 export type CreateAutoSnapshotPolicyError = TencentCloudOpError;
@@ -1240,7 +1314,7 @@ export const createAutoSnapshotPolicy: API.OperationMethod<
   CreateAutoSnapshotPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CreateAutoSnapshotPolicyRequest>,
+  input: __S(704, __c44, 0) as any as S.Schema<CreateAutoSnapshotPolicyRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<CreateAutoSnapshotPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1257,8 +1331,8 @@ export const createCfsFileSystem: API.OperationMethod<
   CreateCfsFileSystemError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateCfsFileSystemRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<CreateCfsFileSystemResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateCfsFileSystemRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<CreateCfsFileSystemResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1274,8 +1348,8 @@ export const createCfsPGroup: API.OperationMethod<
   CreateCfsPGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateCfsPGroupRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<CreateCfsPGroupResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CreateCfsPGroupRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<CreateCfsPGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1291,8 +1365,8 @@ export const createCfsRule: API.OperationMethod<
   CreateCfsRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateCfsRuleRequest>,
-  output: __S(1073, __c67, 1) as any as S.Schema<CreateCfsRuleResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateCfsRuleRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<CreateCfsRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1308,8 +1382,8 @@ export const createCfsSnapshot: API.OperationMethod<
   CreateCfsSnapshotError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateCfsSnapshotRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<CreateCfsSnapshotResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<CreateCfsSnapshotRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<CreateCfsSnapshotResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1325,8 +1399,8 @@ export const createDataFlow: API.OperationMethod<
   CreateDataFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<CreateDataFlowRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<CreateDataFlowResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<CreateDataFlowRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<CreateDataFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1342,8 +1416,8 @@ export const createDataRetrieval: API.OperationMethod<
   CreateDataRetrievalError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<CreateDataRetrievalRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<CreateDataRetrievalResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateDataRetrievalRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateDataRetrievalResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1359,8 +1433,8 @@ export const createLifecycleDataTask: API.OperationMethod<
   CreateLifecycleDataTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateLifecycleDataTaskRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<CreateLifecycleDataTaskResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateLifecycleDataTaskRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<CreateLifecycleDataTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1376,8 +1450,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   CreateLifecyclePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1393,8 +1467,8 @@ export const createLifecyclePolicyDownloadTask: API.OperationMethod<
   CreateLifecyclePolicyDownloadTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateLifecyclePolicyDownloadTaskRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<CreateLifecyclePolicyDownloadTaskResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateLifecyclePolicyDownloadTaskRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<CreateLifecyclePolicyDownloadTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1410,14 +1484,31 @@ export const createMigrationTask: API.OperationMethod<
   CreateMigrationTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateMigrationTaskRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<CreateMigrationTaskResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateMigrationTaskRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<CreateMigrationTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMigrationTask",
+}));
+
+export type DeleteAutoDeletePolicyError = TencentCloudOpError;
+export const deleteAutoDeletePolicy: API.OperationMethod<
+  DeleteAutoDeletePolicyRequest,
+  DeleteAutoDeletePolicyResponse,
+  DeleteAutoDeletePolicyError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteAutoDeletePolicyRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<DeleteAutoDeletePolicyResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoDeletePolicy",
 }));
 
 export type DeleteAutoSnapshotPolicyError = TencentCloudOpError;
@@ -1427,7 +1518,7 @@ export const deleteAutoSnapshotPolicy: API.OperationMethod<
   DeleteAutoSnapshotPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteAutoSnapshotPolicyRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteAutoSnapshotPolicyRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<DeleteAutoSnapshotPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1444,7 +1535,7 @@ export const deleteCfsFileSystem: API.OperationMethod<
   DeleteCfsFileSystemError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteCfsFileSystemRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteCfsFileSystemRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteCfsFileSystemResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1461,8 +1552,8 @@ export const deleteCfsPGroup: API.OperationMethod<
   DeleteCfsPGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DeleteCfsPGroupRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<DeleteCfsPGroupResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DeleteCfsPGroupRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<DeleteCfsPGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1478,8 +1569,8 @@ export const deleteCfsRule: API.OperationMethod<
   DeleteCfsRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteCfsRuleRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<DeleteCfsRuleResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteCfsRuleRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<DeleteCfsRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1495,8 +1586,8 @@ export const deleteCfsSnapshot: API.OperationMethod<
   DeleteCfsSnapshotError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteCfsSnapshotRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<DeleteCfsSnapshotResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteCfsSnapshotRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<DeleteCfsSnapshotResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1512,7 +1603,7 @@ export const deleteDataFlow: API.OperationMethod<
   DeleteDataFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteDataFlowRequest>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteDataFlowRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteDataFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1529,7 +1620,7 @@ export const deleteDataRetrieval: API.OperationMethod<
   DeleteDataRetrievalError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteDataRetrievalRequest>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteDataRetrievalRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteDataRetrievalResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1546,7 +1637,7 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1563,7 +1654,7 @@ export const deleteMigrationTask: API.OperationMethod<
   DeleteMigrationTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteMigrationTaskRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteMigrationTaskRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteMigrationTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1580,7 +1671,7 @@ export const deleteUserQuota: API.OperationMethod<
   DeleteUserQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteUserQuotaRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteUserQuotaRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<DeleteUserQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1590,6 +1681,23 @@ export const deleteUserQuota: API.OperationMethod<
   span: "DeleteUserQuota",
 }));
 
+export type DescribeAutoDeletePoliciesError = TencentCloudOpError;
+export const describeAutoDeletePolicies: API.OperationMethod<
+  DescribeAutoDeletePoliciesRequest,
+  DescribeAutoDeletePoliciesResponse,
+  DescribeAutoDeletePoliciesError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(400, __c25, 0) as any as S.Schema<DescribeAutoDeletePoliciesRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<DescribeAutoDeletePoliciesResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeAutoDeletePolicies",
+}));
+
 export type DescribeAutoSnapshotPoliciesError = TencentCloudOpError;
 export const describeAutoSnapshotPolicies: API.OperationMethod<
   DescribeAutoSnapshotPoliciesRequest,
@@ -1597,8 +1705,8 @@ export const describeAutoSnapshotPolicies: API.OperationMethod<
   DescribeAutoSnapshotPoliciesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DescribeAutoSnapshotPoliciesRequest>,
-  output: __S(389, __c24, 5) as any as S.Schema<DescribeAutoSnapshotPoliciesResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DescribeAutoSnapshotPoliciesRequest>,
+  output: __S(421, __c26, 5) as any as S.Schema<DescribeAutoSnapshotPoliciesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1614,8 +1722,8 @@ export const describeAvailableZoneInfo: API.OperationMethod<
   DescribeAvailableZoneInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DescribeAvailableZoneInfoRequest>,
-  output: __S(425, __c26, 9) as any as S.Schema<DescribeAvailableZoneInfoResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DescribeAvailableZoneInfoRequest>,
+  output: __S(457, __c28, 9) as any as S.Schema<DescribeAvailableZoneInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1631,8 +1739,8 @@ export const describeBucketList: API.OperationMethod<
   DescribeBucketListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DescribeBucketListRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<DescribeBucketListResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DescribeBucketListRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<DescribeBucketListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1648,8 +1756,8 @@ export const describeCfsFileSystemClients: API.OperationMethod<
   DescribeCfsFileSystemClientsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DescribeCfsFileSystemClientsRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<DescribeCfsFileSystemClientsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<DescribeCfsFileSystemClientsRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<DescribeCfsFileSystemClientsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1665,8 +1773,8 @@ export const describeCfsFileSystems: API.OperationMethod<
   DescribeCfsFileSystemsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DescribeCfsFileSystemsRequest>,
-  output: __S(472, __c29, 8) as any as S.Schema<DescribeCfsFileSystemsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DescribeCfsFileSystemsRequest>,
+  output: __S(536, __c33, 8) as any as S.Schema<DescribeCfsFileSystemsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1682,8 +1790,8 @@ export const describeCfsPGroups: API.OperationMethod<
   DescribeCfsPGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DescribeCfsPGroupsRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<DescribeCfsPGroupsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DescribeCfsPGroupsRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<DescribeCfsPGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1699,8 +1807,8 @@ export const describeCfsRules: API.OperationMethod<
   DescribeCfsRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DescribeCfsRulesRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<DescribeCfsRulesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<DescribeCfsRulesRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<DescribeCfsRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1716,8 +1824,8 @@ export const describeCfsServiceStatus: API.OperationMethod<
   DescribeCfsServiceStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DescribeCfsServiceStatusRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<DescribeCfsServiceStatusResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<DescribeCfsServiceStatusRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<DescribeCfsServiceStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1733,8 +1841,8 @@ export const describeCfsSnapshotOverview: API.OperationMethod<
   DescribeCfsSnapshotOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DescribeCfsSnapshotOverviewRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<DescribeCfsSnapshotOverviewResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<DescribeCfsSnapshotOverviewRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<DescribeCfsSnapshotOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1750,8 +1858,8 @@ export const describeCfsSnapshots: API.OperationMethod<
   DescribeCfsSnapshotsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DescribeCfsSnapshotsRequest>,
-  output: __S(611, __c38, 3) as any as S.Schema<DescribeCfsSnapshotsResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<DescribeCfsSnapshotsRequest>,
+  output: __S(643, __c40, 3) as any as S.Schema<DescribeCfsSnapshotsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1767,8 +1875,8 @@ export const describeDataFlow: API.OperationMethod<
   DescribeDataFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<DescribeDataFlowRequest>,
-  output: __S(627, __c39, 3) as any as S.Schema<DescribeDataFlowResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<DescribeDataFlowRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<DescribeDataFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1784,8 +1892,8 @@ export const describeDataRetrieval: API.OperationMethod<
   DescribeDataRetrievalError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DescribeDataRetrievalRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<DescribeDataRetrievalResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<DescribeDataRetrievalRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<DescribeDataRetrievalResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1801,8 +1909,8 @@ export const describeDataRetrievalTask: API.OperationMethod<
   DescribeDataRetrievalTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DescribeDataRetrievalTaskRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<DescribeDataRetrievalTaskResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<DescribeDataRetrievalTaskRequest>,
+  output: __S(691, __c43, 3) as any as S.Schema<DescribeDataRetrievalTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1818,8 +1926,8 @@ export const describeLifecycleDataTask: API.OperationMethod<
   DescribeLifecycleDataTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DescribeLifecycleDataTaskRequest>,
-  output: __S(675, __c42, 3) as any as S.Schema<DescribeLifecycleDataTaskResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<DescribeLifecycleDataTaskRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<DescribeLifecycleDataTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1835,8 +1943,8 @@ export const describeLifecyclePolicies: API.OperationMethod<
   DescribeLifecyclePoliciesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DescribeLifecyclePoliciesRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<DescribeLifecyclePoliciesResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<DescribeLifecyclePoliciesRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<DescribeLifecyclePoliciesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1852,8 +1960,8 @@ export const describeMigrationTasks: API.OperationMethod<
   DescribeMigrationTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DescribeMigrationTasksRequest>,
-  output: __S(707, __c44, 3) as any as S.Schema<DescribeMigrationTasksResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<DescribeMigrationTasksRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<DescribeMigrationTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1869,8 +1977,8 @@ export const describeMountTargets: API.OperationMethod<
   DescribeMountTargetsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DescribeMountTargetsRequest>,
-  output: __S(739, __c46, 3) as any as S.Schema<DescribeMountTargetsResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<DescribeMountTargetsRequest>,
+  output: __S(787, __c49, 3) as any as S.Schema<DescribeMountTargetsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1886,8 +1994,8 @@ export const describeSnapshotOperationLogs: API.OperationMethod<
   DescribeSnapshotOperationLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<DescribeSnapshotOperationLogsRequest>,
-  output: __S(755, __c47, 3) as any as S.Schema<DescribeSnapshotOperationLogsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<DescribeSnapshotOperationLogsRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<DescribeSnapshotOperationLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1903,8 +2011,8 @@ export const describeUserQuota: API.OperationMethod<
   DescribeUserQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DescribeUserQuotaRequest>,
-  output: __S(771, __c48, 3) as any as S.Schema<DescribeUserQuotaResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DescribeUserQuotaRequest>,
+  output: __S(819, __c51, 3) as any as S.Schema<DescribeUserQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1920,14 +2028,31 @@ export const doDirectoryOperation: API.OperationMethod<
   DoDirectoryOperationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DoDirectoryOperationRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<DoDirectoryOperationResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DoDirectoryOperationRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<DoDirectoryOperationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DoDirectoryOperation",
+}));
+
+export type ModifyAutoDeletePolicyError = TencentCloudOpError;
+export const modifyAutoDeletePolicy: API.OperationMethod<
+  ModifyAutoDeletePolicyRequest,
+  ModifyAutoDeletePolicyResponse,
+  ModifyAutoDeletePolicyError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(848, __c53, 0) as any as S.Schema<ModifyAutoDeletePolicyRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<ModifyAutoDeletePolicyResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAutoDeletePolicy",
 }));
 
 export type ModifyDataFlowError = TencentCloudOpError;
@@ -1937,8 +2062,8 @@ export const modifyDataFlow: API.OperationMethod<
   ModifyDataFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ModifyDataFlowRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<ModifyDataFlowResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ModifyDataFlowRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<ModifyDataFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1954,7 +2079,7 @@ export const modifyDataRetrieval: API.OperationMethod<
   ModifyDataRetrievalError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ModifyDataRetrievalRequest>,
+  input: __S(880, __c55, 0) as any as S.Schema<ModifyDataRetrievalRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<ModifyDataRetrievalResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1971,8 +2096,8 @@ export const modifyFileSystemAutoScaleUpRule: API.OperationMethod<
   ModifyFileSystemAutoScaleUpRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ModifyFileSystemAutoScaleUpRuleRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ModifyFileSystemAutoScaleUpRuleResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ModifyFileSystemAutoScaleUpRuleRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<ModifyFileSystemAutoScaleUpRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1988,8 +2113,8 @@ export const modifyLifecyclePolicy: API.OperationMethod<
   ModifyLifecyclePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ModifyLifecyclePolicyRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ModifyLifecyclePolicyResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ModifyLifecyclePolicyRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<ModifyLifecyclePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2005,8 +2130,8 @@ export const overrideCfsRules: API.OperationMethod<
   OverrideCfsRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(866, __c54, 2) as any as S.Schema<OverrideCfsRulesRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<OverrideCfsRulesResponse>,
+  input: __S(946, __c59, 2) as any as S.Schema<OverrideCfsRulesRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<OverrideCfsRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2022,8 +2147,8 @@ export const runDataRetrievalTask: API.OperationMethod<
   RunDataRetrievalTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<RunDataRetrievalTaskRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<RunDataRetrievalTaskResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<RunDataRetrievalTaskRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<RunDataRetrievalTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2039,8 +2164,8 @@ export const scaleUpFileSystem: API.OperationMethod<
   ScaleUpFileSystemError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ScaleUpFileSystemRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<ScaleUpFileSystemResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<ScaleUpFileSystemRequest>,
+  output: __S(977, __c61, 1) as any as S.Schema<ScaleUpFileSystemResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2056,8 +2181,8 @@ export const setUserQuota: API.OperationMethod<
   SetUserQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<SetUserQuotaRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<SetUserQuotaResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<SetUserQuotaRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<SetUserQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2073,8 +2198,8 @@ export const signUpCfsService: API.OperationMethod<
   SignUpCfsServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<SignUpCfsServiceRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<SignUpCfsServiceResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<SignUpCfsServiceRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<SignUpCfsServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2090,7 +2215,7 @@ export const stopLifecycleDataTask: API.OperationMethod<
   StopLifecycleDataTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<StopLifecycleDataTaskRequest>,
+  input: __S(1024, __c64, 0) as any as S.Schema<StopLifecycleDataTaskRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<StopLifecycleDataTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2107,8 +2232,8 @@ export const stopMigrationTask: API.OperationMethod<
   StopMigrationTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<StopMigrationTaskRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<StopMigrationTaskResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<StopMigrationTaskRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<StopMigrationTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2124,7 +2249,7 @@ export const unbindAutoSnapshotPolicy: API.OperationMethod<
   UnbindAutoSnapshotPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UnbindAutoSnapshotPolicyRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UnbindAutoSnapshotPolicyRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UnbindAutoSnapshotPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2141,7 +2266,7 @@ export const updateAutoSnapshotPolicy: API.OperationMethod<
   UpdateAutoSnapshotPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateAutoSnapshotPolicyRequest>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UpdateAutoSnapshotPolicyRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateAutoSnapshotPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2158,8 +2283,8 @@ export const updateCfsFileSystemName: API.OperationMethod<
   UpdateCfsFileSystemNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateCfsFileSystemNameRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<UpdateCfsFileSystemNameResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateCfsFileSystemNameRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<UpdateCfsFileSystemNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2175,8 +2300,8 @@ export const updateCfsFileSystemPGroup: API.OperationMethod<
   UpdateCfsFileSystemPGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateCfsFileSystemPGroupRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<UpdateCfsFileSystemPGroupResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateCfsFileSystemPGroupRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<UpdateCfsFileSystemPGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2192,7 +2317,7 @@ export const updateCfsFileSystemSizeLimit: API.OperationMethod<
   UpdateCfsFileSystemSizeLimitError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateCfsFileSystemSizeLimitRequest>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateCfsFileSystemSizeLimitRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<UpdateCfsFileSystemSizeLimitResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2209,8 +2334,8 @@ export const updateCfsPGroup: API.OperationMethod<
   UpdateCfsPGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateCfsPGroupRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<UpdateCfsPGroupResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateCfsPGroupRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<UpdateCfsPGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2226,8 +2351,8 @@ export const updateCfsRule: API.OperationMethod<
   UpdateCfsRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UpdateCfsRuleRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<UpdateCfsRuleResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<UpdateCfsRuleRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<UpdateCfsRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2243,8 +2368,8 @@ export const updateCfsSnapshotAttribute: API.OperationMethod<
   UpdateCfsSnapshotAttributeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateCfsSnapshotAttributeRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<UpdateCfsSnapshotAttributeResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<UpdateCfsSnapshotAttributeRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<UpdateCfsSnapshotAttributeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2260,7 +2385,7 @@ export const updateFileSystemBandwidthLimit: API.OperationMethod<
   UpdateFileSystemBandwidthLimitError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateFileSystemBandwidthLimitRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<UpdateFileSystemBandwidthLimitRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<UpdateFileSystemBandwidthLimitResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2373,6 +2498,30 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FileSystemId: S.String,
+          DataRetrievalName: S.String,
+          CompoundCondition: S.optional(S.String),
+          QueryCondition: S.optional(S.String),
+          DayOfMonth: S.optional(S.String),
+          DayOfWeek: S.optional(S.String),
+          Hour: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateDataRetrieval" })),
+      ).annotate({ identifier: "CreateDataRetrievalRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataRetrievalId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateDataRetrievalResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
           Type: S.String,
           TaskName: S.String,
           TaskPath: S.optional(S.String),
@@ -2386,7 +2535,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateLifecycleDataTaskRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2397,7 +2546,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateLifecycleDataTaskResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2411,7 +2560,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateLifecyclePolicyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2422,7 +2571,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateLifecyclePolicyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2447,7 +2596,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateLifecyclePolicyDownloadTaskResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2473,7 +2622,31 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateMigrationTaskRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          PolicyId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "DeleteAutoDeletePolicy" }),
+        ),
+      ).annotate({ identifier: "DeleteAutoDeletePolicyRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteAutoDeletePolicyResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2486,7 +2659,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteAutoSnapshotPolicyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2497,17 +2670,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteCfsFileSystemRequest" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteCfsFileSystemResponse" });
-  }
-}
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2526,7 +2689,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteCfsPGroupResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2546,37 +2709,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteCfsRuleResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SnapshotId: S.optional(S.String),
-          SnapshotIds: S.optional(__S(272, __c17, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DeleteCfsSnapshot" })),
-      ).annotate({ identifier: "DeleteCfsSnapshotRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DataFlowId: S.String,
-          FileSystemId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DeleteDataFlow" })),
-      ).annotate({ identifier: "DeleteDataFlowRequest" });
-  }
-}
-function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2595,7 +2728,31 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateAccessCertResponse" });
   }
 }
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotId: S.optional(S.String),
+          SnapshotIds: S.optional(__S(496, __c31, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DeleteCfsSnapshot" })),
+      ).annotate({ identifier: "DeleteCfsSnapshotRequest" });
+  }
+}
 function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataFlowId: S.String,
+          FileSystemId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DeleteDataFlow" })),
+      ).annotate({ identifier: "DeleteDataFlowRequest" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2606,7 +2763,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteDataRetrievalRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2619,7 +2776,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteLifecyclePolicyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2630,7 +2787,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteMigrationTaskRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2644,7 +2801,46 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteUserQuotaRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.optional(S.String),
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeAutoDeletePolicies" }),
+        ),
+      ).annotate({ identifier: "DescribeAutoDeletePoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          PolicyName: S.optional(S.String),
+          Paths: S.optional(__S(496, __c31, 0)),
+          Status: S.optional(S.String),
+          CreateTime: S.optional(S.String),
+          UpdateTime: S.optional(S.String),
+          Region: S.optional(S.String),
+          ErrMsg: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoDeletePolicy" });
+    case 2:
+      return S.Array(__S(401, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Policies: S.optional(__S(402, __c25, 2)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeAutoDeletePoliciesResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2652,7 +2848,7 @@ function __c24(j: number): any {
           AutoSnapshotPolicyId: S.optional(S.String),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           Order: S.optional(S.String),
           OrderField: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -2677,7 +2873,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "FileSystemByPolicy" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2693,39 +2889,39 @@ function __c24(j: number): any {
           AppId: S.optional(S.Number),
           AliveDays: S.optional(S.Number),
           RegionName: S.optional(S.String),
-          FileSystems: S.optional(__S(386, __c24, 2)),
+          FileSystems: S.optional(__S(418, __c26, 2)),
           DayOfMonth: S.optional(S.NullOr(S.String)),
           IntervalDays: S.optional(S.NullOr(S.Number)),
           CrossRegionsAliveDays: S.optional(S.Number),
-          Tags: S.optional(__S(513, __c32, 1)),
+          Tags: S.optional(__S(721, __c45, 1)),
         }),
       ).annotate({ identifier: "AutoSnapshotPolicyInfo" });
     case 4:
-      return S.Array(__S(387, __c24, 3));
+      return S.Array(__S(419, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          AutoSnapshotPolicies: S.optional(__S(388, __c24, 4)),
+          AutoSnapshotPolicies: S.optional(__S(420, __c26, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAutoSnapshotPoliciesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Values: __S(272, __c17, 0),
+          Values: __S(496, __c31, 0),
           Name: S.String,
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(432, __c27, 0));
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2743,52 +2939,52 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "AvailableProtoStatus" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(449, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Protocols: S.optional(__S(418, __c26, 2)),
+          Protocols: S.optional(__S(450, __c28, 2)),
           Type: S.optional(S.String),
           Prepayment: S.optional(S.Boolean),
           Version: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableType" });
     case 4:
-      return S.Array(__S(419, __c26, 3));
+      return S.Array(__S(451, __c28, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Zone: S.optional(S.String),
           ZoneId: S.optional(S.Number),
           ZoneCnName: S.optional(S.String),
-          Types: S.optional(__S(420, __c26, 4)),
+          Types: S.optional(__S(452, __c28, 4)),
           ZoneName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableZone" });
     case 6:
-      return S.Array(__S(421, __c26, 5));
+      return S.Array(__S(453, __c28, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           Region: S.optional(S.String),
           RegionName: S.optional(S.String),
           RegionStatus: S.optional(S.String),
-          Zones: S.optional(__S(422, __c26, 6)),
+          Zones: S.optional(__S(454, __c28, 6)),
           RegionCnName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableRegion" });
     case 8:
-      return S.Array(__S(423, __c26, 7));
+      return S.Array(__S(455, __c28, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          RegionZones: S.optional(__S(424, __c26, 8)),
+          RegionZones: S.optional(__S(456, __c28, 8)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAvailableZoneInfoResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2807,18 +3003,46 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "BucketInfo" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BucketList: S.optional(__S(434, __c27, 2)),
+          BucketList: S.optional(__S(466, __c29, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBucketListResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          PolicyName: S.String,
+          Paths: __S(496, __c31, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "CreateAutoDeletePolicy" }),
+        ),
+      ).annotate({ identifier: "CreateAutoDeletePolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAutoDeletePolicyResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2847,18 +3071,18 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "FileSystemClient" });
     case 2:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ClientList: S.optional(__S(450, __c28, 2)),
+          ClientList: S.optional(__S(514, __c32, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsFileSystemClientsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2869,8 +3093,8 @@ function __c29(j: number): any {
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           CreationToken: S.optional(S.String),
-          Filters: S.optional(__S(401, __c25, 1)),
-          Tags: S.optional(__S(513, __c32, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
+          Tags: S.optional(__S(721, __c45, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeCfsFileSystems" }),
@@ -2906,7 +3130,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ExstraPerformanceInfo" });
     case 5:
-      return S.Array(__S(468, __c29, 4));
+      return S.Array(__S(532, __c33, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2922,7 +3146,7 @@ function __c29(j: number): any {
           StorageType: S.optional(S.String),
           StorageResourcePkg: S.optional(S.String),
           BandwidthResourcePkg: S.optional(S.String),
-          PGroup: S.optional(__S(465, __c29, 1)),
+          PGroup: S.optional(__S(529, __c33, 1)),
           FsName: S.optional(S.String),
           Encrypted: S.optional(S.Boolean),
           KmsKeyId: S.optional(S.String),
@@ -2931,12 +3155,12 @@ function __c29(j: number): any {
           AutoSnapshotPolicyId: S.optional(S.String),
           SnapStatus: S.optional(S.String),
           Capacity: S.optional(S.Number),
-          Tags: S.optional(__S(513, __c32, 1)),
+          Tags: S.optional(__S(721, __c45, 1)),
           TieringState: S.optional(S.String),
-          TieringDetail: S.optional(__S(466, __c29, 2)),
-          AutoScaleUpRule: S.optional(__S(467, __c29, 3)),
+          TieringDetail: S.optional(__S(530, __c33, 2)),
+          AutoScaleUpRule: S.optional(__S(531, __c33, 3)),
           Version: S.optional(S.String),
-          ExstraPerformanceInfo: S.optional(S.NullOr(__S(469, __c29, 5))),
+          ExstraPerformanceInfo: S.optional(S.NullOr(__S(533, __c33, 5))),
           MetaType: S.optional(S.String),
           Scenario: S.optional(S.String),
           FullDeleteCapacityUsage: S.optional(S.Number),
@@ -2945,18 +3169,18 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "FileSystemInfo" });
     case 7:
-      return S.Array(__S(470, __c29, 6));
+      return S.Array(__S(534, __c33, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          FileSystems: S.optional(__S(471, __c29, 7)),
+          FileSystems: S.optional(__S(535, __c33, 7)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsFileSystemsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2975,49 +3199,17 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "PGroupInfo" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PGroupList: S.optional(__S(482, __c30, 2)),
+          PGroupList: S.optional(__S(546, __c34, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsPGroupsResponse" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Hour: S.String,
-          PolicyName: S.optional(S.String),
-          DayOfWeek: S.optional(S.String),
-          AliveDays: S.optional(S.Number),
-          DayOfMonth: S.optional(S.String),
-          IntervalDays: S.optional(S.Number),
-          ResourceTags: S.optional(__S(513, __c32, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cfs", version: "2019-07-19", action: "CreateAutoSnapshotPolicy" }),
-        ),
-      ).annotate({ identifier: "CreateAutoSnapshotPolicyRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TagKey: S.String,
-          TagValue: S.String,
-        }),
-      ).annotate({ identifier: "TagInfo" });
-    case 1:
-      return S.Array(__S(512, __c32, 0));
-  }
-}
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3028,7 +3220,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DescribeCfsRulesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3041,17 +3233,17 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "PGroupRuleInfo" });
     case 1:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          RuleList: S.optional(__S(545, __c34, 1)),
+          RuleList: S.optional(__S(577, __c36, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsRulesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3063,7 +3255,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DescribeCfsServiceStatusRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3074,7 +3266,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DescribeCfsServiceStatusResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3097,17 +3289,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotStatistics" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StatisticsList: S.optional(__S(594, __c37, 2)),
+          StatisticsList: S.optional(__S(626, __c39, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsSnapshotOverviewResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3116,7 +3308,7 @@ function __c38(j: number): any {
           SnapshotId: S.optional(S.String),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           OrderField: S.optional(S.String),
           Order: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -3139,25 +3331,26 @@ function __c38(j: number): any {
           AppId: S.optional(S.Number),
           DeleteTime: S.optional(S.String),
           FsName: S.optional(S.String),
-          Tags: S.optional(__S(513, __c32, 1)),
+          Tags: S.optional(__S(721, __c45, 1)),
           SnapshotType: S.optional(S.NullOr(S.String)),
           SnapshotTime: S.optional(S.NullOr(S.String)),
+          FinishTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnapshotInfo" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Snapshots: S.optional(__S(610, __c38, 2)),
+          Snapshots: S.optional(__S(642, __c40, 2)),
           TotalSize: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCfsSnapshotsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3191,25 +3384,25 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "DataFlowInfo" });
     case 2:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataFlows: S.optional(__S(626, __c39, 2)),
+          DataFlows: S.optional(__S(658, __c41, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataFlowResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeDataRetrieval" }),
@@ -3231,18 +3424,18 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DataRetrievalInfo" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(673, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataRetrievals: S.optional(__S(642, __c40, 2)),
+          DataRetrievals: S.optional(__S(674, __c42, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataRetrievalResponse" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3252,7 +3445,7 @@ function __c41(j: number): any {
           DataRetrievalId: S.String,
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeDataRetrievalTask" }),
@@ -3276,18 +3469,50 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "DataRetrievalTaskInfo" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(689, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataRetrievalTasks: S.optional(__S(658, __c41, 2)),
+          DataRetrievalTasks: S.optional(__S(690, __c43, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataRetrievalTaskResponse" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Hour: S.String,
+          PolicyName: S.optional(S.String),
+          DayOfWeek: S.optional(S.String),
+          AliveDays: S.optional(S.Number),
+          DayOfMonth: S.optional(S.String),
+          IntervalDays: S.optional(S.Number),
+          ResourceTags: S.optional(__S(721, __c45, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "CreateAutoSnapshotPolicy" }),
+        ),
+      ).annotate({ identifier: "CreateAutoSnapshotPolicyRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TagKey: S.String,
+          TagValue: S.String,
+        }),
+      ).annotate({ identifier: "TagInfo" });
+    case 1:
+      return S.Array(__S(720, __c45, 0));
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3297,7 +3522,7 @@ function __c42(j: number): any {
           TaskId: S.optional(S.String),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           CfsVersion: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -3330,18 +3555,18 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "LifecycleDataTaskInfo" });
     case 2:
-      return S.Array(__S(673, __c42, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LifecycleDataTask: S.optional(__S(674, __c42, 2)),
+          LifecycleDataTask: S.optional(__S(738, __c46, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLifecycleDataTaskResponse" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3367,27 +3592,27 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "LifecyclePolicy" });
     case 2:
-      return S.Array(__S(689, __c43, 1));
+      return S.Array(__S(753, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
-          LifecyclePolicies: S.optional(__S(690, __c43, 2)),
+          LifecyclePolicies: S.optional(__S(754, __c47, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLifecyclePoliciesResponse" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(401, __c25, 1)),
+          Filters: S.optional(__S(433, __c27, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeMigrationTasks" }),
@@ -3426,18 +3651,215 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "MigrationTaskInfo" });
     case 2:
-      return S.Array(__S(705, __c44, 1));
+      return S.Array(__S(769, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          MigrationTasks: S.optional(__S(706, __c44, 2)),
+          MigrationTasks: S.optional(__S(770, __c48, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMigrationTasksResponse" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeMountTargets" }),
+        ),
+      ).annotate({ identifier: "DescribeMountTargetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.optional(S.String),
+          MountTargetId: S.optional(S.String),
+          IpAddress: S.optional(S.String),
+          FSID: S.optional(S.String),
+          LifeCycleState: S.optional(S.String),
+          NetworkInterface: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          VpcName: S.optional(S.String),
+          SubnetId: S.optional(S.String),
+          SubnetName: S.optional(S.String),
+          CcnID: S.optional(S.String),
+          CidrBlock: S.optional(S.String),
+          ServerList: S.optional(__S(496, __c31, 0)),
+          ServerListTruncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MountInfo" });
+    case 2:
+      return S.Array(__S(785, __c49, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          MountTargets: S.optional(__S(786, __c49, 2)),
+          NumberOfMountTargets: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeMountTargetsResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotId: S.String,
+          StartTime: S.String,
+          EndTime: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cfs",
+            version: "2019-07-19",
+            action: "DescribeSnapshotOperationLogs",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeSnapshotOperationLogsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          ActionTime: S.optional(S.String),
+          ActionName: S.optional(S.String),
+          Operator: S.optional(S.String),
+          Result: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SnapshotOperateLog" });
+    case 2:
+      return S.Array(__S(801, __c50, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotId: S.optional(S.String),
+          SnapshotOperates: S.optional(__S(802, __c50, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSnapshotOperationLogsResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          Filters: S.optional(__S(433, __c27, 1)),
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeUserQuota" })),
+      ).annotate({ identifier: "DescribeUserQuotaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UserType: S.optional(S.String),
+          UserId: S.optional(S.String),
+          CapacityHardLimit: S.optional(S.Number),
+          FileHardLimit: S.optional(S.Number),
+          FileSystemId: S.optional(S.String),
+          CapacityUsed: S.optional(S.Number),
+          FileUsed: S.optional(S.Number),
+          DirectoryPath: S.optional(S.NullOr(S.String)),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserQuota" });
+    case 2:
+      return S.Array(__S(817, __c51, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          UserQuotaInfo: S.optional(__S(818, __c51, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeUserQuotaResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          OpetationType: S.String,
+          DirectoryPath: S.String,
+          Mode: S.optional(S.String),
+          DestPath: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "DoDirectoryOperation" }),
+        ),
+      ).annotate({ identifier: "DoDirectoryOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Result: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DoDirectoryOperationResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.String,
+          PolicyId: S.String,
+          Paths: S.optional(__S(496, __c31, 0)),
+          PolicyName: S.optional(S.String),
+          Status: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cfs", version: "2019-07-19", action: "ModifyAutoDeletePolicy" }),
+        ),
+      ).annotate({ identifier: "ModifyAutoDeletePolicyRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataFlowId: S.String,
+          FileSystemId: S.String,
+          DataFlowName: S.optional(S.String),
+          SecretId: S.optional(S.String),
+          SecretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          UserKafkaTopic: S.optional(S.String),
+          ServerAddr: S.optional(S.String),
+          UserName: S.optional(S.String),
+          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          AutoRefresh: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "ModifyDataFlow" })),
+      ).annotate({ identifier: "ModifyDataFlowRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataRetrievalId: S.String,
+          DataRetrievalName: S.optional(S.String),
+          CompoundCondition: S.optional(S.String),
+          QueryCondition: S.optional(S.String),
+          DayOfMonth: S.optional(S.String),
+          DayOfWeek: S.optional(S.String),
+          Hour: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "ModifyDataRetrieval" })),
+      ).annotate({ identifier: "ModifyDataRetrievalRequest" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3452,7 +3874,7 @@ function __c45(j: number): any {
           MountIP: S.optional(S.String),
           FsName: S.optional(S.String),
           Encrypted: S.optional(S.Boolean),
-          ResourceTags: S.optional(__S(513, __c32, 1)),
+          ResourceTags: S.optional(__S(721, __c45, 1)),
           ClientToken: S.optional(S.String),
           CcnId: S.optional(S.String),
           CidrBlock: S.optional(S.String),
@@ -3482,187 +3904,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateCfsFileSystemResponse" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeMountTargets" }),
-        ),
-      ).annotate({ identifier: "DescribeMountTargetsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.optional(S.String),
-          MountTargetId: S.optional(S.String),
-          IpAddress: S.optional(S.String),
-          FSID: S.optional(S.String),
-          LifeCycleState: S.optional(S.String),
-          NetworkInterface: S.optional(S.String),
-          VpcId: S.optional(S.String),
-          VpcName: S.optional(S.String),
-          SubnetId: S.optional(S.String),
-          SubnetName: S.optional(S.String),
-          CcnID: S.optional(S.String),
-          CidrBlock: S.optional(S.String),
-          ServerList: S.optional(__S(272, __c17, 0)),
-          ServerListTruncated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MountInfo" });
-    case 2:
-      return S.Array(__S(737, __c46, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          MountTargets: S.optional(__S(738, __c46, 2)),
-          NumberOfMountTargets: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeMountTargetsResponse" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SnapshotId: S.String,
-          StartTime: S.String,
-          EndTime: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cfs",
-            version: "2019-07-19",
-            action: "DescribeSnapshotOperationLogs",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeSnapshotOperationLogsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Action: S.optional(S.String),
-          ActionTime: S.optional(S.String),
-          ActionName: S.optional(S.String),
-          Operator: S.optional(S.String),
-          Result: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SnapshotOperateLog" });
-    case 2:
-      return S.Array(__S(753, __c47, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          SnapshotId: S.optional(S.String),
-          SnapshotOperates: S.optional(__S(754, __c47, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeSnapshotOperationLogsResponse" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.String,
-          Filters: S.optional(__S(401, __c25, 1)),
-          Offset: S.optional(S.Number),
-          Limit: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "DescribeUserQuota" })),
-      ).annotate({ identifier: "DescribeUserQuotaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          UserType: S.optional(S.String),
-          UserId: S.optional(S.String),
-          CapacityHardLimit: S.optional(S.Number),
-          FileHardLimit: S.optional(S.Number),
-          FileSystemId: S.optional(S.String),
-          CapacityUsed: S.optional(S.Number),
-          FileUsed: S.optional(S.Number),
-          DirectoryPath: S.optional(S.NullOr(S.String)),
-          Status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserQuota" });
-    case 2:
-      return S.Array(__S(769, __c48, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          UserQuotaInfo: S.optional(__S(770, __c48, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeUserQuotaResponse" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.String,
-          OpetationType: S.String,
-          DirectoryPath: S.String,
-          Mode: S.optional(S.String),
-          DestPath: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cfs", version: "2019-07-19", action: "DoDirectoryOperation" }),
-        ),
-      ).annotate({ identifier: "DoDirectoryOperationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Result: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DoDirectoryOperationResponse" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DataFlowId: S.String,
-          FileSystemId: S.String,
-          DataFlowName: S.optional(S.String),
-          SecretId: S.optional(S.String),
-          SecretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          UserKafkaTopic: S.optional(S.String),
-          ServerAddr: S.optional(S.String),
-          UserName: S.optional(S.String),
-          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          AutoRefresh: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "ModifyDataFlow" })),
-      ).annotate({ identifier: "ModifyDataFlowRequest" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DataRetrievalId: S.String,
-          DataRetrievalName: S.optional(S.String),
-          CompoundCondition: S.optional(S.String),
-          QueryCondition: S.optional(S.String),
-          DayOfMonth: S.optional(S.String),
-          DayOfWeek: S.optional(S.String),
-          Hour: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "ModifyDataRetrieval" })),
-      ).annotate({ identifier: "ModifyDataRetrievalRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3692,7 +3934,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ModifyFileSystemAutoScaleUpRuleResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3707,7 +3949,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ModifyLifecyclePolicyRequest" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3719,18 +3961,18 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "InputPermissionGroupRules" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(944, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           PermissionGroupId: S.String,
-          RuleList: __S(865, __c54, 1),
+          RuleList: __S(945, __c59, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "OverrideCfsRules" })),
       ).annotate({ identifier: "OverrideCfsRulesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3750,30 +3992,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RunDataRetrievalTaskResponse" });
   }
 }
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          DescInfo: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateCfsPGroup" })),
-      ).annotate({ identifier: "CreateCfsPGroupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          PGroupId: S.optional(S.String),
-          Name: S.optional(S.String),
-          DescInfo: S.optional(S.String),
-          BindCfsNum: S.optional(S.Number),
-          CDate: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCfsPGroupResponse" });
-  }
-}
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3793,7 +4012,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ScaleUpFileSystemResponse" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3816,7 +4035,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SetUserQuotaResponse" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3826,7 +4045,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SignUpCfsServiceRequest" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3839,7 +4058,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StopLifecycleDataTaskRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3858,7 +4077,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "StopMigrationTaskResponse" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3872,7 +4091,30 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UnbindAutoSnapshotPolicyRequest" });
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          DescInfo: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateCfsPGroup" })),
+      ).annotate({ identifier: "CreateCfsPGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PGroupId: S.optional(S.String),
+          Name: S.optional(S.String),
+          DescInfo: S.optional(S.String),
+          BindCfsNum: S.optional(S.Number),
+          CDate: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCfsPGroupResponse" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3892,7 +4134,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateAutoSnapshotPolicyRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3915,7 +4157,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateCfsFileSystemNameResponse" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3937,7 +4179,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateCfsFileSystemPGroupResponse" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3955,34 +4197,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateCfsFileSystemSizeLimitRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PGroupId: S.String,
-          AuthClientIp: S.String,
-          Priority: S.Number,
-          RWPermission: S.optional(S.String),
-          UserPermission: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateCfsRule" })),
-      ).annotate({ identifier: "CreateCfsRuleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          RuleId: S.optional(S.String),
-          PGroupId: S.optional(S.String),
-          AuthClientIp: S.optional(S.String),
-          RWPermission: S.optional(S.String),
-          UserPermission: S.optional(S.String),
-          Priority: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCfsRuleResponse" });
-  }
-}
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4004,7 +4219,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateCfsPGroupResponse" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4032,7 +4247,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateCfsRuleResponse" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4047,7 +4262,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateCfsSnapshotAttributeRequest" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4065,20 +4280,47 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateFileSystemBandwidthLimitRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PGroupId: S.String,
+          AuthClientIp: S.String,
+          Priority: S.Number,
+          RWPermission: S.optional(S.String),
+          UserPermission: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateCfsRule" })),
+      ).annotate({ identifier: "CreateCfsRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RuleId: S.optional(S.String),
+          PGroupId: S.optional(S.String),
+          AuthClientIp: S.optional(S.String),
+          RWPermission: S.optional(S.String),
+          UserPermission: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCfsRuleResponse" });
+  }
+}
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FileSystemId: S.String,
           SnapshotName: S.optional(S.String),
-          ResourceTags: S.optional(__S(513, __c32, 1)),
+          ResourceTags: S.optional(__S(721, __c45, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateCfsSnapshot" })),
       ).annotate({ identifier: "CreateCfsSnapshotRequest" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4089,7 +4331,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateCfsSnapshotResponse" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4112,7 +4354,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CreateDataFlowRequest" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4121,30 +4363,6 @@ function __c75(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDataFlowResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.String,
-          DataRetrievalName: S.String,
-          CompoundCondition: S.optional(S.String),
-          QueryCondition: S.optional(S.String),
-          DayOfMonth: S.optional(S.String),
-          DayOfWeek: S.optional(S.String),
-          Hour: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cfs", version: "2019-07-19", action: "CreateDataRetrieval" })),
-      ).annotate({ identifier: "CreateDataRetrievalRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          DataRetrievalId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateDataRetrievalResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

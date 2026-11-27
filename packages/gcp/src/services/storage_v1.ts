@@ -295,6 +295,10 @@ export interface Storage_ObjectRetention {
   /** The bucket's object retention mode, can only be Unlocked or Locked. */
   mode?: string | undefined;
 }
+export interface Storage_ObjectZonalAvailabilityInfo {
+  /** A list of zones where the object has a zonal copy. The zone names are expected to be in lower-dash case format (e.g., 'us-central1-a'). */
+  availableZones?: StringList | undefined;
+}
 /** An object. */
 export interface Storage_Object {
   /** Access controls on the object. */
@@ -373,6 +377,8 @@ export interface Storage_Object {
   timeStorageClassUpdated?: string | undefined;
   /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
   updated?: string | undefined;
+  /** Information about the object's availability in Rapid Cache Ultra (RCU) zonal caches. This field will only populate once the object is loaded into the cache. */
+  zonalAvailabilityInfo?: Storage_ObjectZonalAvailabilityInfo | undefined;
 }
 export interface ComposeRequestSourceObjectsItemObjectPreconditions {
   /** Only perform the composition if the generation of the source object that would be used matches this value. If this value and a generation are both specified, they must be the same value or the call will fail. */
@@ -2267,7 +2273,7 @@ export const composeObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c1, 4) as any as S.Schema<ComposeObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2285,7 +2291,7 @@ export const copyObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CopyObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2757,7 +2763,7 @@ export const getObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3030,7 +3036,7 @@ export const insertObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<InsertObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3321,7 +3327,7 @@ export const moveObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<MoveObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3432,7 +3438,7 @@ export const patchObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<PatchObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ObjectPreconditionFailed],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3504,7 +3510,7 @@ export const restoreObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<RestoreObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3800,7 +3806,7 @@ export const updateObjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<UpdateObjectsRequest>,
-  output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
+  output: __S(230, __c7, 6) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3902,7 +3908,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(229, __c7, 5)),
+          destination: S.optional(__S(230, __c7, 6)),
           kind: S.optional(S.String),
           sourceObjects: S.optional(__S(34, __c1, 2)),
           deleteSourceObjects: S.optional(S.Boolean),
@@ -4024,6 +4030,12 @@ function __c7(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          availableZones: S.optional(__S(3296, __c103, 0)),
+        }),
+      ).annotate({ identifier: "Storage_ObjectZonalAvailabilityInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           acl: S.optional(__S(160, __c5, 0)),
           bucket: S.optional(S.String),
           cacheControl: S.optional(S.String),
@@ -4062,6 +4074,7 @@ function __c7(j: number): any {
           hardDeleteTime: S.optional(S.String),
           timeStorageClassUpdated: S.optional(S.String),
           updated: S.optional(S.String),
+          zonalAvailabilityInfo: S.optional(__S(229, __c7, 5)),
         }),
       ).annotate({ identifier: "Storage_Object" });
   }
@@ -4071,7 +4084,7 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(229, __c7, 5),
+          __S(230, __c7, 6),
           S.Struct({
             destinationBucket: S.String.pipe(T.Label()),
             destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
@@ -5297,7 +5310,7 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(229, __c7, 5),
+          __S(230, __c7, 6),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             contentEncoding: S.optional(S.String.pipe(T.Query())),
@@ -5591,7 +5604,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListObjectsRequest" });
     case 1:
-      return S.Array(__S(229, __c7, 5));
+      return S.Array(__S(230, __c7, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5832,7 +5845,7 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(229, __c7, 5),
+          __S(230, __c7, 6),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             generation: S.optional(S.String.pipe(T.Query())),
@@ -5971,7 +5984,7 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(229, __c7, 5),
+          __S(230, __c7, 6),
           S.Struct({
             destinationBucket: S.String.pipe(T.Label()),
             destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
@@ -6008,7 +6021,7 @@ function __c86(j: number): any {
           done: S.optional(S.Boolean),
           kind: S.optional(S.String),
           objectSize: S.optional(S.String),
-          resource: S.optional(__S(229, __c7, 5)),
+          resource: S.optional(__S(230, __c7, 6)),
           rewriteToken: S.optional(S.String),
           totalBytesRewritten: S.optional(S.String),
         }),
@@ -6387,7 +6400,7 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(229, __c7, 5),
+          __S(230, __c7, 6),
           S.Struct({
             bucket: S.String.pipe(T.Label()),
             generation: S.optional(S.String.pipe(T.Query())),

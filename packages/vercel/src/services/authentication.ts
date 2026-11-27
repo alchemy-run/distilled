@@ -188,11 +188,14 @@ export interface CreateAuthTokenRequest {
   /** The ID of the project to scope this token to */
   projectId?: string | undefined;
 }
+/** The user-facing kind of the token. */
+export type AuthTokenKind = "access-token" | "app" | "other" | "sign-in-session";
 export type AuthTokenScopesItemCase0Origin =
   | "app"
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu"
   | "github"
@@ -233,6 +236,7 @@ export type AuthTokenScopesItemCase1Origin =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu"
   | "github"
@@ -268,6 +272,8 @@ export interface AuthToken {
   expiresAt?: number | undefined;
   /** The unique identifier of the token. */
   id: string;
+  /** The user-facing kind of the token. */
+  kind: AuthTokenKind;
   /** Timestamp (in milliseconds) of when the token was marked as leaked. */
   leakedAt?: number | undefined;
   /** URL where the token was discovered as leaked. */
@@ -367,7 +373,16 @@ export interface GetAuthTokenRequest {
 export interface GetAuthTokenResponse {
   token: AuthToken;
 }
-export interface ListAuthTokensRequest {}
+/** Filter by token kind. Omit or use `all` to include every kind. */
+export type ListAuthTokensRequestKind = "access-token" | "all" | "app" | "sign-in-session";
+/** Filter by token status. Omit or use `all` to include every status. */
+export type ListAuthTokensRequestStatus = "active" | "all" | "expired" | "revoked";
+export interface ListAuthTokensRequest {
+  /** Filter by token kind. Omit or use `all` to include every kind. */
+  kind?: ListAuthTokensRequestKind | (string & {}) | undefined;
+  /** Filter by token status. Omit or use `all` to include every status. */
+  status?: ListAuthTokensRequestStatus | (string & {}) | undefined;
+}
 export interface ListAuthTokensResponseBodyCase0Pagination {
   count: number;
   next: string | null;
@@ -633,6 +648,7 @@ function __c3(j: number): any {
           createdAt: S.Number,
           expiresAt: S.optional(S.Number),
           id: S.String,
+          kind: S.String,
           leakedAt: S.optional(S.Number),
           leakedUrl: S.optional(S.String),
           name: S.String,
@@ -698,7 +714,10 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v6/user/tokens", code: 200 })),
+        S.Struct({
+          kind: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v6/user/tokens", code: 200 })),
       ).annotate({ identifier: "ListAuthTokensRequest" });
     case 1:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({

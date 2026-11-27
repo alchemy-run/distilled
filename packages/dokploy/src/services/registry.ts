@@ -118,9 +118,7 @@ export interface UpdateRegistryRequest {
   username?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   registryUrl?: string | undefined;
-  createdAt?: string | undefined;
   registryType?: UpdateRegistryRequestRegistryType | (string & {}) | undefined;
-  organizationId?: string | undefined;
   serverId?: string | undefined;
 }
 export type UpdateRegistryResponse = unknown;
@@ -392,9 +390,7 @@ function __c8(j: number): any {
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           registryUrl: S.optional(S.String),
-          createdAt: S.optional(S.String),
           registryType: S.optional(S.String),
-          organizationId: S.optional(S.String),
           serverId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/registry.update", code: 200 })),
       ).annotate({ identifier: "UpdateRegistryRequest" });

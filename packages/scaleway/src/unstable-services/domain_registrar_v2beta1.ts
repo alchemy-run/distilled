@@ -237,6 +237,120 @@ export interface CheckContactsCompatibilityResponse {
   /** Compatibility check result for the technical contact. */
   technical_check_result?: CheckContactsCompatibilityResponseContactCheckResult | undefined;
 }
+export interface CreateContactRequest {
+  /** Project ID to create the contact in. */
+  project_id?: string | undefined;
+  /** Legal form of the contact (individual, corporate, association, other). */
+  legal_form?: ContactLegalForm | (string & {}) | undefined;
+  /** First name of the contact. */
+  firstname?: string | undefined;
+  /** Last name of the contact. */
+  lastname?: string | undefined;
+  /** Company name of the contact (required for corporate legal forms). */
+  company_name?: string | null | undefined;
+  /** Email address of the contact. */
+  email?: string | undefined;
+  /** Alternative email address of the contact. */
+  email_alt?: string | null | undefined;
+  /** Phone number of the contact, normalized to +CC.NationalNumber format. */
+  phone_number?: string | undefined;
+  /** Fax number of the contact, normalized to +CC.NationalNumber format. */
+  fax_number?: string | null | undefined;
+  /** First line of the contact's address. */
+  address_line_1?: string | undefined;
+  /** Second line of the contact's address. */
+  address_line_2?: string | null | undefined;
+  /** Postal code of the contact. */
+  zip?: string | undefined;
+  /** City of the contact. */
+  city?: string | undefined;
+  /** State or region of the contact. */
+  state?: string | null | undefined;
+  /** Country code of the contact (ISO 3166-1 alpha-2 format). */
+  country?: string | undefined;
+  /** VAT identification code of the contact. */
+  vat_identification_code?: string | null | undefined;
+  /** Company identification code of the contact (SIRET/SIREN for French contacts, any format for others). */
+  company_identification_code?: string | null | undefined;
+  /** Preferred language of the contact. */
+  lang?: ScalewayStdLanguageCode | (string & {}) | undefined;
+  /** Indicates whether the contact's information can be resold. */
+  resale?: boolean | undefined;
+  /** Indicates whether the contact's information is published in the WHOIS database. */
+  whois_opt_in?: boolean | undefined;
+  /** Additional information required for AFNIC-managed TLDs (.fr, .re, .pm, .yt, .wf, .tf). */
+  extension_fr?: ContactExtensionFR | undefined;
+  /** Additional information required for .eu domains. Conditionally required. */
+  extension_eu?: ContactExtensionEU | undefined;
+  /** Additional information required for .nl domains. Auto-populated for individuals. */
+  extension_nl?: ContactExtensionNL | undefined;
+  /** Additional information required for .it domains. Contains a PIN. */
+  extension_it?: ContactExtensionIT | undefined;
+}
+export type ContactEmailStatus =
+  | "email_status_unknown"
+  | "validated"
+  | "not_validated"
+  | "invalid_email";
+export type ContactStatus = "status_unknown" | "active" | "pending";
+export type ContactQuestionsList = Array<ContactQuestion>;
+export interface Contact {
+  /** The unique identifier of the contact. */
+  id?: string | undefined;
+  /** Legal form of the contact (individual, corporate, association, other). */
+  legal_form?: ContactLegalForm | undefined;
+  /** First name of the contact. */
+  firstname?: string | undefined;
+  /** Last name of the contact. */
+  lastname?: string | undefined;
+  /** Company name of the contact (required for corporate legal forms). */
+  company_name?: string | undefined;
+  /** Email address of the contact. */
+  email?: string | undefined;
+  /** Alternative email address of the contact. */
+  email_alt?: string | undefined;
+  /** Phone number of the contact, normalized to +CC.NationalNumber format. */
+  phone_number?: string | undefined;
+  /** Fax number of the contact, normalized to +CC.NationalNumber format. */
+  fax_number?: string | undefined;
+  /** First line of the contact's address. */
+  address_line_1?: string | undefined;
+  /** Second line of the contact's address. */
+  address_line_2?: string | undefined;
+  /** Postal code of the contact. */
+  zip?: string | undefined;
+  /** City of the contact. */
+  city?: string | undefined;
+  /** Country code of the contact (ISO 3166-1 alpha-2 format). */
+  country?: string | undefined;
+  /** VAT identification code of the contact. */
+  vat_identification_code?: string | undefined;
+  /** Company identification code of the contact (SIRET/SIREN for French contacts, any format for others). */
+  company_identification_code?: string | undefined;
+  /** Preferred language of the contact. */
+  lang?: ScalewayStdLanguageCode | undefined;
+  /** Indicates whether the contact's information can be resold. */
+  resale?: boolean | undefined;
+  /** Additional information required for AFNIC-managed TLDs (.fr, .re, .pm, .yt, .wf, .tf). */
+  extension_fr?: ContactExtensionFR | undefined;
+  /** Additional information required for .eu domains. Conditionally required. */
+  extension_eu?: ContactExtensionEU | undefined;
+  /** Indicates whether the contact's information is published in the WHOIS database. */
+  whois_opt_in?: boolean | undefined;
+  /** Email validation status of the contact. */
+  email_status?: ContactEmailStatus | undefined;
+  /** State or region of the contact. */
+  state?: string | undefined;
+  /** Additional information required for .nl domains. Auto-populated for individuals. */
+  extension_nl?: ContactExtensionNL | undefined;
+  /** Status of the contact. */
+  status?: ContactStatus | undefined;
+  /** Additional information required for .it domains. Contains a PIN. */
+  extension_it?: ContactExtensionIT | undefined;
+  questions?: ContactQuestionsList | undefined;
+  /** The SRN of the contact. */
+  srn?: string | undefined;
+}
 /** List of glue IP addresses associated with the hostname. (IP address) */
 export type CreateDomainHostRequestIpsList = Array<string>;
 export interface CreateDomainHostRequest {
@@ -366,70 +480,6 @@ export interface DNSZone {
 }
 /** List of the domain's DNS zones. */
 export type DomainDnsZonesList = Array<DNSZone>;
-export type ContactEmailStatus =
-  | "email_status_unknown"
-  | "validated"
-  | "not_validated"
-  | "invalid_email";
-export type ContactStatus = "status_unknown" | "active" | "pending";
-export type ContactQuestionsList = Array<ContactQuestion>;
-export interface Contact {
-  /** The unique identifier of the contact. */
-  id?: string | undefined;
-  /** Legal form of the contact (individual, corporate, association, other). */
-  legal_form?: ContactLegalForm | undefined;
-  /** First name of the contact. */
-  firstname?: string | undefined;
-  /** Last name of the contact. */
-  lastname?: string | undefined;
-  /** Company name of the contact (required for corporate legal forms). */
-  company_name?: string | undefined;
-  /** Email address of the contact. */
-  email?: string | undefined;
-  /** Alternative email address of the contact. */
-  email_alt?: string | undefined;
-  /** Phone number of the contact, normalized to +CC.NationalNumber format. */
-  phone_number?: string | undefined;
-  /** Fax number of the contact, normalized to +CC.NationalNumber format. */
-  fax_number?: string | undefined;
-  /** First line of the contact's address. */
-  address_line_1?: string | undefined;
-  /** Second line of the contact's address. */
-  address_line_2?: string | undefined;
-  /** Postal code of the contact. */
-  zip?: string | undefined;
-  /** City of the contact. */
-  city?: string | undefined;
-  /** Country code of the contact (ISO 3166-1 alpha-2 format). */
-  country?: string | undefined;
-  /** VAT identification code of the contact. */
-  vat_identification_code?: string | undefined;
-  /** Company identification code of the contact (SIRET/SIREN for French contacts, any format for others). */
-  company_identification_code?: string | undefined;
-  /** Preferred language of the contact. */
-  lang?: ScalewayStdLanguageCode | undefined;
-  /** Indicates whether the contact's information can be resold. */
-  resale?: boolean | undefined;
-  /** Additional information required for AFNIC-managed TLDs (.fr, .re, .pm, .yt, .wf, .tf). */
-  extension_fr?: ContactExtensionFR | undefined;
-  /** Additional information required for .eu domains. Conditionally required. */
-  extension_eu?: ContactExtensionEU | undefined;
-  /** Indicates whether the contact's information is published in the WHOIS database. */
-  whois_opt_in?: boolean | undefined;
-  /** Email validation status of the contact. */
-  email_status?: ContactEmailStatus | undefined;
-  /** State or region of the contact. */
-  state?: string | undefined;
-  /** Additional information required for .nl domains. Auto-populated for individuals. */
-  extension_nl?: ContactExtensionNL | undefined;
-  /** Status of the contact. */
-  status?: ContactStatus | undefined;
-  /** Additional information required for .it domains. Contains a PIN. */
-  extension_it?: ContactExtensionIT | undefined;
-  questions?: ContactQuestionsList | undefined;
-  /** The SRN of the contact. */
-  srn?: string | undefined;
-}
 export interface DomainRegistrationStatusExternalDomain {
   /** Validation token for the external domain registration. */
   validation_token?: string | Redacted.Redacted<string> | undefined;
@@ -1123,6 +1173,24 @@ export const checkContactsCompatibility: API.OperationMethod<
   span: "CheckContactsCompatibility",
 }));
 
+export type CreateContactError = ScalewayOpError;
+/** Create contact Create a new contact with the provided information. */
+export const createContact: API.OperationMethod<
+  CreateContactRequest,
+  Contact,
+  CreateContactError,
+  ScalewayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<CreateContactRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Contact>,
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
+  protocol: ScalewayProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
+}));
+
 export type CreateDomainHostError = ScalewayOpError;
 /** Create a hostname for a domain Create a hostname for a domain with glue IPs. */
 export const createDomainHost: API.OperationMethod<
@@ -1131,8 +1199,8 @@ export const createDomainHost: API.OperationMethod<
   CreateDomainHostError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateDomainHostRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Host>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateDomainHostRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Host>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1149,8 +1217,8 @@ export const deleteDomainHost: API.OperationMethod<
   DeleteDomainHostError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteDomainHostRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Host>,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteDomainHostRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Host>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1167,8 +1235,8 @@ export const deleteExternalDomain: API.OperationMethod<
   DeleteExternalDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteExternalDomainRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteExternalDomainResponse2>,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteExternalDomainRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<DeleteExternalDomainResponse2>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1185,8 +1253,8 @@ export const disableDomainAutoRenew: API.OperationMethod<
   DisableDomainAutoRenewError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DisableDomainAutoRenewRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(544, __c34, 0) as any as S.Schema<DisableDomainAutoRenewRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1203,8 +1271,8 @@ export const disableDomainDNSSEC: API.OperationMethod<
   DisableDomainDNSSECError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DisableDomainDNSSECRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(624, __c39, 0) as any as S.Schema<DisableDomainDNSSECRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1221,8 +1289,8 @@ export const enableDomainAutoRenew: API.OperationMethod<
   EnableDomainAutoRenewError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<EnableDomainAutoRenewRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(640, __c40, 0) as any as S.Schema<EnableDomainAutoRenewRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1239,8 +1307,8 @@ export const enableDomainDNSSEC: API.OperationMethod<
   EnableDomainDNSSECError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<EnableDomainDNSSECRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(656, __c41, 0) as any as S.Schema<EnableDomainDNSSECRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1257,8 +1325,8 @@ export const getContact: API.OperationMethod<
   GetContactError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<Contact>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetContactRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Contact>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1275,8 +1343,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1293,8 +1361,8 @@ export const getDomainAuthCode: API.OperationMethod<
   GetDomainAuthCodeError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetDomainAuthCodeRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetDomainAuthCodeResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetDomainAuthCodeRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetDomainAuthCodeResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1313,8 +1381,8 @@ export const listContacts: API.PaginatedOperationMethod<
   ContactRoles
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c8, 0) as any as S.Schema<ListContactsRequest>,
-    output: __S(133, __c8, 5) as any as S.Schema<ListContactsResponse>,
+    input: __S(144, __c9, 0) as any as S.Schema<ListContactsRequest>,
+    output: __S(149, __c9, 5) as any as S.Schema<ListContactsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1342,8 +1410,8 @@ export const listDomainHosts: API.PaginatedOperationMethod<
   Host
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(144, __c9, 0) as any as S.Schema<ListDomainHostsRequest>,
-    output: __S(146, __c9, 2) as any as S.Schema<ListDomainHostsResponse>,
+    input: __S(160, __c10, 0) as any as S.Schema<ListDomainHostsRequest>,
+    output: __S(162, __c10, 2) as any as S.Schema<ListDomainHostsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1371,8 +1439,8 @@ export const listDomains: API.PaginatedOperationMethod<
   DomainSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c10, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(163, __c10, 3) as any as S.Schema<ListDomainsResponse>,
+    input: __S(176, __c11, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(179, __c11, 3) as any as S.Schema<ListDomainsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1400,8 +1468,8 @@ export const listInboundTransfers: API.PaginatedOperationMethod<
   InboundTransfer
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(176, __c11, 0) as any as S.Schema<ListInboundTransfersRequest>,
-    output: __S(179, __c11, 3) as any as S.Schema<ListInboundTransfersResponse>,
+    input: __S(192, __c12, 0) as any as S.Schema<ListInboundTransfersRequest>,
+    output: __S(195, __c12, 3) as any as S.Schema<ListInboundTransfersResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1429,8 +1497,8 @@ export const listRenewableDomains: API.PaginatedOperationMethod<
   RenewableDomain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c12, 0) as any as S.Schema<ListRenewableDomainsRequest>,
-    output: __S(195, __c12, 3) as any as S.Schema<ListRenewableDomainsResponse>,
+    input: __S(208, __c13, 0) as any as S.Schema<ListRenewableDomainsRequest>,
+    output: __S(211, __c13, 3) as any as S.Schema<ListRenewableDomainsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1458,8 +1526,8 @@ export const listTasks: API.PaginatedOperationMethod<
   Task
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(208, __c13, 0) as any as S.Schema<ListTasksRequest>,
-    output: __S(211, __c13, 3) as any as S.Schema<ListTasksResponse>,
+    input: __S(224, __c14, 0) as any as S.Schema<ListTasksRequest>,
+    output: __S(227, __c14, 3) as any as S.Schema<ListTasksResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1487,8 +1555,8 @@ export const listTlds: API.PaginatedOperationMethod<
   Tld
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c14, 0) as any as S.Schema<ListTldsRequest>,
-    output: __S(226, __c14, 2) as any as S.Schema<ListTldsResponse>,
+    input: __S(240, __c15, 0) as any as S.Schema<ListTldsRequest>,
+    output: __S(242, __c15, 2) as any as S.Schema<ListTldsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1514,8 +1582,8 @@ export const lockDomainTransfer: API.OperationMethod<
   LockDomainTransferError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<LockDomainTransferRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(288, __c18, 0) as any as S.Schema<LockDomainTransferRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1532,8 +1600,8 @@ export const registerExternalDomain: API.OperationMethod<
   RegisterExternalDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<RegisterExternalDomainRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<RegisterExternalDomainResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<RegisterExternalDomainRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<RegisterExternalDomainResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1550,7 +1618,7 @@ export const renewDomains: API.OperationMethod<
   RenewDomainsError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<RenewDomainsRequest>,
+  input: __S(320, __c20, 0) as any as S.Schema<RenewDomainsRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<OrderResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -1568,8 +1636,8 @@ export const retryInboundTransfer: API.OperationMethod<
   RetryInboundTransferError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<RetryInboundTransferRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<RetryInboundTransferResponse2>,
+  input: __S(336, __c21, 0) as any as S.Schema<RetryInboundTransferRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<RetryInboundTransferResponse2>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1586,8 +1654,8 @@ export const searchAvailableDomains: API.OperationMethod<
   SearchAvailableDomainsError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<SearchAvailableDomainsRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<SearchAvailableDomainsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<SearchAvailableDomainsRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<SearchAvailableDomainsResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1604,7 +1672,7 @@ export const tradeDomain: API.OperationMethod<
   TradeDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<TradeDomainRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<TradeDomainRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<OrderResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -1622,7 +1690,7 @@ export const transferInDomain: API.OperationMethod<
   TransferInDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(370, __c23, 2) as any as S.Schema<TransferInDomainRequest>,
+  input: __S(386, __c24, 2) as any as S.Schema<TransferInDomainRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<OrderResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -1640,8 +1708,8 @@ export const unlockDomainTransfer: API.OperationMethod<
   UnlockDomainTransferError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<UnlockDomainTransferRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(400, __c25, 0) as any as S.Schema<UnlockDomainTransferRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1658,8 +1726,8 @@ export const updateContact: API.OperationMethod<
   UpdateContactError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(402, __c25, 2) as any as S.Schema<UpdateContactRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<Contact>,
+  input: __S(418, __c26, 2) as any as S.Schema<UpdateContactRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Contact>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1676,8 +1744,8 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Domain>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateDomainRequest>,
+  output: __S(615, __c38, 7) as any as S.Schema<Domain>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1694,8 +1762,8 @@ export const updateDomainHost: API.OperationMethod<
   UpdateDomainHostError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(433, __c27, 1) as any as S.Schema<UpdateDomainHostRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Host>,
+  input: __S(481, __c30, 1) as any as S.Schema<UpdateDomainHostRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Host>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1710,7 +1778,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(16, __c1, 0),
+          domains: __S(48, __c3, 0),
           duration_in_years: S.optional(S.Number),
           project_id: S.optional(S.String),
           owner_contact_id: S.optional(S.NullOr(S.String)),
@@ -1732,45 +1800,6 @@ function __c0(j: number): any {
   }
 }
 function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          legal_form: S.optional(S.String),
-          firstname: S.optional(S.String),
-          lastname: S.optional(S.String),
-          company_name: S.optional(S.NullOr(S.String)),
-          email: S.optional(S.String),
-          email_alt: S.optional(S.NullOr(S.String)),
-          phone_number: S.optional(S.String),
-          fax_number: S.optional(S.NullOr(S.String)),
-          address_line_1: S.optional(S.String),
-          address_line_2: S.optional(S.NullOr(S.String)),
-          zip: S.optional(S.String),
-          city: S.optional(S.String),
-          country: S.optional(S.String),
-          vat_identification_code: S.optional(S.NullOr(S.String)),
-          company_identification_code: S.optional(S.NullOr(S.String)),
-          lang: S.optional(S.String),
-          resale: S.optional(S.Boolean),
-          extension_fr: S.optional(__S(53, __c3, 5)),
-          extension_eu: S.optional(__S(54, __c3, 6)),
-          whois_opt_in: S.optional(S.Boolean),
-          state: S.optional(S.NullOr(S.String)),
-          extension_nl: S.optional(__S(55, __c3, 7)),
-          extension_it: S.optional(__S(56, __c3, 8)),
-          questions: S.optional(__S(58, __c3, 10)),
-        }),
-      ).annotate({ identifier: "NewContact" });
-  }
-}
-function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1808,11 +1837,11 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          individual_info: S.optional(S.NullOr(__S(48, __c3, 0))),
-          duns_info: S.optional(S.NullOr(__S(49, __c3, 1))),
-          association_info: S.optional(S.NullOr(__S(50, __c3, 2))),
-          trademark_info: S.optional(S.NullOr(__S(51, __c3, 3))),
-          code_auth_afnic_info: S.optional(S.NullOr(__S(52, __c3, 4))),
+          individual_info: S.optional(S.NullOr(__S(16, __c1, 0))),
+          duns_info: S.optional(S.NullOr(__S(17, __c1, 1))),
+          association_info: S.optional(S.NullOr(__S(18, __c1, 2))),
+          trademark_info: S.optional(S.NullOr(__S(19, __c1, 3))),
+          code_auth_afnic_info: S.optional(S.NullOr(__S(20, __c1, 4))),
         }),
       ).annotate({ identifier: "ContactExtensionFR" });
     case 6:
@@ -1844,7 +1873,46 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ContactQuestion" });
     case 10:
-      return S.Array(__S(57, __c3, 9));
+      return S.Array(__S(25, __c1, 9));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          legal_form: S.optional(S.String),
+          firstname: S.optional(S.String),
+          lastname: S.optional(S.String),
+          company_name: S.optional(S.NullOr(S.String)),
+          email: S.optional(S.String),
+          email_alt: S.optional(S.NullOr(S.String)),
+          phone_number: S.optional(S.String),
+          fax_number: S.optional(S.NullOr(S.String)),
+          address_line_1: S.optional(S.String),
+          address_line_2: S.optional(S.NullOr(S.String)),
+          zip: S.optional(S.String),
+          city: S.optional(S.String),
+          country: S.optional(S.String),
+          vat_identification_code: S.optional(S.NullOr(S.String)),
+          company_identification_code: S.optional(S.NullOr(S.String)),
+          lang: S.optional(S.String),
+          resale: S.optional(S.Boolean),
+          extension_fr: S.optional(__S(21, __c1, 5)),
+          extension_eu: S.optional(__S(22, __c1, 6)),
+          whois_opt_in: S.optional(S.Boolean),
+          state: S.optional(S.NullOr(S.String)),
+          extension_nl: S.optional(__S(23, __c1, 7)),
+          extension_it: S.optional(__S(24, __c1, 8)),
+          questions: S.optional(__S(26, __c1, 10)),
+        }),
+      ).annotate({ identifier: "NewContact" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
   }
 }
 function __c4(j: number): any {
@@ -1852,7 +1920,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(16, __c1, 0)),
+          domains: S.optional(__S(48, __c3, 0)),
           organization_id: S.optional(S.String),
           project_id: S.optional(S.String),
           task_id: S.optional(S.String),
@@ -1866,8 +1934,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(16, __c1, 0)),
-          tlds: S.optional(__S(16, __c1, 0)),
+          domains: S.optional(__S(48, __c3, 0)),
+          tlds: S.optional(__S(48, __c3, 0)),
           owner_contact_id: S.optional(S.NullOr(S.String)),
           owner_contact: S.optional(S.NullOr(__S(32, __c2, 0))),
           administrative_contact_id: S.optional(S.NullOr(S.String)),
@@ -1906,6 +1974,23 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          contact_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/domain/v2beta1/contacts/{contact_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "GetContactRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           domain: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1918,7 +2003,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1941,7 +2026,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetDomainAuthCodeResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1976,26 +2061,26 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ContactRolesRoles" });
     case 2:
-      return S.Record(S.String, __S(129, __c8, 1));
+      return S.Record(S.String, __S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contact: S.optional(__S(576, __c36, 0)),
-          roles: S.optional(__S(130, __c8, 2)),
+          contact: S.optional(__S(272, __c17, 0)),
+          roles: S.optional(__S(146, __c9, 2)),
         }),
       ).annotate({ identifier: "ContactRoles" });
     case 4:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(147, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          contacts: __S(132, __c8, 4),
+          contacts: __S(148, __c9, 4),
         }),
       ).annotate({ identifier: "ListContactsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2013,17 +2098,17 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListDomainHostsRequest" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          hosts: __S(145, __c9, 1),
+          hosts: __S(161, __c10, 1),
         }),
       ).annotate({ identifier: "ListDomainHostsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2054,31 +2139,31 @@ function __c10(j: number): any {
           organization_id: S.optional(S.String),
           auto_renew_status: S.optional(S.String),
           dnssec_status: S.optional(S.String),
-          epp_code: S.optional(__S(16, __c1, 0)),
+          epp_code: S.optional(__S(48, __c3, 0)),
           expired_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.NullOr(S.String)),
           registrar: S.optional(S.String),
           is_external: S.optional(S.Boolean),
           status: S.optional(S.String),
-          external_domain_registration_status: S.optional(S.NullOr(__S(512, __c32, 0))),
-          transfer_registration_status: S.optional(S.NullOr(__S(513, __c32, 1))),
+          external_domain_registration_status: S.optional(S.NullOr(__S(560, __c35, 0))),
+          transfer_registration_status: S.optional(S.NullOr(__S(561, __c35, 1))),
           pending_trade: S.optional(S.Boolean),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainSummary" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          domains: __S(162, __c10, 2),
+          domains: __S(178, __c11, 2),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2111,17 +2196,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "InboundTransfer" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(193, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          inbound_transfers: __S(178, __c11, 2),
+          inbound_transfers: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "ListInboundTransfersResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2152,22 +2237,22 @@ function __c12(j: number): any {
           limit_renew_at: S.optional(S.NullOr(S.String)),
           limit_redemption_at: S.optional(S.NullOr(S.String)),
           estimated_delete_at: S.optional(S.NullOr(S.String)),
-          tld: S.optional(__S(532, __c33, 4)),
+          tld: S.optional(__S(580, __c36, 4)),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "RenewableDomain" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          domains: __S(194, __c12, 2),
+          domains: __S(210, __c13, 2),
         }),
       ).annotate({ identifier: "ListRenewableDomainsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2177,8 +2262,8 @@ function __c13(j: number): any {
           project_id: S.optional(S.String.pipe(T.Query())),
           organization_id: S.optional(S.String.pipe(T.Query())),
           domain: S.optional(S.String.pipe(T.Query())),
-          types: S.optional(__S(544, __c34, 0).pipe(T.Query())),
-          statuses: S.optional(__S(544, __c34, 0).pipe(T.Query())),
+          types: S.optional(__S(592, __c37, 0).pipe(T.Query())),
+          statuses: S.optional(__S(592, __c37, 0).pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2206,22 +2291,22 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "Task" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          tasks: __S(210, __c13, 2),
+          tasks: __S(226, __c14, 2),
         }),
       ).annotate({ identifier: "ListTasksResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tlds: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          tlds: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           page_size: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
@@ -2235,17 +2320,94 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTldsRequest" });
     case 1:
-      return S.Array(__S(532, __c33, 4));
+      return S.Array(__S(580, __c36, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tlds: __S(225, __c14, 1),
+          tlds: __S(241, __c15, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListTldsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.optional(S.String),
+          legal_form: S.optional(S.String),
+          firstname: S.optional(S.String),
+          lastname: S.optional(S.String),
+          company_name: S.optional(S.NullOr(S.String)),
+          email: S.optional(S.String),
+          email_alt: S.optional(S.NullOr(S.String)),
+          phone_number: S.optional(S.String),
+          fax_number: S.optional(S.NullOr(S.String)),
+          address_line_1: S.optional(S.String),
+          address_line_2: S.optional(S.NullOr(S.String)),
+          zip: S.optional(S.String),
+          city: S.optional(S.String),
+          state: S.optional(S.NullOr(S.String)),
+          country: S.optional(S.String),
+          vat_identification_code: S.optional(S.NullOr(S.String)),
+          company_identification_code: S.optional(S.NullOr(S.String)),
+          lang: S.optional(S.String),
+          resale: S.optional(S.Boolean),
+          whois_opt_in: S.optional(S.Boolean),
+          extension_fr: S.optional(__S(21, __c1, 5)),
+          extension_eu: S.optional(__S(22, __c1, 6)),
+          extension_nl: S.optional(__S(23, __c1, 7)),
+          extension_it: S.optional(__S(24, __c1, 8)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/domain/v2beta1/contacts",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "CreateContactRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          legal_form: S.optional(S.String),
+          firstname: S.optional(S.String),
+          lastname: S.optional(S.String),
+          company_name: S.optional(S.String),
+          email: S.optional(S.String),
+          email_alt: S.optional(S.String),
+          phone_number: S.optional(S.String),
+          fax_number: S.optional(S.String),
+          address_line_1: S.optional(S.String),
+          address_line_2: S.optional(S.String),
+          zip: S.optional(S.String),
+          city: S.optional(S.String),
+          country: S.optional(S.String),
+          vat_identification_code: S.optional(S.String),
+          company_identification_code: S.optional(S.String),
+          lang: S.optional(S.String),
+          resale: S.optional(S.Boolean),
+          extension_fr: S.optional(__S(21, __c1, 5)),
+          extension_eu: S.optional(__S(22, __c1, 6)),
+          whois_opt_in: S.optional(S.Boolean),
+          email_status: S.optional(S.String),
+          state: S.optional(S.String),
+          extension_nl: S.optional(__S(23, __c1, 7)),
+          status: S.optional(S.String),
+          extension_it: S.optional(__S(24, __c1, 8)),
+          questions: S.optional(__S(26, __c1, 10)),
+          srn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Contact" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2262,39 +2424,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "LockDomainTransferRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          ips: S.optional(__S(16, __c1, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/domain/v2beta1/domains/{domain}/hosts",
-            code: 200,
-            baseUrl: "https://api.scaleway.com",
-          }),
-        ),
-      ).annotate({ identifier: "CreateDomainHostRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          name: S.optional(S.String),
-          ips: S.optional(__S(16, __c1, 0)),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Host" });
-  }
-}
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2322,12 +2452,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RegisterExternalDomainResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(16, __c1, 0),
+          domains: __S(48, __c3, 0),
           duration_in_years: S.optional(S.Number),
           force_late_renewal: S.optional(S.NullOr(S.Boolean)),
         }).pipe(
@@ -2341,7 +2471,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RenewDomainsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2360,13 +2490,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RetryInboundTransferRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(16, __c1, 0).pipe(T.Query()),
-          tlds: S.optional(__S(16, __c1, 0).pipe(T.Query())),
+          domains: __S(48, __c3, 0).pipe(T.Query()),
+          tlds: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           strict_search: S.Boolean.pipe(T.Query()),
           include_exact_match: S.Boolean.pipe(T.Query()),
         }).pipe(
@@ -2383,21 +2513,21 @@ function __c21(j: number): any {
         S.Struct({
           domain: S.optional(S.String),
           available: S.optional(S.Boolean),
-          tld: S.optional(__S(532, __c33, 4)),
+          tld: S.optional(__S(580, __c36, 4)),
         }),
       ).annotate({ identifier: "AvailableDomain" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          available_domains: S.optional(__S(338, __c21, 2)),
-          exact_match_domain: S.optional(__S(337, __c21, 1)),
+          available_domains: S.optional(__S(354, __c22, 2)),
+          exact_match_domain: S.optional(__S(353, __c22, 1)),
         }),
       ).annotate({ identifier: "SearchAvailableDomainsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2417,7 +2547,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TradeDomainRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2427,11 +2557,11 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "TransferInDomainRequestTransferRequest" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(369, __c23, 1),
+          domains: __S(385, __c24, 1),
           project_id: S.optional(S.String),
           owner_contact_id: S.optional(S.NullOr(S.String)),
           owner_contact: S.optional(S.NullOr(__S(32, __c2, 0))),
@@ -2450,7 +2580,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TransferInDomainRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2467,7 +2597,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UnlockDomainTransferRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2477,7 +2607,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "UpdateContactRequestQuestion" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2495,13 +2625,13 @@ function __c25(j: number): any {
           company_identification_code: S.optional(S.NullOr(S.String)),
           lang: S.optional(S.String),
           resale: S.optional(S.NullOr(S.Boolean)),
-          extension_fr: S.optional(__S(53, __c3, 5)),
-          extension_eu: S.optional(__S(54, __c3, 6)),
-          extension_nl: S.optional(__S(55, __c3, 7)),
-          extension_it: S.optional(__S(56, __c3, 8)),
+          extension_fr: S.optional(__S(21, __c1, 5)),
+          extension_eu: S.optional(__S(22, __c1, 6)),
+          extension_nl: S.optional(__S(23, __c1, 7)),
+          extension_it: S.optional(__S(24, __c1, 8)),
           whois_opt_in: S.optional(S.NullOr(S.Boolean)),
           state: S.optional(S.NullOr(S.String)),
-          questions: S.optional(__S(401, __c25, 1)),
+          questions: S.optional(__S(417, __c26, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2513,7 +2643,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateContactRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2536,7 +2666,39 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateDomainRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          ips: S.optional(__S(48, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/domain/v2beta1/domains/{domain}/hosts",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "CreateDomainHostRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          name: S.optional(S.String),
+          ips: S.optional(__S(48, __c3, 0)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Host" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2545,7 +2707,7 @@ function __c27(j: number): any {
         S.Struct({
           domain: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          ips: S.optional(S.NullOr(__S(432, __c27, 0))),
+          ips: S.optional(S.NullOr(__S(480, __c30, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2557,7 +2719,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateDomainHostRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2575,7 +2737,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteDomainHostRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2592,7 +2754,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteExternalDomainRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -2600,7 +2762,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2617,7 +2779,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DisableDomainAutoRenewRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2635,7 +2797,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DomainRegistrationStatusTransfer" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2650,11 +2812,11 @@ function __c33(j: number): any {
         S.Struct({
           action: S.optional(S.String),
           operation_path: S.optional(S.String),
-          price: S.optional(__S(528, __c33, 0)),
+          price: S.optional(__S(576, __c36, 0)),
         }),
       ).annotate({ identifier: "TldOffer" });
     case 2:
-      return S.Record(S.String, __S(529, __c33, 1));
+      return S.Record(S.String, __S(577, __c36, 1));
     case 3:
       return S.Record(S.String, S.String);
     case 4:
@@ -2665,20 +2827,20 @@ function __c33(j: number): any {
           duration_in_years_min: S.optional(S.Number),
           duration_in_years_max: S.optional(S.Number),
           idn_support: S.optional(S.Boolean),
-          offers: S.optional(__S(530, __c33, 2)),
-          specifications: S.optional(__S(531, __c33, 3)),
+          offers: S.optional(__S(578, __c36, 2)),
+          specifications: S.optional(__S(579, __c36, 3)),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tld" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,7 +2853,7 @@ function __c35(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           digest: S.optional(S.String),
-          public_key: S.optional(__S(560, __c35, 0)),
+          public_key: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "DSRecordDigest" });
     case 2:
@@ -2699,17 +2861,17 @@ function __c35(j: number): any {
         S.Struct({
           key_id: S.optional(S.Number),
           algorithm: S.optional(S.String),
-          digest: S.optional(S.NullOr(__S(561, __c35, 1))),
-          public_key: S.optional(S.NullOr(__S(560, __c35, 0))),
+          digest: S.optional(S.NullOr(__S(609, __c38, 1))),
+          public_key: S.optional(S.NullOr(__S(608, __c38, 0))),
         }),
       ).annotate({ identifier: "DSRecord" });
     case 3:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ds_records: S.optional(__S(563, __c35, 3)),
+          ds_records: S.optional(__S(611, __c38, 3)),
         }),
       ).annotate({ identifier: "DomainDNSSEC" });
     case 5:
@@ -2717,20 +2879,20 @@ function __c35(j: number): any {
         S.Struct({
           domain: S.optional(S.String),
           subdomain: S.optional(S.String),
-          ns: S.optional(__S(16, __c1, 0)),
-          ns_default: S.optional(__S(16, __c1, 0)),
-          ns_master: S.optional(__S(16, __c1, 0)),
+          ns: S.optional(__S(48, __c3, 0)),
+          ns_default: S.optional(__S(48, __c3, 0)),
+          ns_master: S.optional(__S(48, __c3, 0)),
           status: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           project_id: S.optional(S.String),
-          linked_products: S.optional(__S(544, __c34, 0)),
+          linked_products: S.optional(__S(592, __c37, 0)),
           srn: S.optional(S.String),
           dns_zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "DNSZone" });
     case 6:
-      return S.Array(__S(565, __c35, 5));
+      return S.Array(__S(613, __c38, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2738,65 +2900,28 @@ function __c35(j: number): any {
           organization_id: S.optional(S.String),
           project_id: S.optional(S.String),
           auto_renew_status: S.optional(S.String),
-          dnssec: S.optional(__S(564, __c35, 4)),
-          epp_code: S.optional(__S(16, __c1, 0)),
+          dnssec: S.optional(__S(612, __c38, 4)),
+          epp_code: S.optional(__S(48, __c3, 0)),
           expired_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           registrar: S.optional(S.String),
           is_external: S.optional(S.Boolean),
           status: S.optional(S.String),
-          dns_zones: S.optional(__S(566, __c35, 6)),
-          owner_contact: S.optional(__S(576, __c36, 0)),
-          technical_contact: S.optional(__S(576, __c36, 0)),
-          administrative_contact: S.optional(__S(576, __c36, 0)),
-          external_domain_registration_status: S.optional(S.NullOr(__S(512, __c32, 0))),
-          transfer_registration_status: S.optional(S.NullOr(__S(513, __c32, 1))),
-          tld: S.optional(__S(532, __c33, 4)),
-          linked_products: S.optional(__S(544, __c34, 0)),
+          dns_zones: S.optional(__S(614, __c38, 6)),
+          owner_contact: S.optional(__S(272, __c17, 0)),
+          technical_contact: S.optional(__S(272, __c17, 0)),
+          administrative_contact: S.optional(__S(272, __c17, 0)),
+          external_domain_registration_status: S.optional(S.NullOr(__S(560, __c35, 0))),
+          transfer_registration_status: S.optional(S.NullOr(__S(561, __c35, 1))),
+          tld: S.optional(__S(580, __c36, 4)),
+          linked_products: S.optional(__S(592, __c37, 0)),
           pending_trade: S.optional(S.Boolean),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          legal_form: S.optional(S.String),
-          firstname: S.optional(S.String),
-          lastname: S.optional(S.String),
-          company_name: S.optional(S.String),
-          email: S.optional(S.String),
-          email_alt: S.optional(S.String),
-          phone_number: S.optional(S.String),
-          fax_number: S.optional(S.String),
-          address_line_1: S.optional(S.String),
-          address_line_2: S.optional(S.String),
-          zip: S.optional(S.String),
-          city: S.optional(S.String),
-          country: S.optional(S.String),
-          vat_identification_code: S.optional(S.String),
-          company_identification_code: S.optional(S.String),
-          lang: S.optional(S.String),
-          resale: S.optional(S.Boolean),
-          extension_fr: S.optional(__S(53, __c3, 5)),
-          extension_eu: S.optional(__S(54, __c3, 6)),
-          whois_opt_in: S.optional(S.Boolean),
-          email_status: S.optional(S.String),
-          state: S.optional(S.String),
-          extension_nl: S.optional(__S(55, __c3, 7)),
-          status: S.optional(S.String),
-          extension_it: S.optional(__S(56, __c3, 8)),
-          questions: S.optional(__S(58, __c3, 10)),
-          srn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Contact" });
-  }
-}
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2813,7 +2938,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DisableDomainDNSSECRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2830,13 +2955,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "EnableDomainAutoRenewRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          ds_record: S.optional(__S(562, __c35, 2)),
+          ds_record: S.optional(__S(610, __c38, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2846,23 +2971,6 @@ function __c39(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EnableDomainDNSSECRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contact_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/domain/v2beta1/contacts/{contact_id}",
-            code: 200,
-            baseUrl: "https://api.scaleway.com",
-          }),
-        ),
-      ).annotate({ identifier: "GetContactRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

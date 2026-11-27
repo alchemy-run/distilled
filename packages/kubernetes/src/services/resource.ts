@@ -158,6 +158,20 @@ export interface IoK8sApiResourceV1DeviceClassConfiguration {
 /** config defines configuration parameters that apply to each device that is claimed via this class. Some classses may potentially be satisfied by multiple drivers, so each instance of a vendor configuration applies to exactly one driver. They are passed to the driver, but are not considered while allocating the claim. */
 export type IoK8sApiResourceV1DeviceClassSpecConfigList =
   Array<IoK8sApiResourceV1DeviceClassConfiguration>;
+/** requests represent individual device capacity requests for distinct resources. Each requested name must be defined as a device capacity and/or a shared capacity (referenced by a device through consumesCounters). For a per-device capacity, this value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0. With DRASharedConsumableCapacity enabled, a requested capacity may be provided as a shared capacity instead of a per-device capacity. If it is defined as both, the request must be satisfied by both independently. The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error. When a requestPolicy is defined, the requested amount is adjusted upward to the nearest valid value based on the policy. If the requested amount cannot be adjusted to a valid value--because it exceeds what the requestPolicy allows-- the device is considered ineligible for allocation. For any capacity that is not explicitly requested: - If no requestPolicy is set, the default consumed capacity is equal to the full device capacity (i.e., the whole device is claimed). - If a requestPolicy is set, the default consumed capacity is determined according to that policy. If the device allows multiple allocation, the aggregated amount across all requests must not exceed the capacity value. The consumed capacity, which may be adjusted based on the requestPolicy if defined, is recorded in the resource claim's status.devices[*].consumedCapacity field. Requests may have at most 32 entries. The values must not be negative. */
+export type IoK8sApiResourceV1CapacityRequirementsRequestsMap = {
+  [key: string]: string | undefined;
+};
+/** CapacityRequirements defines the capacity requirements for a specific device request. */
+export interface IoK8sApiResourceV1CapacityRequirements {
+  /** requests represent individual device capacity requests for distinct resources. Each requested name must be defined as a device capacity and/or a shared capacity (referenced by a device through consumesCounters). For a per-device capacity, this value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0. With DRASharedConsumableCapacity enabled, a requested capacity may be provided as a shared capacity instead of a per-device capacity. If it is defined as both, the request must be satisfied by both independently. The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error. When a requestPolicy is defined, the requested amount is adjusted upward to the nearest valid value based on the policy. If the requested amount cannot be adjusted to a valid value--because it exceeds what the requestPolicy allows-- the device is considered ineligible for allocation. For any capacity that is not explicitly requested: - If no requestPolicy is set, the default consumed capacity is equal to the full device capacity (i.e., the whole device is claimed). - If a requestPolicy is set, the default consumed capacity is determined according to that policy. If the device allows multiple allocation, the aggregated amount across all requests must not exceed the capacity value. The consumed capacity, which may be adjusted based on the requestPolicy if defined, is recorded in the resource claim's status.devices[*].consumedCapacity field. Requests may have at most 32 entries. The values must not be negative. */
+  requests?: IoK8sApiResourceV1CapacityRequirementsRequestsMap | undefined;
+}
+/** ExtendedResourceRequest defines fields which the scheduler copies onto the device request it synthesizes for an extended resource. */
+export interface IoK8sApiResourceV1ExtendedResourceRequest {
+  /** capacity defines the fixed capacity amounts that the scheduler requests on every ResourceClaim it synthesizes to satisfy the extended resource of this class. The value is copied, unmodified, onto the capacity of each device request synthesized for this class, so it has the same semantics as DeviceRequest.capacity: it applies to each device allocation. A pod requesting more than one device through the extended resource gets that capacity once per device, not once per pod. The devices selected by this class must advertise the referenced capacities. Otherwise the extended resource requests cannot be satisfied, the same way as with a selector that matches no devices. */
+  capacity?: IoK8sApiResourceV1CapacityRequirements | undefined;
+}
 /** CELDeviceSelector contains a CEL expression for selecting a device. */
 export interface IoK8sApiResourceV1CELDeviceSelector {
   /** expression is a CEL expression which evaluates a single device. It must evaluate to true when the device under consideration satisfies the desired criteria, and false when it does not. Any other result is an error and causes allocation of devices to abort. The expression's input is an object named "device", which carries the following properties: - driver (string): the name of the driver which defines this device. - attributes (map[string]object): the device's attributes, grouped by prefix (e.g. device.attributes["dra.example.com"] evaluates to an object with all of the attributes which were prefixed by "dra.example.com"). - capacity (map[string]object): the device's capacities, grouped by prefix. - allowMultipleAllocations (bool): the allowMultipleAllocations property of the device (v1.34+ with the DRAConsumableCapacity feature enabled). Example: Consider a device with driver="dra.example.com", which exposes two attributes named "model" and "ext.example.com/family" and which exposes one capacity named "modules". This input to this expression would have the following fields: device.driver device.attributes["dra.example.com"].model device.attributes["ext.example.com"].family device.capacity["dra.example.com"].modules The device.driver field can be used to check for a specific driver, either as a high-level precondition (i.e. you only want to consider devices from this driver) or as part of a multi-clause expression that is meant to consider devices from different drivers. The value type of each attribute is defined by the device definition, and users who write these expressions must consult the documentation for their specific drivers. The value type of each capacity is Quantity. If an unknown prefix is used as a lookup in either device.attributes or device.capacity, an empty map will be returned. Any reference to an unknown field will cause an evaluation error and allocation to abort. A robust expression should check for the existence of attributes before referencing them. Common errors: - "no such key": Use optional chaining (.? followed by orValue()) or guarding the check with has() for optional fields. See CEL Optional Types for details: https://pkg.go.dev/github.com/google/cel-go@v0.17.4/cel#OptionalTypes For more CEL expression syntax and examples, see: https://kubernetes.io/docs/reference/using-api/cel/ For ease of use, the cel.bind() function is enabled, and can be used to simplify expressions that access multiple attributes with the same domain. For example: cel.bind(dra, device.attributes["dra.example.com"], dra.someBool && dra.anotherBool) When the DRAListTypeAttributes feature gate is enabled, the includes() helper is available and it can work for both scalar and list-type attributes. It was introduced to support smooth migration from scalar attributes to list-type attributes while keeping CEL expressions simple. For example: device.attributes["dra.example.com"].models.includes("some-model") The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps. */
@@ -177,6 +191,8 @@ export interface IoK8sApiResourceV1DeviceClassSpec {
   config?: IoK8sApiResourceV1DeviceClassSpecConfigList | undefined;
   /** extendedResourceName is the extended resource name for the devices of this class. The devices of this class can be used to satisfy a pod's extended resource requests. It has the same format as the name of a pod's extended resource. It should be unique among all the device classes in a cluster. If two device classes have the same name, then the class created later is picked to satisfy a pod's extended resource requests. If two classes are created at the same time, then the name of the class lexicographically sorted first is picked. */
   extendedResourceName?: string | undefined;
+  /** extendedResourceRequest defines how the scheduler populates the device request of each ResourceClaim it synthesizes to satisfy the extended resource of this class. This is an alpha field and requires enabling the DRAExtendedResourceCapacity feature gate, which depends on DRAConsumableCapacity. */
+  extendedResourceRequest?: IoK8sApiResourceV1ExtendedResourceRequest | undefined;
   /** selectors is the list of device selectors. Each selector must be satisfied by a device which is claimed via this class. */
   selectors?: IoK8sApiResourceV1DeviceClassSpecSelectorsList | undefined;
 }
@@ -211,6 +227,8 @@ export interface IoK8sApiResourceV1DeviceClass {
 }
 /** DeviceTaintSelector defines which device(s) a DeviceTaintRule applies to. The empty selector matches all devices. Without a selector, no devices are matched. */
 export interface IoK8sApiResourceV1DeviceTaintSelector {
+  /** all explicitly selects every device from every driver in the cluster when set to true. It must not be combined with driver, pool, or device: those must all be unset when all is true. Leaving driver, pool, and device all unset also selects every device, for historical reasons, but doing so without setting all is deprecated and may be rejected in a future release. Set all explicitly instead. */
+  all?: boolean | undefined;
   /** device represents the name of the device. If device is set, only devices with that name are selected. This field corresponds to slice.spec.devices[].name. Setting also driver and pool may be required to avoid ambiguity, but is not required. */
   device?: string | undefined;
   /** driver is the driver name. If driver is set, only devices from that driver are selected. This fields corresponds to slice.spec.driver. */
@@ -318,15 +336,6 @@ export interface IoK8sApiResourceV1DeviceConstraint {
 /** constraints must be satisfied by the set of devices that get allocated for the claim. */
 export type IoK8sApiResourceV1DeviceClaimConstraintsList =
   Array<IoK8sApiResourceV1DeviceConstraint>;
-/** requests represent individual device resource requests for distinct resources, all of which must be provided by the device. This value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0. The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error. When a requestPolicy is defined, the requested amount is adjusted upward to the nearest valid value based on the policy. If the requested amount cannot be adjusted to a valid value--because it exceeds what the requestPolicy allows-- the device is considered ineligible for allocation. For any capacity that is not explicitly requested: - If no requestPolicy is set, the default consumed capacity is equal to the full device capacity (i.e., the whole device is claimed). - If a requestPolicy is set, the default consumed capacity is determined according to that policy. If the device allows multiple allocation, the aggregated amount across all requests must not exceed the capacity value. The consumed capacity, which may be adjusted based on the requestPolicy if defined, is recorded in the resource claim's status.devices[*].consumedCapacity field. Requests may have at most 32 entries. The values must not be negative. */
-export type IoK8sApiResourceV1CapacityRequirementsRequestsMap = {
-  [key: string]: string | undefined;
-};
-/** CapacityRequirements defines the capacity requirements for a specific device request. */
-export interface IoK8sApiResourceV1CapacityRequirements {
-  /** requests represent individual device resource requests for distinct resources, all of which must be provided by the device. This value is used as an additional filtering condition against the available capacity on the device. This is semantically equivalent to a CEL selector with `device.capacity[<domain>].<name>.compareTo(quantity(<request quantity>)) >= 0`. For example, device.capacity['test-driver.cdi.k8s.io'].counters.compareTo(quantity('2')) >= 0. The domain prefix can be omitted, in which case it defaults to the driver of the device under evaluation. For example, "bandwidth: 1Gi" is equivalent to "<driver>/bandwidth: 1Gi" for a device published by driver "<driver>", regardless of which other, differently-domained "bandwidth" capacities that device might also have. To request one of those, the domain must be given explicitly, for example "example.com/bandwidth". Requesting the same driver capacity with and without the driver name as domain, for example "bandwidth: 1Gi" and "<driver>/bandwidth: 2Gi", is ambiguous and causes scheduling to fail with an error. For the sake of consistency there's no exception for such a conflict where the value is the same - that is still an error. When a requestPolicy is defined, the requested amount is adjusted upward to the nearest valid value based on the policy. If the requested amount cannot be adjusted to a valid value--because it exceeds what the requestPolicy allows-- the device is considered ineligible for allocation. For any capacity that is not explicitly requested: - If no requestPolicy is set, the default consumed capacity is equal to the full device capacity (i.e., the whole device is claimed). - If a requestPolicy is set, the default consumed capacity is determined according to that policy. If the device allows multiple allocation, the aggregated amount across all requests must not exceed the capacity value. The consumed capacity, which may be adjusted based on the requestPolicy if defined, is recorded in the resource claim's status.devices[*].consumedCapacity field. Requests may have at most 32 entries. The values must not be negative. */
-  requests?: IoK8sApiResourceV1CapacityRequirementsRequestsMap | undefined;
-}
 /** DeviceDerivedAttribute defines a derived attribute computed via CEL. */
 export interface IoK8sApiResourceV1DeviceDerivedAttribute {
   /** expression is a CEL expression evaluated against each candidate device. The expression must evaluate to a primitive scalar (string, integer, boolean, or semver) or a list of these scalars ([]string, []int64, []bool, []semver) to act as a virtual grouping key. Any other return type is an error and causes CEL evaluation for the device to fail. The expression's input is an object named "device", which carries the same properties as in a CELDeviceSelector. When pod scheduling encounters CEL runtime errors (such as looking up an attribute that isn't defined) for some devices, it will abort allocation and fail scheduling for the Pod. Surfacing evaluation errors immediately prevents silent topology matching failures that are extremely hard to detect. A robust expression should, for example, check for the existence of attributes before referencing them to avoid runtime evaluation errors. The expression gets evaluated after a device has passed the other selector expressions for the request in which this expression is used. This allows writing expressions that are tailored towards the specific devices being requested (for example, by assuming the device is from a certain vendor and skipping those checks). The length of the expression must be smaller or equal to 10 Ki. The cost of evaluating it is also limited based on the estimated number of logical steps; the combined cost of all derived attributes in a claim is capped by a shared CEL cost budget. */
@@ -454,6 +463,20 @@ export type IoK8sApiResourceV1DeviceRequestAllocationResultBindingFailureConditi
 export type IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCapacityMap = {
   [key: string]: string | undefined;
 };
+/** counters records this allocation's resolved quantity for each counter in the set. The map contains at most 32 counters; each quantity must be non-negative. */
+export type IoK8sApiResourceV1CounterSetConsumptionCountersMap = {
+  [key: string]: string | undefined;
+};
+/** CounterSetConsumption records one allocation's resolved valueFrom consumption from one counter set. The containing DeviceRequestAllocationResult identifies the allocated device and its pool. For example, two allocations sharing a device may consume 2Gi and 3Gi from a "memory" counter. Each result records only its own amount; together they consume 5Gi. Releasing the first allocation leaves 3Gi charged. If the device also consumes one fixed "slots" counter, that charge is accounted for separately from current ResourceSlices. With unchanged slice definitions, the fixed charge remains until the last non-admin allocation is released. */
+export interface IoK8sApiResourceV1CounterSetConsumption {
+  /** counterSet identifies a counter set in the pool named by the containing allocation result. */
+  counterSet: string;
+  /** counters records this allocation's resolved quantity for each counter in the set. The map contains at most 32 counters; each quantity must be non-negative. */
+  counters: IoK8sApiResourceV1CounterSetConsumptionCountersMap;
+}
+/** consumedCounters records resolved valueFrom consumption for the single device identified by this allocation result, grouped by counter set in that device's pool. Each result records only its own request-dependent amounts. The scheduler sums these amounts across non-admin allocation results, including multiple shares of the same device. Releasing one allocation releases its recorded amounts without changing those of other allocations. Quantities are resolved at allocation time from the matching claim capacity requests, including consumptionPolicy rounding. They may therefore be greater than the requested amounts. If the claim omits a mapped capacity request, consumption uses the shared counter's policy default, or its full value when no default is defined. All resolved valueFrom counters are included, even when their quantity is zero. The recorded amounts and counter set references remain authoritative if ResourceSlice mappings, defaults, or policies change. A mapping change does not move an existing allocation's consumption to a different counter set. DRA drivers can use these amounts without access to ResourceSlices. Fixed counter consumption is not recorded here. The scheduler determines fixed consumption from current ResourceSlices, including consumptionPolicy rounding, and counts it once per (driver, pool, device) with at least one non-admin allocation. If the device definition is missing, its fixed consumption is not counted. Current fixed consumption is added to the recorded request-dependent consumption; changing a counter from valueFrom to value does not replace the recorded amounts. Current counter values still define the total budget. Reducing a counter below its recorded consumption prevents further counter consumption; existing allocation results are not changed. Recorded amounts are still counted if the allocated device is no longer present in current ResourceSlices. Amounts that refer to a missing counter set or counter are ignored. ResourceSlice updates do not resize or revoke existing allocations. Drivers must ensure that updates remain compatible with existing allocations, or arrange for affected allocations to be released first. This field is populated only for non-admin allocations when DRASharedConsumableCapacity is enabled. An absent field means that no request-dependent consumption was recorded, including for allocations made before the feature was enabled. If this field is absent, the scheduler counts this allocation's request-dependent counter consumption as zero. It does not reconstruct that consumption from the device's current valueFrom mappings. The list contains at most 2 counter sets (the maximum a device may consume in a ResourceSlice), keyed by counter set name. Its order has no correspondence to the order of counter sets or devices in ResourceSlices. */
+export type IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCountersList =
+  Array<IoK8sApiResourceV1CounterSetConsumption>;
 /** skipNodeOperations lists node-local resource operations (gRPC calls) that will be skipped for this allocated device when determining whether operations are necessary on the node. If all allocated devices for a driver in a claim skip an operation, that gRPC call will be skipped. It is a copy of the ResourceSlice.spec.skipNodeOperations value at the time when the device was allocated. */
 export type IoK8sApiResourceV1DeviceRequestAllocationResultSkipNodeOperationsList = Array<string>;
 /** tolerations is a copy of all tolerations specified in the request at the time when the device got allocated. The maximum number of tolerations is 16. This is a beta field and requires enabling the DRADeviceTaints feature gate. */
@@ -473,6 +496,10 @@ export interface IoK8sApiResourceV1DeviceRequestAllocationResult {
     | undefined;
   /** consumedCapacity tracks the amount of capacity consumed per device as part of the claim request. The consumed amount may differ from the requested amount: it is rounded up to the nearest valid value based on the device's requestPolicy if applicable (i.e., may not be less than the requested amount). The total consumed capacity for each device must not exceed the DeviceCapacity's Value. This field is populated only for devices that allow multiple allocations. All capacity entries are included, even if the consumed amount is zero. The domain prefix in the capacity name may be omitted if it is the same as the driver name. ConsumedCapacity may have at most 32 entries. The values must not be negative. */
   consumedCapacity?: IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCapacityMap | undefined;
+  /** consumedCounters records resolved valueFrom consumption for the single device identified by this allocation result, grouped by counter set in that device's pool. Each result records only its own request-dependent amounts. The scheduler sums these amounts across non-admin allocation results, including multiple shares of the same device. Releasing one allocation releases its recorded amounts without changing those of other allocations. Quantities are resolved at allocation time from the matching claim capacity requests, including consumptionPolicy rounding. They may therefore be greater than the requested amounts. If the claim omits a mapped capacity request, consumption uses the shared counter's policy default, or its full value when no default is defined. All resolved valueFrom counters are included, even when their quantity is zero. The recorded amounts and counter set references remain authoritative if ResourceSlice mappings, defaults, or policies change. A mapping change does not move an existing allocation's consumption to a different counter set. DRA drivers can use these amounts without access to ResourceSlices. Fixed counter consumption is not recorded here. The scheduler determines fixed consumption from current ResourceSlices, including consumptionPolicy rounding, and counts it once per (driver, pool, device) with at least one non-admin allocation. If the device definition is missing, its fixed consumption is not counted. Current fixed consumption is added to the recorded request-dependent consumption; changing a counter from valueFrom to value does not replace the recorded amounts. Current counter values still define the total budget. Reducing a counter below its recorded consumption prevents further counter consumption; existing allocation results are not changed. Recorded amounts are still counted if the allocated device is no longer present in current ResourceSlices. Amounts that refer to a missing counter set or counter are ignored. ResourceSlice updates do not resize or revoke existing allocations. Drivers must ensure that updates remain compatible with existing allocations, or arrange for affected allocations to be released first. This field is populated only for non-admin allocations when DRASharedConsumableCapacity is enabled. An absent field means that no request-dependent consumption was recorded, including for allocations made before the feature was enabled. If this field is absent, the scheduler counts this allocation's request-dependent counter consumption as zero. It does not reconstruct that consumption from the device's current valueFrom mappings. The list contains at most 2 counter sets (the maximum a device may consume in a ResourceSlice), keyed by counter set name. Its order has no correspondence to the order of counter sets or devices in ResourceSlices. */
+  consumedCounters?:
+    | IoK8sApiResourceV1DeviceRequestAllocationResultConsumedCountersList
+    | undefined;
   /** device references one device instance via its name in the driver's resource pool. It must be a DNS label. */
   device: string;
   /** driver specifies the name of the DRA driver whose kubelet plugin should be invoked to process the allocation once the claim is needed on a node. Must be a DNS subdomain and should end with a DNS domain owned by the vendor of the driver. It should use only lower case characters. */
@@ -670,31 +697,31 @@ export interface IoK8sApiResourceV1ResourceClaimTemplate {
   /** spec describes the ResourceClaim that is to be generated. This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore. */
   spec?: IoK8sApiResourceV1ResourceClaimTemplateSpec | undefined;
 }
-/** bools is a non-empty list of true/false values. */
+/** bools is a non-empty list of true/false values. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
 export type IoK8sApiResourceV1DeviceAttributeBoolsList = Array<boolean>;
-/** ints is a non-empty list of numbers. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+/** ints is a non-empty list of numbers. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
 export type IoK8sApiResourceV1DeviceAttributeIntsList = Array<number>;
-/** strings is a non-empty list of strings. Each string must not be longer than 64 characters. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+/** strings is a non-empty list of strings. Each string must not be longer than 64 characters. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
 export type IoK8sApiResourceV1DeviceAttributeStringsList = Array<string>;
-/** versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+/** versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
 export type IoK8sApiResourceV1DeviceAttributeVersionsList = Array<string>;
 /** DeviceAttribute must have exactly one field set. */
 export interface IoK8sApiResourceV1DeviceAttribute {
   /** bool is a true/false value. */
   bool?: boolean | undefined;
-  /** bools is a non-empty list of true/false values. */
+  /** bools is a non-empty list of true/false values. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
   bools?: IoK8sApiResourceV1DeviceAttributeBoolsList | undefined;
   /** int is a number. */
   int?: number | undefined;
-  /** ints is a non-empty list of numbers. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+  /** ints is a non-empty list of numbers. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
   ints?: IoK8sApiResourceV1DeviceAttributeIntsList | undefined;
   /** string is a string. Must not be longer than 64 characters. */
   string?: string | undefined;
-  /** strings is a non-empty list of strings. Each string must not be longer than 64 characters. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+  /** strings is a non-empty list of strings. Each string must not be longer than 64 characters. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
   strings?: IoK8sApiResourceV1DeviceAttributeStringsList | undefined;
   /** version is a semantic version according to semver.org spec 2.0.0. Must not be longer than 64 characters. */
   version?: string | undefined;
-  /** versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters. This is an alpha field and requires enabling the DRAListTypeAttributes feature gate. */
+  /** versions is a non-empty list of semantic versions according to semver.org spec 2.0.0. Each version string must not be longer than 64 characters. This is a beta field and requires enabling the DRAListTypeAttributes feature gate (enabled by default). */
   versions?: IoK8sApiResourceV1DeviceAttributeVersionsList | undefined;
 }
 /** attributes defines the set of attributes for this device. The name of each attribute must be unique in that set. The maximum number of attributes and capacities combined is 32. */
@@ -716,7 +743,7 @@ export interface IoK8sApiResourceV1CapacityRequestPolicyRange {
 }
 /** validValues defines a set of acceptable quantity values in consuming requests. Must not contain more than 10 entries. Must be sorted in ascending order. If this field is set, Default must be defined and it must be included in ValidValues list. If the requested amount does not match any valid value but smaller than some valid values, the scheduler calculates the smallest valid value that is greater than or equal to the request. That is: min(ceil(requestedValue) U+2208 validValues), where requestedValue <= max(validValues). If the requested amount exceeds all valid values, the request violates the policy, and this device cannot be allocated. */
 export type IoK8sApiResourceV1CapacityRequestPolicyValidValuesList = Array<string>;
-/** CapacityRequestPolicy defines how requests consume device capacity. Must not set more than one ValidRequestValues. */
+/** CapacityRequestPolicy defines how requests consume device capacity and how devices consume counters. It is used by DeviceCapacity.RequestPolicy and Counter.ConsumptionPolicy. For counter consumption, capacity means the available counter value, and a request means the device's required counter amount. Both use the same default selection, rounding and range arithmetic, including the DRAFractionalCapacityRange feature gate and the rules described by CapacityRequestPolicyRange. Must not set more than one ValidRequestValues. */
 export interface IoK8sApiResourceV1CapacityRequestPolicy {
   /** default specifies how much of this capacity is consumed by a request that does not contain an entry for it in DeviceRequest's Capacity. */
   default?: string | undefined;
@@ -738,14 +765,21 @@ export type IoK8sApiResourceV1DeviceCapacityMap = {
 };
 /** compatibilityGroups is a list of opaque group names for this counter set consumption. Devices that consume counters from the same counter set may only be allocated at the same time ("co-allocated") if they all share at least one common group: the intersection of the CompatibilityGroups of all co-allocated devices on that counter set must be non-empty. Devices that consume from different counter sets are never compared via this field. An unset field, an explicit nil, and an empty list are equivalent and mean "no groups": such a device is only co-allocatable with sibling devices on the same counter set that also have no groups, and is never co-allocatable with a device that declares one or more groups. Group names are opaque and meaningful only within the publishing driver's pool. The maximum number of groups is 2, and the names must be unique. */
 export type IoK8sApiResourceV1DeviceCounterConsumptionCompatibilityGroupsList = Array<string>;
-/** Counter describes a quantity associated with a device. */
-export interface IoK8sApiResourceV1Counter {
-  /** value defines how much of a certain device counter is available. */
-  value: string;
+/** CounterValueFrom looks up the requested capacity value in a ResourceClaim via the capacity name. */
+export interface IoK8sApiResourceV1CounterValueFrom {
+  /** capacityName is the name of a capacity that can be requested in a ResourceClaim. The counter value then defines a capacity that is shared between devices, in contrast to the per-device capacity defined in the device's capacity map. Typically a capacity is either shared or per-device, but it is also valid to use the same capacity name in both places. Requests then need to be satisfied by both. If this name has no domain prefix, the driver name from the ResourceSlice is used as the domain when matching against capacity requests. */
+  capacityName: string;
+}
+/** CounterRequirement describes how much of a counter a device consumes. */
+export interface IoK8sApiResourceV1CounterRequirement {
+  /** value defines the statically consumed amount. Exactly one of value or valueFrom must be specified. */
+  value?: string | undefined;
+  /** valueFrom looks up the requested capacity value in a ResourceClaim via the capacity name. That value is then consumed from the counter instead of using a static value defined by the driver. Exactly one of value or valueFrom must be specified. */
+  valueFrom?: IoK8sApiResourceV1CounterValueFrom | undefined;
 }
 /** counters defines the counters that will be consumed by the device. The maximum number of counters is 32. */
 export type IoK8sApiResourceV1DeviceCounterConsumptionCountersMap = {
-  [key: string]: IoK8sApiResourceV1Counter | undefined;
+  [key: string]: IoK8sApiResourceV1CounterRequirement | undefined;
 };
 /** DeviceCounterConsumption defines a set of counters that a device will consume from a CounterSet. */
 export interface IoK8sApiResourceV1DeviceCounterConsumption {
@@ -761,7 +795,7 @@ export interface IoK8sApiResourceV1DeviceCounterConsumption {
 /** consumesCounters defines a list of references to sharedCounters and the set of counters that the device will consume from those counter sets. There can only be a single entry per counterSet. The maximum number of device counter consumptions per device is 2. */
 export type IoK8sApiResourceV1DeviceConsumesCountersList =
   Array<IoK8sApiResourceV1DeviceCounterConsumption>;
-/** NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices (via deviceMultiplier) or the specific capacity consumed (via capacityKey and capacityMultiplier). These options are mutually exclusive. Kubelet adds this mapped resource quantity from claim to both requests and limits at the pod-level cgroup, and to limits at the container-level cgroup for each container referencing the claim. */
+/** NodeAllocatableMapping defines how a DRA allocation directly translates into a node allocatable resource quantity. The mapping can be derived from either the count of allocated devices (via deviceMultiplier) or the specific capacity consumed (via capacityKey and capacityMultiplier). These options are mutually exclusive. The scheduler records the mapped quantity in the pod's `status.extraNodeAllocatableResources`: once in the requests and limits of the pod level entry, and in the limits of the container entry of each container referencing the claim, so that each of these containers can use all of it while the pod level entry caps their total usage. */
 export interface IoK8sApiResourceV1NodeAllocatableMapping {
   /** capacityKey references a capacity name defined as a key in the `spec.devices[*].capacity` map. When this field is set, the value associated with this key in the `status.allocation.devices.results[*].consumedCapacity` map (for a specific claim allocation) determines the base quantity for the node allocatable resource. `capacityMultiplier` must also be set and is multiplied with the base quantity. For example, if `spec.devices[*].capacity` has an entry "dra.example.com/memory": "128Gi", and this field is set to "dra.example.com/memory", then for a claim allocation that consumes { "dra.example.com/memory": "4Gi" } the base quantity for the node allocatable resource mapping will be "4Gi". The final node allocatable resource amount is `consumedCapacity[capacityKey]` * `capacityMultiplier`. In this example, "dra.example.com/memory" is a fictional standardized capacity name. For driver-specific capacities the driver name can be omitted. As defined for consumedCapacity, the capacity consumption may be recorded there with or without the driver name. */
   capacityKey?: string | undefined;
@@ -770,9 +804,9 @@ export interface IoK8sApiResourceV1NodeAllocatableMapping {
   /** deviceMultiplier is used as a multiplier for the allocated device count in the claim. The final node allocatable resource amount is `deviceCount` * `deviceMultiplier`. For example, a DRA driver representing each cache complex (CCX) as a device would have {ResourceName: "cpu", deviceMultiplier: "8"} in its `nodeAllocatableResources`. If 2 devices (CCX) are allocated to the claim, 2 * 8 = 16 CPUs would be considered as allocated. It is only valid when `capacityKey` and `capacityMultiplier` are not set. */
   deviceMultiplier?: string | undefined;
 }
-/** NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. Kubelet accounts for this overhead by adding it to both the pod-level and container-level cgroups of referencing containers. */
+/** NodeAllocatableOverhead defines auxiliary resource overheads incurred when allocating a device. Overheads can be specified as a fixed cost per pod referencing the claim, a variable cost per container reference, or both. The scheduler records the overhead in the pod's `status.extraNodeAllocatableResources`, as described for perContainer. */
 export interface IoK8sApiResourceV1NodeAllocatableOverhead {
-  /** perContainer is applied per container reference to the claim. This models overhead scaling linearly with the number of containers actively using the device. When both PerPod and PerContainer are specified, the total overhead allocated for each pod referencing the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) Kubelet accounts for this overhead in cgroups: - Pod-level cgroup (requests and limits): Kubelet adds PerPod + (PerContainer * NumReferences). - Container-level cgroup (limits only): Kubelet adds PerPod + PerContainer for each referencing container. This allows any single container to access the pod-level overhead, while the parent cgroup caps the total usage to account for PerPod exactly once. PerContainer overhead of a claim referenced by a non-restartable init container is counted towards the pod's peak resource calculation (see Pod `spec.initContainers`), not for the pod's entire duration. */
+  /** perContainer is applied per container reference to the claim. This models overhead scaling linearly with the number of containers actively using the device. When both PerPod and PerContainer are specified, the total overhead allocated for each pod referencing the claim is computed as: Quantity = PerPod + (PerContainer * NumReferences) The scheduler records this overhead in the pod's `status.extraNodeAllocatableResources`: - The pod level entry (requests and limits) gets PerPod + (PerContainer * NumReferences). PerContainer of a non-restartable init container counts towards the pod's peak resource calculation (see Pod `spec.initContainers`), not for the pod's entire duration. - The container entry of each referencing container gets PerContainer in its requests, and PerPod + PerContainer in its limits. This allows any single container to use the pod level overhead, while the pod level entry caps the total usage to account for PerPod exactly once. */
   perContainer?: string | undefined;
   /** perPod is overhead applied once per pod referencing the claim on this node. This is a flat overhead incurred for every pod referencing the claim. */
   perPod?: string | undefined;
@@ -784,7 +818,7 @@ export interface IoK8sApiResourceV1NodeAllocatableResource {
   /** overhead contains fields for modeling auxiliary overhead incurred on node allocatable resources when allocating devices that are not themselves modeling a node allocatable resource (e.g., host memory overhead for GPUs). Sharing overhead-mapped claims across multiple pods is allowed. The node allocatable overhead is accounted for individually for each pod referencing the claim. Overhead is always subtracted from the node's allocatable capacity for the resource, even when mapping is specified for the same resource. Eg: If a device models memory capacity per socket as a consumable capacity pool via Mapping (with CapacityKey), any overhead specified for the same resource will be subtracted from the node's general allocatable capacity and not from the per-socket capacity pool in Mapping. */
   overhead?: IoK8sApiResourceV1NodeAllocatableOverhead | undefined;
 }
-/** nodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+/** nodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. When the device is allocated for a pod's claim, the scheduler records these resources in the pod's `status.extraNodeAllocatableResources`, as described for mapping and overhead. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
 export type IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap = {
   [key: string]: IoK8sApiResourceV1NodeAllocatableResource | undefined;
 };
@@ -810,7 +844,7 @@ export interface IoK8sApiResourceV1Device {
   consumesCounters?: IoK8sApiResourceV1DeviceConsumesCountersList | undefined;
   /** name is unique identifier among all devices managed by the driver in the pool. It must be a DNS label. */
   name: string;
-  /** nodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
+  /** nodeAllocatableResources defines the mapping of node resources that are managed by the DRA driver exposing this device. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include "cpu", "memory", "ephemeral-storage", and hugepages. In addition to standard requests made through the Pod `spec`, these resources can also be requested through claims and allocated by the DRA driver. For example, a CPU DRA driver might allocate exclusive CPUs or auxiliary node memory dependencies of an accelerator device. When the device is allocated for a pod's claim, the scheduler records these resources in the pod's `status.extraNodeAllocatableResources`, as described for mapping and overhead. The keys of this map are the node-allocatable resource names (e.g., "cpu", "memory"). Extended resource names are not permitted as keys. */
   nodeAllocatableResources?: IoK8sApiResourceV1DeviceNodeAllocatableResourcesMap | undefined;
   /** nodeName identifies the node where the device is available. Must only be set if Spec.PerDeviceNodeSelection is set to true. At most one of NodeName, NodeSelector and AllNodes can be set. */
   nodeName?: string | undefined;
@@ -829,6 +863,13 @@ export interface IoK8sApiResourceV1ResourcePool {
   name: string;
   /** resourceSliceCount is the total number of ResourceSlices in the pool at this generation number. Must be greater than zero. Consumers can use this to check whether they have seen all ResourceSlices belonging to the same pool. */
   resourceSliceCount: number;
+}
+/** Counter describes a quantity that is available in a counter set. */
+export interface IoK8sApiResourceV1Counter {
+  /** consumptionPolicy defines how devices consume this counter. The consumed amount is rounded up according to the policy and must satisfy its limits. If unset, devices can consume any amount up to the available counter value. If and only if the required amount is unspecified, then the policy default is used (if set) or the full counter value (if not set). Fixed consumption of already allocated devices is resolved using the current policy and counted even if it violates the policy's limits. */
+  consumptionPolicy?: IoK8sApiResourceV1CapacityRequestPolicy | undefined;
+  /** value defines how much of a certain device counter is available. */
+  value: string;
 }
 /** counters defines the set of counters for this CounterSet The name of each counter must be unique in that set and must be a DNS label. The maximum number of counters is 32. */
 export type IoK8sApiResourceV1CounterSetCountersMap = {
@@ -2361,7 +2402,7 @@ export const createResourceV1DeviceClass: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CreateResourceV1DeviceClassRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
+  output: __S(740, __c23, 4) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2400,7 +2441,7 @@ export const createResourceV1NamespacedResourceClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<CreateResourceV1NamespacedResourceClaimRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2443,7 +2484,7 @@ export const createResourceV1ResourceSlice: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<CreateResourceV1ResourceSliceRequest>,
-  output: __S(2231, __c69, 23) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
+  output: __S(2234, __c69, 26) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2559,7 +2600,7 @@ export const deleteResourceV1DeviceClass: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteResourceV1DeviceClassRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
+  output: __S(740, __c23, 4) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2595,7 +2636,7 @@ export const deleteResourceV1NamespacedResourceClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteResourceV1NamespacedResourceClaimRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2638,7 +2679,7 @@ export const deleteResourceV1ResourceSlice: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteResourceV1ResourceSliceRequest>,
-  output: __S(2231, __c69, 23) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
+  output: __S(2234, __c69, 26) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2830,7 +2871,7 @@ export const patchResourceV1DeviceClass: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PatchResourceV1DeviceClassRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
+  output: __S(740, __c23, 4) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2888,7 +2929,7 @@ export const patchResourceV1NamespacedResourceClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<PatchResourceV1NamespacedResourceClaimRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2910,7 +2951,7 @@ export const patchResourceV1NamespacedResourceClaimStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<PatchResourceV1NamespacedResourceClaimStatusRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2958,7 +2999,7 @@ export const patchResourceV1ResourceSlice: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<PatchResourceV1ResourceSliceRequest>,
-  output: __S(2231, __c69, 23) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
+  output: __S(2234, __c69, 26) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2976,7 +3017,7 @@ export const readResourceV1DeviceClass: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ReadResourceV1DeviceClassRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
+  output: __S(740, __c23, 4) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3030,7 +3071,7 @@ export const readResourceV1NamespacedResourceClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ReadResourceV1NamespacedResourceClaimRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3048,7 +3089,7 @@ export const readResourceV1NamespacedResourceClaimStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ReadResourceV1NamespacedResourceClaimStatusRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3088,7 +3129,7 @@ export const readResourceV1ResourceSlice: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ReadResourceV1ResourceSliceRequest>,
-  output: __S(2231, __c69, 23) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
+  output: __S(2234, __c69, 26) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3110,7 +3151,7 @@ export const replaceResourceV1DeviceClass: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ReplaceResourceV1DeviceClassRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
+  output: __S(740, __c23, 4) as any as S.Schema<IoK8sApiResourceV1DeviceClass>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3168,7 +3209,7 @@ export const replaceResourceV1NamespacedResourceClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ReplaceResourceV1NamespacedResourceClaimRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3194,7 +3235,7 @@ export const replaceResourceV1NamespacedResourceClaimStatus: API.OperationMethod
     __c46,
     0,
   ) as any as S.Schema<ReplaceResourceV1NamespacedResourceClaimStatusRequest>,
-  output: __S(1708, __c53, 12) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
+  output: __S(1710, __c53, 14) as any as S.Schema<IoK8sApiResourceV1ResourceClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3242,7 +3283,7 @@ export const replaceResourceV1ResourceSlice: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ReplaceResourceV1ResourceSliceRequest>,
-  output: __S(2231, __c69, 23) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
+  output: __S(2234, __c69, 26) as any as S.Schema<IoK8sApiResourceV1ResourceSlice>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3803,7 +3844,7 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListResourceV1DeviceClassRequest" });
     case 1:
-      return S.Array(__S(739, __c23, 3));
+      return S.Array(__S(740, __c23, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3880,7 +3921,7 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1708, __c53, 12));
+      return S.Array(__S(1710, __c53, 14));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4007,7 +4048,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListResourceV1ResourceSliceRequest" });
     case 1:
-      return S.Array(__S(2231, __c69, 23));
+      return S.Array(__S(2234, __c69, 26));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4035,7 +4076,7 @@ function __c19(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(738, __c23, 2)),
+          spec: S.optional(__S(739, __c23, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4114,7 +4155,7 @@ function __c22(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(738, __c23, 2)),
+          spec: S.optional(__S(739, __c23, 3)),
         }).pipe(
           T.Http({ method: "POST", uri: "/apis/resource.k8s.io/v1/deviceclasses", code: 200 }),
         ),
@@ -4134,18 +4175,25 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          capacity: S.optional(__S(833, __c26, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiResourceV1ExtendedResourceRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           config: S.optional(__S(737, __c23, 1)),
           extendedResourceName: S.optional(S.String),
-          selectors: S.optional(__S(835, __c26, 3)),
+          extendedResourceRequest: S.optional(__S(738, __c23, 2)),
+          selectors: S.optional(__S(836, __c26, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceClassSpec" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(738, __c23, 2)),
+          spec: S.optional(__S(739, __c23, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceClass" });
   }
@@ -4221,17 +4269,23 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          expression: S.String,
+          requests: S.optional(__S(800, __c25, 0)),
         }),
-      ).annotate({ identifier: "IoK8sApiResourceV1CELDeviceSelector" });
+      ).annotate({ identifier: "IoK8sApiResourceV1CapacityRequirements" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cel: S.optional(__S(833, __c26, 1)),
+          expression: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiResourceV1CELDeviceSelector" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          cel: S.optional(__S(834, __c26, 2)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceSelector" });
-    case 3:
-      return S.Array(__S(834, __c26, 2));
+    case 4:
+      return S.Array(__S(835, __c26, 3));
   }
 }
 function __c27(j: number): any {
@@ -4251,8 +4305,8 @@ function __c27(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4280,8 +4334,8 @@ function __c28(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4336,7 +4390,7 @@ function __c30(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(2230, __c69, 22)),
+          spec: S.optional(__S(2233, __c69, 25)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4477,6 +4531,7 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          all: S.optional(S.Boolean),
           device: S.optional(S.String),
           driver: S.optional(S.String),
           pool: S.optional(S.String),
@@ -4567,7 +4622,7 @@ function __c42(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(738, __c23, 2)),
+          spec: S.optional(__S(739, __c23, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4642,8 +4697,8 @@ function __c45(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4668,8 +4723,8 @@ function __c46(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4718,7 +4773,7 @@ function __c48(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: __S(2230, __c69, 22),
+          spec: __S(2233, __c69, 25),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4804,8 +4859,8 @@ function __c52(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4831,37 +4886,47 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          counterSet: S.String,
+          counters: __S(800, __c25, 0),
+        }),
+      ).annotate({ identifier: "IoK8sApiResourceV1CounterSetConsumption" });
+    case 3:
+      return S.Array(__S(1698, __c53, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           adminAccess: S.optional(S.Boolean),
           bindingConditions: S.optional(__S(768, __c24, 0)),
           bindingFailureConditions: S.optional(__S(768, __c24, 0)),
           consumedCapacity: S.optional(__S(800, __c25, 0)),
+          consumedCounters: S.optional(__S(1699, __c53, 3)),
           device: S.String,
           driver: S.String,
           pool: S.String,
           request: S.String,
           shareID: S.optional(S.String),
           skipNodeOperations: S.optional(__S(768, __c24, 0)),
-          tolerations: S.optional(__S(1736, __c54, 8)),
+          tolerations: S.optional(__S(1735, __c54, 7)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceRequestAllocationResult" });
-    case 3:
-      return S.Array(__S(1698, __c53, 2));
-    case 4:
+    case 5:
+      return S.Array(__S(1700, __c53, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           config: S.optional(__S(1697, __c53, 1)),
-          results: S.optional(__S(1699, __c53, 3)),
+          results: S.optional(__S(1701, __c53, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceAllocationResult" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           allocationTimestamp: S.optional(S.String),
-          devices: S.optional(__S(1700, __c53, 4)),
+          devices: S.optional(__S(1702, __c53, 6)),
           nodeSelector: S.optional(__S(1764, __c55, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1AllocationResult" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           hardwareAddress: S.optional(S.String),
@@ -4869,21 +4934,21 @@ function __c53(j: number): any {
           ips: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1NetworkDeviceData" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           conditions: S.optional(__S(1249, __c39, 1)),
           data: S.optional(S.Unknown),
           device: S.String,
           driver: S.String,
-          networkData: S.optional(__S(1702, __c53, 6)),
+          networkData: S.optional(__S(1704, __c53, 8)),
           pool: S.String,
           shareID: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1AllocatedDeviceStatus" });
-    case 8:
-      return S.Array(__S(1703, __c53, 7));
-    case 9:
+    case 10:
+      return S.Array(__S(1705, __c53, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           apiGroup: S.optional(S.String),
@@ -4892,24 +4957,24 @@ function __c53(j: number): any {
           uid: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceClaimConsumerReference" });
-    case 10:
-      return S.Array(__S(1705, __c53, 9));
-    case 11:
+    case 12:
+      return S.Array(__S(1707, __c53, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          allocation: S.optional(__S(1701, __c53, 5)),
-          devices: S.optional(__S(1704, __c53, 8)),
-          reservedFor: S.optional(__S(1706, __c53, 10)),
+          allocation: S.optional(__S(1703, __c53, 7)),
+          devices: S.optional(__S(1706, __c53, 10)),
+          reservedFor: S.optional(__S(1708, __c53, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceClaimStatus" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
-          status: S.optional(__S(1707, __c53, 11)),
+          spec: S.optional(__S(1742, __c54, 14)),
+          status: S.optional(__S(1709, __c53, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceClaim" });
   }
@@ -4938,19 +5003,13 @@ function __c54(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(800, __c25, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApiResourceV1CapacityRequirements" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           expression: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceDerivedAttribute" });
+    case 5:
+      return S.Array(__S(1732, __c54, 4));
     case 6:
-      return S.Array(__S(1733, __c54, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
@@ -4960,58 +5019,58 @@ function __c54(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceToleration" });
+    case 7:
+      return S.Array(__S(1734, __c54, 6));
     case 8:
-      return S.Array(__S(1735, __c54, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           adminAccess: S.optional(S.Boolean),
           allocationMode: S.optional(S.String),
-          capacity: S.optional(__S(1732, __c54, 4)),
+          capacity: S.optional(__S(833, __c26, 1)),
           count: S.optional(S.Number),
-          derivedAttributes: S.optional(__S(1734, __c54, 6)),
+          derivedAttributes: S.optional(__S(1733, __c54, 5)),
           deviceClassName: S.String,
-          selectors: S.optional(__S(835, __c26, 3)),
-          tolerations: S.optional(__S(1736, __c54, 8)),
+          selectors: S.optional(__S(836, __c26, 4)),
+          tolerations: S.optional(__S(1735, __c54, 7)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ExactDeviceRequest" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           allocationMode: S.optional(S.String),
-          capacity: S.optional(__S(1732, __c54, 4)),
+          capacity: S.optional(__S(833, __c26, 1)),
           count: S.optional(S.Number),
-          derivedAttributes: S.optional(__S(1734, __c54, 6)),
+          derivedAttributes: S.optional(__S(1733, __c54, 5)),
           deviceClassName: S.String,
           name: S.String,
-          selectors: S.optional(__S(835, __c26, 3)),
-          tolerations: S.optional(__S(1736, __c54, 8)),
+          selectors: S.optional(__S(836, __c26, 4)),
+          tolerations: S.optional(__S(1735, __c54, 7)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceSubRequest" });
+    case 10:
+      return S.Array(__S(1737, __c54, 9));
     case 11:
-      return S.Array(__S(1738, __c54, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          exactly: S.optional(__S(1737, __c54, 9)),
-          firstAvailable: S.optional(__S(1739, __c54, 11)),
+          exactly: S.optional(__S(1736, __c54, 8)),
+          firstAvailable: S.optional(__S(1738, __c54, 10)),
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceRequest" });
+    case 12:
+      return S.Array(__S(1739, __c54, 11));
     case 13:
-      return S.Array(__S(1740, __c54, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           config: S.optional(__S(1729, __c54, 1)),
           constraints: S.optional(__S(1731, __c54, 3)),
-          requests: S.optional(__S(1741, __c54, 13)),
+          requests: S.optional(__S(1740, __c54, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceClaim" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(1742, __c54, 14)),
+          devices: S.optional(__S(1741, __c54, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceClaimSpec" });
   }
@@ -5353,7 +5412,7 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: S.optional(__S(1743, __c54, 15)),
+          spec: S.optional(__S(1742, __c54, 14)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceClaimTemplateSpec" });
     case 1:
@@ -5379,7 +5438,7 @@ function __c68(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: __S(2230, __c69, 22),
+          spec: __S(2233, __c69, 25),
         }).pipe(
           T.Http({ method: "POST", uri: "/apis/resource.k8s.io/v1/resourceslices", code: 200 }),
         ),
@@ -5435,22 +5494,29 @@ function __c69(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.String,
+          capacityName: S.String,
         }),
-      ).annotate({ identifier: "IoK8sApiResourceV1Counter" });
+      ).annotate({ identifier: "IoK8sApiResourceV1CounterValueFrom" });
     case 9:
-      return S.Record(S.String, __S(2216, __c69, 8));
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          valueFrom: S.optional(__S(2216, __c69, 8)),
+        }),
+      ).annotate({ identifier: "IoK8sApiResourceV1CounterRequirement" });
     case 10:
+      return S.Record(S.String, __S(2217, __c69, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           compatibilityGroups: S.optional(__S(768, __c24, 0)),
           counterSet: S.String,
-          counters: __S(2217, __c69, 9),
+          counters: __S(2218, __c69, 10),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1DeviceCounterConsumption" });
-    case 11:
-      return S.Array(__S(2218, __c69, 10));
     case 12:
+      return S.Array(__S(2219, __c69, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           capacityKey: S.optional(S.String),
@@ -5458,25 +5524,25 @@ function __c69(j: number): any {
           deviceMultiplier: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1NodeAllocatableMapping" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           perContainer: S.optional(S.String),
           perPod: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1NodeAllocatableOverhead" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.optional(__S(2220, __c69, 12)),
-          overhead: S.optional(__S(2221, __c69, 13)),
+          mapping: S.optional(__S(2221, __c69, 13)),
+          overhead: S.optional(__S(2222, __c69, 14)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1NodeAllocatableResource" });
-    case 15:
-      return S.Record(S.String, __S(2222, __c69, 14));
     case 16:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Record(S.String, __S(2223, __c69, 15));
     case 17:
+      return S.Array(__S(1280, __c40, 0));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           allNodes: S.optional(S.Boolean),
@@ -5486,17 +5552,17 @@ function __c69(j: number): any {
           bindingFailureConditions: S.optional(__S(768, __c24, 0)),
           bindsToNode: S.optional(S.Boolean),
           capacity: S.optional(__S(2215, __c69, 7)),
-          consumesCounters: S.optional(__S(2219, __c69, 11)),
+          consumesCounters: S.optional(__S(2220, __c69, 12)),
           name: S.String,
-          nodeAllocatableResources: S.optional(__S(2223, __c69, 15)),
+          nodeAllocatableResources: S.optional(__S(2224, __c69, 16)),
           nodeName: S.optional(S.String),
           nodeSelector: S.optional(__S(1764, __c55, 4)),
-          taints: S.optional(__S(2224, __c69, 16)),
+          taints: S.optional(__S(2225, __c69, 17)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1Device" });
-    case 18:
-      return S.Array(__S(2225, __c69, 17));
     case 19:
+      return S.Array(__S(2226, __c69, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           generation: S.Number,
@@ -5504,37 +5570,46 @@ function __c69(j: number): any {
           resourceSliceCount: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourcePool" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          counters: __S(2217, __c69, 9),
+          consumptionPolicy: S.optional(__S(2213, __c69, 5)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiResourceV1Counter" });
+    case 22:
+      return S.Record(S.String, __S(2229, __c69, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          counters: __S(2230, __c69, 22),
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1CounterSet" });
-    case 21:
-      return S.Array(__S(2228, __c69, 20));
-    case 22:
+    case 24:
+      return S.Array(__S(2231, __c69, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           allNodes: S.optional(S.Boolean),
-          devices: S.optional(__S(2226, __c69, 18)),
+          devices: S.optional(__S(2227, __c69, 19)),
           driver: S.String,
           nodeName: S.optional(S.String),
           nodeSelector: S.optional(__S(1764, __c55, 4)),
           partitionTypeAttribute: S.optional(S.String),
           perDeviceNodeSelection: S.optional(S.Boolean),
-          pool: __S(2227, __c69, 19),
-          sharedCounters: S.optional(__S(2229, __c69, 21)),
+          pool: __S(2228, __c69, 20),
+          sharedCounters: S.optional(__S(2232, __c69, 24)),
           skipNodeOperations: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceSliceSpec" });
-    case 23:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(805, __c25, 5)),
-          spec: __S(2230, __c69, 22),
+          spec: __S(2233, __c69, 25),
         }),
       ).annotate({ identifier: "IoK8sApiResourceV1ResourceSlice" });
   }

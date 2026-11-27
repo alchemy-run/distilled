@@ -371,12 +371,12 @@ export interface InstancesGetResponseStepsItemCase2 {
 export type InstancesGetResponseStepsItemCase3Error = InstancesGetResponseError;
 export type InstancesGetResponseStepsItemCase3Type = "waitForEvent";
 export interface InstancesGetResponseStepsItemCase3 {
-  end: string;
   error: InstancesGetResponseError;
   finished: boolean;
   name: string;
   start: string;
   type: InstancesGetResponseStepsItemCase3Type;
+  end?: string | null | undefined;
   eventType?: string | null | undefined;
   output?: string | null | undefined;
 }
@@ -569,149 +569,199 @@ export interface VersionsGraphResponseGraphWorkflowNodesItemCase3 {
   resolves?: number | null | undefined;
   starts?: number | null | undefined;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase4NodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase4Type = "loop";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase4 {
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase4NodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase4Type;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetriesBackoff =
+  | "constant"
+  | "linear"
+  | "exponential";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetriesDelay = string | number;
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetries {
+  /** Backoff strategy for step retries. */
+  backoff: VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetriesBackoff;
+  /** Duration as milliseconds (number) or human-readable string. */
+  delay: VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetriesDelay;
+  limit: number;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase5Kind =
+export type VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigTimeout = string | number;
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase4Config {
+  /** Retry policy for a step. */
+  retries: VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigRetries;
+  /** Duration as milliseconds (number) or human-readable string. */
+  timeout: VersionsGraphResponseGraphWorkflowNodesItemCase4ConfigTimeout;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase4OptionsOutputsList = Array<string>;
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase4Options {
+  allowFailure: boolean;
+  command: string;
+  image: string;
+  instanceSize: string;
+  outputs: VersionsGraphResponseGraphWorkflowNodesItemCase4OptionsOutputsList;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase4Type = "step_runner";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase4 {
+  /** Configuration for a step (retries and timeout). */
+  config: VersionsGraphResponseGraphWorkflowNodesItemCase4Config;
+  name: string;
+  /** Statically known step.runner() options. A null field is not statically known (a non-literal value, an options object passed as a variable, or a field a spread may set). */
+  options: VersionsGraphResponseGraphWorkflowNodesItemCase4Options;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase4Type;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase5NodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase5Type = "step_dynamic";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase5 {
+  entrypoint: string;
+  isolationKey: string;
+  name: string;
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase5NodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase5Type;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase6NodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase6Type = "loop";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase6 {
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase6NodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase6Type;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase7Kind =
   | "all"
   | "any"
   | "all_settled"
   | "race";
-export type VersionsGraphResponseGraphWorkflowNodesItemCase5NodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase5Type = "parallel";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase5 {
-  /** Parallel execution strategy. */
-  kind: VersionsGraphResponseGraphWorkflowNodesItemCase5Kind;
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase5NodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase5Type;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlockNodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlockType = "block";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlock {
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlockNodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlockType;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlockNodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlockType = "block";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlock {
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlockNodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlockType;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlockNodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlockType = "block";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlock {
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlockNodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlockType;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase6Type = "try";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase6 {
-  catchBlock: VersionsGraphResponseGraphWorkflowNodesItemCase6CatchBlock;
-  finallyBlock: VersionsGraphResponseGraphWorkflowNodesItemCase6FinallyBlock;
-  tryBlock: VersionsGraphResponseGraphWorkflowNodesItemCase6TryBlock;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase6Type;
-}
 export type VersionsGraphResponseGraphWorkflowNodesItemCase7NodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase7Type = "block";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase7Type = "parallel";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase7 {
+  /** Parallel execution strategy. */
+  kind: VersionsGraphResponseGraphWorkflowNodesItemCase7Kind;
   /** Child nodes (recursive). */
   nodes: VersionsGraphResponseGraphWorkflowNodesItemCase7NodesList;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase7Type;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesItemNodesList = Array<unknown>;
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesItem {
-  condition: string;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlockNodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlockType = "block";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlock {
   /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesItemNodesList;
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlockNodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlockType;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesList =
-  Array<VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesItem>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase8Type = "if";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlockNodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlockType = "block";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlock {
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlockNodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlockType;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlockNodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlockType = "block";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlock {
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlockNodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlockType;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase8Type = "try";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase8 {
-  branches: VersionsGraphResponseGraphWorkflowNodesItemCase8BranchesList;
+  catchBlock: VersionsGraphResponseGraphWorkflowNodesItemCase8CatchBlock;
+  finallyBlock: VersionsGraphResponseGraphWorkflowNodesItemCase8FinallyBlock;
+  tryBlock: VersionsGraphResponseGraphWorkflowNodesItemCase8TryBlock;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase8Type;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesItemNodesList = Array<unknown>;
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesItem {
-  condition: string;
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesItemNodesList;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesList =
-  Array<VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesItem>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase9Type = "switch";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase9NodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase9Type = "block";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase9 {
-  branches: VersionsGraphResponseGraphWorkflowNodesItemCase9BranchesList;
-  discriminant: string;
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase9NodesList;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase9Type;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValueNodesList =
+export type VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesItemNodesList = Array<unknown>;
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesItem {
+  condition: string;
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesItemNodesList;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesList =
+  Array<VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesItem>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase10Type = "if";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase10 {
+  branches: VersionsGraphResponseGraphWorkflowNodesItemCase10BranchesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase10Type;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesItemNodesList = Array<unknown>;
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesItem {
+  condition: string;
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesItemNodesList;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesList =
+  Array<VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesItem>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase11Type = "switch";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase11 {
+  branches: VersionsGraphResponseGraphWorkflowNodesItemCase11BranchesList;
+  discriminant: string;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase11Type;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValueNodesList =
   Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValueType = "function_def";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValue {
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValueType = "function_def";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValue {
   name: string;
   /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValueNodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValueType;
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValueNodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValueType;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsMap = {
-  [key: string]: VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsValue | undefined;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsMap = {
+  [key: string]: VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsValue | undefined;
 };
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10NodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10Type = "start";
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadTypeType = "unknown";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadType {
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadTypeType;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12NodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12Type = "start";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadTypeType = "unknown";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadType {
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadTypeType;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1FieldsMap = {
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1FieldsMap = {
   [key: string]: unknown | undefined;
 };
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1Type = "object";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1 {
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1Type = "object";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1 {
   /** Nested JsonShape fields (recursive structure). */
-  fields: VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1FieldsMap;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1Type;
+  fields: VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1FieldsMap;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1Type;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase10Payload =
-  | VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadType
-  | VersionsGraphResponseGraphWorkflowNodesItemCase10PayloadCase1;
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase10 {
-  className: string;
-  functions: VersionsGraphResponseGraphWorkflowNodesItemCase10FunctionsMap;
-  /** Child nodes (recursive). */
-  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase10NodesList;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase10Type;
-  /** Shape descriptor for JSON payloads. */
-  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase10Payload | null | undefined;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase11Type = "function_call";
-export interface VersionsGraphResponseGraphWorkflowNodesItemCase11 {
-  name: string;
-  type: VersionsGraphResponseGraphWorkflowNodesItemCase11Type;
-  resolves?: number | null | undefined;
-  starts?: number | null | undefined;
-}
-export type VersionsGraphResponseGraphWorkflowNodesItemCase12NodesList = Array<unknown>;
-export type VersionsGraphResponseGraphWorkflowNodesItemCase12Type = "function_def";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase12Payload =
+  | VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadType
+  | VersionsGraphResponseGraphWorkflowNodesItemCase12PayloadCase1;
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase12 {
-  name: string;
+  className: string;
+  functions: VersionsGraphResponseGraphWorkflowNodesItemCase12FunctionsMap;
   /** Child nodes (recursive). */
   nodes: VersionsGraphResponseGraphWorkflowNodesItemCase12NodesList;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase12Type;
+  /** Shape descriptor for JSON payloads. */
+  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase12Payload | null | undefined;
 }
-export type VersionsGraphResponseGraphWorkflowNodesItemCase13Kind = "break" | "return";
-export type VersionsGraphResponseGraphWorkflowNodesItemCase13Type = "break";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase13Type = "function_call";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase13 {
-  /** Break or return from a loop. */
-  kind: VersionsGraphResponseGraphWorkflowNodesItemCase13Kind;
+  name: string;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase13Type;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase14NodesList = Array<unknown>;
+export type VersionsGraphResponseGraphWorkflowNodesItemCase14Type = "function_def";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase14 {
+  name: string;
+  /** Child nodes (recursive). */
+  nodes: VersionsGraphResponseGraphWorkflowNodesItemCase14NodesList;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase14Type;
+}
+export type VersionsGraphResponseGraphWorkflowNodesItemCase15Kind = "break" | "return";
+export type VersionsGraphResponseGraphWorkflowNodesItemCase15Type = "break";
+export interface VersionsGraphResponseGraphWorkflowNodesItemCase15 {
+  /** Break or return from a loop. */
+  kind: VersionsGraphResponseGraphWorkflowNodesItemCase15Kind;
+  type: VersionsGraphResponseGraphWorkflowNodesItemCase15Type;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItem =
   | VersionsGraphResponseGraphWorkflowNodesItemCase0
@@ -727,7 +777,9 @@ export type VersionsGraphResponseGraphWorkflowNodesItem =
   | VersionsGraphResponseGraphWorkflowNodesItemCase10
   | VersionsGraphResponseGraphWorkflowNodesItemCase11
   | VersionsGraphResponseGraphWorkflowNodesItemCase12
-  | VersionsGraphResponseGraphWorkflowNodesItemCase13;
+  | VersionsGraphResponseGraphWorkflowNodesItemCase13
+  | VersionsGraphResponseGraphWorkflowNodesItemCase14
+  | VersionsGraphResponseGraphWorkflowNodesItemCase15;
 export type VersionsGraphResponseGraphWorkflowNodesList =
   Array<VersionsGraphResponseGraphWorkflowNodesItem>;
 export type VersionsGraphResponseGraphWorkflowPayloadTypeType = "unknown";
@@ -1424,7 +1476,7 @@ function __c2(j: number): any {
           ["attempts", "config", "end", "name", "output", "start", "success", "type"],
           ["end", "error", "finished", "name", "start", "type"],
           ["trigger", "type"],
-          ["end", "error", "finished", "name", "start", "type", "eventType", "output"],
+          ["error", "finished", "name", "start", "type", "end", "eventType", "output"],
         ]),
       );
     case 4:
@@ -1622,6 +1674,8 @@ function __c8(j: number): any {
             ["config", "name", "nodes", "type", "resolves", "starts"],
             ["name", "options", "type", "payload", "resolves", "starts"],
             ["name", "timestamp", "type", "resolves", "starts"],
+            ["config", "name", "options", "type", "resolves", "starts"],
+            ["entrypoint", "isolationKey", "name", "nodes", "type", "resolves", "starts"],
             ["nodes", "type"],
             ["kind", "nodes", "type"],
             ["catchBlock", "finallyBlock", "tryBlock", "type"],
@@ -1640,6 +1694,8 @@ function __c8(j: number): any {
               "step_do",
               "step_wait_for_event",
               "step_sleep_until",
+              "step_runner",
+              "step_dynamic",
               "loop",
               "parallel",
               "try",

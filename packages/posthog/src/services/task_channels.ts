@@ -411,6 +411,8 @@ export type TaskRunErrorResponseMissingArtifactIdsList = Array<string>;
 /** * `burst` - burst * `sustained` - sustained */
 export type LimitTypeEnum = "burst" | "sustained";
 export interface TaskRunErrorResponse {
+  /** Message ID to reuse as the JSON-RPC id when retrying delivery */
+  id?: unknown | undefined;
   /** Human-readable validation error */
   detail?: string | undefined;
   /** Human-readable error message */
@@ -864,6 +866,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.Unknown),
           detail: S.optional(S.String),
           error: S.optional(S.String),
           type: S.optional(S.String),

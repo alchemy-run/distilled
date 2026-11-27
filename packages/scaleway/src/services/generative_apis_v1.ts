@@ -73,6 +73,8 @@ export interface ConsumptionLimitsResponse {
   organization_id?: string | undefined;
   /** Project ID. (UUID format) */
   project_id?: string | undefined;
+  /** SRN of the consumption limits. */
+  srn?: string | undefined;
   /** Model limit objects. */
   limits?: ConsumptionLimitsResponseLimitsList | undefined;
 }
@@ -207,6 +209,7 @@ function __c1(j: number): any {
           model_id: S.optional(S.String),
           organization_id: S.optional(S.String),
           project_id: S.optional(S.String),
+          srn: S.optional(S.String),
           limits: S.optional(__S(6, __c1, 2)),
         }),
       ).annotate({ identifier: "ConsumptionLimitsResponse" });

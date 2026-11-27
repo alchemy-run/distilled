@@ -42,6 +42,7 @@ export interface ListTokensResponseToken {
   memberAvatarUrl: string;
   name: string;
   expiresAt?: number | undefined;
+  disabled: boolean;
 }
 export type ListTokensResponseTokenList = Array<ListTokensResponseToken>;
 export interface ListTokensResponse {
@@ -87,6 +88,7 @@ function __c0(j: number): any {
           memberAvatarUrl: S.String,
           name: S.String,
           expiresAt: S.optional(S.Number),
+          disabled: S.Boolean,
         }),
       ).annotate({ identifier: "ListTokensResponseToken" });
     case 2:

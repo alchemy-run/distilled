@@ -24,6 +24,110 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface ListApmDependenciesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
+  date_from?: string | undefined;
+  /** End of the window, ISO 8601. Defaults to now. */
+  date_to?: string | undefined;
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
+  environment?: string | undefined;
+  /** Only edges where this service is the caller or the callee. */
+  service?: string | undefined;
+}
+/** * `service` - Service * `database` - Database * `queue` - Queue * `external` - External */
+export type DependencyKindEnum = "service" | "database" | "queue" | "external";
+export interface DependencyEdge {
+  /** The calling service. */
+  caller: string;
+  /** The called service, or for an inferred dependency the peer service, database, queue or host it names. */
+  callee: string;
+  /** True when the callee sends no spans and is named by the caller's client span attributes. */
+  inferred: boolean;
+  /** What the callee is. * `service` - Service * `database` - Database * `queue` - Queue * `external` - External */
+  kind: DependencyKindEnum;
+  /** Calls from the caller into the callee in the window. */
+  requests: number;
+  /** Calls with an error status, on the caller's client span when it has one. */
+  error_count: number;
+  /** 95th percentile call duration in ms, on the caller's client span when it has one. */
+  p95_ms: number | null;
+}
+/** One edge per caller and callee, most requests first. */
+export type DependenciesResponseEdgesList = Array<DependencyEdge>;
+export interface DependenciesResponse {
+  /** One edge per caller and callee, most requests first. */
+  edges: DependenciesResponseEdgesList;
+  /** True when more edges matched than the response holds. */
+  truncated: boolean;
+  /** True when the window held more traces than the sample reads, so the counts cover only the sampled traces. */
+  sampled: boolean;
+  /** How many whole traces the edges were computed from. */
+  trace_count: number;
+  /** The environment filter the edges were computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
+  /** The service filter applied, if any. */
+  service: string | null;
+  /** Start of the window used. */
+  date_from: string;
+  /** End of the window used. */
+  date_to: string;
+}
+export interface ListApmDeploymentsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
+  date_from?: string | undefined;
+  /** End of the window, ISO 8601. Defaults to now. */
+  date_to?: string | undefined;
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
+  environment?: string | undefined;
+  /** The service to list versions for. */
+  service: string;
+}
+export interface DeploymentVersion {
+  /** The version, read from the attribute named by version_source. */
+  version: string;
+  /** First span of this version in the window. */
+  first_seen: string;
+  /** Last span of this version in the window. */
+  last_seen: string;
+  /** Requests counted in the window. */
+  requests: number;
+  /** Requests with an error status. */
+  error_count: number;
+  /** Share of requests with an error status, 0 to 1. */
+  error_rate: number | null;
+  /** 95th percentile request duration in milliseconds. */
+  p95_ms: number | null;
+  /** The version first seen just before this one. Null for the oldest. */
+  previous_version: string | null;
+  /** Error rate minus the previous version's, as a fraction. */
+  error_rate_change: number | null;
+  /** Change in p95 from the previous version, in percent. */
+  p95_change_pct: number | null;
+  /** True for the version first seen most recently. */
+  active: boolean;
+}
+/** One row per version, oldest first. */
+export type DeploymentsResponseResultsList = Array<DeploymentVersion>;
+/** * `service.version` - Service Version * `k8s.replicaset.name` - K8S Replicaset Name */
+export type VersionSourceEnum = "service.version" | "k8s.replicaset.name";
+export interface DeploymentsResponse {
+  /** One row per version, oldest first. */
+  results: DeploymentsResponseResultsList;
+  /** The resource attribute the versions come from: service.version when the service sets it, else k8s.replicaset.name, which changes on every Kubernetes rollout. Null when the spans carry neither. * `service.version` - Service Version * `k8s.replicaset.name` - K8S Replicaset Name */
+  version_source: VersionSourceEnum | null;
+  /** The service the versions belong to. */
+  service: string;
+  /** The environment filter the rows were computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
+  /** Start of the window used. */
+  date_from: string;
+  /** End of the window used. */
+  date_to: string;
+}
 export interface ListApmEndpointsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -31,7 +135,7 @@ export interface ListApmEndpointsRequest {
   date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
   date_to?: string | undefined;
-  /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
   environment?: string | undefined;
   /** Only list the endpoints of this service. */
   service?: string | undefined;
@@ -49,14 +153,22 @@ export interface HealthRow {
   span_count: number;
   /** Requests with an error status in the window. */
   error_count: number;
+  /** Apdex score from 0 to 1 with a 500 ms threshold: satisfied requests plus half the tolerating ones (up to 2 s), over all requests. Errors count as frustrated. */
+  apdex: number | null;
 }
 export interface EndpointHealth {
   /** The service.name resource attribute. */
   service_name: string;
-  /** The entry span name, for example the HTTP route or the job name. */
+  /** The endpoint label: the entry span name, or "<METHOD> <route>" when the span name is only an HTTP method and the span carries a route. */
   endpoint: string;
-  /** The environment the row was computed for. */
-  environment: string;
+  /** The raw entry span name the row counts, for tracing filters. */
+  span_name: string;
+  /** The span attribute the route came from (http.route, url.template, or for an outgoing call db.system, server.address or net.peer.name), or null when the label is the span name. */
+  route_attribute: string | null;
+  /** The route appended to the span name, or null. */
+  route: string | null;
+  /** The environment filter the row was computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** Health band from the error rate. * `good` - Good * `warning` - Warning * `serious` - Serious * `critical` - Critical */
   status: HealthStatusEnum;
   /** The health row every surface renders. */
@@ -67,10 +179,58 @@ export type EndpointsHealthResponseResultsList = Array<EndpointHealth>;
 export interface EndpointsHealthResponse {
   /** One row per service and endpoint, worst status first. */
   results: EndpointsHealthResponseResultsList;
-  /** The environment the rows were computed for. */
-  environment: string;
+  /** The environment filter the rows were computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** The service filter applied, if any. */
   service: string | null;
+  /** Start of the window used. */
+  date_from: string;
+  /** End of the window used. */
+  date_to: string;
+}
+export interface ListApmEndpointTimeSpentRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
+  date_from?: string | undefined;
+  /** End of the window, ISO 8601. Defaults to now. */
+  date_to?: string | undefined;
+  /** The endpoint label, as listed by apm/endpoints. */
+  endpoint: string;
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
+  environment?: string | undefined;
+  /** The service that handles the endpoint. */
+  service: string;
+}
+/** * `service` - Service * `inferred` - Inferred * `other` - Other */
+export type TimeSpentComponentKindEnum = "service" | "inferred" | "other";
+export interface TimeSpentComponent {
+  /** The service name, the inferred dependency (for example a database system or host), or 'Other'. */
+  name: string;
+  /** service: an instrumented service. inferred: a dependency seen only through client spans. other: the remaining components combined. * `service` - Service * `inferred` - Inferred * `other` - Other */
+  kind: TimeSpentComponentKindEnum;
+  /** Self-time summed across the sampled requests, in milliseconds. */
+  total_ms: number;
+  /** Self-time per sampled request, in milliseconds. */
+  avg_ms_per_request: number;
+  /** Share of the attributed request time, 0 to 1. */
+  share: number;
+}
+/** Where the request time goes, largest share first. */
+export type EndpointTimeSpentResponseComponentsList = Array<TimeSpentComponent>;
+export interface EndpointTimeSpentResponse {
+  /** Where the request time goes, largest share first. */
+  components: EndpointTimeSpentResponseComponentsList;
+  /** Requests sampled to compute the breakdown. */
+  request_count: number;
+  /** Mean duration of the sampled requests, in milliseconds. */
+  avg_duration_ms: number | null;
+  /** The service the endpoint belongs to. */
+  service: string;
+  /** The endpoint's entry span name. */
+  endpoint: string;
+  /** The environment filter the breakdown was computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** Start of the window used. */
   date_from: string;
   /** End of the window used. */
@@ -83,7 +243,7 @@ export interface ListApmServiceMapRequest {
   date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
   date_to?: string | undefined;
-  /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
   environment?: string | undefined;
 }
 export interface ServiceEdge {
@@ -105,8 +265,8 @@ export interface ServiceMapResponse {
   edges: ServiceMapResponseEdgesList;
   /** Traces sampled to build the map. */
   trace_count: number;
-  /** The environment the map was built for. */
-  environment: string;
+  /** The environment filter the map was built for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** Start of the window used. */
   date_from: string;
   /** End of the window used. */
@@ -119,7 +279,7 @@ export interface ListApmServicesRequest {
   date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
   date_to?: string | undefined;
-  /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
+  /** Environment to list, as resolved from span resource attributes. Omit it for every environment. Pass an empty value for spans that set no environment. */
   environment?: string | undefined;
 }
 /** Request counts per bucket across the window, oldest first. */
@@ -127,8 +287,8 @@ export type ServiceHealthSparklineList = Array<number>;
 export interface ServiceHealth {
   /** The service.name resource attribute. */
   service_name: string;
-  /** The environment the row was computed for. */
-  environment: string;
+  /** The environment filter the row was computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** Health band from the error rate. * `good` - Good * `warning` - Warning * `serious` - Serious * `critical` - Critical */
   status: HealthStatusEnum;
   /** The health row every surface renders. */
@@ -138,20 +298,108 @@ export interface ServiceHealth {
 }
 /** One row per service, worst status first. */
 export type ServicesHealthResponseResultsList = Array<ServiceHealth>;
-/** Environments seen in the window. */
-export type ServicesHealthResponseEnvironmentsList = Array<string>;
+/** Environments seen in the window. Null stands for spans that set no environment. */
+export type ServicesHealthResponseEnvironmentsList = Array<string | null>;
 export interface ServicesHealthResponse {
   /** One row per service, worst status first. */
   results: ServicesHealthResponseResultsList;
-  /** Environments seen in the window. */
+  /** Environments seen in the window. Null stands for spans that set no environment. */
   environments: ServicesHealthResponseEnvironmentsList;
-  /** The environment the rows were computed for. */
-  environment: string;
+  /** The environment filter the rows were computed for: null for every environment, empty for spans with no environment. */
+  environment: string | null;
   /** Start of the window used. */
   date_from: string;
   /** End of the window used. */
   date_to: string;
 }
+export interface ListApmUsageRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
+  date_from?: string | undefined;
+  /** End of the window, ISO 8601. Defaults to now. */
+  date_to?: string | undefined;
+}
+export interface ServiceUsage {
+  /** Log records stored in the window. */
+  log_records: number;
+  /** Uncompressed size of the stored log records in bytes. Billing counts logs by this size. */
+  log_bytes: number;
+  /** Spans of every kind stored in the window. */
+  spans: number;
+  /** Metric data points stored in the window. */
+  metric_points: number;
+  /** Distinct metric series with at least one point in the window. */
+  metric_series: number;
+  /** The service.name resource attribute. */
+  service_name: string;
+}
+/** One row per service across logs, traces, and metrics, largest logs size first. */
+export type ServiceUsageResponseResultsList = Array<ServiceUsage>;
+export interface UsageValues {
+  /** Log records stored in the window. */
+  log_records: number;
+  /** Uncompressed size of the stored log records in bytes. Billing counts logs by this size. */
+  log_bytes: number;
+  /** Spans of every kind stored in the window. */
+  spans: number;
+  /** Metric data points stored in the window. */
+  metric_points: number;
+  /** Distinct metric series with at least one point in the window. */
+  metric_series: number;
+}
+/** * `logs` - Logs * `traces` - Traces * `metrics` - Metrics */
+export type UsageSignalEnum = "logs" | "traces" | "metrics";
+/** Signals that failed to load. Their values are 0 in every row and in the totals. */
+export type ServiceUsageResponseUnavailableSignalsList = Array<UsageSignalEnum>;
+export interface ServiceUsageResponse {
+  /** One row per service across logs, traces, and metrics, largest logs size first. */
+  results: ServiceUsageResponseResultsList;
+  /** Totals for the whole window, including services past the row limit. */
+  totals: UsageValues;
+  /** Signals that failed to load. Their values are 0 in every row and in the totals. */
+  unavailable_signals: ServiceUsageResponseUnavailableSignalsList;
+  /** Start of the window used. */
+  date_from: string;
+  /** End of the window used. */
+  date_to: string;
+}
+export type ListApmDependenciesError = PosthogOpError;
+/** Caller to callee edges over the whole window, including inferred dependencies. Same gate and window as services. */
+export const listApmDependencies: API.OperationMethod<
+  ListApmDependenciesRequest,
+  DependenciesResponse,
+  ListApmDependenciesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<ListApmDependenciesRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<DependenciesResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApmDependencies",
+}));
+
+export type ListApmDeploymentsError = PosthogOpError;
+/** One service's versions in an environment and window, each compared with the one before. Same gate and window as services. */
+export const listApmDeployments: API.OperationMethod<
+  ListApmDeploymentsRequest,
+  DeploymentsResponse,
+  ListApmDeploymentsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<ListApmDeploymentsRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<DeploymentsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApmDeployments",
+}));
+
 export type ListApmEndpointsError = PosthogOpError;
 /** One health row per service and entry span name, worst first. Same gate and window as services. */
 export const listApmEndpoints: API.OperationMethod<
@@ -160,14 +408,32 @@ export const listApmEndpoints: API.OperationMethod<
   ListApmEndpointsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListApmEndpointsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<EndpointsHealthResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListApmEndpointsRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<EndpointsHealthResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApmEndpoints",
+}));
+
+export type ListApmEndpointTimeSpentError = PosthogOpError;
+/** Where one endpoint's request time goes, by service and inferred dependency. Same gate and window as services. */
+export const listApmEndpointTimeSpent: API.OperationMethod<
+  ListApmEndpointTimeSpentRequest,
+  EndpointTimeSpentResponse,
+  ListApmEndpointTimeSpentError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<ListApmEndpointTimeSpentRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<EndpointTimeSpentResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApmEndpointTimeSpent",
 }));
 
 export type ListApmServiceMapError = PosthogOpError;
@@ -178,8 +444,8 @@ export const listApmServiceMap: API.OperationMethod<
   ListApmServiceMapError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListApmServiceMapRequest>,
-  output: __S(19, __c2, 3) as any as S.Schema<ServiceMapResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListApmServiceMapRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<ServiceMapResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -196,8 +462,8 @@ export const listApmServices: API.OperationMethod<
   ListApmServicesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListApmServicesRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<ServicesHealthResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListApmServicesRequest>,
+  output: __S(53, __c6, 5) as any as S.Schema<ServicesHealthResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -206,8 +472,114 @@ export const listApmServices: API.OperationMethod<
   span: "ListApmServices",
 }));
 
+export type ListApmUsageError = PosthogOpError;
+/** How much each service sends across logs, traces, and metrics in a window. Same gate and window as services. Usage covers every environment: logs and metrics often carry no environment attribute, so a filter would hide the services that send the most. */
+export const listApmUsage: API.OperationMethod<
+  ListApmUsageRequest,
+  ServiceUsageResponse,
+  ListApmUsageError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<ListApmUsageRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<ServiceUsageResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApmUsage",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          environment: S.optional(S.String.pipe(T.Query())),
+          service: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/apm/dependencies/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListApmDependenciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          caller: S.String,
+          callee: S.String,
+          inferred: S.Boolean,
+          kind: S.String,
+          requests: S.Number,
+          error_count: S.Number,
+          p95_ms: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "DependencyEdge" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          edges: __S(2, __c0, 2),
+          truncated: S.Boolean,
+          sampled: S.Boolean,
+          trace_count: S.Number,
+          environment: S.NullOr(S.String),
+          service: S.NullOr(S.String),
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "DependenciesResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          environment: S.optional(S.String.pipe(T.Query())),
+          service: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/apm/deployments/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListApmDeploymentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+          first_seen: S.String,
+          last_seen: S.String,
+          requests: S.Number,
+          error_count: S.Number,
+          error_rate: S.NullOr(S.Number),
+          p95_ms: S.NullOr(S.Number),
+          previous_version: S.NullOr(S.String),
+          error_rate_change: S.NullOr(S.Number),
+          p95_change_pct: S.NullOr(S.Number),
+          active: S.Boolean,
+        }),
+      ).annotate({ identifier: "DeploymentVersion" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(10, __c1, 2),
+          version_source: S.NullOr(S.String),
+          service: S.String,
+          environment: S.NullOr(S.String),
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "DeploymentsResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -226,18 +598,21 @@ function __c0(j: number): any {
         S.Struct({
           service_name: S.String,
           endpoint: S.String,
-          environment: S.String,
+          span_name: S.String,
+          route_attribute: S.NullOr(S.String),
+          route: S.NullOr(S.String),
+          environment: S.NullOr(S.String),
           status: S.String,
-          health: __S(8, __c1, 0),
+          health: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "EndpointHealth" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2, __c0, 2),
-          environment: S.String,
+          results: __S(18, __c2, 2),
+          environment: S.NullOr(S.String),
           service: S.NullOr(S.String),
           date_from: S.String,
           date_to: S.String,
@@ -245,7 +620,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "EndpointsHealthResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -255,11 +630,58 @@ function __c1(j: number): any {
           p95_ms: S.NullOr(S.Number),
           span_count: S.Number,
           error_count: S.Number,
+          apdex: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "HealthRow" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          endpoint: S.String.pipe(T.Query()),
+          environment: S.optional(S.String.pipe(T.Query())),
+          service: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/apm/endpoint_time_spent/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListApmEndpointTimeSpentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          kind: S.String,
+          total_ms: S.Number,
+          avg_ms_per_request: S.Number,
+          share: S.Number,
+        }),
+      ).annotate({ identifier: "TimeSpentComponent" });
+    case 2:
+      return S.Array(__S(33, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          components: __S(34, __c4, 2),
+          request_count: S.Number,
+          avg_duration_ms: S.NullOr(S.Number),
+          service: S.String,
+          endpoint: S.String,
+          environment: S.NullOr(S.String),
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "EndpointTimeSpentResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -283,20 +705,20 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "ServiceEdge" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          edges: __S(18, __c2, 2),
+          edges: __S(42, __c5, 2),
           trace_count: S.Number,
-          environment: S.String,
+          environment: S.NullOr(S.String),
           date_from: S.String,
           date_to: S.String,
         }),
       ).annotate({ identifier: "ServiceMapResponse" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -315,26 +737,73 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           service_name: S.String,
-          environment: S.String,
+          environment: S.NullOr(S.String),
           status: S.String,
-          health: __S(8, __c1, 0),
-          sparkline: __S(25, __c3, 1),
+          health: __S(24, __c3, 0),
+          sparkline: __S(49, __c6, 1),
         }),
       ).annotate({ identifier: "ServiceHealth" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(50, __c6, 2));
+    case 4:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(51, __c6, 3),
+          environments: __S(52, __c6, 4),
+          environment: S.NullOr(S.String),
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "ServicesHealthResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/apm/usage/", code: 200 })),
+      ).annotate({ identifier: "ListApmUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          log_records: S.Number,
+          log_bytes: S.Number,
+          spans: S.Number,
+          metric_points: S.Number,
+          metric_series: S.Number,
+          service_name: S.String,
+        }),
+      ).annotate({ identifier: "ServiceUsage" });
+    case 2:
+      return S.Array(__S(57, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          log_records: S.Number,
+          log_bytes: S.Number,
+          spans: S.Number,
+          metric_points: S.Number,
+          metric_series: S.Number,
+        }),
+      ).annotate({ identifier: "UsageValues" });
     case 4:
       return S.Array(S.String);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(27, __c3, 3),
-          environments: __S(28, __c3, 4),
-          environment: S.String,
+          results: __S(58, __c7, 2),
+          totals: __S(59, __c7, 3),
+          unavailable_signals: __S(60, __c7, 4),
           date_from: S.String,
           date_to: S.String,
         }),
-      ).annotate({ identifier: "ServicesHealthResponse" });
+      ).annotate({ identifier: "ServiceUsageResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

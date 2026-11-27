@@ -183,7 +183,7 @@ export interface ListExternalTeamsRequest {
   sort_field?: ListExternalTeamsRequestSortField | (string & {}) | undefined;
   /** Direction to sort in asc or desc */
   sort_direction?: ListExternalTeamsRequestSortDirection | (string & {}) | undefined;
-  /** Filters connected orgs by Slack Connect pref override(s). Value can be: `approved_orgs_only` `allow_sc_file_uploads` `profile_visibility` `away_team_sc_invite_permissions` `accept_sc_invites` `sc_mpdm_to_private` `require_sc_channel_for_sc_dm` `external_awareness_context_bar` */
+  /** Filters connected orgs by Slack Connect pref override(s). Value can be: `approved_orgs_only` `allow_sc_file_uploads` `profile_visibility` `away_team_sc_invite_permissions` `accept_sc_invites` `sc_mpdm_to_private` `external_awareness_context_bar` */
   slack_connect_pref_filter?: ListExternalTeamsRequestSlackConnectPrefFilterList | undefined;
   /** Shows connected orgs which are connected on a specified encoded workspace ID */
   workspace_filter?: ListExternalTeamsRequestWorkspaceFilterList | undefined;

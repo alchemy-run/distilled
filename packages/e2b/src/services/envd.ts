@@ -160,6 +160,14 @@ export interface Metrics {
   mem_used?: number | undefined;
   /** Cached memory (page cache) in bytes */
   mem_cache?: number | undefined;
+  /** Memory limit envd last applied to the user and PTY cgroups in bytes, recomputed whenever the guest's memory size changes; 0 when envd has applied none. A limit changed from inside the guest is not reflected. */
+  mem_limit?: number | undefined;
+  /** Memory managed in the guest's movable zone in bytes, the part a later memory unplug can reliably take back. */
+  mem_movable?: number | undefined;
+  /** Memory managed in the guest's other zones in bytes */
+  mem_kernel?: number | undefined;
+  /** The guest kernel's memory_hotplug.online_policy, empty when the kernel has no such parameter. */
+  mem_online_policy?: string | undefined;
   /** Used disk space in bytes */
   disk_used?: number | undefined;
   /** Total disk space in bytes */
@@ -654,6 +662,10 @@ function __c13(j: number): any {
           mem_total: S.optional(S.Number),
           mem_used: S.optional(S.Number),
           mem_cache: S.optional(S.Number),
+          mem_limit: S.optional(S.Number),
+          mem_movable: S.optional(S.Number),
+          mem_kernel: S.optional(S.Number),
+          mem_online_policy: S.optional(S.String),
           disk_used: S.optional(S.Number),
           disk_total: S.optional(S.Number),
           oom_kills: S.optional(__S(54, __c13, 2)),

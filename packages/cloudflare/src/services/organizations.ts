@@ -266,7 +266,7 @@ export interface BillingUsageGetResultItem {
   invoiceIssuerName: string;
   /** Name of the entity that made the services available for purchase. */
   serviceProviderName: string;
-  /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
+  /** The unique identifier for the billable metric in the Cloudflare catalog. For cost billed under a since-archived billable metric this is the metric's catalog public id (a UUID) rather than its usage metric name, so it stays separate from the live metric that replaced it. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
   billedCost?: number | null | undefined;
@@ -437,6 +437,12 @@ export interface GetOrganizationAccountResultItemTenantAccountSettings {
   useAccountCustomNsByDefault: boolean;
 }
 export type GetOrganizationAccountResultItemTenantAccountType = "standard" | "enterprise";
+export type GetOrganizationAccountResultItemTenantAccountEnterpriseProvisioningStatus =
+  | "pending"
+  | "completed"
+  | "rejected"
+  | "cancelled";
+export type GetOrganizationAccountResultItemTenantAccountProvisioningMode = "assisted";
 export type GetOrganizationAccountResultItemTenantAccountTagsMap = {
   [key: string]: string | undefined;
 };
@@ -446,28 +452,36 @@ export interface GetOrganizationAccountResultItemTenantAccount {
   name: string;
   settings: GetOrganizationAccountResultItemTenantAccountSettings;
   type: GetOrganizationAccountResultItemTenantAccountType;
+  enterpriseProvisioningStatus?:
+    | GetOrganizationAccountResultItemTenantAccountEnterpriseProvisioningStatus
+    | null
+    | undefined;
+  provisioningMode?:
+    | GetOrganizationAccountResultItemTenantAccountProvisioningMode
+    | null
+    | undefined;
   /** Account tags, present only when `include_tags=true` is requested. */
   tags?: GetOrganizationAccountResultItemTenantAccountTagsMap | null | undefined;
 }
-export type GetOrganizationAccountResultItemOrganizationsAPILegacyAccountAccountType =
+export type GetOrganizationAccountResultItemOrganizationsLegacyAccountAccountType =
   | "standard"
   | "enterprise";
-export interface GetOrganizationAccountResultItemOrganizationsAPILegacyAccountSettings {
+export interface GetOrganizationAccountResultItemOrganizationsLegacyAccountSettings {
   accessApprovalExpiry: string;
   apiAccessEnabled: boolean;
   enforceTwoFactor: boolean;
   useAccountCustomNsByDefault: boolean;
 }
-export interface GetOrganizationAccountResultItemOrganizationsAPILegacyAccount {
+export interface GetOrganizationAccountResultItemOrganizationsLegacyAccount {
   accountPubname: string;
   accountTag: string;
-  accountType: GetOrganizationAccountResultItemOrganizationsAPILegacyAccountAccountType;
+  accountType: GetOrganizationAccountResultItemOrganizationsLegacyAccountAccountType;
   createdOn: string;
-  settings: GetOrganizationAccountResultItemOrganizationsAPILegacyAccountSettings;
+  settings: GetOrganizationAccountResultItemOrganizationsLegacyAccountSettings;
 }
 export type GetOrganizationAccountResultItem =
   | GetOrganizationAccountResultItemTenantAccount
-  | GetOrganizationAccountResultItemOrganizationsAPILegacyAccount;
+  | GetOrganizationAccountResultItemOrganizationsLegacyAccount;
 export type GetOrganizationAccountResultList = Array<GetOrganizationAccountResultItem>;
 export type GetOrganizationAccountResponse = GetOrganizationAccountResultList;
 export interface GetOrganizationProfileRequest {
@@ -1934,7 +1948,16 @@ function __c24(j: number): any {
     case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
-          ["id", "createdOn", "name", "settings", "type", "tags"],
+          [
+            "id",
+            "createdOn",
+            "name",
+            "settings",
+            "type",
+            "enterpriseProvisioningStatus",
+            "provisioningMode",
+            "tags",
+          ],
           ["accountPubname", "accountTag", "accountType", "createdOn", "settings"],
         ]),
       );

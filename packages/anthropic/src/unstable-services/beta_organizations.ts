@@ -28,25 +28,17 @@ const TELEMETRY = {
 } as const;
 
 export type AnthropicBetaCase1 =
-  | "message-batches-2024-09-24"
-  | "prompt-caching-2024-07-31"
   | "computer-use-2024-10-22"
   | "computer-use-2025-01-24"
-  | "pdfs-2024-09-25"
-  | "token-counting-2024-11-01"
-  | "token-efficient-tools-2025-02-19"
   | "output-128k-2025-02-19"
-  | "files-api-2025-04-14"
   | "mcp-client-2025-04-04"
   | "mcp-client-2025-11-20"
   | "dev-full-thinking-2025-05-14"
   | "interleaved-thinking-2025-05-14"
   | "code-execution-2025-05-22"
-  | "extended-cache-ttl-2025-04-11"
   | "context-1m-2025-08-07"
   | "context-management-2025-06-27"
   | "model-context-window-exceeded-2025-08-26"
-  | "skills-2025-10-02"
   | "fast-mode-2026-02-01"
   | "output-300k-2026-03-24"
   | "user-profiles-2026-03-24"
@@ -54,7 +46,6 @@ export type AnthropicBetaCase1 =
   | "user-profiles-2026-09-04"
   | "advisor-tool-2026-03-01"
   | "managed-agents-2026-04-01"
-  | "cache-diagnosis-2026-04-07"
   | "dreaming-2026-04-21"
   | "thinking-token-count-2026-05-13"
   | "server-side-fallback-2026-06-01"
@@ -69,7 +60,6 @@ export type AnthropicBetaCase1 =
   | "structured-outputs-2025-11-13"
   | "task-budgets-2026-03-13"
   | "thinking-display-updates-2026-08-18"
-  | "ce-user-management-2026-07-13"
   | "mid-conversation-output-config-2026-07-01"
   | "thinking-binding-controls-2026-08-01"
   | "mid-conversation-system-clear-at-2026-08-21"
@@ -83,9 +73,101 @@ export type AnthropicBetaCase1 =
   | "admin-user-sign-out-2026-10-08"
   | "message-threads-2026-08-12"
   | "analytics-usage-cost-2026-08-24"
-  | "experimental-claude-tag-2026-10-21";
+  | "experimental-claude-tag-2026-10-21"
+  | "message-batches-2024-09-24"
+  | "prompt-caching-2024-07-31"
+  | "pdfs-2024-09-25"
+  | "token-counting-2024-11-01"
+  | "token-efficient-tools-2025-02-19"
+  | "files-api-2025-04-14"
+  | "extended-cache-ttl-2025-04-11"
+  | "skills-2025-10-02"
+  | "cache-diagnosis-2026-04-07"
+  | "ce-user-management-2026-07-13"
+  | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
+  | "google-managed-data-controls-2026-09-01"
+  | "user-profiles-billing-2026-10-01";
 /** Beta names you can send in the `anthropic-beta` header. See [Beta headers](https://platform.claude.com/docs/en/api/beta-headers) for how to send them and where to find the name a feature needs. */
 export type AnthropicBeta = string | AnthropicBetaCase1;
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type ActivateExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface ActivateExternalStorageRequest {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: ActivateExternalStorageRequestAnthropicBetaList;
+}
+/** An Amazon S3 bucket. */
+export interface BetaAwsExternalStorageConfig {
+  /** 12-digit ID of the AWS account that owns the bucket. */
+  account_id: string;
+  /** The bucket's name, without `s3://`. */
+  bucket_name: string;
+  /** The bucket's AWS region. */
+  region: string;
+  type: string;
+}
+/** A Google Cloud Storage bucket. */
+export interface BetaGcpExternalStorageConfig {
+  /** The bucket's name, without `gs://`. */
+  bucket_name: string;
+  /** Number of the Google Cloud project that holds the bucket. */
+  project_number: string;
+  /** The bucket's Google Cloud region. */
+  region: string;
+  type: string;
+}
+export type BetaExternalStorageProviderConfig =
+  | BetaAwsExternalStorageConfig
+  | BetaGcpExternalStorageConfig;
+/** The storage isn't verified yet. */
+export interface BetaPendingConfigurationExternalStorageStatus {
+  type: string;
+}
+/** The storage is verified, no Workspace has it attached, and Anthropic doesn't use the bucket. */
+export interface BetaAvailableExternalStorageStatus {
+  /** Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring. */
+  healthy: boolean;
+  /** When the bucket's latest recorded check ran, in RFC 3339. */
+  last_checked_at: string;
+  type: string;
+}
+/** At least one Workspace has the storage attached. */
+export type BetaActiveExternalStorageStatus = BetaAvailableExternalStorageStatus;
+/** No Workspace has the storage attached. A Workspace can attach it again, unless `removal_started` is true. */
+export interface BetaDrainingExternalStorageStatus {
+  /** Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring. */
+  healthy: boolean;
+  /** When the bucket's latest recorded check ran, in RFC 3339. */
+  last_checked_at: string;
+  /** True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal. */
+  removal_started: boolean;
+  type: string;
+}
+export type BetaExternalStorageStatus =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaAvailableExternalStorageStatus
+  | BetaAvailableExternalStorageStatus
+  | BetaDrainingExternalStorageStatus;
+/** A storage bucket in the organization's own cloud account. Anthropic writes inference data to it from each Workspace it is attached to. */
+export interface BetaExternalStorage {
+  created_at: string;
+  /** Human-friendly display name. Null if none was set. */
+  display_name: string | null;
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  id: string;
+  provider_config: BetaExternalStorageProviderConfig;
+  /** The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3. */
+  setup_template_version: string | null;
+  status: BetaExternalStorageStatus;
+  type: string;
+  updated_at: string;
+  /** The user profile the storage is bound to, or null. */
+  user_profile_id: string | null;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type AddFederationRuleWorkspaceRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface AddFederationRuleWorkspaceRequest {
@@ -245,9 +327,7 @@ export interface BetaOrgServiceScope {
   service: string;
   type: string;
 }
-export interface BetaOrganizationScope {
-  type: string;
-}
+export type BetaOrganizationScope = BetaPendingConfigurationExternalStorageStatus;
 /** Scope selecting one workspace of a Claude Console organization. */
 export interface BetaWorkspaceScope {
   /** Scope type. Always `workspace` for this scope. */
@@ -266,7 +346,7 @@ export type BetaSpendLimitScope =
   | BetaSeatTierScope
   | BetaRbacGroupScope
   | BetaOrgServiceScope
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaWorkspaceScope
   | BetaUsageTierScope;
 /** A configured spend limit: a cap on metered spend for one scope and period. */
@@ -296,7 +376,7 @@ export type BetaSpendSummaryScope =
   | BetaSeatTierScope
   | BetaRbacGroupScope
   | BetaOrgServiceScope
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaWorkspaceScope
   | BetaUsageTierScope;
 export type BetaSpendSummarySource =
@@ -304,7 +384,7 @@ export type BetaSpendSummarySource =
   | BetaSeatTierScope
   | BetaRbacGroupScope
   | BetaOrgServiceScope
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaWorkspaceScope
   | BetaUsageTierScope;
 /** Per-member effective-limit report row (`GET /spend_limits/effective`). */
@@ -524,10 +604,14 @@ export interface BetaServiceAccount {
   /** Tagged ID (`user_`/`svac_`) of the actor that last updated this service account. */
   updated_by_actor_id: string | null;
 }
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type ArchiveWorkspaceRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface ArchiveWorkspaceRequest {
   workspace_id: string;
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: ArchiveWorkspaceRequestAnthropicBetaList | undefined;
 }
 export type BetaAllowedInferenceGeo = "global" | "us";
 export type BetaDataResidencyAllowedInferenceGeosCase0List = Array<BetaAllowedInferenceGeo>;
@@ -545,6 +629,30 @@ export interface BetaDataResidency {
   /** Geographic region for workspace data storage. Immutable after creation. */
   workspace_geo: BetaWorkspaceGeo;
 }
+export type BetaHumanReviewType = "disabled" | "enabled";
+/** The Workspace's human review setting. */
+export interface BetaHumanReview {
+  type: BetaHumanReviewType;
+}
+/** No External Storage for this purpose. */
+export type BetaInternalStorage = BetaPendingConfigurationExternalStorageStatus;
+/** The organization's External Storage that `external_storage_id` names. */
+export interface BetaExternalStorageMember {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+  type: string;
+}
+export type BetaStorageMember =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaExternalStorageMember;
+export interface BetaInferenceDataPrivacy {
+  /** The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands. */
+  human_review?: BetaHumanReview | undefined;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet. */
+  safeguards_storage?: BetaStorageMember | undefined;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet. */
+  transcripts_storage?: BetaStorageMember | undefined;
+}
 /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
 export type BetaWorkspaceTagsMap = { [key: string]: string | undefined };
 export interface BetaWorkspace {
@@ -558,10 +666,12 @@ export interface BetaWorkspace {
   data_residency: BetaDataResidency;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color: string;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id: string | null;
   /** ID of the Workspace. */
   id: string;
+  /** Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it. */
+  inference_data_privacy?: BetaInferenceDataPrivacy | undefined;
   /** Name of the Workspace. */
   name: string;
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
@@ -623,7 +733,7 @@ export type BetaClaudeTagBundleTarget =
   | BetaClaudeTagSlackWorkspaceBundleTarget;
 export type CreateBundleTargetResponse = BetaClaudeTagBundleTarget;
 export interface BetaAwsExternalKeyConfig {
-  /** Full ARN of the AWS KMS key. On Claude Platform on AWS, alias ARNs are rejected, and your organization's own key must be a single-Region key in your organization's AWS account. */
+  /** Full ARN of the AWS KMS key. On Claude Platform on AWS, alias ARNs are rejected, and your organization's own key must be a single-Region key. */
   kms_arn: string;
   /** AWS region. Derived from `kms_arn` if omitted. */
   region?: string | null | undefined;
@@ -662,13 +772,15 @@ export interface CreateExternalKeyRequest {
   geo?: string | undefined;
   /** KMS provider identity and auth coordinates. */
   provider_config: CreateExternalKeyRequestProviderConfig;
-  /** ID of a user profile to bind the key to. A user profile represents one of your customers: bind a customer's key to that customer's user profile. A key bound to a user profile can only be attached to a Workspace that has the same user profile, and the binding cannot be changed later. Omit this field only for your organization's own key, because a key created without a user profile ID can be attached to any Workspace, including another customer's. */
+  /** ID of a user profile to bind the key to. A user profile represents one of your customers: bind a customer's key to that customer's user profile. A key bound to a user profile can only be attached to a Workspace that has the same user profile, and the binding cannot be changed later. Omit this field only for your organization's own key, never a customer's. A key created without a user profile ID can't be attached to a Workspace that has a user profile, and you can't add one to the key later. */
   user_profile_id?: string | null | undefined;
 }
-export type BetaAttachedAttachment = BetaOrganizationScope;
-export type BetaUnattachedAttachment = BetaOrganizationScope;
+export type BetaAttachedAttachment = BetaPendingConfigurationExternalStorageStatus;
+export type BetaUnattachedAttachment = BetaPendingConfigurationExternalStorageStatus;
 /** Whether any workspace uses this config to encrypt its data -- counting live and archived workspaces (an archived workspace's data remains encrypted under the config), excluding deleted ones. Only an attached config is used by the encryption path; an `unattached` config is inert and can be deleted. */
-export type BetaExternalKeyAttachment = BetaOrganizationScope | BetaOrganizationScope;
+export type BetaExternalKeyAttachment =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 export type BetaAzureExternalKeyConfig = BetaAzureExternalKeyConfigParams;
 /** KMS provider identity and auth coordinates. */
 export type BetaExternalKeyProviderConfig =
@@ -690,8 +802,44 @@ export interface BetaExternalKey {
   provider_config: BetaExternalKeyProviderConfig;
   type: string;
   updated_at: string;
-  /** ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile. */
+  /** ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can only be attached to a Workspace that has no user profile. */
   user_profile_id: string | null;
+}
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type CreateExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+/** An Amazon S3 bucket. */
+export interface BetaAwsExternalStorageConfigParams {
+  /** 12-digit ID of the AWS account that owns the bucket. */
+  account_id: string;
+  /** The bucket's name, without `s3://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit. */
+  bucket_name: string;
+  /** The bucket's AWS region. Activating the storage fails if Anthropic can't use buckets in that region. */
+  region: string;
+  type: string;
+}
+/** A Google Cloud Storage bucket. */
+export interface BetaGcpExternalStorageConfigParams {
+  /** The bucket's name, without `gs://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit. It can't start with `goog` or contain `google`. */
+  bucket_name: string;
+  /** Project number, not project ID, of the Google Cloud project that holds the bucket. */
+  project_number: string;
+  /** The bucket's Google Cloud region, such as `us-east5`: one of the single regions that the setup guide lists. Dual-regions and multi-regions aren't supported. */
+  region: string;
+  type: string;
+}
+export type CreateExternalStorageRequestProviderConfig =
+  | BetaAwsExternalStorageConfigParams
+  | BetaGcpExternalStorageConfigParams;
+export interface CreateExternalStorageRequest {
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: CreateExternalStorageRequestAnthropicBetaList;
+  /** Human-friendly display name. */
+  display_name?: string | null | undefined;
+  provider_config: CreateExternalStorageRequestProviderConfig;
+  /** The user profile to bind the storage to. It can't be changed later. The storage can be attached only to Workspaces with this profile, and the bucket's setup must name the same ID. */
+  user_profile_id?: string | null | undefined;
 }
 /** Optional header to specify the beta version(s) you want to use. */
 export type CreateFederationIssuerRequestAnthropicBetaList = Array<AnthropicBeta>;
@@ -800,6 +948,10 @@ export interface BetaInviteSchema {
 /** This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header. */
 export type CreateOrganizationWebhookEndpointRequestAnthropicBetaList = Array<AnthropicBeta>;
 export type CreateOrganizationWebhookEndpointRequestEnabledEventsItem =
+  | "external_key.failed"
+  | "external_key.recovered"
+  | "external_storage.failed"
+  | "external_storage.recovered"
   | "user_profile.enforcement_action_opened"
   | "user_profile.enforcement_action_resolved"
   | "user_profile.program_status_updated";
@@ -822,6 +974,10 @@ export interface CreateOrganizationWebhookEndpointRequest {
   url: string;
 }
 export type BetaNewOrganizationWebhookEndpointEnabledEventsItem =
+  | "external_key.failed"
+  | "external_key.recovered"
+  | "external_storage.failed"
+  | "external_storage.recovered"
   | "user_profile.enforcement_action_opened"
   | "user_profile.enforcement_action_resolved"
   | "user_profile.program_status_updated";
@@ -884,7 +1040,7 @@ export type BetaPluginContentScanStatus = "completed" | "errored" | "processing"
 export interface BetaPluginContentScan {
   /** The scan's verdict; set only when `status` is `completed`. A `warn` can mean a `fail` that was allowed in claude.ai. */
   assessment: BetaPluginContentScanAssessment | null;
-  /** The primary mechanism behind a `warn` or `fail`, such as `credential-exposure` or `guardrail-tampering`; a mechanism this API does not yet name reads as `other`. Null on a `pass`, whenever `assessment` is null, and when no mechanism is reported for the verdict. */
+  /** The primary mechanism behind a `warn` or `fail`, such as `credential-exposure` or `guardrail-tampering`; a mechanism this API does not yet name reads as `other`. Read `status` first: on an `errored` scan it is not a finding but why there is no verdict: `scan-invalid-archive`, the scan refused the version's archive, or could not process it, before checking what its files say, and running it again will not help, so change the files and store a new version; `scan-did-not-finish`, the scan did not finish or its result is no longer available, so retry the scan in claude.ai if it offers a retry; `scan-unavailable`, the scan could not run or its result cannot be read right now, so read the version again later, then retry the scan in claude.ai if it offers a retry. If these steps do not help, contact support. Null on a `pass`, while a scan runs, and when no mechanism is reported for the verdict. On an errored scan, null means that a compliance configuration ruled out the scan. */
   reason: string | null;
   /** `processing` while a scan runs, `completed` when it ran to completion, `errored` when it could not run. Once a scan of the version has completed, `content_scan` describes the newest completed scan, even while a later scan runs. While the scan outcome cannot be read, `status` is `errored` instead. */
   status: BetaPluginContentScanStatus;
@@ -1070,30 +1226,30 @@ export interface BetaClaudeTagSlackChannelIdentifiers {
   channel_id: string;
 }
 /** Claude answers in the channel. */
-export type BetaClaudeTagGuestPolicyAllow = BetaOrganizationScope;
+export type BetaClaudeTagGuestPolicyAllow = BetaPendingConfigurationExternalStorageStatus;
 /** Claude does not answer in the channel. */
-export type BetaClaudeTagGuestPolicyRestrict = BetaOrganizationScope;
+export type BetaClaudeTagGuestPolicyRestrict = BetaPendingConfigurationExternalStorageStatus;
 /** Claude answers with only the Bundles attached to the channel itself. */
-export type BetaClaudeTagGuestPolicyChannelOnly = BetaOrganizationScope;
+export type BetaClaudeTagGuestPolicyChannelOnly = BetaPendingConfigurationExternalStorageStatus;
 /** What Claude does in a channel while a Slack guest is in it, for everyone in the channel. It changes nothing in a channel without Slack guests. More types can be added. */
 export type BetaClaudeTagGuestPolicy =
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope;
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 /** Claude reads along and joins in when it can help, and pauses on its own in quiet or busy channels. */
-export type BetaClaudeTagReplyModeAutomatic = BetaOrganizationScope;
+export type BetaClaudeTagReplyModeAutomatic = BetaPendingConfigurationExternalStorageStatus;
 /** Claude replies only when it is @-mentioned. */
-export type BetaClaudeTagReplyModeMentionOnly = BetaOrganizationScope;
+export type BetaClaudeTagReplyModeMentionOnly = BetaPendingConfigurationExternalStorageStatus;
 /** Like `automatic`, but Claude never pauses on its own. Available where it is enabled for the channel. */
-export type BetaClaudeTagReplyModeAlwaysAwake = BetaOrganizationScope;
+export type BetaClaudeTagReplyModeAlwaysAwake = BetaPendingConfigurationExternalStorageStatus;
 /** Every new top-level message in the channel gets its own reply from Claude, in a thread under it. Available where it is enabled for the channel, and only once Claude has been used in the channel. */
-export type BetaClaudeTagReplyModeThread = BetaOrganizationScope;
+export type BetaClaudeTagReplyModeThread = BetaPendingConfigurationExternalStorageStatus;
 /** How Claude takes part in a Slack channel. A channel alone stores one. More types can be added. */
 export type BetaClaudeTagReplyMode =
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope;
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 /** The settings in a request that sets a Slack channel up. A setting left out is not set. A setting sent as null is cleared. */
 export interface BetaClaudeTagSettingsCreate {
   /** Whether Claude is on. `true` on a channel turns Claude on in it even when its workspace stores `false`. Null clears it. */
@@ -1153,9 +1309,9 @@ export interface BetaClaudeTagSlackParentChannelSettingSource {
   slack_channel_id: string;
 }
 /** The value comes from the organization's Slack defaults, which have no identifier. */
-export type BetaClaudeTagSlackDefaultSettingSource = BetaOrganizationScope;
+export type BetaClaudeTagSlackDefaultSettingSource = BetaPendingConfigurationExternalStorageStatus;
 /** No settings level sets a value, and the built-in default applies. */
-export type BetaClaudeTagDefaultSettingSource = BetaOrganizationScope;
+export type BetaClaudeTagDefaultSettingSource = BetaPendingConfigurationExternalStorageStatus;
 /** The value comes from the addressed channel as it is set up under another workspace of its Enterprise Grid: a channel shared across the Grid keeps one Slack channel identifier in every workspace that sees it. */
 export interface BetaClaudeTagSlackGridChannelSettingSource {
   type: string;
@@ -1167,8 +1323,8 @@ export type BetaClaudeTagSettingSource =
   | BetaClaudeTagSlackChannelSettingSource
   | BetaClaudeTagSlackWorkspaceSettingSource
   | BetaClaudeTagSlackParentChannelSettingSource
-  | BetaOrganizationScope
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaClaudeTagSlackGridChannelSettingSource;
 /** Every settings level that contributes text to `instructions`, broadest first, in the order their text is joined. Empty when none does. */
 export type BetaClaudeTagSettingSourcesInstructionsList = Array<BetaClaudeTagSettingSource>;
@@ -1221,7 +1377,8 @@ export interface BetaTelemetryDestinationTracesParams {
   max_content_bytes?: number | null | undefined;
 }
 /** Cover every workspace of the organization. Doesn't take `workspace_ids`. An update that sets `all` empties the destination's workspace list. */
-export type BetaTelemetryDestinationWorkspacesAllParams = BetaOrganizationScope;
+export type BetaTelemetryDestinationWorkspacesAllParams =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100 per request. On create, these workspaces become the destination's list. If you leave `workspace_ids` out, the list starts empty. If the API refuses one of the IDs, it doesn't create the destination. On update, `workspace_ids` replaces the whole list. A workspace that stays on the list keeps its entry and its `created_at`. An empty array empties the list. If you leave `workspace_ids` out and the type stays the same, the list doesn't change. If you leave it out and the type changes, the new list starts empty. After a change to `include` without `workspace_ids`, the destination doesn't cover any workspace until one is added. After a change to `exclude` without `workspace_ids`, it covers every workspace. An ID sent more than once is added once. An archived workspace can't be added to a list. An update can keep an archived workspace that is already on the list. */
 export type BetaTelemetryDestinationWorkspacesIncludeParamsWorkspaceIdsList = Array<string>;
 /** Cover only the workspaces on the list. */
@@ -1240,7 +1397,7 @@ export interface BetaTelemetryDestinationWorkspacesExcludeParams {
 }
 /** Which of the organization's workspaces a telemetry destination covers, as a create or update request sets it. */
 export type BetaTelemetryDestinationWorkspacesParams =
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaTelemetryDestinationWorkspacesIncludeParams
   | BetaTelemetryDestinationWorkspacesExcludeParams;
 export interface CreateTelemetryDestinationRequest {
@@ -1273,21 +1430,25 @@ export interface BetaTelemetryDestinationTraces {
   max_content_bytes: number | null;
 }
 /** The telemetry destination receives the spans of the workspaces that it covers. */
-export type BetaTelemetryDestinationStateEnabled = BetaOrganizationScope;
+export type BetaTelemetryDestinationStateEnabled = BetaPendingConfigurationExternalStorageStatus;
 /** A caller disabled the destination with an update that set `state` to `disabled`. */
-export type BetaTelemetryDestinationDisabledReasonCaller = BetaOrganizationScope;
+export type BetaTelemetryDestinationDisabledReasonCaller =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The API disabled the destination because deliveries to it failed, with no successful delivery in between, for longer than a threshold that Anthropic configures and that is not part of this contract. The reason is `invalid_address` instead when the most recent failed delivery failed with an invalid address. */
-export type BetaTelemetryDestinationDisabledReasonSustainedFailure = BetaOrganizationScope;
+export type BetaTelemetryDestinationDisabledReasonSustainedFailure =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The API disabled the destination because deliveries to it failed for longer than the same threshold as for `sustained_failure`, and the most recent failed delivery failed with an invalid address: the DNS answer says that the endpoint's hostname doesn't exist or doesn't have an address, or the address that the API would connect to isn't publicly routable or is reserved, for example a loopback, link-local, private-network, or cloud-metadata address. The API doesn't connect to such an address, and retries the delivery a bounded number of times as it does after a timeout. A timeout or a server failure of the DNS lookup is a temporary DNS failure instead, not an invalid address. */
-export type BetaTelemetryDestinationDisabledReasonInvalidAddress = BetaOrganizationScope;
+export type BetaTelemetryDestinationDisabledReasonInvalidAddress =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The API disabled the destination because the endpoint answered a delivery with a 3xx status. Redirects are never followed, and one such answer disables the destination at once. */
-export type BetaTelemetryDestinationDisabledReasonRedirect = BetaOrganizationScope;
+export type BetaTelemetryDestinationDisabledReasonRedirect =
+  BetaPendingConfigurationExternalStorageStatus;
 /** Why the destination is disabled: `caller` when a caller disabled it, or the reason the API disabled it automatically (`sustained_failure`, `invalid_address`, or `redirect`). Every automatic disable is reversible with an update that sets `state` to `enabled`. An update that sets `disabled` on a destination that is already disabled keeps its reason. */
 export type BetaTelemetryDestinationDisabledReason =
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope;
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 /** The API doesn't deliver anything to the telemetry destination. Spans produced while it is disabled aren't delivered later. */
 export interface BetaTelemetryDestinationStateDisabled {
   type: string;
@@ -1296,7 +1457,7 @@ export interface BetaTelemetryDestinationStateDisabled {
 }
 /** Whether a telemetry destination receives deliveries. A caller can set either state. The API also disables an enabled destination on its own in some cases. The `reason` of the disabled state says whether a caller or the API disabled the destination and, when the API did, why. See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health) to learn when the API disables a destination. */
 export type BetaTelemetryDestinationState =
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaTelemetryDestinationStateDisabled;
 /** The most recent delivery results that the API records for a telemetry destination. Changes to the destination's configuration or state don't reset these fields. Changes to these fields don't change `updated_at`. The values can lag behind the latest deliveries. See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health) to learn how the API delivers spans and when it disables a destination. */
 export interface BetaTelemetryDestinationDeliveryHealth {
@@ -1308,16 +1469,18 @@ export interface BetaTelemetryDestinationDeliveryHealth {
   last_error_at: string | null;
 }
 /** The destination covers every workspace of the organization, including the default workspace, archived workspaces, and workspaces created later. It doesn't have a list. */
-export type BetaTelemetryDestinationWorkspacesAll = BetaOrganizationScope;
+export type BetaTelemetryDestinationWorkspacesAll = BetaPendingConfigurationExternalStorageStatus;
 /** The destination covers the workspaces on its list, and no others. */
-export type BetaTelemetryDestinationWorkspacesInclude = BetaOrganizationScope;
+export type BetaTelemetryDestinationWorkspacesInclude =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The destination covers every workspace of the organization except the workspaces on its list. A workspace created later is covered until it is added to the list. */
-export type BetaTelemetryDestinationWorkspacesExclude = BetaOrganizationScope;
+export type BetaTelemetryDestinationWorkspacesExclude =
+  BetaPendingConfigurationExternalStorageStatus;
 /** Which of the organization's workspaces a telemetry destination covers. Several destinations can cover the same workspace. Each of them receives the workspace's spans while it is enabled. The workspace list of an `include` or `exclude` destination isn't part of the destination object. List the destination's workspaces to read it. Add or remove one workspace at a time, or replace the whole list with an update. A list holds at most 1,000 workspaces. */
 export type BetaTelemetryDestinationWorkspaces =
-  | BetaOrganizationScope
-  | BetaOrganizationScope
-  | BetaOrganizationScope;
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 /** An OpenTelemetry destination: an OTLP/HTTP endpoint, the request headers sent with every delivery to it, what the exported spans contain, and which workspaces it covers. A destination belongs to an organization. A workspace's spans go to every enabled destination that covers it. */
 export interface BetaTelemetryDestination {
   type: string;
@@ -1359,6 +1522,27 @@ export interface BetaDataResidencyCreateParams {
   /** Geographic region for workspace data storage. Immutable after creation. Defaults to 'us' if omitted. */
   workspace_geo?: BetaWorkspaceGeo | (string & {}) | null | undefined;
 }
+export type BetaHumanReviewParamsType = "disabled" | "enabled";
+/** Whether Anthropic's human review applies to the Workspace's inference data. */
+export interface BetaHumanReviewParams {
+  type: BetaHumanReviewParamsType | (string & {});
+}
+/** No External Storage for this purpose. */
+export type BetaInternalStorageParams = BetaPendingConfigurationExternalStorageStatus;
+/** The organization's External Storage that `external_storage_id` names. */
+export type BetaExternalStorageMemberParams = BetaExternalStorageMember;
+export type BetaStorageMemberParams =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaExternalStorageMember;
+/** Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. A member cannot be null; omit it instead. */
+export interface BetaInferenceDataPrivacyCreateParams {
+  /** Whether Anthropic's human review applies to the Workspace. `disabled` needs Anthropic's approval. When omitted, `enabled`. Cannot be null. */
+  human_review?: BetaHumanReviewParams | undefined;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it, once the attach takes effect, to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. When omitted, `internal`. Cannot be null. */
+  safeguards_storage?: BetaStorageMemberParams | undefined;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them, once the attach takes effect, to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. When omitted, `internal`. Cannot be null. */
+  transcripts_storage?: BetaStorageMemberParams | undefined;
+}
 export type CreateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export interface CreateWorkspaceRequest {
   /** Optional header to specify the beta version(s) you want to use. */
@@ -1369,8 +1553,10 @@ export interface CreateWorkspaceRequest {
   data_residency?: BetaDataResidencyCreateParams | null | undefined;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color?: string | null | undefined;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string | null | undefined;
+  /** Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. When omitted, `safeguards_storage` and `transcripts_storage` are `internal` and `human_review` is `enabled`. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token. */
+  inference_data_privacy?: BetaInferenceDataPrivacyCreateParams | null | undefined;
   /** Name of the Workspace. */
   name: string;
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
@@ -1416,6 +1602,22 @@ export interface BetaClaudeTagDeletedBundleTarget {
   /** The identifier the Bundle Target had. */
   id: string;
 }
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type DeleteClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface DeleteClaudeCodeRbacGroupManagedSettingsRequest {
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: DeleteClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList;
+}
+export interface BetaClaudeCodeRbacGroupManagedSettingsDeleted {
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** Always `claude_code_rbac_group_managed_settings_deleted`. */
+  type: string;
+}
 export interface DeleteExternalKeyRequest {
   /** ID of the External Key. */
   external_key_id: string;
@@ -1424,6 +1626,21 @@ export interface DeleteExternalKeyRequest {
 }
 export interface BetaDeleteExternalKeyResponse {
   /** ID of the deleted External Key. */
+  id: string;
+  type: string;
+}
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type DeleteExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface DeleteExternalStorageRequest {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: DeleteExternalStorageRequestAnthropicBetaList;
+}
+export interface BetaExternalStorageDeletedResponse {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
   id: string;
   type: string;
 }
@@ -1920,29 +2137,29 @@ export interface GetAnalyticsCostRequest {
   claude_tag_categories__?: GetAnalyticsCostRequestClaudeTagCategoriesList | undefined;
   /** Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values. */
   claude_tag_user_ids__?: GetAnalyticsCostRequestClaudeTagUserIdsList | undefined;
-  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. */
   workspace_ids__?: GetAnalyticsCostRequestWorkspaceIdsList | undefined;
-  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. */
   service_tiers__?: GetAnalyticsCostRequestServiceTiersList | undefined;
   /** Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches. */
   rbac_group_ids__?: GetAnalyticsCostRequestRbacGroupIdsList | undefined;
-  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only. */
+  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. */
   user_profile_ids__?: GetAnalyticsCostRequestUserProfileIdsList | undefined;
-  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only. */
+  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. */
   agent_ids__?: GetAnalyticsCostRequestAgentIdsList | undefined;
-  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. */
   environment_ids__?: GetAnalyticsCostRequestEnvironmentIdsList | undefined;
-  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. */
   deployment_ids__?: GetAnalyticsCostRequestDeploymentIdsList | undefined;
-  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only. */
+  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. */
   session_ids__?: GetAnalyticsCostRequestSessionIdsList | undefined;
   /** Filter to usage attributed to specific identities, by tagged ID: a `user_...`, `svac_...` (service account), or `apikey_...` ID. An `apikey_` entry matches only usage attributed to the key itself, not usage on that key attributed to a user or service account (use `api_key_ids[]` for every request a key authenticated). Federated identities have no tagged ID; select them with `actor_types[]`. Use `group_by[]=actor` to break out per-identity values. */
   actor_ids__?: GetAnalyticsCostRequestActorIdsList | undefined;
   /** Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values. */
   actor_types__?: GetAnalyticsCostRequestActorTypesList | undefined;
-  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only. */
+  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. */
   api_key_ids__?: GetAnalyticsCostRequestApiKeyIdsList | undefined;
-  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
+  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
   organization_ids__?: GetAnalyticsCostRequestOrganizationIdsList | undefined;
   /** Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour. */
   time_bucket_width?: BetaAnalyticsTimeBucketWidth | (string & {}) | undefined;
@@ -2075,11 +2292,11 @@ export interface BetaAnalyticsFlatCostGroup {
   model: string | null;
   /** UUID of the child organization the usage belongs to, on a parent organization's report across its children. Null unless `organization_id` is in `group_by[]`. */
   organization_id: string | null;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude_tag`, and `chat_cowork_unified`. `claude_tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude_tag`, and `chat_cowork_unified`. `claude_tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
-  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage. */
+  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution). */
   service_tier: BetaUsageReportServiceTier | null;
   /** Claude Managed Agents session that incurred the usage. Populated only when `session_id` is in `group_by[]`; null for usage outside a managed session. */
   session_id: string | null;
@@ -2089,9 +2306,9 @@ export interface BetaAnalyticsFlatCostGroup {
   speed: BetaAnalyticsSpeed | null;
   /** Token type when `cost_type` is `tokens`; null otherwise. */
   token_type: BetaCostReportTokenType | null;
-  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage. */
+  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile. */
   user_profile_id: string | null;
-  /** Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage. */
+  /** Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace. */
   workspace_id: string | null;
 }
 export interface BetaAnalyticsFlatCostItem {
@@ -2221,7 +2438,7 @@ export interface BetaAnalyticsCostBucketedResult {
   list_amount: string;
   /** Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution. */
   model: string | null;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
@@ -2249,7 +2466,7 @@ export type BetaAnalyticsCostBucketedResponseDataList = Array<BetaAnalyticsCostR
 export interface BetaAnalyticsCostBucketedResponse {
   /** Time buckets for this page, oldest first: one per `bucket_width` interval, including intervals with no data (their `results` list is empty). A page holds at most `limit` buckets. */
   data: BetaAnalyticsCostBucketedResponseDataList;
-  /** RFC 3339 timestamp of the export this response was served from. Null when no export yet covers any part of the requested range, in which case every bucket's `results` list is empty. Buckets beyond this watermark are incomplete; for stable results, set `ending_at` to this value or earlier. Data is typically refreshed every 4 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month the usage falls in; for example, values for October 1 can change until about November 7. */
+  /** RFC 3339 timestamp of the newest data refresh this request reads, determined when the first page is served. Later pages return the same value unless the first page returned null. Null when no export yet covers any part of the requested range, in which case every bucket's `results` list is empty. Buckets beyond this watermark are incomplete; for stable results, set `ending_at` to this value or earlier. Data is typically refreshed every 4 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month the usage falls in; for example, values for October 1 can change until about November 7. */
   data_refreshed_at: string | null;
   /** Whether another page is available. When true, pass `next_page` as the `page` parameter to fetch it. */
   has_more: boolean;
@@ -2623,29 +2840,29 @@ export interface GetAnalyticsUsageRequest {
   claude_tag_categories__?: GetAnalyticsUsageRequestClaudeTagCategoriesList | undefined;
   /** Filter to Claude Tag (Claude in Slack) usage attributed to specific Slack users, by Slack user ID (for example `U0123ABCDEF`), not claude.ai user ID. Usage that is not Claude Tag, and Claude Tag usage not attributed to a single user, never matches. Use `group_by[]=claude_tag_user_id` to break out per-user values. */
   claude_tag_user_ids__?: GetAnalyticsUsageRequestClaudeTagUserIdsList | undefined;
-  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. */
   workspace_ids__?: GetAnalyticsUsageRequestWorkspaceIdsList | undefined;
-  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. */
   service_tiers__?: GetAnalyticsUsageRequestServiceTiersList | undefined;
   /** Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches. */
   rbac_group_ids__?: GetAnalyticsUsageRequestRbacGroupIdsList | undefined;
-  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only. */
+  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. */
   user_profile_ids__?: GetAnalyticsUsageRequestUserProfileIdsList | undefined;
-  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only. */
+  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. */
   agent_ids__?: GetAnalyticsUsageRequestAgentIdsList | undefined;
-  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. */
   environment_ids__?: GetAnalyticsUsageRequestEnvironmentIdsList | undefined;
-  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. */
   deployment_ids__?: GetAnalyticsUsageRequestDeploymentIdsList | undefined;
-  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only. */
+  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. */
   session_ids__?: GetAnalyticsUsageRequestSessionIdsList | undefined;
   /** Filter to usage attributed to specific identities, by tagged ID: a `user_...`, `svac_...` (service account), or `apikey_...` ID. An `apikey_` entry matches only usage attributed to the key itself, not usage on that key attributed to a user or service account (use `api_key_ids[]` for every request a key authenticated). Federated identities have no tagged ID; select them with `actor_types[]`. Use `group_by[]=actor` to break out per-identity values. */
   actor_ids__?: GetAnalyticsUsageRequestActorIdsList | undefined;
   /** Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values. */
   actor_types__?: GetAnalyticsUsageRequestActorTypesList | undefined;
-  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only. */
+  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. */
   api_key_ids__?: GetAnalyticsUsageRequestApiKeyIdsList | undefined;
-  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
+  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
   organization_ids__?: GetAnalyticsUsageRequestOrganizationIdsList | undefined;
   /** Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour. */
   time_bucket_width?: BetaAnalyticsTimeBucketWidth | (string & {}) | undefined;
@@ -2692,11 +2909,11 @@ export interface BetaAnalyticsFlatGroup {
   model: string | null;
   /** UUID of the child organization the usage belongs to, on a parent organization's report across its children. Null unless `organization_id` is in `group_by[]`. */
   organization_id: string | null;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude_tag`, and `chat_cowork_unified`. `claude_tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude_tag`, and `chat_cowork_unified`. `claude_tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
-  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage. */
+  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution). */
   service_tier: BetaUsageReportServiceTier | null;
   /** Claude Managed Agents session that incurred the usage. Populated only when `session_id` is in `group_by[]`; null for usage outside a managed session. */
   session_id: string | null;
@@ -2704,9 +2921,9 @@ export interface BetaAnalyticsFlatGroup {
   slack_channel_id: string | null;
   /** Inference speed mode of the usage or cost: `fast` or `standard`. Null unless `speed` is in `group_by[]`. */
   speed: BetaAnalyticsSpeed | null;
-  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage. */
+  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile. */
   user_profile_id: string | null;
-  /** Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage. */
+  /** Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace. */
   workspace_id: string | null;
 }
 export interface BetaCacheCreation {
@@ -2848,7 +3065,7 @@ export interface BetaAnalyticsUsageBucketedResult {
   model: string | null;
   /** The number of output tokens generated. */
   output_tokens: number;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
@@ -2878,7 +3095,7 @@ export type BetaAnalyticsUsageBucketedResponseDataList = Array<BetaAnalyticsUsag
 export interface BetaAnalyticsUsageBucketedResponse {
   /** Time buckets for this page, oldest first: one per `bucket_width` interval, including intervals with no data (their `results` list is empty). A page holds at most `limit` buckets. */
   data: BetaAnalyticsUsageBucketedResponseDataList;
-  /** RFC 3339 timestamp of the export this response was served from. Null when no export yet covers any part of the requested range, in which case every bucket's `results` list is empty. Buckets beyond this watermark are incomplete; for stable results, set `ending_at` to this value or earlier. Data is typically refreshed every 4 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month the usage falls in; for example, values for October 1 can change until about November 7. */
+  /** RFC 3339 timestamp of the newest data refresh this request reads, determined when the first page is served. Later pages return the same value unless the first page returned null. Null when no export yet covers any part of the requested range, in which case every bucket's `results` list is empty. Buckets beyond this watermark are incomplete; for stable results, set `ending_at` to this value or earlier. Data is typically refreshed every 4 hours. Values can be revised as late events arrive and reconciliation runs, until about 7 days after the end of the calendar month the usage falls in; for example, values for October 1 can change until about November 7. */
   data_refreshed_at: string | null;
   /** Whether another page is available. When true, pass `next_page` as the `page` parameter to fetch it. */
   has_more: boolean;
@@ -3004,7 +3221,7 @@ export interface BetaAnalyticsCostUsersItem {
   list_amount: string;
   /** Model that produced the usage or cost, as a model name in the form the `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model` is in `group_by[]`; it can also be null on grouped rows whose usage or cost is not attributed to a specific model, such as code execution. */
   model: string | null;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
@@ -3419,7 +3636,7 @@ export interface BetaAnalyticsUsageUsersItem {
   model: string | null;
   /** The number of output tokens generated. */
   output_tokens: number;
-  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. Some unattributed usage is reported as "other". */
+  /** Product surface that produced the usage or cost. Null unless product is in `group_by[]`; it can also be null on grouped rows whose usage cannot be attributed to a known surface. Values include `chat`, `claude_code`, `cowork`, `office_agent`, `claude_in_chrome`, `claude_design`, `claude-tag`, and `chat_cowork_unified`. `claude-tag` is Claude Tag, the Claude product in Slack. `chat_cowork_unified` is Chat and Cowork unified, Cowork's features inside claude.ai chat: chat and Cowork usage by a member who has it turned on is reported under this value instead of `chat` or `cowork`. It is accepted as a filter only where Chat and Cowork unified is available. `cc_security_autopatch` is work that Claude Security runs for the organization. Some unattributed usage is reported as "other". */
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling -- the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
@@ -3525,7 +3742,7 @@ export interface GetBundleRequest {
   /** This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header. */
   anthropicBeta?: GetBundleRequestAnthropicBetaList | undefined;
 }
-/** A named set of access that Claude can use in a Slack channel or a Slack workspace: connectors, repositories and credentials. Created and edited in claude.ai. */
+/** A named set of access that Claude can use in a Slack channel or a Slack workspace: connectors, repositories and credentials. Created and edited in claude.ai; Update Bundle also changes its instructions. */
 export interface BetaClaudeTagBundle {
   type: string;
   /** The Bundle's identifier. Starts with `capp_`. */
@@ -3538,6 +3755,8 @@ export interface BetaClaudeTagBundle {
   created_at: string;
   /** Time of the last change to the Bundle. */
   updated_at: string;
+  /** Instructions for Claude, added to the instructions of every session that can use the Bundle. Null when it has none. */
+  instructions: string | null;
 }
 /** This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header. */
 export type GetBundleTargetRequestAnthropicBetaList = Array<AnthropicBeta>;
@@ -3552,6 +3771,103 @@ export interface GetBundleTargetRequest {
   anthropicBeta?: GetBundleTargetRequestAnthropicBetaList | undefined;
 }
 export type GetBundleTargetResponse = BetaClaudeTagBundleTarget;
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type GetClaudeCodeManagedSettingsConfigurationRequestAnthropicBetaList =
+  Array<AnthropicBeta>;
+export interface GetClaudeCodeManagedSettingsConfigurationRequest {
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: GetClaudeCodeManagedSettingsConfigurationRequestAnthropicBetaList;
+}
+export interface BetaClaudeCodeManagedSettingsOrganizationMode {
+  /** Always `organization`. */
+  type: string;
+}
+export interface BetaClaudeCodeManagedSettingsRbacGroupsMode {
+  /** Always `rbac_groups`. */
+  type: string;
+}
+export type BetaClaudeCodeManagedSettingsMode =
+  | BetaClaudeCodeManagedSettingsOrganizationMode
+  | BetaClaudeCodeManagedSettingsRbacGroupsMode;
+/** The ID of every RBAC Group with settings, deleted groups included, highest precedence first. */
+export type BetaClaudeCodeManagedSettingsConfigurationRbacGroupOrderList = Array<string>;
+export interface BetaClaudeCodeManagedSettingsConfiguration {
+  /** How the organization serves managed settings. In `organization` mode every member receives the organization settings, which are set in claude.ai. In `rbac_groups` mode each member receives the settings of the first RBAC Group in `rbac_group_order` that they belong to. A member in none of them receives the default settings, or no settings if no default is set. */
+  mode: BetaClaudeCodeManagedSettingsMode;
+  /** When the mode last changed, in RFC 3339 format, or `null` if it never has. */
+  mode_updated_at: string | null;
+  /** The ID of every RBAC Group with settings, deleted groups included, highest precedence first. */
+  rbac_group_order: BetaClaudeCodeManagedSettingsConfigurationRbacGroupOrderList;
+  /** An opaque version of `rbac_group_order`, which changes whenever the order does. Send it back with a new order. */
+  rbac_group_order_version: string;
+  /** Always `claude_code_managed_settings_configuration`. */
+  type: string;
+}
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type GetClaudeCodeRbacGroupDefaultManagedSettingsRequestAnthropicBetaList =
+  Array<AnthropicBeta>;
+export interface GetClaudeCodeRbacGroupDefaultManagedSettingsRequest {
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: GetClaudeCodeRbacGroupDefaultManagedSettingsRequestAnthropicBetaList;
+}
+export type BetaClaudeCodeRbacGroupDefaultManagedSettingsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface BetaClaudeCodeRbacGroupDefaultManagedSettings {
+  /** The default settings document, or `null` if none are set or the stored document is damaged and can no longer be read. To tell these apart, `updated_at` is `null` only when none are set. Replacing a damaged document fixes this. */
+  settings: BetaClaudeCodeRbacGroupDefaultManagedSettingsSettingsMap | null;
+  /** Always `claude_code_rbac_group_default_managed_settings`. */
+  type: string;
+  /** When the default settings last changed, in RFC 3339 format, or `null` if none are set. */
+  updated_at: string | null;
+}
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type GetClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface GetClaudeCodeRbacGroupManagedSettingsRequest {
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: GetClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList;
+}
+export interface BetaClaudeCodeRbacGroupStatusActive {
+  /** Always `active`. */
+  type: string;
+}
+export interface BetaClaudeCodeRbacGroupStatusDeleted {
+  /** Always `deleted`. */
+  type: string;
+}
+export interface BetaClaudeCodeRbacGroupStatusUnknown {
+  /** Always `unknown`. */
+  type: string;
+}
+export type BetaClaudeCodeRbacGroupStatus =
+  | BetaClaudeCodeRbacGroupStatusActive
+  | BetaClaudeCodeRbacGroupStatusDeleted
+  | BetaClaudeCodeRbacGroupStatusUnknown;
+export type BetaClaudeCodeRbacGroupManagedSettingsSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface BetaClaudeCodeRbacGroupManagedSettings {
+  /** When the settings document this group uses was first stored, in RFC 3339 format. This can be earlier than when the group got its settings, and it changes if the group gets a different document. */
+  created_at: string;
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** Whether the group is still one of the organization's RBAC Groups. Its `type` is `active` if it is, `deleted` if it is not, and `unknown` if that cannot be checked right now. A deleted group's settings stay in `rbac_group_order` but match no member. */
+  rbac_group_status: BetaClaudeCodeRbacGroupStatus;
+  /** The group's settings document, or `null` if the stored document is damaged and can no longer be read. Replacing it fixes this. */
+  settings: BetaClaudeCodeRbacGroupManagedSettingsSettingsMap | null;
+  /** Always `claude_code_rbac_group_managed_settings`. */
+  type: string;
+  /** When this group's settings or its position in the order last changed, in RFC 3339 format. Its position changes whenever the number of groups ahead of it changes. */
+  updated_at: string;
+}
 export interface GetClaudeCodeUsageReportRequest {
   /** UTC date in YYYY-MM-DD format. Returns metrics for this single day only. */
   starting_at: string;
@@ -3662,14 +3978,27 @@ export interface BetaGetClaudeCodeUsageReportResponse {
   /** Opaque cursor token for fetching the next page of results, or null if no more pages are available. */
   next_page: string | null;
 }
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type GetComplianceSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetComplianceSettingsRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: GetComplianceSettingsRequestAnthropicBetaList | undefined;
 }
-export type BetaComplianceSettingsStateEnabled = BetaOrganizationScope;
-export type BetaComplianceSettingsStateDisabled = BetaOrganizationScope;
-export type BetaComplianceSettingsState = BetaOrganizationScope | BetaOrganizationScope;
+export type BetaAccessTransparencyType = "disabled" | "enabled";
+/** Whether Access Transparency is on. Read-only. */
+export interface BetaAccessTransparency {
+  type: BetaAccessTransparencyType;
+}
+export type BetaComplianceSettingsStateEnabled = BetaPendingConfigurationExternalStorageStatus;
+export type BetaComplianceSettingsStateDisabled = BetaPendingConfigurationExternalStorageStatus;
+export type BetaComplianceSettingsState =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 export interface BetaComplianceSettings {
+  /** Read-only. Whether Access Transparency is on for the organization. Returned only when the request sends the `anthropic-beta: efs-2026-10-01` header and Access Transparency is available to the organization; otherwise omitted. If the status can't be read, getting Compliance Settings returns an error; an update still saves, but then reports `disabled` whatever the real status, so get the settings again to check it. */
+  access_transparency?: BetaAccessTransparency | undefined;
   /** Whether the Compliance API is enabled for this organization. */
   state: BetaComplianceSettingsState;
   type: string;
@@ -3762,6 +4091,16 @@ export interface GetExternalKeyRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
 }
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type GetExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface GetExternalStorageRequest {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: GetExternalStorageRequestAnthropicBetaList;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type GetFederationIssuerRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetFederationIssuerRequest {
@@ -3781,6 +4120,245 @@ export interface GetFederationRuleRequest {
   anthropicBeta?: GetFederationRuleRequestAnthropicBetaList | undefined;
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+}
+/** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+export type GetGoogleManagedProjectDataControlsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface GetGoogleManagedProjectDataControlsRequest {
+  /** The Google Cloud project's number, such as `123456789012`, not its project ID. */
+  project_number: string;
+  /** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+  anthropicBeta: GetGoogleManagedProjectDataControlsRequestAnthropicBetaList;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+}
+/** A key that a region has retired. Keep the key usable until `expires_at`. */
+export interface BetaRetiredKey {
+  /** When this entry is removed, in RFC 3339 format. */
+  expires_at: string;
+  /** The ID of the retired External Key (`ekey_...`). */
+  external_key_id: string;
+  /** The code of the region that retired the key. */
+  region: string;
+}
+/** Keys that a region has retired, earliest `expires_at` first. */
+export type BetaCmekControlDisabledRetiredKeysList = Array<BetaRetiredKey>;
+/** The control is off and has no keys. */
+export interface BetaCmekControlDisabled {
+  /** Keys that a region has retired, earliest `expires_at` first. */
+  retired_keys: BetaCmekControlDisabledRetiredKeysList;
+  type: string;
+}
+/** The ID of the External Key configured for each region (`ekey_...`), keyed by region code. A region with no key is left out. */
+export type BetaCmekControlEnabledExternalKeyIdsMap = { [key: string]: string | undefined };
+/** Keys that a region has retired, earliest `expires_at` first. */
+export type BetaCmekControlEnabledRetiredKeysList = Array<BetaRetiredKey>;
+/** No key is set for this region. */
+export interface BetaCmekRegionNotConfigured {
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  type: string;
+}
+/** The region is validating the configured key, or the key has passed validation and the region has not started to apply it. */
+export interface BetaCmekRegionPending {
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** Why the latest validation attempt failed. `null` when no attempt has failed. */
+  error: string | null;
+  type: string;
+}
+/** The configured key passed validation, and the region applies it. */
+export interface BetaCmekRegionActive {
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** Why Google Cloud KMS refused the region's latest use of the key. `null` when the region has no refusal to report. A `null` does not mean that the key works. */
+  error: string | null;
+  /** When the region last got a successful answer from Google Cloud KMS for the key, in RFC 3339 format. `null` when it has none to report. */
+  last_checked_at: string | null;
+  type: string;
+  /** When the status last became `active`, in RFC 3339 format. */
+  validated_at: string;
+}
+/** The region stopped retrying validation before the configured key passed. To restart validation, send the region a key again. It can be the same key. */
+export interface BetaCmekRegionFailed {
+  /** The ID of the External Key that the region applies now (`ekey_...`). While a replacement key is `pending` or `failed`, this is the previous key. `null` when the region applies no key. */
+  effective_external_key_id: string | null;
+  /** Why the region cannot use the configured key. */
+  error: string;
+  type: string;
+}
+/** Anthropic has withdrawn or paused its approval of customer-managed keys for this project, so the region does not apply the control. */
+export type BetaCmekRegionSuspended = BetaCmekRegionNotConfigured;
+export type BetaCmekControlEnabledStatusValue =
+  | BetaCmekRegionNotConfigured
+  | BetaCmekRegionPending
+  | BetaCmekRegionActive
+  | BetaCmekRegionFailed
+  | BetaCmekRegionNotConfigured;
+/** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+export type BetaCmekControlEnabledStatusMap = {
+  [key: string]: BetaCmekControlEnabledStatusValue | undefined;
+};
+/** The control is on and has a key for at least one region. */
+export interface BetaCmekControlEnabled {
+  /** The ID of the External Key configured for each region (`ekey_...`), keyed by region code. A region with no key is left out. */
+  external_key_ids: BetaCmekControlEnabledExternalKeyIdsMap;
+  /** Keys that a region has retired, earliest `expires_at` first. */
+  retired_keys: BetaCmekControlEnabledRetiredKeysList;
+  /** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+  status: BetaCmekControlEnabledStatusMap;
+  type: string;
+}
+/** The customer-managed encryption key control: the key in your Google Cloud KMS that is set for each region. It covers the project's requests that name no user profile, or a user profile that has no key of its own for the project. */
+export type BetaGoogleManagedProjectDataControlsCmek =
+  | BetaCmekControlDisabled
+  | BetaCmekControlEnabled;
+/** A bucket that a region has retired. Until `expires_at`, keep the bucket and Anthropic's access to it as they were when the bucket passed verification. */
+export interface BetaRetiredBucket {
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+  /** When this entry is removed, in RFC 3339 format. */
+  expires_at: string;
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+  /** The code of the region that retired the bucket. */
+  region: string;
+}
+/** Buckets that a region has retired, earliest `expires_at` first. */
+export type BetaStorageControlDisabledRetiredBucketsList = Array<BetaRetiredBucket>;
+/** The control is off and has no buckets. */
+export interface BetaStorageControlDisabled {
+  /** Buckets that a region has retired, earliest `expires_at` first. */
+  retired_buckets: BetaStorageControlDisabledRetiredBucketsList;
+  type: string;
+}
+/** The bucket configured for a region. */
+export interface BetaStorageBucket {
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+  /** The resource name of the Cloud KMS key that the bucket encrypts objects under by default. `null` until the region has confirmed the bucket, and when the bucket has no default key. */
+  kms_key_name: string | null;
+  /** The bucket's location, as Cloud Storage reports it. `null` until the region has confirmed the bucket. */
+  location: string | null;
+  /** The ID of the project that holds the bucket. `null` until the region has confirmed the bucket. */
+  project_id: string | null;
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+}
+/** The bucket configured for each region, keyed by region code. A region with no bucket is left out. */
+export type BetaStorageControlEnabledBucketsMap = { [key: string]: BetaStorageBucket | undefined };
+/** Buckets that a region has retired, earliest `expires_at` first. */
+export type BetaStorageControlEnabledRetiredBucketsList = Array<BetaRetiredBucket>;
+/** A Cloud Storage bucket, named by the project that holds it and by its own name. */
+export interface BetaEffectiveBucket {
+  /** The bucket's Cloud Storage name. */
+  bucket_name: string;
+  /** The number of the Google Cloud project that holds the bucket, in decimal. */
+  project_number: string;
+}
+/** No bucket is set for this region. */
+export interface BetaStorageRegionNotConfigured {
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaEffectiveBucket | null;
+  type: string;
+}
+/** Which check failed, such as `label_mismatch` or `grant_mismatch`. Anthropic may add values. */
+export type BetaStorageFailedCheckCheck =
+  | "bucket_settings"
+  | "deletion_policy"
+  | "encryption"
+  | "grant_mismatch"
+  | "kms_key_refused"
+  | "label_mismatch"
+  | "lifecycle_rules"
+  | "location_mismatch"
+  | "probe_failed"
+  | "project_not_verified"
+  | "versioning";
+export type BetaStorageFailedCheckRole =
+  | "ingest"
+  | "maintenance"
+  | "media_erasure"
+  | "read"
+  | "verify";
+/** One check that a verification attempt failed. */
+export interface BetaStorageFailedCheck {
+  /** Which check failed, such as `label_mismatch` or `grant_mismatch`. Anthropic may add values. */
+  check: BetaStorageFailedCheckCheck;
+  /** What failed and, where you can fix it, what to change. */
+  message: string;
+  /** On a check about one of the accounts that Anthropic uses to reach the bucket, that account's kind of access, such as `ingest`. `null` on any other check. Anthropic may add values. */
+  role: BetaStorageFailedCheckRole | null;
+}
+/** The checks that the latest reported verification attempt failed. Empty when none has failed. */
+export type BetaStorageRegionPendingFailedChecksList = Array<BetaStorageFailedCheck>;
+/** The region is verifying the configured bucket. */
+export interface BetaStorageRegionPending {
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaEffectiveBucket | null;
+  /** The checks that the latest reported verification attempt failed. Empty when none has failed. */
+  failed_checks: BetaStorageRegionPendingFailedChecksList;
+  type: string;
+}
+/** The checks that the latest reported daily verification failed. Empty when it passed. */
+export type BetaStorageRegionActiveFailedChecksList = Array<BetaStorageFailedCheck>;
+/** The configured bucket passed verification, and the region applies it. */
+export interface BetaStorageRegionActive {
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaEffectiveBucket | null;
+  /** The checks that the latest reported daily verification failed. Empty when it passed. */
+  failed_checks: BetaStorageRegionActiveFailedChecksList;
+  type: string;
+  /** When the status last became `active`, in RFC 3339 format. */
+  validated_at: string;
+}
+/** The checks that the last reported verification attempt failed. */
+export type BetaStorageRegionFailedFailedChecksList = Array<BetaStorageFailedCheck>;
+/** The region stopped retrying verification before the configured bucket passed. To restart verification, send the region a bucket again. It can be the same bucket. */
+export interface BetaStorageRegionFailed {
+  /** The bucket that the region applies now. While a replacement bucket is `pending` or `failed`, this is the previous bucket. `null` when the region applies no bucket. */
+  effective_bucket: BetaEffectiveBucket | null;
+  /** The checks that the last reported verification attempt failed. */
+  failed_checks: BetaStorageRegionFailedFailedChecksList;
+  type: string;
+}
+/** Anthropic has withdrawn or paused its approval of customer-owned storage for this project, so the region does not apply the control. */
+export type BetaStorageRegionSuspended = BetaStorageRegionNotConfigured;
+export type BetaStorageControlEnabledStatusValue =
+  | BetaStorageRegionNotConfigured
+  | BetaStorageRegionPending
+  | BetaStorageRegionActive
+  | BetaStorageRegionFailed
+  | BetaStorageRegionNotConfigured;
+/** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+export type BetaStorageControlEnabledStatusMap = {
+  [key: string]: BetaStorageControlEnabledStatusValue | undefined;
+};
+/** The control is on and has a bucket for at least one region. */
+export interface BetaStorageControlEnabled {
+  /** The bucket configured for each region, keyed by region code. A region with no bucket is left out. */
+  buckets: BetaStorageControlEnabledBucketsMap;
+  /** Buckets that a region has retired, earliest `expires_at` first. */
+  retired_buckets: BetaStorageControlEnabledRetiredBucketsList;
+  /** Each region's status for the control, keyed by region code. A region that your organization is not offered may have no entry, and Anthropic may add regions. */
+  status: BetaStorageControlEnabledStatusMap;
+  type: string;
+}
+/** The customer-owned storage control: your Cloud Storage bucket that is set for each region. It covers the project's requests that name no user profile, or a user profile that has no bucket of its own for the project. */
+export type BetaGoogleManagedProjectDataControlsStorage =
+  | BetaStorageControlDisabled
+  | BetaStorageControlEnabled;
+/** A Google Cloud project's encryption key and storage bucket settings for Claude on Google Cloud's Agent Platform. Your organization has one of these objects for each Google Cloud project that it has proved it owns. You can read and update it, but not create or delete it. Keys and buckets are set for each region. A request's region depends on the Google endpoint it is sent to: `us` is the US multi-region endpoint and the regional endpoint of every location whose name starts with `us-`, `eu` is the EU multi-region endpoint and the regional endpoint of every location whose name starts with `europe-`, `sg` is the `asia-southeast1` regional endpoint, and `global` is the global endpoint, wherever Google serves the request. Anthropic may add regions. */
+export interface BetaGoogleManagedProjectDataControls {
+  /** The customer-managed encryption key control: the key in your Google Cloud KMS that is set for each region. It covers the project's requests that name no user profile, or a user profile that has no key of its own for the project. */
+  cmek: BetaGoogleManagedProjectDataControlsCmek;
+  /** The number of the Google Cloud project that these controls belong to, in decimal. */
+  project_number: string;
+  /** The customer-owned storage control: your Cloud Storage bucket that is set for each region. It covers the project's requests that name no user profile, or a user profile that has no bucket of its own for the project. */
+  storage: BetaGoogleManagedProjectDataControlsStorage;
+  /** Object type. Always `google_managed_project_data_controls`. */
+  type: string;
+  /** When an update last changed a control, or a region's status last changed, in RFC 3339 format. A region that starts or stops reading `suspended`, a change to `last_checked_at` alone, and the removal of a retired entry do not count. */
+  updated_at: string;
 }
 export interface GetInviteRequest {
   /** ID of the Invite. */
@@ -3971,7 +4549,7 @@ export type BetaRateLimitGroup =
   | BetaRateLimitSkillsGroup
   | BetaRateLimitWebSearchGroup;
 export interface BetaRateLimitValue {
-  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute`). */
+  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute_cache_aware`). */
   type: string;
   /** The configured limit value for this limiter type. */
   value: number;
@@ -4010,6 +4588,10 @@ export interface GetOrganizationWebhookEndpointRequest {
   anthropicVersion?: string | undefined;
 }
 export type BetaOrganizationWebhookEndpointEnabledEventsItem =
+  | "external_key.failed"
+  | "external_key.recovered"
+  | "external_storage.failed"
+  | "external_storage.recovered"
   | "user_profile.enforcement_action_opened"
   | "user_profile.enforcement_action_resolved"
   | "user_profile.program_status_updated";
@@ -4042,7 +4624,7 @@ export type GetPluginRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetPluginRequest {
   /** ID of the Plugin (prefixed `plugin_`). */
   plugin_id: string;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: GetPluginRequestAnthropicBetaList;
@@ -4052,7 +4634,7 @@ export type GetPluginMarketplaceRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetPluginMarketplaceRequest {
   /** ID of the plugin marketplace (prefixed `marketplace_`). */
   marketplace_id: string;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: GetPluginMarketplaceRequestAnthropicBetaList;
@@ -4107,7 +4689,7 @@ export interface GetPluginVersionRequest {
   plugin_id: string;
   /** ID of the Plugin Version (prefixed `pluginver_`), or `latest` for the newest one. */
   version: string;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: GetPluginVersionRequestAnthropicBetaList;
@@ -4119,7 +4701,7 @@ export interface GetPluginVersionContentRequest {
   plugin_id: string;
   /** ID of the Plugin Version (prefixed `pluginver_`). `latest` is not accepted here. */
   version: string;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: GetPluginVersionContentRequestAnthropicBetaList;
@@ -4141,13 +4723,24 @@ export interface GetRbacRoleRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
 }
+export interface BetaRbacRoleSourceBuiltIn {
+  /** Anthropic provisions the RBAC Role, and the organization's administrators cannot change or delete it. */
+  type: string;
+}
+export interface BetaRbacRoleSourceCustom {
+  /** The organization's administrators can change and delete the RBAC Role. */
+  type: string;
+}
+export type BetaRbacRoleSource = BetaRbacRoleSourceBuiltIn | BetaRbacRoleSourceCustom;
 export interface BetaRbacRole {
   /** RFC 3339 datetime string indicating when the RBAC Role was created. */
   created_at: string;
-  /** Name of the RBAC Role. For a role created by Anthropic, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`. */
+  /** Name of the RBAC Role. For a built-in role, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`. */
   display_name: string;
   /** ID of the RBAC Role. */
   id: string;
+  /** Whether the RBAC Role is built-in or custom. More values of `type` may be added, so do not treat every role that is not `built_in` as `custom`. */
+  source: BetaRbacRoleSource;
   /** Object type. For RBAC Roles, this is always `"rbac_role"`. */
   type: string;
   /** RFC 3339 datetime string indicating when the RBAC Role was last updated. */
@@ -4262,11 +4855,15 @@ export interface BetaUser {
   /** Object type. For Users, this is always `"user"`. */
   type: string;
 }
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type GetWorkspaceRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface GetWorkspaceRequest {
   /** ID of the Workspace. */
   workspace_id: string;
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: GetWorkspaceRequestAnthropicBetaList | undefined;
 }
 export interface GetWorkspaceMemberRequest {
   /** ID of the Workspace. */
@@ -4322,7 +4919,7 @@ export interface BetaWorkspaceRateLimitValue {
   org_limit: number | null;
   /** Where `value` comes from. `organization` values are listed only when `include_inherited` is `true`, and then `value` equals `org_limit`. */
   source: BetaWorkspaceRateLimitValueSource;
-  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute`). */
+  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute_cache_aware`). */
   type: string;
   /** The workspace's value for this limiter type: the workspace-level override when `source.type` is `workspace`, otherwise the organization's value. */
   value: number;
@@ -4421,6 +5018,39 @@ export interface BetaClaudeTagListBundleTargetsResponse {
   /** Cursor for the next page. Null on the last page. */
   next_page: string | null;
 }
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type ListClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface ListClaudeCodeRbacGroupManagedSettingsRequest {
+  /** Optionally set to the `next_page` token from the previous response. */
+  page?: string | undefined;
+  /** Number of items to return per page. Defaults to `20`. Ranges from `1` to `100`. */
+  limit?: number | undefined;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: ListClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList;
+}
+export interface BetaClaudeCodeRbacGroupManagedSettingsSummary {
+  /** When the settings document this group uses was first stored, in RFC 3339 format. This can be earlier than when the group got its settings, and it changes if the group gets a different document. */
+  created_at: string;
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** Whether the group is still one of the organization's RBAC Groups. Its `type` is `active` if it is, `deleted` if it is not, and `unknown` if that cannot be checked right now. A deleted group's settings stay in `rbac_group_order` but match no member. */
+  rbac_group_status: BetaClaudeCodeRbacGroupStatus;
+  /** Always `claude_code_rbac_group_managed_settings_summary`. */
+  type: string;
+  /** When this group's settings or its position in the order last changed, in RFC 3339 format. Its position changes whenever the number of groups ahead of it changes. */
+  updated_at: string;
+}
+/** The RBAC Groups with settings on this page, highest precedence first. */
+export type BetaClaudeCodeRbacGroupManagedSettingsListDataList =
+  Array<BetaClaudeCodeRbacGroupManagedSettingsSummary>;
+export interface BetaClaudeCodeRbacGroupManagedSettingsList {
+  /** The RBAC Groups with settings on this page, highest precedence first. */
+  data: BetaClaudeCodeRbacGroupManagedSettingsListDataList;
+  /** Token to provide in as `page` in the subsequent request to retrieve the next page of data. */
+  next_page: string | null;
+}
 export type ListEffectiveSpendLimitsRequestUserIdsList = Array<string>;
 export type ListEffectiveSpendLimitsRequestPeriodList = Array<BetaSpendLimitPeriod | (string & {})>;
 export interface ListEffectiveSpendLimitsRequest {
@@ -4452,6 +5082,28 @@ export type BetaExternalKeyListResponseDataList = Array<BetaExternalKey>;
 /** Opaque-cursor page of external keys, ordered by creation time (newest first). */
 export interface BetaExternalKeyListResponse {
   data: BetaExternalKeyListResponseDataList;
+  /** Opaque cursor for the next page, or null if no more results. Pass as `?page=` to fetch the next page. */
+  next_page: string | null;
+}
+export type ListExternalStorageRequestUserProfileIdsList = Array<string>;
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type ListExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface ListExternalStorageRequest {
+  /** Number of results per page. */
+  limit?: number | undefined;
+  /** Opaque cursor from a previous response's `next_page`. */
+  page?: string | undefined;
+  /** Returns only External Storage bound to one of these user profile IDs (`uprof_...`). An empty entry matches storage bound to no user profile. At most 10 entries, counting repeats. */
+  user_profile_ids__?: ListExternalStorageRequestUserProfileIdsList | undefined;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: ListExternalStorageRequestAnthropicBetaList;
+}
+export type BetaExternalStorageListResponseDataList = Array<BetaExternalStorage>;
+/** A page of External Storage, newest first. */
+export interface BetaExternalStorageListResponse {
+  data: BetaExternalStorageListResponseDataList;
   /** Opaque cursor for the next page, or null if no more results. Pass as `?page=` to fetch the next page. */
   next_page: string | null;
 }
@@ -4590,7 +5242,7 @@ export interface ListPluginInstallationSettingsRequest {
   page?: string | undefined;
   /** Only settings for this kind of target: `organization` (the organization-wide setting) or `rbac_group` (an RBAC Group's). */
   target_type?: ListPluginInstallationSettingsRequestTargetType | (string & {}) | undefined;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: ListPluginInstallationSettingsRequestAnthropicBetaList;
@@ -4661,7 +5313,7 @@ export interface ListPluginMarketplacesRequest {
   owner_type?: ListPluginMarketplacesRequestOwnerType | (string & {}) | undefined;
   /** Only plugin marketplaces with this `source`: `manual` for those whose Plugins are uploaded; `github`, `gitlab` or `public_git` for those synchronized from a Git repository. `directory` (Anthropic's catalog) is never listed here. */
   source?: ListPluginMarketplacesRequestSource | (string & {}) | undefined;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: ListPluginMarketplacesRequestAnthropicBetaList;
@@ -4694,7 +5346,7 @@ export interface ListPluginsRequest {
   created_at_lte_?: string | undefined;
   /** RFC 3339 timestamp bound; combine [gte], [gt], [lte], [lt]. */
   created_at_lt_?: string | undefined;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: ListPluginsRequestAnthropicBetaList;
@@ -4720,7 +5372,7 @@ export interface ListPluginSharesRequest {
   page?: string | undefined;
   /** Only shares with this kind of target: `organization` (every member), `rbac_group` (one RBAC Group), or `organization_member` (one member). */
   target_type?: ListPluginSharesRequestTargetType | (string & {}) | undefined;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: ListPluginSharesRequestAnthropicBetaList;
@@ -4730,7 +5382,7 @@ export type BetaPluginShareTarget =
   | BetaPluginTargetOrganization
   | BetaPluginTargetRbacGroup
   | BetaPluginTargetOrganizationMember;
-/** One share the owner of a member-owned Plugin has given. Shares are read-only in this API and have no ID of their own; who gave a share is recorded on the Compliance API activity feed, not here. */
+/** One share the owner of a member-owned Plugin has given. Shares are read-only in this API and have no ID of their own. The Plugin's `owner` is the member who gave the share. */
 export interface BetaPluginShare {
   /** When the share was given; a share whose role is later changed in claude.ai is re-granted and carries the time of that change. */
   granted_at: string;
@@ -4744,7 +5396,7 @@ export interface BetaPluginShare {
 export type BetaPluginShareListDataList = Array<BetaPluginShare>;
 export interface BetaPluginShareList {
   data: BetaPluginShareListDataList;
-  /** Token to provide in as `page` in the subsequent request to retrieve the next page of data. A page may hold fewer than `limit` shares, even none, while this is set; keep following it until it is null. */
+  /** Token to provide in as `page` in the subsequent request to retrieve the next page of data. */
   next_page: string | null;
 }
 /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
@@ -4756,7 +5408,7 @@ export interface ListPluginVersionsRequest {
   limit?: number | undefined;
   /** Optionally set to the `next_page` token from the previous response. */
   page?: string | undefined;
-  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. */
+  /** For a `read:org_audit` or `read:compliance_org_data` key created for all of a parent organization's linked organizations: a child organization of that parent to read instead of the organization the key was created in, given as the organization's UUID or its `org_`-prefixed ID. A value that is neither returns a 400; an organization that is not a child of the key's parent, or where the Plugins API is not available, returns a 404. Any other key may pass only its own organization's ID here; another organization returns a 404. A key with no organization of its own must always pass `organization_id`. */
   organization_id?: string | undefined;
   /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
   anthropicBeta: ListPluginVersionsRequestAnthropicBetaList;
@@ -5124,6 +5776,8 @@ export interface BetaListResponseWorkspaceMemberSchema {
 }
 /** Only the Workspaces with these IDs, at most 100. `include_archived` and `include_default` still apply, and IDs of Workspaces the caller can't list are left out. */
 export type ListWorkspacesRequestIdsList = Array<string>;
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type ListWorkspacesRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface ListWorkspacesRequest {
   /** Whether to include Workspaces that have been archived in the response */
   include_archived?: boolean | undefined;
@@ -5139,6 +5793,8 @@ export interface ListWorkspacesRequest {
   limit?: number | undefined;
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: ListWorkspacesRequestAnthropicBetaList | undefined;
 }
 export type BetaListResponseWorkspaceDataList = Array<BetaWorkspace>;
 export interface BetaListResponseWorkspace {
@@ -5283,6 +5939,22 @@ export interface RemoveWorkspaceFromServiceAccountRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
 }
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type SetClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
+/** The whole settings document, a JSON object of Claude Code managed settings. It replaces any stored document. At most 1 MiB as the server stores it, which can be larger than the request body. */
+export type SetClaudeCodeRbacGroupManagedSettingsRequestSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface SetClaudeCodeRbacGroupManagedSettingsRequest {
+  /** The RBAC Group's ID, prefixed `rbac_group_`. */
+  rbac_group_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: SetClaudeCodeRbacGroupManagedSettingsRequestAnthropicBetaList;
+  /** The whole settings document, a JSON object of Claude Code managed settings. It replaces any stored document. At most 1 MiB as the server stores it, which can be larger than the request body. */
+  settings: SetClaudeCodeRbacGroupManagedSettingsRequestSettingsMap;
+}
 /** This endpoint is in beta: requests must send `ce-plugins-2026-09-01` in this header. */
 export type SetPluginInstallationSettingRequestAnthropicBetaList = Array<AnthropicBeta>;
 /** The installation setting the target is to hold for this Plugin: one of `required`, `auto_install`, `available`, `not_available`. */
@@ -5306,7 +5978,10 @@ export interface SetPluginInstallationSettingRequest {
 /** Optional header to specify the beta version(s) you want to use. */
 export type SetSpendLimitRequestAnthropicBetaList = Array<AnthropicBeta>;
 /** What the limit applies to. Claude Enterprise organizations set `user` limits. Claude Console organizations set `organization` and `workspace` limits. Any other combination returns 400. Setting `organization` and `workspace` limits through the API is in an early access preview. To request access, contact your Anthropic account team. */
-export type SetSpendLimitRequestScope = BetaUserScope | BetaOrganizationScope | BetaWorkspaceScope;
+export type SetSpendLimitRequestScope =
+  | BetaUserScope
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaWorkspaceScope;
 export interface SetSpendLimitRequest {
   /** Optional header to specify the beta version(s) you want to use. */
   anthropicBeta?: SetSpendLimitRequestAnthropicBetaList | undefined;
@@ -5339,7 +6014,7 @@ export interface TestTelemetryDestinationRequest {
   anthropicBeta?: TestTelemetryDestinationRequestAnthropicBetaList | undefined;
 }
 /** The destination answered the test span with a 2xx status. */
-export type BetaTelemetryDestinationTestSuccess = BetaOrganizationScope;
+export type BetaTelemetryDestinationTestSuccess = BetaPendingConfigurationExternalStorageStatus;
 /** The test span was not delivered. */
 export interface BetaTelemetryDestinationTestFailure {
   type: string;
@@ -5348,7 +6023,7 @@ export interface BetaTelemetryDestinationTestFailure {
 }
 /** The outcome of a test: `success`, or `failure` with the reason. */
 export type BetaTelemetryDestinationTestResult =
-  | BetaOrganizationScope
+  | BetaPendingConfigurationExternalStorageStatus
   | BetaTelemetryDestinationTestFailure;
 /** The result of one test span sent to a destination. */
 export interface BetaTelemetryDestinationTest {
@@ -5367,12 +6042,72 @@ export interface UpdateApiKeyRequest {
   /** Status of the API key. */
   status?: UpdateApiKeyRequestStatus | (string & {}) | null | undefined;
 }
-export type BetaComplianceSettingsStateEnabledParams = BetaOrganizationScope;
-export type BetaComplianceSettingsStateDisabledParams = BetaOrganizationScope;
-export type BetaComplianceSettingsStateParams = BetaOrganizationScope | BetaOrganizationScope;
+/** This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header. */
+export type UpdateBundleRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface UpdateBundleRequest {
+  /** The Bundle's identifier, starting with `capp_`. */
+  bundle_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `experimental-claude-tag-2026-10-21` in this header. */
+  anthropicBeta?: UpdateBundleRequestAnthropicBetaList | undefined;
+  /** Instructions for Claude, up to 10,000 bytes (UTF-8), added to the instructions of every session that can use the Bundle. Null or an empty string clears them. */
+  instructions?: string | null | undefined;
+}
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type UpdateClaudeCodeManagedSettingsConfigurationRequestAnthropicBetaList =
+  Array<AnthropicBeta>;
+export type BetaClaudeCodeManagedSettingsOrganizationModeParams =
+  BetaPendingConfigurationExternalStorageStatus;
+export type BetaClaudeCodeManagedSettingsRbacGroupsModeParams =
+  BetaPendingConfigurationExternalStorageStatus;
+export type BetaClaudeCodeManagedSettingsModeParams =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
+/** Every RBAC Group that has settings, each listed once, in the new order, highest precedence first. Requires `rbac_group_order_version`. */
+export type UpdateClaudeCodeManagedSettingsConfigurationRequestRbacGroupOrderList = Array<string>;
+export interface UpdateClaudeCodeManagedSettingsConfigurationRequest {
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: UpdateClaudeCodeManagedSettingsConfigurationRequestAnthropicBetaList;
+  /** The new mode, as an object such as `{"type": "rbac_groups"}`. */
+  mode?: BetaClaudeCodeManagedSettingsModeParams | undefined;
+  /** Every RBAC Group that has settings, each listed once, in the new order, highest precedence first. Requires `rbac_group_order_version`. */
+  rbac_group_order?:
+    | UpdateClaudeCodeManagedSettingsConfigurationRequestRbacGroupOrderList
+    | undefined;
+  /** The `rbac_group_order_version` from the read this change is based on. Requires `rbac_group_order`. */
+  rbac_group_order_version?: string | undefined;
+}
+/** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+export type UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequestAnthropicBetaList =
+  Array<AnthropicBeta>;
+export type UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequestSettingsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequest {
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `ce-claude-code-managed-settings-2026-10-06` in this header. */
+  anthropicBeta: UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequestAnthropicBetaList;
+  /** The whole settings document, a JSON object of Claude Code managed settings. It replaces any stored document, or `null` clears the default settings. At most 1 MiB as the server stores it, which can be larger than the request body. */
+  settings: UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequestSettingsMap | null;
+}
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type UpdateComplianceSettingsRequestAnthropicBetaList = Array<AnthropicBeta>;
+export type BetaComplianceSettingsStateEnabledParams =
+  BetaPendingConfigurationExternalStorageStatus;
+export type BetaComplianceSettingsStateDisabledParams =
+  BetaPendingConfigurationExternalStorageStatus;
+export type BetaComplianceSettingsStateParams =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 export interface UpdateComplianceSettingsRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: UpdateComplianceSettingsRequestAnthropicBetaList | undefined;
   /** Desired state. Accepts the string shorthand "enabled" or "disabled" in place of the object form; the response always returns the canonical object form. */
   state: BetaComplianceSettingsStateParams;
 }
@@ -5391,6 +6126,18 @@ export interface UpdateExternalKeyRequest {
   geo?: string | null | undefined;
   /** KMS provider identity and auth coordinates. */
   provider_config?: UpdateExternalKeyRequestProviderConfig | null | undefined;
+}
+/** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+export type UpdateExternalStorageRequestAnthropicBetaList = Array<AnthropicBeta>;
+export interface UpdateExternalStorageRequest {
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  anthropicBeta: UpdateExternalStorageRequestAnthropicBetaList;
+  /** Human-friendly display name; null clears it. */
+  display_name: string | null;
 }
 /** Optional header to specify the beta version(s) you want to use. */
 export type UpdateFederationIssuerRequestAnthropicBetaList = Array<AnthropicBeta>;
@@ -5447,9 +6194,61 @@ export interface UpdateFederationRuleRequest {
   /** Replaces the existing single workspace enablement (the previous one is removed). Rejected with 400 if the rule is enabled for more than one workspace; use the `/federation_rules/{federation_rule_id}/workspaces` sub-resource instead. */
   workspace_id?: string | null | undefined;
 }
+/** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+export type UpdateGoogleManagedProjectDataControlsRequestAnthropicBetaList = Array<AnthropicBeta>;
+/** Turns the control off and removes every region's key. */
+export type BetaCmekControlDisabledParams = BetaPendingConfigurationExternalStorageStatus;
+/** The External Key to use in each region, keyed by region code, such as `us` or `eu`. An External Key ID (`ekey_...`) sets that region's key, `null` removes it, and a region you leave out keeps its key. While the control is on, at least one region must have a key. */
+export type BetaCmekControlEnabledParamsExternalKeyIdsMap = {
+  [key: string]: string | null | undefined;
+};
+/** Turns the control on, or changes its keys while it is on. */
+export interface BetaCmekControlEnabledParams {
+  /** The External Key to use in each region, keyed by region code, such as `us` or `eu`. An External Key ID (`ekey_...`) sets that region's key, `null` removes it, and a region you leave out keeps its key. While the control is on, at least one region must have a key. */
+  external_key_ids?: BetaCmekControlEnabledParamsExternalKeyIdsMap | undefined;
+  type: string;
+}
+/** The customer-managed encryption key control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+export type UpdateGoogleManagedProjectDataControlsRequestCmek =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaCmekControlEnabledParams;
+/** Turns the control off and removes every region's bucket. */
+export type BetaStorageControlDisabledParams = BetaPendingConfigurationExternalStorageStatus;
+/** A Cloud Storage bucket, named by the project that holds it and by its own name. */
+export type BetaBucketReference = BetaEffectiveBucket;
+/** The bucket to use in each region, keyed by region code, such as `us` or `eu`. An object with `project_number` and `bucket_name` sets that region's bucket, `null` removes it, and a region you leave out keeps its bucket. A bucket can serve only one region. While the control is on, at least one region must have a bucket. */
+export type BetaStorageControlEnabledParamsBucketsMap = {
+  [key: string]: BetaEffectiveBucket | null | undefined;
+};
+/** Turns the control on, or changes its buckets while it is on. */
+export interface BetaStorageControlEnabledParams {
+  /** The bucket to use in each region, keyed by region code, such as `us` or `eu`. An object with `project_number` and `bucket_name` sets that region's bucket, `null` removes it, and a region you leave out keeps its bucket. A bucket can serve only one region. While the control is on, at least one region must have a bucket. */
+  buckets?: BetaStorageControlEnabledParamsBucketsMap | undefined;
+  type: string;
+}
+/** The customer-owned storage control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+export type UpdateGoogleManagedProjectDataControlsRequestStorage =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaStorageControlEnabledParams;
+export interface UpdateGoogleManagedProjectDataControlsRequest {
+  /** The Google Cloud project's number, such as `123456789012`, not its project ID. */
+  project_number: string;
+  /** This endpoint is in beta: requests must send `google-managed-data-controls-2026-09-01` in this header. */
+  anthropicBeta: UpdateGoogleManagedProjectDataControlsRequestAnthropicBetaList;
+  /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
+  anthropicVersion?: string | undefined;
+  /** The customer-managed encryption key control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+  cmek?: UpdateGoogleManagedProjectDataControlsRequestCmek | undefined;
+  /** The customer-owned storage control. Leave it out to keep the control as it is. Send `cmek`, `storage`, or both. */
+  storage?: UpdateGoogleManagedProjectDataControlsRequestStorage | undefined;
+}
 /** This endpoint is in beta: requests must send `webhooks-2026-10-07` in this header. */
 export type UpdateOrganizationWebhookEndpointRequestAnthropicBetaList = Array<AnthropicBeta>;
 export type UpdateOrganizationWebhookEndpointRequestEnabledEventsItem =
+  | "external_key.failed"
+  | "external_key.recovered"
+  | "external_storage.failed"
+  | "external_storage.recovered"
   | "user_profile.enforcement_action_opened"
   | "user_profile.enforcement_action_resolved"
   | "user_profile.program_status_updated";
@@ -5578,11 +6377,15 @@ export type UpdateTelemetryDestinationRequestHeadersMap = {
   [key: string]: string | null | undefined;
 };
 /** Start deliveries to the telemetry destination again. This doesn't reset `delivery_health`. */
-export type BetaTelemetryDestinationStateEnabledParams = BetaOrganizationScope;
+export type BetaTelemetryDestinationStateEnabledParams =
+  BetaPendingConfigurationExternalStorageStatus;
 /** Stop deliveries to the telemetry destination. Spans produced while it is disabled aren't delivered later. A destination that is already disabled keeps its `reason`. */
-export type BetaTelemetryDestinationStateDisabledParams = BetaOrganizationScope;
+export type BetaTelemetryDestinationStateDisabledParams =
+  BetaPendingConfigurationExternalStorageStatus;
 /** The state to set on a telemetry destination, by `type` alone. A caller can't set the `reason` of a disabled state. Only the API sets it. */
-export type BetaTelemetryDestinationStateParams = BetaOrganizationScope | BetaOrganizationScope;
+export type BetaTelemetryDestinationStateParams =
+  | BetaPendingConfigurationExternalStorageStatus
+  | BetaPendingConfigurationExternalStorageStatus;
 export interface UpdateTelemetryDestinationRequest {
   /** ID of the destination (`tdst_...`). */
   destination_id: string;
@@ -5618,6 +6421,8 @@ export interface UpdateUserRequest {
   /** New role for the User. The accepted values depend on the organization type. Console and API organizations accept `user`, `developer`, `billing`, and `claude_code_user`; `admin` cannot be assigned through the API. Claude Enterprise organizations accept `user` and `managed`; changing a User's role to `managed` requires the `write:rbac_groups` scope in addition to `write:members`. */
   role: UpdateUserRequestRole | (string & {});
 }
+/** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+export type UpdateWorkspaceRequestAnthropicBetaList = Array<AnthropicBeta>;
 export type BetaDataResidencyUpdateParamsAllowedInferenceGeosCase0List = Array<
   BetaAllowedInferenceGeo | (string & {})
 >;
@@ -5631,22 +6436,35 @@ export interface BetaDataResidencyUpdateParams {
   /** Default inference geo applied when requests omit the parameter. Must be a member of `allowed_inference_geos` unless `allowed_inference_geos` is `"unrestricted"`. */
   default_inference_geo?: BetaInferenceGeo | (string & {}) | null | undefined;
 }
+/** Changes to where the Workspace's retained inference data and transcript copies go, and to whether Anthropic's human review applies. An omitted member is unchanged; a member cannot be null. */
+export interface BetaInferenceDataPrivacyUpdateParams {
+  /** Whether Anthropic's human review applies to the Workspace from now on. `disabled` needs Anthropic's approval. When omitted, unchanged. Cannot be null. */
+  human_review?: BetaHumanReviewParams | undefined;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes once the change takes effect. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. When omitted, unchanged. Cannot be null. */
+  safeguards_storage?: BetaStorageMemberParams | undefined;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go once the change takes effect. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no more copies are made. When omitted, unchanged. Cannot be null. */
+  transcripts_storage?: BetaStorageMemberParams | undefined;
+}
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | null | undefined };
 export interface UpdateWorkspaceRequest {
   workspace_id: string;
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  anthropicBeta?: UpdateWorkspaceRequestAnthropicBetaList | undefined;
   /** Data residency configuration for the workspace. */
   data_residency?: BetaDataResidencyUpdateParams | null | undefined;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color?: string | undefined;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string | undefined;
+  /** Changes to where the Workspace's retained inference data and transcript copies go, and to whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. An omitted member is unchanged. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token. */
+  inference_data_privacy?: BetaInferenceDataPrivacyUpdateParams | null | undefined;
   /** Name of the Workspace. */
   name?: string | undefined;
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
   tags?: UpdateWorkspaceRequestTagsMap | null | undefined;
-  /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. The default Workspace can't have a user profile. */
+  /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. It can't be set on a Workspace whose External Key isn't bound to this user profile. The default Workspace can't have a user profile. */
   user_profile_id?: string | undefined;
 }
 export interface UpdateWorkspaceMemberRequest {
@@ -5659,7 +6477,7 @@ export interface UpdateWorkspaceMemberRequest {
   /** New workspace role for the User. */
   workspace_role: BetaWorkspaceRoleSchema | (string & {});
 }
-/** Rate limiter type. */
+/** Rate limiter type. `input_tokens_per_minute` counts every input token, cache reads included. `input_tokens_per_minute_cache_aware` does not count cache reads, and on current models the organization's input-token limit usually has this type. A workspace limit of either type applies alongside the organization's limit, not in place of it. Because cache reads count toward an `input_tokens_per_minute` limit, it can reject requests that read mostly from the cache while the organization's limit still has room. */
 export type BetaWorkspaceRateLimitUpdateValueType =
   | "fast_itpmca"
   | "fast_otpm"
@@ -5671,7 +6489,7 @@ export type BetaWorkspaceRateLimitUpdateValueType =
   | "tokens_per_minute"
   | "tool_uses_per_second";
 export interface BetaWorkspaceRateLimitUpdateValue {
-  /** Rate limiter type. */
+  /** Rate limiter type. `input_tokens_per_minute` counts every input token, cache reads included. `input_tokens_per_minute_cache_aware` does not count cache reads, and on current models the organization's input-token limit usually has this type. A workspace limit of either type applies alongside the organization's limit, not in place of it. Because cache reads count toward an `input_tokens_per_minute` limit, it can reject requests that read mostly from the cache while the organization's limit still has room. */
   type: BetaWorkspaceRateLimitUpdateValueType | (string & {});
   /** New limit value. Set to null to clear the workspace override and fall back to the organization limit. */
   value: number | null;
@@ -5772,6 +6590,24 @@ export interface ValidatePluginMarketplaceRepositoryRequest {
   /** The `https://` URL of a public repository on github.com that holds the marketplace. A URL longer than 2,048 characters, on any other host or scheme, with a port other than 443 or 80, with credentials in it, or that does not name exactly `owner/repo` (a trailing `.git` or `/` is accepted) is a 400. A private or missing repository is reported in the response, not refused. */
   repository_url: string;
 }
+export type ActivateExternalStorageError = AnthropicOpError;
+/** Activate External Storage Verify pending External Storage and make it available. Storage that is already available, active or draining comes back unchanged, without any check. */
+export const activateExternalStorage: API.OperationMethod<
+  ActivateExternalStorageRequest,
+  BetaExternalStorage,
+  ActivateExternalStorageError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<ActivateExternalStorageRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<BetaExternalStorage>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateExternalStorage",
+}));
+
 export type AddFederationRuleWorkspaceError = AnthropicOpError;
 /** Add Federation Rule Workspace **Requires an OAuth access token with the `org:admin` scope**, from `ant auth login --scope org:admin` or a workload identity federation rule; Admin API keys are not accepted. See [Manage WIF with the Admin API](/docs/en/manage-claude/wif-admin-api). Enable a federation rule for a workspace. Idempotent; re-enabling returns the existing enablement. The rule and workspace must both belong to your organization. Membership of the rule's target service account in this workspace is not checked at enablement: token exchange into this workspace is rejected unless the target is a member (it is implicitly a member of the default workspace). Archived rules are rejected with 400. OAuth callers may only manage rules whose `oauth_scope` is `workspace:developer` or `workspace:inference`; other scopes require a Console session. */
 export const addFederationRuleWorkspace: API.OperationMethod<
@@ -5780,8 +6616,8 @@ export const addFederationRuleWorkspace: API.OperationMethod<
   AddFederationRuleWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddFederationRuleWorkspaceRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<BetaFederationRuleWorkspace>,
+  input: __S(96, __c3, 0) as any as S.Schema<AddFederationRuleWorkspaceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<BetaFederationRuleWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5798,8 +6634,8 @@ export const addRbacGroupMember: API.OperationMethod<
   AddRbacGroupMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<AddRbacGroupMemberRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<BetaRbacGroupMember>,
+  input: __S(2816, __c88, 0) as any as S.Schema<AddRbacGroupMemberRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<BetaRbacGroupMember>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5816,8 +6652,8 @@ export const addTelemetryDestinationWorkspace: API.OperationMethod<
   AddTelemetryDestinationWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<AddTelemetryDestinationWorkspaceRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<BetaTelemetryDestinationWorkspace>,
+  input: __S(3488, __c109, 0) as any as S.Schema<AddTelemetryDestinationWorkspaceRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<BetaTelemetryDestinationWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5834,8 +6670,8 @@ export const addWorkspaceToServiceAccount: API.OperationMethod<
   AddWorkspaceToServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<AddWorkspaceToServiceAccountRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
+  input: __S(3936, __c123, 0) as any as S.Schema<AddWorkspaceToServiceAccountRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5852,8 +6688,8 @@ export const approveSpendLimitIncreaseRequest: API.OperationMethod<
   ApproveSpendLimitIncreaseRequestError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ApproveSpendLimitIncreaseRequestRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<BetaApproveSpendLimitIncreaseRequestResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ApproveSpendLimitIncreaseRequestRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<BetaApproveSpendLimitIncreaseRequestResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5870,8 +6706,8 @@ export const archiveFederationIssuer: API.OperationMethod<
   ArchiveFederationIssuerError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ArchiveFederationIssuerRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ArchiveFederationIssuerRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<BetaFederationIssuer>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5888,8 +6724,8 @@ export const archiveFederationRule: API.OperationMethod<
   ArchiveFederationRuleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ArchiveFederationRuleRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ArchiveFederationRuleRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationRule>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5906,8 +6742,8 @@ export const archiveServiceAccount: API.OperationMethod<
   ArchiveServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ArchiveServiceAccountRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ArchiveServiceAccountRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<BetaServiceAccount>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5924,8 +6760,8 @@ export const archiveWorkspace: API.OperationMethod<
   ArchiveWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ArchiveWorkspaceRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ArchiveWorkspaceRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<BetaWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5942,8 +6778,8 @@ export const createBundleTarget: API.OperationMethod<
   CreateBundleTargetError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<CreateBundleTargetRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<CreateBundleTargetResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateBundleTargetRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<CreateBundleTargetResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5960,14 +6796,32 @@ export const createExternalKey: API.OperationMethod<
   CreateExternalKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateExternalKeyRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreateExternalKeyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<BetaExternalKey>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExternalKey",
+}));
+
+export type CreateExternalStorageError = AnthropicOpError;
+/** Create External Storage Register a bucket in the organization's own cloud account. It is saved as `pending_configuration` and verified when activated. */
+export const createExternalStorage: API.OperationMethod<
+  CreateExternalStorageRequest,
+  BetaExternalStorage,
+  CreateExternalStorageError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<CreateExternalStorageRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<BetaExternalStorage>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalStorage",
 }));
 
 export type CreateFederationIssuerError = AnthropicOpError;
@@ -5978,8 +6832,8 @@ export const createFederationIssuer: API.OperationMethod<
   CreateFederationIssuerError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateFederationIssuerRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateFederationIssuerRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<BetaFederationIssuer>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -5996,8 +6850,8 @@ export const createFederationRule: API.OperationMethod<
   CreateFederationRuleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateFederationRuleRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateFederationRuleRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationRule>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6014,8 +6868,8 @@ export const createInvite: API.OperationMethod<
   CreateInviteError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateInviteRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<BetaInviteSchema>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CreateInviteRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<BetaInviteSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6032,8 +6886,8 @@ export const createOrganizationWebhookEndpoint: API.OperationMethod<
   CreateOrganizationWebhookEndpointError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateOrganizationWebhookEndpointRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<BetaNewOrganizationWebhookEndpoint>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CreateOrganizationWebhookEndpointRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<BetaNewOrganizationWebhookEndpoint>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6050,8 +6904,8 @@ export const createPlugin: API.OperationMethod<
   CreatePluginError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreatePluginRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CreatePluginRequest>,
+  output: __S(2656, __c83, 0) as any as S.Schema<BetaPlugin>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6068,8 +6922,8 @@ export const createPluginVersion: API.OperationMethod<
   CreatePluginVersionError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreatePluginVersionRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<BetaPluginVersion>,
+  input: __S(2688, __c84, 0) as any as S.Schema<CreatePluginVersionRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<BetaPluginVersion>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6086,8 +6940,8 @@ export const createRbacGroup: API.OperationMethod<
   CreateRbacGroupError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CreateRbacGroupRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateRbacGroupRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<BetaRbacGroup>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6104,8 +6958,8 @@ export const createServiceAccount: API.OperationMethod<
   CreateServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreateServiceAccountRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateServiceAccountRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<BetaServiceAccount>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6122,8 +6976,8 @@ export const createServiceAccountWorkspaceMember: API.OperationMethod<
   CreateServiceAccountWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateServiceAccountWorkspaceMemberRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateServiceAccountWorkspaceMemberRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6140,8 +6994,8 @@ export const createSlackChannel: API.OperationMethod<
   CreateSlackChannelError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateSlackChannelRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateSlackChannelRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6158,8 +7012,8 @@ export const createTelemetryDestination: API.OperationMethod<
   CreateTelemetryDestinationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<CreateTelemetryDestinationRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
+  input: __S(3072, __c96, 0) as any as S.Schema<CreateTelemetryDestinationRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<BetaTelemetryDestination>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6176,8 +7030,8 @@ export const createWorkspace: API.OperationMethod<
   CreateWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2497, __c78, 1) as any as S.Schema<CreateWorkspaceRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
+  input: __S(3169, __c99, 1) as any as S.Schema<CreateWorkspaceRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<BetaWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6194,8 +7048,8 @@ export const createWorkspaceMember: API.OperationMethod<
   CreateWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<CreateWorkspaceMemberRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateWorkspaceMemberRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6212,14 +7066,32 @@ export const deleteBundleTarget: API.OperationMethod<
   DeleteBundleTargetError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteBundleTargetRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<BetaClaudeTagDeletedBundleTarget>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteBundleTargetRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<BetaClaudeTagDeletedBundleTarget>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBundleTarget",
+}));
+
+export type DeleteClaudeCodeRbacGroupManagedSettingsError = AnthropicOpError;
+/** Delete RBAC Group Claude Code Managed Settings Delete an RBAC Group's Claude Code managed settings and remove the group from `rbac_group_order`. A group with no settings returns `404` with the error code `rbac_group_managed_settings_not_found`. That code on a retry of a delete that returned `503` means the settings are gone. **Accepted credentials:** an organization-level Admin API key with the `write:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. A write that returns `503` may have applied. Retrying it is safe. */
+export const deleteClaudeCodeRbacGroupManagedSettings: API.OperationMethod<
+  DeleteClaudeCodeRbacGroupManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupManagedSettingsDeleted,
+  DeleteClaudeCodeRbacGroupManagedSettingsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3361, __c105, 1) as any as S.Schema<DeleteClaudeCodeRbacGroupManagedSettingsRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<BetaClaudeCodeRbacGroupManagedSettingsDeleted>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClaudeCodeRbacGroupManagedSettings",
 }));
 
 export type DeleteExternalKeyError = AnthropicOpError;
@@ -6230,14 +7102,32 @@ export const deleteExternalKey: API.OperationMethod<
   DeleteExternalKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteExternalKeyRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteExternalKeyResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteExternalKeyRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeleteExternalKeyResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteExternalKey",
+}));
+
+export type DeleteExternalStorageError = AnthropicOpError;
+/** Delete External Storage Delete External Storage. Storage that is pending configuration, available, or active but never attached is deleted at once, unless an Enterprise Frontier Safeguards workspace policy lists it. Other storage gets a 400 that says what to do next. On `draining` storage that 400 can mean this delete started a removal that can't be undone. To check, get the storage: if `status.removal_started` is true, delete it again later to finish. */
+export const deleteExternalStorage: API.OperationMethod<
+  DeleteExternalStorageRequest,
+  BetaExternalStorageDeletedResponse,
+  DeleteExternalStorageError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteExternalStorageRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaExternalStorageDeletedResponse>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalStorage",
 }));
 
 export type DeleteInviteError = AnthropicOpError;
@@ -6248,8 +7138,8 @@ export const deleteInvite: API.OperationMethod<
   DeleteInviteError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<DeleteInviteRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteInviteResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteInviteRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeleteInviteResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6266,8 +7156,8 @@ export const deleteOrganizationWebhookEndpoint: API.OperationMethod<
   DeleteOrganizationWebhookEndpointError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DeleteOrganizationWebhookEndpointRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeletedOrganizationWebhookEndpoint>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DeleteOrganizationWebhookEndpointRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeletedOrganizationWebhookEndpoint>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6284,8 +7174,8 @@ export const deletePlugin: API.OperationMethod<
   DeletePluginError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DeletePluginRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaPluginDeleted>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeletePluginRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaPluginDeleted>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6302,8 +7192,8 @@ export const deleteRbacGroup: API.OperationMethod<
   DeleteRbacGroupError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<DeleteRbacGroupRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteRbacGroupResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DeleteRbacGroupRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeleteRbacGroupResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6320,8 +7210,8 @@ export const deleteServiceAccountWorkspaceMember: API.OperationMethod<
   DeleteServiceAccountWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeleteServiceAccountWorkspaceMemberRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteServiceAccountWorkspaceMemberRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6338,8 +7228,8 @@ export const deleteSlackChannel: API.OperationMethod<
   DeleteSlackChannelError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DeleteSlackChannelRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<BetaClaudeTagDeletedSlackChannel>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DeleteSlackChannelRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<BetaClaudeTagDeletedSlackChannel>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6356,8 +7246,8 @@ export const deleteSpendLimit: API.OperationMethod<
   DeleteSpendLimitError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DeleteSpendLimitRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteSpendLimitResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteSpendLimitRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeleteSpendLimitResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6374,8 +7264,8 @@ export const deleteTelemetryDestination: API.OperationMethod<
   DeleteTelemetryDestinationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DeleteTelemetryDestinationRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<BetaDeletedTelemetryDestination>,
+  input: __S(3808, __c119, 0) as any as S.Schema<DeleteTelemetryDestinationRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<BetaDeletedTelemetryDestination>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6392,8 +7282,8 @@ export const deleteWorkspaceMember: API.OperationMethod<
   DeleteWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DeleteWorkspaceMemberRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<BetaDeleteWorkspaceMemberResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DeleteWorkspaceMemberRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<BetaDeleteWorkspaceMemberResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6410,8 +7300,8 @@ export const denySpendLimitIncreaseRequest: API.OperationMethod<
   DenySpendLimitIncreaseRequestError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DenySpendLimitIncreaseRequestRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DenySpendLimitIncreaseRequestRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6430,8 +7320,8 @@ export const getAnalyticsArtifacts: API.PaginatedOperationMethod<
   BetaAnalyticsArtifactActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3168, __c99, 0) as any as S.Schema<GetAnalyticsArtifactsRequest>,
-    output: __S(3171, __c99, 3) as any as S.Schema<BetaAnalyticsArtifactsResponse>,
+    input: __S(4000, __c125, 0) as any as S.Schema<GetAnalyticsArtifactsRequest>,
+    output: __S(4003, __c125, 3) as any as S.Schema<BetaAnalyticsArtifactsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6459,8 +7349,8 @@ export const getAnalyticsChatProjects: API.PaginatedOperationMethod<
   BetaAnalyticsProjectActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3200, __c100, 0) as any as S.Schema<GetAnalyticsChatProjectsRequest>,
-    output: __S(3203, __c100, 3) as any as S.Schema<BetaAnalyticsProjectsResponse>,
+    input: __S(4032, __c126, 0) as any as S.Schema<GetAnalyticsChatProjectsRequest>,
+    output: __S(4035, __c126, 3) as any as S.Schema<BetaAnalyticsProjectsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6488,8 +7378,8 @@ export const getAnalyticsConnectors: API.PaginatedOperationMethod<
   BetaAnalyticsConnectorActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3264, __c102, 0) as any as S.Schema<GetAnalyticsConnectorsRequest>,
-    output: __S(3271, __c102, 7) as any as S.Schema<BetaAnalyticsConnectorsResponse>,
+    input: __S(4096, __c128, 0) as any as S.Schema<GetAnalyticsConnectorsRequest>,
+    output: __S(4103, __c128, 7) as any as S.Schema<BetaAnalyticsConnectorsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6508,7 +7398,7 @@ export const getAnalyticsConnectors: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetAnalyticsCostError = AnthropicOpError;
-/** Get Cost By Dimension Get cost in USD across a date range, broken out by dimension. Returns one row per combination of the requested `group_by[]` dimensions (and time bucket, when `time_bucket_width` is set) that has cost in the range, ranked by spend or ordered by time bucket; every combination is returned across pages. With no `group_by[]` and no `time_bucket_width`, a single row aggregates the whole range. Includes all cost, whether or not it is attributable to a seat user. Requires an API key with the `read:analytics` scope, or an Admin API key. */
+/** Get Cost By Dimension Get cost in USD across a date range, broken out by dimension. Returns one row per combination of the requested `group_by[]` dimensions (and time bucket, when `time_bucket_width` is set) that has cost in the range, ranked by spend or ordered by time bucket; every combination is returned across pages. With no `group_by[]` and no `time_bucket_width`, a single row aggregates the whole range. Includes all cost, whether or not it is attributable to a seat user. Requires an API key with the `read:analytics` scope, or an Admin API key. This endpoint is in beta and is not available to organizations with HIPAA readiness enabled: their API requests return a 400 error. A parent organization's report across its child organizations leaves out the child organizations that have HIPAA readiness enabled. If the parent has child organizations and all of them have HIPAA readiness enabled, the request returns a 400 error. */
 export const getAnalyticsCost: API.PaginatedOperationMethod<
   GetAnalyticsCostRequest,
   BetaAnalyticsFlatCostResponse,
@@ -6517,8 +7407,8 @@ export const getAnalyticsCost: API.PaginatedOperationMethod<
   BetaAnalyticsFlatCostItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3296, __c103, 0) as any as S.Schema<GetAnalyticsCostRequest>,
-    output: __S(3301, __c103, 5) as any as S.Schema<BetaAnalyticsFlatCostResponse>,
+    input: __S(4128, __c129, 0) as any as S.Schema<GetAnalyticsCostRequest>,
+    output: __S(4133, __c129, 5) as any as S.Schema<BetaAnalyticsFlatCostResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6546,8 +7436,8 @@ export const getAnalyticsCostReport: API.PaginatedOperationMethod<
   BetaAnalyticsCostReportTimeBucket
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3424, __c107, 0) as any as S.Schema<GetAnalyticsCostReportRequest>,
-    output: __S(3429, __c107, 5) as any as S.Schema<BetaAnalyticsCostBucketedResponse>,
+    input: __S(4160, __c130, 0) as any as S.Schema<GetAnalyticsCostReportRequest>,
+    output: __S(4165, __c130, 5) as any as S.Schema<BetaAnalyticsCostBucketedResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6575,8 +7465,8 @@ export const getAnalyticsPlugins: API.PaginatedOperationMethod<
   BetaAnalyticsPluginActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3456, __c108, 0) as any as S.Schema<GetAnalyticsPluginsRequest>,
-    output: __S(3460, __c108, 4) as any as S.Schema<BetaAnalyticsPluginsResponse>,
+    input: __S(4192, __c131, 0) as any as S.Schema<GetAnalyticsPluginsRequest>,
+    output: __S(4196, __c131, 4) as any as S.Schema<BetaAnalyticsPluginsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6604,8 +7494,8 @@ export const getAnalyticsSkills: API.PaginatedOperationMethod<
   BetaAnalyticsSkillActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3488, __c109, 0) as any as S.Schema<GetAnalyticsSkillsRequest>,
-    output: __S(3495, __c109, 7) as any as S.Schema<BetaAnalyticsSkillsResponse>,
+    input: __S(4224, __c132, 0) as any as S.Schema<GetAnalyticsSkillsRequest>,
+    output: __S(4231, __c132, 7) as any as S.Schema<BetaAnalyticsSkillsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6633,8 +7523,8 @@ export const getAnalyticsSummaries: API.PaginatedOperationMethod<
   BetaAnalyticsSingleDayActivitySummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3520, __c110, 0) as any as S.Schema<GetAnalyticsSummariesRequest>,
-    output: __S(3523, __c110, 3) as any as S.Schema<BetaAnalyticsActivitySummaryResponse>,
+    input: __S(4256, __c133, 0) as any as S.Schema<GetAnalyticsSummariesRequest>,
+    output: __S(4259, __c133, 3) as any as S.Schema<BetaAnalyticsActivitySummaryResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6653,7 +7543,7 @@ export const getAnalyticsSummaries: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetAnalyticsUsageError = AnthropicOpError;
-/** Get Token Usage By Dimension Get token usage across a date range, broken out by dimension. Returns one row per combination of the requested `group_by[]` dimensions (and time bucket, when `time_bucket_width` is set) that has usage in the range, ranked by the `order_by` metric or ordered by time bucket; every combination is returned across pages. With no `group_by[]` and no `time_bucket_width`, a single row aggregates the whole range. Includes all usage, whether or not it is attributable to a seat user. Requires an API key with the `read:analytics` scope, or an Admin API key. */
+/** Get Token Usage By Dimension Get token usage across a date range, broken out by dimension. Returns one row per combination of the requested `group_by[]` dimensions (and time bucket, when `time_bucket_width` is set) that has usage in the range, ranked by the `order_by` metric or ordered by time bucket; every combination is returned across pages. With no `group_by[]` and no `time_bucket_width`, a single row aggregates the whole range. Includes all usage, whether or not it is attributable to a seat user. Requires an API key with the `read:analytics` scope, or an Admin API key. This endpoint is in beta and is not available to organizations with HIPAA readiness enabled: their API requests return a 400 error. A parent organization's report across its child organizations leaves out the child organizations that have HIPAA readiness enabled. If the parent has child organizations and all of them have HIPAA readiness enabled, the request returns a 400 error. */
 export const getAnalyticsUsage: API.PaginatedOperationMethod<
   GetAnalyticsUsageRequest,
   BetaAnalyticsFlatUsageResponse,
@@ -6662,8 +7552,8 @@ export const getAnalyticsUsage: API.PaginatedOperationMethod<
   BetaAnalyticsFlatUsageItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3552, __c111, 0) as any as S.Schema<GetAnalyticsUsageRequest>,
-    output: __S(3557, __c111, 5) as any as S.Schema<BetaAnalyticsFlatUsageResponse>,
+    input: __S(4288, __c134, 0) as any as S.Schema<GetAnalyticsUsageRequest>,
+    output: __S(4293, __c134, 5) as any as S.Schema<BetaAnalyticsFlatUsageResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6691,8 +7581,8 @@ export const getAnalyticsUsageReport: API.PaginatedOperationMethod<
   BetaAnalyticsUsageReportTimeBucket
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3616, __c113, 0) as any as S.Schema<GetAnalyticsUsageReportRequest>,
-    output: __S(3621, __c113, 5) as any as S.Schema<BetaAnalyticsUsageBucketedResponse>,
+    input: __S(4352, __c136, 0) as any as S.Schema<GetAnalyticsUsageReportRequest>,
+    output: __S(4357, __c136, 5) as any as S.Schema<BetaAnalyticsUsageBucketedResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6711,7 +7601,7 @@ export const getAnalyticsUsageReport: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetAnalyticsUserCostReportError = AnthropicOpError;
-/** Get Per-User Cost [Legacy] Get per-user cost in USD across a date range. Returns cost per user, ranked by spend; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users account for the most cost. Only cost attributed to a user account is included, so cost with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope. This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/cost`](/docs/en/api/beta/organization/analytics/cost/list) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](/docs/en/manage-claude/usage-cost-analytics-api#migrate-from-enterprise-analytics-reports). */
+/** Get Per-User Cost [Legacy] Get per-user cost in USD across a date range. Returns cost per user, ranked by spend; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users account for the most cost. Only cost attributed to a user account is included, so cost with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. To see all cost by product, call `GET /v1/organizations/analytics/cost_report` with `group_by[]=product`. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope. This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/cost`](/docs/en/api/beta/organization/analytics/cost/list) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](/docs/en/manage-claude/usage-cost-analytics-api#migrate-from-enterprise-analytics-reports). */
 export const getAnalyticsUserCostReport: API.PaginatedOperationMethod<
   GetAnalyticsUserCostReportRequest,
   BetaAnalyticsCostUsersResponse,
@@ -6720,8 +7610,8 @@ export const getAnalyticsUserCostReport: API.PaginatedOperationMethod<
   BetaAnalyticsCostUsersItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3648, __c114, 0) as any as S.Schema<GetAnalyticsUserCostReportRequest>,
-    output: __S(3651, __c114, 3) as any as S.Schema<BetaAnalyticsCostUsersResponse>,
+    input: __S(4480, __c140, 0) as any as S.Schema<GetAnalyticsUserCostReportRequest>,
+    output: __S(4483, __c140, 3) as any as S.Schema<BetaAnalyticsCostUsersResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6749,8 +7639,8 @@ export const getAnalyticsUsers: API.PaginatedOperationMethod<
   BetaAnalyticsUserActivity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3712, __c116, 0) as any as S.Schema<GetAnalyticsUsersRequest>,
-    output: __S(3728, __c116, 16) as any as S.Schema<BetaAnalyticsUsersResponse>,
+    input: __S(4544, __c142, 0) as any as S.Schema<GetAnalyticsUsersRequest>,
+    output: __S(4560, __c142, 16) as any as S.Schema<BetaAnalyticsUsersResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6769,7 +7659,7 @@ export const getAnalyticsUsers: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetAnalyticsUserUsageReportError = AnthropicOpError;
-/** Get Per-User Token Usage [Legacy] Get per-user token usage across a date range. Returns usage per user, ranked by the chosen token metric; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users consume the most tokens. Only usage attributed to a user account is included, so usage with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope. This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/usage`](/docs/en/api/beta/organization/analytics/usage/list) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](/docs/en/manage-claude/usage-cost-analytics-api#migrate-from-enterprise-analytics-reports). */
+/** Get Per-User Token Usage [Legacy] Get per-user token usage across a date range. Returns usage per user, ranked by the chosen token metric; `group_by[]` or `bucket_width` splits a user across several rows. Use this to see which users consume the most tokens. Only usage attributed to a user account is included, so usage with no user account, such as Code Review usage and Claude Tag usage in Slack channels, is left out. Claude Tag one-to-one direct messages are included, with product `claude-tag`, only for members who have connected a Claude account. To see all usage by product, call `GET /v1/organizations/analytics/usage_report` with `group_by[]=product`. Available to organizations on a Claude Enterprise plan. Requires an API key with the `read:analytics` scope. This endpoint is one of the legacy Claude Enterprise usage and cost reports. For new integrations, use [`GET /v1/organizations/analytics/usage`](/docs/en/api/beta/organization/analytics/usage/list) in the Usage and Cost Analytics API instead. To move an existing integration, see [Migrate from the Claude Enterprise usage and cost reports](/docs/en/manage-claude/usage-cost-analytics-api#migrate-from-enterprise-analytics-reports). */
 export const getAnalyticsUserUsageReport: API.PaginatedOperationMethod<
   GetAnalyticsUserUsageReportRequest,
   BetaAnalyticsUsageUsersResponse,
@@ -6778,8 +7668,8 @@ export const getAnalyticsUserUsageReport: API.PaginatedOperationMethod<
   BetaAnalyticsUsageUsersItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3744, __c117, 0) as any as S.Schema<GetAnalyticsUserUsageReportRequest>,
-    output: __S(3747, __c117, 3) as any as S.Schema<BetaAnalyticsUsageUsersResponse>,
+    input: __S(4576, __c143, 0) as any as S.Schema<GetAnalyticsUserUsageReportRequest>,
+    output: __S(4579, __c143, 3) as any as S.Schema<BetaAnalyticsUsageUsersResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6805,8 +7695,8 @@ export const getApiKey: API.OperationMethod<
   GetApiKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetApiKeyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<BetaApiKey>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetApiKeyRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<BetaApiKey>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6823,8 +7713,8 @@ export const getBundle: API.OperationMethod<
   GetBundleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetBundleRequest>,
-  output: __S(3936, __c123, 0) as any as S.Schema<BetaClaudeTagBundle>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetBundleRequest>,
+  output: __S(4704, __c147, 0) as any as S.Schema<BetaClaudeTagBundle>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6841,14 +7731,72 @@ export const getBundleTarget: API.OperationMethod<
   GetBundleTargetError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetBundleTargetRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<GetBundleTargetResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetBundleTargetRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<GetBundleTargetResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBundleTarget",
+}));
+
+export type GetClaudeCodeManagedSettingsConfigurationError = AnthropicOpError;
+/** Get Claude Code Managed Settings Configuration Retrieve the organization's Claude Code managed settings mode and RBAC Group order. **Accepted credentials:** an organization-level Admin API key with the `read:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. */
+export const getClaudeCodeManagedSettingsConfiguration: API.OperationMethod<
+  GetClaudeCodeManagedSettingsConfigurationRequest,
+  BetaClaudeCodeManagedSettingsConfiguration,
+  GetClaudeCodeManagedSettingsConfigurationError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4768, __c149, 0) as any as S.Schema<GetClaudeCodeManagedSettingsConfigurationRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<BetaClaudeCodeManagedSettingsConfiguration>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClaudeCodeManagedSettingsConfiguration",
+}));
+
+export type GetClaudeCodeRbacGroupDefaultManagedSettingsError = AnthropicOpError;
+/** Get RBAC Group Default Claude Code Managed Settings Retrieve the default Claude Code managed settings, which members who belong to no RBAC Group in `rbac_group_order` receive in `rbac_groups` mode. **Accepted credentials:** an organization-level Admin API key with the `read:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. */
+export const getClaudeCodeRbacGroupDefaultManagedSettings: API.OperationMethod<
+  GetClaudeCodeRbacGroupDefaultManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupDefaultManagedSettings,
+  GetClaudeCodeRbacGroupDefaultManagedSettingsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    4832,
+    __c151,
+    0,
+  ) as any as S.Schema<GetClaudeCodeRbacGroupDefaultManagedSettingsRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<BetaClaudeCodeRbacGroupDefaultManagedSettings>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClaudeCodeRbacGroupDefaultManagedSettings",
+}));
+
+export type GetClaudeCodeRbacGroupManagedSettingsError = AnthropicOpError;
+/** Get RBAC Group Claude Code Managed Settings Retrieve an RBAC Group's Claude Code managed settings. **Accepted credentials:** an organization-level Admin API key with the `read:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. */
+export const getClaudeCodeRbacGroupManagedSettings: API.OperationMethod<
+  GetClaudeCodeRbacGroupManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupManagedSettings,
+  GetClaudeCodeRbacGroupManagedSettingsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4928, __c154, 0) as any as S.Schema<GetClaudeCodeRbacGroupManagedSettingsRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<BetaClaudeCodeRbacGroupManagedSettings>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClaudeCodeRbacGroupManagedSettings",
 }));
 
 export type GetClaudeCodeUsageReportError = AnthropicOpError;
@@ -6861,8 +7809,8 @@ export const getClaudeCodeUsageReport: API.PaginatedOperationMethod<
   BetaClaudeCodeUsageReportItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4000, __c125, 0) as any as S.Schema<GetClaudeCodeUsageReportRequest>,
-    output: __S(4011, __c125, 11) as any as S.Schema<BetaGetClaudeCodeUsageReportResponse>,
+    input: __S(4992, __c156, 0) as any as S.Schema<GetClaudeCodeUsageReportRequest>,
+    output: __S(5003, __c156, 11) as any as S.Schema<BetaGetClaudeCodeUsageReportResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6888,8 +7836,8 @@ export const getComplianceSettings: API.OperationMethod<
   GetComplianceSettingsError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetComplianceSettingsRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<BetaComplianceSettings>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetComplianceSettingsRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<BetaComplianceSettings>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6908,8 +7856,8 @@ export const getCostReport: API.PaginatedOperationMethod<
   BetaCostReportTimeBucket
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4096, __c128, 0) as any as S.Schema<GetCostReportRequest>,
-    output: __S(4101, __c128, 5) as any as S.Schema<BetaGetCostReportResponse>,
+    input: __S(5152, __c161, 0) as any as S.Schema<GetCostReportRequest>,
+    output: __S(5157, __c161, 5) as any as S.Schema<BetaGetCostReportResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -6935,8 +7883,8 @@ export const getCurrentOrganization: API.OperationMethod<
   GetCurrentOrganizationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetCurrentOrganizationRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<BetaOrganizationSchema>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetCurrentOrganizationRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<BetaOrganizationSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6953,14 +7901,32 @@ export const getExternalKey: API.OperationMethod<
   GetExternalKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetExternalKeyRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetExternalKeyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<BetaExternalKey>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExternalKey",
+}));
+
+export type GetExternalStorageError = AnthropicOpError;
+/** Get External Storage Get one External Storage in the organization. */
+export const getExternalStorage: API.OperationMethod<
+  GetExternalStorageRequest,
+  BetaExternalStorage,
+  GetExternalStorageError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5248, __c164, 0) as any as S.Schema<GetExternalStorageRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<BetaExternalStorage>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalStorage",
 }));
 
 export type GetFederationIssuerError = AnthropicOpError;
@@ -6971,8 +7937,8 @@ export const getFederationIssuer: API.OperationMethod<
   GetFederationIssuerError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetFederationIssuerRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetFederationIssuerRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<BetaFederationIssuer>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -6989,14 +7955,32 @@ export const getFederationRule: API.OperationMethod<
   GetFederationRuleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetFederationRuleRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
+  input: __S(5312, __c166, 0) as any as S.Schema<GetFederationRuleRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationRule>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFederationRule",
+}));
+
+export type GetGoogleManagedProjectDataControlsError = AnthropicOpError;
+/** Get Google-Managed Project Data Controls Get a Google Cloud project's encryption keys and storage buckets for Claude on Google Cloud's Agent Platform, with each region's status. Your organization must have proved that it owns the project. */
+export const getGoogleManagedProjectDataControls: API.OperationMethod<
+  GetGoogleManagedProjectDataControlsRequest,
+  BetaGoogleManagedProjectDataControls,
+  GetGoogleManagedProjectDataControlsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5344, __c167, 0) as any as S.Schema<GetGoogleManagedProjectDataControlsRequest>,
+  output: __S(5376, __c168, 0) as any as S.Schema<BetaGoogleManagedProjectDataControls>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleManagedProjectDataControls",
 }));
 
 export type GetInviteError = AnthropicOpError;
@@ -7007,8 +7991,8 @@ export const getInvite: API.OperationMethod<
   GetInviteError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetInviteRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<BetaInviteSchema>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetInviteRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<BetaInviteSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7027,8 +8011,8 @@ export const getMessagesUsageReport: API.PaginatedOperationMethod<
   BetaMessagesUsageReportTimeBucket
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4416, __c138, 0) as any as S.Schema<GetMessagesUsageReportRequest>,
-    output: __S(4421, __c138, 5) as any as S.Schema<BetaGetMessagesUsageReportResponse>,
+    input: __S(5440, __c170, 0) as any as S.Schema<GetMessagesUsageReportRequest>,
+    output: __S(5445, __c170, 5) as any as S.Schema<BetaGetMessagesUsageReportResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7056,8 +8040,8 @@ export const getOrganizationRateLimits: API.PaginatedOperationMethod<
   BetaRateLimit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4448, __c139, 0) as any as S.Schema<GetOrganizationRateLimitsRequest>,
-    output: __S(4453, __c139, 5) as any as S.Schema<BetaRateLimitListResponse>,
+    input: __S(5600, __c175, 0) as any as S.Schema<GetOrganizationRateLimitsRequest>,
+    output: __S(5605, __c175, 5) as any as S.Schema<BetaRateLimitListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7083,8 +8067,8 @@ export const getOrganizationWebhookEndpoint: API.OperationMethod<
   GetOrganizationWebhookEndpointError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetOrganizationWebhookEndpointRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetOrganizationWebhookEndpointRequest>,
+  output: __S(5664, __c177, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7101,8 +8085,8 @@ export const getPlugin: API.OperationMethod<
   GetPluginError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetPluginRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetPluginRequest>,
+  output: __S(2656, __c83, 0) as any as S.Schema<BetaPlugin>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7119,8 +8103,8 @@ export const getPluginMarketplace: API.OperationMethod<
   GetPluginMarketplaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetPluginMarketplaceRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<BetaPluginMarketplace>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetPluginMarketplaceRequest>,
+  output: __S(5760, __c180, 0) as any as S.Schema<BetaPluginMarketplace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7137,8 +8121,8 @@ export const getPluginVersion: API.OperationMethod<
   GetPluginVersionError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetPluginVersionRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<BetaPluginVersion>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetPluginVersionRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<BetaPluginVersion>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7148,15 +8132,15 @@ export const getPluginVersion: API.OperationMethod<
 }));
 
 export type GetPluginVersionContentError = AnthropicOpError;
-/** Download Plugin Version Archive Download one version's `.zip` archive, exactly as stored. Each download of a Plugin from a member's personal plugin marketplace is recorded on the Compliance API activity feed. The response body is the archive (`Content-Type: application/zip`), sent as an attachment whose filename is derived from the Plugin's name; name saved files from the IDs in the request path, since that filename is not unique. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every read scope above (`read:plugins`, `read:org_audit`, and `read:compliance_org_data`) can download the files of plugins in members' personal marketplaces, including files that claude.ai's admin settings do not show, and a `read:org_audit` or `read:compliance_org_data` key created for all of your parent organization's linked organizations can do this in any organization under it that has access to this API, by passing `organization_id`. Each such download records a `claude_plugin_archive_accessed` event on the Compliance API activity feed, identifying the key, the plugin, the version, and the member. Downloads of organization-owned plugins are not recorded. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
+/** Download Plugin Version Archive Download one version's `.zip` archive, exactly as stored. Downloads of Plugins from members' personal plugin marketplaces can be recorded on the Compliance API activity feed. The response body is the archive (`Content-Type: application/zip`), sent as an attachment whose filename is derived from the Plugin's name; name saved files from the IDs in the request path, since that filename is not unique. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every read scope above (`read:plugins`, `read:org_audit`, and `read:compliance_org_data`) can download the files of plugins in members' personal marketplaces, including files that claude.ai's admin settings do not show, and a `read:org_audit` or `read:compliance_org_data` key created for all of your parent organization's linked organizations can do this in any organization under it that has access to this API, by passing `organization_id`. The Compliance API activity feed can record such a download as a `claude_plugin_archive_accessed` event, which identifies the key, the plugin, the version, and the member. It does so only while activity events are captured for the plugin's organization, and a record is not guaranteed even then. The files are served whether or not the download is recorded. Downloads of organization-owned plugins are not recorded. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
 export const getPluginVersionContent: API.OperationMethod<
   GetPluginVersionContentRequest,
   GetPluginVersionContentResponse,
   GetPluginVersionContentError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetPluginVersionContentRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<GetPluginVersionContentResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetPluginVersionContentRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<GetPluginVersionContentResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7173,8 +8157,8 @@ export const getRbacGroup: API.OperationMethod<
   GetRbacGroupError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetRbacGroupRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetRbacGroupRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<BetaRbacGroup>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7191,8 +8175,8 @@ export const getRbacRole: API.OperationMethod<
   GetRbacRoleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetRbacRoleRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<BetaRbacRole>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetRbacRoleRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<BetaRbacRole>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7209,8 +8193,8 @@ export const getServiceAccount: API.OperationMethod<
   GetServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetServiceAccountRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetServiceAccountRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<BetaServiceAccount>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7227,8 +8211,8 @@ export const getServiceAccountWorkspaceMember: API.OperationMethod<
   GetServiceAccountWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetServiceAccountWorkspaceMemberRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetServiceAccountWorkspaceMemberRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7245,8 +8229,8 @@ export const getSlackChannel: API.OperationMethod<
   GetSlackChannelError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetSlackChannelRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetSlackChannelRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7263,8 +8247,8 @@ export const getSlackWorkspace: API.OperationMethod<
   GetSlackWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetSlackWorkspaceRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetSlackWorkspaceRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7281,8 +8265,8 @@ export const getSpendLimit: API.OperationMethod<
   GetSpendLimitError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetSpendLimitRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<BetaSpendLimit>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetSpendLimitRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<BetaSpendLimit>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7299,8 +8283,8 @@ export const getSpendLimitIncreaseRequest: API.OperationMethod<
   GetSpendLimitIncreaseRequestError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetSpendLimitIncreaseRequestRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetSpendLimitIncreaseRequestRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<BetaSpendLimitIncreaseRequestSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7317,8 +8301,8 @@ export const getTelemetryDestination: API.OperationMethod<
   GetTelemetryDestinationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetTelemetryDestinationRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetTelemetryDestinationRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<BetaTelemetryDestination>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7335,8 +8319,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<BetaUser>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7353,8 +8337,8 @@ export const getWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<BetaWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7371,8 +8355,8 @@ export const getWorkspaceMember: API.OperationMethod<
   GetWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetWorkspaceMemberRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetWorkspaceMemberRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -7391,8 +8375,8 @@ export const getWorkspaceRateLimits: API.PaginatedOperationMethod<
   BetaWorkspaceRateLimit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5248, __c164, 0) as any as S.Schema<GetWorkspaceRateLimitsRequest>,
-    output: __S(5250, __c164, 2) as any as S.Schema<BetaWorkspaceRateLimitListResponse>,
+    input: __S(6400, __c200, 0) as any as S.Schema<GetWorkspaceRateLimitsRequest>,
+    output: __S(6402, __c200, 2) as any as S.Schema<BetaWorkspaceRateLimitListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7420,8 +8404,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
   BetaApiKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5376, __c168, 0) as any as S.Schema<ListApiKeysRequest>,
-    output: __S(5378, __c168, 2) as any as S.Schema<BetaListResponseApiKey>,
+    input: __S(6464, __c202, 0) as any as S.Schema<ListApiKeysRequest>,
+    output: __S(6466, __c202, 2) as any as S.Schema<BetaListResponseApiKey>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7450,8 +8434,8 @@ export const listBundles: API.PaginatedOperationMethod<
   BetaClaudeTagBundle
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5408, __c169, 0) as any as S.Schema<ListBundlesRequest>,
-    output: __S(5410, __c169, 2) as any as S.Schema<BetaClaudeTagListBundlesResponse>,
+    input: __S(6592, __c206, 0) as any as S.Schema<ListBundlesRequest>,
+    output: __S(6594, __c206, 2) as any as S.Schema<BetaClaudeTagListBundlesResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7479,14 +8463,43 @@ export const listBundleTargets: API.PaginatedOperationMethod<
   BetaClaudeTagBundleTarget
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5440, __c170, 0) as any as S.Schema<ListBundleTargetsRequest>,
-    output: __S(5442, __c170, 2) as any as S.Schema<BetaClaudeTagListBundleTargetsResponse>,
+    input: __S(6624, __c207, 0) as any as S.Schema<ListBundleTargetsRequest>,
+    output: __S(6626, __c207, 2) as any as S.Schema<BetaClaudeTagListBundleTargetsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListBundleTargets",
+    pagination: {
+      mode: "cursor",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListClaudeCodeRbacGroupManagedSettingsError = AnthropicOpError;
+/** List RBAC Group Claude Code Managed Settings List the RBAC Groups that have Claude Code managed settings, highest precedence first. Each entry gives the group's status and timestamps, not its settings. The list includes deleted groups that still have settings, and leaves out the default settings. If the order changes between pages, the request returns `409`: list again from the first page. **Accepted credentials:** an organization-level Admin API key with the `read:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. */
+export const listClaudeCodeRbacGroupManagedSettings: API.PaginatedOperationMethod<
+  ListClaudeCodeRbacGroupManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupManagedSettingsList,
+  ListClaudeCodeRbacGroupManagedSettingsError,
+  AnthropicOpContext,
+  BetaClaudeCodeRbacGroupManagedSettingsSummary
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(6656, __c208, 0) as any as S.Schema<ListClaudeCodeRbacGroupManagedSettingsRequest>,
+    output: __S(6659, __c208, 3) as any as S.Schema<BetaClaudeCodeRbacGroupManagedSettingsList>,
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
+    protocol: AnthropicProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListClaudeCodeRbacGroupManagedSettings",
     pagination: {
       mode: "cursor",
       inputToken: "page",
@@ -7508,8 +8521,8 @@ export const listEffectiveSpendLimits: API.PaginatedOperationMethod<
   BetaSpendSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5472, __c171, 0) as any as S.Schema<ListEffectiveSpendLimitsRequest>,
-    output: __S(5474, __c171, 2) as any as S.Schema<BetaListEffectiveSpendLimitsResponse>,
+    input: __S(6688, __c209, 0) as any as S.Schema<ListEffectiveSpendLimitsRequest>,
+    output: __S(6690, __c209, 2) as any as S.Schema<BetaListEffectiveSpendLimitsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7537,14 +8550,43 @@ export const listExternalKeys: API.PaginatedOperationMethod<
   BetaExternalKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5504, __c172, 0) as any as S.Schema<ListExternalKeysRequest>,
-    output: __S(5506, __c172, 2) as any as S.Schema<BetaExternalKeyListResponse>,
+    input: __S(6720, __c210, 0) as any as S.Schema<ListExternalKeysRequest>,
+    output: __S(6722, __c210, 2) as any as S.Schema<BetaExternalKeyListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListExternalKeys",
+    pagination: {
+      mode: "cursor",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListExternalStorageError = AnthropicOpError;
+/** List External Storage List the organization's External Storage, newest first. */
+export const listExternalStorage: API.PaginatedOperationMethod<
+  ListExternalStorageRequest,
+  BetaExternalStorageListResponse,
+  ListExternalStorageError,
+  AnthropicOpContext,
+  BetaExternalStorage
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(6752, __c211, 0) as any as S.Schema<ListExternalStorageRequest>,
+    output: __S(6754, __c211, 2) as any as S.Schema<BetaExternalStorageListResponse>,
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
+    protocol: AnthropicProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListExternalStorage",
     pagination: {
       mode: "cursor",
       inputToken: "page",
@@ -7566,8 +8608,8 @@ export const listFederationIssuers: API.PaginatedOperationMethod<
   BetaFederationIssuer
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5536, __c173, 0) as any as S.Schema<ListFederationIssuersRequest>,
-    output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationIssuerListResponse>,
+    input: __S(6784, __c212, 0) as any as S.Schema<ListFederationIssuersRequest>,
+    output: __S(6786, __c212, 2) as any as S.Schema<BetaFederationIssuerListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7595,8 +8637,8 @@ export const listFederationRules: API.PaginatedOperationMethod<
   BetaFederationRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5568, __c174, 0) as any as S.Schema<ListFederationRulesRequest>,
-    output: __S(5570, __c174, 2) as any as S.Schema<BetaFederationRuleListResponse>,
+    input: __S(6816, __c213, 0) as any as S.Schema<ListFederationRulesRequest>,
+    output: __S(6818, __c213, 2) as any as S.Schema<BetaFederationRuleListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7624,8 +8666,8 @@ export const listFederationRuleWorkspaces: API.PaginatedOperationMethod<
   BetaFederationRuleWorkspace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5600, __c175, 0) as any as S.Schema<ListFederationRuleWorkspacesRequest>,
-    output: __S(5602, __c175, 2) as any as S.Schema<BetaFederationRuleWorkspaceListResponse>,
+    input: __S(6848, __c214, 0) as any as S.Schema<ListFederationRuleWorkspacesRequest>,
+    output: __S(6850, __c214, 2) as any as S.Schema<BetaFederationRuleWorkspaceListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7653,8 +8695,8 @@ export const listInvites: API.PaginatedOperationMethod<
   BetaInviteSchema
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5632, __c176, 0) as any as S.Schema<ListInvitesRequest>,
-    output: __S(5634, __c176, 2) as any as S.Schema<BetaListResponseInviteSchema>,
+    input: __S(6880, __c215, 0) as any as S.Schema<ListInvitesRequest>,
+    output: __S(6882, __c215, 2) as any as S.Schema<BetaListResponseInviteSchema>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7683,8 +8725,8 @@ export const listOrganizationWebhookEndpoints: API.PaginatedOperationMethod<
   BetaOrganizationWebhookEndpoint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5664, __c177, 0) as any as S.Schema<ListOrganizationWebhookEndpointsRequest>,
-    output: __S(5666, __c177, 2) as any as S.Schema<BetaOrganizationWebhookEndpointList>,
+    input: __S(224, __c7, 0) as any as S.Schema<ListOrganizationWebhookEndpointsRequest>,
+    output: __S(226, __c7, 2) as any as S.Schema<BetaOrganizationWebhookEndpointList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7713,8 +8755,8 @@ export const listPluginInstallationSettings: API.PaginatedOperationMethod<
   BetaPluginInstallationSetting
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5760, __c180, 0) as any as S.Schema<ListPluginInstallationSettingsRequest>,
-    output: __S(5762, __c180, 2) as any as S.Schema<BetaPluginInstallationSettingList>,
+    input: __S(256, __c8, 0) as any as S.Schema<ListPluginInstallationSettingsRequest>,
+    output: __S(258, __c8, 2) as any as S.Schema<BetaPluginInstallationSettingList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7742,8 +8784,8 @@ export const listPluginMarketplaces: API.PaginatedOperationMethod<
   BetaPluginMarketplace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5824, __c182, 0) as any as S.Schema<ListPluginMarketplacesRequest>,
-    output: __S(5826, __c182, 2) as any as S.Schema<BetaPluginMarketplaceList>,
+    input: __S(320, __c10, 0) as any as S.Schema<ListPluginMarketplacesRequest>,
+    output: __S(322, __c10, 2) as any as S.Schema<BetaPluginMarketplaceList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7762,7 +8804,7 @@ export const listPluginMarketplaces: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPluginsError = AnthropicOpError;
-/** List Plugins List the Plugins created under the organization, newest first: those in the organization's own plugin marketplaces and those in members' personal plugin marketplaces. Plugins in members' personal marketplaces are listed with the same detail as the organization's own, and their files can be downloaded through the version archive endpoint, which records each such download on the Compliance API activity feed. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
+/** List Plugins List the Plugins created under the organization, newest first: those in the organization's own plugin marketplaces and those in members' personal plugin marketplaces. Plugins in members' personal marketplaces are listed with the same detail as the organization's own, and their files can be downloaded through the version archive endpoint. Those downloads can be recorded on the Compliance API activity feed; the version archive endpoint says when. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
 export const listPlugins: API.PaginatedOperationMethod<
   ListPluginsRequest,
   BetaPluginList,
@@ -7771,8 +8813,8 @@ export const listPlugins: API.PaginatedOperationMethod<
   BetaPlugin
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5856, __c183, 0) as any as S.Schema<ListPluginsRequest>,
-    output: __S(5858, __c183, 2) as any as S.Schema<BetaPluginList>,
+    input: __S(352, __c11, 0) as any as S.Schema<ListPluginsRequest>,
+    output: __S(354, __c11, 2) as any as S.Schema<BetaPluginList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7791,7 +8833,7 @@ export const listPlugins: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPluginSharesError = AnthropicOpError;
-/** List Plugin Shares List the shares the owner of a member-owned Plugin has given -- to every member of the organization, to an RBAC Group, or to one member -- most recently granted first. Shares are read-only in this API: members give and withdraw them in claude.ai, and who gave a share is recorded on the Compliance API activity feed rather than on the share. An organization-owned Plugin has installation settings instead, so this path returns 404 for one. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
+/** List Plugin Shares List the shares the owner of a member-owned Plugin has given -- to every member of the organization, to an RBAC Group, or to one member -- most recently granted first. Shares are read-only in this API: members give and withdraw them in claude.ai. The Plugin's `owner` gave each share listed. An organization-owned Plugin has installation settings instead of shares, so this path returns 404 for one. **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
 export const listPluginShares: API.PaginatedOperationMethod<
   ListPluginSharesRequest,
   BetaPluginShareList,
@@ -7800,8 +8842,8 @@ export const listPluginShares: API.PaginatedOperationMethod<
   BetaPluginShare
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5888, __c184, 0) as any as S.Schema<ListPluginSharesRequest>,
-    output: __S(5891, __c184, 3) as any as S.Schema<BetaPluginShareList>,
+    input: __S(384, __c12, 0) as any as S.Schema<ListPluginSharesRequest>,
+    output: __S(387, __c12, 3) as any as S.Schema<BetaPluginShareList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7829,8 +8871,8 @@ export const listPluginVersions: API.PaginatedOperationMethod<
   BetaPluginVersion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5920, __c185, 0) as any as S.Schema<ListPluginVersionsRequest>,
-    output: __S(5922, __c185, 2) as any as S.Schema<BetaPluginVersionList>,
+    input: __S(416, __c13, 0) as any as S.Schema<ListPluginVersionsRequest>,
+    output: __S(418, __c13, 2) as any as S.Schema<BetaPluginVersionList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7858,8 +8900,8 @@ export const listRbacGroupMembers: API.PaginatedOperationMethod<
   BetaRbacGroupMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5952, __c186, 0) as any as S.Schema<ListRbacGroupMembersRequest>,
-    output: __S(5954, __c186, 2) as any as S.Schema<BetaRbacGroupMemberList>,
+    input: __S(448, __c14, 0) as any as S.Schema<ListRbacGroupMembersRequest>,
+    output: __S(450, __c14, 2) as any as S.Schema<BetaRbacGroupMemberList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7887,8 +8929,8 @@ export const listRbacGroups: API.PaginatedOperationMethod<
   BetaRbacGroup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(5984, __c187, 0) as any as S.Schema<ListRbacGroupsRequest>,
-    output: __S(5986, __c187, 2) as any as S.Schema<BetaRbacGroupList>,
+    input: __S(480, __c15, 0) as any as S.Schema<ListRbacGroupsRequest>,
+    output: __S(482, __c15, 2) as any as S.Schema<BetaRbacGroupList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7916,8 +8958,8 @@ export const listRbacRolePermissions: API.PaginatedOperationMethod<
   BetaRbacRolePermission
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6016, __c188, 0) as any as S.Schema<ListRbacRolePermissionsRequest>,
-    output: __S(6019, __c188, 3) as any as S.Schema<BetaRbacRolePermissionList>,
+    input: __S(512, __c16, 0) as any as S.Schema<ListRbacRolePermissionsRequest>,
+    output: __S(515, __c16, 3) as any as S.Schema<BetaRbacRolePermissionList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7945,8 +8987,8 @@ export const listRbacRoles: API.PaginatedOperationMethod<
   BetaRbacRole
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6048, __c189, 0) as any as S.Schema<ListRbacRolesRequest>,
-    output: __S(6050, __c189, 2) as any as S.Schema<BetaRbacRoleList>,
+    input: __S(544, __c17, 0) as any as S.Schema<ListRbacRolesRequest>,
+    output: __S(546, __c17, 2) as any as S.Schema<BetaRbacRoleList>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -7974,8 +9016,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
   BetaServiceAccount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(6080, __c190, 0) as any as S.Schema<ListServiceAccountsRequest>,
-    output: __S(6082, __c190, 2) as any as S.Schema<BetaServiceAccountListResponse>,
+    input: __S(640, __c20, 0) as any as S.Schema<ListServiceAccountsRequest>,
+    output: __S(642, __c20, 2) as any as S.Schema<BetaServiceAccountListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8003,8 +9045,8 @@ export const listServiceAccountWorkspaceMembers: API.PaginatedOperationMethod<
   BetaServiceAccountWorkspaceMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c7, 0) as any as S.Schema<ListServiceAccountWorkspaceMembersRequest>,
-    output: __S(257, __c8, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
+    input: __S(672, __c21, 0) as any as S.Schema<ListServiceAccountWorkspaceMembersRequest>,
+    output: __S(705, __c22, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8032,8 +9074,8 @@ export const listSlackChannels: API.PaginatedOperationMethod<
   BetaClaudeTagSlackChannel
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c9, 0) as any as S.Schema<ListSlackChannelsRequest>,
-    output: __S(290, __c9, 2) as any as S.Schema<BetaClaudeTagListSlackChannelsResponse>,
+    input: __S(736, __c23, 0) as any as S.Schema<ListSlackChannelsRequest>,
+    output: __S(738, __c23, 2) as any as S.Schema<BetaClaudeTagListSlackChannelsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8061,8 +9103,8 @@ export const listSlackWorkspaces: API.PaginatedOperationMethod<
   BetaClaudeTagSlackWorkspace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c10, 0) as any as S.Schema<ListSlackWorkspacesRequest>,
-    output: __S(322, __c10, 2) as any as S.Schema<BetaClaudeTagListSlackWorkspacesResponse>,
+    input: __S(768, __c24, 0) as any as S.Schema<ListSlackWorkspacesRequest>,
+    output: __S(770, __c24, 2) as any as S.Schema<BetaClaudeTagListSlackWorkspacesResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8090,8 +9132,8 @@ export const listSpendLimitIncreaseRequests: API.PaginatedOperationMethod<
   BetaSpendLimitIncreaseRequestSchema
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c11, 0) as any as S.Schema<ListSpendLimitIncreaseRequestsRequest>,
-    output: __S(354, __c11, 2) as any as S.Schema<BetaSpendLimitIncreaseRequestListResponse>,
+    input: __S(800, __c25, 0) as any as S.Schema<ListSpendLimitIncreaseRequestsRequest>,
+    output: __S(802, __c25, 2) as any as S.Schema<BetaSpendLimitIncreaseRequestListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8119,8 +9161,8 @@ export const listSpendLimits: API.PaginatedOperationMethod<
   BetaSpendLimit
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(384, __c12, 0) as any as S.Schema<ListSpendLimitsRequest>,
-    output: __S(386, __c12, 2) as any as S.Schema<BetaListSpendLimitsResponse>,
+    input: __S(832, __c26, 0) as any as S.Schema<ListSpendLimitsRequest>,
+    output: __S(834, __c26, 2) as any as S.Schema<BetaListSpendLimitsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8148,8 +9190,8 @@ export const listTelemetryDestinations: API.PaginatedOperationMethod<
   BetaTelemetryDestination
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(416, __c13, 0) as any as S.Schema<ListTelemetryDestinationsRequest>,
-    output: __S(418, __c13, 2) as any as S.Schema<BetaListTelemetryDestinationsResponse>,
+    input: __S(864, __c27, 0) as any as S.Schema<ListTelemetryDestinationsRequest>,
+    output: __S(866, __c27, 2) as any as S.Schema<BetaListTelemetryDestinationsResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8177,8 +9219,8 @@ export const listTelemetryDestinationWorkspaces: API.PaginatedOperationMethod<
   BetaTelemetryDestinationWorkspace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(448, __c14, 0) as any as S.Schema<ListTelemetryDestinationWorkspacesRequest>,
-    output: __S(450, __c14, 2) as any as S.Schema<BetaListTelemetryDestinationWorkspacesResponse>,
+    input: __S(896, __c28, 0) as any as S.Schema<ListTelemetryDestinationWorkspacesRequest>,
+    output: __S(898, __c28, 2) as any as S.Schema<BetaListTelemetryDestinationWorkspacesResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8206,8 +9248,8 @@ export const listUsers: API.PaginatedOperationMethod<
   BetaUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(480, __c15, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(482, __c15, 2) as any as S.Schema<BetaListResponseUser>,
+    input: __S(928, __c29, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(930, __c29, 2) as any as S.Schema<BetaListResponseUser>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8236,8 +9278,8 @@ export const listWorkspaceMembers: API.PaginatedOperationMethod<
   BetaWorkspaceMemberSchema
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(512, __c16, 0) as any as S.Schema<ListWorkspaceMembersRequest>,
-    output: __S(514, __c16, 2) as any as S.Schema<BetaListResponseWorkspaceMemberSchema>,
+    input: __S(960, __c30, 0) as any as S.Schema<ListWorkspaceMembersRequest>,
+    output: __S(962, __c30, 2) as any as S.Schema<BetaListResponseWorkspaceMemberSchema>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8266,8 +9308,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
   BetaWorkspace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(544, __c17, 0) as any as S.Schema<ListWorkspacesRequest>,
-    output: __S(546, __c17, 2) as any as S.Schema<BetaListResponseWorkspace>,
+    input: __S(1024, __c32, 0) as any as S.Schema<ListWorkspacesRequest>,
+    output: __S(1026, __c32, 2) as any as S.Schema<BetaListResponseWorkspace>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8296,8 +9338,8 @@ export const listWorkspacesForServiceAccount: API.PaginatedOperationMethod<
   BetaServiceAccountWorkspaceMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(608, __c19, 0) as any as S.Schema<ListWorkspacesForServiceAccountRequest>,
-    output: __S(257, __c8, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
+    input: __S(1056, __c33, 0) as any as S.Schema<ListWorkspacesForServiceAccountRequest>,
+    output: __S(705, __c22, 1) as any as S.Schema<BetaServiceAccountWorkspaceMemberListResponse>,
     errors: [],
     serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
@@ -8324,11 +9366,11 @@ export const regenerateOrganizationWebhookEndpointSigningSecret: API.OperationMe
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<RegenerateOrganizationWebhookEndpointSigningSecretRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<BetaOrganizationWebhookEndpointSigningSecret>,
+  output: __S(1089, __c34, 1) as any as S.Schema<BetaOrganizationWebhookEndpointSigningSecret>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8345,8 +9387,8 @@ export const removeFederationRuleWorkspace: API.OperationMethod<
   RemoveFederationRuleWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<RemoveFederationRuleWorkspaceRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<BetaRemoveFederationRuleWorkspaceResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<RemoveFederationRuleWorkspaceRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<BetaRemoveFederationRuleWorkspaceResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8363,8 +9405,8 @@ export const removePluginInstallationSetting: API.OperationMethod<
   RemovePluginInstallationSettingError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<RemovePluginInstallationSettingRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<BetaPluginInstallationSettingDeleted>,
+  input: __S(1152, __c36, 0) as any as S.Schema<RemovePluginInstallationSettingRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<BetaPluginInstallationSettingDeleted>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8381,8 +9423,8 @@ export const removeRbacGroupMember: API.OperationMethod<
   RemoveRbacGroupMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<RemoveRbacGroupMemberRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<BetaDeleteRbacGroupMemberResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<RemoveRbacGroupMemberRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<BetaDeleteRbacGroupMemberResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8399,8 +9441,8 @@ export const removeTelemetryDestinationWorkspace: API.OperationMethod<
   RemoveTelemetryDestinationWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<RemoveTelemetryDestinationWorkspaceRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<BetaDeletedTelemetryDestinationWorkspace>,
+  input: __S(1216, __c38, 0) as any as S.Schema<RemoveTelemetryDestinationWorkspaceRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<BetaDeletedTelemetryDestinationWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8417,8 +9459,8 @@ export const removeUser: API.OperationMethod<
   RemoveUserError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<RemoveUserRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<BetaDeleteUserResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<RemoveUserRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<BetaDeleteUserResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8435,14 +9477,32 @@ export const removeWorkspaceFromServiceAccount: API.OperationMethod<
   RemoveWorkspaceFromServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<RemoveWorkspaceFromServiceAccountRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<RemoveWorkspaceFromServiceAccountRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<BetaServiceAccountWorkspaceMemberDeleteResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveWorkspaceFromServiceAccount",
+}));
+
+export type SetClaudeCodeRbacGroupManagedSettingsError = AnthropicOpError;
+/** Set RBAC Group Claude Code Managed Settings Create or replace an RBAC Group's Claude Code managed settings. New settings join the end of `rbac_group_order`, and existing settings keep their place. Until the group is moved up, its members who also belong to an earlier group keep that group's settings. In `organization` mode a write changes no member's settings until the organization switches to `rbac_groups` mode. Once a group has settings, that switch no longer copies the organization settings into default settings, so members in no RBAC Group in `rbac_group_order` receive no settings unless you set the default settings before the switch. Get the group's ID from the RBAC Groups API. One key can hold `read:rbac_groups` and `write:claude_code_managed_settings`. **Accepted credentials:** an organization-level Admin API key with the `write:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. A write that returns `503` may have applied. Retrying it is safe. */
+export const setClaudeCodeRbacGroupManagedSettings: API.OperationMethod<
+  SetClaudeCodeRbacGroupManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupManagedSettings,
+  SetClaudeCodeRbacGroupManagedSettingsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1312, __c41, 0) as any as S.Schema<SetClaudeCodeRbacGroupManagedSettingsRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<BetaClaudeCodeRbacGroupManagedSettings>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetClaudeCodeRbacGroupManagedSettings",
 }));
 
 export type SetPluginInstallationSettingError = AnthropicOpError;
@@ -8453,8 +9513,8 @@ export const setPluginInstallationSetting: API.OperationMethod<
   SetPluginInstallationSettingError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<SetPluginInstallationSettingRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<BetaPluginInstallationSetting>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SetPluginInstallationSettingRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<BetaPluginInstallationSetting>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8471,8 +9531,8 @@ export const setSpendLimit: API.OperationMethod<
   SetSpendLimitError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<SetSpendLimitRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<BetaSpendLimit>,
+  input: __S(1408, __c44, 0) as any as S.Schema<SetSpendLimitRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<BetaSpendLimit>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8489,8 +9549,8 @@ export const signOutUser: API.OperationMethod<
   SignOutUserError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SignOutUserRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
+  input: __S(1440, __c45, 0) as any as S.Schema<SignOutUserRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<BetaUser>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8507,8 +9567,8 @@ export const testTelemetryDestination: API.OperationMethod<
   TestTelemetryDestinationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<TestTelemetryDestinationRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<BetaTelemetryDestinationTest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<TestTelemetryDestinationRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<BetaTelemetryDestinationTest>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8525,14 +9585,76 @@ export const updateApiKey: API.OperationMethod<
   UpdateApiKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateApiKeyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<BetaApiKey>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdateApiKeyRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<BetaApiKey>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateApiKey",
+}));
+
+export type UpdateBundleError = AnthropicOpError;
+/** Update Bundle Change a Bundle's instructions. The update is partial: a field left out is unchanged, and `instructions` sent as null or as an empty string clears them. The later of two updates wins. Sessions that start after the change use the new instructions; sessions already running keep the ones they started with. Some Bundles are managed in claude.ai, and an update of one returns 400. */
+export const updateBundle: API.OperationMethod<
+  UpdateBundleRequest,
+  BetaClaudeTagBundle,
+  UpdateBundleError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateBundleRequest>,
+  output: __S(4704, __c147, 0) as any as S.Schema<BetaClaudeTagBundle>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBundle",
+}));
+
+export type UpdateClaudeCodeManagedSettingsConfigurationError = AnthropicOpError;
+/** Update Claude Code Managed Settings Configuration Change the organization's Claude Code managed settings mode, the RBAC Group order, or both, in one atomic write. To change the order, send `rbac_group_order` with the `rbac_group_order_version` from the read the change is based on. If the order has changed since that read, the request returns `409`: read it again and retry. To switch modes only if the order has not changed, send the current `rbac_group_order` and `rbac_group_order_version` with the new `mode`. A switch to `rbac_groups` mode with no RBAC Group settings and no default settings copies the organization settings into a new default, in the same write, so members keep the settings they had. The copy does not follow later changes to the organization settings. If the organization settings cannot be copied, the request returns `400` and changes nothing. If they cannot be read, are over 1 MiB or are not valid, setting the default settings first avoids the copy. After a switch to `rbac_groups` mode, a member in no listed RBAC Group receives the default settings, or no settings if no default is set, not the organization settings. **Accepted credentials:** an organization-level Admin API key with the `write:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. A write that returns `503` may have applied. Retrying it is safe. */
+export const updateClaudeCodeManagedSettingsConfiguration: API.OperationMethod<
+  UpdateClaudeCodeManagedSettingsConfigurationRequest,
+  BetaClaudeCodeManagedSettingsConfiguration,
+  UpdateClaudeCodeManagedSettingsConfigurationError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    1568,
+    __c49,
+    0,
+  ) as any as S.Schema<UpdateClaudeCodeManagedSettingsConfigurationRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<BetaClaudeCodeManagedSettingsConfiguration>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClaudeCodeManagedSettingsConfiguration",
+}));
+
+export type UpdateClaudeCodeRbacGroupDefaultManagedSettingsError = AnthropicOpError;
+/** Update RBAC Group Default Claude Code Managed Settings Set or replace the default Claude Code managed settings, or clear them with `null`. **Accepted credentials:** an organization-level Admin API key with the `write:claude_code_managed_settings` scope. Every request must include the beta header `anthropic-beta: ce-claude-code-managed-settings-2026-10-06`. A request without it, or from an organization not enabled for this beta, returns `404`. The Claude Code Managed Settings API is in beta and is available to Claude Enterprise organizations only. A write that returns `503` may have applied. Retrying it is safe. */
+export const updateClaudeCodeRbacGroupDefaultManagedSettings: API.OperationMethod<
+  UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequest,
+  BetaClaudeCodeRbacGroupDefaultManagedSettings,
+  UpdateClaudeCodeRbacGroupDefaultManagedSettingsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    1600,
+    __c50,
+    0,
+  ) as any as S.Schema<UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<BetaClaudeCodeRbacGroupDefaultManagedSettings>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClaudeCodeRbacGroupDefaultManagedSettings",
 }));
 
 export type UpdateComplianceSettingsError = AnthropicOpError;
@@ -8543,8 +9665,8 @@ export const updateComplianceSettings: API.OperationMethod<
   UpdateComplianceSettingsError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<UpdateComplianceSettingsRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<BetaComplianceSettings>,
+  input: __S(1632, __c51, 0) as any as S.Schema<UpdateComplianceSettingsRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<BetaComplianceSettings>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8554,21 +9676,39 @@ export const updateComplianceSettings: API.OperationMethod<
 }));
 
 export type UpdateExternalKeyError = AnthropicOpError;
-/** Update External Key Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable. `geo` and `provider_config` cannot be changed once any workspace references this config, because previously encrypted data requires the original key identity to decrypt. */
+/** Update External Key Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable. `geo` and `provider_config` cannot be changed once any workspace references this config, and a Google Cloud key's provider and `key_name` cannot be changed at all. */
 export const updateExternalKey: API.OperationMethod<
   UpdateExternalKeyRequest,
   BetaExternalKey,
   UpdateExternalKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<UpdateExternalKeyRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<BetaExternalKey>,
+  input: __S(1664, __c52, 0) as any as S.Schema<UpdateExternalKeyRequest>,
+  output: __S(608, __c19, 0) as any as S.Schema<BetaExternalKey>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateExternalKey",
+}));
+
+export type UpdateExternalStorageError = AnthropicOpError;
+/** Update External Storage Rename External Storage or clear its name, in any status. */
+export const updateExternalStorage: API.OperationMethod<
+  UpdateExternalStorageRequest,
+  BetaExternalStorage,
+  UpdateExternalStorageError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateExternalStorageRequest>,
+  output: __S(64, __c2, 0) as any as S.Schema<BetaExternalStorage>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalStorage",
 }));
 
 export type UpdateFederationIssuerError = AnthropicOpError;
@@ -8579,8 +9719,8 @@ export const updateFederationIssuer: API.OperationMethod<
   UpdateFederationIssuerError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<UpdateFederationIssuerRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<BetaFederationIssuer>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateFederationIssuerRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<BetaFederationIssuer>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8597,14 +9737,32 @@ export const updateFederationRule: API.OperationMethod<
   UpdateFederationRuleError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<UpdateFederationRuleRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<BetaFederationRule>,
+  input: __S(1792, __c56, 0) as any as S.Schema<UpdateFederationRuleRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<BetaFederationRule>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateFederationRule",
+}));
+
+export type UpdateGoogleManagedProjectDataControlsError = AnthropicOpError;
+/** Update Google-Managed Project Data Controls Turn a control on or off, or change the key or bucket set for a region. Controls and regions that you leave out stay as they are. Your organization must have proved that it owns the project. Only one organization at a time can have controls turned on for a project. **Requires a credential that identifies a user or a service account**: an OAuth access token with the `org:admin` scope, or an organization-scoped API key that belongs to a user or service account whose organization role can update these controls. The `admin`, `owner` and `primary_owner` roles can. An Admin API key gets a `403` error. */
+export const updateGoogleManagedProjectDataControls: API.OperationMethod<
+  UpdateGoogleManagedProjectDataControlsRequest,
+  BetaGoogleManagedProjectDataControls,
+  UpdateGoogleManagedProjectDataControlsError,
+  AnthropicOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<UpdateGoogleManagedProjectDataControlsRequest>,
+  output: __S(5376, __c168, 0) as any as S.Schema<BetaGoogleManagedProjectDataControls>,
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
+  protocol: AnthropicProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGoogleManagedProjectDataControls",
 }));
 
 export type UpdateOrganizationWebhookEndpointError = AnthropicOpError;
@@ -8615,8 +9773,8 @@ export const updateOrganizationWebhookEndpoint: API.OperationMethod<
   UpdateOrganizationWebhookEndpointError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<UpdateOrganizationWebhookEndpointRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
+  input: __S(1856, __c58, 0) as any as S.Schema<UpdateOrganizationWebhookEndpointRequest>,
+  output: __S(5664, __c177, 0) as any as S.Schema<BetaOrganizationWebhookEndpoint>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8626,15 +9784,15 @@ export const updateOrganizationWebhookEndpoint: API.OperationMethod<
 }));
 
 export type UpdatePluginError = AnthropicOpError;
-/** Update Plugin Change which stored version of an organization-owned Plugin is served to members, for example to roll back to an earlier one. This pins the served version: later uploads are stored but no longer change what is served, and pinning cannot currently be undone, here or in claude.ai. Pass the version as `served_version_id`: an earlier one to roll back, a later one to start serving a version that was stored without being served, or the one already served to pin it without changing what is served. No new version is created. When the organization has content scanning enabled, a version whose `content_scan.status` is `processing` is refused with a 409 (`error_code` `scan_pending`; retry once the scan finishes). A version whose `content_scan.status` is `errored`, or whose `content_scan.assessment` is `fail` or `unknown`, is refused with a 400 (`error_code` `scan_failed`); a `warn` is accepted. If the scan outcome cannot be read at that moment, the request fails with a retryable 503 instead. When the Plugin is in the organization's library marketplace, a version other than the one served is also refused with a 409 when an organization skill that this API does not list has since taken the name of one of its skills: `error_code` `skill_name_taken`, with that name in `details.skill_name`. A member-owned Plugin cannot be updated here (403). This endpoint does not write installation settings; they are written at `/v1/organizations/plugins/{plugin_id}/installation_settings/{target}`. **Accepted credentials:** an Admin API key with the `write:plugins` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
+/** Update Plugin Change which stored version of an organization-owned Plugin is served to members, for example to roll back to an earlier one. This pins the served version: later uploads through this API are stored but no longer change what is served, and pinning cannot currently be undone, here or in claude.ai. A version from claude.ai might still change what is served: see [Versions and the served version](/docs/en/manage-claude/plugins-api#versions-and-the-served-version) in the Plugins API guide. Pass the version as `served_version_id`: an earlier one to roll back, a later one to start serving a version that was stored without being served, or the one already served to pin it without changing what is served. No new version is created. When the organization has content scanning enabled, a version whose `content_scan.status` is `processing` is refused with a 409 (`error_code` `scan_pending`; retry once the scan finishes). A version whose `content_scan.status` is `errored`, or whose `content_scan.assessment` is `fail` or `unknown`, is refused with a 400 (`error_code` `scan_failed`); a `warn` is accepted. If the scan outcome cannot be read at that moment, the request fails with a retryable 503 instead. When the Plugin is in the organization's library marketplace, a version other than the one served is also refused with a 409 when an organization skill that this API does not list has since taken the name of one of its skills: `error_code` `skill_name_taken`, with that name in `details.skill_name`. A member-owned Plugin cannot be updated here (403). This endpoint does not write installation settings; they are written at `/v1/organizations/plugins/{plugin_id}/installation_settings/{target}`. **Accepted credentials:** an Admin API key with the `write:plugins` scope. Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled. */
 export const updatePlugin: API.OperationMethod<
   UpdatePluginRequest,
   BetaPlugin,
   UpdatePluginError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<UpdatePluginRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<BetaPlugin>,
+  input: __S(1888, __c59, 0) as any as S.Schema<UpdatePluginRequest>,
+  output: __S(2656, __c83, 0) as any as S.Schema<BetaPlugin>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8651,8 +9809,8 @@ export const updatePluginMarketplace: API.OperationMethod<
   UpdatePluginMarketplaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<UpdatePluginMarketplaceRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<BetaPluginMarketplace>,
+  input: __S(1920, __c60, 0) as any as S.Schema<UpdatePluginMarketplaceRequest>,
+  output: __S(5760, __c180, 0) as any as S.Schema<BetaPluginMarketplace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8669,8 +9827,8 @@ export const updateRbacGroup: API.OperationMethod<
   UpdateRbacGroupError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<UpdateRbacGroupRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<BetaRbacGroup>,
+  input: __S(1952, __c61, 0) as any as S.Schema<UpdateRbacGroupRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<BetaRbacGroup>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8687,8 +9845,8 @@ export const updateServiceAccount: API.OperationMethod<
   UpdateServiceAccountError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<UpdateServiceAccountRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<BetaServiceAccount>,
+  input: __S(1984, __c62, 0) as any as S.Schema<UpdateServiceAccountRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<BetaServiceAccount>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8705,8 +9863,8 @@ export const updateServiceAccountWorkspaceMember: API.OperationMethod<
   UpdateServiceAccountWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateServiceAccountWorkspaceMemberRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateServiceAccountWorkspaceMemberRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<BetaServiceAccountWorkspaceMember>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8723,8 +9881,8 @@ export const updateSlackChannel: API.OperationMethod<
   UpdateSlackChannelError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<UpdateSlackChannelRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
+  input: __S(2112, __c66, 0) as any as S.Schema<UpdateSlackChannelRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<BetaClaudeTagSlackChannel>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8741,8 +9899,8 @@ export const updateSlackWorkspace: API.OperationMethod<
   UpdateSlackWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UpdateSlackWorkspaceRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
+  input: __S(2144, __c67, 0) as any as S.Schema<UpdateSlackWorkspaceRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<BetaClaudeTagSlackWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8759,8 +9917,8 @@ export const updateTelemetryDestination: API.OperationMethod<
   UpdateTelemetryDestinationError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UpdateTelemetryDestinationRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<BetaTelemetryDestination>,
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateTelemetryDestinationRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<BetaTelemetryDestination>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8777,8 +9935,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<BetaUser>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<BetaUser>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8795,8 +9953,8 @@ export const updateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<BetaWorkspace>,
+  input: __S(2273, __c71, 1) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<BetaWorkspace>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8813,8 +9971,8 @@ export const updateWorkspaceMember: API.OperationMethod<
   UpdateWorkspaceMemberError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
+  input: __S(2304, __c72, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<BetaWorkspaceMemberSchema>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8831,8 +9989,8 @@ export const updateWorkspaceRateLimits: API.OperationMethod<
   UpdateWorkspaceRateLimitsError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1666, __c52, 2) as any as S.Schema<UpdateWorkspaceRateLimitsRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<BetaWorkspaceRateLimit>,
+  input: __S(2338, __c73, 2) as any as S.Schema<UpdateWorkspaceRateLimitsRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<BetaWorkspaceRateLimit>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8849,8 +10007,8 @@ export const validateExternalKey: API.OperationMethod<
   ValidateExternalKeyError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ValidateExternalKeyRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<BetaValidateExternalKeyResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ValidateExternalKeyRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<BetaValidateExternalKeyResponse>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8867,8 +10025,8 @@ export const validatePluginMarketplaceArchive: API.OperationMethod<
   ValidatePluginMarketplaceArchiveError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ValidatePluginMarketplaceArchiveRequest>,
-  output: __S(1830, __c57, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ValidatePluginMarketplaceArchiveRequest>,
+  output: __S(2438, __c76, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8885,8 +10043,8 @@ export const validatePluginMarketplaceRepository: API.OperationMethod<
   ValidatePluginMarketplaceRepositoryError,
   AnthropicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ValidatePluginMarketplaceRepositoryRequest>,
-  output: __S(1830, __c57, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ValidatePluginMarketplaceRepositoryRequest>,
+  output: __S(2438, __c76, 6) as any as S.Schema<BetaPluginMarketplaceValidationReport>,
   errors: [],
   serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
@@ -8897,6 +10055,48 @@ export const validatePluginMarketplaceRepository: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_storage_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/external_storage/{external_storage_id}/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateExternalStorageRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          display_name: S.NullOr(S.String),
+          id: S.String,
+          provider_config: S.Unknown,
+          setup_template_version: S.NullOr(S.String),
+          status: S.Unknown,
+          type: S.String,
+          updated_at: S.String,
+          user_profile_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaExternalStorage" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8915,13 +10115,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddFederationRuleWorkspaceRequest" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8936,39 +10130,332 @@ function __c2(j: number): any {
       ).annotate({ identifier: "BetaFederationRuleWorkspace" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rbac_group_id: S.String.pipe(T.Label()),
+          bundle_id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          user_id: S.String,
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1/organizations/rbac_groups/{rbac_group_id}/members",
+            uri: "/v1/organizations/claude_tag/bundles/{bundle_id}/targets",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "AddRbacGroupMemberRequest" });
+      ).annotate({ identifier: "CreateBundleTargetRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateBundleTargetResponse",
+      });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          before_id: S.optional(S.String.pipe(T.Query())),
+          after_id: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/webhooks", code: 200 })),
+      ).annotate({ identifier: "ListOrganizationWebhookEndpointsRequest" });
+    case 1:
+      return S.Array(__S(5664, __c177, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(225, __c7, 1),
+          first_id: S.optional(S.NullOr(S.String)),
+          has_more: S.Boolean,
+          last_id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BetaOrganizationWebhookEndpointList" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          plugin_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          target_type: S.optional(S.String.pipe(T.Query())),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/plugins/{plugin_id}/installation_settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPluginInstallationSettingsRequest" });
+    case 1:
+      return S.Array(__S(288, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(257, __c8, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaPluginInstallationSettingList" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
-          email: S.String,
-          rbac_group_id: S.String,
+          installation_preference: S.String,
+          plugin_id: S.String,
+          target: S.Unknown,
           type: S.String,
-          user_id: S.String,
+          updated_at: S.String,
         }),
-      ).annotate({ identifier: "BetaRbacGroupMember" });
+      ).annotate({ identifier: "BetaPluginInstallationSetting" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          owner_type: S.optional(S.String.pipe(T.Query())),
+          source: S.optional(S.String.pipe(T.Query())),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/plugin_marketplaces", code: 200 })),
+      ).annotate({ identifier: "ListPluginMarketplacesRequest" });
+    case 1:
+      return S.Array(__S(5760, __c180, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(321, __c10, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaPluginMarketplaceList" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          owner_type: S.optional(S.String.pipe(T.Query())),
+          owner_user_id: S.optional(S.String.pipe(T.Query())),
+          marketplace_id: S.optional(S.String.pipe(T.Query())),
+          created_at_gte_: S.optional(S.String.pipe(T.Query("created_at[gte]"))),
+          created_at_gt_: S.optional(S.String.pipe(T.Query("created_at[gt]"))),
+          created_at_lte_: S.optional(S.String.pipe(T.Query("created_at[lte]"))),
+          created_at_lt_: S.optional(S.String.pipe(T.Query("created_at[lt]"))),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/plugins", code: 200 })),
+      ).annotate({ identifier: "ListPluginsRequest" });
+    case 1:
+      return S.Array(__S(2656, __c83, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(353, __c11, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaPluginList" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          plugin_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          target_type: S.optional(S.String.pipe(T.Query())),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/organizations/plugins/{plugin_id}/shares", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListPluginSharesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          granted_at: S.String,
+          plugin_id: S.String,
+          target: S.Unknown,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaPluginShare" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(386, __c12, 2),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaPluginShareList" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          plugin_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/plugins/{plugin_id}/versions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPluginVersionsRequest" });
+    case 1:
+      return S.Array(__S(2720, __c85, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(417, __c13, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaPluginVersionList" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/rbac_groups/{rbac_group_id}/members",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListRbacGroupMembersRequest" });
+    case 1:
+      return S.Array(__S(2848, __c89, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(449, __c14, 1),
+          has_more: S.Boolean,
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaRbacGroupMemberList" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/rbac_groups", code: 200 })),
+      ).annotate({ identifier: "ListRbacGroupsRequest" });
+    case 1:
+      return S.Array(__S(2784, __c87, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(481, __c15, 1),
+          has_more: S.Boolean,
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaRbacGroupList" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_role_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/rbac_roles/{rbac_role_id}/permissions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListRbacRolePermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          resource: S.Unknown,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaRbacRolePermission" });
+    case 2:
+      return S.Array(__S(513, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(514, __c16, 2),
+          has_more: S.Boolean,
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaRbacRolePermissionList" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/rbac_roles", code: 200 })),
+      ).annotate({ identifier: "ListRbacRolesRequest" });
+    case 1:
+      return S.Array(__S(5920, __c185, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(545, __c17, 1),
+          has_more: S.Boolean,
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaRbacRoleList" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8982,7 +10469,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateExternalKeyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9000,7 +10487,30 @@ function __c6(j: number): any {
       ).annotate({ identifier: "BetaExternalKey" });
   }
 }
-function __c7(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          include_archived: S.optional(S.Boolean.pipe(T.Query())),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/service_accounts", code: 200 })),
+      ).annotate({ identifier: "ListServiceAccountsRequest" });
+    case 1:
+      return S.Array(__S(6048, __c189, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(641, __c20, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaServiceAccountListResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9020,20 +10530,20 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListServiceAccountWorkspaceMembersRequest" });
   }
 }
-function __c8(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(256, __c8, 0),
+          data: __S(704, __c22, 0),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaServiceAccountWorkspaceMemberListResponse" });
   }
 }
-function __c9(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9050,17 +10560,17 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListSlackChannelsRequest" });
     case 1:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(3009, __c94, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(289, __c9, 1),
+          data: __S(737, __c23, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaClaudeTagListSlackChannelsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9080,23 +10590,23 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListSlackWorkspacesRequest" });
     case 1:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(6145, __c192, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(321, __c10, 1),
+          data: __S(769, __c24, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaClaudeTagListSlackWorkspacesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status__: S.optional(__S(1728, __c54, 0).pipe(T.Query("status[]"))),
-          actor_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("actor_ids[]"))),
+          status__: S.optional(__S(2528, __c79, 0).pipe(T.Query("status[]"))),
+          actor_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("actor_ids[]"))),
           page: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -9109,22 +10619,22 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListSpendLimitIncreaseRequestsRequest" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3904, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(353, __c11, 1),
+          data: __S(801, __c25, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaSpendLimitIncreaseRequestListResponse" });
   }
 }
-function __c12(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope_type__: S.optional(__S(1728, __c54, 0).pipe(T.Query("scope_type[]"))),
+          scope_type__: S.optional(__S(2528, __c79, 0).pipe(T.Query("scope_type[]"))),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           workspace_id: S.optional(S.String.pipe(T.Query())),
@@ -9133,24 +10643,24 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/spend_limits", code: 200 })),
       ).annotate({ identifier: "ListSpendLimitsRequest" });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(4448, __c139, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(385, __c12, 1),
+          data: __S(833, __c26, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListSpendLimitsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          workspace_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("workspace_ids[]"))),
+          workspace_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("workspace_ids[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
         }).pipe(
@@ -9158,17 +10668,17 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListTelemetryDestinationsRequest" });
     case 1:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(3138, __c98, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(417, __c13, 1),
+          data: __S(865, __c27, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListTelemetryDestinationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9187,17 +10697,17 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTelemetryDestinationWorkspacesRequest" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(3520, __c110, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(449, __c14, 1),
+          data: __S(897, __c28, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListTelemetryDestinationWorkspacesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9206,16 +10716,16 @@ function __c15(j: number): any {
           after_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           email: S.optional(S.String.pipe(T.Query())),
-          roles__: S.optional(__S(4320, __c135, 0).pipe(T.Query("roles[]"))),
+          roles__: S.optional(__S(5504, __c172, 0).pipe(T.Query("roles[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(5152, __c161, 0));
+      return S.Array(__S(6304, __c197, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(481, __c15, 1),
+          data: __S(929, __c29, 1),
           first_id: S.NullOr(S.String),
           has_more: S.Boolean,
           last_id: S.NullOr(S.String),
@@ -9223,7 +10733,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "BetaListResponseUser" });
   }
 }
-function __c16(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9242,11 +10752,11 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceMembersRequest" });
     case 1:
-      return S.Array(__S(2560, __c80, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(513, __c16, 1),
+          data: __S(961, __c30, 1),
           first_id: S.NullOr(S.String),
           has_more: S.Boolean,
           last_id: S.NullOr(S.String),
@@ -9254,26 +10764,41 @@ function __c16(j: number): any {
       ).annotate({ identifier: "BetaListResponseWorkspaceMemberSchema" });
   }
 }
-function __c17(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          display_name: S.optional(S.NullOr(S.String)),
+          provider_config: S.Unknown,
+          user_profile_id: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/external_storage", code: 200 })),
+      ).annotate({ identifier: "CreateExternalStorageRequest" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           include_archived: S.optional(S.Boolean.pipe(T.Query())),
           include_default: S.optional(S.Boolean.pipe(T.Query())),
-          ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("ids[]"))),
+          ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("ids[]"))),
           before_id: S.optional(S.String.pipe(T.Query())),
           after_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/workspaces", code: 200 })),
       ).annotate({ identifier: "ListWorkspacesRequest" });
     case 1:
-      return S.Array(__S(5345, __c167, 1));
+      return S.Array(__S(6562, __c205, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(545, __c17, 1),
+          data: __S(1025, __c32, 1),
           first_id: S.NullOr(S.String),
           has_more: S.Boolean,
           last_id: S.NullOr(S.String),
@@ -9281,23 +10806,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "BetaListResponseWorkspace" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          check_jti: S.optional(S.NullOr(S.Boolean)),
-          issuer_url: S.String,
-          jwks: S.optional(S.Unknown),
-          max_jwt_lifetime_seconds: S.optional(S.NullOr(S.Number)),
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/federation_issuers", code: 200 })),
-      ).annotate({ identifier: "CreateFederationIssuerRequest" });
-  }
-}
-function __c19(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9317,7 +10826,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListWorkspacesForServiceAccountRequest" });
   }
 }
-function __c20(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9341,7 +10850,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "BetaOrganizationWebhookEndpointSigningSecret" });
   }
 }
-function __c21(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9368,7 +10877,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BetaRemoveFederationRuleWorkspaceResponse" });
   }
 }
-function __c22(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9394,7 +10903,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "BetaPluginInstallationSettingDeleted" });
   }
 }
-function __c23(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9420,7 +10929,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "BetaDeleteRbacGroupMemberResponse" });
   }
 }
-function __c24(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9447,7 +10956,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "BetaDeletedTelemetryDestinationWorkspace" });
   }
 }
-function __c25(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9458,7 +10967,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "RemoveUserRequest" });
   }
 }
-function __c26(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9477,7 +10986,42 @@ function __c26(j: number): any {
       ).annotate({ identifier: "RemoveWorkspaceFromServiceAccountRequest" });
   }
 }
-function __c27(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          settings: __S(4896, __c153, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_groups/{rbac_group_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetClaudeCodeRbacGroupManagedSettingsRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          check_jti: S.optional(S.NullOr(S.Boolean)),
+          issuer_url: S.String,
+          jwks: S.optional(S.Unknown),
+          max_jwt_lifetime_seconds: S.optional(S.NullOr(S.Number)),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/federation_issuers", code: 200 })),
+      ).annotate({ identifier: "CreateFederationIssuerRequest" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9496,7 +11040,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SetPluginInstallationSettingRequest" });
   }
 }
-function __c28(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9510,28 +11054,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SetSpendLimitRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          applies_to_all_workspaces: S.optional(S.Boolean),
-          attributes: S.optional(S.NullOr(__S(4384, __c137, 0))),
-          description: S.optional(S.NullOr(S.String)),
-          issuer_id: S.String,
-          match: __S(4352, __c136, 0),
-          name: S.String,
-          oauth_scope: S.String,
-          target: __S(4353, __c136, 1),
-          token_lifetime_seconds: S.optional(S.Number),
-          workspace_id: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/federation_rules", code: 200 })),
-      ).annotate({ identifier: "CreateFederationRuleRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9545,7 +11068,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SignOutUserRequest" });
   }
 }
-function __c31(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9570,7 +11093,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BetaTelemetryDestinationTest" });
   }
 }
-function __c32(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9585,12 +11108,70 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateApiKeyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bundle_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          instructions: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/claude_tag/bundles/{bundle_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateBundleRequest" });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          mode: S.optional(S.Unknown),
+          rbac_group_order: S.optional(__S(5504, __c172, 0)),
+          rbac_group_order_version: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/claude_code/managed_settings/configuration",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClaudeCodeManagedSettingsConfigurationRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          settings: S.NullOr(__S(4896, __c153, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_group_default",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClaudeCodeRbacGroupDefaultManagedSettingsRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           state: S.Unknown,
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/organizations/compliance_settings", code: 200 }),
@@ -9598,7 +11179,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateComplianceSettingsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9618,7 +11199,47 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateExternalKeyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          applies_to_all_workspaces: S.optional(S.Boolean),
+          attributes: S.optional(S.NullOr(__S(5568, __c174, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          issuer_id: S.String,
+          match: __S(5536, __c173, 0),
+          name: S.String,
+          oauth_scope: S.String,
+          target: __S(5537, __c173, 1),
+          token_lifetime_seconds: S.optional(S.Number),
+          workspace_id: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/federation_rules", code: 200 })),
+      ).annotate({ identifier: "CreateFederationRuleRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_storage_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          display_name: S.NullOr(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/external_storage/{external_storage_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateExternalStorageRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9642,7 +11263,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateFederationIssuerRequest" });
   }
 }
-function __c36(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9651,12 +11272,12 @@ function __c36(j: number): any {
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           applies_to_all_workspaces: S.optional(S.NullOr(S.Boolean)),
-          attributes: S.optional(S.NullOr(__S(4384, __c137, 0))),
+          attributes: S.optional(S.NullOr(__S(5568, __c174, 0))),
           description: S.optional(S.NullOr(S.String)),
-          match: S.optional(S.NullOr(__S(4352, __c136, 0))),
+          match: S.optional(S.NullOr(__S(5536, __c173, 0))),
           name: S.optional(S.NullOr(S.String)),
           oauth_scope: S.optional(S.NullOr(S.String)),
-          target: S.optional(S.NullOr(__S(4353, __c136, 1))),
+          target: S.optional(S.NullOr(__S(5537, __c173, 1))),
           token_lifetime_seconds: S.optional(S.NullOr(S.Number)),
           workspace_id: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -9669,7 +11290,27 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateFederationRuleRequest" });
   }
 }
-function __c37(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_number: S.String.pipe(T.Label()),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          cmek: S.optional(S.Unknown),
+          storage: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/providers/google/projects/{project_number}/data_controls",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateGoogleManagedProjectDataControlsRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9678,7 +11319,7 @@ function __c37(j: number): any {
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           description: S.optional(S.String),
-          enabled_events: S.optional(__S(1728, __c54, 0)),
+          enabled_events: S.optional(__S(2528, __c79, 0)),
           name: S.optional(S.String),
           state: S.optional(S.String),
           url: S.optional(S.String),
@@ -9692,7 +11333,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationWebhookEndpointRequest" });
   }
 }
-function __c38(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9706,7 +11347,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdatePluginRequest" });
   }
 }
-function __c39(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9724,38 +11365,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdatePluginMarketplaceRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          email: S.String,
-          rbac_group_ids: S.optional(__S(4320, __c135, 0)),
-          role: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/invites", code: 200 })),
-      ).annotate({ identifier: "CreateInviteRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accepted_at: S.NullOr(S.String),
-          email: S.String,
-          expires_at: S.String,
-          id: S.String,
-          invited_at: S.String,
-          rbac_group_ids: __S(4320, __c135, 0),
-          role: S.String,
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaInviteSchema" });
-  }
-}
-function __c42(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9773,7 +11383,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateRbacGroupRequest" });
   }
 }
-function __c43(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9793,7 +11403,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateServiceAccountRequest" });
   }
 }
-function __c44(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9813,7 +11423,38 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateServiceAccountWorkspaceMemberRequest" });
   }
 }
-function __c45(j: number): any {
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          email: S.String,
+          rbac_group_ids: S.optional(__S(5504, __c172, 0)),
+          role: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/invites", code: 200 })),
+      ).annotate({ identifier: "CreateInviteRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accepted_at: S.NullOr(S.String),
+          email: S.String,
+          expires_at: S.String,
+          id: S.String,
+          invited_at: S.String,
+          rbac_group_ids: __S(5504, __c172, 0),
+          role: S.String,
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaInviteSchema" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9821,7 +11462,7 @@ function __c45(j: number): any {
           id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          settings: __S(2304, __c72, 0),
+          settings: __S(2976, __c93, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9832,7 +11473,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateSlackChannelRequest" });
   }
 }
-function __c46(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9840,7 +11481,7 @@ function __c46(j: number): any {
           id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          settings: __S(2304, __c72, 0),
+          settings: __S(2976, __c93, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9851,7 +11492,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateSlackWorkspaceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9861,8 +11502,8 @@ function __c47(j: number): any {
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           display_name: S.optional(S.NullOr(S.String)),
           endpoint_url: S.optional(S.String),
-          headers: S.optional(S.NullOr(__S(1536, __c48, 0))),
-          traces: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          headers: S.optional(S.NullOr(__S(2208, __c69, 0))),
+          traces: S.optional(S.NullOr(__S(3104, __c97, 0))),
           state: S.optional(S.Unknown),
           workspaces: S.optional(S.Unknown),
         }).pipe(
@@ -9875,13 +11516,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateTelemetryDestinationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c49(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9893,7 +11534,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c50(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9907,11 +11548,13 @@ function __c50(j: number): any {
         S.Struct({
           workspace_id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          data_residency: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          data_residency: S.optional(S.NullOr(__S(2272, __c71, 0))),
           display_color: S.optional(S.String),
           external_key_id: S.optional(S.String),
+          inference_data_privacy: S.optional(S.NullOr(__S(3200, __c100, 0))),
           name: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          tags: S.optional(S.NullOr(__S(2208, __c69, 0))),
           user_profile_id: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/organizations/workspaces/{workspace_id}", code: 200 }),
@@ -9919,7 +11562,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceRequest" });
   }
 }
-function __c51(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9938,7 +11581,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceMemberRequest" });
   }
 }
-function __c52(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9948,14 +11591,14 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "BetaWorkspaceRateLimitUpdateValue" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           workspace_id: S.String.pipe(T.Label()),
           rate_limit_id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          limits: __S(1665, __c52, 1),
+          limits: __S(2337, __c73, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9966,43 +11609,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceRateLimitsRequest" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          description: S.optional(S.String),
-          enabled_events: __S(1728, __c54, 0),
-          name: S.optional(S.String),
-          url: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/webhooks", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationWebhookEndpointRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          description: S.String,
-          disabled_reason: S.String,
-          enabled_events: __S(1728, __c54, 0),
-          id: S.String,
-          name: S.String,
-          signing_secret: S.String.pipe(T.SensitiveValue({})),
-          state: S.String,
-          updated_at: S.String,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "BetaNewOrganizationWebhookEndpoint" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c55(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10027,7 +11634,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "BetaValidateExternalKeyResponse" });
   }
 }
-function __c56(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10049,7 +11656,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ValidatePluginMarketplaceArchiveRequest" });
   }
 }
-function __c57(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10060,7 +11667,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "BetaPluginMarketplaceValidationPluginError" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(2432, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10069,24 +11676,24 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "BetaPluginMarketplaceValidationPluginWarning" });
     case 3:
-      return S.Array(__S(1826, __c57, 2));
+      return S.Array(__S(2434, __c76, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          warnings: __S(1827, __c57, 3),
+          warnings: __S(2435, __c76, 3),
         }),
       ).annotate({ identifier: "BetaPluginMarketplaceValidationPluginWarnings" });
     case 5:
-      return S.Array(__S(1828, __c57, 4));
+      return S.Array(__S(2436, __c76, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           commit_sha: S.NullOr(S.String),
           manifest_error: S.NullOr(S.String),
           manifest_error_code: S.NullOr(S.String),
-          plugin_errors: __S(1825, __c57, 1),
-          plugin_warnings: __S(1829, __c57, 5),
+          plugin_errors: __S(2433, __c76, 1),
+          plugin_warnings: __S(2437, __c76, 5),
           ref: S.NullOr(S.String),
           total_plugin_count: S.Number,
           type: S.String,
@@ -10095,7 +11702,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "BetaPluginMarketplaceValidationReport" });
   }
 }
-function __c58(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10113,13 +11720,49 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ValidatePluginMarketplaceRepositoryRequest" });
   }
 }
-function __c59(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          files: __S(1920, __c60, 0).pipe(T.Body("files[]")),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          description: S.optional(S.String),
+          enabled_events: __S(2528, __c79, 0),
+          name: S.optional(S.String),
+          url: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/webhooks", code: 200 })),
+      ).annotate({ identifier: "CreateOrganizationWebhookEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          description: S.String,
+          disabled_reason: S.String,
+          enabled_events: __S(2528, __c79, 0),
+          id: S.String,
+          name: S.String,
+          signing_secret: S.String.pipe(T.SensitiveValue({})),
+          state: S.String,
+          updated_at: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "BetaNewOrganizationWebhookEndpoint" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          files: __S(2592, __c81, 0).pipe(T.Body("files[]")),
           marketplace_id: S.optional(S.String),
           release_notes: S.optional(S.String),
         }).pipe(
@@ -10133,7 +11776,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreatePluginRequest" });
   }
 }
-function __c60(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
@@ -10145,7 +11788,7 @@ function __c60(j: number): any {
       );
   }
 }
-function __c61(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10156,7 +11799,7 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "BetaPluginComponent" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10167,13 +11810,13 @@ function __c61(j: number): any {
       ).annotate({ identifier: "BetaPluginContentScan" });
   }
 }
-function __c62(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          components: S.NullOr(__S(1953, __c61, 1)),
-          content_scan: S.NullOr(__S(1954, __c61, 2)),
+          components: S.NullOr(__S(2625, __c82, 1)),
+          content_scan: S.NullOr(__S(2626, __c82, 2)),
           created_at: S.String,
           created_by: S.NullOr(S.Unknown),
           description: S.NullOr(S.String),
@@ -10195,14 +11838,14 @@ function __c62(j: number): any {
       ).annotate({ identifier: "BetaPlugin" });
   }
 }
-function __c63(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           plugin_id: S.String.pipe(T.Label()),
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          files: __S(1920, __c60, 0).pipe(T.Body("files[]")),
+          files: __S(2592, __c81, 0).pipe(T.Body("files[]")),
           release_notes: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -10215,13 +11858,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreatePluginVersionRequest" });
   }
 }
-function __c64(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          components: S.NullOr(__S(1953, __c61, 1)),
-          content_scan: S.NullOr(__S(1954, __c61, 2)),
+          components: S.NullOr(__S(2625, __c82, 1)),
+          content_scan: S.NullOr(__S(2626, __c82, 2)),
           created_at: S.String,
           created_by: S.NullOr(S.Unknown),
           description: S.NullOr(S.String),
@@ -10236,7 +11879,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "BetaPluginVersion" });
   }
 }
-function __c65(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10247,7 +11890,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateRbacGroupRequest" });
   }
 }
-function __c66(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10255,7 +11898,7 @@ function __c66(j: number): any {
           created_at: S.String,
           id: S.String,
           name: S.String,
-          role_ids: S.NullOr(__S(4320, __c135, 0)),
+          role_ids: S.NullOr(__S(5504, __c172, 0)),
           source_type: S.String,
           type: S.String,
           updated_at: S.String,
@@ -10263,7 +11906,39 @@ function __c66(j: number): any {
       ).annotate({ identifier: "BetaRbacGroup" });
   }
 }
-function __c67(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          user_id: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/rbac_groups/{rbac_group_id}/members",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddRbacGroupMemberRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          email: S.String,
+          rbac_group_id: S.String,
+          type: S.String,
+          user_id: S.String,
+        }),
+      ).annotate({ identifier: "BetaRbacGroupMember" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10277,7 +11952,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountRequest" });
   }
 }
-function __c68(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10297,54 +11972,22 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountWorkspaceMemberRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          destination_id: S.String.pipe(T.Label()),
-          workspace_id: S.String.pipe(T.Label()),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/telemetry_destinations/{destination_id}/workspaces/{workspace_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddTelemetryDestinationWorkspaceRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          telemetry_destination_id: S.String,
-          workspace_id: S.String,
-          created_at: S.String,
-        }),
-      ).annotate({ identifier: "BetaTelemetryDestinationWorkspace" });
-  }
-}
-function __c71(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          slack: __S(2336, __c73, 0),
-          settings: S.optional(__S(2304, __c72, 0)),
+          slack: __S(3008, __c94, 0),
+          settings: S.optional(__S(2976, __c93, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/organizations/claude_tag/slack_channels", code: 200 }),
         ),
       ).annotate({ identifier: "CreateSlackChannelRequest" });
   }
 }
-function __c72(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10359,7 +12002,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "BetaClaudeTagSettingsCreate" });
   }
 }
-function __c73(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10373,16 +12016,16 @@ function __c73(j: number): any {
         S.Struct({
           type: S.String,
           id: S.String,
-          slack: __S(2336, __c73, 0),
-          settings: __S(2368, __c74, 0),
-          sources: __S(2370, __c74, 2),
+          slack: __S(3008, __c94, 0),
+          settings: __S(3040, __c95, 0),
+          sources: __S(3042, __c95, 2),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "BetaClaudeTagSlackChannel" });
   }
 }
-function __c74(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10401,7 +12044,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.NullOr(S.Unknown),
-          instructions: __S(2369, __c74, 1),
+          instructions: __S(3041, __c95, 1),
           model: S.NullOr(S.Unknown),
           environment_id: S.NullOr(S.Unknown),
           guest_policy: S.NullOr(S.Unknown),
@@ -10410,7 +12053,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "BetaClaudeTagSettingSources" });
   }
 }
-function __c75(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10419,8 +12062,8 @@ function __c75(j: number): any {
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           display_name: S.optional(S.NullOr(S.String)),
           endpoint_url: S.String,
-          headers: S.optional(__S(4384, __c137, 0)),
-          traces: S.optional(__S(2432, __c76, 0)),
+          headers: S.optional(__S(5568, __c174, 0)),
+          traces: S.optional(__S(3104, __c97, 0)),
           workspaces: S.Unknown,
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/organizations/telemetry_destinations", code: 200 }),
@@ -10428,7 +12071,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CreateTelemetryDestinationRequest" });
   }
 }
-function __c76(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10441,7 +12084,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "BetaTelemetryDestinationTracesParams" });
   }
 }
-function __c77(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10467,10 +12110,10 @@ function __c77(j: number): any {
           id: S.String,
           display_name: S.NullOr(S.String),
           endpoint_url: S.String,
-          header_names: __S(4320, __c135, 0),
-          traces: __S(2464, __c77, 0),
+          header_names: __S(5504, __c172, 0),
+          traces: __S(3136, __c98, 0),
           state: S.Unknown,
-          delivery_health: __S(2465, __c77, 1),
+          delivery_health: __S(3137, __c98, 1),
           created_at: S.String,
           updated_at: S.String,
           workspaces: S.Unknown,
@@ -10478,7 +12121,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "BetaTelemetryDestination" });
   }
 }
-function __c78(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10493,17 +12136,30 @@ function __c78(j: number): any {
         S.Struct({
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          data_residency: S.optional(S.NullOr(__S(2496, __c78, 0))),
+          data_residency: S.optional(S.NullOr(__S(3168, __c99, 0))),
           display_color: S.optional(S.NullOr(S.String)),
           external_key_id: S.optional(S.NullOr(S.String)),
+          inference_data_privacy: S.optional(S.NullOr(__S(3200, __c100, 0))),
           name: S.String,
-          tags: S.optional(S.NullOr(__S(4384, __c137, 0))),
+          tags: S.optional(S.NullOr(__S(5568, __c174, 0))),
           user_profile_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/workspaces", code: 200 })),
       ).annotate({ identifier: "CreateWorkspaceRequest" });
   }
 }
-function __c79(j: number): any {
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          human_review: S.optional(__S(6528, __c204, 0)),
+          safeguards_storage: S.optional(S.Unknown),
+          transcripts_storage: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "BetaInferenceDataPrivacyCreateParams" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10522,7 +12178,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceMemberRequest" });
   }
 }
-function __c80(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10535,7 +12191,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "BetaWorkspaceMemberSchema" });
   }
 }
-function __c81(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10554,7 +12210,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteBundleTargetRequest" });
   }
 }
-function __c82(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10565,7 +12221,32 @@ function __c82(j: number): any {
       ).annotate({ identifier: "BetaClaudeTagDeletedBundleTarget" });
   }
 }
-function __c83(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaRbacGroupScope" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_groups/{rbac_group_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteClaudeCodeRbacGroupManagedSettingsRequest" });
+  }
+}
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10582,7 +12263,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteExternalKeyRequest" });
   }
 }
-function __c84(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10593,7 +12274,57 @@ function __c84(j: number): any {
       ).annotate({ identifier: "BetaDeleteExternalKeyResponse" });
   }
 }
-function __c85(j: number): any {
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_storage_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/external_storage/{external_storage_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteExternalStorageRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          destination_id: S.String.pipe(T.Label()),
+          workspace_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/telemetry_destinations/{destination_id}/workspaces/{workspace_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddTelemetryDestinationWorkspaceRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          telemetry_destination_id: S.String,
+          workspace_id: S.String,
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "BetaTelemetryDestinationWorkspace" });
+  }
+}
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10606,7 +12337,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteInviteRequest" });
   }
 }
-function __c86(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10624,7 +12355,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationWebhookEndpointRequest" });
   }
 }
-function __c87(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10637,7 +12368,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeletePluginRequest" });
   }
 }
-function __c88(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10654,42 +12385,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteRbacGroupRequest" });
   }
 }
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          service_account_id: S.String.pipe(T.Label()),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          workspace_id: S.String,
-          workspace_role: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/service_accounts/{service_account_id}/workspaces",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddWorkspaceToServiceAccountRequest" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created_by_actor_id: S.NullOr(S.String),
-          implicit: S.NullOr(S.Boolean),
-          service_account_id: S.String,
-          type: S.String,
-          workspace_id: S.String,
-          workspace_role: S.String,
-        }),
-      ).annotate({ identifier: "BetaServiceAccountWorkspaceMember" });
-  }
-}
-function __c91(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10708,7 +12404,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountWorkspaceMemberRequest" });
   }
 }
-function __c92(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10720,7 +12416,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "BetaServiceAccountWorkspaceMemberDeleteResponse" });
   }
 }
-function __c93(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10738,7 +12434,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteSlackChannelRequest" });
   }
 }
-function __c94(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10755,7 +12451,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeleteSpendLimitRequest" });
   }
 }
-function __c95(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10773,7 +12469,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryDestinationRequest" });
   }
 }
-function __c96(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10799,7 +12495,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "BetaDeleteWorkspaceMemberResponse" });
   }
 }
-function __c97(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10817,7 +12513,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DenySpendLimitIncreaseRequestRequest" });
   }
 }
-function __c98(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10828,14 +12524,49 @@ function __c98(j: number): any {
           period: S.String,
           resolved_at: S.NullOr(S.String),
           resolved_by: S.NullOr(S.Unknown),
-          spend_summary: S.NullOr(__S(3360, __c105, 0)),
+          spend_summary: S.NullOr(__S(4416, __c138, 0)),
           status: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "BetaSpendLimitIncreaseRequestSchema" });
   }
 }
-function __c99(j: number): any {
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          service_account_id: S.String.pipe(T.Label()),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          workspace_id: S.String,
+          workspace_role: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/service_accounts/{service_account_id}/workspaces",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddWorkspaceToServiceAccountRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_by_actor_id: S.NullOr(S.String),
+          implicit: S.NullOr(S.Boolean),
+          service_account_id: S.String,
+          type: S.String,
+          workspace_id: S.String,
+          workspace_role: S.String,
+        }),
+      ).annotate({ identifier: "BetaServiceAccountWorkspaceMember" });
+  }
+}
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10843,8 +12574,8 @@ function __c99(j: number): any {
           date: S.String.pipe(T.Query()),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/analytics/artifacts", code: 200 })),
       ).annotate({ identifier: "GetAnalyticsArtifactsRequest" });
@@ -10863,17 +12594,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsArtifactActivity" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3170, __c99, 2),
+          data: __S(4002, __c125, 2),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsArtifactsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10883,8 +12614,8 @@ function __c100(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           order_by: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -10900,7 +12631,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.NullOr(S.String),
-          created_by: S.NullOr(__S(3232, __c101, 0)),
+          created_by: S.NullOr(__S(4064, __c127, 0)),
           distinct_conversation_count: S.NullOr(S.Number),
           distinct_user_count: S.Number,
           message_count: S.Number,
@@ -10912,17 +12643,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsProjectActivity" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3202, __c100, 2),
+          data: __S(4034, __c126, 2),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsProjectsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10934,7 +12665,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsUser" });
   }
 }
-function __c102(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10944,8 +12675,8 @@ function __c102(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           order_by: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -10968,32 +12699,32 @@ function __c102(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          chat: __S(3265, __c102, 1),
-          sessions: __S(3266, __c102, 2),
+          chat: __S(4097, __c128, 1),
+          sessions: __S(4098, __c128, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsConnectorChatCoworkUnifiedMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          excel: __S(3266, __c102, 2),
-          outlook: __S(3266, __c102, 2),
-          powerpoint: __S(3266, __c102, 2),
-          word: __S(3266, __c102, 2),
+          excel: __S(4098, __c128, 2),
+          outlook: __S(4098, __c128, 2),
+          powerpoint: __S(4098, __c128, 2),
+          word: __S(4098, __c128, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsConnectorOfficeMetrics" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(3267, __c102, 3))),
-          chat_metrics: __S(3265, __c102, 1),
-          claude_code_metrics: __S(3266, __c102, 2),
+          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(4099, __c128, 3))),
+          chat_metrics: __S(4097, __c128, 1),
+          claude_code_metrics: __S(4098, __c128, 2),
           connector_display_name: S.NullOr(S.String),
           connector_name: S.String,
-          cowork_metrics: __S(3266, __c102, 2),
+          cowork_metrics: __S(4098, __c128, 2),
           distinct_user_count: S.Number,
           individual_auth_distinct_user_count: S.NullOr(S.Number),
           managed_auth_distinct_user_count: S.NullOr(S.Number),
-          office_metrics: __S(3268, __c102, 4),
+          office_metrics: __S(4100, __c128, 4),
           product: S.optional(S.NullOr(S.String)),
           rbac_group_id: S.optional(S.NullOr(S.String)),
           rbac_group_name: S.optional(S.NullOr(S.String)),
@@ -11004,56 +12735,56 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsConnectorActivity" });
     case 6:
-      return S.Array(__S(3269, __c102, 5));
+      return S.Array(__S(4101, __c128, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3270, __c102, 6),
+          data: __S(4102, __c128, 6),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsConnectorsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          workspace_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("workspace_ids[]"))),
-          service_tiers__: S.optional(__S(1728, __c54, 0).pipe(T.Query("service_tiers[]"))),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_profile_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_profile_ids[]"))),
-          agent_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("agent_ids[]"))),
-          environment_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("environment_ids[]"))),
-          deployment_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("deployment_ids[]"))),
-          session_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("session_ids[]"))),
-          actor_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("actor_ids[]"))),
-          actor_types__: S.optional(__S(1728, __c54, 0).pipe(T.Query("actor_types[]"))),
-          api_key_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("api_key_ids[]"))),
-          organization_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("organization_ids[]"))),
+          workspace_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("workspace_ids[]"))),
+          service_tiers__: S.optional(__S(2528, __c79, 0).pipe(T.Query("service_tiers[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_profile_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_profile_ids[]"))),
+          agent_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("agent_ids[]"))),
+          environment_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("environment_ids[]"))),
+          deployment_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("deployment_ids[]"))),
+          session_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("session_ids[]"))),
+          actor_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("actor_ids[]"))),
+          actor_types__: S.optional(__S(2528, __c79, 0).pipe(T.Query("actor_types[]"))),
+          api_key_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("api_key_ids[]"))),
+          organization_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("organization_ids[]"))),
           time_bucket_width: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           exclude_deleted_users: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/analytics/cost", code: 200 })),
@@ -11097,18 +12828,18 @@ function __c103(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cost: __S(3297, __c103, 1),
+          cost: __S(4129, __c129, 1),
           ending_at: S.String,
-          group: __S(3298, __c103, 2),
+          group: __S(4130, __c129, 2),
           starting_at: S.String,
         }),
       ).annotate({ identifier: "BetaAnalyticsFlatCostItem" });
     case 4:
-      return S.Array(__S(3299, __c103, 3));
+      return S.Array(__S(4131, __c129, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3300, __c103, 4),
+          data: __S(4132, __c129, 4),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11116,77 +12847,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsFlatCostResponse" });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          spend_limit_increase_request_id: S.String.pipe(T.Label()),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          amount: S.String,
-          period: S.optional(S.NullOr(S.String)),
-          suppress_notification: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/spend_limit_increase_requests/{spend_limit_increase_request_id}/approve",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ApproveSpendLimitIncreaseRequestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          actor: S.Unknown,
-          created_at: S.String,
-          id: S.String,
-          period: S.String,
-          resolved_at: S.NullOr(S.String),
-          resolved_by: S.NullOr(S.Unknown),
-          spend_limit: S.NullOr(__S(3392, __c106, 0)),
-          spend_summary: S.NullOr(__S(3360, __c105, 0)),
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaApproveSpendLimitIncreaseRequestResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actor: S.Unknown,
-          amount: S.NullOr(S.String),
-          currency: S.String,
-          period: S.String,
-          period_to_date_spend: S.String,
-          scope: S.Unknown,
-          source: S.Unknown,
-          spend_limit_id: S.String,
-        }),
-      ).annotate({ identifier: "BetaSpendSummary" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.NullOr(S.String),
-          created_at: S.String,
-          currency: S.String,
-          id: S.String,
-          is_enabled: S.Boolean,
-          period: S.String,
-          scope: S.Unknown,
-          type: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "BetaSpendLimit" });
-  }
-}
-function __c107(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11194,25 +12855,25 @@ function __c107(j: number): any {
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
           bucket_width: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_ids[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_ids[]"))),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/analytics/cost_report", code: 200 }),
@@ -11239,21 +12900,21 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsCostBucketedResult" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(4161, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ending_at: S.String,
-          results: __S(3426, __c107, 2),
+          results: __S(4162, __c130, 2),
           starting_at: S.String,
         }),
       ).annotate({ identifier: "BetaAnalyticsCostReportTimeBucket" });
     case 4:
-      return S.Array(__S(3427, __c107, 3));
+      return S.Array(__S(4163, __c130, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3428, __c107, 4),
+          data: __S(4164, __c130, 4),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11262,7 +12923,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsCostBucketedResponse" });
   }
 }
-function __c108(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11272,8 +12933,8 @@ function __c108(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           order_by: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -11288,9 +12949,9 @@ function __c108(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(3457, __c108, 1))),
-          claude_code_metrics: __S(3457, __c108, 1),
-          cowork_metrics: __S(3457, __c108, 1),
+          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(4193, __c131, 1))),
+          claude_code_metrics: __S(4193, __c131, 1),
+          cowork_metrics: __S(4193, __c131, 1),
           distinct_user_count: S.Number,
           install_count: S.NullOr(S.Number),
           invocation_count: S.Number,
@@ -11303,17 +12964,17 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsPluginActivity" });
     case 3:
-      return S.Array(__S(3458, __c108, 2));
+      return S.Array(__S(4194, __c131, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3459, __c108, 3),
+          data: __S(4195, __c131, 3),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsPluginsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11323,8 +12984,8 @@ function __c109(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           order_by: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -11345,33 +13006,33 @@ function __c109(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          chat: __S(3489, __c109, 1),
-          sessions: __S(3490, __c109, 2),
+          chat: __S(4225, __c132, 1),
+          sessions: __S(4226, __c132, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsSkillChatCoworkUnifiedMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          excel: __S(3490, __c109, 2),
-          outlook: __S(3490, __c109, 2),
-          powerpoint: __S(3490, __c109, 2),
-          word: __S(3490, __c109, 2),
+          excel: __S(4226, __c132, 2),
+          outlook: __S(4226, __c132, 2),
+          powerpoint: __S(4226, __c132, 2),
+          word: __S(4226, __c132, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsSkillOfficeMetrics" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           attributed_list_price: S.NullOr(S.String),
-          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(3491, __c109, 3))),
-          chat_metrics: __S(3489, __c109, 1),
-          claude_code_metrics: __S(3490, __c109, 2),
-          cowork_metrics: __S(3490, __c109, 2),
+          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(4227, __c132, 3))),
+          chat_metrics: __S(4225, __c132, 1),
+          claude_code_metrics: __S(4226, __c132, 2),
+          cowork_metrics: __S(4226, __c132, 2),
           currency: S.NullOr(S.String),
           distinct_user_count: S.Number,
           enable_count: S.NullOr(S.Number),
           estimated_overage_spend: S.NullOr(S.String),
           invocation_count: S.NullOr(S.Number),
-          office_metrics: __S(3492, __c109, 4),
+          office_metrics: __S(4228, __c132, 4),
           product: S.optional(S.NullOr(S.String)),
           rbac_group_id: S.optional(S.NullOr(S.String)),
           rbac_group_name: S.optional(S.NullOr(S.String)),
@@ -11382,17 +13043,17 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsSkillActivity" });
     case 6:
-      return S.Array(__S(3493, __c109, 5));
+      return S.Array(__S(4229, __c132, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3494, __c109, 6),
+          data: __S(4230, __c132, 6),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsSkillsResponse" });
   }
 }
-function __c110(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11401,7 +13062,7 @@ function __c110(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/analytics/summaries", code: 200 })),
       ).annotate({ identifier: "GetAnalyticsSummariesRequest" });
@@ -11446,56 +13107,56 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsSingleDayActivitySummary" });
     case 2:
-      return S.Array(__S(3521, __c110, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3522, __c110, 2),
+          data: __S(4258, __c133, 2),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsActivitySummaryResponse" });
   }
 }
-function __c111(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          workspace_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("workspace_ids[]"))),
-          service_tiers__: S.optional(__S(1728, __c54, 0).pipe(T.Query("service_tiers[]"))),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_profile_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_profile_ids[]"))),
-          agent_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("agent_ids[]"))),
-          environment_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("environment_ids[]"))),
-          deployment_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("deployment_ids[]"))),
-          session_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("session_ids[]"))),
-          actor_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("actor_ids[]"))),
-          actor_types__: S.optional(__S(1728, __c54, 0).pipe(T.Query("actor_types[]"))),
-          api_key_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("api_key_ids[]"))),
-          organization_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("organization_ids[]"))),
+          workspace_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("workspace_ids[]"))),
+          service_tiers__: S.optional(__S(2528, __c79, 0).pipe(T.Query("service_tiers[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_profile_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_profile_ids[]"))),
+          agent_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("agent_ids[]"))),
+          environment_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("environment_ids[]"))),
+          deployment_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("deployment_ids[]"))),
+          session_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("session_ids[]"))),
+          actor_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("actor_ids[]"))),
+          actor_types__: S.optional(__S(2528, __c79, 0).pipe(T.Query("actor_types[]"))),
+          api_key_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("api_key_ids[]"))),
+          organization_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("organization_ids[]"))),
           time_bucket_width: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           exclude_deleted_users: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/analytics/usage", code: 200 })),
@@ -11528,11 +13189,11 @@ function __c111(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cache_creation: __S(3584, __c112, 0),
+          cache_creation: __S(4320, __c135, 0),
           cache_read_input_tokens: S.Number,
           output_tokens: S.Number,
           requests: S.NullOr(S.Number),
-          server_tool_use: __S(3585, __c112, 1),
+          server_tool_use: __S(4321, __c135, 1),
           total_tokens: S.Number,
           uncached_input_tokens: S.Number,
         }),
@@ -11541,17 +13202,17 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ending_at: S.String,
-          group: __S(3553, __c111, 1),
+          group: __S(4289, __c134, 1),
           starting_at: S.String,
-          usage: __S(3554, __c111, 2),
+          usage: __S(4290, __c134, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsFlatUsageItem" });
     case 4:
-      return S.Array(__S(3555, __c111, 3));
+      return S.Array(__S(4291, __c134, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3556, __c111, 4),
+          data: __S(4292, __c134, 4),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11559,7 +13220,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsFlatUsageResponse" });
   }
 }
-function __c112(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11576,7 +13237,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "BetaServerToolUse" });
   }
 }
-function __c113(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11584,25 +13245,25 @@ function __c113(j: number): any {
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
           bucket_width: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_ids[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_ids[]"))),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/analytics/usage_report", code: 200 }),
@@ -11611,7 +13272,7 @@ function __c113(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cache_creation: __S(3584, __c112, 0),
+          cache_creation: __S(4320, __c135, 0),
           cache_read_input_tokens: S.Number,
           claude_tag_category: S.NullOr(S.String),
           claude_tag_user_id: S.NullOr(S.String),
@@ -11622,28 +13283,28 @@ function __c113(j: number): any {
           product: S.NullOr(S.String),
           rbac_group_id: S.NullOr(S.String),
           requests: S.NullOr(S.Number),
-          server_tool_use: __S(3585, __c112, 1),
+          server_tool_use: __S(4321, __c135, 1),
           slack_channel_id: S.NullOr(S.String),
           speed: S.NullOr(S.String),
           uncached_input_tokens: S.Number,
         }),
       ).annotate({ identifier: "BetaAnalyticsUsageBucketedResult" });
     case 2:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ending_at: S.String,
-          results: __S(3618, __c113, 2),
+          results: __S(4354, __c136, 2),
           starting_at: S.String,
         }),
       ).annotate({ identifier: "BetaAnalyticsUsageReportTimeBucket" });
     case 4:
-      return S.Array(__S(3619, __c113, 3));
+      return S.Array(__S(4355, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3620, __c113, 4),
+          data: __S(4356, __c136, 4),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11652,36 +13313,106 @@ function __c113(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsUsageBucketedResponse" });
   }
 }
-function __c114(j: number): any {
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spend_limit_increase_request_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          amount: S.String,
+          period: S.optional(S.NullOr(S.String)),
+          suppress_notification: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/spend_limit_increase_requests/{spend_limit_increase_request_id}/approve",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ApproveSpendLimitIncreaseRequestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          actor: S.Unknown,
+          created_at: S.String,
+          id: S.String,
+          period: S.String,
+          resolved_at: S.NullOr(S.String),
+          resolved_by: S.NullOr(S.Unknown),
+          spend_limit: S.NullOr(__S(4448, __c139, 0)),
+          spend_summary: S.NullOr(__S(4416, __c138, 0)),
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaApproveSpendLimitIncreaseRequestResponse" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actor: S.Unknown,
+          amount: S.NullOr(S.String),
+          currency: S.String,
+          period: S.String,
+          period_to_date_spend: S.String,
+          scope: S.Unknown,
+          source: S.Unknown,
+          spend_limit_id: S.String,
+        }),
+      ).annotate({ identifier: "BetaSpendSummary" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.NullOr(S.String),
+          created_at: S.String,
+          currency: S.String,
+          id: S.String,
+          is_enabled: S.Boolean,
+          period: S.String,
+          scope: S.Unknown,
+          type: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "BetaSpendLimit" });
+  }
+}
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_ids[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_ids[]"))),
           bucket_width: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           exclude_deleted_users: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/analytics/user_cost_report", code: 200 }),
@@ -11690,7 +13421,7 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actor: __S(3680, __c115, 0),
+          actor: __S(4512, __c141, 0),
           amount: S.String,
           claude_tag_category: S.NullOr(S.String),
           claude_tag_user_id: S.NullOr(S.String),
@@ -11711,11 +13442,11 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsCostUsersItem" });
     case 2:
-      return S.Array(__S(3649, __c114, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3650, __c114, 2),
+          data: __S(4482, __c140, 2),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11724,7 +13455,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsCostUsersResponse" });
   }
 }
-function __c115(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11738,7 +13469,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "BetaUserActorSchema" });
   }
 }
-function __c116(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11748,8 +13479,8 @@ function __c116(j: number): any {
           ending_date: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          filter__: S.optional(__S(4320, __c135, 0).pipe(T.Query("filter[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          filter__: S.optional(__S(5504, __c172, 0).pipe(T.Query("filter[]"))),
           order_by: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -11797,8 +13528,8 @@ function __c116(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          chat: __S(3713, __c116, 1),
-          sessions: __S(3714, __c116, 2),
+          chat: __S(4545, __c142, 1),
+          sessions: __S(4546, __c142, 2),
         }),
       ).annotate({ identifier: "BetaAnalyticsChatCoworkUnifiedMetrics" });
     case 4:
@@ -11814,7 +13545,7 @@ function __c116(j: number): any {
           artifacts_created_count: S.Number,
           commit_count: S.Number,
           distinct_session_count: S.NullOr(S.Number),
-          lines_of_code: __S(3716, __c116, 4),
+          lines_of_code: __S(4548, __c142, 4),
           pull_request_count: S.Number,
         }),
       ).annotate({ identifier: "BetaAnalyticsCoreCodeMetrics" });
@@ -11828,17 +13559,17 @@ function __c116(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          edit_tool: __S(3718, __c116, 6),
-          multi_edit_tool: __S(3718, __c116, 6),
-          notebook_edit_tool: __S(3718, __c116, 6),
-          write_tool: __S(3718, __c116, 6),
+          edit_tool: __S(4550, __c142, 6),
+          multi_edit_tool: __S(4550, __c142, 6),
+          notebook_edit_tool: __S(4550, __c142, 6),
+          write_tool: __S(4550, __c142, 6),
         }),
       ).annotate({ identifier: "BetaAnalyticsToolActions" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          core_metrics: __S(3717, __c116, 5),
-          tool_actions: __S(3719, __c116, 7),
+          core_metrics: __S(4549, __c142, 5),
+          tool_actions: __S(4551, __c142, 7),
         }),
       ).annotate({ identifier: "BetaAnalyticsClaudeCodeMetrics" });
     case 9:
@@ -11871,10 +13602,10 @@ function __c116(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          excel: __S(3723, __c116, 11),
-          outlook: __S(3723, __c116, 11),
-          powerpoint: __S(3723, __c116, 11),
-          word: __S(3723, __c116, 11),
+          excel: __S(4555, __c142, 11),
+          outlook: __S(4555, __c142, 11),
+          powerpoint: __S(4555, __c142, 11),
+          word: __S(4555, __c142, 11),
         }),
       ).annotate({ identifier: "BetaAnalyticsOfficeMetrics" });
     case 13:
@@ -11890,63 +13621,63 @@ function __c116(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(3715, __c116, 3))),
-          chat_metrics: __S(3713, __c116, 1),
-          claude_code_metrics: __S(3720, __c116, 8),
-          claude_tag_metrics: S.optional(S.NullOr(__S(3721, __c116, 9))),
-          cowork_metrics: __S(3714, __c116, 2),
-          design_metrics: __S(3722, __c116, 10),
+          chat_cowork_unified_metrics: S.optional(S.NullOr(__S(4547, __c142, 3))),
+          chat_metrics: __S(4545, __c142, 1),
+          claude_code_metrics: __S(4552, __c142, 8),
+          claude_tag_metrics: S.optional(S.NullOr(__S(4553, __c142, 9))),
+          cowork_metrics: __S(4546, __c142, 2),
+          design_metrics: __S(4554, __c142, 10),
           distinct_user_count: S.NullOr(S.Number),
           last_activity_date: S.optional(S.NullOr(S.String)),
-          office_metrics: __S(3724, __c116, 12),
+          office_metrics: __S(4556, __c142, 12),
           rbac_group_id: S.optional(S.NullOr(S.String)),
           rbac_group_name: S.optional(S.NullOr(S.String)),
-          science_metrics: __S(3725, __c116, 13),
-          user: S.NullOr(__S(3232, __c101, 0)),
+          science_metrics: __S(4557, __c142, 13),
+          user: S.NullOr(__S(4064, __c127, 0)),
           web_search_count: S.Number,
         }),
       ).annotate({ identifier: "BetaAnalyticsUserActivity" });
     case 15:
-      return S.Array(__S(3726, __c116, 14));
+      return S.Array(__S(4558, __c142, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3727, __c116, 15),
+          data: __S(4559, __c142, 15),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaAnalyticsUsersResponse" });
   }
 }
-function __c117(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
-          products__: S.optional(__S(1728, __c54, 0).pipe(T.Query("products[]"))),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          context_windows__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_windows[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
+          products__: S.optional(__S(2528, __c79, 0).pipe(T.Query("products[]"))),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          context_windows__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_windows[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
           slack_channel_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("slack_channel_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("slack_channel_ids[]")),
           ),
           claude_tag_categories__: S.optional(
-            __S(1728, __c54, 0).pipe(T.Query("claude_tag_categories[]")),
+            __S(2528, __c79, 0).pipe(T.Query("claude_tag_categories[]")),
           ),
           claude_tag_user_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("claude_tag_user_ids[]")),
+            __S(5504, __c172, 0).pipe(T.Query("claude_tag_user_ids[]")),
           ),
-          rbac_group_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("rbac_group_ids[]"))),
-          user_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_ids[]"))),
+          rbac_group_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("rbac_group_ids[]"))),
+          user_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_ids[]"))),
           bucket_width: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           exclude_deleted_users: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(
           T.Http({
@@ -11959,8 +13690,8 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actor: __S(3680, __c115, 0),
-          cache_creation: __S(3584, __c112, 0),
+          actor: __S(4512, __c141, 0),
+          cache_creation: __S(4320, __c135, 0),
           cache_read_input_tokens: S.Number,
           claude_tag_category: S.NullOr(S.String),
           claude_tag_user_id: S.NullOr(S.String),
@@ -11972,7 +13703,7 @@ function __c117(j: number): any {
           product: S.NullOr(S.String),
           rbac_group_id: S.NullOr(S.String),
           requests: S.NullOr(S.Number),
-          server_tool_use: __S(3585, __c112, 1),
+          server_tool_use: __S(4321, __c135, 1),
           slack_channel_id: S.NullOr(S.String),
           speed: S.NullOr(S.String),
           starting_at: S.NullOr(S.String),
@@ -11981,11 +13712,11 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "BetaAnalyticsUsageUsersItem" });
     case 2:
-      return S.Array(__S(3745, __c117, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3746, __c117, 2),
+          data: __S(4578, __c143, 2),
           data_refreshed_at: S.NullOr(S.String),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
@@ -11994,7 +13725,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "BetaAnalyticsUsageUsersResponse" });
   }
 }
-function __c118(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12007,7 +13738,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetApiKeyRequest" });
   }
 }
-function __c119(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12020,7 +13751,7 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
-          created_by: S.NullOr(__S(3808, __c119, 0)),
+          created_by: S.NullOr(__S(4640, __c145, 0)),
           expires_at: S.NullOr(S.String),
           id: S.String,
           name: S.String,
@@ -12033,57 +13764,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "BetaApiKey" });
   }
 }
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          federation_issuer_id: S.String.pipe(T.Label()),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/federation_issuers/{federation_issuer_id}/archive",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ArchiveFederationIssuerRequest" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          consecutive_failures: S.Number,
-          last_fetched_at: S.NullOr(S.String),
-          next_poll_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaIssuerPollStatus" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          archived_at: S.NullOr(S.String),
-          archived_by_actor_id: S.NullOr(S.String),
-          check_jti: S.Boolean,
-          created_at: S.String,
-          created_by_actor_id: S.NullOr(S.String),
-          id: S.String,
-          issuer_url: S.String,
-          jwks: S.Unknown,
-          jwks_polling_disabled_at: S.NullOr(S.String),
-          max_jwt_lifetime_seconds: S.Number,
-          name: S.String,
-          poll_status: S.NullOr(__S(3872, __c121, 0)),
-          type: S.String,
-          updated_at: S.String,
-          updated_by_actor_id: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaFederationIssuer" });
-  }
-}
-function __c122(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12101,7 +13782,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetBundleRequest" });
   }
 }
-function __c123(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12112,11 +13793,12 @@ function __c123(j: number): any {
           description: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
+          instructions: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaClaudeTagBundle" });
   }
 }
-function __c124(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12135,7 +13817,106 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetBundleTargetRequest" });
   }
 }
-function __c125(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/claude_code/managed_settings/configuration",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetClaudeCodeManagedSettingsConfigurationRequest" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.Unknown,
+          mode_updated_at: S.NullOr(S.String),
+          rbac_group_order: __S(5504, __c172, 0),
+          rbac_group_order_version: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaClaudeCodeManagedSettingsConfiguration" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_group_default",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetClaudeCodeRbacGroupDefaultManagedSettingsRequest" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          settings: S.NullOr(__S(4896, __c153, 0)),
+          type: S.String,
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaClaudeCodeRbacGroupDefaultManagedSettings" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rbac_group_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_groups/{rbac_group_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetClaudeCodeRbacGroupManagedSettingsRequest" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          rbac_group_id: S.String,
+          rbac_group_status: S.Unknown,
+          settings: S.NullOr(__S(4896, __c153, 0)),
+          type: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "BetaClaudeCodeRbacGroupManagedSettings" });
+  }
+}
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12159,7 +13940,7 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commits_by_claude_code: S.Number,
-          lines_of_code: __S(4001, __c125, 1),
+          lines_of_code: __S(4993, __c156, 1),
           num_sessions: S.Number,
           pull_requests_by_claude_code: S.Number,
         }),
@@ -12183,13 +13964,13 @@ function __c125(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          estimated_cost: __S(4003, __c125, 3),
+          estimated_cost: __S(4995, __c156, 3),
           model: S.String,
-          tokens: __S(4004, __c125, 4),
+          tokens: __S(4996, __c156, 4),
         }),
       ).annotate({ identifier: "BetaModelBreakdown" });
     case 6:
-      return S.Array(__S(4005, __c125, 5));
+      return S.Array(__S(4997, __c156, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12198,56 +13979,108 @@ function __c125(j: number): any {
         }),
       ).annotate({ identifier: "BetaApprovalMetrics" });
     case 8:
-      return S.Record(S.String, __S(4007, __c125, 7));
+      return S.Record(S.String, __S(4999, __c156, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           actor: S.Unknown,
-          core_metrics: __S(4002, __c125, 2),
+          core_metrics: __S(4994, __c156, 2),
           customer_type: S.String,
           date: S.String,
           is_remote: S.Boolean,
-          model_breakdown: __S(4006, __c125, 6),
+          model_breakdown: __S(4998, __c156, 6),
           organization_id: S.String,
           subscription_type: S.optional(S.NullOr(S.String)),
           terminal_type: S.String,
-          tool_actions: __S(4008, __c125, 8),
+          tool_actions: __S(5000, __c156, 8),
         }),
       ).annotate({ identifier: "BetaClaudeCodeUsageReportItem" });
     case 10:
-      return S.Array(__S(4009, __c125, 9));
+      return S.Array(__S(5001, __c156, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4010, __c125, 10),
+          data: __S(5002, __c156, 10),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaGetClaudeCodeUsageReportResponse" });
   }
 }
-function __c126(j: number): any {
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          federation_issuer_id: S.String.pipe(T.Label()),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/federation_issuers/{federation_issuer_id}/archive",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ArchiveFederationIssuerRequest" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          consecutive_failures: S.Number,
+          last_fetched_at: S.NullOr(S.String),
+          next_poll_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaIssuerPollStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          archived_at: S.NullOr(S.String),
+          archived_by_actor_id: S.NullOr(S.String),
+          check_jti: S.Boolean,
+          created_at: S.String,
+          created_by_actor_id: S.NullOr(S.String),
+          id: S.String,
+          issuer_url: S.String,
+          jwks: S.Unknown,
+          jwks_polling_disabled_at: S.NullOr(S.String),
+          max_jwt_lifetime_seconds: S.Number,
+          name: S.String,
+          poll_status: S.NullOr(__S(5056, __c158, 0)),
+          type: S.String,
+          updated_at: S.String,
+          updated_by_actor_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaFederationIssuer" });
+  }
+}
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/compliance_settings", code: 200 })),
       ).annotate({ identifier: "GetComplianceSettingsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          access_transparency: S.optional(__S(6528, __c204, 0)),
           state: S.Unknown,
           type: S.String,
         }),
       ).annotate({ identifier: "BetaComplianceSettings" });
   }
 }
-function __c128(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12256,7 +14089,7 @@ function __c128(j: number): any {
           page: S.optional(S.String.pipe(T.Query())),
           starting_at: S.String.pipe(T.Query()),
           ending_at: S.optional(S.String.pipe(T.Query())),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
           bucket_width: S.optional(S.String.pipe(T.Query())),
           anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -12279,28 +14112,28 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "BetaCostReportItem" });
     case 2:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(5153, __c161, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           starting_at: S.String,
           ending_at: S.String,
-          results: __S(4098, __c128, 2),
+          results: __S(5154, __c161, 2),
         }),
       ).annotate({ identifier: "BetaCostReportTimeBucket" });
     case 4:
-      return S.Array(__S(4099, __c128, 3));
+      return S.Array(__S(5155, __c161, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4100, __c128, 4),
+          data: __S(5156, __c161, 4),
           has_more: S.Boolean,
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaGetCostReportResponse" });
   }
 }
-function __c129(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12318,7 +14151,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "BetaOrganizationSchema" });
   }
 }
-function __c130(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12335,7 +14168,25 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetExternalKeyRequest" });
   }
 }
-function __c131(j: number): any {
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_storage_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/external_storage/{external_storage_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetExternalStorageRequest" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12353,7 +14204,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetFederationIssuerRequest" });
   }
 }
-function __c132(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12371,7 +14222,39 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetFederationRuleRequest" });
   }
 }
-function __c133(j: number): any {
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_number: S.String.pipe(T.Label()),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/providers/google/projects/{project_number}/data_controls",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetGoogleManagedProjectDataControlsRequest" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cmek: S.Unknown,
+          project_number: S.String,
+          storage: S.Unknown,
+          type: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "BetaGoogleManagedProjectDataControls" });
+  }
+}
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12382,7 +14265,76 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetInviteRequest" });
   }
 }
-function __c134(j: number): any {
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          starting_at: S.String.pipe(T.Query()),
+          ending_at: S.optional(S.String.pipe(T.Query())),
+          api_key_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("api_key_ids[]"))),
+          workspace_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("workspace_ids[]"))),
+          account_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("account_ids[]"))),
+          service_account_ids__: S.optional(
+            __S(5504, __c172, 0).pipe(T.Query("service_account_ids[]")),
+          ),
+          models__: S.optional(__S(5504, __c172, 0).pipe(T.Query("models[]"))),
+          service_tiers__: S.optional(__S(2528, __c79, 0).pipe(T.Query("service_tiers[]"))),
+          context_window__: S.optional(__S(2528, __c79, 0).pipe(T.Query("context_window[]"))),
+          inference_geos__: S.optional(__S(2528, __c79, 0).pipe(T.Query("inference_geos[]"))),
+          speeds__: S.optional(__S(2528, __c79, 0).pipe(T.Query("speeds[]"))),
+          group_by__: S.optional(__S(2528, __c79, 0).pipe(T.Query("group_by[]"))),
+          bucket_width: S.optional(S.String.pipe(T.Query())),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/organizations/usage_report/messages", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetMessagesUsageReportRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uncached_input_tokens: S.Number,
+          cache_creation: __S(4320, __c135, 0),
+          cache_read_input_tokens: S.Number,
+          output_tokens: S.Number,
+          server_tool_use: __S(4321, __c135, 1),
+          api_key_id: S.NullOr(S.String),
+          workspace_id: S.NullOr(S.String),
+          account_id: S.NullOr(S.String),
+          service_account_id: S.NullOr(S.String),
+          model: S.NullOr(S.String),
+          service_tier: S.NullOr(S.String),
+          context_window: S.NullOr(S.String),
+          inference_geo: S.NullOr(S.String),
+          speed: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaMessagesUsageReportItem" });
+    case 2:
+      return S.Array(__S(5441, __c170, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          starting_at: S.String,
+          ending_at: S.String,
+          results: __S(5442, __c170, 2),
+        }),
+      ).annotate({ identifier: "BetaMessagesUsageReportTimeBucket" });
+    case 4:
+      return S.Array(__S(5443, __c170, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(5444, __c170, 4),
+          has_more: S.Boolean,
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaGetMessagesUsageReportResponse" });
+  }
+}
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12400,19 +14352,19 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ArchiveFederationRuleRequest" });
   }
 }
-function __c135(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c136(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.NullOr(S.String)),
-          claims: S.optional(S.NullOr(__S(4384, __c137, 0))),
+          claims: S.optional(S.NullOr(__S(5568, __c174, 0))),
           condition: S.optional(S.NullOr(S.String)),
           subject_prefix: S.optional(S.NullOr(S.String)),
         }),
@@ -12431,103 +14383,34 @@ function __c136(j: number): any {
           applies_to_all_workspaces: S.Boolean,
           archived_at: S.NullOr(S.String),
           archived_by_actor_id: S.NullOr(S.String),
-          attributes: S.NullOr(__S(4384, __c137, 0)),
+          attributes: S.NullOr(__S(5568, __c174, 0)),
           created_at: S.String,
           created_by_actor_id: S.NullOr(S.String),
           description: S.NullOr(S.String),
           id: S.String,
           issuer_id: S.String,
           issuer_name: S.NullOr(S.String),
-          match: __S(4352, __c136, 0),
+          match: __S(5536, __c173, 0),
           name: S.String,
           oauth_scope: S.String,
-          target: __S(4353, __c136, 1),
+          target: __S(5537, __c173, 1),
           token_lifetime_seconds: S.Number,
           type: S.String,
           updated_at: S.String,
           updated_by_actor_id: S.NullOr(S.String),
           workspace_id: S.NullOr(S.String),
-          workspace_ids: __S(4320, __c135, 0),
+          workspace_ids: __S(5504, __c172, 0),
         }),
       ).annotate({ identifier: "BetaFederationRule" });
   }
 }
-function __c137(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          starting_at: S.String.pipe(T.Query()),
-          ending_at: S.optional(S.String.pipe(T.Query())),
-          api_key_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("api_key_ids[]"))),
-          workspace_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("workspace_ids[]"))),
-          account_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("account_ids[]"))),
-          service_account_ids__: S.optional(
-            __S(4320, __c135, 0).pipe(T.Query("service_account_ids[]")),
-          ),
-          models__: S.optional(__S(4320, __c135, 0).pipe(T.Query("models[]"))),
-          service_tiers__: S.optional(__S(1728, __c54, 0).pipe(T.Query("service_tiers[]"))),
-          context_window__: S.optional(__S(1728, __c54, 0).pipe(T.Query("context_window[]"))),
-          inference_geos__: S.optional(__S(1728, __c54, 0).pipe(T.Query("inference_geos[]"))),
-          speeds__: S.optional(__S(1728, __c54, 0).pipe(T.Query("speeds[]"))),
-          group_by__: S.optional(__S(1728, __c54, 0).pipe(T.Query("group_by[]"))),
-          bucket_width: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/organizations/usage_report/messages", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetMessagesUsageReportRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          uncached_input_tokens: S.Number,
-          cache_creation: __S(3584, __c112, 0),
-          cache_read_input_tokens: S.Number,
-          output_tokens: S.Number,
-          server_tool_use: __S(3585, __c112, 1),
-          api_key_id: S.NullOr(S.String),
-          workspace_id: S.NullOr(S.String),
-          account_id: S.NullOr(S.String),
-          service_account_id: S.NullOr(S.String),
-          model: S.NullOr(S.String),
-          service_tier: S.NullOr(S.String),
-          context_window: S.NullOr(S.String),
-          inference_geo: S.NullOr(S.String),
-          speed: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaMessagesUsageReportItem" });
-    case 2:
-      return S.Array(__S(4417, __c138, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          starting_at: S.String,
-          ending_at: S.String,
-          results: __S(4418, __c138, 2),
-        }),
-      ).annotate({ identifier: "BetaMessagesUsageReportTimeBucket" });
-    case 4:
-      return S.Array(__S(4419, __c138, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(4420, __c138, 4),
-          has_more: S.Boolean,
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaGetMessagesUsageReportResponse" });
-  }
-}
-function __c139(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12547,29 +14430,29 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "BetaRateLimitValue" });
     case 2:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(5601, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           group: S.Unknown,
           id: S.String,
-          limits: __S(4450, __c139, 2),
-          models: S.NullOr(__S(4320, __c135, 0)),
+          limits: __S(5602, __c175, 2),
+          models: S.NullOr(__S(5504, __c172, 0)),
           type: S.String,
         }),
       ).annotate({ identifier: "BetaRateLimit" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(5603, __c175, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4452, __c139, 4),
+          data: __S(5604, __c175, 4),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaRateLimitListResponse" });
   }
 }
-function __c140(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12587,7 +14470,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetOrganizationWebhookEndpointRequest" });
   }
 }
-function __c141(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12595,7 +14478,7 @@ function __c141(j: number): any {
           created_at: S.String,
           description: S.String,
           disabled_reason: S.String,
-          enabled_events: __S(1728, __c54, 0),
+          enabled_events: __S(2528, __c79, 0),
           id: S.String,
           name: S.String,
           state: S.String,
@@ -12605,7 +14488,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "BetaOrganizationWebhookEndpoint" });
   }
 }
-function __c142(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12617,7 +14500,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetPluginRequest" });
   }
 }
-function __c143(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12635,7 +14518,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetPluginMarketplaceRequest" });
   }
 }
-function __c144(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12654,7 +14537,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "BetaPluginMarketplace" });
   }
 }
-function __c145(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12673,7 +14556,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetPluginVersionRequest" });
   }
 }
-function __c146(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12699,7 +14582,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetPluginVersionContentResponse" });
   }
 }
-function __c147(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12716,7 +14599,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetRbacGroupRequest" });
   }
 }
-function __c148(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12729,7 +14612,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetRbacRoleRequest" });
   }
 }
-function __c149(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12737,13 +14620,14 @@ function __c149(j: number): any {
           created_at: S.String,
           display_name: S.String,
           id: S.String,
+          source: S.Unknown,
           type: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "BetaRbacRole" });
   }
 }
-function __c150(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12761,7 +14645,26 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetServiceAccountRequest" });
   }
 }
-function __c151(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workspace_id: S.String.pipe(T.Label()),
+          service_account_id: S.String.pipe(T.Label()),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/workspaces/{workspace_id}/service_accounts/{service_account_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetServiceAccountWorkspaceMemberRequest" });
+  }
+}
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12779,7 +14682,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ArchiveServiceAccountRequest" });
   }
 }
-function __c152(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12799,26 +14702,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "BetaServiceAccount" });
   }
 }
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspace_id: S.String.pipe(T.Label()),
-          service_account_id: S.String.pipe(T.Label()),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/workspaces/{workspace_id}/service_accounts/{service_account_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetServiceAccountWorkspaceMemberRequest" });
-  }
-}
-function __c154(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12837,7 +14721,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetSlackChannelRequest" });
   }
 }
-function __c155(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12856,7 +14740,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetSlackWorkspaceRequest" });
   }
 }
-function __c156(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12869,16 +14753,16 @@ function __c156(j: number): any {
         S.Struct({
           type: S.String,
           id: S.String,
-          slack: __S(4992, __c156, 0),
-          settings: __S(2368, __c74, 0),
-          sources: __S(2370, __c74, 2),
+          slack: __S(6144, __c192, 0),
+          settings: __S(3040, __c95, 0),
+          sources: __S(3042, __c95, 2),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "BetaClaudeTagSlackWorkspace" });
   }
 }
-function __c157(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12895,7 +14779,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetSpendLimitRequest" });
   }
 }
-function __c158(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12912,7 +14796,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetSpendLimitIncreaseRequestRequest" });
   }
 }
-function __c159(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12930,7 +14814,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetTelemetryDestinationRequest" });
   }
 }
-function __c160(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12941,7 +14825,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c161(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12956,20 +14840,21 @@ function __c161(j: number): any {
       ).annotate({ identifier: "BetaUser" });
   }
 }
-function __c162(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           workspace_id: S.String.pipe(T.Label()),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/workspaces/{workspace_id}", code: 200 }),
         ),
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c163(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12987,7 +14872,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetWorkspaceMemberRequest" });
   }
 }
-function __c164(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13007,17 +14892,17 @@ function __c164(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkspaceRateLimitsRequest" });
     case 1:
-      return S.Array(__S(5282, __c165, 2));
+      return S.Array(__S(6434, __c201, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5249, __c164, 1),
+          data: __S(6401, __c200, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaWorkspaceRateLimitListResponse" });
   }
 }
-function __c165(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13029,13 +14914,13 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "BetaWorkspaceRateLimitValue" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(6432, __c201, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           group: S.Unknown,
-          limits: __S(5281, __c165, 1),
-          models: S.NullOr(__S(4320, __c135, 0)),
+          limits: __S(6433, __c201, 1),
+          models: S.NullOr(__S(5504, __c172, 0)),
           rate_limit_id: S.String,
           type: S.String,
           workspace_id: S.String,
@@ -13043,52 +14928,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "BetaWorkspaceRateLimit" });
   }
 }
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspace_id: S.String.pipe(T.Label()),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/workspaces/{workspace_id}/archive",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ArchiveWorkspaceRequest" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowed_inference_geos: S.Unknown,
-          default_inference_geo: S.String,
-          workspace_geo: S.String,
-        }),
-      ).annotate({ identifier: "BetaDataResidency" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          archived_at: S.NullOr(S.String),
-          compartment_id: S.String,
-          created_at: S.String,
-          data_residency: __S(5344, __c167, 0),
-          display_color: S.String,
-          external_key_id: S.NullOr(S.String),
-          id: S.String,
-          name: S.String,
-          tags: __S(4384, __c137, 0),
-          type: S.String,
-          user_profile_id: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaWorkspace" });
-  }
-}
-function __c168(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13103,11 +14943,11 @@ function __c168(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/api_keys", code: 200 })),
       ).annotate({ identifier: "ListApiKeysRequest" });
     case 1:
-      return S.Array(__S(3809, __c119, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5377, __c168, 1),
+          data: __S(6465, __c202, 1),
           first_id: S.NullOr(S.String),
           has_more: S.Boolean,
           last_id: S.NullOr(S.String),
@@ -13115,7 +14955,72 @@ function __c168(j: number): any {
       ).annotate({ identifier: "BetaListResponseApiKey" });
   }
 }
-function __c169(j: number): any {
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workspace_id: S.String.pipe(T.Label()),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/workspaces/{workspace_id}/archive",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ArchiveWorkspaceRequest" });
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaHumanReview" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowed_inference_geos: S.Unknown,
+          default_inference_geo: S.String,
+          workspace_geo: S.String,
+        }),
+      ).annotate({ identifier: "BetaDataResidency" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          human_review: S.optional(__S(6528, __c204, 0)),
+          safeguards_storage: S.optional(S.Unknown),
+          transcripts_storage: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "BetaInferenceDataPrivacy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          archived_at: S.NullOr(S.String),
+          compartment_id: S.String,
+          created_at: S.String,
+          data_residency: __S(6560, __c205, 0),
+          display_color: S.String,
+          external_key_id: S.NullOr(S.String),
+          id: S.String,
+          inference_data_privacy: S.optional(__S(6561, __c205, 1)),
+          name: S.String,
+          tags: __S(5568, __c174, 0),
+          type: S.String,
+          user_profile_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaWorkspace" });
+  }
+}
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13127,17 +15032,17 @@ function __c169(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/claude_tag/bundles", code: 200 })),
       ).annotate({ identifier: "ListBundlesRequest" });
     case 1:
-      return S.Array(__S(3936, __c123, 0));
+      return S.Array(__S(4704, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5409, __c169, 1),
+          data: __S(6593, __c206, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaClaudeTagListBundlesResponse" });
   }
 }
-function __c170(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13160,19 +15065,57 @@ function __c170(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5441, __c170, 1),
+          data: __S(6625, __c207, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaClaudeTagListBundleTargetsResponse" });
   }
 }
-function __c171(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_ids__: S.optional(__S(4320, __c135, 0).pipe(T.Query("user_ids[]"))),
-          period__: S.optional(__S(1728, __c54, 0).pipe(T.Query("period[]"))),
+          page: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/claude_code/managed_settings/rbac_groups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClaudeCodeRbacGroupManagedSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          rbac_group_id: S.String,
+          rbac_group_status: S.Unknown,
+          type: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "BetaClaudeCodeRbacGroupManagedSettingsSummary" });
+    case 2:
+      return S.Array(__S(6657, __c208, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(6658, __c208, 2),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaClaudeCodeRbacGroupManagedSettingsList" });
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_ids[]"))),
+          period__: S.optional(__S(2528, __c79, 0).pipe(T.Query("period[]"))),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.String.pipe(T.Query())),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
@@ -13181,17 +15124,17 @@ function __c171(j: number): any {
         ),
       ).annotate({ identifier: "ListEffectiveSpendLimitsRequest" });
     case 1:
-      return S.Array(__S(3360, __c105, 0));
+      return S.Array(__S(4416, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5473, __c171, 1),
+          data: __S(6689, __c209, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListEffectiveSpendLimitsResponse" });
   }
 }
-function __c172(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13202,17 +15145,40 @@ function __c172(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/external_keys", code: 200 })),
       ).annotate({ identifier: "ListExternalKeysRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5505, __c172, 1),
+          data: __S(6721, __c210, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaExternalKeyListResponse" });
   }
 }
-function __c173(j: number): any {
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.String.pipe(T.Query())),
+          user_profile_ids__: S.optional(__S(5504, __c172, 0).pipe(T.Query("user_profile_ids[]"))),
+          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
+          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/external_storage", code: 200 })),
+      ).annotate({ identifier: "ListExternalStorageRequest" });
+    case 1:
+      return S.Array(__S(64, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(6753, __c211, 1),
+          next_page: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "BetaExternalStorageListResponse" });
+  }
+}
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13225,17 +15191,17 @@ function __c173(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/federation_issuers", code: 200 })),
       ).annotate({ identifier: "ListFederationIssuersRequest" });
     case 1:
-      return S.Array(__S(3873, __c121, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5537, __c173, 1),
+          data: __S(6785, __c212, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaFederationIssuerListResponse" });
   }
 }
-function __c174(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13249,17 +15215,17 @@ function __c174(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/federation_rules", code: 200 })),
       ).annotate({ identifier: "ListFederationRulesRequest" });
     case 1:
-      return S.Array(__S(4354, __c136, 2));
+      return S.Array(__S(5538, __c173, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5569, __c174, 1),
+          data: __S(6817, __c213, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaFederationRuleListResponse" });
   }
 }
-function __c175(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13278,17 +15244,17 @@ function __c175(j: number): any {
         ),
       ).annotate({ identifier: "ListFederationRuleWorkspacesRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5601, __c175, 1),
+          data: __S(6849, __c214, 1),
           next_page: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaFederationRuleWorkspaceListResponse" });
   }
 }
-function __c176(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13296,371 +15262,23 @@ function __c176(j: number): any {
           before_id: S.optional(S.String.pipe(T.Query())),
           after_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          statuses__: S.optional(__S(1728, __c54, 0).pipe(T.Query("statuses[]"))),
+          statuses__: S.optional(__S(2528, __c79, 0).pipe(T.Query("statuses[]"))),
           email: S.optional(S.String.pipe(T.Query())),
-          roles__: S.optional(__S(4320, __c135, 0).pipe(T.Query("roles[]"))),
+          roles__: S.optional(__S(5504, __c172, 0).pipe(T.Query("roles[]"))),
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/invites", code: 200 })),
       ).annotate({ identifier: "ListInvitesRequest" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5633, __c176, 1),
+          data: __S(6881, __c215, 1),
           first_id: S.NullOr(S.String),
           has_more: S.Boolean,
           last_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BetaListResponseInviteSchema" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          before_id: S.optional(S.String.pipe(T.Query())),
-          after_id: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/webhooks", code: 200 })),
-      ).annotate({ identifier: "ListOrganizationWebhookEndpointsRequest" });
-    case 1:
-      return S.Array(__S(4512, __c141, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5665, __c177, 1),
-          first_id: S.optional(S.NullOr(S.String)),
-          has_more: S.Boolean,
-          last_id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "BetaOrganizationWebhookEndpointList" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bundle_id: S.String.pipe(T.Label()),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/claude_tag/bundles/{bundle_id}/targets",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateBundleTargetRequest" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateBundleTargetResponse",
-      });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          plugin_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          target_type: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/plugins/{plugin_id}/installation_settings",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPluginInstallationSettingsRequest" });
-    case 1:
-      return S.Array(__S(5792, __c181, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5761, __c180, 1),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaPluginInstallationSettingList" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          installation_preference: S.String,
-          plugin_id: S.String,
-          target: S.Unknown,
-          type: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "BetaPluginInstallationSetting" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          owner_type: S.optional(S.String.pipe(T.Query())),
-          source: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/plugin_marketplaces", code: 200 })),
-      ).annotate({ identifier: "ListPluginMarketplacesRequest" });
-    case 1:
-      return S.Array(__S(4608, __c144, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5825, __c182, 1),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaPluginMarketplaceList" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          owner_type: S.optional(S.String.pipe(T.Query())),
-          owner_user_id: S.optional(S.String.pipe(T.Query())),
-          marketplace_id: S.optional(S.String.pipe(T.Query())),
-          created_at_gte_: S.optional(S.String.pipe(T.Query("created_at[gte]"))),
-          created_at_gt_: S.optional(S.String.pipe(T.Query("created_at[gt]"))),
-          created_at_lte_: S.optional(S.String.pipe(T.Query("created_at[lte]"))),
-          created_at_lt_: S.optional(S.String.pipe(T.Query("created_at[lt]"))),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/plugins", code: 200 })),
-      ).annotate({ identifier: "ListPluginsRequest" });
-    case 1:
-      return S.Array(__S(1984, __c62, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5857, __c183, 1),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaPluginList" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          plugin_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          target_type: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/organizations/plugins/{plugin_id}/shares", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListPluginSharesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          granted_at: S.String,
-          plugin_id: S.String,
-          target: S.Unknown,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaPluginShare" });
-    case 2:
-      return S.Array(__S(5889, __c184, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5890, __c184, 2),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaPluginShareList" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          plugin_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/plugins/{plugin_id}/versions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPluginVersionsRequest" });
-    case 1:
-      return S.Array(__S(2048, __c64, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5921, __c185, 1),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaPluginVersionList" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rbac_group_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/rbac_groups/{rbac_group_id}/members",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListRbacGroupMembersRequest" });
-    case 1:
-      return S.Array(__S(128, __c4, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5953, __c186, 1),
-          has_more: S.Boolean,
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaRbacGroupMemberList" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/rbac_groups", code: 200 })),
-      ).annotate({ identifier: "ListRbacGroupsRequest" });
-    case 1:
-      return S.Array(__S(2112, __c66, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(5985, __c187, 1),
-          has_more: S.Boolean,
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaRbacGroupList" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rbac_role_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/rbac_roles/{rbac_role_id}/permissions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListRbacRolePermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          resource: S.Unknown,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaRbacRolePermission" });
-    case 2:
-      return S.Array(__S(6017, __c188, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(6018, __c188, 2),
-          has_more: S.Boolean,
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaRbacRolePermissionList" });
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/rbac_roles", code: 200 })),
-      ).annotate({ identifier: "ListRbacRolesRequest" });
-    case 1:
-      return S.Array(__S(4768, __c149, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(6049, __c189, 1),
-          has_more: S.Boolean,
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaRbacRoleList" });
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.String.pipe(T.Query())),
-          include_archived: S.optional(S.Boolean.pipe(T.Query())),
-          anthropicBeta: S.optional(__S(32, __c1, 0).pipe(T.Header("anthropic-beta"))),
-          anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/service_accounts", code: 200 })),
-      ).annotate({ identifier: "ListServiceAccountsRequest" });
-    case 1:
-      return S.Array(__S(4864, __c152, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(6081, __c190, 1),
-          next_page: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "BetaServiceAccountListResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

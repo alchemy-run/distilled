@@ -1575,8 +1575,8 @@ export type GetMonitorResponseOperator =
   | "Above"
   | "AboveOrEqual"
   | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data - NewValues: Alerts when the trackedValue column of the query result holds a value not seen within lookbackDays. Each run queries the last rangeMinutes, which defaults to intervalMinutes and cannot be less. Sends one notification per new value. */
+export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection" | "NewValues";
 /** Dataset names referenced by the monitor query. */
 export type GetMonitorResponseDatasetsList = Array<string>;
 /** IDs of labels assigned to this monitor. */
@@ -1590,6 +1590,8 @@ export interface GetMonitorResponse {
   alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
   aplQuery?: string | undefined;
+  /** NewValues monitors only. Before the first evaluation, the values the query returns over this many days are recorded as seen, so they do not alert. Must not exceed lookbackDays. 0 disables the backfill. */
+  backfillDays?: number | undefined;
   /** Name of the column to monitor */
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
@@ -1604,6 +1606,8 @@ export interface GetMonitorResponse {
   includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
+  /** NewValues monitors only. A value counts as new when it was not seen in this many days. */
+  lookbackDays?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
   mplQuery?: string | undefined;
   /** Name of the monitor */
@@ -1628,11 +1632,13 @@ export interface GetMonitorResponse {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
+  /** NewValues monitors only, and required for them. The column of the query result whose values are checked for new ones. */
+  trackedValue?: string | undefined;
   /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
   /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
+  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data - NewValues: Alerts when the trackedValue column of the query result holds a value not seen within lookbackDays. Each run queries the last rangeMinutes, which defaults to intervalMinutes and cannot be less. Sends one notification per new value. */
   type: GetMonitorResponseType;
   /** Timestamp when the monitor was created */
   createdAt?: string | undefined;
@@ -3846,6 +3852,7 @@ function __c40(j: number): any {
         S.Struct({
           alertOnNoData: S.optional(S.Boolean),
           aplQuery: S.optional(S.String),
+          backfillDays: S.optional(S.Number),
           columnName: S.optional(S.String),
           compareDays: S.optional(S.Number),
           description: S.optional(S.String),
@@ -3853,6 +3860,7 @@ function __c40(j: number): any {
           disabledUntil: S.optional(S.NullOr(S.String)),
           includeChart: S.optional(S.Boolean),
           intervalMinutes: S.optional(S.Number),
+          lookbackDays: S.optional(S.Number),
           mplQuery: S.optional(S.String),
           name: S.String,
           notifierIds: S.optional(__S(456, __c57, 0)),
@@ -3865,6 +3873,7 @@ function __c40(j: number): any {
           skipResolved: S.optional(S.Boolean),
           threshold: S.optional(S.Number),
           tolerance: S.optional(S.Number),
+          trackedValue: S.optional(S.String),
           triggerAfterNPositiveResults: S.optional(S.Number),
           triggerFromNRuns: S.optional(S.Number),
           type: S.String,

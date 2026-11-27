@@ -139,9 +139,15 @@ export interface GetAccountInfoResponseContact {
   email: string;
   name?: string | undefined;
 }
+/** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+export type GetAccountInfoResponseContactsItem = GetAccountInfoResponseContact;
+/** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+export type GetAccountInfoResponseContactsList = Array<GetAccountInfoResponseContact>;
 export interface GetAccountInfoResponse {
   /** The best contact for the integration, which can change as team members and their roles change. */
   contact: GetAccountInfoResponseContact | null;
+  /** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+  contacts: GetAccountInfoResponseContactsList;
   /** The name of the team the installation is tied to. */
   name?: string | undefined;
   /** A URL linking to the installation in the Vercel Dashboard. */
@@ -1163,7 +1169,7 @@ export const deleteIntegrationResource: API.OperationMethod<
 }));
 
 export type FinalizeInstallationError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Finalize Installation This endpoint allows the partner to mark an installation as finalized. This means you will not send any more invoices for the installation. Use this after a customer has requested uninstall and you have sent any remaining invoices. This will allow the uninstall process to proceed immediately after all invoices have been paid. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Finalize Installation This endpoint allows the partner to mark an installation as finalized. This means you will not send any more invoices for the installation. Use this after a customer has requested uninstall and you have sent any remaining invoices. This will allow the uninstall process to proceed immediately after all invoices have been paid. */
 export const finalizeInstallation: API.OperationMethod<
   FinalizeInstallationRequest,
   FinalizeInstallationResponse,
@@ -1189,7 +1195,7 @@ export const getAccountInfo: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetAccountInfoRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<GetAccountInfoResponse>,
+  output: __S(515, __c32, 3) as any as S.Schema<GetAccountInfoResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -1426,7 +1432,7 @@ export const rotateInstallationCredential: API.OperationMethod<
 }));
 
 export type SubmitBillingDataError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Submit Billing Data Sends the billing and usage data. The partner should do this at least once a day and ideally once per hour. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Submit Billing Data Sends the billing and usage data. The partner should do this at least once a day and ideally once per hour. */
 export const submitBillingData: API.OperationMethod<
   SubmitBillingDataRequest,
   SubmitBillingDataResponse,
@@ -1444,7 +1450,7 @@ export const submitBillingData: API.OperationMethod<
 }));
 
 export type SubmitInvoiceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
-/** Submit Invoice This endpoint allows the partner to submit an invoice to Vercel. The invoice is created in Vercel's billing system and sent to the customer. Depending on the type of billing plan, the invoice can be sent at a time of signup, at the start of the billing period, or at the end of the billing period.<br/> <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. <br/> There are several limitations to the invoice submission:<br/> <br/> 1. A resource can only be billed once per the billing period and the billing plan.<br/> 2. The billing plan used to bill the resource must have been active for this resource during the billing period.<br/> 3. The billing plan used must be a subscription plan.<br/> 4. The interim usage data must be sent hourly for all types of subscriptions. See [Send subscription billing and usage data](#send-subscription-billing-and-usage-data) API on how to send interim billing and usage data.<br/> 5. If provided, `externalId` must be unique for the installation.<br/> */
+/** Submit Invoice This endpoint allows the partner to submit an invoice to Vercel. The invoice is created in Vercel's billing system and sent to the customer. Depending on the type of billing plan, the invoice can be sent at a time of signup, at the start of the billing period, or at the end of the billing period.<br/> <br/> There are several limitations to the invoice submission:<br/> <br/> 1. A resource can only be billed once per the billing period and the billing plan.<br/> 2. The billing plan used to bill the resource must have been active for this resource during the billing period.<br/> 3. The billing plan used must be a subscription plan.<br/> 4. The interim usage data must be sent hourly for all types of subscriptions. See [Send subscription billing and usage data](#send-subscription-billing-and-usage-data) API on how to send interim billing and usage data.<br/> 5. If provided, `externalId` must be unique for the installation.<br/> */
 export const submitInvoice: API.OperationMethod<
   SubmitInvoiceRequest,
   SubmitInvoiceResponse,
@@ -1462,7 +1468,7 @@ export const submitInvoice: API.OperationMethod<
 }));
 
 export type SubmitPrepaymentBalancesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Submit Prepayment Balances Sends the prepayment balances. The partner should do this at least once a day and ideally once per hour. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Submit Prepayment Balances Sends the prepayment balances. The partner should do this at least once a day and ideally once per hour. */
 export const submitPrepaymentBalances: API.OperationMethod<
   SubmitPrepaymentBalancesRequest,
   SubmitPrepaymentBalancesResponse,
@@ -2540,9 +2546,12 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountInfoResponseContact" });
     case 2:
+      return S.Array(__S(513, __c32, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           contact: S.NullOr(__S(513, __c32, 1)),
+          contacts: __S(514, __c32, 2),
           name: S.optional(S.String),
           url: S.String,
         }),

@@ -535,6 +535,8 @@ export interface CreateReplyForReviewCommentRequest {
   /** The text of the review comment. */
   body: string;
 }
+/** The Copilot code review severity of this comment, or null if unavailable. */
+export type PullRequestReviewCommentCopilotCodeReviewSeverity = "low" | "medium" | "high";
 /** The kind of contributing source. */
 export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
   | "SKILL"
@@ -543,7 +545,7 @@ export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
 export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
   /** The kind of contributing source. */
   kind: PullRequestReviewCommentCopilotCodeReviewSourcesItemKind;
-  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. Copilot Dreaming's reviewer agent and checks skill are reported as one SKILL source named "Copilot dreaming". */
   name: string;
   /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
   path?: string | undefined;
@@ -581,6 +583,11 @@ export interface ReactionRollup {
 export interface PullRequestReviewComment {
   /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
   is_copilot_code_review?: boolean | undefined;
+  /** The Copilot code review severity of this comment, or null if unavailable. */
+  copilot_code_review_severity?:
+    | PullRequestReviewCommentCopilotCodeReviewSeverity
+    | null
+    | undefined;
   /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
   copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList | undefined;
   /** URL for the pull request review comment */
@@ -1041,12 +1048,14 @@ export interface ListCommentsForReviewRequest {
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   page?: number | undefined;
 }
+/** The Copilot code review severity of this comment, or null if unavailable. */
+export type ReviewCommentCopilotCodeReviewSeverity = "low" | "medium" | "high";
 /** The kind of contributing source. */
 export type ReviewCommentCopilotCodeReviewSourcesItemKind = "SKILL" | "MCP" | "CUSTOM_INSTRUCTIONS";
 export interface ReviewCommentCopilotCodeReviewSourcesItem {
   /** The kind of contributing source. */
   kind: ReviewCommentCopilotCodeReviewSourcesItemKind;
-  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. Copilot Dreaming's reviewer agent and checks skill are reported as one SKILL source named "Copilot dreaming". */
   name: string;
   /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
   path?: string | undefined;
@@ -1065,6 +1074,8 @@ export type ReviewCommentSubjectType = "line" | "file";
 export interface ReviewComment {
   /** Whether this comment was produced by Copilot code review. */
   is_copilot_code_review?: boolean | undefined;
+  /** The Copilot code review severity of this comment, or null if unavailable. */
+  copilot_code_review_severity?: ReviewCommentCopilotCodeReviewSeverity | null | undefined;
   /** Sources reported as contributing to this comment; may be incomplete. */
   copilot_code_review_sources?: ReviewCommentCopilotCodeReviewSourcesList | undefined;
   url: string;
@@ -2613,6 +2624,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           is_copilot_code_review: S.optional(S.Boolean),
+          copilot_code_review_severity: S.optional(S.NullOr(S.String)),
           copilot_code_review_sources: S.optional(__S(737, __c46, 1)),
           url: S.String,
           pull_request_review_id: S.NullOr(S.Number),
@@ -3614,6 +3626,7 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           is_copilot_code_review: S.optional(S.Boolean),
+          copilot_code_review_severity: S.optional(S.NullOr(S.String)),
           copilot_code_review_sources: S.optional(__S(737, __c46, 1)),
           url: S.String,
           pull_request_review_id: S.NullOr(S.Number),

@@ -62,6 +62,12 @@ export interface OnboardingStep {
 }
 /** Only the steps that apply to this merchant, in order. */
 export type OnboardingSummaryStepsList = Array<OnboardingStep>;
+export type OnboardingQuestionsMode = "static" | "dynamic";
+export interface OnboardingQuestionsSummary {
+  mode: OnboardingQuestionsMode;
+  /** Set once a dynamic merchant's questions have been issued. */
+  initialOnboardingAssignmentId?: string | undefined;
+}
 export interface OnboardingSummary {
   merchantId: string;
   status: OnboardingStatus;
@@ -72,6 +78,7 @@ export interface OnboardingSummary {
   openRfiCount: number;
   /** Only the steps that apply to this merchant, in order. */
   steps: OnboardingSummaryStepsList;
+  questions: OnboardingQuestionsSummary;
 }
 export type GetOnboardingError = CoinflowOpError;
 /** Get Onboarding The sub-merchant's overall onboarding status and the steps that apply to it. Call with your API key and the `x-coinflow-submerchant-id` header. New step keys, step statuses and onboarding statuses may be added at any time: ignore steps you don't recognize and treat unknown statuses as still in progress. */
@@ -82,7 +89,7 @@ export const getOnboarding: API.OperationMethod<
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetOnboardingRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<OnboardingSummary>,
+  output: __S(5, __c0, 5) as any as S.Schema<OnboardingSummary>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -117,12 +124,20 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          mode: S.String,
+          initialOnboardingAssignmentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OnboardingQuestionsSummary" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           merchantId: S.String,
           status: S.String,
           requirementsStatus: S.String,
           requirementsRevision: S.Number,
           openRfiCount: S.Number,
           steps: __S(3, __c0, 3),
+          questions: __S(4, __c0, 4),
         }),
       ).annotate({ identifier: "OnboardingSummary" });
   }

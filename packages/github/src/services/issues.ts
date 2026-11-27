@@ -56,6 +56,15 @@ export interface AddAssigneesRequest {
   /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
   assignees?: AddAssigneesRequestAssigneesList | undefined;
 }
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export interface IssueStatus {
+  /** The stable identifier of the planning status. */
+  id: number;
+  /** The display name of the planning status, which may change in the future. */
+  name: string;
+  /** A stable identifier for the category, such as `backlog`, `planned`, `started`, `completed`, `not_planned` or `duplicate`. Clients should expect new keys to be added. */
+  category: string;
+}
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 /** A GitHub user. */
@@ -491,6 +500,8 @@ export interface Issue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
@@ -762,7 +773,7 @@ export interface CreateRequestIssueFieldValuesItem {
   /** The value to set for the field. For multi-select fields, provide an array of option names. */
   value: CreateRequestIssueFieldValuesItemValue;
 }
-/** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields are only available for organization-owned repositories with the feature enabled. Field values are silently dropped otherwise. */
+/** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields must be enabled for the repository owner. Field values are silently dropped otherwise. */
 export type CreateRequestIssueFieldValuesList = Array<CreateRequestIssueFieldValuesItem>;
 export interface CreateRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -773,6 +784,8 @@ export interface CreateRequest {
   title: CreateRequestTitle;
   /** The contents of the issue. */
   body?: string | undefined;
+  /** The initial status of the issue. Can be `Backlog`, `Todo`, `In progress`, or `In review`. If omitted, the issue starts in `Backlog`. If you do not have permission to set the status, the supplied value is ignored and the issue starts in `Backlog`. Cannot be `null` or an empty string. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: string | undefined;
   /** Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_ */
   assignee?: string | null | undefined;
   milestone?: CreateRequestMilestone | null | undefined;
@@ -780,7 +793,7 @@ export interface CreateRequest {
   labels?: CreateRequestLabelsList | undefined;
   /** Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
   assignees?: CreateRequestAssigneesList | undefined;
-  /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields are only available for organization-owned repositories with the feature enabled. Field values are silently dropped otherwise. */
+  /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields must be enabled for the repository owner. Field values are silently dropped otherwise. */
   issue_field_values?: CreateRequestIssueFieldValuesList | undefined;
   /** The name of the issue type to associate with this issue. _NOTE: Only users with push access can set the type for new issues. The type is silently dropped otherwise._ */
   type?: string | null | undefined;
@@ -1002,6 +1015,8 @@ export interface GetEventRequest {
   repo: string;
   event_id: number;
 }
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type NullableIssueStatus = IssueStatus;
 /** The reason for the current state */
 export type NullableIssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 export type NullableIssueLabelsItemCase1 = IssueLabelsItemCase1;
@@ -1026,6 +1041,8 @@ export interface NullableIssue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: NullableIssueStateReason | null | undefined;
   /** Title of the issue */
@@ -1998,6 +2015,8 @@ export interface TimelineReviewedEvent {
   body_text?: string | undefined;
   author_association: AuthorAssociation;
 }
+/** The Copilot code review severity of this comment, or null if unavailable. */
+export type PullRequestReviewCommentCopilotCodeReviewSeverity = "low" | "medium" | "high";
 /** The kind of contributing source. */
 export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
   | "SKILL"
@@ -2006,7 +2025,7 @@ export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
 export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
   /** The kind of contributing source. */
   kind: PullRequestReviewCommentCopilotCodeReviewSourcesItemKind;
-  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. Copilot Dreaming's reviewer agent and checks skill are reported as one SKILL source named "Copilot dreaming". */
   name: string;
   /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
   path?: string | undefined;
@@ -2032,6 +2051,11 @@ export type PullRequestReviewCommentSubjectType = "line" | "file";
 export interface PullRequestReviewComment {
   /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
   is_copilot_code_review?: boolean | undefined;
+  /** The Copilot code review severity of this comment, or null if unavailable. */
+  copilot_code_review_severity?:
+    | PullRequestReviewCommentCopilotCodeReviewSeverity
+    | null
+    | undefined;
   /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
   copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList | undefined;
   /** URL for the pull request review comment */
@@ -2295,7 +2319,7 @@ export interface ListForRepoRequest {
   creator?: string | undefined;
   /** A user that's mentioned in the issue. */
   mentioned?: string | undefined;
-  /** A comma-separated list of issue field filters in `field_slug:value` format. Only issues matching all specified field values are returned. Requires issue fields to be enabled for the repository. Issue fields are not available for user-owned repositories, and field availability for organization-owned public repositories depends on the organization's visibility settings. For example, `priority:Urgent,severity:High` filters issues where the `priority` field is `Urgent` AND the `severity` field is `High`. */
+  /** A comma-separated list of issue field filters in `field_slug:value` format. Only issues matching all specified field values are returned. Requires issue fields to be enabled for the repository. Supports both user-owned and organization-owned repositories. Field availability depends on the owner's issue field visibility settings and the caller's access. For example, `priority:Urgent,severity:High` filters issues where the `priority` field is `Urgent` AND the `severity` field is `High`. */
   issue_field_values?: string | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
   labels?: string | undefined;
@@ -2726,6 +2750,8 @@ export interface UpdateRequest {
   assignee?: string | null | undefined;
   /** The open or closed state of the issue. */
   state?: UpdateRequestState | (string & {}) | undefined;
+  /** The status to give the issue. Can be `Backlog`, `Todo`, `In progress`, `In review`, `Done`, `Not planned`, or `Duplicate`. If omitted, the current status is preserved unless `state` or `state_reason` changes. Setting a status also updates `state` and `state_reason` as needed. If provided, `state` and `state_reason` must be consistent with the requested status. Changing the status to `Duplicate` requires `duplicate_issue_id`. Cannot be `null` or an empty string. The status and other applied field changes are saved together. If the status cannot be saved, those field changes are rolled back. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: string | undefined;
   /** The reason for the state change. Ignored unless `state` is changed. */
   state_reason?: UpdateRequestStateReason | (string & {}) | null | undefined;
   /** The ID of the issue that this issue duplicates, used when marking this issue as a duplicate with `status: Duplicate` or `state_reason: duplicate`. The issue must exist and be accessible to the authenticated user. */
@@ -2740,6 +2766,8 @@ export interface UpdateRequest {
   /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
   type?: UpdateRequestType | null | undefined;
 }
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type UpdateResponseStatus = IssueStatus;
 /** The reason for the current state */
 export type UpdateResponseStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 export type UpdateResponseLabelsItemCase1 = IssueLabelsItemCase1;
@@ -2845,6 +2873,8 @@ export interface UpdateResponse {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: UpdateResponseStateReason | null | undefined;
   /** Title of the issue */
@@ -2977,7 +3007,7 @@ export const addBlockedByDependency: API.OperationMethod<
 }));
 
 export type AddIssueFieldValuesError = GithubOpError;
-/** Add issue field values to an issue Add custom field values to an issue. You can set values for organization-level issue fields that have been defined for the repository's organization. Adding an empty array will clear all existing field values for the issue. This endpoint supports the following field data types: - **`text`**: String values for text fields - **`single_select`**: Option names for single-select fields (must match an existing option name) - **`number`**: Numeric values for number fields - **`date`**: ISO 8601 date strings for date fields Only users with push access to the repository can add issue field values. If you don't have the proper permissions, you'll receive a `403 Forbidden` response. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
+/** Add issue field values to an issue Add custom field values to an issue. You can set values for issue fields that have been defined for the repository's owner. Adding an empty array will clear all existing field values for the issue. This endpoint supports the following field data types: - **`text`**: String values for text fields - **`single_select`**: Option names for single-select fields (must match an existing option name) - **`number`**: Numeric values for number fields - **`date`**: ISO 8601 date strings for date fields Only users with push access to the repository can add issue field values. If you don't have the proper permissions, you'll receive a `403 Forbidden` response. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
 export const addIssueFieldValues: API.OperationMethod<
   AddIssueFieldValuesRequest,
   AddIssueFieldValuesResponse,
@@ -3347,7 +3377,7 @@ export const getEvent: API.OperationMethod<
 }));
 
 export type GetIssueArtifactError = GithubOpError;
-/** Get an issue artifact Returns an artifact attached to an issue by its per-issue artifact number, along with its version history ordered from newest to oldest. */
+/** Get an issue artifact Returns an artifact attached to an issue by its per-issue artifact number, along with its version history ordered from newest to oldest. This endpoint can be used without authentication for public repositories. Unauthenticated requests are subject to the standard unauthenticated rate limit. */
 export const getIssueArtifact: API.OperationMethod<
   GetIssueArtifactRequest,
   GetIssueArtifactResponse,
@@ -3691,7 +3721,7 @@ export const listForRepo: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListIssueArtifactsError = GithubOpError;
-/** List issue artifacts Lists artifacts attached to an issue. Results are ordered by artifact number. The `type` parameter filters the response to artifacts of one type. Results can be requested by page. The page defaults to `1`; the page size defaults to `30` and can be set from `1` to `100`. The response is a bare array and does not include pagination metadata such as a `Link` header, a total count, or the service's `has_next_page` signal. */
+/** List issue artifacts Lists artifacts attached to an issue. Results are ordered by artifact number. This endpoint can be used without authentication for public repositories. Unauthenticated requests are subject to the standard unauthenticated rate limit. The `type` parameter filters the response to artifacts of one type. Results can be requested by page. The page defaults to `1`; the page size defaults to `30` and can be set from `1` to `100`. The response is a bare array and does not include pagination metadata such as a `Link` header, a total count, or the service's `has_next_page` signal. */
 export const listIssueArtifacts: API.PaginatedOperationMethod<
   ListIssueArtifactsRequest,
   ListIssueArtifactsResponse,
@@ -4056,7 +4086,7 @@ export const reprioritizeSubIssue: API.OperationMethod<
 }));
 
 export type SetIssueFieldValuesError = GithubOpError;
-/** Set issue field values for an issue Set custom field values for an issue, replacing any existing values. You can set values for organization-level issue fields that have been defined for the repository's organization. This endpoint supports the following field data types: - **`text`**: String values for text fields - **`single_select`**: Option names for single-select fields (must match an existing option name) - **`number`**: Numeric values for number fields - **`date`**: ISO 8601 date strings for date fields This operation will replace all existing field values with the provided ones. If you want to add field values without replacing existing ones, use the `POST` endpoint instead. Only users with push access to the repository can set issue field values. If you don't have the proper permissions, you'll receive a `403 Forbidden` response. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
+/** Set issue field values for an issue Set custom field values for an issue, replacing any existing values. You can set values for issue fields that have been defined for the repository's owner. This endpoint supports the following field data types: - **`text`**: String values for text fields - **`single_select`**: Option names for single-select fields (must match an existing option name) - **`number`**: Numeric values for number fields - **`date`**: ISO 8601 date strings for date fields This operation will replace all existing field values with the provided ones. If you want to add field values without replacing existing ones, use the `POST` endpoint instead. Only users with push access to the repository can set issue field values. If you don't have the proper permissions, you'll receive a `403 Forbidden` response. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." */
 export const setIssueFieldValues: API.OperationMethod<
   SetIssueFieldValuesRequest,
   SetIssueFieldValuesResponse,
@@ -4421,6 +4451,14 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.Number,
+          name: S.String,
+          category: S.String,
+        }),
+      ).annotate({ identifier: "IssueStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           merged_at: S.optional(S.NullOr(S.String)),
           diff_url: S.NullOr(S.String),
           html_url: S.NullOr(S.String),
@@ -4428,7 +4466,7 @@ function __c6(j: number): any {
           url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "IssuePullRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
@@ -4441,7 +4479,7 @@ function __c6(j: number): any {
           is_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IssueType" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -4452,7 +4490,7 @@ function __c6(j: number): any {
           html_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "NullableLicenseSimple" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           admin: S.Boolean,
@@ -4462,23 +4500,23 @@ function __c6(j: number): any {
           maintain: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RepositoryPermissions" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           lexical_search_ok: S.optional(S.Boolean),
           lexical_commit_sha: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepositoryCodeSearchIndexStatus" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           node_id: S.String,
           name: S.String,
           full_name: S.String,
-          license: S.NullOr(__S(194, __c6, 2)),
+          license: S.NullOr(__S(195, __c6, 3)),
           forks: S.Number,
-          permissions: S.optional(__S(195, __c6, 3)),
+          permissions: S.optional(__S(196, __c6, 4)),
           owner: __S(64, __c2, 0),
           private: S.Boolean,
           html_url: S.String,
@@ -4569,10 +4607,10 @@ function __c6(j: number): any {
           master_branch: S.optional(S.String),
           starred_at: S.optional(S.String),
           anonymous_access_enabled: S.optional(S.Boolean),
-          code_search_index_status: S.optional(__S(196, __c6, 4)),
+          code_search_index_status: S.optional(__S(197, __c6, 5)),
         }),
       ).annotate({ identifier: "Repository" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -4580,7 +4618,7 @@ function __c6(j: number): any {
           percent_completed: S.Number,
         }),
       ).annotate({ identifier: "SubIssuesSummary" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           blocked_by: S.Number,
@@ -4608,6 +4646,7 @@ function __c7(j: number): any {
           html_url: S.String,
           number: S.Number,
           state: S.String,
+          status: S.optional(S.NullOr(__S(192, __c6, 0))),
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
@@ -4619,7 +4658,7 @@ function __c7(j: number): any {
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(192, __c6, 0)),
+          pull_request: S.optional(__S(193, __c6, 1)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -4628,15 +4667,15 @@ function __c7(j: number): any {
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(193, __c6, 1))),
-          repository: S.optional(__S(197, __c6, 5)),
+          type: S.optional(S.NullOr(__S(194, __c6, 2))),
+          repository: S.optional(__S(198, __c6, 6)),
           performed_via_github_app: S.optional(S.NullOr(__S(98, __c3, 2))),
           author_association: S.optional(S.String),
           reactions: S.optional(__S(99, __c3, 3)),
-          sub_issues_summary: S.optional(__S(198, __c6, 6)),
+          sub_issues_summary: S.optional(__S(199, __c6, 7)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
           pinned_comment: S.optional(S.NullOr(__S(102, __c3, 6))),
-          issue_dependencies_summary: S.optional(__S(199, __c6, 7)),
+          issue_dependencies_summary: S.optional(__S(200, __c6, 8)),
           issue_field_values: S.optional(__S(35, __c1, 3)),
         }),
       ).annotate({ identifier: "Issue" });
@@ -4968,6 +5007,7 @@ function __c25(j: number): any {
           html_url: S.String,
           number: S.Number,
           state: S.String,
+          status: S.optional(S.NullOr(__S(192, __c6, 0))),
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
@@ -4979,7 +5019,7 @@ function __c25(j: number): any {
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(192, __c6, 0)),
+          pull_request: S.optional(__S(193, __c6, 1)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -4988,15 +5028,15 @@ function __c25(j: number): any {
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(193, __c6, 1))),
-          repository: S.optional(__S(197, __c6, 5)),
+          type: S.optional(S.NullOr(__S(194, __c6, 2))),
+          repository: S.optional(__S(198, __c6, 6)),
           performed_via_github_app: S.optional(S.NullOr(__S(98, __c3, 2))),
           author_association: S.optional(S.String),
           reactions: S.optional(__S(99, __c3, 3)),
-          sub_issues_summary: S.optional(__S(198, __c6, 6)),
+          sub_issues_summary: S.optional(__S(199, __c6, 7)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
           pinned_comment: S.optional(S.NullOr(__S(102, __c3, 6))),
-          issue_dependencies_summary: S.optional(__S(199, __c6, 7)),
+          issue_dependencies_summary: S.optional(__S(200, __c6, 8)),
           issue_field_values: S.optional(__S(35, __c1, 3)),
         }),
       ).annotate({ identifier: "NullableIssue" });
@@ -6155,6 +6195,7 @@ function __c73(j: number): any {
           body: S.optional(S.NullOr(S.String)),
           assignee: S.optional(S.NullOr(S.String)),
           state: S.optional(S.String),
+          status: S.optional(S.String),
           state_reason: S.optional(S.NullOr(S.String)),
           duplicate_issue_id: S.optional(S.Number),
           milestone: S.optional(S.NullOr(S.Unknown)),
@@ -6263,6 +6304,7 @@ function __c73(j: number): any {
           html_url: S.String,
           number: S.Number,
           state: S.String,
+          status: S.optional(S.NullOr(__S(192, __c6, 0))),
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
@@ -6274,7 +6316,7 @@ function __c73(j: number): any {
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(192, __c6, 0)),
+          pull_request: S.optional(__S(193, __c6, 1)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -6283,15 +6325,15 @@ function __c73(j: number): any {
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(193, __c6, 1))),
-          repository: S.optional(__S(197, __c6, 5)),
+          type: S.optional(S.NullOr(__S(194, __c6, 2))),
+          repository: S.optional(__S(198, __c6, 6)),
           performed_via_github_app: S.optional(S.NullOr(__S(98, __c3, 2))),
           author_association: S.optional(S.String),
           reactions: S.optional(__S(99, __c3, 3)),
-          sub_issues_summary: S.optional(__S(198, __c6, 6)),
+          sub_issues_summary: S.optional(__S(199, __c6, 7)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
           pinned_comment: S.optional(S.NullOr(__S(102, __c3, 6))),
-          issue_dependencies_summary: S.optional(__S(199, __c6, 7)),
+          issue_dependencies_summary: S.optional(__S(200, __c6, 8)),
           issue_field_values: S.optional(__S(35, __c1, 3)),
           suggestions: S.optional(__S(2352, __c73, 16)),
         }),
@@ -6437,6 +6479,7 @@ function __c81(j: number): any {
           repo: S.String.pipe(T.Label()),
           title: S.Unknown,
           body: S.optional(S.String),
+          status: S.optional(S.String),
           assignee: S.optional(S.NullOr(S.String)),
           milestone: S.optional(S.NullOr(S.Unknown)),
           labels: S.optional(__S(2592, __c81, 0)),

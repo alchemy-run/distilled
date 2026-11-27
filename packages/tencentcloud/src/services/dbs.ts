@@ -136,6 +136,14 @@ export interface CreateConnectTestJobResponse {
   ConnTaskId?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface DeleteBackupPlanRequest {
+  BackupPlanId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DeleteBackupPlanResponse {
+  RequestId?: string | undefined;
+}
 export interface DescribeBackupCheckJobRequest {
   BackupPlanId: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -146,6 +154,125 @@ export interface DescribeBackupCheckJobResponse {
   Progress?: number | undefined;
   CheckFlag?: number | undefined;
   ErrMessage?: string | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeBackupPlanDetailRequest {
+  BackupPlanId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface Endpoint {
+  Role?: string | undefined;
+  DatabaseType?: string | undefined;
+  AccessType?: string | undefined;
+  Ip?: string | undefined;
+  Port?: number | undefined;
+  UserName?: string | undefined;
+  Password?: string | Redacted.Redacted<string> | undefined;
+  InstanceId?: string | undefined;
+  CvmInstanceId?: string | undefined;
+  UniqDcgId?: string | undefined;
+  UniqVpnGwId?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetId?: string | undefined;
+  CcnId?: string | undefined;
+  Region?: string | undefined;
+  Supplier?: string | undefined;
+  EngineVersion?: string | undefined;
+  DBKernel?: string | undefined;
+}
+export type EndpointList = Array<Endpoint>;
+export interface StorageTieredStrategy {
+  DayToLowFrequency?: number | null | undefined;
+  DayToArchive?: number | null | undefined;
+  DayToDeepArchive?: number | null | undefined;
+}
+export interface StorageStrategySingle {
+  RetentionType?: string | null | undefined;
+  RetentionPeriod?: number | null | undefined;
+  TieredStrategy?: StorageTieredStrategy | null | undefined;
+}
+export interface StorageStrategyItem {
+  StorageType?: string | null | undefined;
+  Encryption?: string | null | undefined;
+  BackupRetentionPeriod?: number | null | undefined;
+  FullStorageStrategy?: StorageStrategySingle | null | undefined;
+  IncStorageStrategy?: StorageStrategySingle | null | undefined;
+}
+export interface BackupPeriodItem {
+  PeriodType?: string | null | undefined;
+  Day?: StringList | null | undefined;
+}
+export interface BackupStrategyItem {
+  BackupStartTime?: string | null | undefined;
+  StorageStrategy?: StorageStrategyItem | null | undefined;
+  BackupPeriod?: BackupPeriodItem | null | undefined;
+  BackupMethod?: string | null | undefined;
+  StrategyType?: string | undefined;
+  EnableIncrement?: boolean | null | undefined;
+}
+export interface BackupProgress {
+  FullBackupStatus?: string | undefined;
+  IncrementBackupStatus?: string | undefined;
+  LastBackupTime?: string | undefined;
+  NextBackupTime?: string | undefined;
+  LastRestoreTime?: string | undefined;
+  LastRestoreStatus?: string | undefined;
+  CurrentBackupJobStatus?: string | undefined;
+}
+export interface ErrorInfo {
+  ErrorType?: string | undefined;
+  ErrorMsg?: string | undefined;
+}
+export interface TagInfo {
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+}
+export type TagInfoList = Array<TagInfo>;
+export interface BackupPlanPayInfo {
+  InstanceClass?: string | undefined;
+  PayType?: string | undefined;
+  FreeSpace?: number | undefined;
+  TotalChargeSpace?: number | undefined;
+  FullChargeSpace?: number | undefined;
+  IncrementChargeSpace?: number | undefined;
+  FullBackupSetSize?: number | undefined;
+  IncrementBackupSetSize?: number | undefined;
+  CreateTime?: string | undefined;
+  TimeRange?: string | undefined;
+}
+export interface RestoreRange {
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+}
+export interface DescribeBackupPlanDetailResponse {
+  Region?: string | undefined;
+  BackupPlanId?: string | undefined;
+  BackupPlanName?: string | undefined;
+  Status?: string | undefined;
+  SourceEndPoint?: EndpointList | null | undefined;
+  BackupObject?: BackupObject | undefined;
+  BackupStrategy?: BackupStrategyItem | null | undefined;
+  Progress?: BackupProgress | undefined;
+  ErrorInfo?: ErrorInfo | undefined;
+  CreateTime?: string | undefined;
+  ExpireTime?: string | undefined;
+  OfflineTime?: string | undefined;
+  AutoRenewFlag?: number | undefined;
+  SourceInfo?: StringList | undefined;
+  SetSourceInfo?: StringList | undefined;
+  Tags?: TagInfoList | null | undefined;
+  LastBackupJobTime?: string | undefined;
+  LastFullBackupJobStatus?: string | undefined;
+  LastIncBackupJobStatus?: string | undefined;
+  NextBackupJobTime?: string | undefined;
+  LastRestoreJobTime?: string | undefined;
+  LastRestoreJobStatus?: string | undefined;
+  PayInfo?: BackupPlanPayInfo | undefined;
+  UpperParallel?: number | undefined;
+  UpperBandwidth?: number | undefined;
+  AllowedActions?: StringList | null | undefined;
+  RestoreRange?: RestoreRange | undefined;
   RequestId?: string | undefined;
 }
 export interface TagFilter {
@@ -216,6 +343,138 @@ export interface DescribeConnectTestResultResponse {
   Items?: ConnectTestResultList | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribeFullBackupSetDetailRequest {
+  BackupSetId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ResourceDetail {
+  TieredType?: string | undefined;
+  StayTime?: number | undefined;
+}
+export interface FullBackupProgress {
+  SchemaProgress?: number | undefined;
+  DataProgress?: number | undefined;
+}
+export interface FullBackupErrorMessage {
+  Title?: string | undefined;
+  Message?: string | undefined;
+}
+export interface BackupSetOption {
+  Encryption?: string | undefined;
+}
+export interface FullBackupSetDetail {
+  BackupSetId?: string | undefined;
+  SourceInfo?: string | undefined;
+  Status?: string | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  ExpireTime?: string | undefined;
+  BackupSize?: number | undefined;
+  BackupMethod?: string | undefined;
+  StorageType?: string | undefined;
+  BackupPool?: string | undefined;
+  RetentionType?: string | undefined;
+  ResourceDetail?: ResourceDetail | undefined;
+  SourceEndpoint?: Endpoint | undefined;
+  BackupObject?: BackupObject | undefined;
+  Progress?: FullBackupProgress | undefined;
+  ErrorMessage?: FullBackupErrorMessage | undefined;
+  BackupSetOption?: BackupSetOption | undefined;
+}
+export interface DescribeFullBackupSetDetailResponse {
+  BackupSet?: FullBackupSetDetail | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeIncrementBackupSetFilesRequest {
+  BackupSetId: string;
+  Offset?: number | undefined;
+  Limit?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface BackupFile {
+  FileName?: string | undefined;
+  BackupSetId?: string | undefined;
+  Status?: string | undefined;
+  SourceInfo?: string | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  ExpireTime?: string | undefined;
+  BackupSize?: number | undefined;
+  BackupMethod?: string | undefined;
+  StorageType?: string | undefined;
+  RetentionType?: string | undefined;
+  ResourceDetail?: ResourceDetail | undefined;
+  BackupPool?: string | undefined;
+  AllowedActions?: StringList | undefined;
+  AllActions?: StringList | undefined;
+  LastModified?: string | undefined;
+}
+export type BackupFileList = Array<BackupFile>;
+export interface DescribeIncrementBackupSetFilesResponse {
+  TotalCount?: number | undefined;
+  BackupFiles?: BackupFileList | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeIncrementBackupSetsRequest {
+  BackupPlanId: string;
+  BackupSetId?: string | undefined;
+  Limit?: number | undefined;
+  Offset?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export type ResourceItemDetail = ResourceDetail;
+export interface IncrementBackup {
+  BackupSetId?: string | undefined;
+  SourceInfo?: string | undefined;
+  Status?: string | undefined;
+  StartTime?: string | undefined;
+  EndTime?: string | undefined;
+  ExpireTime?: string | undefined;
+  FileCount?: number | undefined;
+  BackupMethod?: string | undefined;
+  StorageType?: string | undefined;
+  BackupPool?: string | undefined;
+  RetentionType?: string | undefined;
+  ResourceDetail?: ResourceDetail | undefined;
+}
+export type IncrementBackupList = Array<IncrementBackup>;
+export interface DescribeIncrementBackupSetsResponse {
+  TotalCount?: number | undefined;
+  Items?: IncrementBackupList | undefined;
+  RequestId?: string | undefined;
+}
+export interface DestroyBackupPlanByUserRequest {
+  BackupPlanId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DestroyBackupPlanByUserResponse {
+  RequestId?: string | undefined;
+}
+export interface ModifyBackupPlanSourceInfoRequest {
+  BackupPlanId: string;
+  SourceEndPoint: BackupEndpoint;
+  BackupPlanName?: string | undefined;
+  BackupObject?: BackupObject | undefined;
+  BackupNow?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyBackupPlanSourceInfoResponse {
+  RequestId?: string | undefined;
+}
+export interface ResumeBackupPlanRequest {
+  BackupPlanId: string;
+  BackupNow?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ResumeBackupPlanResponse {
+  RequestId?: string | undefined;
+}
 export interface StartBackupCheckJobRequest {
   BackupPlanId: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -232,6 +491,14 @@ export interface StartBackupPlanRequest {
 export interface StartBackupPlanResponse {
   RequestId?: string | undefined;
 }
+export interface StopBackupPlanRequest {
+  BackupPlanId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface StopBackupPlanResponse {
+  RequestId?: string | undefined;
+}
 export type ConfigureBackupPlanError = TencentCloudOpError;
 export const configureBackupPlan: API.OperationMethod<
   ConfigureBackupPlanRequest,
@@ -239,7 +506,7 @@ export const configureBackupPlan: API.OperationMethod<
   ConfigureBackupPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c0, 10) as any as S.Schema<ConfigureBackupPlanRequest>,
+  input: __S(3, __c0, 3) as any as S.Schema<ConfigureBackupPlanRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ConfigureBackupPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -256,8 +523,8 @@ export const createBackupPlan: API.OperationMethod<
   CreateBackupPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateBackupPlanRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<CreateBackupPlanResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateBackupPlanRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateBackupPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -273,14 +540,31 @@ export const createConnectTestJob: API.OperationMethod<
   CreateConnectTestJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateConnectTestJobRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<CreateConnectTestJobResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateConnectTestJobRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<CreateConnectTestJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateConnectTestJob",
+}));
+
+export type DeleteBackupPlanError = TencentCloudOpError;
+export const deleteBackupPlan: API.OperationMethod<
+  DeleteBackupPlanRequest,
+  DeleteBackupPlanResponse,
+  DeleteBackupPlanError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteBackupPlanRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteBackupPlanResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPlan",
 }));
 
 export type DescribeBackupCheckJobError = TencentCloudOpError;
@@ -290,14 +574,31 @@ export const describeBackupCheckJob: API.OperationMethod<
   DescribeBackupCheckJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DescribeBackupCheckJobRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<DescribeBackupCheckJobResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeBackupCheckJobRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<DescribeBackupCheckJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeBackupCheckJob",
+}));
+
+export type DescribeBackupPlanDetailError = TencentCloudOpError;
+export const describeBackupPlanDetail: API.OperationMethod<
+  DescribeBackupPlanDetailRequest,
+  DescribeBackupPlanDetailResponse,
+  DescribeBackupPlanDetailError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<DescribeBackupPlanDetailRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<DescribeBackupPlanDetailResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeBackupPlanDetail",
 }));
 
 export type DescribeBackupPlansError = TencentCloudOpError;
@@ -307,8 +608,8 @@ export const describeBackupPlans: API.OperationMethod<
   DescribeBackupPlansError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(130, __c8, 2) as any as S.Schema<DescribeBackupPlansRequest>,
-  output: __S(133, __c8, 5) as any as S.Schema<DescribeBackupPlansResponse>,
+  input: __S(306, __c19, 2) as any as S.Schema<DescribeBackupPlansRequest>,
+  output: __S(309, __c19, 5) as any as S.Schema<DescribeBackupPlansResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -324,14 +625,116 @@ export const describeConnectTestResult: API.OperationMethod<
   DescribeConnectTestResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c9, 1) as any as S.Schema<DescribeConnectTestResultRequest>,
-  output: __S(150, __c9, 6) as any as S.Schema<DescribeConnectTestResultResponse>,
+  input: __S(321, __c20, 1) as any as S.Schema<DescribeConnectTestResultRequest>,
+  output: __S(326, __c20, 6) as any as S.Schema<DescribeConnectTestResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeConnectTestResult",
+}));
+
+export type DescribeFullBackupSetDetailError = TencentCloudOpError;
+export const describeFullBackupSetDetail: API.OperationMethod<
+  DescribeFullBackupSetDetailRequest,
+  DescribeFullBackupSetDetailResponse,
+  DescribeFullBackupSetDetailError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<DescribeFullBackupSetDetailRequest>,
+  output: __S(341, __c21, 5) as any as S.Schema<DescribeFullBackupSetDetailResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeFullBackupSetDetail",
+}));
+
+export type DescribeIncrementBackupSetFilesError = TencentCloudOpError;
+export const describeIncrementBackupSetFiles: API.OperationMethod<
+  DescribeIncrementBackupSetFilesRequest,
+  DescribeIncrementBackupSetFilesResponse,
+  DescribeIncrementBackupSetFilesError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<DescribeIncrementBackupSetFilesRequest>,
+  output: __S(371, __c23, 3) as any as S.Schema<DescribeIncrementBackupSetFilesResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeIncrementBackupSetFiles",
+}));
+
+export type DescribeIncrementBackupSetsError = TencentCloudOpError;
+export const describeIncrementBackupSets: API.OperationMethod<
+  DescribeIncrementBackupSetsRequest,
+  DescribeIncrementBackupSetsResponse,
+  DescribeIncrementBackupSetsError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<DescribeIncrementBackupSetsRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<DescribeIncrementBackupSetsResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeIncrementBackupSets",
+}));
+
+export type DestroyBackupPlanByUserError = TencentCloudOpError;
+export const destroyBackupPlanByUser: API.OperationMethod<
+  DestroyBackupPlanByUserRequest,
+  DestroyBackupPlanByUserResponse,
+  DestroyBackupPlanByUserError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<DestroyBackupPlanByUserRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DestroyBackupPlanByUserResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyBackupPlanByUser",
+}));
+
+export type ModifyBackupPlanSourceInfoError = TencentCloudOpError;
+export const modifyBackupPlanSourceInfo: API.OperationMethod<
+  ModifyBackupPlanSourceInfoRequest,
+  ModifyBackupPlanSourceInfoResponse,
+  ModifyBackupPlanSourceInfoError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<ModifyBackupPlanSourceInfoRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ModifyBackupPlanSourceInfoResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyBackupPlanSourceInfo",
+}));
+
+export type ResumeBackupPlanError = TencentCloudOpError;
+export const resumeBackupPlan: API.OperationMethod<
+  ResumeBackupPlanRequest,
+  ResumeBackupPlanResponse,
+  ResumeBackupPlanError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c10, 0) as any as S.Schema<ResumeBackupPlanRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ResumeBackupPlanResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeBackupPlan",
 }));
 
 export type StartBackupCheckJobError = TencentCloudOpError;
@@ -341,7 +744,7 @@ export const startBackupCheckJob: API.OperationMethod<
   StartBackupCheckJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<StartBackupCheckJobRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<StartBackupCheckJobRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StartBackupCheckJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -358,7 +761,7 @@ export const startBackupPlan: API.OperationMethod<
   StartBackupPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<StartBackupPlanRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<StartBackupPlanRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StartBackupPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -368,50 +771,27 @@ export const startBackupPlan: API.OperationMethod<
   span: "StartBackupPlan",
 }));
 
+export type StopBackupPlanError = TencentCloudOpError;
+export const stopBackupPlan: API.OperationMethod<
+  StopBackupPlanRequest,
+  StopBackupPlanResponse,
+  StopBackupPlanError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<StopBackupPlanRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<StopBackupPlanResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopBackupPlan",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ColumnName: S.optional(S.String),
-          NewColumnName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupColumnItem" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          TableName: S.optional(S.String),
-          NewTableName: S.optional(S.String),
-          Columns: S.optional(S.NullOr(__S(1, __c0, 1))),
-        }),
-      ).annotate({ identifier: "BackupTableItem" });
-    case 3:
-      return S.Array(__S(2, __c0, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          DBName: S.optional(S.String),
-          NewDBName: S.optional(S.String),
-          SchemaName: S.optional(S.String),
-          NewSchemaName: S.optional(S.String),
-          DbMode: S.optional(S.String),
-          TableMode: S.optional(S.String),
-          Tables: S.optional(S.NullOr(__S(3, __c0, 3))),
-        }),
-      ).annotate({ identifier: "BackupObjectItem" });
-    case 5:
-      return S.Array(__S(4, __c0, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          ObjectMode: S.String,
-          ObjectItems: S.optional(S.NullOr(__S(5, __c0, 5))),
-        }),
-      ).annotate({ identifier: "BackupObject" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           StorageType: S.optional(S.String),
@@ -419,33 +799,33 @@ function __c0(j: number): any {
           BackupRetentionPeriod: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StorageStrategy" });
-    case 8:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           PeriodType: S.String,
           Day: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "BackupPeriod" });
-    case 9:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           BackupStartTime: S.String,
-          StorageStrategy: __S(7, __c0, 7),
-          BackupPeriod: __S(8, __c0, 8),
+          StorageStrategy: __S(0, __c0, 0),
+          BackupPeriod: __S(1, __c0, 1),
           BackupMethod: S.optional(S.String),
           StrategyType: S.optional(S.String),
           EnableIncrement: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BackupStrategy" });
-    case 10:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           BackupPlanId: S.String,
           BackupPlanName: S.optional(S.String),
           UpperParallel: S.optional(S.Number),
           SourceEndPoint: S.optional(__S(32, __c2, 0)),
-          BackupObject: S.optional(__S(6, __c0, 6)),
-          BackupStrategy: S.optional(__S(9, __c0, 9)),
+          BackupObject: S.optional(__S(70, __c4, 6)),
+          BackupStrategy: S.optional(__S(2, __c0, 2)),
           PlainText: S.optional(S.String.pipe(T.SensitiveValue({}))),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "ConfigureBackupPlan" })),
@@ -499,6 +879,50 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ColumnName: S.optional(S.String),
+          NewColumnName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupColumnItem" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          NewTableName: S.optional(S.String),
+          Columns: S.optional(S.NullOr(__S(65, __c4, 1))),
+        }),
+      ).annotate({ identifier: "BackupTableItem" });
+    case 3:
+      return S.Array(__S(66, __c4, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          DBName: S.optional(S.String),
+          NewDBName: S.optional(S.String),
+          SchemaName: S.optional(S.String),
+          NewSchemaName: S.optional(S.String),
+          DbMode: S.optional(S.String),
+          TableMode: S.optional(S.String),
+          Tables: S.optional(S.NullOr(__S(67, __c4, 3))),
+        }),
+      ).annotate({ identifier: "BackupObjectItem" });
+    case 5:
+      return S.Array(__S(68, __c4, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ObjectMode: S.String,
+          ObjectItems: S.optional(S.NullOr(__S(69, __c4, 5))),
+        }),
+      ).annotate({ identifier: "BackupObject" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           DatabaseType: S.String,
           BackupMethod: S.optional(S.String),
           InstanceClass: S.optional(S.String),
@@ -506,7 +930,7 @@ function __c4(j: number): any {
           PayType: S.optional(S.String),
           Count: S.optional(S.Number),
           AutoRenew: S.optional(S.Number),
-          Tags: S.optional(__S(81, __c5, 1)),
+          Tags: S.optional(__S(97, __c6, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "CreateBackupPlan" })),
       ).annotate({ identifier: "CreateBackupPlanRequest" });
@@ -520,7 +944,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateBackupPlanResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -530,10 +954,132 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(96, __c6, 0));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          BackupSetId: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "dbs",
+            version: "2021-11-08",
+            action: "DescribeIncrementBackupSets",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeIncrementBackupSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BackupSetId: S.optional(S.String),
+          SourceInfo: S.optional(S.String),
+          Status: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          ExpireTime: S.optional(S.String),
+          FileCount: S.optional(S.Number),
+          BackupMethod: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          BackupPool: S.optional(S.String),
+          RetentionType: S.optional(S.String),
+          ResourceDetail: S.optional(__S(352, __c22, 0)),
+        }),
+      ).annotate({ identifier: "IncrementBackup" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          Items: S.optional(__S(114, __c7, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeIncrementBackupSetsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dbs", version: "2021-11-08", action: "DestroyBackupPlanByUser" }),
+        ),
+      ).annotate({ identifier: "DestroyBackupPlanByUserRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          SourceEndPoint: __S(32, __c2, 0),
+          BackupPlanName: S.optional(S.String),
+          BackupObject: S.optional(__S(70, __c4, 6)),
+          BackupNow: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dbs", version: "2021-11-08", action: "ModifyBackupPlanSourceInfo" }),
+        ),
+      ).annotate({ identifier: "ModifyBackupPlanSourceInfoRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          BackupNow: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "ResumeBackupPlan" })),
+      ).annotate({ identifier: "ResumeBackupPlanRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "StartBackupCheckJob" })),
+      ).annotate({ identifier: "StartBackupCheckJobRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "StartBackupPlan" })),
+      ).annotate({ identifier: "StartBackupPlanRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "StopBackupPlan" })),
+      ).annotate({ identifier: "StopBackupPlanRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -553,7 +1099,18 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateConnectTestJobResponse" });
   }
 }
-function __c7(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "DeleteBackupPlan" })),
+      ).annotate({ identifier: "DeleteBackupPlanRequest" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -576,7 +1133,176 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DescribeBackupCheckJobResponse" });
   }
 }
-function __c8(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupPlanId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dbs", version: "2021-11-08", action: "DescribeBackupPlanDetail" }),
+        ),
+      ).annotate({ identifier: "DescribeBackupPlanDetailRequest" });
+    case 1:
+      return S.Array(__S(288, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DayToLowFrequency: S.optional(S.NullOr(S.Number)),
+          DayToArchive: S.optional(S.NullOr(S.Number)),
+          DayToDeepArchive: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "StorageTieredStrategy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          RetentionType: S.optional(S.NullOr(S.String)),
+          RetentionPeriod: S.optional(S.NullOr(S.Number)),
+          TieredStrategy: S.optional(S.NullOr(__S(274, __c17, 2))),
+        }),
+      ).annotate({ identifier: "StorageStrategySingle" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          StorageType: S.optional(S.NullOr(S.String)),
+          Encryption: S.optional(S.NullOr(S.String)),
+          BackupRetentionPeriod: S.optional(S.NullOr(S.Number)),
+          FullStorageStrategy: S.optional(S.NullOr(__S(275, __c17, 3))),
+          IncStorageStrategy: S.optional(S.NullOr(__S(275, __c17, 3))),
+        }),
+      ).annotate({ identifier: "StorageStrategyItem" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          PeriodType: S.optional(S.NullOr(S.String)),
+          Day: S.optional(S.NullOr(__S(16, __c1, 0))),
+        }),
+      ).annotate({ identifier: "BackupPeriodItem" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          BackupStartTime: S.optional(S.NullOr(S.String)),
+          StorageStrategy: S.optional(S.NullOr(__S(276, __c17, 4))),
+          BackupPeriod: S.optional(S.NullOr(__S(277, __c17, 5))),
+          BackupMethod: S.optional(S.NullOr(S.String)),
+          StrategyType: S.optional(S.String),
+          EnableIncrement: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "BackupStrategyItem" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          FullBackupStatus: S.optional(S.String),
+          IncrementBackupStatus: S.optional(S.String),
+          LastBackupTime: S.optional(S.String),
+          NextBackupTime: S.optional(S.String),
+          LastRestoreTime: S.optional(S.String),
+          LastRestoreStatus: S.optional(S.String),
+          CurrentBackupJobStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupProgress" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ErrorType: S.optional(S.String),
+          ErrorMsg: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorInfo" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          TagKey: S.optional(S.String),
+          TagValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TagInfo" });
+    case 10:
+      return S.Array(__S(281, __c17, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceClass: S.optional(S.String),
+          PayType: S.optional(S.String),
+          FreeSpace: S.optional(S.Number),
+          TotalChargeSpace: S.optional(S.Number),
+          FullChargeSpace: S.optional(S.Number),
+          IncrementChargeSpace: S.optional(S.Number),
+          FullBackupSetSize: S.optional(S.Number),
+          IncrementBackupSetSize: S.optional(S.Number),
+          CreateTime: S.optional(S.String),
+          TimeRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupPlanPayInfo" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestoreRange" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          Region: S.optional(S.String),
+          BackupPlanId: S.optional(S.String),
+          BackupPlanName: S.optional(S.String),
+          Status: S.optional(S.String),
+          SourceEndPoint: S.optional(S.NullOr(__S(273, __c17, 1))),
+          BackupObject: S.optional(__S(70, __c4, 6)),
+          BackupStrategy: S.optional(S.NullOr(__S(278, __c17, 6))),
+          Progress: S.optional(__S(279, __c17, 7)),
+          ErrorInfo: S.optional(__S(280, __c17, 8)),
+          CreateTime: S.optional(S.String),
+          ExpireTime: S.optional(S.String),
+          OfflineTime: S.optional(S.String),
+          AutoRenewFlag: S.optional(S.Number),
+          SourceInfo: S.optional(__S(16, __c1, 0)),
+          SetSourceInfo: S.optional(__S(16, __c1, 0)),
+          Tags: S.optional(S.NullOr(__S(282, __c17, 10))),
+          LastBackupJobTime: S.optional(S.String),
+          LastFullBackupJobStatus: S.optional(S.String),
+          LastIncBackupJobStatus: S.optional(S.String),
+          NextBackupJobTime: S.optional(S.String),
+          LastRestoreJobTime: S.optional(S.String),
+          LastRestoreJobStatus: S.optional(S.String),
+          PayInfo: S.optional(__S(283, __c17, 11)),
+          UpperParallel: S.optional(S.Number),
+          UpperBandwidth: S.optional(S.Number),
+          AllowedActions: S.optional(S.NullOr(__S(16, __c1, 0))),
+          RestoreRange: S.optional(__S(284, __c17, 12)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeBackupPlanDetailResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Role: S.optional(S.String),
+          DatabaseType: S.optional(S.String),
+          AccessType: S.optional(S.String),
+          Ip: S.optional(S.String),
+          Port: S.optional(S.Number),
+          UserName: S.optional(S.String),
+          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          InstanceId: S.optional(S.String),
+          CvmInstanceId: S.optional(S.String),
+          UniqDcgId: S.optional(S.String),
+          UniqVpnGwId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          SubnetId: S.optional(S.String),
+          CcnId: S.optional(S.String),
+          Region: S.optional(S.String),
+          Supplier: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          DBKernel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -586,7 +1312,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "TagFilter" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -595,7 +1321,7 @@ function __c8(j: number): any {
           DatabaseType: S.optional(__S(16, __c1, 0)),
           AccessType: S.optional(__S(16, __c1, 0)),
           BackupPlanName: S.optional(S.String),
-          TagFilters: S.optional(__S(129, __c8, 1)),
+          TagFilters: S.optional(__S(305, __c19, 1)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -616,7 +1342,7 @@ function __c8(j: number): any {
           OfflineTime: S.optional(S.String),
           InstanceClass: S.optional(S.String),
           BackupMethod: S.optional(S.String),
-          Tags: S.optional(S.NullOr(__S(81, __c5, 1))),
+          Tags: S.optional(S.NullOr(__S(97, __c6, 1))),
           AutoRenewFlag: S.optional(S.Number),
           EnableIncrement: S.optional(S.Boolean),
           PayType: S.optional(S.String),
@@ -624,25 +1350,25 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "BackupPlanInfo" });
     case 4:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(307, __c19, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(132, __c8, 4)),
+          Items: S.optional(__S(308, __c19, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupPlansResponse" });
   }
 }
-function __c9(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskIds: S.optional(__S(144, __c9, 0)),
+          TaskIds: S.optional(__S(320, __c20, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dbs", version: "2021-11-08", action: "DescribeConnectTestResult" }),
@@ -657,7 +1383,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "TestItem" });
     case 3:
-      return S.Array(__S(146, __c9, 2));
+      return S.Array(__S(322, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -666,41 +1392,146 @@ function __c9(j: number): any {
           IsPass: S.optional(S.Number),
           Addr: S.optional(S.String),
           SNatIp: S.optional(S.NullOr(S.String)),
-          TestItems: S.optional(__S(147, __c9, 3)),
+          TestItems: S.optional(__S(323, __c20, 3)),
         }),
       ).annotate({ identifier: "ConnectTestResult" });
     case 5:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(324, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(149, __c9, 5)),
+          Items: S.optional(__S(325, __c20, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConnectTestResultResponse" });
   }
 }
-function __c10(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BackupPlanId: S.String,
+          BackupSetId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "StartBackupCheckJob" })),
-      ).annotate({ identifier: "StartBackupCheckJobRequest" });
+        }).pipe(
+          T.Action({
+            service: "dbs",
+            version: "2021-11-08",
+            action: "DescribeFullBackupSetDetail",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeFullBackupSetDetailRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SchemaProgress: S.optional(S.Number),
+          DataProgress: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FullBackupProgress" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Title: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FullBackupErrorMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Encryption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupSetOption" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          BackupSetId: S.optional(S.String),
+          SourceInfo: S.optional(S.String),
+          Status: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          ExpireTime: S.optional(S.String),
+          BackupSize: S.optional(S.Number),
+          BackupMethod: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          BackupPool: S.optional(S.String),
+          RetentionType: S.optional(S.String),
+          ResourceDetail: S.optional(__S(352, __c22, 0)),
+          SourceEndpoint: S.optional(__S(288, __c18, 0)),
+          BackupObject: S.optional(__S(70, __c4, 6)),
+          Progress: S.optional(__S(337, __c21, 1)),
+          ErrorMessage: S.optional(__S(338, __c21, 2)),
+          BackupSetOption: S.optional(__S(339, __c21, 3)),
+        }),
+      ).annotate({ identifier: "FullBackupSetDetail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          BackupSet: S.optional(__S(340, __c21, 4)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeFullBackupSetDetailResponse" });
   }
 }
-function __c11(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BackupPlanId: S.String,
+          TieredType: S.optional(S.String),
+          StayTime: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResourceDetail" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BackupSetId: S.String,
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dbs", version: "2021-11-08", action: "StartBackupPlan" })),
-      ).annotate({ identifier: "StartBackupPlanRequest" });
+        }).pipe(
+          T.Action({
+            service: "dbs",
+            version: "2021-11-08",
+            action: "DescribeIncrementBackupSetFiles",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeIncrementBackupSetFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileName: S.optional(S.String),
+          BackupSetId: S.optional(S.String),
+          Status: S.optional(S.String),
+          SourceInfo: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          ExpireTime: S.optional(S.String),
+          BackupSize: S.optional(S.Number),
+          BackupMethod: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          RetentionType: S.optional(S.String),
+          ResourceDetail: S.optional(__S(352, __c22, 0)),
+          BackupPool: S.optional(S.String),
+          AllowedActions: S.optional(__S(16, __c1, 0)),
+          AllActions: S.optional(__S(16, __c1, 0)),
+          LastModified: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupFile" });
+    case 2:
+      return S.Array(__S(369, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          BackupFiles: S.optional(__S(370, __c23, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeIncrementBackupSetFilesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

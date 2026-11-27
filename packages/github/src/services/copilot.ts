@@ -633,6 +633,8 @@ export interface RepositoryCopilotCodeReviewSettings {
   custom_instructions_enabled: boolean;
   /** Whether reviews can use MCP servers. */
   mcp_enabled: boolean;
+  /** Whether reviews can use public repository search. */
+  cross_repo_context_enabled: boolean;
 }
 export interface ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1076,6 +1078,8 @@ export interface UpdateRepositoryCodeReviewSettingsRequest {
   custom_instructions_enabled?: boolean | undefined;
   /** Whether reviews can use MCP servers. */
   mcp_enabled?: boolean | undefined;
+  /** Whether reviews can use public repository search. Can only be set when the public repository search setting is available for the repository. */
+  cross_repo_context_enabled?: boolean | undefined;
 }
 export type AddCopilotSeatsForTeamsError = GithubOpError;
 /** Add teams to the Copilot subscription for an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Purchases a GitHub Copilot seat for all users within each specified team. The organization will be billed for each seat based on the organization's Copilot plan. For more information about Copilot pricing, see "[About billing for GitHub Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/about-billing-for-github-copilot-in-your-organization)." Only organization owners can purchase Copilot seats for their organization members. The organization must have a Copilot Business or Copilot Enterprise subscription and a configured suggestion matching policy. For more information about setting up a Copilot subscription, see "[Subscribing to Copilot for your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-subscription-for-your-organization/subscribing-to-copilot-for-your-organization)." For more information about setting a suggestion matching policy, see "[Managing policies for Copilot in your organization](https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/setting-policies-for-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#policies-for-suggestion-matching)." The response contains the total number of new seats that were created and existing seats that were refreshed. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `admin:org` scopes to use this endpoint. */
@@ -1410,7 +1414,7 @@ export const copilotUsersUsageMetrics: API.OperationMethod<
 }));
 
 export type DeleteCopilotTeamCustomizationsError = GithubOpError;
-/** Delete Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Deletes the GitHub-managed Copilot customizations of a team. Deleting customizations that don't exist succeeds. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Delete Copilot customizations for a team Deletes the GitHub-managed Copilot customization document for an organization team. Enterprise teams are not supported. Returns `204` with no response body, including when the team has no customization document. The authenticated user must be an organization owner or a team maintainer. For an organization team managed by an enterprise team or SCIM-backed identity provider group, the authenticated user must be an organization owner. Token permissions do not grant access to teams the authenticated user cannot administer. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. Fine-grained personal access tokens and GitHub App user access tokens need the organization's "Copilot agent settings" permission with write access. GitHub App installation access tokens are not supported. A concurrent edit can return `409`. */
 export const deleteCopilotTeamCustomizations: API.OperationMethod<
   DeleteCopilotTeamCustomizationsRequest,
   DeleteCopilotTeamCustomizationsResponse,
@@ -1556,7 +1560,7 @@ export const getCopilotSeatDetailsForUser: API.OperationMethod<
 }));
 
 export type GetCopilotTeamCustomizationsError = GithubOpError;
-/** Get Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Gets the GitHub-managed Copilot customizations of a team. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. OAuth app tokens and personal access tokens (classic) need the `admin:org` or `read:org` scope to use this endpoint. */
+/** Get Copilot customizations for a team Gets the GitHub-managed Copilot customization document for an organization team. Returns `404` if the team has no customization document. Enterprise teams are not supported. The authenticated user must be an organization owner or a team maintainer. For an organization team managed by an enterprise team or SCIM-backed identity provider group, the authenticated user must be an organization owner. Token permissions do not grant access to teams the authenticated user cannot administer. OAuth app tokens and personal access tokens (classic) need the `admin:org` or `read:org` scope to use this endpoint. Fine-grained personal access tokens and GitHub App user access tokens need the organization's "Copilot agent settings" permission with read access. GitHub App installation access tokens are not supported. Returns `422` if the stored customization document cannot be read. */
 export const getCopilotTeamCustomizations: API.OperationMethod<
   GetCopilotTeamCustomizationsRequest,
   GetCopilotTeamCustomizationsResponse,
@@ -1815,7 +1819,7 @@ export const setCopilotContentExclusionForOrganization: API.OperationMethod<
 }));
 
 export type SetCopilotTeamCustomizationsError = GithubOpError;
-/** Set Copilot customizations for a team > [!NOTE] > This endpoint is in public preview and is subject to change. Replaces the GitHub-managed Copilot customizations of a team, creating them on the first write. The authenticated user must be an organization owner or a team maintainer. Teams that keep their customizations in a repository return `409`. Documents that fail validation return `422` with the reason. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Set Copilot customizations for a team Replaces the entire GitHub-managed Copilot customization document for an organization team, creating it on the first write. The request body is the customization document itself. Include every plugin assignment and marketplace you want to keep. Entries omitted from the request are removed from the stored document; this endpoint does not merge changes with existing customizations. Reading a document before replacing it does not prevent another edit between requests. The authenticated user must be an organization owner or a team maintainer. For an organization team managed by an enterprise team or SCIM-backed identity provider group, the authenticated user must be an organization owner. Token permissions do not grant access to teams the authenticated user cannot administer. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. Fine-grained personal access tokens and GitHub App user access tokens need the organization's "Copilot agent settings" permission with write access. GitHub App installation access tokens are not supported. Enterprise teams are not supported. Returns `200` with the submitted document after a successful write, including the first write. Documents that fail validation return `422` with the reason. A concurrent edit can return `409`. */
 export const setCopilotTeamCustomizations: API.OperationMethod<
   SetCopilotTeamCustomizationsRequest,
   SetCopilotTeamCustomizationsResponse,
@@ -2587,6 +2591,7 @@ function __c36(j: number): any {
           severity_filter: S.String,
           custom_instructions_enabled: S.Boolean,
           mcp_enabled: S.Boolean,
+          cross_repo_context_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "RepositoryCopilotCodeReviewSettings" });
   }
@@ -3001,6 +3006,7 @@ function __c50(j: number): any {
           severity_filter: S.optional(S.String),
           custom_instructions_enabled: S.optional(S.Boolean),
           mcp_enabled: S.optional(S.Boolean),
+          cross_repo_context_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",

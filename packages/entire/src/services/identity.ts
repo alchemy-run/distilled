@@ -135,14 +135,14 @@ export interface AccountProfile {
   [key: string]: unknown;
 }
 export interface GetDeletionPreviewRequest {}
-/** Blocker kind. Currently always 'owned_org'. */
-export type DeletionBlockerKind = "owned_org";
+/** Blocker kind. Clients must tolerate kinds added later. */
+export type DeletionBlockerKind = "owned_org" | "owned_plugin";
 export interface DeletionBlocker {
-  /** True when the account can self-serve delete this org (it is the only member and the org has no projects). When false, the org has other members or data and must be transferred/removed via support. The UI should offer a delete action only when this is true. */
+  /** True when the account can self-serve delete this resource. An org qualifies when the account is its only member and it has no projects. A plugin qualifies when it is unlisted and not already being deleted. The UI should offer a delete action for the blocker's kind only when this is true. */
   deletable: boolean;
-  /** Resource ID (org ULID). */
+  /** Resource ID: an org ULID, or plugin_ followed by a ULID. */
   id: string;
-  /** Blocker kind. Currently always 'owned_org'. */
+  /** Blocker kind. Clients must tolerate kinds added later. */
   kind: DeletionBlockerKind;
   /** Copy explaining how to clear the blocker. */
   message: string;
@@ -150,7 +150,7 @@ export interface DeletionBlocker {
   name: string;
   [key: string]: unknown;
 }
-/** Resources that must be resolved before deletion (owned orgs). */
+/** Resources that must be resolved before deletion (owned orgs and plugins). */
 export type GetDeletionPreviewOutputBodyBlockersList = Array<DeletionBlocker>;
 export interface DeletionRepo {
   /** Cluster slug the repo is placed on, if known. */
@@ -208,7 +208,7 @@ export interface GetDeletionPreviewOutputBody {
   _schema?: string | undefined;
   /** True when Blockers is non-empty: DELETE /me will be refused with 409. */
   blocked: boolean;
-  /** Resources that must be resolved before deletion (owned orgs). */
+  /** Resources that must be resolved before deletion (owned orgs and plugins). */
   blockers: GetDeletionPreviewOutputBodyBlockersList;
   willDelete: WillDeleteStruct;
   willUnlink: WillUnlinkStruct;
@@ -372,6 +372,8 @@ export interface PluginAuthorization {
   /** The plugin's account permissions that the account accepted. */
   account_permissions: PluginAuthorizationAccountPermissionsList;
   created_at: string;
+  /** Logo for dark backgrounds. Absent uses logo_url. */
+  logo_dark_url?: string | undefined;
   logo_url?: string | undefined;
   /** Empty when the plugin no longer exists. */
   name?: string | undefined;
@@ -1024,6 +1026,7 @@ function __c6(j: number): any {
           S.Struct({
             account_permissions: __S(112, __c7, 0),
             created_at: S.String,
+            logo_dark_url: S.optional(S.String),
             logo_url: S.optional(S.String),
             name: S.optional(S.String),
             plugin_id: S.String,

@@ -761,6 +761,14 @@ export interface OrgPermission {
   Name?: string | undefined;
 }
 export type OrgPermissionList = Array<OrgPermission>;
+export interface MemberPermissionOption {
+  Id?: number | undefined;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  DefaultChecked?: boolean | undefined;
+  DisabledCode?: string | undefined;
+}
+export type MemberPermissionOptionList = Array<MemberPermissionOption>;
 export interface DescribeOrganizationResponse {
   OrgId?: number | undefined;
   HostUin?: number | undefined;
@@ -778,6 +786,8 @@ export interface DescribeOrganizationResponse {
   PayName?: string | undefined;
   IsAssignManager?: boolean | undefined;
   IsAuthManager?: boolean | undefined;
+  MemberPermissionOptions?: MemberPermissionOptionList | undefined;
+  DefaultPayType?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeOrganizationAuthNodeRequest {
@@ -3201,7 +3211,7 @@ export const describeOrganization: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c108, 0) as any as S.Schema<DescribeOrganizationRequest>,
-  output: __S(865, __c108, 1) as any as S.Schema<DescribeOrganizationResponse>,
+  output: __S(867, __c108, 3) as any as S.Schema<DescribeOrganizationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6971,6 +6981,18 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          Id: S.optional(S.Number),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          DefaultChecked: S.optional(S.Boolean),
+          DisabledCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemberPermissionOption" });
+    case 2:
+      return S.Array(__S(865, __c108, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           OrgId: S.optional(S.Number),
           HostUin: S.optional(S.Number),
           NickName: S.optional(S.String),
@@ -6987,6 +7009,8 @@ function __c108(j: number): any {
           PayName: S.optional(S.String),
           IsAssignManager: S.optional(S.Boolean),
           IsAuthManager: S.optional(S.Boolean),
+          MemberPermissionOptions: S.optional(__S(866, __c108, 2)),
+          DefaultPayType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeOrganizationResponse" });

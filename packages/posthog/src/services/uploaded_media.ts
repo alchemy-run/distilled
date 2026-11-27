@@ -58,14 +58,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). */
-export type CreateUploadedMediaRequestPurpose = "email" | "canvas" | "experiment";
+/** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). `conversations` marks a support reply image, which no library lists. */
+export type CreateUploadedMediaRequestPurpose = "email" | "canvas" | "experiment" | "conversations";
 export interface CreateUploadedMediaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Image file. Must be under 4MB and a real, decodable image. */
   image: string;
-  /** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). */
+  /** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). `conversations` marks a support reply image, which no library lists. */
   purpose?: CreateUploadedMediaRequestPurpose | (string & {}) | undefined;
 }
 export interface UploadedMediaCreated {
@@ -133,7 +133,7 @@ export interface UploadedMediaStartUploadCreateRequest {
   project_id: string;
   /** The file's display name, e.g. 'logo.png'. */
   name: string;
-  /** Library to add this image to once uploaded, e.g. 'email'. */
+  /** Library to add this image to once uploaded, e.g. 'email'. Use 'conversations' for a support ticket reply image. No library lists those. */
   purpose: string;
 }
 /** Extra form fields to send alongside the file in the same POST. */
@@ -185,7 +185,7 @@ export const listUploadedMedia: API.OperationMethod<
 }));
 
 export type UploadedMediaCompleteUploadCreateError = BadRequest | NotFound | PosthogOpError;
-/** Step 2 of the presigned upload flow: verifies the object POSTed to the upload_url, sniffs its real content type, and activates it -- after this it appears in the library and is publicly servable. */
+/** Step 2 of the presigned upload flow: verifies the object POSTed to the upload_url, sniffs its real content type, and activates it -- after this it is publicly servable, and it appears in its library unless its purpose is upload-only (`conversations`). */
 export const uploadedMediaCompleteUploadCreate: API.OperationMethod<
   UploadedMediaCompleteUploadCreateRequest,
   UploadedMedia2,

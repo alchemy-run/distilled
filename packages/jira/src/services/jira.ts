@@ -705,7 +705,7 @@ export interface AddIssueTypesToContextRequest {
   /** The ID of the context. */
   contextId: number;
   defaultValue?: CustomFieldContextDefaultValue | undefined;
-  /** Whether to add or retain the any-issue-type mapping. At least one of this property or issueTypeIds is required. Defaults to false. */
+  /** Whether to replace applicability with all issue types. Mutually exclusive with specific issueTypeIds. Defaults to false. */
   isAnyIssueType?: boolean | undefined;
   /** The issue type IDs to add. Optional when isAnyIssueType is true. */
   issueTypeIds?: AddIssueTypesToContextRequestIssueTypeIdsList | null | undefined;
@@ -2589,6 +2589,8 @@ export type CreateIssueRequestUpdateMap = {
 export interface CreateIssueRequest {
   /** Whether the project in which the issue is created is added to the user's **Recently viewed** project list, as shown under **Projects** in Jira. When provided, the issue type and request type are added to the user's history for a project. These values are then used to provide defaults on the issue create screen. */
   updateHistory?: boolean | undefined;
+  /** EXPERIMENTAL. Whether you prefer errors that relate to a field to be returned as field errors (`errors`) rather than as general errors (`errorMessages`). A response can contain both kinds of error, regardless of what this is set to. When this is `true`, more errors are returned as field errors, and which errors are field errors and which are general errors isn't part of the contract and can change without notice. */
+  preferFieldAssociatedErrors?: boolean | undefined;
   /** List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. */
   fields?: CreateIssueRequestFieldsMap | undefined;
   /** Additional issue history details. */
@@ -4672,6 +4674,8 @@ export type DoTransitionRequestUpdateMap = {
 export interface DoTransitionRequest {
   /** The ID or key of the issue. */
   issueIdOrKey: string;
+  /** EXPERIMENTAL. Whether you prefer errors that relate to a field to be returned as field errors (`errors`) rather than as general errors (`errorMessages`). A response can contain both kinds of error, regardless of what this is set to. When this is `true`, more errors are returned as field errors, and which errors are field errors and which are general errors isn't part of the contract and can change without notice. */
+  preferFieldAssociatedErrors?: boolean | undefined;
   /** List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. */
   fields?: DoTransitionRequestFieldsMap | undefined;
   /** Additional issue history details. */
@@ -11173,25 +11177,6 @@ export interface SetCommentPropertyRequest {
   propertyKey: string;
 }
 export type SetCommentPropertyResponse = unknown;
-/** A default value update for one issue-type scope in a context. */
-export interface IssueTypeDefaultValueUpdate {
-  /** The ID of the context. */
-  contextId: number;
-  /** True when this is the catch-all default for issue types without a specific default. */
-  isAnyIssueType?: boolean | null | undefined;
-  /** The ID of the issue type this default value applies to. */
-  issueTypeId?: string | null | undefined;
-  value?: CustomFieldContextDefaultValue | undefined;
-}
-/** The default values to update. */
-export type SetContextDefaultValuesRequestDefaultValuesList = Array<IssueTypeDefaultValueUpdate>;
-export interface SetContextDefaultValuesRequest {
-  /** The ID of the custom field, for example \{@code customfield\_10000\}. */
-  fieldId: string;
-  /** The default values to update. */
-  defaultValues?: SetContextDefaultValuesRequestDefaultValuesList | undefined;
-}
-export type SetContextDefaultValuesResponse = unknown;
 export interface SetDashboardItemPropertyRequest {
   /** The ID of the dashboard. */
   dashboardId: string;
@@ -12873,8 +12858,8 @@ export const addActorUsers: API.OperationMethod<
   AddActorUsersError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<AddActorUsersRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  input: __S(17568, __c549, 0) as any as S.Schema<AddActorUsersRequest>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12891,8 +12876,8 @@ export const addAttachment: API.OperationMethod<
   AddAttachmentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18243, __c570, 3) as any as S.Schema<AddAttachmentRequest>,
-  output: __S(18246, __c570, 6) as any as S.Schema<AddAttachmentResponse>,
+  input: __S(18211, __c569, 3) as any as S.Schema<AddAttachmentRequest>,
+  output: __S(18214, __c569, 6) as any as S.Schema<AddAttachmentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12909,8 +12894,8 @@ export const addComment: API.OperationMethod<
   AddCommentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<AddCommentRequest>,
-  output: __S(19008, __c594, 0) as any as S.Schema<Comment>,
+  input: __S(18944, __c592, 0) as any as S.Schema<AddCommentRequest>,
+  output: __S(18976, __c593, 0) as any as S.Schema<Comment>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12927,8 +12912,8 @@ export const addFieldToDefaultScreen: API.OperationMethod<
   AddFieldToDefaultScreenError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19456, __c608, 0) as any as S.Schema<AddFieldToDefaultScreenRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddFieldToDefaultScreenResponse>,
+  input: __S(19424, __c607, 0) as any as S.Schema<AddFieldToDefaultScreenRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddFieldToDefaultScreenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12943,15 +12928,15 @@ export type AddIssueTypesToContextError =
   | NotFound
   | Conflict
   | JiraOpError;
-/** Add issue types to context Adds issue types to a custom field context, appending the issue types to the issue types list. A custom field context without any issue types applies to all issue types. Adding issue types replaces the any-issue-type mapping unless \{@code isAnyIssueType\} is true. A supplied \{@code defaultValue\} applies to newly added mappings. If omitted, the default value of the first existing issue type mapping is copied. Existing mappings retain their defaults. If any of the issue types exists in the custom field context, the operation fails and no issue types are added. This API will not allow adding issue types to the global context from April 2026. Instead, an HTTP 400 response will be returned. See [CHANGE-3019](https://developer.atlassian.com/changelog/#CHANGE-3019) **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+/** Add issue types to context Adds issue types to a custom field context, appending the issue types to the issue types list. A custom field context without any issue types applies to all issue types. Adding issue types replaces the any-issue-type mapping unless \{@code isAnyIssueType\} is true. For sites that support defaults per issue type, a supplied \{@code defaultValue\} sets overrides for added IDs or the base default for all issue types. Omitted or null defaults leave stored defaults unchanged. Specific IDs and \{@code isAnyIssueType=true\} are mutually exclusive. Applicability and defaults update atomically. If any of the issue types exists in the custom field context, the operation fails and no issue types are added. Requesting \{@code isAnyIssueType=true\} when the context already applies to all issue types also returns HTTP 400, even when a default is supplied. This API will not allow adding issue types to the global context from April 2026. Instead, an HTTP 400 response will be returned. See [CHANGE-3019](https://developer.atlassian.com/changelog/#CHANGE-3019) **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const addIssueTypesToContext: API.OperationMethod<
   AddIssueTypesToContextRequest,
   AddIssueTypesToContextResponse,
   AddIssueTypesToContextError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19840, __c620, 0) as any as S.Schema<AddIssueTypesToContextRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddIssueTypesToContextResponse>,
+  input: __S(19808, __c619, 0) as any as S.Schema<AddIssueTypesToContextRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddIssueTypesToContextResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12969,7 +12954,7 @@ export const addIssueTypesToIssueTypeScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<AddIssueTypesToIssueTypeSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddIssueTypesToIssueTypeSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddIssueTypesToIssueTypeSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -12987,7 +12972,7 @@ export const addNotifications: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(548, __c17, 4) as any as S.Schema<AddNotificationsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddNotificationsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddNotificationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13005,7 +12990,7 @@ export const addProjectRoleActorsToRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<AddProjectRoleActorsToRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13095,7 +13080,7 @@ export const addVote: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<AddVoteRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddVoteResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddVoteResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13113,7 +13098,7 @@ export const addWatcher: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<AddWatcherRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AddWatcherResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AddWatcherResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13172,7 +13157,7 @@ export const appendMappingsForIssueTypeScreenScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<AppendMappingsForIssueTypeScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AppendMappingsForIssueTypeScreenSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AppendMappingsForIssueTypeScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13190,7 +13175,7 @@ export const archiveProject: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<ArchiveProjectRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<ArchiveProjectResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<ArchiveProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13208,7 +13193,7 @@ export const assignIssue: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<AssignIssueRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AssignIssueResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AssignIssueResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13226,7 +13211,7 @@ export const assignIssueTypeSchemeToProject: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<AssignIssueTypeSchemeToProjectRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AssignIssueTypeSchemeToProjectResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AssignIssueTypeSchemeToProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13248,7 +13233,7 @@ export const assignIssueTypeScreenSchemeToProject: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<AssignIssueTypeScreenSchemeToProjectRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AssignIssueTypeScreenSchemeToProjectResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AssignIssueTypeScreenSchemeToProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13288,7 +13273,7 @@ export const assignProjectsToCustomFieldContext: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<AssignProjectsToCustomFieldContextRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AssignProjectsToCustomFieldContextResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AssignProjectsToCustomFieldContextResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13306,7 +13291,7 @@ export const assignSchemeToProject: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<AssignSchemeToProjectRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<AssignSchemeToProjectResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<AssignSchemeToProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13468,7 +13453,7 @@ export const createAssociations: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<CreateAssociationsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<CreateAssociationsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<CreateAssociationsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13675,7 +13660,7 @@ export const createIssueType: API.OperationMethod<
   CreateIssueTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17504, __c547, 0) as any as S.Schema<CreateIssueTypeRequest>,
+  input: __S(17472, __c546, 0) as any as S.Schema<CreateIssueTypeRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<IssueTypeDetails>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -13693,8 +13678,8 @@ export const createIssueTypeAvatar: API.OperationMethod<
   CreateIssueTypeAvatarError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17536, __c548, 0) as any as S.Schema<CreateIssueTypeAvatarRequest>,
-  output: __S(17568, __c549, 0) as any as S.Schema<Avatar>,
+  input: __S(17504, __c547, 0) as any as S.Schema<CreateIssueTypeAvatarRequest>,
+  output: __S(17536, __c548, 0) as any as S.Schema<Avatar>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13711,8 +13696,8 @@ export const createIssueTypeScheme: API.OperationMethod<
   CreateIssueTypeSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17824, __c557, 0) as any as S.Schema<CreateIssueTypeSchemeRequest>,
-  output: __S(17825, __c557, 1) as any as S.Schema<IssueTypeSchemeID>,
+  input: __S(17792, __c556, 0) as any as S.Schema<CreateIssueTypeSchemeRequest>,
+  output: __S(17793, __c556, 1) as any as S.Schema<IssueTypeSchemeID>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13734,7 +13719,7 @@ export const createIssueTypeScreenScheme: API.OperationMethod<
   CreateIssueTypeScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17856, __c558, 0) as any as S.Schema<CreateIssueTypeScreenSchemeRequest>,
+  input: __S(17824, __c557, 0) as any as S.Schema<CreateIssueTypeScreenSchemeRequest>,
   output: __S(12128, __c379, 0) as any as S.Schema<IssueTypeScreenSchemeId>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -13752,8 +13737,8 @@ export const createOrUpdateRemoteIssueLink: API.OperationMethod<
   CreateOrUpdateRemoteIssueLinkError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17888, __c559, 0) as any as S.Schema<CreateOrUpdateRemoteIssueLinkRequest>,
-  output: __S(17889, __c559, 1) as any as S.Schema<RemoteIssueLinkIdentifies>,
+  input: __S(17856, __c558, 0) as any as S.Schema<CreateOrUpdateRemoteIssueLinkRequest>,
+  output: __S(17857, __c558, 1) as any as S.Schema<RemoteIssueLinkIdentifies>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13770,7 +13755,7 @@ export const createPermissionGrant: API.OperationMethod<
   CreatePermissionGrantError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17952, __c561, 0) as any as S.Schema<CreatePermissionGrantRequest>,
+  input: __S(17920, __c560, 0) as any as S.Schema<CreatePermissionGrantRequest>,
   output: __S(8064, __c252, 0) as any as S.Schema<PermissionGrant>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -13792,7 +13777,7 @@ export const createPermissionScheme: API.OperationMethod<
   CreatePermissionSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18016, __c563, 0) as any as S.Schema<CreatePermissionSchemeRequest>,
+  input: __S(17984, __c562, 0) as any as S.Schema<CreatePermissionSchemeRequest>,
   output: __S(8128, __c254, 0) as any as S.Schema<PermissionScheme>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -13810,7 +13795,7 @@ export const createPriority: API.OperationMethod<
   CreatePriorityError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<CreatePriorityRequest>,
+  input: __S(18048, __c564, 0) as any as S.Schema<CreatePriorityRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<PriorityId>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -13828,8 +13813,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(18113, __c566, 1) as any as S.Schema<ProjectIdentifiers>,
+  input: __S(18080, __c565, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(18081, __c565, 1) as any as S.Schema<ProjectIdentifiers>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13846,8 +13831,8 @@ export const createProjectAvatar: API.OperationMethod<
   CreateProjectAvatarError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<CreateProjectAvatarRequest>,
-  output: __S(17568, __c549, 0) as any as S.Schema<Avatar>,
+  input: __S(18112, __c566, 0) as any as S.Schema<CreateProjectAvatarRequest>,
+  output: __S(17536, __c548, 0) as any as S.Schema<Avatar>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13864,8 +13849,8 @@ export const createProjectCategory: API.OperationMethod<
   CreateProjectCategoryError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<CreateProjectCategoryRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProjectCategory>,
+  input: __S(18144, __c567, 0) as any as S.Schema<CreateProjectCategoryRequest>,
+  output: __S(17600, __c550, 0) as any as S.Schema<ProjectCategory>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13882,8 +13867,8 @@ export const createProjectRole: API.OperationMethod<
   CreateProjectRoleError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<CreateProjectRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  input: __S(18176, __c568, 0) as any as S.Schema<CreateProjectRoleRequest>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13900,7 +13885,7 @@ export const createProjectWithCustomTemplate: API.OperationMethod<
   CreateProjectWithCustomTemplateError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18391, __c574, 23) as any as S.Schema<CreateProjectWithCustomTemplateRequest>,
+  input: __S(18359, __c573, 23) as any as S.Schema<CreateProjectWithCustomTemplateRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<CreateProjectWithCustomTemplateResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -13918,8 +13903,8 @@ export const createRelatedWork: API.OperationMethod<
   CreateRelatedWorkError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<CreateRelatedWorkRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<VersionRelatedWork>,
+  input: __S(18400, __c575, 0) as any as S.Schema<CreateRelatedWorkRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<VersionRelatedWork>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13936,8 +13921,8 @@ export const createScreenScheme: API.OperationMethod<
   CreateScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18496, __c578, 0) as any as S.Schema<CreateScreenSchemeRequest>,
-  output: __S(18497, __c578, 1) as any as S.Schema<ScreenSchemeId>,
+  input: __S(18464, __c577, 0) as any as S.Schema<CreateScreenSchemeRequest>,
+  output: __S(18465, __c577, 1) as any as S.Schema<ScreenSchemeId>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13954,8 +13939,8 @@ export const createStatuses: API.OperationMethod<
   CreateStatusesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18562, __c580, 2) as any as S.Schema<CreateStatusesRequest>,
-  output: __S(18592, __c581, 0) as any as S.Schema<CreateStatusesResponse>,
+  input: __S(18530, __c579, 2) as any as S.Schema<CreateStatusesRequest>,
+  output: __S(18560, __c580, 0) as any as S.Schema<CreateStatusesResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13972,8 +13957,8 @@ export const createUiModification: API.OperationMethod<
   CreateUiModificationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18656, __c583, 0) as any as S.Schema<CreateUiModificationRequest>,
-  output: __S(18657, __c583, 1) as any as S.Schema<UiModificationIdentifiers>,
+  input: __S(18624, __c582, 0) as any as S.Schema<CreateUiModificationRequest>,
+  output: __S(18625, __c582, 1) as any as S.Schema<UiModificationIdentifiers>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -13990,7 +13975,7 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<CreateUserRequest>,
+  input: __S(18688, __c584, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -14008,7 +13993,7 @@ export const createVersion: API.OperationMethod<
   CreateVersionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18752, __c586, 0) as any as S.Schema<CreateVersionRequest>,
+  input: __S(18720, __c585, 0) as any as S.Schema<CreateVersionRequest>,
   output: __S(2947, __c92, 3) as any as S.Schema<Version>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -14026,7 +14011,7 @@ export const createWorkflows: API.OperationMethod<
   CreateWorkflowsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18784, __c587, 0) as any as S.Schema<CreateWorkflowsRequest>,
+  input: __S(18752, __c586, 0) as any as S.Schema<CreateWorkflowsRequest>,
   output: __S(12320, __c385, 0) as any as S.Schema<WorkflowCreateResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -14044,8 +14029,8 @@ export const createWorkflowScheme: API.OperationMethod<
   CreateWorkflowSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18880, __c590, 0) as any as S.Schema<CreateWorkflowSchemeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(18848, __c589, 0) as any as S.Schema<CreateWorkflowSchemeRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14062,8 +14047,8 @@ export const createWorkflowSchemeDraftFromParent: API.OperationMethod<
   CreateWorkflowSchemeDraftFromParentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18944, __c592, 0) as any as S.Schema<CreateWorkflowSchemeDraftFromParentRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(18912, __c591, 0) as any as S.Schema<CreateWorkflowSchemeDraftFromParentRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14080,7 +14065,7 @@ export const deleteActor: API.OperationMethod<
   DeleteActorError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19136, __c598, 0) as any as S.Schema<DeleteActorRequest>,
+  input: __S(19104, __c597, 0) as any as S.Schema<DeleteActorRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteActorResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14098,7 +14083,7 @@ export const deleteAddonProperty: API.OperationMethod<
   DeleteAddonPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19168, __c599, 0) as any as S.Schema<DeleteAddonPropertyRequest>,
+  input: __S(19136, __c598, 0) as any as S.Schema<DeleteAddonPropertyRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteAddonPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14116,8 +14101,8 @@ export const deleteAndReplaceVersion: API.OperationMethod<
   DeleteAndReplaceVersionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19202, __c600, 2) as any as S.Schema<DeleteAndReplaceVersionRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteAndReplaceVersionResponse>,
+  input: __S(19170, __c599, 2) as any as S.Schema<DeleteAndReplaceVersionRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteAndReplaceVersionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14134,7 +14119,7 @@ export const deleteAvatar: API.OperationMethod<
   DeleteAvatarError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19232, __c601, 0) as any as S.Schema<DeleteAvatarRequest>,
+  input: __S(19200, __c600, 0) as any as S.Schema<DeleteAvatarRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14152,7 +14137,7 @@ export const deleteComment: API.OperationMethod<
   DeleteCommentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19264, __c602, 0) as any as S.Schema<DeleteCommentRequest>,
+  input: __S(19232, __c601, 0) as any as S.Schema<DeleteCommentRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteCommentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14170,7 +14155,7 @@ export const deleteCommentProperty: API.OperationMethod<
   DeleteCommentPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19296, __c603, 0) as any as S.Schema<DeleteCommentPropertyRequest>,
+  input: __S(19264, __c602, 0) as any as S.Schema<DeleteCommentPropertyRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteCommentPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14188,7 +14173,7 @@ export const deleteComponent: API.OperationMethod<
   DeleteComponentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19328, __c604, 0) as any as S.Schema<DeleteComponentRequest>,
+  input: __S(19296, __c603, 0) as any as S.Schema<DeleteComponentRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteComponentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14206,7 +14191,7 @@ export const deleteCustomField: API.OperationMethod<
   DeleteCustomFieldError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<DeleteCustomFieldRequest>,
+  input: __S(19328, __c604, 0) as any as S.Schema<DeleteCustomFieldRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteCustomFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -14224,8 +14209,8 @@ export const deleteCustomFieldContext: API.OperationMethod<
   DeleteCustomFieldContextError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<DeleteCustomFieldContextRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteCustomFieldContextResponse>,
+  input: __S(19360, __c605, 0) as any as S.Schema<DeleteCustomFieldContextRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteCustomFieldContextResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14242,7 +14227,7 @@ export const deleteCustomFieldOption: API.OperationMethod<
   DeleteCustomFieldOptionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19424, __c607, 0) as any as S.Schema<DeleteCustomFieldOptionRequest>,
+  input: __S(19392, __c606, 0) as any as S.Schema<DeleteCustomFieldOptionRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteCustomFieldOptionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14260,8 +14245,8 @@ export const deleteDashboardItemProperty: API.OperationMethod<
   DeleteDashboardItemPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19520, __c610, 0) as any as S.Schema<DeleteDashboardItemPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteDashboardItemPropertyResponse>,
+  input: __S(19488, __c609, 0) as any as S.Schema<DeleteDashboardItemPropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteDashboardItemPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14278,8 +14263,8 @@ export const deleteDefaultWorkflow: API.OperationMethod<
   DeleteDefaultWorkflowError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19552, __c611, 0) as any as S.Schema<DeleteDefaultWorkflowRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(19520, __c610, 0) as any as S.Schema<DeleteDefaultWorkflowRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14296,8 +14281,8 @@ export const deleteDraftDefaultWorkflow: API.OperationMethod<
   DeleteDraftDefaultWorkflowError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19584, __c612, 0) as any as S.Schema<DeleteDraftDefaultWorkflowRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(19552, __c611, 0) as any as S.Schema<DeleteDraftDefaultWorkflowRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14314,7 +14299,7 @@ export const deleteDraftWorkflowMapping: API.OperationMethod<
   DeleteDraftWorkflowMappingError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19616, __c613, 0) as any as S.Schema<DeleteDraftWorkflowMappingRequest>,
+  input: __S(19584, __c612, 0) as any as S.Schema<DeleteDraftWorkflowMappingRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteDraftWorkflowMappingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14332,7 +14317,7 @@ export const deleteFavouriteForFilter: API.OperationMethod<
   DeleteFavouriteForFilterError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<DeleteFavouriteForFilterRequest>,
+  input: __S(19616, __c613, 0) as any as S.Schema<DeleteFavouriteForFilterRequest>,
   output: __S(15138, __c473, 2) as any as S.Schema<FilterOutput>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
@@ -14350,7 +14335,7 @@ export const deleteFilter: API.OperationMethod<
   DeleteFilterError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19680, __c615, 0) as any as S.Schema<DeleteFilterRequest>,
+  input: __S(19648, __c614, 0) as any as S.Schema<DeleteFilterRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteFilterResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
@@ -14368,7 +14353,7 @@ export const deleteForgeAppProperty: API.OperationMethod<
   DeleteForgeAppPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19712, __c616, 0) as any as S.Schema<DeleteForgeAppPropertyRequest>,
+  input: __S(19680, __c615, 0) as any as S.Schema<DeleteForgeAppPropertyRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteForgeAppPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14386,7 +14371,7 @@ export const deleteInactiveWorkflow: API.OperationMethod<
   DeleteInactiveWorkflowError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<DeleteInactiveWorkflowRequest>,
+  input: __S(19712, __c616, 0) as any as S.Schema<DeleteInactiveWorkflowRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteInactiveWorkflowResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14404,7 +14389,7 @@ export const deleteIssue: API.OperationMethod<
   DeleteIssueError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<DeleteIssueRequest>,
+  input: __S(19744, __c617, 0) as any as S.Schema<DeleteIssueRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssueResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14422,8 +14407,8 @@ export const deleteIssueFieldOption: API.OperationMethod<
   DeleteIssueFieldOptionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<DeleteIssueFieldOptionRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteIssueFieldOptionResponse>,
+  input: __S(19776, __c618, 0) as any as S.Schema<DeleteIssueFieldOptionRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteIssueFieldOptionResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14440,7 +14425,7 @@ export const deleteIssueLink: API.OperationMethod<
   DeleteIssueLinkError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19904, __c622, 0) as any as S.Schema<DeleteIssueLinkRequest>,
+  input: __S(19872, __c621, 0) as any as S.Schema<DeleteIssueLinkRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssueLinkResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14458,7 +14443,7 @@ export const deleteIssueLinkType: API.OperationMethod<
   DeleteIssueLinkTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19936, __c623, 0) as any as S.Schema<DeleteIssueLinkTypeRequest>,
+  input: __S(19904, __c622, 0) as any as S.Schema<DeleteIssueLinkTypeRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssueLinkTypeResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14476,7 +14461,7 @@ export const deleteIssueProperty: API.OperationMethod<
   DeleteIssuePropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<DeleteIssuePropertyRequest>,
+  input: __S(19936, __c623, 0) as any as S.Schema<DeleteIssuePropertyRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssuePropertyResponse>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14494,7 +14479,7 @@ export const deleteIssueType: API.OperationMethod<
   DeleteIssueTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<DeleteIssueTypeRequest>,
+  input: __S(19968, __c624, 0) as any as S.Schema<DeleteIssueTypeRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssueTypeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -14512,7 +14497,7 @@ export const deleteIssueTypeProperty: API.OperationMethod<
   DeleteIssueTypePropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20032, __c626, 0) as any as S.Schema<DeleteIssueTypePropertyRequest>,
+  input: __S(20000, __c625, 0) as any as S.Schema<DeleteIssueTypePropertyRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeleteIssueTypePropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14530,8 +14515,8 @@ export const deleteIssueTypeScheme: API.OperationMethod<
   DeleteIssueTypeSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20064, __c627, 0) as any as S.Schema<DeleteIssueTypeSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteIssueTypeSchemeResponse>,
+  input: __S(20032, __c626, 0) as any as S.Schema<DeleteIssueTypeSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteIssueTypeSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14548,8 +14533,8 @@ export const deleteIssueTypeScreenScheme: API.OperationMethod<
   DeleteIssueTypeScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20096, __c628, 0) as any as S.Schema<DeleteIssueTypeScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteIssueTypeScreenSchemeResponse>,
+  input: __S(20064, __c627, 0) as any as S.Schema<DeleteIssueTypeScreenSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteIssueTypeScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14566,7 +14551,7 @@ export const deletePermissionScheme: API.OperationMethod<
   DeletePermissionSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20128, __c629, 0) as any as S.Schema<DeletePermissionSchemeRequest>,
+  input: __S(20096, __c628, 0) as any as S.Schema<DeletePermissionSchemeRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeletePermissionSchemeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -14584,7 +14569,7 @@ export const deletePermissionSchemeEntity: API.OperationMethod<
   DeletePermissionSchemeEntityError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20160, __c630, 0) as any as S.Schema<DeletePermissionSchemeEntityRequest>,
+  input: __S(20128, __c629, 0) as any as S.Schema<DeletePermissionSchemeEntityRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeletePermissionSchemeEntityResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -14602,7 +14587,7 @@ export const deletePriority: API.OperationMethod<
   DeletePriorityError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20192, __c631, 0) as any as S.Schema<DeletePriorityRequest>,
+  input: __S(20160, __c630, 0) as any as S.Schema<DeletePriorityRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<DeletePriorityResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -14693,7 +14678,7 @@ export const deleteProjectRoleActorsFromRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectRoleActorsFromRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14819,7 +14804,7 @@ export const deleteStatusesById: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteStatusesByIdRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteStatusesByIdResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteStatusesByIdResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14837,7 +14822,7 @@ export const deleteUiModification: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteUiModificationRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteUiModificationResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteUiModificationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14909,7 +14894,7 @@ export const deleteWorkflowScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteWorkflowSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DeleteWorkflowSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DeleteWorkflowSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14945,7 +14930,7 @@ export const deleteWorkflowSchemeDraftIssueType: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteWorkflowSchemeDraftIssueTypeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -14963,7 +14948,7 @@ export const deleteWorkflowSchemeIssueType: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteWorkflowSchemeIssueTypeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -15040,7 +15025,7 @@ export const doTransition: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DoTransitionRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<DoTransitionResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<DoTransitionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -15064,7 +15049,7 @@ export const editIssue: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<EditIssueRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<EditIssueResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<EditIssueResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -15323,7 +15308,7 @@ export const fullyUpdateProjectRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<FullyUpdateProjectRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -15377,7 +15362,7 @@ export const getAddonProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetAddonPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16057,7 +16042,7 @@ export const getAvatarImageByID: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetAvatarImageByIDRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<GetAvatarImageByIDResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<GetAvatarImageByIDResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16075,7 +16060,7 @@ export const getAvatarImageByOwner: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetAvatarImageByOwnerRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<GetAvatarImageByOwnerResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<GetAvatarImageByOwnerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16093,7 +16078,7 @@ export const getAvatarImageByType: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetAvatarImageByTypeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<GetAvatarImageByTypeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<GetAvatarImageByTypeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16312,7 +16297,7 @@ export const getComment: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetCommentRequest>,
-  output: __S(19008, __c594, 0) as any as S.Schema<Comment>,
+  output: __S(18976, __c593, 0) as any as S.Schema<Comment>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16330,7 +16315,7 @@ export const getCommentProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetCommentPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -16676,7 +16661,7 @@ export const getDashboardItemProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<GetDashboardItemPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -17022,7 +17007,7 @@ export const getForgeAppProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<GetForgeAppPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<GetForgeAppPropertyResponse>,
+  output: __S(19040, __c595, 0) as any as S.Schema<GetForgeAppPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -17256,7 +17241,7 @@ export const getIssueProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<GetIssuePropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -17420,7 +17405,7 @@ export const getIssueTypeProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetIssueTypePropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18068,7 +18053,7 @@ export const getProjectCategoryById: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetProjectCategoryByIdRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<ProjectCategory>,
+  output: __S(17600, __c550, 0) as any as S.Schema<ProjectCategory>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18225,7 +18210,7 @@ export const getProjectProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetProjectPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18261,7 +18246,7 @@ export const getProjectRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<GetProjectRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18279,7 +18264,7 @@ export const getProjectRoleActorsForRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<GetProjectRoleActorsForRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18297,7 +18282,7 @@ export const getProjectRoleById: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetProjectRoleByIdRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18620,7 +18605,7 @@ export const getResolution: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetResolutionRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<Resolution>,
+  output: __S(17600, __c550, 0) as any as S.Schema<Resolution>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18930,7 +18915,7 @@ export const getStatusesById: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetStatusesByIdRequest>,
-  output: __S(18592, __c581, 0) as any as S.Schema<GetStatusesByIdResponse>,
+  output: __S(18560, __c580, 0) as any as S.Schema<GetStatusesByIdResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -18948,7 +18933,7 @@ export const getStatusesByName: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetStatusesByNameRequest>,
-  output: __S(18592, __c581, 0) as any as S.Schema<GetStatusesByNameResponse>,
+  output: __S(18560, __c580, 0) as any as S.Schema<GetStatusesByNameResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19144,7 +19129,7 @@ export const getUserProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<GetUserPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19387,7 +19372,7 @@ export const getWorkflowScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<GetWorkflowSchemeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19405,7 +19390,7 @@ export const getWorkflowSchemeDraft: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<GetWorkflowSchemeDraftRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19585,7 +19570,7 @@ export const getWorklogProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetWorklogPropertyRequest>,
-  output: __S(19072, __c596, 0) as any as S.Schema<EntityProperty>,
+  output: __S(19040, __c595, 0) as any as S.Schema<EntityProperty>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19657,7 +19642,7 @@ export const linkIssues: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12387, __c387, 3) as any as S.Schema<LinkIssuesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<LinkIssuesResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<LinkIssuesResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19711,7 +19696,7 @@ export const mergeVersions: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<MergeVersionsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<MergeVersionsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<MergeVersionsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19747,7 +19732,7 @@ export const movePriorities: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<MovePrioritiesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<MovePrioritiesResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<MovePrioritiesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19765,7 +19750,7 @@ export const moveScreenTab: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<MoveScreenTabRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<MoveScreenTabResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<MoveScreenTabResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19783,7 +19768,7 @@ export const moveScreenTabField: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<MoveScreenTabFieldRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<MoveScreenTabFieldResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<MoveScreenTabFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19819,7 +19804,7 @@ export const notify: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12678, __c396, 6) as any as S.Schema<NotifyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<NotifyResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<NotifyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -19855,7 +19840,7 @@ export const partialUpdateProjectRole: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<PartialUpdateProjectRoleRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20071,7 +20056,7 @@ export const removeAssociations: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<RemoveAssociationsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RemoveAssociationsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RemoveAssociationsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20111,7 +20096,7 @@ export const removeCustomFieldContextFromProjects: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<RemoveCustomFieldContextFromProjectsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RemoveCustomFieldContextFromProjectsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RemoveCustomFieldContextFromProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20151,7 +20136,7 @@ export const removeIssueTypeFromIssueTypeScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<RemoveIssueTypeFromIssueTypeSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RemoveIssueTypeFromIssueTypeSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RemoveIssueTypeFromIssueTypeSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20169,7 +20154,7 @@ export const removeIssueTypesFromContext: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<RemoveIssueTypesFromContextRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RemoveIssueTypesFromContextResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RemoveIssueTypesFromContextResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20191,7 +20176,7 @@ export const removeMappingsFromIssueTypeScreenScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<RemoveMappingsFromIssueTypeScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RemoveMappingsFromIssueTypeScreenSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RemoveMappingsFromIssueTypeScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20232,8 +20217,8 @@ export const removeNotificationFromNotificationScheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<RemoveNotificationFromNotificationSchemeRequest>,
   output: __S(
-    19488,
-    __c609,
+    19456,
+    __c608,
     0,
   ) as any as S.Schema<RemoveNotificationFromNotificationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -20397,7 +20382,7 @@ export const reorderCustomFieldOptions: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<ReorderCustomFieldOptionsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<ReorderCustomFieldOptionsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<ReorderCustomFieldOptionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20419,7 +20404,7 @@ export const reorderIssueTypesInIssueTypeScheme: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<ReorderIssueTypesInIssueTypeSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<ReorderIssueTypesInIssueTypeSchemeResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<ReorderIssueTypesInIssueTypeSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20509,7 +20494,7 @@ export const restoreCustomField: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<RestoreCustomFieldRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<RestoreCustomFieldResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<RestoreCustomFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20715,7 +20700,7 @@ export const selectTimeTrackingImplementation: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<SelectTimeTrackingImplementationRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SelectTimeTrackingImplementationResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SelectTimeTrackingImplementationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20733,7 +20718,7 @@ export const setActors: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<SetActorsRequest>,
-  output: __S(17763, __c555, 3) as any as S.Schema<ProjectRole>,
+  output: __S(17731, __c554, 3) as any as S.Schema<ProjectRole>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20769,7 +20754,7 @@ export const setBanner: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<SetBannerRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetBannerResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetBannerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20787,7 +20772,7 @@ export const setColumns: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<SetColumnsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetColumnsResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetColumnsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20805,31 +20790,13 @@ export const setCommentProperty: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<SetCommentPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetCommentPropertyResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetCommentPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetCommentProperty",
-}));
-
-export type SetContextDefaultValuesError = BadRequest | Forbidden | NotFound | JiraOpError;
-/** Set default values for a custom field by context and issue type Updates default values for individual issue types in custom field contexts. Only tenants enrolled in the early access program (EAP) can access this resource. See the [EAP announcement](https://ecosystem.atlassian.net/browse/CHANGE-3082) for details. Each entry targets either one issue type through \{@code issueTypeId\}, or the catch-all configuration through \{@code isAnyIssueType=true\}. A null value removes the default for that target. Entries not included in the request are left unchanged. */
-export const setContextDefaultValues: API.OperationMethod<
-  SetContextDefaultValuesRequest,
-  SetContextDefaultValuesResponse,
-  SetContextDefaultValuesError,
-  JiraOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(14658, __c458, 2) as any as S.Schema<SetContextDefaultValuesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetContextDefaultValuesResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: JiraServiceErrors,
-  protocol: JiraProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "SetContextDefaultValues",
 }));
 
 export type SetDashboardItemPropertyError = BadRequest | Forbidden | NotFound | JiraOpError;
@@ -20840,8 +20807,8 @@ export const setDashboardItemProperty: API.OperationMethod<
   SetDashboardItemPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14688, __c459, 0) as any as S.Schema<SetDashboardItemPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetDashboardItemPropertyResponse>,
+  input: __S(14656, __c458, 0) as any as S.Schema<SetDashboardItemPropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetDashboardItemPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20858,8 +20825,8 @@ export const setDefaultPriority: API.OperationMethod<
   SetDefaultPriorityError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<SetDefaultPriorityRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetDefaultPriorityResponse>,
+  input: __S(14688, __c459, 0) as any as S.Schema<SetDefaultPriorityRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetDefaultPriorityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20876,7 +20843,7 @@ export const setDefaultShareScope: API.OperationMethod<
   SetDefaultShareScopeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<SetDefaultShareScopeRequest>,
+  input: __S(14720, __c460, 0) as any as S.Schema<SetDefaultShareScopeRequest>,
   output: __S(5728, __c179, 0) as any as S.Schema<DefaultShareScope>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
@@ -20894,7 +20861,7 @@ export const setFavouriteForFilter: API.OperationMethod<
   SetFavouriteForFilterError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<SetFavouriteForFilterRequest>,
+  input: __S(14752, __c461, 0) as any as S.Schema<SetFavouriteForFilterRequest>,
   output: __S(15138, __c473, 2) as any as S.Schema<FilterOutput>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
@@ -20912,7 +20879,7 @@ export const setIssueNavigatorDefaultColumns: API.OperationMethod<
   SetIssueNavigatorDefaultColumnsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<SetIssueNavigatorDefaultColumnsRequest>,
+  input: __S(14784, __c462, 0) as any as S.Schema<SetIssueNavigatorDefaultColumnsRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<SetIssueNavigatorDefaultColumnsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -20930,8 +20897,8 @@ export const setIssueProperty: API.OperationMethod<
   SetIssuePropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<SetIssuePropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetIssuePropertyResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<SetIssuePropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetIssuePropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20948,8 +20915,8 @@ export const setIssueTypeProperty: API.OperationMethod<
   SetIssueTypePropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<SetIssueTypePropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetIssueTypePropertyResponse>,
+  input: __S(14848, __c464, 0) as any as S.Schema<SetIssueTypePropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetIssueTypePropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20966,8 +20933,8 @@ export const setPreference: API.OperationMethod<
   SetPreferenceError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<SetPreferenceRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetPreferenceResponse>,
+  input: __S(14880, __c465, 0) as any as S.Schema<SetPreferenceRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetPreferenceResponse>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -20984,8 +20951,8 @@ export const setProjectProperty: API.OperationMethod<
   SetProjectPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<SetProjectPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetProjectPropertyResponse>,
+  input: __S(14912, __c466, 0) as any as S.Schema<SetProjectPropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetProjectPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21002,7 +20969,7 @@ export const setSharedTimeTrackingConfiguration: API.OperationMethod<
   SetSharedTimeTrackingConfigurationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<SetSharedTimeTrackingConfigurationRequest>,
+  input: __S(14944, __c467, 0) as any as S.Schema<SetSharedTimeTrackingConfigurationRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<TimeTrackingConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -21020,8 +20987,8 @@ export const setUserColumns: API.OperationMethod<
   SetUserColumnsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<SetUserColumnsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetUserColumnsResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<SetUserColumnsRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetUserColumnsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21038,8 +21005,8 @@ export const setUserProperty: API.OperationMethod<
   SetUserPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<SetUserPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetUserPropertyResponse>,
+  input: __S(15200, __c475, 0) as any as S.Schema<SetUserPropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetUserPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21056,8 +21023,8 @@ export const setWorkflowSchemeDraftIssueType: API.OperationMethod<
   SetWorkflowSchemeDraftIssueTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<SetWorkflowSchemeDraftIssueTypeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(15232, __c476, 0) as any as S.Schema<SetWorkflowSchemeDraftIssueTypeRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21074,8 +21041,8 @@ export const setWorkflowSchemeIssueType: API.OperationMethod<
   SetWorkflowSchemeIssueTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<SetWorkflowSchemeIssueTypeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(15264, __c477, 0) as any as S.Schema<SetWorkflowSchemeIssueTypeRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21092,8 +21059,8 @@ export const setWorklogProperty: API.OperationMethod<
   SetWorklogPropertyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<SetWorklogPropertyRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<SetWorklogPropertyResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<SetWorklogPropertyRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<SetWorklogPropertyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21110,8 +21077,8 @@ export const storeAvatar: API.OperationMethod<
   StoreAvatarError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15360, __c480, 0) as any as S.Schema<StoreAvatarRequest>,
-  output: __S(17568, __c549, 0) as any as S.Schema<Avatar>,
+  input: __S(15328, __c479, 0) as any as S.Schema<StoreAvatarRequest>,
+  output: __S(17536, __c548, 0) as any as S.Schema<Avatar>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21128,8 +21095,8 @@ export const submitBulkDelete: API.OperationMethod<
   SubmitBulkDeleteError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<SubmitBulkDeleteRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15360, __c480, 0) as any as S.Schema<SubmitBulkDeleteRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21146,8 +21113,8 @@ export const submitBulkEdit: API.OperationMethod<
   SubmitBulkEditError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15514, __c484, 26) as any as S.Schema<SubmitBulkEditRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15482, __c483, 26) as any as S.Schema<SubmitBulkEditRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21164,8 +21131,8 @@ export const submitBulkMove: API.OperationMethod<
   SubmitBulkMoveError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15529, __c485, 9) as any as S.Schema<SubmitBulkMoveRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15497, __c484, 9) as any as S.Schema<SubmitBulkMoveRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21182,8 +21149,8 @@ export const submitBulkTransition: API.OperationMethod<
   SubmitBulkTransitionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15586, __c487, 2) as any as S.Schema<SubmitBulkTransitionRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15522, __c485, 2) as any as S.Schema<SubmitBulkTransitionRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21200,8 +21167,8 @@ export const submitBulkUnwatch: API.OperationMethod<
   SubmitBulkUnwatchError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<SubmitBulkUnwatchRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15584, __c487, 0) as any as S.Schema<SubmitBulkUnwatchRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21218,8 +21185,8 @@ export const submitBulkWatch: API.OperationMethod<
   SubmitBulkWatchError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<SubmitBulkWatchRequest>,
-  output: __S(15424, __c482, 0) as any as S.Schema<SubmittedBulkOperation>,
+  input: __S(15616, __c488, 0) as any as S.Schema<SubmitBulkWatchRequest>,
+  output: __S(15392, __c481, 0) as any as S.Schema<SubmittedBulkOperation>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21236,7 +21203,7 @@ export const submitConnectMigrationTask: API.OperationMethod<
   SubmitConnectMigrationTaskError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<SubmitConnectMigrationTaskRequest>,
+  input: __S(15648, __c489, 0) as any as S.Schema<SubmitConnectMigrationTaskRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<SubmitConnectMigrationTaskResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -21254,7 +21221,7 @@ export const toggleFeatureForProject: API.OperationMethod<
   ToggleFeatureForProjectError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<ToggleFeatureForProjectRequest>,
+  input: __S(15680, __c490, 0) as any as S.Schema<ToggleFeatureForProjectRequest>,
   output: __S(6146, __c192, 2) as any as S.Schema<ContainerForProjectFeatures>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21272,8 +21239,8 @@ export const trashCustomField: API.OperationMethod<
   TrashCustomFieldError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<TrashCustomFieldRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<TrashCustomFieldResponse>,
+  input: __S(15712, __c491, 0) as any as S.Schema<TrashCustomFieldRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<TrashCustomFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21290,8 +21257,8 @@ export const updateComment: API.OperationMethod<
   UpdateCommentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<UpdateCommentRequest>,
-  output: __S(19008, __c594, 0) as any as S.Schema<Comment>,
+  input: __S(15744, __c492, 0) as any as S.Schema<UpdateCommentRequest>,
+  output: __S(18976, __c593, 0) as any as S.Schema<Comment>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21308,7 +21275,7 @@ export const updateComponent: API.OperationMethod<
   UpdateComponentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<UpdateComponentRequest>,
+  input: __S(15776, __c493, 0) as any as S.Schema<UpdateComponentRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ProjectComponentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21326,8 +21293,8 @@ export const updateCustomField: API.OperationMethod<
   UpdateCustomFieldError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<UpdateCustomFieldRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateCustomFieldResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<UpdateCustomFieldRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateCustomFieldResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21344,8 +21311,8 @@ export const updateCustomFieldConfiguration: API.OperationMethod<
   UpdateCustomFieldConfigurationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15874, __c496, 2) as any as S.Schema<UpdateCustomFieldConfigurationRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateCustomFieldConfigurationResponse>,
+  input: __S(15842, __c495, 2) as any as S.Schema<UpdateCustomFieldConfigurationRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateCustomFieldConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21362,8 +21329,8 @@ export const updateCustomFieldContext: API.OperationMethod<
   UpdateCustomFieldContextError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<UpdateCustomFieldContextRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateCustomFieldContextResponse>,
+  input: __S(15872, __c496, 0) as any as S.Schema<UpdateCustomFieldContextRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateCustomFieldContextResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21380,8 +21347,8 @@ export const updateCustomFieldOption: API.OperationMethod<
   UpdateCustomFieldOptionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16002, __c500, 2) as any as S.Schema<UpdateCustomFieldOptionRequest>,
-  output: __S(16003, __c500, 3) as any as S.Schema<CustomFieldUpdatedContextOptionsList>,
+  input: __S(15970, __c499, 2) as any as S.Schema<UpdateCustomFieldOptionRequest>,
+  output: __S(15971, __c499, 3) as any as S.Schema<CustomFieldUpdatedContextOptionsList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21398,8 +21365,8 @@ export const updateCustomFieldValue: API.OperationMethod<
   UpdateCustomFieldValueError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16034, __c501, 2) as any as S.Schema<UpdateCustomFieldValueRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateCustomFieldValueResponse>,
+  input: __S(16002, __c500, 2) as any as S.Schema<UpdateCustomFieldValueRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateCustomFieldValueResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21416,8 +21383,8 @@ export const updateDefaultScreenScheme: API.OperationMethod<
   UpdateDefaultScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<UpdateDefaultScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateDefaultScreenSchemeResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<UpdateDefaultScreenSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateDefaultScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21434,8 +21401,8 @@ export const updateDefaultWorkflow: API.OperationMethod<
   UpdateDefaultWorkflowError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<UpdateDefaultWorkflowRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(16064, __c502, 0) as any as S.Schema<UpdateDefaultWorkflowRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21452,8 +21419,8 @@ export const updateDraftDefaultWorkflow: API.OperationMethod<
   UpdateDraftDefaultWorkflowError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<UpdateDraftDefaultWorkflowRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(16096, __c503, 0) as any as S.Schema<UpdateDraftDefaultWorkflowRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21470,8 +21437,8 @@ export const updateDraftWorkflowMapping: API.OperationMethod<
   UpdateDraftWorkflowMappingError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<UpdateDraftWorkflowMappingRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(16128, __c504, 0) as any as S.Schema<UpdateDraftWorkflowMappingRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21488,7 +21455,7 @@ export const updateEntityPropertiesValue: API.OperationMethod<
   UpdateEntityPropertiesValueError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16194, __c506, 2) as any as S.Schema<UpdateEntityPropertiesValueRequest>,
+  input: __S(16162, __c505, 2) as any as S.Schema<UpdateEntityPropertiesValueRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<UpdateEntityPropertiesValueResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -21506,7 +21473,7 @@ export const updateFilter: API.OperationMethod<
   UpdateFilterError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16224, __c507, 0) as any as S.Schema<UpdateFilterRequest>,
+  input: __S(16192, __c506, 0) as any as S.Schema<UpdateFilterRequest>,
   output: __S(15138, __c473, 2) as any as S.Schema<FilterOutput>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
@@ -21524,7 +21491,7 @@ export const updateIssueFieldOption: API.OperationMethod<
   UpdateIssueFieldOptionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<UpdateIssueFieldOptionRequest>,
+  input: __S(16224, __c507, 0) as any as S.Schema<UpdateIssueFieldOptionRequest>,
   output: __S(16357, __c511, 5) as any as S.Schema<IssueFieldOption>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21542,8 +21509,8 @@ export const updateIssueFields: API.OperationMethod<
   UpdateIssueFieldsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16386, __c512, 2) as any as S.Schema<UpdateIssueFieldsRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateIssueFieldsResponse>,
+  input: __S(16258, __c508, 2) as any as S.Schema<UpdateIssueFieldsRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateIssueFieldsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21560,7 +21527,7 @@ export const updateIssueLinkType: API.OperationMethod<
   UpdateIssueLinkTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16416, __c513, 0) as any as S.Schema<UpdateIssueLinkTypeRequest>,
+  input: __S(16384, __c512, 0) as any as S.Schema<UpdateIssueLinkTypeRequest>,
   output: __S(16736, __c523, 0) as any as S.Schema<IssueLinkType>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21578,7 +21545,7 @@ export const updateIssueType: API.OperationMethod<
   UpdateIssueTypeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<UpdateIssueTypeRequest>,
+  input: __S(16416, __c513, 0) as any as S.Schema<UpdateIssueTypeRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<IssueTypeDetails>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -21596,8 +21563,8 @@ export const updateIssueTypeScheme: API.OperationMethod<
   UpdateIssueTypeSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<UpdateIssueTypeSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateIssueTypeSchemeResponse>,
+  input: __S(16448, __c514, 0) as any as S.Schema<UpdateIssueTypeSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateIssueTypeSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21614,8 +21581,8 @@ export const updateIssueTypeScreenScheme: API.OperationMethod<
   UpdateIssueTypeScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16512, __c516, 0) as any as S.Schema<UpdateIssueTypeScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateIssueTypeScreenSchemeResponse>,
+  input: __S(16480, __c515, 0) as any as S.Schema<UpdateIssueTypeScreenSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateIssueTypeScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21632,8 +21599,8 @@ export const updateMultipleCustomFieldValues: API.OperationMethod<
   UpdateMultipleCustomFieldValuesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16546, __c517, 2) as any as S.Schema<UpdateMultipleCustomFieldValuesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateMultipleCustomFieldValuesResponse>,
+  input: __S(16514, __c516, 2) as any as S.Schema<UpdateMultipleCustomFieldValuesRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateMultipleCustomFieldValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21650,7 +21617,7 @@ export const updatePermissionScheme: API.OperationMethod<
   UpdatePermissionSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16576, __c518, 0) as any as S.Schema<UpdatePermissionSchemeRequest>,
+  input: __S(16544, __c517, 0) as any as S.Schema<UpdatePermissionSchemeRequest>,
   output: __S(8128, __c254, 0) as any as S.Schema<PermissionScheme>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
@@ -21668,8 +21635,8 @@ export const updatePrecomputations: API.OperationMethod<
   UpdatePrecomputationsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16610, __c519, 2) as any as S.Schema<UpdatePrecomputationsRequest>,
-  output: __S(16611, __c519, 3) as any as S.Schema<JqlFunctionPrecomputationUpdateResponse>,
+  input: __S(16578, __c518, 2) as any as S.Schema<UpdatePrecomputationsRequest>,
+  output: __S(16579, __c518, 3) as any as S.Schema<JqlFunctionPrecomputationUpdateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21686,8 +21653,8 @@ export const updatePriority: API.OperationMethod<
   UpdatePriorityError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<UpdatePriorityRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdatePriorityResponse>,
+  input: __S(16608, __c519, 0) as any as S.Schema<UpdatePriorityRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdatePriorityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21704,7 +21671,7 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16672, __c521, 0) as any as S.Schema<UpdateProjectRequest>,
+  input: __S(16640, __c520, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(3078, __c96, 6) as any as S.Schema<ProjectOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21722,8 +21689,8 @@ export const updateProjectAvatar: API.OperationMethod<
   UpdateProjectAvatarError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<UpdateProjectAvatarRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateProjectAvatarResponse>,
+  input: __S(16672, __c521, 0) as any as S.Schema<UpdateProjectAvatarRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateProjectAvatarResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21740,8 +21707,8 @@ export const updateProjectCategory: API.OperationMethod<
   UpdateProjectCategoryError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<UpdateProjectCategoryRequest>,
-  output: __S(17632, __c551, 0) as any as S.Schema<UpdatedProjectCategory>,
+  input: __S(16768, __c524, 0) as any as S.Schema<UpdateProjectCategoryRequest>,
+  output: __S(17600, __c550, 0) as any as S.Schema<UpdatedProjectCategory>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21758,8 +21725,8 @@ export const updateProjectEmail: API.OperationMethod<
   UpdateProjectEmailError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<UpdateProjectEmailRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateProjectEmailResponse>,
+  input: __S(16800, __c525, 0) as any as S.Schema<UpdateProjectEmailRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateProjectEmailResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21776,8 +21743,8 @@ export const updateRelatedWork: API.OperationMethod<
   UpdateRelatedWorkError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<UpdateRelatedWorkRequest>,
-  output: __S(18464, __c577, 0) as any as S.Schema<VersionRelatedWork>,
+  input: __S(16832, __c526, 0) as any as S.Schema<UpdateRelatedWorkRequest>,
+  output: __S(18432, __c576, 0) as any as S.Schema<VersionRelatedWork>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21794,8 +21761,8 @@ export const updateRemoteIssueLink: API.OperationMethod<
   UpdateRemoteIssueLinkError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<UpdateRemoteIssueLinkRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateRemoteIssueLinkResponse>,
+  input: __S(16864, __c527, 0) as any as S.Schema<UpdateRemoteIssueLinkRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateRemoteIssueLinkResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21812,8 +21779,8 @@ export const updateSchemes: API.OperationMethod<
   UpdateSchemesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16934, __c529, 6) as any as S.Schema<UpdateSchemesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateSchemesResponse>,
+  input: __S(16902, __c528, 6) as any as S.Schema<UpdateSchemesRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateSchemesResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21830,8 +21797,8 @@ export const updateScreenScheme: API.OperationMethod<
   UpdateScreenSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16961, __c530, 1) as any as S.Schema<UpdateScreenSchemeRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateScreenSchemeResponse>,
+  input: __S(16929, __c529, 1) as any as S.Schema<UpdateScreenSchemeRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateScreenSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21848,8 +21815,8 @@ export const updateStatuses: API.OperationMethod<
   UpdateStatusesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16994, __c531, 2) as any as S.Schema<UpdateStatusesRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateStatusesResponse>,
+  input: __S(16962, __c530, 2) as any as S.Schema<UpdateStatusesRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateStatusesResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21866,8 +21833,8 @@ export const updateUiModification: API.OperationMethod<
   UpdateUiModificationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<UpdateUiModificationRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateUiModificationResponse>,
+  input: __S(16992, __c531, 0) as any as S.Schema<UpdateUiModificationRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateUiModificationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21884,7 +21851,7 @@ export const updateVersion: API.OperationMethod<
   UpdateVersionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<UpdateVersionRequest>,
+  input: __S(17024, __c532, 0) as any as S.Schema<UpdateVersionRequest>,
   output: __S(2947, __c92, 3) as any as S.Schema<Version>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -21902,8 +21869,8 @@ export const updateWorkflowMapping: API.OperationMethod<
   UpdateWorkflowMappingError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<UpdateWorkflowMappingRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(17056, __c533, 0) as any as S.Schema<UpdateWorkflowMappingRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21920,8 +21887,8 @@ export const updateWorkflows: API.OperationMethod<
   UpdateWorkflowsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<UpdateWorkflowsRequest>,
-  output: __S(17153, __c536, 1) as any as S.Schema<WorkflowUpdateResponse>,
+  input: __S(17120, __c535, 0) as any as S.Schema<UpdateWorkflowsRequest>,
+  output: __S(17121, __c535, 1) as any as S.Schema<WorkflowUpdateResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21938,8 +21905,8 @@ export const updateWorkflowScheme: API.OperationMethod<
   UpdateWorkflowSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17216, __c538, 0) as any as S.Schema<UpdateWorkflowSchemeRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(17184, __c537, 0) as any as S.Schema<UpdateWorkflowSchemeRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21956,8 +21923,8 @@ export const updateWorkflowSchemeDraft: API.OperationMethod<
   UpdateWorkflowSchemeDraftError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<UpdateWorkflowSchemeDraftRequest>,
-  output: __S(18913, __c591, 1) as any as S.Schema<WorkflowScheme>,
+  input: __S(17216, __c538, 0) as any as S.Schema<UpdateWorkflowSchemeDraftRequest>,
+  output: __S(18881, __c590, 1) as any as S.Schema<WorkflowScheme>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -21975,8 +21942,8 @@ export const updateWorkflowTransitionRuleConfigurations: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17284,
-    __c540,
+    17252,
+    __c539,
     4,
   ) as any as S.Schema<UpdateWorkflowTransitionRuleConfigurationsRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<WorkflowTransitionRulesUpdateErrors>,
@@ -21996,7 +21963,7 @@ export const updateWorklog: API.OperationMethod<
   UpdateWorklogError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<UpdateWorklogRequest>,
+  input: __S(17280, __c540, 0) as any as S.Schema<UpdateWorklogRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<Worklog>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
@@ -22014,8 +21981,8 @@ export const validateCreateWorkflows: API.OperationMethod<
   ValidateCreateWorkflowsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17345, __c542, 1) as any as S.Schema<ValidateCreateWorkflowsRequest>,
-  output: __S(17380, __c543, 4) as any as S.Schema<WorkflowValidationErrorList>,
+  input: __S(17313, __c541, 1) as any as S.Schema<ValidateCreateWorkflowsRequest>,
+  output: __S(17348, __c542, 4) as any as S.Schema<WorkflowValidationErrorList>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -22032,7 +21999,7 @@ export const validateProjectKey: API.OperationMethod<
   ValidateProjectKeyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<ValidateProjectKeyRequest>,
+  input: __S(17376, __c543, 0) as any as S.Schema<ValidateProjectKeyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ErrorCollection>,
   errors: [],
   serviceErrors: JiraServiceErrors,
@@ -22050,8 +22017,8 @@ export const validateUpdateWorkflows: API.OperationMethod<
   ValidateUpdateWorkflowsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17441, __c545, 1) as any as S.Schema<ValidateUpdateWorkflowsRequest>,
-  output: __S(17380, __c543, 4) as any as S.Schema<WorkflowValidationErrorList>,
+  input: __S(17409, __c544, 1) as any as S.Schema<ValidateUpdateWorkflowsRequest>,
+  output: __S(17348, __c542, 4) as any as S.Schema<WorkflowValidationErrorList>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -22068,8 +22035,8 @@ export const workflowCapabilities2: API.OperationMethod<
   WorkflowCapabilities2Error,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17472, __c546, 0) as any as S.Schema<WorkflowCapabilitiesRequest>,
-  output: __S(17483, __c546, 11) as any as S.Schema<WorkflowCapabilities>,
+  input: __S(17440, __c545, 0) as any as S.Schema<WorkflowCapabilitiesRequest>,
+  output: __S(17451, __c545, 11) as any as S.Schema<WorkflowCapabilities>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -22664,9 +22631,10 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           issueIdOrKey: S.String.pipe(T.Label()),
+          preferFieldAssociatedErrors: S.optional(S.Boolean.pipe(T.Query())),
           fields: S.optional(__S(9728, __c304, 0)),
           historyMetadata: S.optional(__S(10177, __c318, 1)),
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           transition: S.optional(__S(15936, __c498, 0)),
           update: S.optional(__S(15939, __c498, 3)),
         }).pipe(
@@ -22692,7 +22660,7 @@ function __c37(j: number): any {
           expand: S.optional(S.String.pipe(T.Query())),
           fields: S.optional(__S(9728, __c304, 0)),
           historyMetadata: S.optional(__S(10177, __c318, 1)),
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           transition: S.optional(__S(15936, __c498, 0)),
           update: S.optional(__S(15939, __c498, 3)),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/issue/{issueIdOrKey}", code: 200 })),
@@ -23661,7 +23629,7 @@ function __c89(j: number): any {
           active: S.optional(S.Boolean),
           appType: S.optional(S.String),
           applicationRoles: S.optional(__S(2848, __c89, 0)),
-          avatarUrls: S.optional(__S(17792, __c556, 0)),
+          avatarUrls: S.optional(__S(17760, __c555, 0)),
           displayName: S.optional(S.String),
           emailAddress: S.optional(S.String),
           expand: S.optional(S.String),
@@ -23712,7 +23680,7 @@ function __c91(j: number): any {
           iconUrl: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           self: S.optional(S.String),
           subtask: S.optional(S.Boolean),
         }),
@@ -23852,7 +23820,7 @@ function __c96(j: number): any {
           archivedBy: S.optional(__S(2850, __c89, 2)),
           archivedDate: S.optional(S.String),
           assigneeType: S.optional(S.String),
-          avatarUrls: S.optional(__S(17792, __c556, 0)),
+          avatarUrls: S.optional(__S(17760, __c555, 0)),
           components: S.optional(__S(3008, __c94, 0)),
           deleted: S.optional(S.Boolean),
           deletedBy: S.optional(__S(2850, __c89, 2)),
@@ -23871,7 +23839,7 @@ function __c96(j: number): any {
           lead: S.optional(__S(2850, __c89, 2)),
           name: S.optional(S.String),
           permissions: S.optional(__S(3077, __c96, 5)),
-          projectCategory: S.optional(__S(17632, __c551, 0)),
+          projectCategory: S.optional(__S(17600, __c550, 0)),
           projectTypeKey: S.optional(S.String),
           properties: S.optional(__S(9728, __c304, 0)),
           retentionTillDate: S.optional(S.String),
@@ -23893,7 +23861,7 @@ function __c97(j: number): any {
         S.Struct({
           accountId: S.optional(S.String),
           active: S.optional(S.Boolean),
-          avatarUrls: S.optional(__S(17792, __c556, 0)),
+          avatarUrls: S.optional(__S(17760, __c555, 0)),
           displayName: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
@@ -23906,7 +23874,7 @@ function __c97(j: number): any {
           group: S.optional(__S(2720, __c85, 0)),
           id: S.optional(S.Number),
           project: S.optional(__S(3078, __c96, 6)),
-          role: S.optional(__S(17763, __c555, 3)),
+          role: S.optional(__S(17731, __c554, 3)),
           type: S.String,
           user: S.optional(__S(3104, __c97, 0)),
         }),
@@ -23934,7 +23902,7 @@ function __c99(j: number): any {
 function __c100(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(17568, __c549, 0));
+      return S.Array(__S(17536, __c548, 0));
   }
 }
 function __c101(j: number): any {
@@ -23955,7 +23923,7 @@ function __c102(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/rest/api/3/projectCategory", code: 200 })),
       ).annotate({ identifier: "GetAllProjectCategoriesRequest" });
     case 1:
-      return S.Array(__S(17632, __c551, 0));
+      return S.Array(__S(17600, __c550, 0));
     case 2:
       return S.suspend(() => __S(3265, __c102, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllProjectCategoriesResponse",
@@ -23969,7 +23937,7 @@ function __c103(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/rest/api/3/role", code: 200 })),
       ).annotate({ identifier: "GetAllProjectRolesRequest" });
     case 1:
-      return S.Array(__S(17763, __c555, 3));
+      return S.Array(__S(17731, __c554, 3));
     case 2:
       return S.suspend(() => __S(3297, __c103, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllProjectRolesResponse",
@@ -24147,7 +24115,7 @@ function __c114(j: number): any {
 function __c115(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(18272, __c571, 0));
+      return S.Array(__S(18240, __c570, 0));
   }
 }
 function __c116(j: number): any {
@@ -24160,7 +24128,7 @@ function __c116(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/workflowscheme", code: 200 })),
       ).annotate({ identifier: "GetAllWorkflowSchemesRequest" });
     case 1:
-      return S.Array(__S(18913, __c591, 1));
+      return S.Array(__S(18881, __c590, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -24913,11 +24881,11 @@ function __c152(j: number): any {
           expand: S.optional(S.String.pipe(T.Query())),
           overrideEditableFlag: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.Unknown),
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           started: S.optional(S.String),
           timeSpent: S.optional(S.String),
           timeSpentSeconds: S.optional(S.Number),
-          visibility: S.optional(__S(19040, __c595, 0)),
+          visibility: S.optional(__S(19008, __c594, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/rest/api/3/issue/{issueIdOrKey}/worklog", code: 200 }),
         ),
@@ -24930,19 +24898,19 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            author: S.optional(__S(18272, __c571, 0)),
+            author: S.optional(__S(18240, __c570, 0)),
             comment: S.optional(S.Unknown),
             created: S.optional(S.String),
             id: S.optional(S.String),
             issueId: S.optional(S.String),
-            properties: S.optional(__S(19104, __c597, 0)),
+            properties: S.optional(__S(19072, __c596, 0)),
             self: S.optional(S.String),
             started: S.optional(S.String),
             timeSpent: S.optional(S.String),
             timeSpentSeconds: S.optional(S.Number),
-            updateAuthor: S.optional(__S(18272, __c571, 0)),
+            updateAuthor: S.optional(__S(18240, __c570, 0)),
             updated: S.optional(S.String),
-            visibility: S.optional(__S(19040, __c595, 0)),
+            visibility: S.optional(__S(19008, __c594, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -24992,7 +24960,7 @@ function __c155(j: number): any {
 function __c156(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(19008, __c594, 0));
+      return S.Array(__S(18976, __c593, 0));
   }
 }
 function __c157(j: number): any {
@@ -25237,7 +25205,7 @@ function __c165(j: number): any {
           iconUrl: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           self: S.optional(S.String),
           subtask: S.optional(S.Boolean),
         }),
@@ -26028,7 +25996,7 @@ function __c204(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           updatedTime: S.optional(S.Number),
           worklogId: S.optional(S.Number),
         }),
@@ -26137,7 +26105,7 @@ function __c210(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assignee: S.optional(__S(18272, __c571, 0)),
+          assignee: S.optional(__S(18240, __c570, 0)),
           issueType: S.optional(__S(2912, __c91, 0)),
           issuetype: S.optional(__S(2912, __c91, 0)),
           priority: S.optional(__S(6753, __c211, 1)),
@@ -26884,9 +26852,9 @@ function __c247(j: number): any {
           id: S.optional(S.Number),
           notificationType: S.optional(S.String),
           parameter: S.optional(S.String),
-          projectRole: S.optional(__S(17763, __c555, 3)),
+          projectRole: S.optional(__S(17731, __c554, 3)),
           recipient: S.optional(S.String),
-          user: S.optional(__S(18272, __c571, 0)),
+          user: S.optional(__S(18240, __c570, 0)),
         }),
       ).annotate({ identifier: "EventNotification" });
     case 2:
@@ -26909,7 +26877,7 @@ function __c247(j: number): any {
           name: S.optional(S.String),
           notificationSchemeEvents: S.optional(__S(7908, __c247, 4)),
           projects: S.optional(__S(2624, __c82, 0)),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           self: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotificationScheme" });
@@ -27025,7 +26993,7 @@ function __c254(j: number): any {
             id: S.optional(S.Number),
             name: S.String,
             permissions: S.optional(__S(8096, __c253, 0)),
-            scope: S.optional(__S(17696, __c553, 0)),
+            scope: S.optional(__S(17664, __c552, 0)),
             self: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -27532,7 +27500,7 @@ function __c278(j: number): any {
 function __c279(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(18400, __c575, 0));
+      return S.Array(__S(18368, __c574, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -27650,7 +27618,7 @@ function __c286(j: number): any {
           id: S.optional(S.Number),
           name: S.optional(S.String),
           roleConfigurable: S.optional(S.Boolean),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           self: S.optional(S.String),
           translatedName: S.optional(S.String),
           type: S.optional(S.String),
@@ -27698,7 +27666,7 @@ function __c288(j: number): any {
         ),
       ).annotate({ identifier: "GetProjectsForIssueTypeScreenSchemeRequest" });
     case 1:
-      return S.Array(__S(17664, __c552, 0));
+      return S.Array(__S(17632, __c551, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -27918,7 +27886,7 @@ function __c298(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/version/{id}/relatedwork", code: 200 })),
       ).annotate({ identifier: "GetRelatedWorkRequest" });
     case 1:
-      return S.Array(__S(18464, __c577, 0));
+      return S.Array(__S(18432, __c576, 0));
     case 2:
       return S.suspend(() => __S(9537, __c298, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRelatedWorkResponse",
@@ -27943,10 +27911,10 @@ function __c299(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          application: S.optional(__S(17920, __c560, 0)),
+          application: S.optional(__S(17888, __c559, 0)),
           globalId: S.optional(S.String),
           id: S.optional(S.Number),
-          object: S.optional(__S(17923, __c560, 3)),
+          object: S.optional(__S(17891, __c559, 3)),
           relationship: S.optional(S.String),
           self: S.optional(S.String),
         }),
@@ -28130,7 +28098,7 @@ function __c308(j: number): any {
             iconUrl: S.optional(S.String),
             id: S.optional(S.String),
             name: S.optional(S.String),
-            scope: S.optional(__S(17696, __c553, 0)),
+            scope: S.optional(__S(17664, __c552, 0)),
             self: S.optional(S.String),
             statusCategory: S.optional(__S(9824, __c307, 0)),
           }),
@@ -28158,7 +28126,7 @@ function __c309(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(__S(18272, __c571, 0)),
+          author: S.optional(__S(18240, __c570, 0)),
           created: S.optional(S.String),
           historyMetadata: S.optional(__S(10177, __c318, 1)),
           id: S.optional(S.String),
@@ -28381,7 +28349,7 @@ function __c319(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
         }),
       ).annotate({ identifier: "Screen" });
     case 2:
@@ -28420,7 +28388,7 @@ function __c320(j: number): any {
           id: S.optional(S.Number),
           issueTypeScreenSchemes: S.optional(__S(7553, __c236, 1)),
           name: S.optional(S.String),
-          screens: S.optional(__S(18528, __c579, 0)),
+          screens: S.optional(__S(18496, __c578, 0)),
         }),
       ).annotate({ identifier: "ScreenSchemeOutput" });
     case 2:
@@ -28456,7 +28424,7 @@ function __c321(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           tab: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "ScreenWithTab" });
@@ -29291,7 +29259,7 @@ function __c367(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectIds: __S(0, __c0, 0),
-          workflowScheme: __S(18913, __c591, 1),
+          workflowScheme: __S(18881, __c590, 1),
         }),
       ).annotate({ identifier: "WorkflowSchemeAssociations" });
     case 2:
@@ -29735,8 +29703,8 @@ function __c387(j: number): any {
         S.StructWithRest(
           S.Struct({
             body: S.optional(S.Unknown),
-            properties: S.optional(__S(19104, __c597, 0)),
-            visibility: S.optional(__S(19040, __c595, 0)),
+            properties: S.optional(__S(19072, __c596, 0)),
+            visibility: S.optional(__S(19008, __c594, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29952,7 +29920,7 @@ function __c396(j: number): any {
         }),
       ).annotate({ identifier: "NotificationRecipientsRestrictionsInput" });
     case 4:
-      return S.Array(__S(17728, __c554, 0));
+      return S.Array(__S(17696, __c553, 0));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
@@ -30201,7 +30169,7 @@ function __c404(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(S.NullOr(__S(18400, __c575, 0))),
+          project: S.optional(S.NullOr(__S(18368, __c574, 0))),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowPreviewScope" });
@@ -30348,8 +30316,8 @@ function __c406(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectIds: S.optional(S.NullOr(__S(19872, __c621, 0))),
-          workflowSchemeIds: S.optional(S.NullOr(__S(19872, __c621, 0))),
+          projectIds: S.optional(S.NullOr(__S(19840, __c620, 0))),
+          workflowSchemeIds: S.optional(S.NullOr(__S(19840, __c620, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/workflowscheme/read", code: 200 })),
       ).annotate({ identifier: "ReadWorkflowSchemesRequest" });
     case 1:
@@ -30803,7 +30771,7 @@ function __c432(j: number): any {
           navigable: S.optional(S.Boolean),
           orderable: S.optional(S.Boolean),
           schema: S.optional(__S(10112, __c316, 0)),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           searchable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FieldDetails" });
@@ -30942,7 +30910,7 @@ function __c440(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(18626, __c582, 2),
+          values: __S(18594, __c581, 2),
         }),
       ).annotate({ identifier: "PageOfStatuses" });
   }
@@ -31319,34 +31287,6 @@ function __c458(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextId: S.Number,
-          isAnyIssueType: S.optional(S.NullOr(S.Boolean)),
-          issueTypeId: S.optional(S.NullOr(S.String)),
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "IssueTypeDefaultValueUpdate" });
-    case 1:
-      return S.Array(__S(14656, __c458, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          fieldId: S.String.pipe(T.Label()),
-          defaultValues: S.optional(__S(14657, __c458, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/rest/api/3/field/{fieldId}/context/defaultValues",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetContextDefaultValuesRequest" });
-  }
-}
-function __c459(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           dashboardId: S.String.pipe(T.Label()),
           itemId: S.String.pipe(T.Label()),
           propertyKey: S.String.pipe(T.Label()),
@@ -31360,7 +31300,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "SetDashboardItemPropertyRequest" });
   }
 }
-function __c460(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31370,7 +31310,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "SetDefaultPriorityRequest" });
   }
 }
-function __c461(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31380,7 +31320,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "SetDefaultShareScopeRequest" });
   }
 }
-function __c462(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31391,7 +31331,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "SetFavouriteForFilterRequest" });
   }
 }
-function __c463(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31408,7 +31348,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "SetIssueNavigatorDefaultColumnsRequest" });
   }
 }
-function __c464(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31425,7 +31365,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "SetIssuePropertyRequest" });
   }
 }
-function __c465(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31442,7 +31382,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "SetIssueTypePropertyRequest" });
   }
 }
-function __c466(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31453,7 +31393,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "SetPreferenceRequest" });
   }
 }
-function __c467(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31468,6 +31408,25 @@ function __c467(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SetProjectPropertyRequest" });
+  }
+}
+function __c467(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          defaultUnit: S.String,
+          timeFormat: S.String,
+          workingDaysPerWeek: S.Number,
+          workingHoursPerDay: S.Number,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/rest/api/3/configuration/timetracking/options",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetSharedTimeTrackingConfigurationRequest" });
   }
 }
 function __c468(j: number): any {
@@ -31599,25 +31558,6 @@ function __c474(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultUnit: S.String,
-          timeFormat: S.String,
-          workingDaysPerWeek: S.Number,
-          workingHoursPerDay: S.Number,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/rest/api/3/configuration/timetracking/options",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetSharedTimeTrackingConfigurationRequest" });
-  }
-}
-function __c475(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           accountId: S.optional(S.String.pipe(T.Query())),
           columns: S.optional(__S(0, __c0, 0)),
         }).pipe(
@@ -31631,7 +31571,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "SetUserColumnsRequest" });
   }
 }
-function __c476(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31646,7 +31586,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "SetUserPropertyRequest" });
   }
 }
-function __c477(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31665,7 +31605,7 @@ function __c477(j: number): any {
       ).annotate({ identifier: "SetWorkflowSchemeDraftIssueTypeRequest" });
   }
 }
-function __c478(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31684,7 +31624,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "SetWorkflowSchemeIssueTypeRequest" });
   }
 }
-function __c479(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31702,7 +31642,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "SetWorklogPropertyRequest" });
   }
 }
-function __c480(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31722,7 +31662,7 @@ function __c480(j: number): any {
       ).annotate({ identifier: "StoreAvatarRequest" });
   }
 }
-function __c481(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31733,7 +31673,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "SubmitBulkDeleteRequest" });
   }
 }
-function __c482(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31743,7 +31683,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "SubmittedBulkOperation" });
   }
 }
-function __c483(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31754,13 +31694,13 @@ function __c483(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          childOptionValue: S.optional(__S(15456, __c483, 0)),
+          childOptionValue: S.optional(__S(15424, __c482, 0)),
           fieldId: S.String,
-          parentOptionValue: __S(15456, __c483, 0),
+          parentOptionValue: __S(15424, __c482, 0),
         }),
       ).annotate({ identifier: "JiraCascadingSelectField" });
     case 2:
-      return S.Array(__S(15457, __c483, 1));
+      return S.Array(__S(15425, __c482, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -31769,7 +31709,7 @@ function __c483(j: number): any {
         }),
       ).annotate({ identifier: "JiraNumberField" });
     case 4:
-      return S.Array(__S(15459, __c483, 3));
+      return S.Array(__S(15427, __c482, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -31779,12 +31719,12 @@ function __c483(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          color: __S(15461, __c483, 5),
+          color: __S(15429, __c482, 5),
           fieldId: S.String,
         }),
       ).annotate({ identifier: "JiraColorField" });
     case 7:
-      return S.Array(__S(15462, __c483, 6));
+      return S.Array(__S(15430, __c482, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -31794,12 +31734,12 @@ function __c483(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(15464, __c483, 8)),
+          date: S.optional(__S(15432, __c482, 8)),
           fieldId: S.String,
         }),
       ).annotate({ identifier: "JiraDateField" });
     case 10:
-      return S.Array(__S(15465, __c483, 9));
+      return S.Array(__S(15433, __c482, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -31809,12 +31749,12 @@ function __c483(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          dateTime: __S(15467, __c483, 11),
+          dateTime: __S(15435, __c482, 11),
           fieldId: S.String,
         }),
       ).annotate({ identifier: "JiraDateTimeField" });
     case 13:
-      return S.Array(__S(15468, __c483, 12));
+      return S.Array(__S(15436, __c482, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -31829,20 +31769,20 @@ function __c483(j: number): any {
         }),
       ).annotate({ identifier: "JiraLabelPropertiesInputJackson1" });
     case 16:
-      return S.Array(__S(15471, __c483, 15));
+      return S.Array(__S(15439, __c482, 15));
     case 17:
-      return S.Array(__S(15461, __c483, 5));
+      return S.Array(__S(15429, __c482, 5));
     case 18:
       return S.suspend(() =>
         S.Struct({
           bulkEditMultiSelectFieldOption: S.String,
           fieldId: S.String,
-          labelProperties: S.optional(__S(15472, __c483, 16)),
-          labels: __S(15473, __c483, 17),
+          labelProperties: S.optional(__S(15440, __c482, 16)),
+          labels: __S(15441, __c482, 17),
         }),
       ).annotate({ identifier: "JiraLabelsField" });
     case 19:
-      return S.Array(__S(15474, __c483, 18));
+      return S.Array(__S(15442, __c482, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -31850,16 +31790,16 @@ function __c483(j: number): any {
         }),
       ).annotate({ identifier: "JiraGroupInput" });
     case 21:
-      return S.Array(__S(15476, __c483, 20));
+      return S.Array(__S(15444, __c482, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          groups: __S(15477, __c483, 21),
+          groups: __S(15445, __c482, 21),
         }),
       ).annotate({ identifier: "JiraMultipleGroupPickerField" });
     case 23:
-      return S.Array(__S(15478, __c483, 22));
+      return S.Array(__S(15446, __c482, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -31867,27 +31807,27 @@ function __c483(j: number): any {
         }),
       ).annotate({ identifier: "JiraUserField" });
     case 25:
-      return S.Array(__S(15480, __c483, 24));
+      return S.Array(__S(15448, __c482, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          users: S.optional(__S(15481, __c483, 25)),
+          users: S.optional(__S(15449, __c482, 25)),
         }),
       ).annotate({ identifier: "JiraMultipleSelectUserPickerField" });
     case 27:
-      return S.Array(__S(15482, __c483, 26));
+      return S.Array(__S(15450, __c482, 26));
     case 28:
-      return S.Array(__S(15456, __c483, 0));
+      return S.Array(__S(15424, __c482, 0));
     case 29:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          options: __S(15484, __c483, 28),
+          options: __S(15452, __c482, 28),
         }),
       ).annotate({ identifier: "JiraMultipleSelectField" });
     case 30:
-      return S.Array(__S(15485, __c483, 29));
+      return S.Array(__S(15453, __c482, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -31896,20 +31836,20 @@ function __c483(j: number): any {
       ).annotate({ identifier: "JiraVersionField" });
   }
 }
-function __c484(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15487, __c483, 31));
+      return S.Array(__S(15455, __c482, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           bulkEditMultiSelectFieldOption: S.String,
           fieldId: S.String,
-          versions: __S(15488, __c484, 0),
+          versions: __S(15456, __c483, 0),
         }),
       ).annotate({ identifier: "JiraMultipleVersionPickerField" });
     case 2:
-      return S.Array(__S(15489, __c484, 1));
+      return S.Array(__S(15457, __c483, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -31917,12 +31857,12 @@ function __c484(j: number): any {
         }),
       ).annotate({ identifier: "JiraComponentField" });
     case 4:
-      return S.Array(__S(15491, __c484, 3));
+      return S.Array(__S(15459, __c483, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           bulkEditMultiSelectFieldOption: S.String,
-          components: __S(15492, __c484, 4),
+          components: __S(15460, __c483, 4),
           fieldId: S.String,
         }),
       ).annotate({ identifier: "JiraMultiSelectComponentField" });
@@ -31948,20 +31888,20 @@ function __c484(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          richText: __S(15496, __c484, 8),
+          richText: __S(15464, __c483, 8),
         }),
       ).annotate({ identifier: "JiraRichTextField" });
     case 10:
-      return S.Array(__S(15497, __c484, 9));
+      return S.Array(__S(15465, __c483, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          group: __S(15476, __c483, 20),
+          group: __S(15444, __c482, 20),
         }),
       ).annotate({ identifier: "JiraSingleGroupPickerField" });
     case 12:
-      return S.Array(__S(15499, __c484, 11));
+      return S.Array(__S(15467, __c483, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -31970,34 +31910,34 @@ function __c484(j: number): any {
         }),
       ).annotate({ identifier: "JiraSingleLineTextField" });
     case 14:
-      return S.Array(__S(15501, __c484, 13));
+      return S.Array(__S(15469, __c483, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          user: S.optional(__S(15480, __c483, 24)),
+          user: S.optional(__S(15448, __c482, 24)),
         }),
       ).annotate({ identifier: "JiraSingleSelectUserPickerField" });
     case 16:
-      return S.Array(__S(15503, __c484, 15));
+      return S.Array(__S(15471, __c483, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          option: __S(15456, __c483, 0),
+          option: __S(15424, __c482, 0),
         }),
       ).annotate({ identifier: "JiraSingleSelectField" });
     case 18:
-      return S.Array(__S(15505, __c484, 17));
+      return S.Array(__S(15473, __c483, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          version: __S(15487, __c483, 31),
+          version: __S(15455, __c482, 31),
         }),
       ).annotate({ identifier: "JiraSingleVersionPickerField" });
     case 20:
-      return S.Array(__S(15507, __c484, 19));
+      return S.Array(__S(15475, __c483, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -32018,39 +31958,39 @@ function __c484(j: number): any {
         }),
       ).annotate({ identifier: "JiraUrlField" });
     case 24:
-      return S.Array(__S(15511, __c484, 23));
+      return S.Array(__S(15479, __c483, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          cascadingSelectFields: S.optional(__S(15458, __c483, 2)),
-          clearableNumberFields: S.optional(__S(15460, __c483, 4)),
-          colorFields: S.optional(__S(15463, __c483, 7)),
-          datePickerFields: S.optional(__S(15466, __c483, 10)),
-          dateTimePickerFields: S.optional(__S(15469, __c483, 13)),
-          issueType: S.optional(__S(15470, __c483, 14)),
-          labelsFields: S.optional(__S(15475, __c483, 19)),
-          multipleGroupPickerFields: S.optional(__S(15479, __c483, 23)),
-          multipleSelectClearableUserPickerFields: S.optional(__S(15483, __c483, 27)),
-          multipleSelectFields: S.optional(__S(15486, __c483, 30)),
-          multipleVersionPickerFields: S.optional(__S(15490, __c484, 2)),
-          multiselectComponents: S.optional(__S(15493, __c484, 5)),
-          originalEstimateField: S.optional(__S(15494, __c484, 6)),
-          priority: S.optional(__S(15495, __c484, 7)),
-          richTextFields: S.optional(__S(15498, __c484, 10)),
-          singleGroupPickerFields: S.optional(__S(15500, __c484, 12)),
-          singleLineTextFields: S.optional(__S(15502, __c484, 14)),
-          singleSelectClearableUserPickerFields: S.optional(__S(15504, __c484, 16)),
-          singleSelectFields: S.optional(__S(15506, __c484, 18)),
-          singleVersionPickerFields: S.optional(__S(15508, __c484, 20)),
-          status: S.optional(__S(15509, __c484, 21)),
-          timeTrackingField: S.optional(__S(15510, __c484, 22)),
-          urlFields: S.optional(__S(15512, __c484, 24)),
+          cascadingSelectFields: S.optional(__S(15426, __c482, 2)),
+          clearableNumberFields: S.optional(__S(15428, __c482, 4)),
+          colorFields: S.optional(__S(15431, __c482, 7)),
+          datePickerFields: S.optional(__S(15434, __c482, 10)),
+          dateTimePickerFields: S.optional(__S(15437, __c482, 13)),
+          issueType: S.optional(__S(15438, __c482, 14)),
+          labelsFields: S.optional(__S(15443, __c482, 19)),
+          multipleGroupPickerFields: S.optional(__S(15447, __c482, 23)),
+          multipleSelectClearableUserPickerFields: S.optional(__S(15451, __c482, 27)),
+          multipleSelectFields: S.optional(__S(15454, __c482, 30)),
+          multipleVersionPickerFields: S.optional(__S(15458, __c483, 2)),
+          multiselectComponents: S.optional(__S(15461, __c483, 5)),
+          originalEstimateField: S.optional(__S(15462, __c483, 6)),
+          priority: S.optional(__S(15463, __c483, 7)),
+          richTextFields: S.optional(__S(15466, __c483, 10)),
+          singleGroupPickerFields: S.optional(__S(15468, __c483, 12)),
+          singleLineTextFields: S.optional(__S(15470, __c483, 14)),
+          singleSelectClearableUserPickerFields: S.optional(__S(15472, __c483, 16)),
+          singleSelectFields: S.optional(__S(15474, __c483, 18)),
+          singleVersionPickerFields: S.optional(__S(15476, __c483, 20)),
+          status: S.optional(__S(15477, __c483, 21)),
+          timeTrackingField: S.optional(__S(15478, __c483, 22)),
+          urlFields: S.optional(__S(15480, __c483, 24)),
         }),
       ).annotate({ identifier: "JiraIssueFields" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          editedFieldsInput: __S(15513, __c484, 25),
+          editedFieldsInput: __S(15481, __c483, 25),
           selectedActions: __S(0, __c0, 0),
           selectedIssueIdsOrKeys: __S(0, __c0, 0),
           sendBulkNotification: S.optional(S.NullOr(S.Boolean)),
@@ -32058,7 +31998,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "SubmitBulkEditRequest" });
   }
 }
-function __c485(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32069,17 +32009,17 @@ function __c485(j: number): any {
         }),
       ).annotate({ identifier: "TargetClassification" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(15520, __c485, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(15488, __c484, 0)));
     case 2:
       return S.Record(S.String, S.Unknown);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(15522, __c485, 2),
+          fields: __S(15490, __c484, 2),
         }),
       ).annotate({ identifier: "TargetMandatoryFields" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(15523, __c485, 3)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(15491, __c484, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -32087,7 +32027,7 @@ function __c485(j: number): any {
         }),
       ).annotate({ identifier: "TargetStatus" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(15525, __c485, 5)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(15493, __c484, 5)));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -32096,20 +32036,40 @@ function __c485(j: number): any {
           inferStatusDefaults: S.Boolean,
           inferSubtaskTypeDefault: S.Boolean,
           issueIdsOrKeys: S.optional(__S(0, __c0, 0)),
-          targetClassification: S.optional(S.NullOr(__S(15521, __c485, 1))),
-          targetMandatoryFields: S.optional(S.NullOr(__S(15524, __c485, 4))),
-          targetStatus: S.optional(S.NullOr(__S(15526, __c485, 6))),
+          targetClassification: S.optional(S.NullOr(__S(15489, __c484, 1))),
+          targetMandatoryFields: S.optional(S.NullOr(__S(15492, __c484, 4))),
+          targetStatus: S.optional(S.NullOr(__S(15494, __c484, 6))),
         }),
       ).annotate({ identifier: "TargetToSourcesMapping" });
     case 8:
-      return S.Record(S.String, __S(15527, __c485, 7));
+      return S.Record(S.String, __S(15495, __c484, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           sendBulkNotification: S.optional(S.NullOr(S.Boolean)),
-          targetToSourcesMapping: S.optional(__S(15528, __c485, 8)),
+          targetToSourcesMapping: S.optional(__S(15496, __c484, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/bulk/issues/move", code: 200 })),
       ).annotate({ identifier: "SubmitBulkMoveRequest" });
+  }
+}
+function __c485(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          selectedIssueIdsOrKeys: __S(0, __c0, 0),
+          transitionId: S.String,
+        }),
+      ).annotate({ identifier: "BulkTransitionSubmitInput" });
+    case 1:
+      return S.Array(__S(15520, __c485, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          bulkTransitionInputs: __S(15521, __c485, 1),
+          sendBulkNotification: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/bulk/issues/transition", code: 200 })),
+      ).annotate({ identifier: "SubmitBulkTransitionRequest" });
   }
 }
 function __c486(j: number): any {
@@ -32128,31 +32088,11 @@ function __c487(j: number): any {
       return S.suspend(() =>
         S.Struct({
           selectedIssueIdsOrKeys: __S(0, __c0, 0),
-          transitionId: S.String,
-        }),
-      ).annotate({ identifier: "BulkTransitionSubmitInput" });
-    case 1:
-      return S.Array(__S(15584, __c487, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          bulkTransitionInputs: __S(15585, __c487, 1),
-          sendBulkNotification: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/bulk/issues/transition", code: 200 })),
-      ).annotate({ identifier: "SubmitBulkTransitionRequest" });
-  }
-}
-function __c488(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          selectedIssueIdsOrKeys: __S(0, __c0, 0),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/bulk/issues/unwatch", code: 200 })),
       ).annotate({ identifier: "SubmitBulkUnwatchRequest" });
   }
 }
-function __c489(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32162,7 +32102,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "SubmitBulkWatchRequest" });
   }
 }
-function __c490(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32180,7 +32120,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "SubmitConnectMigrationTaskRequest" });
   }
 }
-function __c491(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32198,7 +32138,7 @@ function __c491(j: number): any {
       ).annotate({ identifier: "ToggleFeatureForProjectRequest" });
   }
 }
-function __c492(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32208,7 +32148,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "TrashCustomFieldRequest" });
   }
 }
-function __c493(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32219,8 +32159,8 @@ function __c493(j: number): any {
           overrideEditableFlag: S.optional(S.Boolean.pipe(T.Query())),
           expand: S.optional(S.String.pipe(T.Query())),
           body: S.optional(S.Unknown),
-          properties: S.optional(__S(19104, __c597, 0)),
-          visibility: S.optional(__S(19040, __c595, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
+          visibility: S.optional(__S(19008, __c594, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32231,7 +32171,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "UpdateCommentRequest" });
   }
 }
-function __c494(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32247,7 +32187,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "UpdateComponentRequest" });
   }
 }
-function __c495(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32260,7 +32200,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "UpdateCustomFieldRequest" });
   }
 }
-function __c496(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32271,12 +32211,12 @@ function __c496(j: number): any {
         }),
       ).annotate({ identifier: "ContextualConfigurationInput" });
     case 1:
-      return S.Array(__S(15872, __c496, 0));
+      return S.Array(__S(15840, __c495, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fieldIdOrKey: S.String.pipe(T.Label()),
-          configurations: __S(15873, __c496, 1),
+          configurations: __S(15841, __c495, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32287,15 +32227,35 @@ function __c496(j: number): any {
       ).annotate({ identifier: "UpdateCustomFieldConfigurationRequest" });
   }
 }
+function __c496(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fieldId: S.String.pipe(T.Label()),
+          contextId: S.Number.pipe(T.Label()),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/rest/api/3/field/{fieldId}/context/{contextId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateCustomFieldContextRequest" });
+  }
+}
 function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateHistory: S.optional(S.Boolean.pipe(T.Query())),
+          preferFieldAssociatedErrors: S.optional(S.Boolean.pipe(T.Query())),
           fields: S.optional(__S(9728, __c304, 0)),
           historyMetadata: S.optional(__S(10177, __c318, 1)),
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           transition: S.optional(__S(15936, __c498, 0)),
           update: S.optional(__S(15939, __c498, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/issue", code: 200 })),
@@ -32335,38 +32295,19 @@ function __c499(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fieldId: S.String.pipe(T.Label()),
-          contextId: S.Number.pipe(T.Label()),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/rest/api/3/field/{fieldId}/context/{contextId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateCustomFieldContextRequest" });
-  }
-}
-function __c500(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           disabled: S.optional(S.Boolean),
           id: S.String,
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomFieldOptionUpdate" });
     case 1:
-      return S.Array(__S(16000, __c500, 0));
+      return S.Array(__S(15968, __c499, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String.pipe(T.Label()),
           contextId: S.Number.pipe(T.Label()),
-          options: S.optional(__S(16001, __c500, 1)),
+          options: S.optional(__S(15969, __c499, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32378,12 +32319,12 @@ function __c500(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(16001, __c500, 1)),
+          options: S.optional(__S(15969, __c499, 1)),
         }),
       ).annotate({ identifier: "CustomFieldUpdatedContextOptionsList" });
   }
 }
-function __c501(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32393,21 +32334,21 @@ function __c501(j: number): any {
         }),
       ).annotate({ identifier: "CustomFieldValueUpdate" });
     case 1:
-      return S.Array(__S(16032, __c501, 0));
+      return S.Array(__S(16000, __c500, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fieldIdOrKey: S.String.pipe(T.Label()),
           generateChangelog: S.optional(S.Boolean.pipe(T.Query())),
           generateAppEvents: S.optional(S.Boolean.pipe(T.Query())),
-          updates: S.optional(__S(16033, __c501, 1)),
+          updates: S.optional(__S(16001, __c500, 1)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/rest/api/3/app/field/{fieldIdOrKey}/value", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateCustomFieldValueRequest" });
   }
 }
-function __c502(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32424,7 +32365,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "UpdateDefaultScreenSchemeRequest" });
   }
 }
-function __c503(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32438,7 +32379,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "UpdateDefaultWorkflowRequest" });
   }
 }
-function __c504(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32456,7 +32397,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "UpdateDraftDefaultWorkflowRequest" });
   }
 }
-function __c505(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32477,7 +32418,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "UpdateDraftWorkflowMappingRequest" });
   }
 }
-function __c506(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32488,12 +32429,12 @@ function __c506(j: number): any {
         }),
       ).annotate({ identifier: "EntityPropertyDetails" });
     case 1:
-      return S.Array(__S(16192, __c506, 0));
+      return S.Array(__S(16160, __c505, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           entityType: S.String.pipe(T.Label()),
-          body: __S(16193, __c506, 1).pipe(T.HttpBody()),
+          body: __S(16161, __c505, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32504,7 +32445,7 @@ function __c506(j: number): any {
       ).annotate({ identifier: "UpdateEntityPropertiesValueRequest" });
   }
 }
-function __c507(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32522,7 +32463,7 @@ function __c507(j: number): any {
       ).annotate({ identifier: "UpdateFilterRequest" });
   }
 }
-function __c508(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32541,6 +32482,33 @@ function __c508(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateIssueFieldOptionRequest" });
+  }
+}
+function __c508(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _type: S.String,
+          fieldID: S.Number,
+          issueID: S.Number,
+          number: S.optional(S.Number),
+          optionID: S.optional(S.String),
+          richText: S.optional(S.String),
+          string: S.optional(S.String),
+          text: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectCustomFieldValue" });
+    case 1:
+      return S.Array(__S(16256, __c508, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          updateValueList: S.optional(__S(16257, __c508, 1)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/rest/atlassian-connect/1/migration/field", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateIssueFieldsRequest" });
   }
 }
 function __c509(j: number): any {
@@ -32610,33 +32578,6 @@ function __c512(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _type: S.String,
-          fieldID: S.Number,
-          issueID: S.Number,
-          number: S.optional(S.Number),
-          optionID: S.optional(S.String),
-          richText: S.optional(S.String),
-          string: S.optional(S.String),
-          text: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectCustomFieldValue" });
-    case 1:
-      return S.Array(__S(16384, __c512, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          updateValueList: S.optional(__S(16385, __c512, 1)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/rest/atlassian-connect/1/migration/field", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateIssueFieldsRequest" });
-  }
-}
-function __c513(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           issueLinkTypeId: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           inward: S.optional(S.String),
@@ -32648,7 +32589,7 @@ function __c513(j: number): any {
       ).annotate({ identifier: "UpdateIssueLinkTypeRequest" });
   }
 }
-function __c514(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32661,7 +32602,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "UpdateIssueTypeRequest" });
   }
 }
-function __c515(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32680,7 +32621,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "UpdateIssueTypeSchemeRequest" });
   }
 }
-function __c516(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32698,7 +32639,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "UpdateIssueTypeScreenSchemeRequest" });
   }
 }
-function __c517(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32709,18 +32650,18 @@ function __c517(j: number): any {
         }),
       ).annotate({ identifier: "MultipleCustomFieldValuesUpdate" });
     case 1:
-      return S.Array(__S(16544, __c517, 0));
+      return S.Array(__S(16512, __c516, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           generateChangelog: S.optional(S.Boolean.pipe(T.Query())),
           generateAppEvents: S.optional(S.Boolean.pipe(T.Query())),
-          updates: S.optional(__S(16545, __c517, 1)),
+          updates: S.optional(__S(16513, __c516, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/app/field/value", code: 200 })),
       ).annotate({ identifier: "UpdateMultipleCustomFieldValuesRequest" });
   }
 }
-function __c518(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32729,15 +32670,15 @@ function __c518(j: number): any {
           expand: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String),
           name: S.String,
-          permissions: S.optional(__S(18049, __c564, 1)),
-          scope: S.optional(__S(18050, __c564, 2)),
+          permissions: S.optional(__S(18017, __c563, 1)),
+          scope: S.optional(__S(18018, __c563, 2)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/rest/api/3/permissionscheme/{schemeId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdatePermissionSchemeRequest" });
   }
 }
-function __c519(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32748,12 +32689,12 @@ function __c519(j: number): any {
         }),
       ).annotate({ identifier: "JqlFunctionPrecomputationUpdateBean" });
     case 1:
-      return S.Array(__S(16608, __c519, 0));
+      return S.Array(__S(16576, __c518, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           skipNotFoundPrecomputations: S.optional(S.Boolean.pipe(T.Query())),
-          values: S.optional(__S(16609, __c519, 1)),
+          values: S.optional(__S(16577, __c518, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/jql/function/computation", code: 200 })),
       ).annotate({ identifier: "UpdatePrecomputationsRequest" });
     case 3:
@@ -32764,7 +32705,7 @@ function __c519(j: number): any {
       ).annotate({ identifier: "JqlFunctionPrecomputationUpdateResponse" });
   }
 }
-function __c520(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32779,7 +32720,7 @@ function __c520(j: number): any {
       ).annotate({ identifier: "UpdatePriorityRequest" });
   }
 }
-function __c521(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32801,6 +32742,19 @@ function __c521(j: number): any {
           url: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/project/{projectIdOrKey}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
+  }
+}
+function __c521(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectIdOrKey: S.String.pipe(T.Label()),
+          id: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/rest/api/3/project/{projectIdOrKey}/avatar", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateProjectAvatarRequest" });
   }
 }
 function __c522(j: number): any {
@@ -32835,19 +32789,6 @@ function __c524(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectIdOrKey: S.String.pipe(T.Label()),
-          id: S.String,
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/rest/api/3/project/{projectIdOrKey}/avatar", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateProjectAvatarRequest" });
-  }
-}
-function __c525(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.Number.pipe(T.Label()),
           description: S.optional(S.String),
           name: S.optional(S.String),
@@ -32855,7 +32796,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "UpdateProjectCategoryRequest" });
   }
 }
-function __c526(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32867,7 +32808,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "UpdateProjectEmailRequest" });
   }
 }
-function __c527(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32880,16 +32821,16 @@ function __c527(j: number): any {
       ).annotate({ identifier: "UpdateRelatedWorkRequest" });
   }
 }
-function __c528(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           issueIdOrKey: S.String.pipe(T.Label()),
           linkId: S.String.pipe(T.Label()),
-          application: S.optional(__S(17920, __c560, 0)),
+          application: S.optional(__S(17888, __c559, 0)),
           globalId: S.optional(S.String),
-          object: __S(17923, __c560, 3),
+          object: __S(17891, __c559, 3),
           relationship: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -32901,7 +32842,7 @@ function __c528(j: number): any {
       ).annotate({ identifier: "UpdateRemoteIssueLinkRequest" });
   }
 }
-function __c529(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32911,26 +32852,26 @@ function __c529(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowAssociationStatusMapping" });
     case 1:
-      return S.Array(__S(16928, __c529, 0));
+      return S.Array(__S(16896, __c528, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           issueTypeId: S.optional(S.String),
-          statusMappings: S.optional(__S(16929, __c529, 1)),
+          statusMappings: S.optional(__S(16897, __c528, 1)),
         }),
       ).annotate({ identifier: "MappingsByIssueTypeOverride" });
     case 3:
-      return S.Array(__S(16930, __c529, 2));
+      return S.Array(__S(16898, __c528, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           newWorkflowId: S.String,
           oldWorkflowId: S.String,
-          statusMappings: __S(16929, __c529, 1),
+          statusMappings: __S(16897, __c528, 1),
         }),
       ).annotate({ identifier: "MappingsByWorkflow" });
     case 5:
-      return S.Array(__S(16932, __c529, 4));
+      return S.Array(__S(16900, __c528, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -32938,15 +32879,15 @@ function __c529(j: number): any {
           description: S.String,
           id: S.String,
           name: S.String,
-          statusMappingsByIssueTypeOverride: S.optional(__S(16931, __c529, 3)),
-          statusMappingsByWorkflows: S.optional(__S(16933, __c529, 5)),
+          statusMappingsByIssueTypeOverride: S.optional(__S(16899, __c528, 3)),
+          statusMappingsByWorkflows: S.optional(__S(16901, __c528, 5)),
           version: __S(12192, __c381, 0),
           workflowsForIssueTypes: S.optional(__S(9665, __c302, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/workflowscheme/update", code: 200 })),
       ).annotate({ identifier: "UpdateSchemesRequest" });
   }
 }
-function __c530(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32963,14 +32904,14 @@ function __c530(j: number): any {
           screenSchemeId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          screens: S.optional(__S(16960, __c530, 0)),
+          screens: S.optional(__S(16928, __c529, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/rest/api/3/screenscheme/{screenSchemeId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateScreenSchemeRequest" });
   }
 }
-function __c531(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32985,22 +32926,22 @@ function __c531(j: number): any {
         ),
       ).annotate({ identifier: "StatusUpdate" });
     case 1:
-      return S.Array(__S(16992, __c531, 0));
+      return S.Array(__S(16960, __c530, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          statuses: __S(16993, __c531, 1),
+          statuses: __S(16961, __c530, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/statuses", code: 200 })),
       ).annotate({ identifier: "UpdateStatusesRequest" });
   }
 }
-function __c532(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uiModificationId: S.String.pipe(T.Label()),
-          contexts: S.optional(__S(18689, __c584, 1)),
+          contexts: S.optional(__S(18657, __c583, 1)),
           data: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
@@ -33014,7 +32955,7 @@ function __c532(j: number): any {
       ).annotate({ identifier: "UpdateUiModificationRequest" });
   }
 }
-function __c533(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33035,6 +32976,23 @@ function __c533(j: number): any {
       ).annotate({ identifier: "UpdateVersionRequest" });
   }
 }
+function __c533(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+          workflowName: S.String.pipe(T.Query()),
+          defaultMapping: S.optional(S.Boolean),
+          issueTypes: S.optional(__S(0, __c0, 0)),
+          updateDraftIfNeeded: S.optional(S.Boolean),
+          workflow: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/rest/api/3/workflowscheme/{id}/workflow", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateWorkflowMappingRequest" });
+  }
+}
 function __c534(j: number): any {
   switch (j) {
     case 0:
@@ -33043,7 +33001,7 @@ function __c534(j: number): any {
           S.Struct({
             fields: S.optional(__S(9728, __c304, 0)),
             historyMetadata: S.optional(__S(10177, __c318, 1)),
-            properties: S.optional(__S(19104, __c597, 0)),
+            properties: S.optional(__S(19072, __c596, 0)),
             transition: S.optional(__S(15936, __c498, 0)),
             update: S.optional(__S(15939, __c498, 3)),
           }),
@@ -33065,25 +33023,8 @@ function __c535(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.Number.pipe(T.Label()),
-          workflowName: S.String.pipe(T.Query()),
-          defaultMapping: S.optional(S.Boolean),
-          issueTypes: S.optional(__S(0, __c0, 0)),
-          updateDraftIfNeeded: S.optional(S.Boolean),
-          workflow: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/rest/api/3/workflowscheme/{id}/workflow", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateWorkflowMappingRequest" });
-  }
-}
-function __c536(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          statuses: S.optional(__S(18817, __c588, 1)),
-          workflows: S.optional(__S(17189, __c537, 5)),
+          statuses: S.optional(__S(18785, __c587, 1)),
+          workflows: S.optional(__S(17157, __c536, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/workflows/update", code: 200 })),
       ).annotate({ identifier: "UpdateWorkflowsRequest" });
     case 1:
@@ -33096,7 +33037,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "WorkflowUpdateResponse" });
   }
 }
-function __c537(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33109,42 +33050,42 @@ function __c537(j: number): any {
         ),
       ).annotate({ identifier: "StatusMigration" });
     case 1:
-      return S.Array(__S(17184, __c537, 0));
+      return S.Array(__S(17152, __c536, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             issueTypeId: S.String,
             projectId: S.String,
-            statusMigrations: __S(17185, __c537, 1),
+            statusMigrations: __S(17153, __c536, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "StatusMappingDTO" });
     case 3:
-      return S.Array(__S(17186, __c537, 2));
+      return S.Array(__S(17154, __c536, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            defaultStatusMappings: S.optional(__S(17185, __c537, 1)),
+            defaultStatusMappings: S.optional(__S(17153, __c536, 1)),
             description: S.optional(S.String),
             id: S.String,
             loopedTransitionContainerLayout: S.optional(S.NullOr(__S(12160, __c380, 0))),
             startPointLayout: S.optional(S.NullOr(__S(12160, __c380, 0))),
-            statusMappings: S.optional(__S(17187, __c537, 3)),
-            statuses: __S(18819, __c588, 3),
-            transitions: __S(18823, __c588, 7),
+            statusMappings: S.optional(__S(17155, __c536, 3)),
+            statuses: __S(18787, __c587, 3),
+            transitions: __S(18791, __c587, 7),
             version: __S(12192, __c381, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "WorkflowUpdate" });
     case 5:
-      return S.Array(__S(17188, __c537, 4));
+      return S.Array(__S(17156, __c536, 4));
   }
 }
-function __c538(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33159,7 +33100,7 @@ function __c538(j: number): any {
       ).annotate({ identifier: "UpdateWorkflowSchemeRequest" });
   }
 }
-function __c539(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33174,7 +33115,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "UpdateWorkflowSchemeDraftRequest" });
   }
 }
-function __c540(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33184,27 +33125,27 @@ function __c540(j: number): any {
         }),
       ).annotate({ identifier: "AppWorkflowTransitionRuleInput" });
     case 1:
-      return S.Array(__S(17280, __c540, 0));
+      return S.Array(__S(17248, __c539, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(17281, __c540, 1)),
-          postFunctions: S.optional(__S(17281, __c540, 1)),
-          validators: S.optional(__S(17281, __c540, 1)),
+          conditions: S.optional(__S(17249, __c539, 1)),
+          postFunctions: S.optional(__S(17249, __c539, 1)),
+          validators: S.optional(__S(17249, __c539, 1)),
           workflowId: __S(1024, __c32, 0),
         }),
       ).annotate({ identifier: "WorkflowTransitionRulesInput" });
     case 3:
-      return S.Array(__S(17282, __c540, 2));
+      return S.Array(__S(17250, __c539, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          workflows: __S(17283, __c540, 3),
+          workflows: __S(17251, __c539, 3),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/workflow/rule/config", code: 200 })),
       ).annotate({ identifier: "UpdateWorkflowTransitionRuleConfigurationsRequest" });
   }
 }
-function __c541(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33217,11 +33158,11 @@ function __c541(j: number): any {
           expand: S.optional(S.String.pipe(T.Query())),
           overrideEditableFlag: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.Unknown),
-          properties: S.optional(__S(19104, __c597, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
           started: S.optional(S.String),
           timeSpent: S.optional(S.String),
           timeSpentSeconds: S.optional(S.Number),
-          visibility: S.optional(__S(19040, __c595, 0)),
+          visibility: S.optional(__S(19008, __c594, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33232,28 +33173,28 @@ function __c541(j: number): any {
       ).annotate({ identifier: "UpdateWorklogRequest" });
   }
 }
-function __c542(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.optional(__S(12224, __c382, 0)),
-          statuses: S.optional(__S(18817, __c588, 1)),
-          workflows: S.optional(__S(18849, __c589, 1)),
+          statuses: S.optional(__S(18785, __c587, 1)),
+          workflows: S.optional(__S(18817, __c588, 1)),
         }),
       ).annotate({ identifier: "WorkflowCreateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          payload: __S(17344, __c542, 0),
-          validationOptions: S.optional(__S(17376, __c543, 0)),
+          payload: __S(17312, __c541, 0),
+          validationOptions: S.optional(__S(17344, __c542, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/rest/api/3/workflows/create/validation", code: 200 }),
         ),
       ).annotate({ identifier: "ValidateCreateWorkflowsRequest" });
   }
 }
-function __c543(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33276,23 +33217,23 @@ function __c543(j: number): any {
         S.Struct({
           additionalDetails: S.optional(S.String),
           code: S.optional(S.String),
-          elementReference: S.optional(__S(17377, __c543, 1)),
+          elementReference: S.optional(__S(17345, __c542, 1)),
           level: S.optional(S.String),
           message: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowValidationError" });
     case 3:
-      return S.Array(__S(17378, __c543, 2));
+      return S.Array(__S(17346, __c542, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(17379, __c543, 3)),
+          errors: S.optional(__S(17347, __c542, 3)),
         }),
       ).annotate({ identifier: "WorkflowValidationErrorList" });
   }
 }
-function __c544(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33302,27 +33243,27 @@ function __c544(j: number): any {
       ).annotate({ identifier: "ValidateProjectKeyRequest" });
   }
 }
-function __c545(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(18817, __c588, 1)),
-          workflows: S.optional(__S(17189, __c537, 5)),
+          statuses: S.optional(__S(18785, __c587, 1)),
+          workflows: S.optional(__S(17157, __c536, 5)),
         }),
       ).annotate({ identifier: "WorkflowUpdateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          payload: __S(17440, __c545, 0),
-          validationOptions: S.optional(__S(17376, __c543, 0)),
+          payload: __S(17408, __c544, 0),
+          validationOptions: S.optional(__S(17344, __c542, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/rest/api/3/workflows/update/validation", code: 200 }),
         ),
       ).annotate({ identifier: "ValidateUpdateWorkflowsRequest" });
   }
 }
-function __c546(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33347,7 +33288,7 @@ function __c546(j: number): any {
         }),
       ).annotate({ identifier: "AvailableWorkflowConnectRule" });
     case 2:
-      return S.Array(__S(17473, __c546, 1));
+      return S.Array(__S(17441, __c545, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -33359,7 +33300,7 @@ function __c546(j: number): any {
         }),
       ).annotate({ identifier: "AvailableWorkflowForgeRule" });
     case 4:
-      return S.Array(__S(17475, __c546, 3));
+      return S.Array(__S(17443, __c545, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -33373,7 +33314,7 @@ function __c546(j: number): any {
         }),
       ).annotate({ identifier: "AvailableWorkflowSystemRule" });
     case 6:
-      return S.Array(__S(17477, __c546, 5));
+      return S.Array(__S(17445, __c545, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -33383,30 +33324,30 @@ function __c546(j: number): any {
         }),
       ).annotate({ identifier: "AvailableWorkflowTriggerTypes" });
     case 8:
-      return S.Array(__S(17479, __c546, 7));
+      return S.Array(__S(17447, __c545, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          availableTypes: __S(17480, __c546, 8),
+          availableTypes: __S(17448, __c545, 8),
           ruleKey: S.String,
         }),
       ).annotate({ identifier: "AvailableWorkflowTriggers" });
     case 10:
-      return S.Array(__S(17481, __c546, 9));
+      return S.Array(__S(17449, __c545, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          connectRules: S.optional(__S(17474, __c546, 2)),
+          connectRules: S.optional(__S(17442, __c545, 2)),
           editorScope: S.optional(S.String),
-          forgeRules: S.optional(__S(17476, __c546, 4)),
+          forgeRules: S.optional(__S(17444, __c545, 4)),
           projectTypes: S.optional(__S(16320, __c510, 0)),
-          systemRules: S.optional(__S(17478, __c546, 6)),
-          triggerRules: S.optional(__S(17482, __c546, 10)),
+          systemRules: S.optional(__S(17446, __c545, 6)),
+          triggerRules: S.optional(__S(17450, __c545, 10)),
         }),
       ).annotate({ identifier: "WorkflowCapabilities" });
   }
 }
-function __c547(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33419,7 +33360,7 @@ function __c547(j: number): any {
       ).annotate({ identifier: "CreateIssueTypeRequest" });
   }
 }
-function __c548(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33432,7 +33373,7 @@ function __c548(j: number): any {
       ).annotate({ identifier: "CreateIssueTypeAvatarRequest" });
   }
 }
-function __c549(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33451,7 +33392,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "Avatar" });
   }
 }
-function __c550(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33471,7 +33412,7 @@ function __c550(j: number): any {
       ).annotate({ identifier: "AddActorUsersRequest" });
   }
 }
-function __c551(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33484,16 +33425,16 @@ function __c551(j: number): any {
       ).annotate({ identifier: "UpdatedProjectCategory" });
   }
 }
-function __c552(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          avatarUrls: S.optional(__S(17792, __c556, 0)),
+          avatarUrls: S.optional(__S(17760, __c555, 0)),
           id: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
-          projectCategory: S.optional(__S(17632, __c551, 0)),
+          projectCategory: S.optional(__S(17600, __c550, 0)),
           projectTypeKey: S.optional(S.String),
           self: S.optional(S.String),
           simplified: S.optional(S.Boolean),
@@ -33501,13 +33442,13 @@ function __c552(j: number): any {
       ).annotate({ identifier: "ProjectDetails" });
   }
 }
-function __c553(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            project: S.optional(__S(17664, __c552, 0)),
+            project: S.optional(__S(17632, __c551, 0)),
             type: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33515,7 +33456,7 @@ function __c553(j: number): any {
       ).annotate({ identifier: "Scope" });
   }
 }
-function __c554(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33525,7 +33466,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "ProjectRoleUser" });
   }
 }
-function __c555(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33538,8 +33479,8 @@ function __c555(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actorGroup: S.optional(__S(17760, __c555, 0)),
-          actorUser: S.optional(__S(17728, __c554, 0)),
+          actorGroup: S.optional(__S(17728, __c554, 0)),
+          actorUser: S.optional(__S(17696, __c553, 0)),
           avatarUrl: S.optional(S.String),
           displayName: S.optional(S.String),
           id: S.optional(S.Number),
@@ -33548,11 +33489,11 @@ function __c555(j: number): any {
         }),
       ).annotate({ identifier: "RoleActor" });
     case 2:
-      return S.Array(__S(17761, __c555, 1));
+      return S.Array(__S(17729, __c554, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          actors: S.optional(__S(17762, __c555, 2)),
+          actors: S.optional(__S(17730, __c554, 2)),
           admin: S.optional(S.Boolean),
           currentUserRole: S.optional(S.Boolean),
           default: S.optional(S.Boolean),
@@ -33560,14 +33501,14 @@ function __c555(j: number): any {
           id: S.optional(S.Number),
           name: S.optional(S.String),
           roleConfigurable: S.optional(S.Boolean),
-          scope: S.optional(__S(17696, __c553, 0)),
+          scope: S.optional(__S(17664, __c552, 0)),
           self: S.optional(S.String),
           translatedName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectRole" });
   }
 }
-function __c556(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33580,7 +33521,7 @@ function __c556(j: number): any {
       ).annotate({ identifier: "AvatarUrlsBean" });
   }
 }
-function __c557(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33599,7 +33540,7 @@ function __c557(j: number): any {
       ).annotate({ identifier: "IssueTypeSchemeID" });
   }
 }
-function __c558(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33611,15 +33552,15 @@ function __c558(j: number): any {
       ).annotate({ identifier: "CreateIssueTypeScreenSchemeRequest" });
   }
 }
-function __c559(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           issueIdOrKey: S.String.pipe(T.Label()),
-          application: S.optional(__S(17920, __c560, 0)),
+          application: S.optional(__S(17888, __c559, 0)),
           globalId: S.optional(S.String),
-          object: __S(17923, __c560, 3),
+          object: __S(17891, __c559, 3),
           relationship: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/rest/api/3/issue/{issueIdOrKey}/remotelink", code: 200 }),
@@ -33634,7 +33575,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "RemoteIssueLinkIdentifies" });
   }
 }
-function __c560(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33661,7 +33602,7 @@ function __c560(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            icon: S.optional(__S(17921, __c560, 1)),
+            icon: S.optional(__S(17889, __c559, 1)),
             resolved: S.optional(S.Boolean),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33671,8 +33612,8 @@ function __c560(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            icon: S.optional(__S(17921, __c560, 1)),
-            status: S.optional(__S(17922, __c560, 2)),
+            icon: S.optional(__S(17889, __c559, 1)),
+            status: S.optional(__S(17890, __c559, 2)),
             summary: S.optional(S.String),
             title: S.String,
             url: S.String,
@@ -33682,14 +33623,14 @@ function __c560(j: number): any {
       ).annotate({ identifier: "RemoteObject" });
   }
 }
-function __c561(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           schemeId: S.Number.pipe(T.Label()),
           expand: S.optional(S.String.pipe(T.Query())),
-          holder: S.optional(__S(17984, __c562, 0)),
+          holder: S.optional(__S(17952, __c561, 0)),
           permission: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -33701,7 +33642,7 @@ function __c561(j: number): any {
       ).annotate({ identifier: "CreatePermissionGrantRequest" });
   }
 }
-function __c562(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33713,7 +33654,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "PermissionHolderInput" });
   }
 }
-function __c563(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33721,33 +33662,33 @@ function __c563(j: number): any {
           expand: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String),
           name: S.String,
-          permissions: S.optional(__S(18049, __c564, 1)),
-          scope: S.optional(__S(18050, __c564, 2)),
+          permissions: S.optional(__S(18017, __c563, 1)),
+          scope: S.optional(__S(18018, __c563, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/permissionscheme", code: 200 })),
       ).annotate({ identifier: "CreatePermissionSchemeRequest" });
   }
 }
-function __c564(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            holder: S.optional(__S(17984, __c562, 0)),
+            holder: S.optional(__S(17952, __c561, 0)),
             permission: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PermissionGrantInput" });
     case 1:
-      return S.Array(__S(18048, __c564, 0));
+      return S.Array(__S(18016, __c563, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(S.Struct({}), [S.Record(S.String, S.Unknown)]),
       ).annotate({ identifier: "ScopeInput" });
   }
 }
-function __c565(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33761,7 +33702,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "CreatePriorityRequest" });
   }
 }
-function __c566(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33797,7 +33738,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "ProjectIdentifiers" });
   }
 }
-function __c567(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33816,7 +33757,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "CreateProjectAvatarRequest" });
   }
 }
-function __c568(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33827,7 +33768,7 @@ function __c568(j: number): any {
       ).annotate({ identifier: "CreateProjectCategoryRequest" });
   }
 }
-function __c569(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33838,7 +33779,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "CreateProjectRoleRequest" });
   }
 }
-function __c570(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33863,17 +33804,17 @@ function __c570(j: number): any {
           inputStream: S.optional(S.Unknown),
           name: S.optional(S.String),
           originalFilename: S.optional(S.String),
-          resource: S.optional(__S(18240, __c570, 0)),
+          resource: S.optional(__S(18208, __c569, 0)),
           size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MultipartFile" });
     case 2:
-      return S.Array(__S(18241, __c570, 1));
+      return S.Array(__S(18209, __c569, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           issueIdOrKey: S.String.pipe(T.Label()),
-          body: __S(18242, __c570, 2).pipe(T.HttpBody()),
+          body: __S(18210, __c569, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -33887,7 +33828,7 @@ function __c570(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            author: S.optional(__S(18272, __c571, 0)),
+            author: S.optional(__S(18240, __c570, 0)),
             content: S.optional(S.String),
             created: S.optional(S.String),
             filename: S.optional(S.String),
@@ -33901,14 +33842,14 @@ function __c570(j: number): any {
         ),
       ).annotate({ identifier: "Attachment" });
     case 5:
-      return S.Array(__S(18244, __c570, 4));
+      return S.Array(__S(18212, __c569, 4));
     case 6:
-      return S.suspend(() => __S(18245, __c570, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18213, __c569, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "AddAttachmentResponse",
       });
   }
 }
-function __c571(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33916,7 +33857,7 @@ function __c571(j: number): any {
           accountId: S.optional(S.String),
           accountType: S.optional(S.String),
           active: S.optional(S.Boolean),
-          avatarUrls: S.optional(__S(17792, __c556, 0)),
+          avatarUrls: S.optional(__S(17760, __c555, 0)),
           displayName: S.optional(S.String),
           emailAddress: S.optional(S.String),
           key: S.optional(S.String),
@@ -33927,7 +33868,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "UserDetails" });
   }
 }
-function __c572(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33954,13 +33895,13 @@ function __c572(j: number): any {
         }),
       ).annotate({ identifier: "BoardFeaturePayload" });
     case 2:
-      return S.Array(__S(18305, __c572, 1));
+      return S.Array(__S(18273, __c571, 1));
     case 3:
-      return S.Record(S.String, __S(18306, __c572, 2));
+      return S.Record(S.String, __S(18274, __c571, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          boardFeatures: S.optional(__S(18307, __c572, 3)),
+          boardFeatures: S.optional(__S(18275, __c571, 3)),
         }),
       ).annotate({ identifier: "BoardFeaturesPayload" });
     case 5:
@@ -33979,7 +33920,7 @@ function __c572(j: number): any {
         }),
       ).annotate({ identifier: "CardLayoutField" });
     case 7:
-      return S.Array(__S(18310, __c572, 6));
+      return S.Array(__S(18278, __c571, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -33992,18 +33933,18 @@ function __c572(j: number): any {
         }),
       ).annotate({ identifier: "ProjectCreateResourceIdentifier" });
     case 9:
-      return S.Array(__S(18312, __c572, 8));
+      return S.Array(__S(18280, __c571, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           maximumIssueConstraint: S.optional(S.Number),
           minimumIssueConstraint: S.optional(S.Number),
           name: S.optional(S.String),
-          statusIds: S.optional(__S(18313, __c572, 9)),
+          statusIds: S.optional(__S(18281, __c571, 9)),
         }),
       ).annotate({ identifier: "BoardColumnPayload" });
     case 11:
-      return S.Array(__S(18314, __c572, 10));
+      return S.Array(__S(18282, __c571, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -34013,11 +33954,11 @@ function __c572(j: number): any {
         }),
       ).annotate({ identifier: "QuickFilterPayload" });
     case 13:
-      return S.Array(__S(18316, __c572, 12));
+      return S.Array(__S(18284, __c571, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          customSwimlanes: S.optional(__S(18317, __c572, 13)),
+          customSwimlanes: S.optional(__S(18285, __c571, 13)),
           defaultCustomSwimlaneName: S.optional(S.String),
           swimlaneStrategy: S.optional(S.String),
         }),
@@ -34030,14 +33971,14 @@ function __c572(j: number): any {
         }),
       ).annotate({ identifier: "NonWorkingDay" });
     case 16:
-      return S.Array(__S(18319, __c572, 15));
+      return S.Array(__S(18287, __c571, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           friday: S.optional(S.Boolean),
           id: S.optional(S.Number),
           monday: S.optional(S.Boolean),
-          nonWorkingDays: S.optional(__S(18320, __c572, 16)),
+          nonWorkingDays: S.optional(__S(18288, __c571, 16)),
           saturday: S.optional(S.Boolean),
           sunday: S.optional(S.Boolean),
           thursday: S.optional(S.Boolean),
@@ -34051,25 +33992,25 @@ function __c572(j: number): any {
         S.Struct({
           boardFilterJQL: S.optional(S.String),
           cardColorStrategy: S.optional(S.String),
-          cardLayout: S.optional(__S(18309, __c572, 5)),
-          cardLayouts: S.optional(__S(18311, __c572, 7)),
-          columns: S.optional(__S(18315, __c572, 11)),
+          cardLayout: S.optional(__S(18277, __c571, 5)),
+          cardLayouts: S.optional(__S(18279, __c571, 7)),
+          columns: S.optional(__S(18283, __c571, 11)),
           enableCardCover: S.optional(S.Boolean),
-          features: S.optional(__S(18306, __c572, 2)),
+          features: S.optional(__S(18274, __c571, 2)),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          quickFilters: S.optional(__S(18317, __c572, 13)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          quickFilters: S.optional(__S(18285, __c571, 13)),
           supportsSprint: S.optional(S.Boolean),
-          swimlanes: S.optional(__S(18318, __c572, 14)),
-          workingDaysConfig: S.optional(__S(18321, __c572, 17)),
+          swimlanes: S.optional(__S(18286, __c571, 14)),
+          workingDaysConfig: S.optional(__S(18289, __c571, 17)),
         }),
       ).annotate({ identifier: "BoardPayload" });
     case 19:
-      return S.Array(__S(18322, __c572, 18));
+      return S.Array(__S(18290, __c571, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          boards: S.optional(__S(18323, __c572, 19)),
+          boards: S.optional(__S(18291, __c571, 19)),
         }),
       ).annotate({ identifier: "BoardsPayload" });
     case 21:
@@ -34079,148 +34020,148 @@ function __c572(j: number): any {
           description: S.optional(S.String),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           scope: S.optional(S.String),
           searcherKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomFieldPayload" });
     case 22:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18325, __c572, 21)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18293, __c571, 21)));
     case 23:
-      return S.Record(S.String, __S(18312, __c572, 8));
+      return S.Record(S.String, __S(18280, __c571, 8));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          defaultFieldLayout: S.optional(__S(18312, __c572, 8)),
+          defaultFieldLayout: S.optional(__S(18280, __c571, 8)),
           description: S.optional(S.String),
-          explicitMappings: S.optional(__S(18327, __c572, 23)),
+          explicitMappings: S.optional(__S(18295, __c571, 23)),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "FieldLayoutSchemePayload" });
     case 25:
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.Boolean),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           required: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FieldLayoutConfiguration" });
     case 26:
-      return S.Array(__S(18329, __c572, 25));
+      return S.Array(__S(18297, __c571, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(18330, __c572, 26)),
+          configuration: S.optional(__S(18298, __c571, 26)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "FieldLayoutPayload" });
     case 28:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18331, __c572, 27)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18299, __c571, 27)));
     case 29:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          qualifierId: S.optional(__S(18312, __c572, 8)),
-          qualifierType: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          qualifierId: S.optional(__S(18280, __c571, 8)),
+          qualifierType: S.optional(__S(18280, __c571, 8)),
           rendererType: S.optional(S.String),
           required: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FieldAssociationItemPayload" });
     case 30:
-      return S.Array(__S(18333, __c572, 29));
+      return S.Array(__S(18301, __c571, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          items: S.optional(__S(18334, __c572, 30)),
+          items: S.optional(__S(18302, __c571, 30)),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "FieldSchemePayload" });
   }
 }
-function __c573(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          itemKey: S.optional(__S(18312, __c572, 8)),
+          itemKey: S.optional(__S(18280, __c571, 8)),
           properties: S.optional(__S(9728, __c304, 0)),
           sectionType: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueLayoutItemPayload" });
     case 1:
-      return S.Array(__S(18336, __c573, 0));
+      return S.Array(__S(18304, __c572, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(__S(18312, __c572, 8)),
+          containerId: S.optional(__S(18280, __c571, 8)),
           issueLayoutType: S.optional(S.String),
-          items: S.optional(__S(18337, __c573, 1)),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          items: S.optional(__S(18305, __c572, 1)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "IssueLayoutPayload" });
     case 3:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18338, __c573, 2)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18306, __c572, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          defaultScreenScheme: S.optional(__S(18312, __c572, 8)),
+          defaultScreenScheme: S.optional(__S(18280, __c571, 8)),
           description: S.optional(S.String),
-          explicitMappings: S.optional(__S(18327, __c572, 23)),
+          explicitMappings: S.optional(__S(18295, __c571, 23)),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "IssueTypeScreenSchemePayload" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          defaultScreen: S.optional(__S(18312, __c572, 8)),
+          defaultScreen: S.optional(__S(18280, __c571, 8)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          screens: S.optional(__S(18327, __c572, 23)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          screens: S.optional(__S(18295, __c571, 23)),
         }),
       ).annotate({ identifier: "ScreenSchemePayload" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18341, __c573, 5)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18309, __c572, 5)));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(18313, __c572, 9)),
+          fields: S.optional(__S(18281, __c571, 9)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TabPayload" });
     case 8:
-      return S.Array(__S(18343, __c573, 7));
+      return S.Array(__S(18311, __c572, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          tabs: S.optional(__S(18344, __c573, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          tabs: S.optional(__S(18312, __c572, 8)),
         }),
       ).annotate({ identifier: "ScreenPayload" });
     case 10:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18345, __c573, 9)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18313, __c572, 9)));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          customFieldDefinitions: S.optional(S.NullOr(__S(18326, __c572, 22))),
-          fieldLayoutScheme: S.optional(S.NullOr(__S(18328, __c572, 24))),
-          fieldLayouts: S.optional(S.NullOr(__S(18332, __c572, 28))),
-          fieldScheme: S.optional(S.NullOr(__S(18335, __c572, 31))),
-          issueLayouts: S.optional(S.NullOr(__S(18339, __c573, 3))),
-          issueTypeScreenScheme: S.optional(S.NullOr(__S(18340, __c573, 4))),
-          screenScheme: S.optional(S.NullOr(__S(18342, __c573, 6))),
-          screens: S.optional(S.NullOr(__S(18346, __c573, 10))),
+          customFieldDefinitions: S.optional(S.NullOr(__S(18294, __c571, 22))),
+          fieldLayoutScheme: S.optional(S.NullOr(__S(18296, __c571, 24))),
+          fieldLayouts: S.optional(S.NullOr(__S(18300, __c571, 28))),
+          fieldScheme: S.optional(S.NullOr(__S(18303, __c571, 31))),
+          issueLayouts: S.optional(S.NullOr(__S(18307, __c572, 3))),
+          issueTypeScreenScheme: S.optional(S.NullOr(__S(18308, __c572, 4))),
+          screenScheme: S.optional(S.NullOr(__S(18310, __c572, 6))),
+          screens: S.optional(S.NullOr(__S(18314, __c572, 10))),
         }),
       ).annotate({ identifier: "FieldCapabilityPayload" });
     case 12:
@@ -34229,19 +34170,19 @@ function __c573(j: number): any {
           hierarchyLevel: S.optional(S.Number),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "IssueTypeHierarchyPayload" });
     case 13:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18348, __c573, 12)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18316, __c572, 12)));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          defaultIssueTypeId: S.optional(__S(18312, __c572, 8)),
+          defaultIssueTypeId: S.optional(__S(18280, __c571, 8)),
           description: S.optional(S.NullOr(S.String)),
-          issueTypeIds: S.optional(__S(18313, __c572, 9)),
+          issueTypeIds: S.optional(__S(18281, __c571, 9)),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "IssueTypeSchemePayload" });
     case 15:
@@ -34252,17 +34193,17 @@ function __c573(j: number): any {
           hierarchyLevel: S.optional(S.Number),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "IssueTypePayload" });
     case 16:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(18351, __c573, 15)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(18319, __c572, 15)));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          issueTypeHierarchy: S.optional(S.NullOr(__S(18349, __c573, 13))),
-          issueTypeScheme: S.optional(__S(18350, __c573, 14)),
-          issueTypes: S.optional(S.NullOr(__S(18352, __c573, 16))),
+          issueTypeHierarchy: S.optional(S.NullOr(__S(18317, __c572, 13))),
+          issueTypeScheme: S.optional(__S(18318, __c572, 14)),
+          issueTypes: S.optional(S.NullOr(__S(18320, __c572, 16))),
         }),
       ).annotate({ identifier: "IssueTypeProjectCreatePayload" });
     case 18:
@@ -34273,86 +34214,86 @@ function __c573(j: number): any {
         }),
       ).annotate({ identifier: "NotificationSchemeNotificationDetailsPayload" });
     case 19:
-      return S.Array(__S(18354, __c573, 18));
+      return S.Array(__S(18322, __c572, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          event: S.optional(__S(18400, __c575, 0)),
-          notifications: S.optional(__S(18355, __c573, 19)),
+          event: S.optional(__S(18368, __c574, 0)),
+          notifications: S.optional(__S(18323, __c572, 19)),
         }),
       ).annotate({ identifier: "NotificationSchemeEventPayload" });
     case 21:
-      return S.Array(__S(18356, __c573, 20));
+      return S.Array(__S(18324, __c572, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.optional(S.String),
-          notificationSchemeEvents: S.optional(__S(18357, __c573, 21)),
+          notificationSchemeEvents: S.optional(__S(18325, __c572, 21)),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "NotificationSchemePayload" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           applicationAccess: S.optional(__S(0, __c0, 0)),
-          groupCustomFields: S.optional(__S(18313, __c572, 9)),
-          groups: S.optional(__S(18313, __c572, 9)),
+          groupCustomFields: S.optional(__S(18281, __c571, 9)),
+          groups: S.optional(__S(18281, __c571, 9)),
           permissionKeys: S.optional(__S(0, __c0, 0)),
-          projectRoles: S.optional(__S(18313, __c572, 9)),
+          projectRoles: S.optional(__S(18281, __c571, 9)),
           specialGrants: S.optional(__S(0, __c0, 0)),
-          userCustomFields: S.optional(__S(18313, __c572, 9)),
-          users: S.optional(__S(18313, __c572, 9)),
+          userCustomFields: S.optional(__S(18281, __c571, 9)),
+          users: S.optional(__S(18281, __c571, 9)),
         }),
       ).annotate({ identifier: "PermissionGrantDTO" });
     case 24:
-      return S.Array(__S(18359, __c573, 23));
+      return S.Array(__S(18327, __c572, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
           addAddonRole: S.optional(S.Boolean),
           description: S.optional(S.String),
-          grants: S.optional(__S(18360, __c573, 24)),
+          grants: S.optional(__S(18328, __c572, 24)),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "PermissionPayloadDTO" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          fieldLayoutSchemeId: S.optional(__S(18312, __c572, 8)),
-          issueSecuritySchemeId: S.optional(__S(18312, __c572, 8)),
-          issueTypeSchemeId: S.optional(__S(18312, __c572, 8)),
-          issueTypeScreenSchemeId: S.optional(__S(18312, __c572, 8)),
-          notificationSchemeId: S.optional(__S(18312, __c572, 8)),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          permissionSchemeId: S.optional(__S(18312, __c572, 8)),
+          fieldLayoutSchemeId: S.optional(__S(18280, __c571, 8)),
+          issueSecuritySchemeId: S.optional(__S(18280, __c571, 8)),
+          issueTypeSchemeId: S.optional(__S(18280, __c571, 8)),
+          issueTypeScreenSchemeId: S.optional(__S(18280, __c571, 8)),
+          notificationSchemeId: S.optional(__S(18280, __c571, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          permissionSchemeId: S.optional(__S(18280, __c571, 8)),
           projectTypeKey: S.optional(S.String),
-          workflowSchemeId: S.optional(__S(18312, __c572, 8)),
+          workflowSchemeId: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "ProjectPayload" });
     case 27:
-      return S.Record(S.String, __S(18313, __c572, 9));
+      return S.Record(S.String, __S(18281, __c571, 9));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          defaultActors: S.optional(__S(18313, __c572, 9)),
+          defaultActors: S.optional(__S(18281, __c571, 9)),
           description: S.optional(S.String),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "RolePayload" });
     case 29:
-      return S.Array(__S(18364, __c573, 28));
+      return S.Array(__S(18332, __c572, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          roleToProjectActors: S.optional(__S(18363, __c573, 27)),
-          roles: S.optional(__S(18365, __c573, 29)),
+          roleToProjectActors: S.optional(__S(18331, __c572, 27)),
+          roles: S.optional(__S(18333, __c572, 29)),
         }),
       ).annotate({ identifier: "RolesCapabilityPayload" });
     case 31:
@@ -34363,7 +34304,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "ScopePayload" });
   }
 }
-function __c574(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34373,26 +34314,26 @@ function __c574(j: number): any {
         }),
       ).annotate({ identifier: "SecurityLevelMemberPayload" });
     case 1:
-      return S.Array(__S(18368, __c574, 0));
+      return S.Array(__S(18336, __c573, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          securityLevelMembers: S.optional(__S(18369, __c574, 1)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          securityLevelMembers: S.optional(__S(18337, __c573, 1)),
         }),
       ).annotate({ identifier: "SecurityLevelPayload" });
     case 3:
-      return S.Array(__S(18370, __c574, 2));
+      return S.Array(__S(18338, __c573, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
-          securityLevels: S.optional(__S(18371, __c574, 3)),
+          pcri: S.optional(__S(18280, __c571, 8)),
+          securityLevels: S.optional(__S(18339, __c573, 3)),
         }),
       ).annotate({ identifier: "SecuritySchemePayload" });
     case 5:
@@ -34401,34 +34342,34 @@ function __c574(j: number): any {
           description: S.optional(S.String),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           scope: S.optional(S.String),
           statusCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "StatusPayload" });
     case 6:
-      return S.Array(__S(18373, __c574, 5));
+      return S.Array(__S(18341, __c573, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          defaultWorkflow: S.optional(__S(18312, __c572, 8)),
+          defaultWorkflow: S.optional(__S(18280, __c571, 8)),
           description: S.optional(S.String),
-          explicitMappings: S.optional(__S(18327, __c572, 23)),
+          explicitMappings: S.optional(__S(18295, __c571, 23)),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "WorkflowSchemePayload" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           layout: S.optional(__S(12160, __c380, 0)),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           properties: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "WorkflowStatusPayload" });
     case 9:
-      return S.Array(__S(18376, __c574, 8));
+      return S.Array(__S(18344, __c573, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -34437,14 +34378,14 @@ function __c574(j: number): any {
         }),
       ).annotate({ identifier: "RulePayload" });
     case 11:
-      return S.Array(__S(18378, __c574, 10));
+      return S.Array(__S(18346, __c573, 10));
     case 12:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(18381, __c574, 13)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(18349, __c573, 13)));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          conditionGroup: S.optional(__S(18380, __c574, 12)),
-          conditions: S.optional(__S(18379, __c574, 11)),
+          conditionGroup: S.optional(__S(18348, __c573, 12)),
+          conditions: S.optional(__S(18347, __c573, 11)),
           operation: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConditionGroupPayload" });
@@ -34452,39 +34393,39 @@ function __c574(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fromPort: S.optional(S.Number),
-          status: S.optional(__S(18312, __c572, 8)),
+          status: S.optional(__S(18280, __c571, 8)),
           toPortOverride: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FromLayoutPayload" });
     case 15:
-      return S.Array(__S(18382, __c574, 14));
+      return S.Array(__S(18350, __c573, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           port: S.optional(S.Number),
-          status: S.optional(__S(18312, __c572, 8)),
+          status: S.optional(__S(18280, __c571, 8)),
         }),
       ).annotate({ identifier: "ToLayoutPayload" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(18379, __c574, 11)),
-          conditions: S.optional(__S(18381, __c574, 13)),
+          actions: S.optional(__S(18347, __c573, 11)),
+          conditions: S.optional(__S(18349, __c573, 13)),
           customIssueEventId: S.optional(S.String),
           description: S.optional(S.String),
-          from: S.optional(__S(18383, __c574, 15)),
+          from: S.optional(__S(18351, __c573, 15)),
           id: S.optional(S.Number),
           name: S.optional(S.String),
           properties: S.optional(__S(32, __c1, 0)),
-          to: S.optional(__S(18384, __c574, 16)),
-          transitionScreen: S.optional(__S(18378, __c574, 10)),
-          triggers: S.optional(__S(18379, __c574, 11)),
+          to: S.optional(__S(18352, __c573, 16)),
+          transitionScreen: S.optional(__S(18346, __c573, 10)),
+          triggers: S.optional(__S(18347, __c573, 11)),
           type: S.optional(S.String),
-          validators: S.optional(__S(18379, __c574, 11)),
+          validators: S.optional(__S(18347, __c573, 11)),
         }),
       ).annotate({ identifier: "TransitionPayload" });
     case 18:
-      return S.Array(__S(18385, __c574, 17));
+      return S.Array(__S(18353, __c573, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -34492,48 +34433,48 @@ function __c574(j: number): any {
           loopedTransitionContainerLayout: S.optional(__S(12160, __c380, 0)),
           name: S.optional(S.String),
           onConflict: S.optional(S.String),
-          pcri: S.optional(__S(18312, __c572, 8)),
+          pcri: S.optional(__S(18280, __c571, 8)),
           startPointLayout: S.optional(__S(12160, __c380, 0)),
-          statuses: S.optional(__S(18377, __c574, 9)),
-          transitions: S.optional(__S(18386, __c574, 18)),
+          statuses: S.optional(__S(18345, __c573, 9)),
+          transitions: S.optional(__S(18354, __c573, 18)),
         }),
       ).annotate({ identifier: "WorkflowPayload" });
     case 20:
-      return S.Array(__S(18387, __c574, 19));
+      return S.Array(__S(18355, __c573, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(18374, __c574, 6)),
-          workflowScheme: S.optional(__S(18375, __c574, 7)),
-          workflows: S.optional(__S(18388, __c574, 20)),
+          statuses: S.optional(__S(18342, __c573, 6)),
+          workflowScheme: S.optional(__S(18343, __c573, 7)),
+          workflows: S.optional(__S(18356, __c573, 20)),
         }),
       ).annotate({ identifier: "WorkflowCapabilityPayload" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          boardFeatures: S.optional(S.NullOr(__S(18308, __c572, 4))),
-          boards: S.optional(S.NullOr(__S(18324, __c572, 20))),
-          field: S.optional(S.NullOr(__S(18347, __c573, 11))),
-          issueType: S.optional(S.NullOr(__S(18353, __c573, 17))),
-          notification: S.optional(S.NullOr(__S(18358, __c573, 22))),
-          permissionScheme: S.optional(S.NullOr(__S(18361, __c573, 25))),
-          project: S.optional(__S(18362, __c573, 26)),
-          role: S.optional(S.NullOr(__S(18366, __c573, 30))),
-          scope: S.optional(S.NullOr(__S(18367, __c573, 31))),
-          security: S.optional(S.NullOr(__S(18372, __c574, 4))),
-          workflow: S.optional(S.NullOr(__S(18389, __c574, 21))),
+          boardFeatures: S.optional(S.NullOr(__S(18276, __c571, 4))),
+          boards: S.optional(S.NullOr(__S(18292, __c571, 20))),
+          field: S.optional(S.NullOr(__S(18315, __c572, 11))),
+          issueType: S.optional(S.NullOr(__S(18321, __c572, 17))),
+          notification: S.optional(S.NullOr(__S(18326, __c572, 22))),
+          permissionScheme: S.optional(S.NullOr(__S(18329, __c572, 25))),
+          project: S.optional(__S(18330, __c572, 26)),
+          role: S.optional(S.NullOr(__S(18334, __c572, 30))),
+          scope: S.optional(S.NullOr(__S(18335, __c572, 31))),
+          security: S.optional(S.NullOr(__S(18340, __c573, 4))),
+          workflow: S.optional(S.NullOr(__S(18357, __c573, 21))),
         }),
       ).annotate({ identifier: "CustomTemplateRequestDTO" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(18304, __c572, 0)),
-          template: S.optional(__S(18390, __c574, 22)),
+          details: S.optional(__S(18272, __c571, 0)),
+          template: S.optional(__S(18358, __c573, 22)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/project-template", code: 200 })),
       ).annotate({ identifier: "CreateProjectWithCustomTemplateRequest" });
   }
 }
-function __c575(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34543,7 +34484,7 @@ function __c575(j: number): any {
       ).annotate({ identifier: "NotificationSchemeEventIDPayload" });
   }
 }
-function __c576(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34556,7 +34497,7 @@ function __c576(j: number): any {
       ).annotate({ identifier: "CreateRelatedWorkRequest" });
   }
 }
-function __c577(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34570,14 +34511,14 @@ function __c577(j: number): any {
       ).annotate({ identifier: "VersionRelatedWork" });
   }
 }
-function __c578(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.String,
-          screens: __S(18528, __c579, 0),
+          screens: __S(18496, __c578, 0),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/screenscheme", code: 200 })),
       ).annotate({ identifier: "CreateScreenSchemeRequest" });
     case 1:
@@ -34588,7 +34529,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "ScreenSchemeId" });
   }
 }
-function __c579(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34601,7 +34542,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "ScreenTypes" });
   }
 }
-function __c580(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34612,25 +34553,25 @@ function __c580(j: number): any {
         }),
       ).annotate({ identifier: "StatusCreate" });
     case 1:
-      return S.Array(__S(18560, __c580, 0));
+      return S.Array(__S(18528, __c579, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scope: __S(18624, __c582, 0),
-          statuses: __S(18561, __c580, 1),
+          scope: __S(18592, __c581, 0),
+          statuses: __S(18529, __c579, 1),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/statuses", code: 200 })),
       ).annotate({ identifier: "CreateStatusesRequest" });
   }
 }
-function __c581(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(18626, __c582, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18594, __c581, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateStatusesResponse",
       });
   }
 }
-function __c582(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34645,20 +34586,20 @@ function __c582(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          scope: S.optional(__S(18624, __c582, 0)),
+          scope: S.optional(__S(18592, __c581, 0)),
           statusCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "JiraStatus" });
     case 2:
-      return S.Array(__S(18625, __c582, 1));
+      return S.Array(__S(18593, __c581, 1));
   }
 }
-function __c583(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contexts: S.optional(__S(18689, __c584, 1)),
+          contexts: S.optional(__S(18657, __c583, 1)),
           data: S.optional(S.String),
           description: S.optional(S.String),
           name: S.String,
@@ -34673,7 +34614,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "UiModificationIdentifiers" });
   }
 }
-function __c584(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34686,10 +34627,10 @@ function __c584(j: number): any {
         }),
       ).annotate({ identifier: "UiModificationContextDetailsInput" });
     case 1:
-      return S.Array(__S(18688, __c584, 0));
+      return S.Array(__S(18656, __c583, 0));
   }
 }
-function __c585(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34705,7 +34646,7 @@ function __c585(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c586(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34725,19 +34666,19 @@ function __c586(j: number): any {
       ).annotate({ identifier: "CreateVersionRequest" });
   }
 }
-function __c587(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.optional(__S(12224, __c382, 0)),
-          statuses: S.optional(__S(18817, __c588, 1)),
-          workflows: S.optional(__S(18849, __c589, 1)),
+          statuses: S.optional(__S(18785, __c587, 1)),
+          workflows: S.optional(__S(18817, __c588, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/workflows/create", code: 200 })),
       ).annotate({ identifier: "CreateWorkflowsRequest" });
   }
 }
-function __c588(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34753,7 +34694,7 @@ function __c588(j: number): any {
         ),
       ).annotate({ identifier: "WorkflowStatusUpdate" });
     case 1:
-      return S.Array(__S(18816, __c588, 0));
+      return S.Array(__S(18784, __c587, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -34767,13 +34708,13 @@ function __c588(j: number): any {
         ),
       ).annotate({ identifier: "StatusLayoutUpdate" });
     case 3:
-      return S.Array(__S(18818, __c588, 2));
+      return S.Array(__S(18786, __c587, 2));
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(18821, __c588, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(18789, __c587, 5)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          conditionGroups: S.optional(__S(18820, __c588, 4)),
+          conditionGroups: S.optional(__S(18788, __c587, 4)),
           conditions: S.optional(__S(12291, __c384, 3)),
           operation: S.String,
         }),
@@ -34783,7 +34724,7 @@ function __c588(j: number): any {
         S.StructWithRest(
           S.Struct({
             actions: S.optional(__S(12291, __c384, 3)),
-            conditions: S.optional(S.NullOr(__S(18821, __c588, 5))),
+            conditions: S.optional(S.NullOr(__S(18789, __c587, 5))),
             customIssueEventId: S.optional(S.String),
             description: S.optional(S.String),
             id: S.optional(S.String),
@@ -34800,10 +34741,10 @@ function __c588(j: number): any {
         ),
       ).annotate({ identifier: "TransitionUpdateDTO" });
     case 7:
-      return S.Array(__S(18822, __c588, 6));
+      return S.Array(__S(18790, __c587, 6));
   }
 }
-function __c589(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34812,15 +34753,15 @@ function __c589(j: number): any {
           loopedTransitionContainerLayout: S.optional(S.NullOr(__S(12160, __c380, 0))),
           name: S.String,
           startPointLayout: S.optional(S.NullOr(__S(12160, __c380, 0))),
-          statuses: __S(18819, __c588, 3),
-          transitions: __S(18823, __c588, 7),
+          statuses: __S(18787, __c587, 3),
+          transitions: __S(18791, __c587, 7),
         }),
       ).annotate({ identifier: "WorkflowCreate" });
     case 1:
-      return S.Array(__S(18848, __c589, 0));
+      return S.Array(__S(18816, __c588, 0));
   }
 }
-function __c590(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34834,7 +34775,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "CreateWorkflowSchemeRequest" });
   }
 }
-function __c591(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(2912, __c91, 0));
@@ -34846,7 +34787,7 @@ function __c591(j: number): any {
           draft: S.optional(S.Boolean),
           id: S.optional(S.Number),
           issueTypeMappings: S.optional(__S(32, __c1, 0)),
-          issueTypes: S.optional(__S(18912, __c591, 0)),
+          issueTypes: S.optional(__S(18880, __c590, 0)),
           lastModified: S.optional(S.String),
           lastModifiedUser: S.optional(__S(2850, __c89, 2)),
           name: S.optional(S.String),
@@ -34858,7 +34799,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "WorkflowScheme" });
   }
 }
-function __c592(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34870,7 +34811,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "CreateWorkflowSchemeDraftFromParentRequest" });
   }
 }
-function __c593(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34878,39 +34819,39 @@ function __c593(j: number): any {
           issueIdOrKey: S.String.pipe(T.Label()),
           expand: S.optional(S.String.pipe(T.Query())),
           body: S.optional(S.Unknown),
-          properties: S.optional(__S(19104, __c597, 0)),
-          visibility: S.optional(__S(19040, __c595, 0)),
+          properties: S.optional(__S(19072, __c596, 0)),
+          visibility: S.optional(__S(19008, __c594, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/rest/api/3/issue/{issueIdOrKey}/comment", code: 200 }),
         ),
       ).annotate({ identifier: "AddCommentRequest" });
   }
 }
-function __c594(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            author: S.optional(__S(18272, __c571, 0)),
+            author: S.optional(__S(18240, __c570, 0)),
             body: S.optional(S.Unknown),
             created: S.optional(S.String),
             id: S.optional(S.String),
             jsdAuthorCanSeeRequest: S.optional(S.Boolean),
             jsdPublic: S.optional(S.Boolean),
-            properties: S.optional(__S(19104, __c597, 0)),
+            properties: S.optional(__S(19072, __c596, 0)),
             renderedBody: S.optional(S.String),
             self: S.optional(S.String),
-            updateAuthor: S.optional(__S(18272, __c571, 0)),
+            updateAuthor: S.optional(__S(18240, __c570, 0)),
             updated: S.optional(S.String),
-            visibility: S.optional(__S(19040, __c595, 0)),
+            visibility: S.optional(__S(19008, __c594, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Comment" });
   }
 }
-function __c595(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34925,7 +34866,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "Visibility" });
   }
 }
-function __c596(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34936,13 +34877,13 @@ function __c596(j: number): any {
       ).annotate({ identifier: "EntityProperty" });
   }
 }
-function __c597(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(19072, __c596, 0));
+      return S.Array(__S(19040, __c595, 0));
   }
 }
-function __c598(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34962,7 +34903,7 @@ function __c598(j: number): any {
       ).annotate({ identifier: "DeleteActorRequest" });
   }
 }
-function __c599(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34979,7 +34920,7 @@ function __c599(j: number): any {
       ).annotate({ identifier: "DeleteAddonPropertyRequest" });
   }
 }
-function __c600(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34989,12 +34930,12 @@ function __c600(j: number): any {
         }),
       ).annotate({ identifier: "CustomFieldReplacement" });
     case 1:
-      return S.Array(__S(19200, __c600, 0));
+      return S.Array(__S(19168, __c599, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          customFieldReplacementList: S.optional(__S(19201, __c600, 1)),
+          customFieldReplacementList: S.optional(__S(19169, __c599, 1)),
           moveAffectedIssuesTo: S.optional(S.Number),
           moveFixIssuesTo: S.optional(S.Number),
         }).pipe(
@@ -35003,7 +34944,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "DeleteAndReplaceVersionRequest" });
   }
 }
-function __c601(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35021,7 +34962,7 @@ function __c601(j: number): any {
       ).annotate({ identifier: "DeleteAvatarRequest" });
   }
 }
-function __c602(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35038,7 +34979,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "DeleteCommentRequest" });
   }
 }
-function __c603(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35055,7 +34996,7 @@ function __c603(j: number): any {
       ).annotate({ identifier: "DeleteCommentPropertyRequest" });
   }
 }
-function __c604(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35066,7 +35007,7 @@ function __c604(j: number): any {
       ).annotate({ identifier: "DeleteComponentRequest" });
   }
 }
-function __c605(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35076,7 +35017,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "DeleteCustomFieldRequest" });
   }
 }
-function __c606(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35093,7 +35034,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "DeleteCustomFieldContextRequest" });
   }
 }
-function __c607(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35111,7 +35052,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "DeleteCustomFieldOptionRequest" });
   }
 }
-function __c608(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35123,7 +35064,7 @@ function __c608(j: number): any {
       ).annotate({ identifier: "AddFieldToDefaultScreenRequest" });
   }
 }
-function __c609(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -35131,7 +35072,7 @@ function __c609(j: number): any {
       });
   }
 }
-function __c610(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35149,7 +35090,7 @@ function __c610(j: number): any {
       ).annotate({ identifier: "DeleteDashboardItemPropertyRequest" });
   }
 }
-function __c611(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35162,7 +35103,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "DeleteDefaultWorkflowRequest" });
   }
 }
-function __c612(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35178,7 +35119,7 @@ function __c612(j: number): any {
       ).annotate({ identifier: "DeleteDraftDefaultWorkflowRequest" });
   }
 }
-function __c613(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35195,7 +35136,7 @@ function __c613(j: number): any {
       ).annotate({ identifier: "DeleteDraftWorkflowMappingRequest" });
   }
 }
-function __c614(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35206,7 +35147,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "DeleteFavouriteForFilterRequest" });
   }
 }
-function __c615(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35216,7 +35157,7 @@ function __c615(j: number): any {
       ).annotate({ identifier: "DeleteFilterRequest" });
   }
 }
-function __c616(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35232,7 +35173,7 @@ function __c616(j: number): any {
       ).annotate({ identifier: "DeleteForgeAppPropertyRequest" });
   }
 }
-function __c617(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35242,7 +35183,7 @@ function __c617(j: number): any {
       ).annotate({ identifier: "DeleteInactiveWorkflowRequest" });
   }
 }
-function __c618(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35253,7 +35194,7 @@ function __c618(j: number): any {
       ).annotate({ identifier: "DeleteIssueRequest" });
   }
 }
-function __c619(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35270,7 +35211,7 @@ function __c619(j: number): any {
       ).annotate({ identifier: "DeleteIssueFieldOptionRequest" });
   }
 }
-function __c620(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35279,7 +35220,7 @@ function __c620(j: number): any {
           contextId: S.Number.pipe(T.Label()),
           defaultValue: S.optional(S.Unknown),
           isAnyIssueType: S.optional(S.Boolean),
-          issueTypeIds: S.optional(S.NullOr(__S(19872, __c621, 0))),
+          issueTypeIds: S.optional(S.NullOr(__S(19840, __c620, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -35290,13 +35231,13 @@ function __c620(j: number): any {
       ).annotate({ identifier: "AddIssueTypesToContextRequest" });
   }
 }
-function __c621(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c622(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35306,7 +35247,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "DeleteIssueLinkRequest" });
   }
 }
-function __c623(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35322,7 +35263,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "DeleteIssueLinkTypeRequest" });
   }
 }
-function __c624(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35339,7 +35280,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "DeleteIssuePropertyRequest" });
   }
 }
-function __c625(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35350,7 +35291,7 @@ function __c625(j: number): any {
       ).annotate({ identifier: "DeleteIssueTypeRequest" });
   }
 }
-function __c626(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35367,7 +35308,7 @@ function __c626(j: number): any {
       ).annotate({ identifier: "DeleteIssueTypePropertyRequest" });
   }
 }
-function __c627(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35383,7 +35324,7 @@ function __c627(j: number): any {
       ).annotate({ identifier: "DeleteIssueTypeSchemeRequest" });
   }
 }
-function __c628(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35399,7 +35340,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "DeleteIssueTypeScreenSchemeRequest" });
   }
 }
-function __c629(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35411,7 +35352,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "DeletePermissionSchemeRequest" });
   }
 }
-function __c630(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35428,7 +35369,7 @@ function __c630(j: number): any {
       ).annotate({ identifier: "DeletePermissionSchemeEntityRequest" });
   }
 }
-function __c631(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

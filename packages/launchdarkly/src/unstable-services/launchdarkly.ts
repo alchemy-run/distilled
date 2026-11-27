@@ -40,6 +40,7 @@ export class BadRequest
           /*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           /*@__PURE__*/ S.suspend(() => __S(37, __c1, 5)),
           S.String,
         ]),
@@ -52,6 +53,7 @@ export class BadRequest
   declare readonly body?:
     | ValidationFailedErrorRep
     | InvalidRequestErrorRep
+    | FlagReleasePlansError
     | Error
     | StartEnvironmentReleaseBadRequest
     | string;
@@ -66,6 +68,7 @@ export class Conflict
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
           /*@__PURE__*/ S.suspend(() => __S(65, __c2, 1)),
           S.String,
@@ -78,6 +81,7 @@ export class Conflict
 {
   declare readonly body?:
     | StatusConflictErrorRep
+    | FlagReleasePlansError
     | Error
     | DataExportProjectIdentityIncompleteErrorRep
     | DataExportProjectIdentityIncompleteError
@@ -93,6 +97,7 @@ export class Forbidden
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           S.String,
         ]),
       ),
@@ -101,7 +106,7 @@ export class Forbidden
     [{ status: 403 }],
   )
 {
-  declare readonly body?: ForbiddenErrorRep | Error | string;
+  declare readonly body?: ForbiddenErrorRep | FlagReleasePlansError | Error | string;
 }
 
 export class NotFound
@@ -113,6 +118,7 @@ export class NotFound
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           S.String,
         ]),
       ),
@@ -121,7 +127,7 @@ export class NotFound
     [{ status: 404 }],
   )
 {
-  declare readonly body?: NotFoundErrorRep | Error | string;
+  declare readonly body?: NotFoundErrorRep | FlagReleasePlansError | Error | string;
 }
 
 export class UnprocessableEntity
@@ -462,6 +468,76 @@ export interface FlagLinkRep {
   _createdAt: number;
   /** Details on the member associated with this flag link */
   _member?: FlagLinkMember | undefined;
+}
+export type MaintainerIdentifierMemberKind = "member";
+export interface MaintainerIdentifierMember {
+  kind: MaintainerIdentifierMemberKind;
+  memberId: string;
+}
+export type MaintainerIdentifierTeamKind = "team";
+export interface MaintainerIdentifierTeam {
+  kind: MaintainerIdentifierTeamKind;
+  teamKey: string;
+}
+/** The maintainer to assign, either a member or a team. */
+export type MaintainerIdentifier = MaintainerIdentifierMember | MaintainerIdentifierTeam;
+/** `sequential` releases environments in array order. `parallel` is not accepted on create or update; it is only returned for plans and releases created with it. */
+export type ExecutionMode = "sequential" | "parallel";
+export type CreateFlagReleasePlanRequestApplicationKeysList = Array<string>;
+export type TriggerType = "flag_eval" | "webhook" | "manual" | "promotion";
+export interface FlagReleasePlanEnvironment {
+  environmentKey: string;
+  /** The environment release plan to run. Omitted for an immediate release. */
+  environmentReleasePlanKey?: string | undefined;
+  isImmediate?: boolean | undefined;
+  triggerType: TriggerType | (string & {});
+}
+export type CreateFlagReleasePlanRequestEnvironmentsList = Array<FlagReleasePlanEnvironment>;
+export interface CreateFlagReleasePlanRequest {
+  projectKey: string;
+  name: string;
+  description?: string | undefined;
+  maintainer?: MaintainerIdentifier | undefined;
+  executionMode?: ExecutionMode | (string & {}) | undefined;
+  applicationKeys?: CreateFlagReleasePlanRequestApplicationKeysList | undefined;
+  /** Whether this plan is the project's default. At most one active plan per project is the default. On update, omitting it demotes the current default. */
+  default?: boolean | undefined;
+  environments: CreateFlagReleasePlanRequestEnvironmentsList;
+  key: string;
+}
+export type MaintainerResponseMemberKind = "member";
+export interface MaintainerResponseMember {
+  kind: MaintainerResponseMemberKind;
+  memberId?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  /** The member's email, used to show their avatar. */
+  email?: string | undefined;
+}
+export type MaintainerResponseTeamKind = "team";
+export interface MaintainerResponseTeam {
+  kind: MaintainerResponseTeamKind;
+  key?: string | undefined;
+  name?: string | undefined;
+}
+/** The flag's maintainer, either a member or a team. */
+export type MaintainerResponse = MaintainerResponseMember | MaintainerResponseTeam;
+export type FlagReleasePlanApplicationKeysList = Array<string>;
+export type FlagReleasePlanEnvironmentsList = Array<FlagReleasePlanEnvironment>;
+export interface FlagReleasePlan {
+  key: string;
+  _id: string;
+  version: number;
+  createdAt: number;
+  updatedAt: number;
+  name: string;
+  description?: string | undefined;
+  maintainer?: MaintainerResponse | undefined;
+  executionMode?: ExecutionMode | undefined;
+  applicationKeys?: FlagReleasePlanApplicationKeysList | undefined;
+  /** Whether this plan is the project's default. At most one active plan per project is the default. */
+  default: boolean;
+  environments: FlagReleasePlanEnvironmentsList;
 }
 /** The application keys to associate with the insight group. If not provided, the insight group will include data from all applications. */
 export type CreateInsightGroupRequestApplicationKeysList = Array<string>;
@@ -1096,6 +1172,22 @@ export interface DeleteBigSegmentStoreIntegrationRequest {
   integrationId: string;
 }
 export interface DeleteBigSegmentStoreIntegrationResponse {}
+export interface DeleteDefaultEnvironmentReleasePlanRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+}
+export interface DeleteDefaultEnvironmentReleasePlanResponse {}
+export interface DeleteEnvironmentReleasePlanRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+  /** The release plan key */
+  releasePlanKey: string;
+}
+export interface DeleteEnvironmentReleasePlanResponse {}
 export interface DeleteFlagImportConfigurationRequest {
   /** The project key */
   projectKey: string;
@@ -1114,6 +1206,11 @@ export interface DeleteFlagLinkRequest {
   id: string;
 }
 export interface DeleteFlagLinkResponse {}
+export interface DeleteFlagReleasePlanRequest {
+  projectKey: string;
+  planKey: string;
+}
+export interface DeleteFlagReleasePlanResponse {}
 export interface DeleteInsightGroupRequest {
   /** The insight group key */
   insightGroupKey: string;
@@ -1147,13 +1244,6 @@ export interface DeleteMetricGroupRequest {
   metricGroupKey: string;
 }
 export interface DeleteMetricGroupResponse {}
-export interface DeleteReleasePolicyRequest {
-  /** The project key */
-  projectKey: string;
-  /** The human-readable key of the release policy */
-  policyKey: string;
-}
-export interface DeleteReleasePolicyResponse {}
 export interface DeleteRepositoryProjectRequest {
   /** The repository key */
   repositoryKey: string;
@@ -1716,6 +1806,121 @@ export interface DataExportProjectRankingRep {
   page: DataExportProjectRankingPageRep;
   scope: DataExportProjectRankingScopeRep;
 }
+export interface GetDefaultEnvironmentReleasePlanRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+}
+/** Discriminates which nested config object is present */
+export type EnvironmentReleasePlanReleaseMethod = "progressive_release";
+/** Whether a release started from this plan advances to the next phase automatically once the current phase's steps complete, or waits for a user/API action */
+export type EnvironmentReleasePlanProgressiveReleaseRepAdvancementMode = "manual" | "automatic";
+/** What happens to the flag's rules once a release started from this plan completes. `remove_rules_and_update_default_rule` removes the release's targeting rules and updates the flag's default rule to serve the target variation; `leave_rules_in_place` leaves the targeting rules untouched. */
+export type EnvironmentReleasePlanProgressiveReleaseRepCleanupBehavior =
+  | "remove_rules_and_update_default_rule"
+  | "leave_rules_in_place";
+export interface EnvironmentReleasePlanStep {
+  /** The step's server-generated identifier */
+  _id?: string | undefined;
+  /** Traffic allocation in per-100k units (100000 = 100%) */
+  allocation: number;
+  /** How long this step holds before the next one starts */
+  durationMillis: number;
+}
+/** Ordered allocation increments within this phase */
+export type EnvironmentReleasePlanPhaseStepsList = Array<EnvironmentReleasePlanStep>;
+/** Clause operator */
+export type EnvironmentReleasePlanClauseOp =
+  | "in"
+  | "endsWith"
+  | "startsWith"
+  | "matches"
+  | "contains"
+  | "lessThan"
+  | "lessThanOrEqual"
+  | "greaterThan"
+  | "greaterThanOrEqual"
+  | "before"
+  | "after"
+  | "semVerEqual"
+  | "semVerLessThan"
+  | "semVerGreaterThan"
+  | "segmentMatch";
+/** Values to match against (strings, numbers, or booleans). Each string value can be at most 1,024 bytes when UTF-8 encoded, so a value with multibyte characters can be rejected even if it has fewer than 1,024 characters. */
+export type EnvironmentReleasePlanClauseValuesList = Array<unknown>;
+export interface EnvironmentReleasePlanClause {
+  /** The clause's server-generated identifier */
+  _id?: string | undefined;
+  /** Context kind this clause applies to */
+  contextKind?: string | undefined;
+  /** Context attribute to match on (may be empty for segmentMatch) */
+  attribute: string;
+  /** Clause operator */
+  op: EnvironmentReleasePlanClauseOp;
+  /** Values to match against (strings, numbers, or booleans). Each string value can be at most 1,024 bytes when UTF-8 encoded, so a value with multibyte characters can be rejected even if it has fewer than 1,024 characters. */
+  values: EnvironmentReleasePlanClauseValuesList;
+  /** Whether to negate the clause */
+  negate?: boolean | undefined;
+}
+/** Targeting clauses scoping this phase's audience. Each phase's clauses must include the randomization unit clause {"contextKind": "<randomizationUnit>", "attribute": "kind", "op": "in", "values": ["<randomizationUnit>"]}, so the release only reaches contexts with that context kind. To release to every context of the randomization unit, provide exactly that clause. */
+export type EnvironmentReleasePlanPhaseClausesList = Array<EnvironmentReleasePlanClause>;
+export interface EnvironmentReleasePlanPhase {
+  /** The phase's server-generated identifier */
+  _id?: string | undefined;
+  /** Human-readable description of this phase */
+  description?: string | undefined;
+  /** Ordered allocation increments within this phase */
+  steps: EnvironmentReleasePlanPhaseStepsList;
+  /** Targeting clauses scoping this phase's audience. Each phase's clauses must include the randomization unit clause {"contextKind": "<randomizationUnit>", "attribute": "kind", "op": "in", "values": ["<randomizationUnit>"]}, so the release only reaches contexts with that context kind. To release to every context of the randomization unit, provide exactly that clause. */
+  clauses?: EnvironmentReleasePlanPhaseClausesList | undefined;
+}
+/** Ordered list of phases this release plan configures */
+export type EnvironmentReleasePlanProgressiveReleaseRepPhasesList =
+  Array<EnvironmentReleasePlanPhase>;
+export interface EnvironmentReleasePlanMetric {
+  /** true if this key identifies a metric group, false if it identifies a single metric */
+  isGroup: boolean;
+  /** Whether to automatically roll back the release if this metric/group regresses */
+  autoRollback?: boolean | undefined;
+}
+/** Metrics/metric groups to monitor during rollout, keyed by metric/group key */
+export type EnvironmentReleasePlanProgressiveReleaseRepMetricsMap = {
+  [key: string]: EnvironmentReleasePlanMetric | undefined;
+};
+export interface EnvironmentReleasePlanProgressiveReleaseRep {
+  /** Context kind used to bucket contexts for allocation. Required when you create or update a plan. */
+  randomizationUnit?: string | undefined;
+  /** Whether a release started from this plan advances to the next phase automatically once the current phase's steps complete, or waits for a user/API action */
+  advancementMode?: EnvironmentReleasePlanProgressiveReleaseRepAdvancementMode | undefined;
+  /** What happens to the flag's rules once a release started from this plan completes. `remove_rules_and_update_default_rule` removes the release's targeting rules and updates the flag's default rule to serve the target variation; `leave_rules_in_place` leaves the targeting rules untouched. */
+  cleanupBehavior?: EnvironmentReleasePlanProgressiveReleaseRepCleanupBehavior | undefined;
+  /** Ordered list of phases this release plan configures */
+  phases: EnvironmentReleasePlanProgressiveReleaseRepPhasesList;
+  /** Metrics/metric groups to monitor during rollout, keyed by metric/group key */
+  metrics?: EnvironmentReleasePlanProgressiveReleaseRepMetricsMap | undefined;
+}
+export interface EnvironmentReleasePlan {
+  /** The release plan's unique identifier */
+  _id: string;
+  /** Unique key identifying this release plan within the project */
+  key: string;
+  /** Human-readable name for this release plan */
+  name: string;
+  /** Human-readable description of this release plan's purpose */
+  description?: string | undefined;
+  /** The environment this release plan is scoped to */
+  environmentKey: string;
+  /** Discriminates which nested config object is present */
+  releaseMethod: EnvironmentReleasePlanReleaseMethod;
+  /** The release plan's version, starting at 1 and incremented on every update */
+  version: number;
+  createdAt?: number | undefined;
+  updatedAt?: number | undefined;
+  /** Whether this plan is the default for its environment. At most one active plan per environment is the default. Managed via the environment's default-release-plan sub-resource, not this request body. */
+  default?: boolean | undefined;
+  progressiveRelease: EnvironmentReleasePlanProgressiveReleaseRep;
+}
 export interface GetDependentFlagsRequest {
   /** The project key */
   projectKey: string;
@@ -2210,6 +2415,8 @@ export interface EnvironmentReleasesMetricListingRep {
   guardedRolloutCount?: number | undefined;
   /** The number of release policies using this metric */
   releasePolicyCount?: number | undefined;
+  /** The number of environment release plans using this metric */
+  environmentReleasePlanCount?: number | undefined;
   /** The number of active experiments using this metric */
   activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric */
@@ -2377,6 +2584,43 @@ export interface EnvironmentRelease {
   /** End of the last started phase in Unix milliseconds. Present only after the release reaches a terminal status of `completed` or `reverted`. */
   endedAt?: number | undefined;
   _links?: EnvironmentReleaseLinksMap | undefined;
+}
+export interface GetEnvironmentReleasePlanRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+  /** The release plan key */
+  releasePlanKey: string;
+}
+export interface GetEnvironmentReleasePlansRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+  /** A queryfilter expression that narrows the list by text match. Supported field and operators: `query` (`equals`, `contains`). When present, only release plans whose name or key contains the text, case-insensitively, are returned, and totalCount counts the matches. Surrounding whitespace is ignored, and the text is at most 256 bytes. Omitting the filter lists every release plan in the environment. */
+  filter?: string | undefined;
+  /** The number of release plans to return. Defaults to 20. Maximum is 100. */
+  limit?: number | undefined;
+  /** The number of release plans to skip. Used for pagination. */
+  offset?: number | undefined;
+}
+export type EnvironmentReleasePlansLink = Link;
+export interface EnvironmentReleasePlansPaginatedLinks {
+  first?: Link | undefined;
+  last?: Link | undefined;
+  next?: Link | undefined;
+  prev?: Link | undefined;
+  self: Link;
+}
+/** One page of the listed release plans, ordered by creation time */
+export type EnvironmentReleasePlansItemsList = Array<EnvironmentReleasePlan>;
+export interface EnvironmentReleasePlans {
+  _links?: EnvironmentReleasePlansPaginatedLinks | undefined;
+  /** One page of the listed release plans, ordered by creation time */
+  items: EnvironmentReleasePlansItemsList;
+  /** The total number of release plans in the listed scope, before pagination */
+  totalCount: number;
 }
 export interface GetEvaluationsUsageRequest {
   /** The project key */
@@ -2613,6 +2857,10 @@ export interface FlagLinkCollectionRep {
   items: FlagLinkCollectionRepItemsList;
   /** The location and content type of related resources */
   _links: FlagLinkCollectionRepLinksMap;
+}
+export interface GetFlagReleasePlanRequest {
+  projectKey: string;
+  planKey: string;
 }
 export interface GetFlagStatusChartRequest {
   /** The project key */
@@ -3101,147 +3349,6 @@ export interface GetReleaseFrequencyChartRequest {
   /** Options: `metrics` */
   expand?: string | undefined;
 }
-export interface GetReleasePoliciesRequest {
-  /** The project key */
-  projectKey: string;
-  /** When true, exclude the default release policy from the response. When false or omitted, include the default policy if an environment filter is present. */
-  excludeDefault?: boolean | undefined;
-}
-/** Resource specifier strings */
-export type ReleasePoliciesAccessDeniedReasonResourcesList = Array<string>;
-/** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-export type ReleasePoliciesAccessDeniedReasonNotResourcesList = Array<string>;
-/** Actions to perform on a resource */
-export type ReleasePoliciesAccessDeniedReasonActionsList = Array<string>;
-/** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-export type ReleasePoliciesAccessDeniedReasonNotActionsList = Array<string>;
-/** Whether this statement should allow or deny actions on the resources. */
-export type ReleasePoliciesAccessDeniedReasonEffect = "allow" | "deny";
-export interface ReleasePoliciesAccessDeniedReason {
-  /** Resource specifier strings */
-  resources?: ReleasePoliciesAccessDeniedReasonResourcesList | undefined;
-  /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ReleasePoliciesAccessDeniedReasonNotResourcesList | undefined;
-  /** Actions to perform on a resource */
-  actions?: ReleasePoliciesAccessDeniedReasonActionsList | undefined;
-  /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ReleasePoliciesAccessDeniedReasonNotActionsList | undefined;
-  /** Whether this statement should allow or deny actions on the resources. */
-  effect: ReleasePoliciesAccessDeniedReasonEffect;
-  role_name?: string | undefined;
-}
-export interface ReleasePoliciesAccessDenied {
-  action: string;
-  reason: ReleasePoliciesAccessDeniedReason;
-}
-export type ReleasePoliciesAccessDeniedList = Array<ReleasePoliciesAccessDenied>;
-/** Resource specifier strings */
-export type ReleasePoliciesAccessAllowedReasonResourcesList = Array<string>;
-/** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-export type ReleasePoliciesAccessAllowedReasonNotResourcesList = Array<string>;
-/** Actions to perform on a resource */
-export type ReleasePoliciesAccessAllowedReasonActionsList = Array<string>;
-/** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-export type ReleasePoliciesAccessAllowedReasonNotActionsList = Array<string>;
-/** Whether this statement should allow or deny actions on the resources. */
-export type ReleasePoliciesAccessAllowedReasonEffect = "allow" | "deny";
-export interface ReleasePoliciesAccessAllowedReason {
-  /** Resource specifier strings */
-  resources?: ReleasePoliciesAccessAllowedReasonResourcesList | undefined;
-  /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ReleasePoliciesAccessAllowedReasonNotResourcesList | undefined;
-  /** Actions to perform on a resource */
-  actions?: ReleasePoliciesAccessAllowedReasonActionsList | undefined;
-  /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ReleasePoliciesAccessAllowedReasonNotActionsList | undefined;
-  /** Whether this statement should allow or deny actions on the resources. */
-  effect: ReleasePoliciesAccessAllowedReasonEffect;
-  role_name?: string | undefined;
-}
-export interface ReleasePoliciesAccessAllowedRep {
-  action: string;
-  reason: ReleasePoliciesAccessAllowedReason;
-}
-export type ReleasePoliciesAccessAllowedList = Array<ReleasePoliciesAccessAllowedRep>;
-export interface ReleasePoliciesAccess {
-  denied: ReleasePoliciesAccessDeniedList;
-  allowed: ReleasePoliciesAccessAllowedList;
-}
-/** List of environment keys this policy applies to */
-export type ReleasePolicyScopeEnvironmentKeysList = Array<string>;
-/** List of flag tag keys this policy applies to. At most 1000 keys. Each key must only contain letters, numbers, '-', '_', or '.', and be at most 64 characters. */
-export type ReleasePolicyScopeFlagTagKeysList = Array<string>;
-export interface ReleasePolicyScope {
-  /** List of environment keys this policy applies to */
-  environmentKeys?: ReleasePolicyScopeEnvironmentKeysList | undefined;
-  /** List of flag tag keys this policy applies to. At most 1000 keys. Each key must only contain letters, numbers, '-', '_', or '.', and be at most 64 characters. */
-  flagTagKeys?: ReleasePolicyScopeFlagTagKeysList | undefined;
-}
-/** The release method for this policy */
-export type ReleaseMethod = "guarded-release" | "immediate-release" | "progressive-release";
-/** List of metric keys */
-export type GuardedReleaseConfigMetricKeysList = Array<string>;
-/** List of metric group keys */
-export type GuardedReleaseConfigMetricGroupKeysList = Array<string>;
-export interface ReleasePolicyStage {
-  allocation: number;
-  durationMillis: number;
-}
-/** List of stages. At most 10 stages by default; the server enforces the per-account limit, which is never more than 20. */
-export type GuardedReleaseConfigStagesList = Array<ReleasePolicyStage>;
-/** Configuration for guarded releases */
-export interface GuardedReleaseConfig {
-  /** Context kind key to use as the randomization unit for the rollout */
-  rolloutContextKindKey?: string | undefined;
-  /** The minimum number of samples required to make a decision */
-  minSampleSize?: number | undefined;
-  /** Whether to roll back on regression */
-  rollbackOnRegression?: boolean | undefined;
-  /** List of metric keys */
-  metricKeys?: GuardedReleaseConfigMetricKeysList | undefined;
-  /** List of metric group keys */
-  metricGroupKeys?: GuardedReleaseConfigMetricGroupKeysList | undefined;
-  /** List of stages. At most 10 stages by default; the server enforces the per-account limit, which is never more than 20. */
-  stages?: GuardedReleaseConfigStagesList | undefined;
-}
-/** List of stages. At most 10 stages by default; the server enforces the per-account limit, which is never more than 20. */
-export type ProgressiveReleaseConfigStagesList = Array<ReleasePolicyStage>;
-/** Configuration for progressive releases */
-export interface ProgressiveReleaseConfig {
-  /** Context kind key to use as the randomization unit for the rollout */
-  rolloutContextKindKey?: string | undefined;
-  /** List of stages. At most 10 stages by default; the server enforces the per-account limit, which is never more than 20. */
-  stages?: ProgressiveReleaseConfigStagesList | undefined;
-}
-export interface ReleasePolicy {
-  _access?: ReleasePoliciesAccess | undefined;
-  /** The unique identifier of the release policy */
-  _id: string;
-  scope?: ReleasePolicyScope | undefined;
-  /** The rank/priority of the release policy */
-  rank: number;
-  releaseMethod: ReleaseMethod;
-  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
-  /** The name of the release policy */
-  name: string;
-  /** The human-readable key of the release policy */
-  key: string;
-}
-/** List of release policies */
-export type ReleasePoliciesResponseItemsList = Array<ReleasePolicy>;
-export interface ReleasePoliciesResponse {
-  /** List of release policies */
-  items: ReleasePoliciesResponseItemsList;
-  /** Total number of release policies */
-  totalCount: number;
-}
-export interface GetReleasePolicyRequest {
-  /** The project key */
-  projectKey: string;
-  /** The release policy key */
-  policyKey: string;
-}
 export interface GetSdkAllVersionsRequest {
   /** Filter to a specific environment ID. */
   environmentId?: string | undefined;
@@ -3480,18 +3587,12 @@ export interface ListAgentGraphsRequest {
   filter?: string | undefined;
 }
 export type AiConfigsLink = Link;
-export interface PaginatedLinks {
-  first?: Link | undefined;
-  last?: Link | undefined;
-  next?: Link | undefined;
-  prev?: Link | undefined;
-  self: Link;
-}
+export type PaginatedLinks = EnvironmentReleasePlansPaginatedLinks;
 /** The items on this page */
 export type AgentGraphsItemsList = Array<AgentGraph>;
 /** A collection of agent graphs */
 export interface AgentGraphs {
-  _links?: PaginatedLinks | undefined;
+  _links?: EnvironmentReleasePlansPaginatedLinks | undefined;
   /** The items on this page */
   items: AgentGraphsItemsList;
   /** The total number of items */
@@ -3522,6 +3623,22 @@ export interface EnvironmentReleaseCollection {
   totalCount: number;
   /** Links to this page (`self`), the flag (`parent`), and, where they apply, the `first`, `prev`, `next`, and `last` pages. */
   _links?: EnvironmentReleaseCollectionLinksMap | undefined;
+}
+export interface ListFlagReleasePlansRequest {
+  projectKey: string;
+  /** The number of flag release plans to return. */
+  limit?: number | undefined;
+  /** The number of flag release plans to skip. Used for pagination. */
+  offset?: number | undefined;
+}
+export type ListFlagReleasePlansResponseItemsList = Array<FlagReleasePlan>;
+export type FlagReleasePlansLink = Link;
+export type FlagReleasePlansPaginatedLinks = EnvironmentReleasePlansPaginatedLinks;
+export interface ListFlagReleasePlansResponse {
+  items: ListFlagReleasePlansResponseItemsList;
+  /** The total number of flag release plans in the project, before pagination. */
+  totalCount: number;
+  _links?: EnvironmentReleasePlansPaginatedLinks | undefined;
 }
 /** The edges in the graph. If present, rootConfigKey must also be present. Replaces all existing edges. */
 export type PatchAgentGraphRequestEdgesList = Array<AgentGraphEdge>;
@@ -3799,26 +3916,102 @@ export interface PostAgentGraphRequest {
   /** The edges in the graph. If edges or rootConfigKey is present, both must be present. */
   edges?: PostAgentGraphRequestEdgesList | undefined;
 }
-/** Ordered list of release policy keys */
-export type PostReleasePoliciesOrderRequestBodyList = Array<string>;
-export interface PostReleasePoliciesOrderRequest {
-  /** The project key */
-  projectKey: string;
-  body: PostReleasePoliciesOrderRequestBodyList;
+/** Discriminates which nested config object is required */
+export type PostEnvironmentReleasePlanRequestReleaseMethod = "progressive_release";
+/** Whether a release started from this plan advances to the next phase automatically once the current phase's steps complete, or waits for a user/API action */
+export type EnvironmentReleasePlanProgressiveReleaseInputAdvancementMode = "manual" | "automatic";
+/** What happens to the flag's rules once a release started from this plan completes. Defaults to `remove_rules_and_update_default_rule`, which removes the release's targeting rules and updates the flag's default rule to serve the target variation; `leave_rules_in_place` leaves the targeting rules untouched. */
+export type EnvironmentReleasePlanProgressiveReleaseInputCleanupBehavior =
+  | "remove_rules_and_update_default_rule"
+  | "leave_rules_in_place";
+export interface EnvironmentReleasePlanStepInput {
+  /** Traffic allocation in per-100k units (100000 = 100%) */
+  allocation: number;
+  /** How long this step holds before the next one starts */
+  durationMillis: number;
 }
-export type PostReleasePoliciesOrderResponseBodyList = Array<ReleasePolicy>;
-export type PostReleasePoliciesOrderResponse = PostReleasePoliciesOrderResponseBodyList;
-export interface PostReleasePolicyRequest {
+/** Ordered allocation increments within this phase */
+export type EnvironmentReleasePlanPhaseInputStepsList = Array<EnvironmentReleasePlanStepInput>;
+/** Clause operator */
+export type EnvironmentReleasePlanClauseInputOp =
+  | "in"
+  | "endsWith"
+  | "startsWith"
+  | "matches"
+  | "contains"
+  | "lessThan"
+  | "lessThanOrEqual"
+  | "greaterThan"
+  | "greaterThanOrEqual"
+  | "before"
+  | "after"
+  | "semVerEqual"
+  | "semVerLessThan"
+  | "semVerGreaterThan"
+  | "segmentMatch";
+/** Values to match against (strings, numbers, or booleans). Each string value can be at most 1,024 bytes when UTF-8 encoded, so a value with multibyte characters can be rejected even if it has fewer than 1,024 characters. */
+export type EnvironmentReleasePlanClauseInputValuesList = Array<unknown>;
+export interface EnvironmentReleasePlanClauseInput {
+  /** Context kind this clause applies to */
+  contextKind?: string | undefined;
+  /** Context attribute to match on (may be empty for segmentMatch) */
+  attribute: string;
+  /** Clause operator */
+  op: EnvironmentReleasePlanClauseInputOp | (string & {});
+  /** Values to match against (strings, numbers, or booleans). Each string value can be at most 1,024 bytes when UTF-8 encoded, so a value with multibyte characters can be rejected even if it has fewer than 1,024 characters. */
+  values: EnvironmentReleasePlanClauseInputValuesList;
+  /** Whether to negate the clause */
+  negate?: boolean | undefined;
+}
+/** Targeting clauses scoping this phase's audience. Each phase's clauses must include the randomization unit clause {"contextKind": "<randomizationUnit>", "attribute": "kind", "op": "in", "values": ["<randomizationUnit>"]}, so the release only reaches contexts with that context kind. To release to every context of the randomization unit, provide exactly that clause. */
+export type EnvironmentReleasePlanPhaseInputClausesList = Array<EnvironmentReleasePlanClauseInput>;
+export interface EnvironmentReleasePlanPhaseInput {
+  /** Human-readable description of this phase */
+  description?: string | undefined;
+  /** Ordered allocation increments within this phase */
+  steps: EnvironmentReleasePlanPhaseInputStepsList;
+  /** Targeting clauses scoping this phase's audience. Each phase's clauses must include the randomization unit clause {"contextKind": "<randomizationUnit>", "attribute": "kind", "op": "in", "values": ["<randomizationUnit>"]}, so the release only reaches contexts with that context kind. To release to every context of the randomization unit, provide exactly that clause. */
+  clauses?: EnvironmentReleasePlanPhaseInputClausesList | undefined;
+}
+/** Ordered list of phases this release plan configures */
+export type EnvironmentReleasePlanProgressiveReleaseInputPhasesList =
+  Array<EnvironmentReleasePlanPhaseInput>;
+/** Metrics/metric groups to monitor during rollout, keyed by metric/group key */
+export type EnvironmentReleasePlanProgressiveReleaseInputMetricsMap = {
+  [key: string]: EnvironmentReleasePlanMetric | undefined;
+};
+export interface EnvironmentReleasePlanProgressiveReleaseInput {
+  /** Context kind used to bucket contexts for allocation */
+  randomizationUnit: string;
+  /** Whether a release started from this plan advances to the next phase automatically once the current phase's steps complete, or waits for a user/API action */
+  advancementMode?:
+    | EnvironmentReleasePlanProgressiveReleaseInputAdvancementMode
+    | (string & {})
+    | undefined;
+  /** What happens to the flag's rules once a release started from this plan completes. Defaults to `remove_rules_and_update_default_rule`, which removes the release's targeting rules and updates the flag's default rule to serve the target variation; `leave_rules_in_place` leaves the targeting rules untouched. */
+  cleanupBehavior?:
+    | EnvironmentReleasePlanProgressiveReleaseInputCleanupBehavior
+    | (string & {})
+    | undefined;
+  /** Ordered list of phases this release plan configures */
+  phases: EnvironmentReleasePlanProgressiveReleaseInputPhasesList;
+  /** Metrics/metric groups to monitor during rollout, keyed by metric/group key */
+  metrics?: EnvironmentReleasePlanProgressiveReleaseInputMetricsMap | undefined;
+}
+export interface PostEnvironmentReleasePlanRequest {
   /** The project key */
   projectKey: string;
-  scope?: ReleasePolicyScope | undefined;
-  releaseMethod: ReleaseMethod | (string & {});
-  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
-  /** The name of the release policy */
+  /** The environment key */
+  environmentKey: string;
+  /** Human-readable name for this release plan */
   name: string;
-  /** The human-readable key of the release policy */
+  /** Unique key identifying this release plan within the project. Immutable once created. Unique only among active (non-deleted) plans -- a soft-deleted plan's key can be reused by a new plan. */
   key: string;
+  /** Human-readable description of this release plan's purpose */
+  description?: string | undefined;
+  /** Discriminates which nested config object is required */
+  releaseMethod?: PostEnvironmentReleasePlanRequestReleaseMethod | (string & {}) | undefined;
+  progressiveRelease: EnvironmentReleasePlanProgressiveReleaseInput;
 }
 /** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). Defaults to "sdk" when not explicitly defined. */
 export type PostSdkKeyRequestKind = "sdk" | "mobile";
@@ -3839,17 +4032,32 @@ export interface PostSdkKeyRequest {
   /** List of view keys to associate with the SDK key. */
   viewKeys?: PostSdkKeyRequestViewKeysList | undefined;
 }
-export interface PutReleasePolicyRequest {
+export interface PutDefaultEnvironmentReleasePlanRequest {
   /** The project key */
   projectKey: string;
-  /** The human-readable key of the release policy */
-  policyKey: string;
-  scope?: ReleasePolicyScope | undefined;
-  releaseMethod: ReleaseMethod | (string & {});
-  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
-  /** The name of the release policy */
+  /** The environment key */
+  environmentKey: string;
+  /** Key of the release plan to set as the environment's default */
+  key: string;
+}
+/** Discriminates which nested config object is required */
+export type PutEnvironmentReleasePlanRequestReleaseMethod = "progressive_release";
+export interface PutEnvironmentReleasePlanRequest {
+  /** The project key */
+  projectKey: string;
+  /** The environment key */
+  environmentKey: string;
+  /** The release plan key */
+  releasePlanKey: string;
+  /** Human-readable name for this release plan */
   name: string;
+  /** Optional. The plan version this request was based on, from a previous read. Plans start at version 1. When present it must match the plan's current version -- on mismatch the request is rejected with 409 and no changes are applied, so a stale copy can't silently overwrite a concurrent edit. When omitted, the plan's version is not checked. */
+  version?: number | undefined;
+  /** Human-readable description of this release plan's purpose */
+  description?: string | undefined;
+  /** Discriminates which nested config object is required */
+  releaseMethod?: PutEnvironmentReleasePlanRequestReleaseMethod | (string & {}) | undefined;
+  progressiveRelease: EnvironmentReleasePlanProgressiveReleaseInput;
 }
 /** The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key. */
 export type PutSdkKeyViewsRequestViewKeysList = Array<string>;
@@ -4035,6 +4243,22 @@ export interface UpdateFlagLinkRequest {
   id: string;
   body: JSONPatch;
 }
+export type UpdateFlagReleasePlanRequestApplicationKeysList = Array<string>;
+export type UpdateFlagReleasePlanRequestEnvironmentsList = Array<FlagReleasePlanEnvironment>;
+export interface UpdateFlagReleasePlanRequest {
+  projectKey: string;
+  planKey: string;
+  name: string;
+  description?: string | undefined;
+  maintainer?: MaintainerIdentifier | undefined;
+  executionMode?: ExecutionMode | (string & {}) | undefined;
+  applicationKeys?: UpdateFlagReleasePlanRequestApplicationKeysList | undefined;
+  /** Whether this plan is the project's default. At most one active plan per project is the default. On update, omitting it demotes the current default. */
+  default?: boolean | undefined;
+  environments: UpdateFlagReleasePlanRequestEnvironmentsList;
+  /** Optional. The plan version this request was based on, from a previous read. Plans start at version 1. When present it must match the plan's current version -- on mismatch the request is rejected with 409 and no changes are applied, so a stale copy can't silently overwrite a concurrent edit. When omitted, the plan's version is not checked. */
+  version?: number | undefined;
+}
 export interface UpdateIntegrationConfigurationRequest {
   /** The ID of the integration configuration */
   integrationConfigurationId: string;
@@ -4102,10 +4326,11 @@ export interface InvalidRequestErrorRep {
   /** Description of the error */
   message: string;
 }
-export interface Error {
+export interface FlagReleasePlansError {
   message: string;
   code: string;
 }
+export type Error = FlagReleasePlansError;
 export interface ReleaseHealthCheckFailure {
   kind: ReleaseHealthCheckKind;
   /** The metric key associated with a metric event check. */
@@ -4147,8 +4372,8 @@ export const associateRepositoriesAndProjects: API.OperationMethod<
   AssociateRepositoriesAndProjectsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2946, __c92, 2) as any as S.Schema<AssociateRepositoriesAndProjectsRequest>,
-  output: __S(2947, __c92, 3) as any as S.Schema<InsightsRepositoryProjectCollection>,
+  input: __S(3202, __c100, 2) as any as S.Schema<AssociateRepositoriesAndProjectsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<InsightsRepositoryProjectCollection>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4170,8 +4395,8 @@ export const createBigSegmentStoreIntegration: API.OperationMethod<
   CreateBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<CreateBigSegmentStoreIntegrationRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(3776, __c118, 0) as any as S.Schema<CreateBigSegmentStoreIntegrationRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4188,8 +4413,8 @@ export const createDeploymentEvent: API.OperationMethod<
   CreateDeploymentEventError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<CreateDeploymentEventRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<CreateDeploymentEventResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<CreateDeploymentEventRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<CreateDeploymentEventResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4211,8 +4436,8 @@ export const createFlagImportConfiguration: API.OperationMethod<
   CreateFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<CreateFlagImportConfigurationRequest>,
-  output: __S(4452, __c139, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(4768, __c149, 0) as any as S.Schema<CreateFlagImportConfigurationRequest>,
+  output: __S(4804, __c150, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4229,14 +4454,37 @@ export const createFlagLink: API.OperationMethod<
   CreateFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<CreateFlagLinkRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<FlagLinkRep>,
+  input: __S(5248, __c164, 0) as any as S.Schema<CreateFlagLinkRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<FlagLinkRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFlagLink",
+}));
+
+export type CreateFlagReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | LaunchDarklyOpError;
+/** Create a flag release plan for a project Creates a flag release plan. The key must not be in use by another active plan in the project, or the request is rejected with 409. The request is rejected with 400 when an environment isn't in the project, the maintainer isn't in the account, an environment release plan doesn't exist, is incomplete, or is in another environment, `default` is set while the project already has a default plan, or the project already has the maximum number of plans. To make a new plan the project's default, create it, then update it with `default` set, which demotes the current default. */
+export const createFlagReleasePlan: API.OperationMethod<
+  CreateFlagReleasePlanRequest,
+  FlagReleasePlan,
+  CreateFlagReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c3, 0) as any as S.Schema<CreateFlagReleasePlanRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<FlagReleasePlan>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagReleasePlan",
 }));
 
 export type CreateInsightGroupError =
@@ -4252,8 +4500,8 @@ export const createInsightGroup: API.OperationMethod<
   CreateInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateInsightGroupRequest>,
-  output: __S(132, __c4, 4) as any as S.Schema<InsightGroup>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateInsightGroupRequest>,
+  output: __S(580, __c18, 4) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4275,8 +4523,8 @@ export const createIntegrationConfiguration: API.OperationMethod<
   CreateIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateIntegrationConfigurationRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateIntegrationConfigurationRequest>,
+  output: __S(1041, __c32, 17) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4297,8 +4545,8 @@ export const createIntegrationDeliveryConfiguration: API.OperationMethod<
   CreateIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateIntegrationDeliveryConfigurationRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateIntegrationDeliveryConfigurationRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4320,8 +4568,8 @@ export const createIpAllowlistEntry: API.OperationMethod<
   CreateIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateIpAllowlistEntryRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<IpAllowlistEntryResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateIpAllowlistEntryRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<IpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4338,8 +4586,8 @@ export const createMetricGroup: API.OperationMethod<
   CreateMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1218, __c38, 2) as any as S.Schema<CreateMetricGroupRequest>,
-  output: __S(1317, __c41, 5) as any as S.Schema<MetricGroupRep>,
+  input: __S(1570, __c49, 2) as any as S.Schema<CreateMetricGroupRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4356,8 +4604,8 @@ export const deleteAgentGraph: API.OperationMethod<
   DeleteAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteAgentGraphRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteAgentGraphResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteAgentGraphRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteAgentGraphResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4374,8 +4622,8 @@ export const deleteAgentOptimizationRun: API.OperationMethod<
   DeleteAgentOptimizationRunError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteAgentOptimizationRunRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteAgentOptimizationRunResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteAgentOptimizationRunRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteAgentOptimizationRunResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4392,8 +4640,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteApplicationResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4410,8 +4658,8 @@ export const deleteApplicationVersion: API.OperationMethod<
   DeleteApplicationVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteApplicationVersionRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteApplicationVersionResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteApplicationVersionRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteApplicationVersionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4432,14 +4680,59 @@ export const deleteBigSegmentStoreIntegration: API.OperationMethod<
   DeleteBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteBigSegmentStoreIntegrationResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBigSegmentStoreIntegration",
+}));
+
+export type DeleteDefaultEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | LaunchDarklyOpError;
+/** Clear the default release plan Clear the environment's default release plan, incrementing the formerly-default plan's version by 1; the environment then has none. Idempotent: returns `204` whether or not a default was set. */
+export const deleteDefaultEnvironmentReleasePlan: API.OperationMethod<
+  DeleteDefaultEnvironmentReleasePlanRequest,
+  DeleteDefaultEnvironmentReleasePlanResponse,
+  DeleteDefaultEnvironmentReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteDefaultEnvironmentReleasePlanRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteDefaultEnvironmentReleasePlanResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultEnvironmentReleasePlan",
+}));
+
+export type DeleteEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | LaunchDarklyOpError;
+/** Delete a release plan Delete a release plan by its key. The plan no longer appears in reads, and its key becomes available for reuse by a new plan. Returns 409 while a flag release plan still uses the release plan; remove it from those flag release plans first. */
+export const deleteEnvironmentReleasePlan: API.OperationMethod<
+  DeleteEnvironmentReleasePlanRequest,
+  DeleteEnvironmentReleasePlanResponse,
+  DeleteEnvironmentReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteEnvironmentReleasePlanRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteEnvironmentReleasePlanResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentReleasePlan",
 }));
 
 export type DeleteFlagImportConfigurationError =
@@ -4454,8 +4747,8 @@ export const deleteFlagImportConfiguration: API.OperationMethod<
   DeleteFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteFlagImportConfigurationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteFlagImportConfigurationResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteFlagImportConfigurationRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteFlagImportConfigurationResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4472,14 +4765,32 @@ export const deleteFlagLink: API.OperationMethod<
   DeleteFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteFlagLinkRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteFlagLinkResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteFlagLinkRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteFlagLinkResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFlagLink",
+}));
+
+export type DeleteFlagReleasePlanError = Forbidden | NotFound | LaunchDarklyOpError;
+/** Delete a flag release plan in a project Delete a flag release plan in a project. */
+export const deleteFlagReleasePlan: API.OperationMethod<
+  DeleteFlagReleasePlanRequest,
+  DeleteFlagReleasePlanResponse,
+  DeleteFlagReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteFlagReleasePlanRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteFlagReleasePlanResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagReleasePlan",
 }));
 
 export type DeleteInsightGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -4490,8 +4801,8 @@ export const deleteInsightGroup: API.OperationMethod<
   DeleteInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteInsightGroupRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteInsightGroupResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteInsightGroupRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteInsightGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4512,8 +4823,8 @@ export const deleteIntegrationConfiguration: API.OperationMethod<
   DeleteIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteIntegrationConfigurationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteIntegrationConfigurationResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteIntegrationConfigurationRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteIntegrationConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4534,8 +4845,8 @@ export const deleteIntegrationDeliveryConfiguration: API.OperationMethod<
   DeleteIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteIntegrationDeliveryConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4557,8 +4868,8 @@ export const deleteIpAllowlistEntry: API.OperationMethod<
   DeleteIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteIpAllowlistEntryRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteIpAllowlistEntryResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeleteIpAllowlistEntryRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteIpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4575,32 +4886,14 @@ export const deleteMetricGroup: API.OperationMethod<
   DeleteMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteMetricGroupRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteMetricGroupResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteMetricGroupRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteMetricGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteMetricGroup",
-}));
-
-export type DeleteReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Delete a release policy Delete an existing release policy for the specified project. */
-export const deleteReleasePolicy: API.OperationMethod<
-  DeleteReleasePolicyRequest,
-  DeleteReleasePolicyResponse,
-  DeleteReleasePolicyError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteReleasePolicyRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteReleasePolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: LaunchDarklyServiceErrors,
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteReleasePolicy",
 }));
 
 export type DeleteRepositoryProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -4611,8 +4904,8 @@ export const deleteRepositoryProject: API.OperationMethod<
   DeleteRepositoryProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteRepositoryProjectRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteRepositoryProjectResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteRepositoryProjectRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteRepositoryProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4634,8 +4927,8 @@ export const deleteSdkKeyByKey: API.OperationMethod<
   DeleteSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteSdkKeyByKeyRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<DeleteSdkKeyByKeyResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteSdkKeyByKeyRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<DeleteSdkKeyByKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4652,8 +4945,8 @@ export const getAgentGraph: API.OperationMethod<
   GetAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetAgentGraphRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<AgentGraph>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetAgentGraphRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4670,8 +4963,8 @@ export const getAIRunsUsage: API.OperationMethod<
   GetAIRunsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetAIRunsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetAIRunsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4692,8 +4985,8 @@ export const getAllIntegrationConfigurations: API.OperationMethod<
   GetAllIntegrationConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetAllIntegrationConfigurationsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<IntegrationConfigurationCollectionRep>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetAllIntegrationConfigurationsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<IntegrationConfigurationCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4710,8 +5003,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(2116, __c66, 4) as any as S.Schema<ApplicationRep>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(2532, __c79, 4) as any as S.Schema<ApplicationRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4728,8 +5021,8 @@ export const getApplications: API.OperationMethod<
   GetApplicationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetApplicationsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ApplicationCollectionRep>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetApplicationsRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<ApplicationCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4746,8 +5039,8 @@ export const getApplicationVersions: API.OperationMethod<
   GetApplicationVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetApplicationVersionsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<ApplicationVersionsCollectionRep>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetApplicationVersionsRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ApplicationVersionsCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4768,8 +5061,8 @@ export const getApprovalRequestSettings: API.OperationMethod<
   GetApprovalRequestSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetApprovalRequestSettingsRequest>,
-  output: __S(2276, __c71, 4) as any as S.Schema<GetApprovalRequestSettingsResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetApprovalRequestSettingsRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<GetApprovalRequestSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4786,8 +5079,8 @@ export const getBigSegmentStoreIntegration: API.OperationMethod<
   GetBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetBigSegmentStoreIntegrationRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetBigSegmentStoreIntegrationRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4804,8 +5097,8 @@ export const getBigSegmentStoreIntegrations: API.OperationMethod<
   GetBigSegmentStoreIntegrationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetBigSegmentStoreIntegrationsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<BigSegmentStoreIntegrationCollection>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetBigSegmentStoreIntegrationsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<BigSegmentStoreIntegrationCollection>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4822,8 +5115,8 @@ export const getContextsClientsideUsage: API.OperationMethod<
   GetContextsClientsideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetContextsClientsideUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetContextsClientsideUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4840,8 +5133,8 @@ export const getContextsServersideUsage: API.OperationMethod<
   GetContextsServersideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetContextsServersideUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2848, __c89, 0) as any as S.Schema<GetContextsServersideUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4858,8 +5151,8 @@ export const getContextsTotalUsage: API.OperationMethod<
   GetContextsTotalUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetContextsTotalUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetContextsTotalUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4876,8 +5169,8 @@ export const getDataExportEventsUsage: API.OperationMethod<
   GetDataExportEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetDataExportEventsUsageRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<DataExportSeriesListRep>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetDataExportEventsUsageRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<DataExportSeriesListRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4898,14 +5191,36 @@ export const getDataExportProjectRanking: API.OperationMethod<
   GetDataExportProjectRankingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetDataExportProjectRankingRequest>,
-  output: __S(2566, __c80, 6) as any as S.Schema<DataExportProjectRankingRep>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetDataExportProjectRankingRequest>,
+  output: __S(2982, __c93, 6) as any as S.Schema<DataExportProjectRankingRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataExportProjectRanking",
+}));
+
+export type GetDefaultEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | LaunchDarklyOpError;
+/** Get the default release plan Get the environment's default release plan -- the plan consumers preselect when starting a release. Returns `204 No Content` when the environment has no default. */
+export const getDefaultEnvironmentReleasePlan: API.OperationMethod<
+  GetDefaultEnvironmentReleasePlanRequest,
+  EnvironmentReleasePlan,
+  GetDefaultEnvironmentReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3008, __c94, 0) as any as S.Schema<GetDefaultEnvironmentReleasePlanRequest>,
+  output: __S(3081, __c96, 9) as any as S.Schema<EnvironmentReleasePlan>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultEnvironmentReleasePlan",
 }));
 
 export type GetDependentFlagsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -4916,8 +5231,8 @@ export const getDependentFlags: API.OperationMethod<
   GetDependentFlagsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetDependentFlagsRequest>,
-  output: __S(2595, __c81, 3) as any as S.Schema<MultiEnvironmentDependentFlags>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetDependentFlagsRequest>,
+  output: __S(3107, __c97, 3) as any as S.Schema<MultiEnvironmentDependentFlags>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4934,8 +5249,8 @@ export const getDependentFlagsByEnv: API.OperationMethod<
   GetDependentFlagsByEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<GetDependentFlagsByEnvRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<DependentFlagsByEnvironment>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetDependentFlagsByEnvRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<DependentFlagsByEnvironment>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4952,8 +5267,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(2730, __c85, 10) as any as S.Schema<DeploymentRep>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(3338, __c104, 10) as any as S.Schema<DeploymentRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4974,8 +5289,8 @@ export const getDeploymentFrequencyChart: API.OperationMethod<
   GetDeploymentFrequencyChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetDeploymentFrequencyChartRequest>,
-  output: __S(2797, __c87, 13) as any as S.Schema<InsightsChart>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetDeploymentFrequencyChartRequest>,
+  output: __S(3405, __c106, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -4992,8 +5307,8 @@ export const getDeployments: API.OperationMethod<
   GetDeploymentsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetDeploymentsRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<DeploymentCollectionRep>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetDeploymentsRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<DeploymentCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5010,14 +5325,58 @@ export const getEnvironmentRelease: API.OperationMethod<
   GetEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetEnvironmentReleaseRequest>,
-  output: __S(2927, __c91, 15) as any as S.Schema<EnvironmentRelease>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetEnvironmentReleaseRequest>,
+  output: __S(3502, __c109, 14) as any as S.Schema<EnvironmentRelease>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEnvironmentRelease",
+}));
+
+export type GetEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | LaunchDarklyOpError;
+/** Get a release plan Get a single release plan by its key. */
+export const getEnvironmentReleasePlan: API.OperationMethod<
+  GetEnvironmentReleasePlanRequest,
+  EnvironmentReleasePlan,
+  GetEnvironmentReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3552, __c111, 0) as any as S.Schema<GetEnvironmentReleasePlanRequest>,
+  output: __S(3081, __c96, 9) as any as S.Schema<EnvironmentReleasePlan>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentReleasePlan",
+}));
+
+export type GetEnvironmentReleasePlansError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | LaunchDarklyOpError;
+/** List release plans Get the environment's release plans, ordered by creation time. */
+export const getEnvironmentReleasePlans: API.OperationMethod<
+  GetEnvironmentReleasePlansRequest,
+  EnvironmentReleasePlans,
+  GetEnvironmentReleasePlansError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3584, __c112, 0) as any as S.Schema<GetEnvironmentReleasePlansRequest>,
+  output: __S(3586, __c112, 2) as any as S.Schema<EnvironmentReleasePlans>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentReleasePlans",
 }));
 
 export type GetEvaluationsUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -5028,8 +5387,8 @@ export const getEvaluationsUsage: API.OperationMethod<
   GetEvaluationsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetEvaluationsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetEvaluationsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5046,8 +5405,8 @@ export const getEventsUsage: API.OperationMethod<
   GetEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<GetEventsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetEventsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5064,8 +5423,8 @@ export const getExperimentationEventsUsage: API.OperationMethod<
   GetExperimentationEventsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetExperimentationEventsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetExperimentationEventsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5082,8 +5441,8 @@ export const getExperimentationKeysUsage: API.OperationMethod<
   GetExperimentationKeysUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetExperimentationKeysUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetExperimentationKeysUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5100,8 +5459,8 @@ export const getFlagEvents: API.OperationMethod<
   GetFlagEventsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetFlagEventsRequest>,
-  output: __S(3180, __c99, 12) as any as S.Schema<FlagEventCollectionRep>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetFlagEventsRequest>,
+  output: __S(3980, __c124, 12) as any as S.Schema<FlagEventCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5123,8 +5482,8 @@ export const getFlagImportConfiguration: API.OperationMethod<
   GetFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetFlagImportConfigurationRequest>,
-  output: __S(4452, __c139, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetFlagImportConfigurationRequest>,
+  output: __S(4804, __c150, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5146,8 +5505,8 @@ export const getFlagImportConfigurations: API.OperationMethod<
   GetFlagImportConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetFlagImportConfigurationsRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<FlagImportIntegrationCollection>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetFlagImportConfigurationsRequest>,
+  output: __S(4034, __c126, 2) as any as S.Schema<FlagImportIntegrationCollection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5164,14 +5523,32 @@ export const getFlagLinks: API.OperationMethod<
   GetFlagLinksError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetFlagLinksRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<FlagLinkCollectionRep>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetFlagLinksRequest>,
+  output: __S(4066, __c127, 2) as any as S.Schema<FlagLinkCollectionRep>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFlagLinks",
+}));
+
+export type GetFlagReleasePlanError = Forbidden | NotFound | LaunchDarklyOpError;
+/** Get a flag release plan in a project by plan key Get a flag release plan in a project by plan key. */
+export const getFlagReleasePlan: API.OperationMethod<
+  GetFlagReleasePlanRequest,
+  FlagReleasePlan,
+  GetFlagReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4096, __c128, 0) as any as S.Schema<GetFlagReleasePlanRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<FlagReleasePlan>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagReleasePlan",
 }));
 
 export type GetFlagStatusChartError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -5182,8 +5559,8 @@ export const getFlagStatusChart: API.OperationMethod<
   GetFlagStatusChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetFlagStatusChartRequest>,
-  output: __S(2797, __c87, 13) as any as S.Schema<InsightsChart>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetFlagStatusChartRequest>,
+  output: __S(3405, __c106, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5200,8 +5577,8 @@ export const getInsightGroup: API.OperationMethod<
   GetInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetInsightGroupRequest>,
-  output: __S(132, __c4, 4) as any as S.Schema<InsightGroup>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetInsightGroupRequest>,
+  output: __S(580, __c18, 4) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5218,8 +5595,8 @@ export const getInsightGroups: API.OperationMethod<
   GetInsightGroupsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetInsightGroupsRequest>,
-  output: __S(3556, __c111, 4) as any as S.Schema<InsightGroupCollection>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetInsightGroupsRequest>,
+  output: __S(4196, __c131, 4) as any as S.Schema<InsightGroupCollection>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5236,8 +5613,8 @@ export const getInsightsRepositories: API.OperationMethod<
   GetInsightsRepositoriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetInsightsRepositoriesRequest>,
-  output: __S(3590, __c112, 6) as any as S.Schema<InsightsRepositoryCollection>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetInsightsRepositoriesRequest>,
+  output: __S(4230, __c132, 6) as any as S.Schema<InsightsRepositoryCollection>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5254,8 +5631,8 @@ export const getInsightsScores: API.OperationMethod<
   GetInsightsScoresError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetInsightsScoresRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<InsightScores>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetInsightsScoresRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<InsightScores>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5276,8 +5653,8 @@ export const getIntegrationConfiguration: API.OperationMethod<
   GetIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetIntegrationConfigurationRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetIntegrationConfigurationRequest>,
+  output: __S(1041, __c32, 17) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5298,11 +5675,11 @@ export const getIntegrationDeliveryConfigurationByEnvironment: API.OperationMeth
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3680,
-    __c115,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<GetIntegrationDeliveryConfigurationByEnvironmentRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
+  output: __S(4417, __c138, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5319,8 +5696,8 @@ export const getIntegrationDeliveryConfigurationById: API.OperationMethod<
   GetIntegrationDeliveryConfigurationByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationByIdRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationByIdRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5337,8 +5714,8 @@ export const getIntegrationDeliveryConfigurations: API.OperationMethod<
   GetIntegrationDeliveryConfigurationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationsRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetIntegrationDeliveryConfigurationsRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<IntegrationDeliveryConfigurationCollection>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5355,8 +5732,8 @@ export const getIpAllowlist: API.OperationMethod<
   GetIpAllowlistError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetIpAllowlistRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<IpAllowlistResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetIpAllowlistRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<IpAllowlistResponse>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5373,8 +5750,8 @@ export const getLeadTimeChart: API.OperationMethod<
   GetLeadTimeChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetLeadTimeChartRequest>,
-  output: __S(2797, __c87, 13) as any as S.Schema<InsightsChart>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetLeadTimeChartRequest>,
+  output: __S(3405, __c106, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5391,8 +5768,8 @@ export const getMAUClientsideUsage: API.OperationMethod<
   GetMAUClientsideUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetMAUClientsideUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetMAUClientsideUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5409,8 +5786,8 @@ export const getMauSdksByType: API.OperationMethod<
   GetMauSdksByTypeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetMauSdksByTypeRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<SdkListRep>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetMauSdksByTypeRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<SdkListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5427,8 +5804,8 @@ export const getMAUTotalUsage: API.OperationMethod<
   GetMAUTotalUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetMAUTotalUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetMAUTotalUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5445,8 +5822,8 @@ export const getMetricGroup: API.OperationMethod<
   GetMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetMetricGroupRequest>,
-  output: __S(1317, __c41, 5) as any as S.Schema<MetricGroupRep>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetMetricGroupRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5463,8 +5840,8 @@ export const getMetricGroups: API.OperationMethod<
   GetMetricGroupsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetMetricGroupsRequest>,
-  output: __S(4130, __c129, 2) as any as S.Schema<MetricGroupCollectionRep>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetMetricGroupsRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<MetricGroupCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5485,8 +5862,8 @@ export const getObservabilityErrorsUsage: API.OperationMethod<
   GetObservabilityErrorsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetObservabilityErrorsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetObservabilityErrorsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5507,8 +5884,8 @@ export const getObservabilityLogsUsage: API.OperationMethod<
   GetObservabilityLogsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetObservabilityLogsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetObservabilityLogsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5529,8 +5906,8 @@ export const getObservabilityMetricsUsage: API.OperationMethod<
   GetObservabilityMetricsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetObservabilityMetricsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetObservabilityMetricsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5551,8 +5928,8 @@ export const getObservabilitySessionsUsage: API.OperationMethod<
   GetObservabilitySessionsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetObservabilitySessionsUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetObservabilitySessionsUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5573,8 +5950,8 @@ export const getObservabilityTracesUsage: API.OperationMethod<
   GetObservabilityTracesUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetObservabilityTracesUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetObservabilityTracesUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5591,8 +5968,8 @@ export const getProjectSdkKeys: API.OperationMethod<
   GetProjectSdkKeysError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetProjectSdkKeysRequest>,
-  output: __S(4324, __c135, 4) as any as S.Schema<SdkKeys>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetProjectSdkKeysRequest>,
+  output: __S(5028, __c157, 4) as any as S.Schema<SdkKeys>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5609,8 +5986,8 @@ export const getPullRequests: API.OperationMethod<
   GetPullRequestsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetPullRequestsRequest>,
-  output: __S(2728, __c85, 8) as any as S.Schema<PullRequestCollectionRep>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetPullRequestsRequest>,
+  output: __S(3336, __c104, 8) as any as S.Schema<PullRequestCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5627,50 +6004,14 @@ export const getReleaseFrequencyChart: API.OperationMethod<
   GetReleaseFrequencyChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetReleaseFrequencyChartRequest>,
-  output: __S(2797, __c87, 13) as any as S.Schema<InsightsChart>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetReleaseFrequencyChartRequest>,
+  output: __S(3405, __c106, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetReleaseFrequencyChart",
-}));
-
-export type GetReleasePoliciesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** List release policies Get a list of release policies for the specified project with optional filtering. */
-export const getReleasePolicies: API.OperationMethod<
-  GetReleasePoliciesRequest,
-  ReleasePoliciesResponse,
-  GetReleasePoliciesError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetReleasePoliciesRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<ReleasePoliciesResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: LaunchDarklyServiceErrors,
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetReleasePolicies",
-}));
-
-export type GetReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get a release policy by key Retrieve a single release policy by its key for the specified project. */
-export const getReleasePolicy: API.OperationMethod<
-  GetReleasePolicyRequest,
-  ReleasePolicy,
-  GetReleasePolicyError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetReleasePolicyRequest>,
-  output: __S(4613, __c144, 5) as any as S.Schema<ReleasePolicy>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: LaunchDarklyServiceErrors,
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetReleasePolicy",
 }));
 
 export type GetSdkAllVersionsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -5681,8 +6022,8 @@ export const getSdkAllVersions: API.OperationMethod<
   GetSdkAllVersionsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetSdkAllVersionsRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<GetSdkAllVersionsResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetSdkAllVersionsRequest>,
+  output: __S(5218, __c163, 2) as any as S.Schema<GetSdkAllVersionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5699,8 +6040,8 @@ export const getSdkKeyByKey: API.OperationMethod<
   GetSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetSdkKeyByKeyRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<SdkKey>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetSdkKeyByKeyRequest>,
+  output: __S(5376, __c168, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5717,8 +6058,8 @@ export const getSdkKeys: API.OperationMethod<
   GetSdkKeysError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetSdkKeysRequest>,
-  output: __S(4802, __c150, 2) as any as S.Schema<SdkKeysForGetSdkKeys>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetSdkKeysRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<SdkKeysForGetSdkKeys>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5735,8 +6076,8 @@ export const getSdkVersionsDetails: API.OperationMethod<
   GetSdkVersionsDetailsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetSdkVersionsDetailsRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<GetSdkVersionsDetailsResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetSdkVersionsDetailsRequest>,
+  output: __S(5218, __c163, 2) as any as S.Schema<GetSdkVersionsDetailsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5753,8 +6094,8 @@ export const getServiceConnectionsUsage: API.OperationMethod<
   GetServiceConnectionsUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetServiceConnectionsUsageRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<SeriesListRepFloat>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetServiceConnectionsUsageRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<SeriesListRepFloat>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5771,8 +6112,8 @@ export const getStaleFlagsChart: API.OperationMethod<
   GetStaleFlagsChartError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetStaleFlagsChartRequest>,
-  output: __S(2797, __c87, 13) as any as S.Schema<InsightsChart>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetStaleFlagsChartRequest>,
+  output: __S(3405, __c106, 13) as any as S.Schema<InsightsChart>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5789,8 +6130,8 @@ export const getStreamUsage: API.OperationMethod<
   GetStreamUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetStreamUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetStreamUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5811,8 +6152,8 @@ export const getStreamUsageBySdkVersion: API.OperationMethod<
   GetStreamUsageBySdkVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetStreamUsageBySdkVersionRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetStreamUsageBySdkVersionRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5829,8 +6170,8 @@ export const getStreamUsageSdkversion: API.OperationMethod<
   GetStreamUsageSdkversionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetStreamUsageSdkversionRequest>,
-  output: __S(5091, __c159, 3) as any as S.Schema<SdkVersionListRep>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetStreamUsageSdkversionRequest>,
+  output: __S(5603, __c175, 3) as any as S.Schema<SdkVersionListRep>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5847,8 +6188,8 @@ export const getVegaAIUsage: API.OperationMethod<
   GetVegaAIUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetVegaAIUsageRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SeriesListRep>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetVegaAIUsageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<SeriesListRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5865,8 +6206,8 @@ export const getWarehouseExportUsage: API.OperationMethod<
   GetWarehouseExportUsageError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetWarehouseExportUsageRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<DataExportSeriesListRep>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetWarehouseExportUsageRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<DataExportSeriesListRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5883,8 +6224,8 @@ export const listAgentGraphs: API.OperationMethod<
   ListAgentGraphsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListAgentGraphsRequest>,
-  output: __S(5187, __c162, 3) as any as S.Schema<AgentGraphs>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListAgentGraphsRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<AgentGraphs>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5901,14 +6242,32 @@ export const listEnvironmentReleases: API.OperationMethod<
   ListEnvironmentReleasesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<ListEnvironmentReleasesRequest>,
-  output: __S(5218, __c163, 2) as any as S.Schema<EnvironmentReleaseCollection>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListEnvironmentReleasesRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<EnvironmentReleaseCollection>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentReleases",
+}));
+
+export type ListFlagReleasePlansError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
+/** List a project's flag release plans List a project's flag release plans, in creation order. */
+export const listFlagReleasePlans: API.OperationMethod<
+  ListFlagReleasePlansRequest,
+  ListFlagReleasePlansResponse,
+  ListFlagReleasePlansError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c7, 0) as any as S.Schema<ListFlagReleasePlansRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<ListFlagReleasePlansResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagReleasePlans",
 }));
 
 export type PatchAgentGraphError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -5919,8 +6278,8 @@ export const patchAgentGraph: API.OperationMethod<
   PatchAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<PatchAgentGraphRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<AgentGraph>,
+  input: __S(256, __c8, 0) as any as S.Schema<PatchAgentGraphRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5941,8 +6300,8 @@ export const patchApprovalRequestSettings: API.OperationMethod<
   PatchApprovalRequestSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<PatchApprovalRequestSettingsRequest>,
-  output: __S(2276, __c71, 4) as any as S.Schema<PatchApprovalRequestSettingsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<PatchApprovalRequestSettingsRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<PatchApprovalRequestSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5964,8 +6323,8 @@ export const patchBigSegmentStoreIntegration: API.OperationMethod<
   PatchBigSegmentStoreIntegrationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<PatchBigSegmentStoreIntegrationRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<BigSegmentStoreIntegration>,
+  input: __S(320, __c10, 0) as any as S.Schema<PatchBigSegmentStoreIntegrationRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<BigSegmentStoreIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -5982,8 +6341,8 @@ export const patchFlagConfigApprovalRequest: API.OperationMethod<
   PatchFlagConfigApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<PatchFlagConfigApprovalRequestRequest>,
-  output: __S(233, __c7, 9) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<PatchFlagConfigApprovalRequestRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6005,8 +6364,8 @@ export const patchFlagImportConfiguration: API.OperationMethod<
   PatchFlagImportConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<PatchFlagImportConfigurationRequest>,
-  output: __S(4452, __c139, 4) as any as S.Schema<FlagImportIntegration>,
+  input: __S(448, __c14, 0) as any as S.Schema<PatchFlagImportConfigurationRequest>,
+  output: __S(4804, __c150, 4) as any as S.Schema<FlagImportIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6028,8 +6387,8 @@ export const patchInsightGroup: API.OperationMethod<
   PatchInsightGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<PatchInsightGroupRequest>,
-  output: __S(132, __c4, 4) as any as S.Schema<InsightGroup>,
+  input: __S(480, __c15, 0) as any as S.Schema<PatchInsightGroupRequest>,
+  output: __S(580, __c18, 4) as any as S.Schema<InsightGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6051,8 +6410,8 @@ export const patchIntegrationDeliveryConfiguration: API.OperationMethod<
   PatchIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<PatchIntegrationDeliveryConfigurationRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
+  input: __S(512, __c16, 0) as any as S.Schema<PatchIntegrationDeliveryConfigurationRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<IntegrationDeliveryConfiguration>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6069,8 +6428,8 @@ export const patchIpAllowlistConfig: API.OperationMethod<
   PatchIpAllowlistConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<PatchIpAllowlistConfigRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<IpAllowlistResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<PatchIpAllowlistConfigRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<IpAllowlistResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6087,8 +6446,8 @@ export const patchIpAllowlistEntry: API.OperationMethod<
   PatchIpAllowlistEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<PatchIpAllowlistEntryRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<IpAllowlistEntryResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<PatchIpAllowlistEntryRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<IpAllowlistEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6105,8 +6464,8 @@ export const patchMetricGroup: API.OperationMethod<
   PatchMetricGroupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<PatchMetricGroupRequest>,
-  output: __S(1317, __c41, 5) as any as S.Schema<MetricGroupRep>,
+  input: __S(704, __c22, 0) as any as S.Schema<PatchMetricGroupRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<MetricGroupRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6128,8 +6487,8 @@ export const patchSdkKeyByKey: API.OperationMethod<
   PatchSdkKeyByKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<PatchSdkKeyByKeyRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<SdkKey>,
+  input: __S(736, __c23, 0) as any as S.Schema<PatchSdkKeyByKeyRequest>,
+  output: __S(5376, __c168, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6146,8 +6505,8 @@ export const postAgentGraph: API.OperationMethod<
   PostAgentGraphError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<PostAgentGraphRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<AgentGraph>,
+  input: __S(768, __c24, 0) as any as S.Schema<PostAgentGraphRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<AgentGraph>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6156,45 +6515,27 @@ export const postAgentGraph: API.OperationMethod<
   span: "PostAgentGraph",
 }));
 
-export type PostReleasePoliciesOrderError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update the order of existing release policies Update the order of existing release policies for the specified project. */
-export const postReleasePoliciesOrder: API.OperationMethod<
-  PostReleasePoliciesOrderRequest,
-  PostReleasePoliciesOrderResponse,
-  PostReleasePoliciesOrderError,
-  LaunchDarklyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<PostReleasePoliciesOrderRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<PostReleasePoliciesOrderResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: LaunchDarklyServiceErrors,
-  protocol: LaunchDarklyProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PostReleasePoliciesOrder",
-}));
-
-export type PostReleasePolicyError =
+export type PostEnvironmentReleasePlanError =
   | BadRequest
   | Forbidden
   | NotFound
   | Conflict
   | LaunchDarklyOpError;
-/** Create a release policy Create a new release policy for the specified project. */
-export const postReleasePolicy: API.OperationMethod<
-  PostReleasePolicyRequest,
-  ReleasePolicy,
-  PostReleasePolicyError,
+/** Create a release plan Create a new release plan for the specified environment. */
+export const postEnvironmentReleasePlan: API.OperationMethod<
+  PostEnvironmentReleasePlanRequest,
+  EnvironmentReleasePlan,
+  PostEnvironmentReleasePlanError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<PostReleasePolicyRequest>,
-  output: __S(4613, __c144, 5) as any as S.Schema<ReleasePolicy>,
+  input: __S(800, __c25, 0) as any as S.Schema<PostEnvironmentReleasePlanRequest>,
+  output: __S(3081, __c96, 9) as any as S.Schema<EnvironmentReleasePlan>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "PostReleasePolicy",
+  span: "PostEnvironmentReleasePlan",
 }));
 
 export type PostSdkKeyError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -6205,8 +6546,8 @@ export const postSdkKey: API.OperationMethod<
   PostSdkKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<PostSdkKeyRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<SdkKey>,
+  input: __S(864, __c27, 0) as any as S.Schema<PostSdkKeyRequest>,
+  output: __S(5376, __c168, 0) as any as S.Schema<SdkKey>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6215,22 +6556,49 @@ export const postSdkKey: API.OperationMethod<
   span: "PostSdkKey",
 }));
 
-export type PutReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update a release policy Update an existing release policy for the specified project. */
-export const putReleasePolicy: API.OperationMethod<
-  PutReleasePolicyRequest,
-  ReleasePolicy,
-  PutReleasePolicyError,
+export type PutDefaultEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | LaunchDarklyOpError;
+/** Set the default release plan Set the plan with the given key as the environment's default, atomically replacing whatever was default before. Each plan whose default flag changes has its version incremented by 1. Idempotent: setting the current default again changes nothing. Rejects a key that is not an active plan in the environment, or a plan that has no randomization unit. */
+export const putDefaultEnvironmentReleasePlan: API.OperationMethod<
+  PutDefaultEnvironmentReleasePlanRequest,
+  EnvironmentReleasePlan,
+  PutDefaultEnvironmentReleasePlanError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<PutReleasePolicyRequest>,
-  output: __S(4613, __c144, 5) as any as S.Schema<ReleasePolicy>,
+  input: __S(896, __c28, 0) as any as S.Schema<PutDefaultEnvironmentReleasePlanRequest>,
+  output: __S(3081, __c96, 9) as any as S.Schema<EnvironmentReleasePlan>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "PutReleasePolicy",
+  span: "PutDefaultEnvironmentReleasePlan",
+}));
+
+export type PutEnvironmentReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | LaunchDarklyOpError;
+/** Update a release plan Replace a release plan's configuration. This is a full replace, not a merge: the plan's phases, steps, clauses, and metrics become exactly what the request specifies, and anything omitted is removed. The plan's key and environment are immutable, and its version increments by 1 on every successful update. The request's version is an optional optimistic lock: when present it must match the plan's current version, and on mismatch the request is rejected with 409 and no changes are applied, meaning the plan was edited since it was read; get the plan again and retry with its current version. When omitted the update applies unconditionally to the plan currently holding the key. A release already started from the plan is not affected. */
+export const putEnvironmentReleasePlan: API.OperationMethod<
+  PutEnvironmentReleasePlanRequest,
+  EnvironmentReleasePlan,
+  PutEnvironmentReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(928, __c29, 0) as any as S.Schema<PutEnvironmentReleasePlanRequest>,
+  output: __S(3081, __c96, 9) as any as S.Schema<EnvironmentReleasePlan>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEnvironmentReleasePlan",
 }));
 
 export type PutSdkKeyViewsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -6241,8 +6609,8 @@ export const putSdkKeyViews: API.OperationMethod<
   PutSdkKeyViewsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<PutSdkKeyViewsRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<PutSdkKeyViewsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<PutSdkKeyViewsRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<PutSdkKeyViewsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6265,8 +6633,8 @@ export const startEnvironmentRelease: API.OperationMethod<
   StartEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(739, __c23, 3) as any as S.Schema<StartEnvironmentReleaseRequest>,
-  output: __S(2927, __c91, 15) as any as S.Schema<EnvironmentRelease>,
+  input: __S(1059, __c33, 3) as any as S.Schema<StartEnvironmentReleaseRequest>,
+  output: __S(3502, __c109, 14) as any as S.Schema<EnvironmentRelease>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6288,8 +6656,8 @@ export const stopEnvironmentRelease: API.OperationMethod<
   StopEnvironmentReleaseError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<StopEnvironmentReleaseRequest>,
-  output: __S(2927, __c91, 15) as any as S.Schema<EnvironmentRelease>,
+  input: __S(1088, __c34, 0) as any as S.Schema<StopEnvironmentReleaseRequest>,
+  output: __S(3502, __c109, 14) as any as S.Schema<EnvironmentRelease>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6311,8 +6679,8 @@ export const triggerFlagImportJob: API.OperationMethod<
   TriggerFlagImportJobError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<TriggerFlagImportJobRequest>,
-  output: __S(4000, __c125, 0) as any as S.Schema<TriggerFlagImportJobResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<TriggerFlagImportJobRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<TriggerFlagImportJobResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6329,8 +6697,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(2116, __c66, 4) as any as S.Schema<ApplicationRep>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(2532, __c79, 4) as any as S.Schema<ApplicationRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6347,8 +6715,8 @@ export const updateApplicationVersion: API.OperationMethod<
   UpdateApplicationVersionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateApplicationVersionRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<ApplicationVersionRep>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UpdateApplicationVersionRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<ApplicationVersionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6365,8 +6733,8 @@ export const updateApprovalRequest: API.OperationMethod<
   UpdateApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateApprovalRequestRequest>,
-  output: __S(233, __c7, 9) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UpdateApprovalRequestRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6383,8 +6751,8 @@ export const updateDeployment: API.OperationMethod<
   UpdateDeploymentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UpdateDeploymentRequest>,
-  output: __S(2730, __c85, 10) as any as S.Schema<DeploymentRep>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UpdateDeploymentRequest>,
+  output: __S(3338, __c104, 10) as any as S.Schema<DeploymentRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6406,14 +6774,37 @@ export const updateFlagLink: API.OperationMethod<
   UpdateFlagLinkError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateFlagLinkRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<FlagLinkRep>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdateFlagLinkRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<FlagLinkRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateFlagLink",
+}));
+
+export type UpdateFlagReleasePlanError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | LaunchDarklyOpError;
+/** Replace a flag release plan configuration in a project Replace a flag release plan configuration in a project. This is a full replace, not a merge, and anything omitted is overwritten. Omitting `default` clears it, so a request without it demotes the project's default plan. The flag release plan's key is immutable, and its version increments by 1 on every successful update. The request's version is an optional optimistic lock: when present it must match the plan's current version, and on mismatch the request is rejected with 409 and no changes are applied, meaning the plan was edited since it was read; get the plan again and retry with its current version. When omitted the update applies unconditionally to the plan currently holding the key. A flag release already started from the plan is not affected. */
+export const updateFlagReleasePlan: API.OperationMethod<
+  UpdateFlagReleasePlanRequest,
+  FlagReleasePlan,
+  UpdateFlagReleasePlanError,
+  LaunchDarklyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1312, __c41, 0) as any as S.Schema<UpdateFlagReleasePlanRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<FlagReleasePlan>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: LaunchDarklyServiceErrors,
+  protocol: LaunchDarklyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlagReleasePlan",
 }));
 
 export type UpdateIntegrationConfigurationError =
@@ -6429,8 +6820,8 @@ export const updateIntegrationConfiguration: API.OperationMethod<
   UpdateIntegrationConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<UpdateIntegrationConfigurationRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<IntegrationConfigurationsRep>,
+  input: __S(1344, __c42, 0) as any as S.Schema<UpdateIntegrationConfigurationRequest>,
+  output: __S(1041, __c32, 17) as any as S.Schema<IntegrationConfigurationsRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6447,8 +6838,8 @@ export const updateTeams: API.OperationMethod<
   UpdateTeamsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<UpdateTeamsRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<BulkEditTeamsRep>,
+  input: __S(1440, __c45, 0) as any as S.Schema<UpdateTeamsRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<BulkEditTeamsRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6469,8 +6860,8 @@ export const validateIntegrationDeliveryConfiguration: API.OperationMethod<
   ValidateIntegrationDeliveryConfigurationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ValidateIntegrationDeliveryConfigurationRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<IntegrationDeliveryConfigurationResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ValidateIntegrationDeliveryConfigurationRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<IntegrationDeliveryConfigurationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -6495,7 +6886,7 @@ function __c0(j: number): any {
           message: S.String,
           code: S.String,
         }),
-      ).annotate({ identifier: "Error" });
+      ).annotate({ identifier: "FlagReleasePlansError" });
   }
 }
 function __c1(j: number): any {
@@ -6560,15 +6951,23 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectKey: S.String.pipe(T.Label()),
           name: S.String,
+          description: S.optional(S.String),
+          maintainer: S.optional(S.Unknown),
+          executionMode: S.optional(S.String),
+          applicationKeys: S.optional(__S(3904, __c122, 0)),
+          default: S.optional(S.Boolean),
+          environments: __S(129, __c4, 1),
           key: S.String,
-          projectKey: S.String,
-          environmentKey: S.String,
-          applicationKeys: S.optional(__S(3488, __c109, 0)),
         }).pipe(
-          T.Http({ method: "POST", uri: "/api/v2/engineering-insights/insights/group", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/projects/{projectKey}/flag-release-plans",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "CreateInsightGroupRequest" });
+      ).annotate({ identifier: "CreateFlagReleasePlanRequest" });
   }
 }
 function __c4(j: number): any {
@@ -6576,63 +6975,31 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          required: S.Boolean,
-          bypassApprovalsForPendingChanges: S.Boolean,
-          minNumApprovals: S.Number,
-          canReviewOwnRequest: S.Boolean,
-          canApplyDeclinedChanges: S.Boolean,
-          autoApplyApprovedChanges: S.optional(S.Boolean),
-          serviceKind: S.String,
-          serviceConfig: __S(3456, __c108, 0),
-          requiredApprovalTags: __S(3488, __c109, 0),
-          serviceKindConfigurationId: S.optional(S.String),
+          environmentKey: S.String,
+          environmentReleasePlanKey: S.optional(S.String),
+          isImmediate: S.optional(S.Boolean),
+          triggerType: S.String,
         }),
-      ).annotate({ identifier: "ApprovalSettings" });
+      ).annotate({ identifier: "FlagReleasePlanEnvironment" });
     case 1:
-      return S.Record(S.String, __S(128, __c4, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3008, __c94, 0),
+          key: S.String,
           _id: S.String,
-          key: S.String,
-          name: S.String,
-          apiKey: S.String.pipe(T.SensitiveValue({})),
-          mobileKey: S.String,
-          color: S.String,
-          defaultTtl: S.Number,
-          secureMode: S.Boolean,
-          _access: S.optional(__S(3523, __c110, 3)),
-          defaultTrackEvents: S.Boolean,
-          requireComments: S.Boolean,
-          confirmChanges: S.Boolean,
-          tags: __S(3488, __c109, 0),
-          approvalSettings: S.optional(__S(128, __c4, 0)),
-          resourceApprovalSettings: S.optional(__S(129, __c4, 1)),
-          critical: S.Boolean,
-        }),
-      ).annotate({ identifier: "Environment" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          period: __S(163, __c5, 3),
-          lastPeriod: __S(163, __c5, 3),
-        }),
-      ).annotate({ identifier: "InsightGroupCollectionScoreMetadata" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          environment: S.optional(__S(130, __c4, 2)),
-          scores: S.optional(__S(162, __c5, 2)),
-          scoreMetadata: S.optional(__S(131, __c4, 3)),
-          key: S.String,
-          name: S.String,
-          projectKey: S.String,
-          environmentKey: S.String,
-          applicationKeys: S.optional(__S(3488, __c109, 0)),
+          version: S.Number,
           createdAt: S.Number,
+          updatedAt: S.Number,
+          name: S.String,
+          description: S.optional(S.String),
+          maintainer: S.optional(S.Unknown),
+          executionMode: S.optional(S.String),
+          applicationKeys: S.optional(__S(3904, __c122, 0)),
+          default: S.Boolean,
+          environments: __S(129, __c4, 1),
         }),
-      ).annotate({ identifier: "InsightGroup" });
+      ).annotate({ identifier: "FlagReleasePlan" });
   }
 }
 function __c5(j: number): any {
@@ -6640,47 +7007,172 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          min: S.Number,
-          max: S.Number,
-        }),
-      ).annotate({ identifier: "InsightsMetricIndicatorRange" });
+          projectKey: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListAgentGraphsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          score: S.Number,
-          aggregateOf: S.optional(__S(3488, __c109, 0)),
-          diffVsLastPeriod: S.optional(S.Number),
-          indicator: S.String,
-          indicatorRange: __S(160, __c5, 0),
-          lastPeriod: S.optional(__S(161, __c5, 1)),
-        }),
-      ).annotate({ identifier: "InsightsMetricScore" });
+      return S.Array(__S(2274, __c71, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          overall: __S(161, __c5, 1),
-          deploymentFrequency: __S(161, __c5, 1),
-          deploymentFailureRate: __S(161, __c5, 1),
-          leadTime: __S(161, __c5, 1),
-          impactSize: __S(161, __c5, 1),
-          experimentationCoverage: __S(161, __c5, 1),
-          flagHealth: __S(161, __c5, 1),
-          velocity: __S(161, __c5, 1),
-          risk: __S(161, __c5, 1),
-          efficiency: __S(161, __c5, 1),
-          creationRatio: S.optional(__S(161, __c5, 1)),
+          _links: S.optional(__S(3616, __c113, 0)),
+          items: __S(161, __c5, 1),
+          totalCount: S.Number,
         }),
-      ).annotate({ identifier: "InsightGroupScores" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.Number,
-          endTime: S.Number,
-        }),
-      ).annotate({ identifier: "InsightPeriod" });
+      ).annotate({ identifier: "AgentGraphs" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          flagKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          _snapshot: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/flags/{flagKey}/environments/{environmentKey}/releases",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListEnvironmentReleasesRequest" });
+    case 1:
+      return S.Array(__S(3502, __c109, 14));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(193, __c6, 1),
+          totalCount: S.Number,
+          _links: S.optional(__S(3501, __c109, 13)),
+        }),
+      ).annotate({ identifier: "EnvironmentReleaseCollection" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/flag-release-plans",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListFlagReleasePlansRequest" });
+    case 1:
+      return S.Array(__S(130, __c4, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(225, __c7, 1),
+          totalCount: S.Number,
+          _links: S.optional(__S(3616, __c113, 0)),
+        }),
+      ).annotate({ identifier: "ListFlagReleasePlansResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          graphKey: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          maintainerId: S.optional(S.String),
+          maintainerTeamKey: S.optional(S.String),
+          rootConfigKey: S.optional(S.String),
+          edges: S.optional(__S(2273, __c71, 1)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/projects/{projectKey}/agent-graphs/{graphKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchAgentGraphRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          autoApplyApprovedChanges: S.optional(S.NullOr(S.Boolean)),
+          bypassApprovalsForPendingChanges: S.optional(S.Boolean),
+          canApplyDeclinedChanges: S.optional(S.Boolean),
+          canReviewOwnRequest: S.optional(S.Boolean),
+          environmentKey: S.String,
+          minNumApprovals: S.optional(S.Number),
+          required: S.optional(S.Boolean),
+          requiredApprovalTags: S.optional(__S(3904, __c122, 0)),
+          resourceKind: S.String,
+          serviceConfig: S.optional(__S(3872, __c121, 0)),
+          serviceKind: S.optional(S.String),
+          serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/approval-requests/projects/{projectKey}/settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchApprovalRequestSettingsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          integrationKey: S.String.pipe(T.Label()),
+          integrationId: S.String.pipe(T.Label()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/integration-capabilities/big-segment-store/{projectKey}/{environmentKey}/{integrationKey}/{integrationId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchBigSegmentStoreIntegrationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          op: S.String,
+          path: S.String,
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "PatchOperation" });
+    case 1:
+      return S.Array(__S(352, __c11, 0));
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6699,7 +7191,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PatchFlagConfigApprovalRequestRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6713,16 +7205,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ReviewResponse" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instruction: S.optional(__S(3456, __c108, 0)),
+          instruction: S.optional(__S(3872, __c121, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "Conflict2" });
     case 3:
-      return S.Array(__S(226, __c7, 2));
+      return S.Array(__S(418, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6734,7 +7226,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           externalId: S.String,
-          externalStatus: __S(228, __c7, 4),
+          externalStatus: __S(420, __c13, 4),
           externalUrl: S.String,
           lastChecked: S.Number,
         }),
@@ -6757,7 +7249,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          stage: S.optional(__S(231, __c7, 7)),
+          stage: S.optional(__S(423, __c13, 7)),
         }),
       ).annotate({ identifier: "CustomWorkflowMeta" });
     case 9:
@@ -6770,26 +7262,26 @@ function __c7(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(225, __c7, 1),
-          notifyMemberIds: __S(3488, __c109, 0),
-          notifyTeamKeys: S.optional(__S(3488, __c109, 0)),
+          allReviews: __S(417, __c13, 1),
+          notifyMemberIds: __S(3904, __c122, 0),
+          notifyTeamKeys: S.optional(__S(3904, __c122, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(1952, __c61, 0),
-          conflicts: __S(227, __c7, 3),
-          _links: __S(3456, __c108, 0),
+          instructions: __S(2368, __c74, 0),
+          conflicts: __S(419, __c13, 3),
+          _links: __S(3872, __c121, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(229, __c7, 5)),
-          source: S.optional(__S(230, __c7, 6)),
-          customWorkflowMetadata: S.optional(__S(232, __c7, 8)),
+          integrationMetadata: S.optional(__S(421, __c13, 5)),
+          source: S.optional(__S(422, __c13, 6)),
+          customWorkflowMetadata: S.optional(__S(424, __c13, 8)),
         }),
       ).annotate({ identifier: "FlagConfigApprovalRequestResponse" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6797,7 +7289,7 @@ function __c8(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           integrationId: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6808,13 +7300,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PatchFlagImportConfigurationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           insightGroupKey: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6825,7 +7317,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PatchInsightGroupRequest" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6834,7 +7326,7 @@ function __c10(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6845,7 +7337,132 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PatchIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          key: S.String,
+          projectKey: S.String,
+          environmentKey: S.String,
+          applicationKeys: S.optional(__S(3904, __c122, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v2/engineering-insights/insights/group", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateInsightGroupRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          required: S.Boolean,
+          bypassApprovalsForPendingChanges: S.Boolean,
+          minNumApprovals: S.Number,
+          canReviewOwnRequest: S.Boolean,
+          canApplyDeclinedChanges: S.Boolean,
+          autoApplyApprovedChanges: S.optional(S.Boolean),
+          serviceKind: S.String,
+          serviceConfig: __S(3872, __c121, 0),
+          requiredApprovalTags: __S(3904, __c122, 0),
+          serviceKindConfigurationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApprovalSettings" });
+    case 1:
+      return S.Record(S.String, __S(576, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(3264, __c102, 0),
+          _id: S.String,
+          key: S.String,
+          name: S.String,
+          apiKey: S.String.pipe(T.SensitiveValue({})),
+          mobileKey: S.String,
+          color: S.String,
+          defaultTtl: S.Number,
+          secureMode: S.Boolean,
+          _access: S.optional(__S(3939, __c123, 3)),
+          defaultTrackEvents: S.Boolean,
+          requireComments: S.Boolean,
+          confirmChanges: S.Boolean,
+          tags: __S(3904, __c122, 0),
+          approvalSettings: S.optional(__S(576, __c18, 0)),
+          resourceApprovalSettings: S.optional(__S(577, __c18, 1)),
+          critical: S.Boolean,
+        }),
+      ).annotate({ identifier: "Environment" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          period: __S(611, __c19, 3),
+          lastPeriod: __S(611, __c19, 3),
+        }),
+      ).annotate({ identifier: "InsightGroupCollectionScoreMetadata" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          environment: S.optional(__S(578, __c18, 2)),
+          scores: S.optional(__S(610, __c19, 2)),
+          scoreMetadata: S.optional(__S(579, __c18, 3)),
+          key: S.String,
+          name: S.String,
+          projectKey: S.String,
+          environmentKey: S.String,
+          applicationKeys: S.optional(__S(3904, __c122, 0)),
+          createdAt: S.Number,
+        }),
+      ).annotate({ identifier: "InsightGroup" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          min: S.Number,
+          max: S.Number,
+        }),
+      ).annotate({ identifier: "InsightsMetricIndicatorRange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          score: S.Number,
+          aggregateOf: S.optional(__S(3904, __c122, 0)),
+          diffVsLastPeriod: S.optional(S.Number),
+          indicator: S.String,
+          indicatorRange: __S(608, __c19, 0),
+          lastPeriod: S.optional(__S(609, __c19, 1)),
+        }),
+      ).annotate({ identifier: "InsightsMetricScore" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          overall: __S(609, __c19, 1),
+          deploymentFrequency: __S(609, __c19, 1),
+          deploymentFailureRate: __S(609, __c19, 1),
+          leadTime: __S(609, __c19, 1),
+          impactSize: __S(609, __c19, 1),
+          experimentationCoverage: __S(609, __c19, 1),
+          flagHealth: __S(609, __c19, 1),
+          velocity: __S(609, __c19, 1),
+          risk: __S(609, __c19, 1),
+          efficiency: __S(609, __c19, 1),
+          creationRatio: S.optional(__S(609, __c19, 1)),
+        }),
+      ).annotate({ identifier: "InsightGroupScores" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.Number,
+          endTime: S.Number,
+        }),
+      ).annotate({ identifier: "InsightPeriod" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6856,7 +7473,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PatchIpAllowlistConfigRequest" });
   }
 }
-function __c12(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6867,14 +7484,14 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PatchIpAllowlistEntryRequest" });
   }
 }
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           metricGroupKey: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6885,7 +7502,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PatchMetricGroupRequest" });
   }
 }
-function __c14(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6907,7 +7524,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PatchSdkKeyByKeyRequest" });
   }
 }
-function __c15(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6919,35 +7536,183 @@ function __c15(j: number): any {
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
           rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(1889, __c59, 1)),
+          edges: S.optional(__S(2273, __c71, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 }),
         ),
       ).annotate({ identifier: "PostAgentGraphRequest" });
   }
 }
-function __c16(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(3488, __c109, 0).pipe(T.HttpBody()),
+          environmentKey: S.String.pipe(T.Label()),
+          name: S.String,
+          key: S.String,
+          description: S.optional(S.String),
+          releaseMethod: S.optional(S.String),
+          progressiveRelease: __S(838, __c26, 6),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/v2/projects/{projectKey}/release-policies/order",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/release-plans",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "PostReleasePoliciesOrderRequest" });
-    case 1:
-      return S.suspend(() => __S(4576, __c143, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "PostReleasePoliciesOrderResponse",
-      });
+      ).annotate({ identifier: "PostEnvironmentReleasePlanRequest" });
   }
 }
-function __c17(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allocation: S.Number,
+          durationMillis: S.Number,
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanStepInput" });
+    case 1:
+      return S.Array(__S(832, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contextKind: S.optional(S.String),
+          attribute: S.String,
+          op: S.String,
+          values: __S(3040, __c95, 0),
+          negate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanClauseInput" });
+    case 3:
+      return S.Array(__S(834, __c26, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          steps: __S(833, __c26, 1),
+          clauses: S.optional(__S(835, __c26, 3)),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanPhaseInput" });
+    case 5:
+      return S.Array(__S(836, __c26, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          randomizationUnit: S.String,
+          advancementMode: S.optional(S.String),
+          cleanupBehavior: S.optional(S.String),
+          phases: __S(837, __c26, 5),
+          metrics: S.optional(__S(3079, __c96, 7)),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanProgressiveReleaseInput" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          kind: S.optional(S.String),
+          key: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          expiry: S.optional(S.Number),
+          viewKeys: S.optional(__S(3904, __c122, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostSdkKeyRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          key: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/default-release-plan",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutDefaultEnvironmentReleasePlanRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          releasePlanKey: S.String.pipe(T.Label()),
+          name: S.String,
+          version: S.optional(S.Number),
+          description: S.optional(S.String),
+          releaseMethod: S.optional(S.String),
+          progressiveRelease: __S(838, __c26, 6),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/release-plans/{releasePlanKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutEnvironmentReleasePlanRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          sdkKeyKey: S.String.pipe(T.Label()),
+          expand: S.optional(S.String.pipe(T.Query())),
+          viewKeys: __S(3904, __c122, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys/{sdkKeyKey}/views",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutSdkKeyViewsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _links: S.optional(__S(5088, __c159, 0)),
+          kind: S.String,
+          key: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          expiry: S.optional(S.Number),
+          value: S.String,
+          isDefault: S.Boolean,
+          _createdByMemberId: S.optional(S.String),
+          _createdAt: S.Number,
+          _updatedAt: S.Number,
+          _version: S.Number,
+          viewSummaries: S.optional(__S(5058, __c158, 2)),
+        }),
+      ).annotate({ identifier: "PutSdkKeyViewsResponse" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6955,9 +7720,9 @@ function __c17(j: number): any {
           integrationKey: S.String.pipe(T.Label()),
           name: S.String,
           enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(3488, __c109, 0)),
-          configValues: __S(3456, __c108, 0),
-          capabilityConfig: S.optional(__S(592, __c18, 16)),
+          tags: S.optional(__S(3904, __c122, 0)),
+          configValues: __S(3872, __c121, 0),
+          capabilityConfig: S.optional(__S(1040, __c32, 16)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6968,7 +7733,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateIntegrationConfigurationRequest" });
   }
 }
-function __c18(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6978,7 +7743,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "HeaderItems" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6989,8 +7754,8 @@ function __c18(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(577, __c18, 1)),
-          hmacSignature: S.optional(__S(578, __c18, 2)),
+          headers: S.optional(__S(1025, __c32, 1)),
+          hmacSignature: S.optional(__S(1026, __c32, 2)),
           method: S.optional(S.String),
           url: S.optional(S.String),
         }),
@@ -7003,7 +7768,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "DynamicOptionFiltersItems" });
     case 5:
-      return S.Array(__S(580, __c18, 4));
+      return S.Array(__S(1028, __c32, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -7014,7 +7779,7 @@ function __c18(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          optionsItems: S.optional(__S(582, __c18, 6)),
+          optionsItems: S.optional(__S(1030, __c32, 6)),
           optionsPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicOptionsParser" });
@@ -7029,10 +7794,10 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowUnknownValue: S.optional(S.Boolean),
-          endpoint: S.optional(__S(579, __c18, 3)),
-          filters: S.optional(__S(581, __c18, 5)),
-          parser: S.optional(__S(583, __c18, 7)),
-          source: S.optional(__S(584, __c18, 8)),
+          endpoint: S.optional(__S(1027, __c32, 3)),
+          filters: S.optional(__S(1029, __c32, 5)),
+          parser: S.optional(__S(1031, __c32, 7)),
+          source: S.optional(__S(1032, __c32, 8)),
         }),
       ).annotate({ identifier: "DynamicOptions" });
     case 10:
@@ -7045,58 +7810,58 @@ function __c18(j: number): any {
           placeholder: S.optional(S.String),
           isOptional: S.optional(S.Boolean),
           defaultValue: S.optional(S.Unknown),
-          allowedValues: S.optional(__S(3488, __c109, 0)),
-          dynamicOptions: S.optional(__S(585, __c18, 9)),
+          allowedValues: S.optional(__S(3904, __c122, 0)),
+          dynamicOptions: S.optional(__S(1033, __c32, 9)),
         }),
       ).annotate({ identifier: "FormVariable" });
     case 11:
-      return S.Array(__S(586, __c18, 10));
+      return S.Array(__S(1034, __c32, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          additionalFormVariables: S.optional(__S(587, __c18, 11)),
+          additionalFormVariables: S.optional(__S(1035, __c32, 11)),
         }),
       ).annotate({ identifier: "ApprovalsCapabilityConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(3488, __c109, 0)),
-          notResources: S.optional(__S(3488, __c109, 0)),
-          actions: S.optional(__S(3488, __c109, 0)),
-          notActions: S.optional(__S(3488, __c109, 0)),
+          resources: S.optional(__S(3904, __c122, 0)),
+          notResources: S.optional(__S(3904, __c122, 0)),
+          actions: S.optional(__S(3904, __c122, 0)),
+          notActions: S.optional(__S(3904, __c122, 0)),
           effect: S.String,
         }),
       ).annotate({ identifier: "StatementPost" });
     case 14:
-      return S.Array(__S(589, __c18, 13));
+      return S.Array(__S(1037, __c32, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          statements: S.optional(__S(590, __c18, 14)),
+          statements: S.optional(__S(1038, __c32, 14)),
         }),
       ).annotate({ identifier: "AuditLogEventsHookCapabilityConfigPost" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          approvals: S.optional(__S(588, __c18, 12)),
-          auditLogEventsHook: S.optional(__S(591, __c18, 15)),
+          approvals: S.optional(__S(1036, __c32, 12)),
+          auditLogEventsHook: S.optional(__S(1039, __c32, 15)),
         }),
       ).annotate({ identifier: "CapabilityConfigPost" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
           _id: S.String,
           name: S.String,
           _createdAt: S.optional(S.Number),
           _integrationKey: S.optional(S.String),
-          tags: S.optional(__S(3488, __c109, 0)),
+          tags: S.optional(__S(3904, __c122, 0)),
           enabled: S.optional(S.Boolean),
-          _access: S.optional(__S(3523, __c110, 3)),
-          configValues: S.optional(__S(3456, __c108, 0)),
-          capabilityConfig: S.optional(__S(592, __c18, 16)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          configValues: S.optional(__S(3872, __c121, 0)),
+          capabilityConfig: S.optional(__S(1040, __c32, 16)),
           snowflakeSetupScript: S.optional(S.String),
-          redshiftSetupScripts: S.optional(__S(3488, __c109, 0)),
+          redshiftSetupScripts: S.optional(__S(3904, __c122, 0)),
           redshiftIAMPermissionsPolicy: S.optional(S.String),
           redshiftIAMTrustPolicy: S.optional(S.String),
           clickHouseSetupScript: S.optional(S.String),
@@ -7105,112 +7870,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "IntegrationConfigurationsRep" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          scope: S.optional(__S(4608, __c144, 0)),
-          releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(4611, __c144, 3)),
-          progressiveReleaseConfig: S.optional(__S(4612, __c144, 4)),
-          name: S.String,
-          key: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/projects/{projectKey}/release-policies",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostReleasePolicyRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          key: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          expiry: S.optional(S.Number),
-          viewKeys: S.optional(__S(3488, __c109, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostSdkKeyRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          policyKey: S.String.pipe(T.Label()),
-          scope: S.optional(__S(4608, __c144, 0)),
-          releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(4611, __c144, 3)),
-          progressiveReleaseConfig: S.optional(__S(4612, __c144, 4)),
-          name: S.String,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v2/projects/{projectKey}/release-policies/{policyKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutReleasePolicyRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          sdkKeyKey: S.String.pipe(T.Label()),
-          expand: S.optional(S.String.pipe(T.Query())),
-          viewKeys: __S(3488, __c109, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys/{sdkKeyKey}/views",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutSdkKeyViewsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _links: S.optional(__S(4384, __c137, 0)),
-          kind: S.String,
-          key: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          expiry: S.optional(S.Number),
-          value: S.String,
-          isDefault: S.Boolean,
-          _createdByMemberId: S.optional(S.String),
-          _createdAt: S.Number,
-          _updatedAt: S.Number,
-          _version: S.Number,
-          viewSummaries: S.optional(__S(4354, __c136, 2)),
-        }),
-      ).annotate({ identifier: "PutSdkKeyViewsResponse" });
-  }
-}
-function __c23(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -7223,7 +7883,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentReleaseMetricInput" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(1057, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7236,9 +7896,9 @@ function __c23(j: number): any {
           releasePlanKey: S.optional(S.String),
           randomizationUnit: S.optional(S.String),
           advancementMode: S.optional(S.String),
-          phases: S.optional(__S(736, __c23, 0)),
-          metrics: S.optional(__S(738, __c23, 2)),
-          bypassHealthChecks: S.optional(__S(2880, __c90, 0)),
+          phases: S.optional(__S(1056, __c33, 0)),
+          metrics: S.optional(__S(1058, __c33, 2)),
+          bypassHealthChecks: S.optional(__S(3520, __c110, 0)),
           cleanupBehavior: S.optional(S.String),
           comment: S.optional(S.String),
         }).pipe(
@@ -7251,7 +7911,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "StartEnvironmentReleaseRequest" });
   }
 }
-function __c24(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7272,7 +7932,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StopEnvironmentReleaseRequest" });
   }
 }
-function __c25(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7290,27 +7950,27 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TriggerFlagImportJobRequest" });
   }
 }
-function __c26(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationKey: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/applications/{applicationKey}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c27(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           applicationKey: S.String.pipe(T.Label()),
           versionKey: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7321,19 +7981,97 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateApplicationVersionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(1952, __c61, 0),
+          instructions: __S(2368, __c74, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/approval-requests/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateApprovalRequestRequest" });
   }
 }
-function __c29(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentID: S.String.pipe(T.Label()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/engineering-insights/deployments/{deploymentID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateDeploymentRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          featureFlagKey: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/flag-links/projects/{projectKey}/flags/{featureFlagKey}/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateFlagLinkRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          planKey: S.String.pipe(T.Label()),
+          name: S.String,
+          description: S.optional(S.String),
+          maintainer: S.optional(S.Unknown),
+          executionMode: S.optional(S.String),
+          applicationKeys: S.optional(__S(3904, __c122, 0)),
+          default: S.optional(S.Boolean),
+          environments: __S(129, __c4, 1),
+          version: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v2/projects/{projectKey}/flag-release-plans/{planKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateFlagReleasePlanRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationConfigurationId: S.String.pipe(T.Label()),
+          body: __S(353, __c11, 1).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v2/integration-configurations/{integrationConfigurationId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIntegrationConfigurationRequest" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7342,8 +8080,8 @@ function __c29(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           integrationKey: S.String.pipe(T.Label()),
           on: S.optional(S.Boolean),
-          config: __S(3456, __c108, 0),
-          tags: S.optional(__S(3488, __c109, 0)),
+          config: __S(3872, __c121, 0),
+          tags: S.optional(__S(3904, __c122, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -7355,7 +8093,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c30(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7364,103 +8102,50 @@ function __c30(j: number): any {
           potentiallyStale: S.Boolean,
           lastSync: S.optional(S.Number),
           lastError: S.optional(S.Number),
-          errors: S.optional(__S(3394, __c106, 2)),
+          errors: S.optional(__S(3810, __c119, 2)),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfigurationStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3392, __c106, 0),
+          _links: __S(3808, __c119, 0),
           _id: S.String,
           integrationKey: S.String,
           projectKey: S.String,
           environmentKey: S.String,
-          config: __S(3456, __c108, 0),
+          config: __S(3872, __c121, 0),
           on: S.Boolean,
-          tags: __S(3488, __c109, 0),
+          tags: __S(3904, __c122, 0),
           name: S.String,
           version: S.Number,
-          _access: S.optional(__S(3523, __c110, 3)),
-          _status: S.optional(__S(960, __c30, 0)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          _status: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfiguration" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentID: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/engineering-insights/deployments/{deploymentID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateDeploymentRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          featureFlagKey: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/flag-links/projects/{projectKey}/flags/{featureFlagKey}/{id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateFlagLinkRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationConfigurationId: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/integration-configurations/{integrationConfigurationId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateIntegrationConfigurationRequest" });
-  }
-}
-function __c34(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          instructions: __S(1952, __c61, 0),
+          instructions: __S(2368, __c74, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams", code: 200 })),
       ).annotate({ identifier: "UpdateTeamsRequest" });
     case 1:
-      return S.Array(__S(4992, __c156, 0));
+      return S.Array(__S(5312, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          memberIDs: S.optional(__S(3488, __c109, 0)),
-          teamKeys: S.optional(__S(3488, __c109, 0)),
-          errors: S.optional(__S(1089, __c34, 1)),
+          memberIDs: S.optional(__S(3904, __c122, 0)),
+          teamKeys: S.optional(__S(3904, __c122, 0)),
+          errors: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "BulkEditTeamsRep" });
   }
 }
-function __c35(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7488,7 +8173,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "IntegrationDeliveryConfigurationResponse" });
   }
 }
-function __c36(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7499,7 +8184,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateIpAllowlistEntryRequest" });
   }
 }
-function __c37(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7514,7 +8199,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "IpAllowlistEntryResponse" });
   }
 }
-function __c38(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7524,7 +8209,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "MetricInMetricGroupInput" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7534,20 +8219,20 @@ function __c38(j: number): any {
           kind: S.String,
           description: S.optional(S.String),
           maintainerId: S.String,
-          tags: __S(3488, __c109, 0),
-          metrics: __S(1217, __c38, 1),
+          tags: __S(3904, __c122, 0),
+          metrics: __S(1569, __c49, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/metric-groups", code: 200 }),
         ),
       ).annotate({ identifier: "CreateMetricGroupRequest" });
   }
 }
-function __c39(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -7557,28 +8242,28 @@ function __c39(j: number): any {
       ).annotate({ identifier: "MemberSummary" });
   }
 }
-function __c40(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customRoleKeys: __S(3488, __c109, 0),
+          customRoleKeys: __S(3904, __c122, 0),
           key: S.String,
-          _links: S.optional(__S(3008, __c94, 0)),
+          _links: S.optional(__S(3264, __c102, 0)),
           name: S.String,
         }),
       ).annotate({ identifier: "MemberTeamSummaryRep" });
   }
 }
-function __c41(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           kind: S.String,
-          _member: S.optional(__S(1248, __c39, 0)),
-          _team: S.optional(__S(1280, __c40, 0)),
+          _member: S.optional(__S(1600, __c50, 0)),
+          _team: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "MaintainerRep" });
     case 1:
@@ -7593,14 +8278,14 @@ function __c41(j: number): any {
           analysisType: S.optional(S.String),
           eventKey: S.optional(S.String),
           analysisUnit: S.optional(S.String),
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
           nameInGroup: S.optional(S.String),
-          randomizationUnits: S.optional(__S(3488, __c109, 0)),
-          analysisUnits: S.optional(__S(3488, __c109, 0)),
+          randomizationUnits: S.optional(__S(3904, __c122, 0)),
+          analysisUnits: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "MetricInGroupRep" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7610,11 +8295,11 @@ function __c41(j: number): any {
           environmentKey: S.String,
           creationDate: S.Number,
           archivedDate: S.optional(S.Number),
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
         }),
       ).annotate({ identifier: "DependentExperimentRep" });
     case 4:
-      return S.Array(__S(1315, __c41, 3));
+      return S.Array(__S(1667, __c52, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7623,15 +8308,15 @@ function __c41(j: number): any {
           name: S.String,
           kind: S.String,
           description: S.optional(S.String),
-          _links: __S(3008, __c94, 0),
-          _access: S.optional(__S(3523, __c110, 3)),
-          tags: __S(3488, __c109, 0),
+          _links: __S(3264, __c102, 0),
+          _access: S.optional(__S(3939, __c123, 3)),
+          tags: __S(3904, __c122, 0),
           _creationDate: S.Number,
           _lastModified: S.Number,
-          maintainer: __S(1312, __c41, 0),
-          metrics: __S(1314, __c41, 2),
+          maintainer: __S(1664, __c52, 0),
+          metrics: __S(1666, __c52, 2),
           _version: S.Number,
-          experiments: S.optional(__S(1316, __c41, 4)),
+          experiments: S.optional(__S(1668, __c52, 4)),
           experimentCount: S.optional(S.Number),
           activeExperimentCount: S.optional(S.Number),
           activeGuardedRolloutCount: S.optional(S.Number),
@@ -7639,7 +8324,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "MetricGroupRep" });
   }
 }
-function __c42(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7656,7 +8341,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteAgentGraphRequest" });
   }
 }
-function __c43(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7674,7 +8359,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteAgentOptimizationRunRequest" });
   }
 }
-function __c44(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7686,7 +8371,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c45(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7703,7 +8388,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteApplicationVersionRequest" });
   }
 }
-function __c46(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7722,7 +8407,42 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c47(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/default-release-plan",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteDefaultEnvironmentReleasePlanRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          releasePlanKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/release-plans/{releasePlanKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteEnvironmentReleasePlanRequest" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7740,7 +8460,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteFlagImportConfigurationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7758,7 +8478,24 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteFlagLinkRequest" });
   }
 }
-function __c49(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          planKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v2/projects/{projectKey}/flag-release-plans/{planKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteFlagReleasePlanRequest" });
+  }
+}
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7774,7 +8511,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteInsightGroupRequest" });
   }
 }
-function __c50(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7790,7 +8527,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationConfigurationRequest" });
   }
 }
-function __c51(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7809,7 +8546,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationDeliveryConfigurationRequest" });
   }
 }
-function __c52(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7819,7 +8556,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteIpAllowlistEntryRequest" });
   }
 }
-function __c53(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7836,24 +8573,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteMetricGroupRequest" });
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          policyKey: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v2/projects/{projectKey}/release-policies/{policyKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteReleasePolicyRequest" });
-  }
-}
-function __c55(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7870,7 +8590,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryProjectRequest" });
   }
 }
-function __c56(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7888,7 +8608,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteSdkKeyByKeyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7905,18 +8625,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetAgentGraphRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "CoreLink" });
-  }
-}
-function __c59(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7928,25 +8637,36 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "AgentGraphEdge" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(3523, __c110, 3)),
-          _site: S.optional(__S(1856, __c58, 0)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          _site: S.optional(__S(2304, __c72, 0)),
           key: S.String,
           name: S.String,
           description: S.optional(S.String),
           _maintainer: S.optional(S.Unknown),
           rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(1889, __c59, 1)),
+          edges: S.optional(__S(2273, __c71, 1)),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "AgentGraph" });
   }
 }
-function __c60(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "CoreLink" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7965,33 +8685,33 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetAIRunsUsageRequest" });
   }
 }
-function __c61(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3872, __c121, 0));
   }
 }
-function __c62(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2400, __c75, 0));
   }
 }
-function __c63(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
-          metadata: __S(1952, __c61, 0),
-          series: __S(1985, __c62, 1),
+          _links: __S(3872, __c121, 0),
+          metadata: __S(2368, __c74, 0),
+          series: __S(2401, __c75, 1),
         }),
       ).annotate({ identifier: "SeriesListRep" });
   }
 }
-function __c64(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8007,17 +8727,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "GetAllIntegrationConfigurationsRequest" });
     case 1:
-      return S.Array(__S(593, __c18, 17));
+      return S.Array(__S(1041, __c32, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2049, __c64, 1),
-          _links: __S(3008, __c94, 0),
+          items: __S(2465, __c77, 1),
+          _links: __S(3264, __c102, 0),
         }),
       ).annotate({ identifier: "IntegrationConfigurationCollectionRep" });
   }
 }
-function __c65(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8028,53 +8748,53 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c66(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           key: S.String,
-          _links: S.optional(__S(3008, __c94, 0)),
-          _site: S.optional(__S(2976, __c93, 0)),
+          _links: S.optional(__S(3264, __c102, 0)),
+          _site: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "FlagListingRep" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2528, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2113, __c66, 1)),
+          items: S.optional(__S(2529, __c79, 1)),
           totalCount: S.optional(S.Number),
-          _links: S.optional(__S(3008, __c94, 0)),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "ApplicationFlagCollectionRep" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(1248, __c39, 0)),
-          team: S.optional(__S(1280, __c40, 0)),
+          member: S.optional(__S(1600, __c50, 0)),
+          team: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "ApplicationMaintainerRep" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          flags: S.optional(__S(2114, __c66, 2)),
-          _access: S.optional(__S(3523, __c110, 3)),
-          _links: S.optional(__S(3008, __c94, 0)),
+          flags: S.optional(__S(2530, __c79, 2)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          _links: S.optional(__S(3264, __c102, 0)),
           _version: S.optional(S.Number),
           autoAdded: S.Boolean,
           creationDate: S.optional(S.Number),
           description: S.optional(S.String),
           key: S.String,
           kind: S.String,
-          _maintainer: S.optional(__S(2115, __c66, 3)),
+          _maintainer: S.optional(__S(2531, __c79, 3)),
           name: S.String,
         }),
       ).annotate({ identifier: "ApplicationRep" });
   }
 }
-function __c67(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8087,18 +8807,18 @@ function __c67(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/applications", code: 200 })),
       ).annotate({ identifier: "GetApplicationsRequest" });
     case 1:
-      return S.Array(__S(2116, __c66, 4));
+      return S.Array(__S(2532, __c79, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(3008, __c94, 0)),
-          items: S.optional(__S(2145, __c67, 1)),
+          _links: S.optional(__S(3264, __c102, 0)),
+          items: S.optional(__S(2561, __c80, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApplicationCollectionRep" });
   }
 }
-function __c68(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8117,24 +8837,24 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "GetApplicationVersionsRequest" });
     case 1:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(3008, __c94, 0)),
-          items: S.optional(__S(2177, __c68, 1)),
+          _links: S.optional(__S(3264, __c102, 0)),
+          items: S.optional(__S(2593, __c81, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApplicationVersionsCollectionRep" });
   }
 }
-function __c69(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(3523, __c110, 3)),
-          _links: S.optional(__S(3008, __c94, 0)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          _links: S.optional(__S(3264, __c102, 0)),
           _version: S.optional(S.Number),
           autoAdded: S.Boolean,
           creationDate: S.optional(S.Number),
@@ -8145,7 +8865,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ApplicationVersionRep" });
   }
 }
-function __c70(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8164,7 +8884,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetApprovalRequestSettingsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8176,30 +8896,30 @@ function __c71(j: number): any {
           canApplyDeclinedChanges: S.Boolean,
           autoApplyApprovedChanges: S.optional(S.NullOr(S.Boolean)),
           serviceKind: S.String,
-          serviceConfig: __S(3456, __c108, 0),
-          requiredApprovalTags: __S(3488, __c109, 0),
+          serviceConfig: __S(3872, __c121, 0),
+          requiredApprovalTags: __S(3904, __c122, 0),
           serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ApprovalRequestSetting" });
     case 1:
-      return S.Record(S.String, __S(2272, __c71, 0));
+      return S.Record(S.String, __S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: S.optional(__S(2273, __c71, 1)),
-          _default: S.optional(__S(2272, __c71, 0)),
-          _strict: S.optional(__S(2272, __c71, 0)),
+          environments: S.optional(__S(2689, __c84, 1)),
+          _default: S.optional(__S(2688, __c84, 0)),
+          _strict: S.optional(__S(2688, __c84, 0)),
         }),
       ).annotate({ identifier: "ApprovalRequestSettingWithEnvs" });
     case 3:
-      return S.Record(S.String, __S(2274, __c71, 2));
+      return S.Record(S.String, __S(2690, __c84, 2));
     case 4:
-      return S.suspend(() => __S(2275, __c71, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2691, __c84, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetApprovalRequestSettingsResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8218,7 +8938,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetBigSegmentStoreIntegrationRequest" });
   }
 }
-function __c73(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8231,28 +8951,28 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "GetBigSegmentStoreIntegrationsRequest" });
     case 1:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3841, __c120, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(2368, __c74, 0),
-          items: __S(2337, __c73, 1),
+          _links: __S(2784, __c87, 0),
+          items: __S(2753, __c86, 1),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegrationCollection" });
   }
 }
-function __c74(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(2976, __c93, 0),
-          parent: S.optional(__S(2976, __c93, 0)),
+          self: __S(3232, __c101, 0),
+          parent: S.optional(__S(3232, __c101, 0)),
         }),
       ).annotate({ identifier: "BigSegmentStoreIntegrationCollectionLinks" });
   }
 }
-function __c75(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8271,7 +8991,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetContextsClientsideUsageRequest" });
   }
 }
-function __c76(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8290,7 +9010,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetContextsServersideUsageRequest" });
   }
 }
-function __c77(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8310,7 +9030,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetContextsTotalUsageRequest" });
   }
 }
-function __c78(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8328,21 +9048,21 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetDataExportEventsUsageRequest" });
   }
 }
-function __c79(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
-          metadata: __S(1952, __c61, 0),
-          series: __S(1985, __c62, 1),
+          _links: __S(3872, __c121, 0),
+          metadata: __S(2368, __c74, 0),
+          series: __S(2401, __c75, 1),
           dataThrough: S.optional(S.String),
           delayed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DataExportSeriesListRep" });
   }
 }
-function __c80(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8351,7 +9071,7 @@ function __c80(j: number): any {
           to: S.Number.pipe(T.Query()),
           source: S.optional(S.String.pipe(T.Query())),
           dimension: S.optional(S.String.pipe(T.Query())),
-          projectKey: S.optional(__S(3488, __c109, 0).pipe(T.Query())),
+          projectKey: S.optional(__S(3904, __c122, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -8376,11 +9096,11 @@ function __c80(j: number): any {
           projectName: S.String,
           rank: S.Number,
           usage: S.Number,
-          components: __S(2561, __c80, 1),
+          components: __S(2977, __c93, 1),
         }),
       ).annotate({ identifier: "DataExportProjectRankRep" });
     case 3:
-      return S.Array(__S(2562, __c80, 2));
+      return S.Array(__S(2978, __c93, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8402,14 +9122,110 @@ function __c80(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2563, __c80, 3),
-          page: __S(2564, __c80, 4),
-          scope: __S(2565, __c80, 5),
+          items: __S(2979, __c93, 3),
+          page: __S(2980, __c93, 4),
+          scope: __S(2981, __c93, 5),
         }),
       ).annotate({ identifier: "DataExportProjectRankingRep" });
   }
 }
-function __c81(j: number): any {
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/default-release-plan",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDefaultEnvironmentReleasePlanRequest" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.optional(S.String),
+          allocation: S.Number,
+          durationMillis: S.Number,
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanStep" });
+    case 1:
+      return S.Array(__S(3072, __c96, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.optional(S.String),
+          contextKind: S.optional(S.String),
+          attribute: S.String,
+          op: S.String,
+          values: __S(3040, __c95, 0),
+          negate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanClause" });
+    case 3:
+      return S.Array(__S(3074, __c96, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.optional(S.String),
+          description: S.optional(S.String),
+          steps: __S(3073, __c96, 1),
+          clauses: S.optional(__S(3075, __c96, 3)),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanPhase" });
+    case 5:
+      return S.Array(__S(3076, __c96, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          isGroup: S.Boolean,
+          autoRollback: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanMetric" });
+    case 7:
+      return S.Record(S.String, __S(3078, __c96, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          randomizationUnit: S.optional(S.String),
+          advancementMode: S.optional(S.String),
+          cleanupBehavior: S.optional(S.String),
+          phases: __S(3077, __c96, 5),
+          metrics: S.optional(__S(3079, __c96, 7)),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlanProgressiveReleaseRep" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          key: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          environmentKey: S.String,
+          releaseMethod: S.String,
+          version: S.Number,
+          createdAt: S.optional(S.Number),
+          updatedAt: S.optional(S.Number),
+          default: S.optional(S.Boolean),
+          progressiveRelease: __S(3080, __c96, 8),
+        }),
+      ).annotate({ identifier: "EnvironmentReleasePlan" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8429,37 +9245,37 @@ function __c81(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           key: S.String,
-          environments: __S(2625, __c82, 1),
+          environments: __S(3137, __c98, 1),
         }),
       ).annotate({ identifier: "MultiEnvironmentDependentFlag" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(3105, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2594, __c81, 2),
-          _links: __S(3008, __c94, 0),
-          _site: __S(2976, __c93, 0),
+          items: __S(3106, __c97, 2),
+          _links: __S(3264, __c102, 0),
+          _site: __S(3232, __c101, 0),
         }),
       ).annotate({ identifier: "MultiEnvironmentDependentFlags" });
   }
 }
-function __c82(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           key: S.String,
-          _links: __S(3008, __c94, 0),
-          _site: __S(2976, __c93, 0),
+          _links: __S(3264, __c102, 0),
+          _site: __S(3232, __c101, 0),
         }),
       ).annotate({ identifier: "DependentFlagEnvironment" });
     case 1:
-      return S.Array(__S(2624, __c82, 0));
+      return S.Array(__S(3136, __c98, 0));
   }
 }
-function __c83(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8478,14 +9294,64 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2625, __c82, 1),
-          _links: __S(3008, __c94, 0),
-          _site: __S(2976, __c93, 0),
+          items: __S(3137, __c98, 1),
+          _links: __S(3264, __c102, 0),
+          _site: __S(3232, __c101, 0),
         }),
       ).annotate({ identifier: "DependentFlagsByEnvironment" });
   }
 }
-function __c84(j: number): any {
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repositoryKey: S.String,
+          projectKey: S.String,
+        }),
+      ).annotate({ identifier: "InsightsRepositoryProject" });
+    case 1:
+      return S.Array(__S(3200, __c100, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          mappings: __S(3201, __c100, 1),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v2/engineering-insights/repositories/projects",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssociateRepositoriesAndProjectsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          totalCount: S.Number,
+          items: __S(3201, __c100, 1),
+          _links: S.optional(__S(3264, __c102, 0)),
+        }),
+      ).annotate({ identifier: "InsightsRepositoryProjectCollection" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Link" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(3232, __c101, 0));
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8502,16 +9368,16 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
-function __c85(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2730, __c85, 10)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3338, __c104, 10)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2720, __c85, 0),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(3328, __c104, 0),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "DeploymentCollectionRep" });
     case 2:
@@ -8524,12 +9390,12 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "FlagReferenceRep" });
     case 3:
-      return S.Array(__S(2722, __c85, 2));
+      return S.Array(__S(3330, __c104, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2723, __c85, 3),
+          items: __S(3331, __c104, 3),
         }),
       ).annotate({ identifier: "FlagReferenceCollectionRep" });
     case 5:
@@ -8562,19 +9428,19 @@ function __c85(j: number): any {
           linesAdded: S.Number,
           linesDeleted: S.Number,
           url: S.String,
-          deployments: S.optional(__S(2721, __c85, 1)),
-          flagReferences: S.optional(__S(2724, __c85, 4)),
-          leadTime: S.optional(__S(2725, __c85, 5)),
+          deployments: S.optional(__S(3329, __c104, 1)),
+          flagReferences: S.optional(__S(3332, __c104, 4)),
+          leadTime: S.optional(__S(3333, __c104, 5)),
         }),
       ).annotate({ identifier: "PullRequestRep" });
     case 7:
-      return S.Array(__S(2726, __c85, 6));
+      return S.Array(__S(3334, __c104, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(2727, __c85, 7),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(3335, __c104, 7),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "PullRequestCollectionRep" });
     case 9:
@@ -8599,7 +9465,7 @@ function __c85(j: number): any {
           status: S.String,
           kind: S.String,
           active: S.Boolean,
-          metadata: S.optional(__S(3456, __c108, 0)),
+          metadata: S.optional(__S(3872, __c121, 0)),
           archived: S.Boolean,
           environmentKey: S.String,
           numberOfContributors: S.Number,
@@ -8607,14 +9473,14 @@ function __c85(j: number): any {
           linesAdded: S.Number,
           linesDeleted: S.Number,
           leadTime: S.Number,
-          pullRequests: S.optional(__S(2728, __c85, 8)),
-          flagReferences: S.optional(__S(2724, __c85, 4)),
-          leadTimeStages: S.optional(__S(2729, __c85, 9)),
+          pullRequests: S.optional(__S(3336, __c104, 8)),
+          flagReferences: S.optional(__S(3332, __c104, 4)),
+          leadTimeStages: S.optional(__S(3337, __c104, 9)),
         }),
       ).annotate({ identifier: "DeploymentRep" });
   }
 }
-function __c86(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8638,7 +9504,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetDeploymentFrequencyChartRequest" });
   }
 }
-function __c87(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8648,7 +9514,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "InsightsMetricTierDefinition" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8656,11 +9522,11 @@ function __c87(j: number): any {
           value: S.Number,
           unit: S.String,
           modifier: S.String,
-          tiers: __S(2785, __c87, 1),
+          tiers: __S(3393, __c106, 1),
         }),
       ).annotate({ identifier: "InsightsChartMetric" });
     case 3:
-      return S.Record(S.String, __S(2786, __c87, 2));
+      return S.Record(S.String, __S(3394, __c106, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8670,11 +9536,11 @@ function __c87(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(3456, __c108, 0),
+          summary: __S(3872, __c121, 0),
           name: S.optional(S.String),
-          metrics: S.optional(__S(2787, __c87, 3)),
-          xAxis: __S(2788, __c87, 4),
-          yAxis: __S(2788, __c87, 4),
+          metrics: S.optional(__S(3395, __c106, 3)),
+          xAxis: __S(3396, __c106, 4),
+          yAxis: __S(3396, __c106, 4),
         }),
       ).annotate({ identifier: "InsightsChartMetadata" });
     case 6:
@@ -8685,13 +9551,13 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "InsightsChartBounds" });
     case 7:
-      return S.Array(__S(2790, __c87, 6));
+      return S.Array(__S(3398, __c106, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           count: S.optional(S.Number),
-          bounds: S.optional(__S(2791, __c87, 7)),
+          bounds: S.optional(__S(3399, __c106, 7)),
         }),
       ).annotate({ identifier: "InsightsChartSeriesMetadata" });
     case 9:
@@ -8699,30 +9565,30 @@ function __c87(j: number): any {
         S.Struct({
           x: S.Number,
           y: S.Number,
-          values: S.optional(__S(3456, __c108, 0)),
+          values: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "InsightsChartSeriesDataPoint" });
     case 10:
-      return S.Array(__S(2793, __c87, 9));
+      return S.Array(__S(3401, __c106, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(2792, __c87, 8),
-          data: __S(2794, __c87, 10),
+          metadata: __S(3400, __c106, 8),
+          data: __S(3402, __c106, 10),
         }),
       ).annotate({ identifier: "InsightsChartSeries" });
     case 12:
-      return S.Array(__S(2795, __c87, 11));
+      return S.Array(__S(3403, __c106, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(2789, __c87, 5),
-          series: __S(2796, __c87, 12),
+          metadata: __S(3397, __c106, 5),
+          series: __S(3404, __c106, 12),
         }),
       ).annotate({ identifier: "InsightsChart" });
   }
 }
-function __c88(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8744,7 +9610,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetDeploymentsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8753,7 +9619,7 @@ function __c89(j: number): any {
           flagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(2880, __c90, 0).pipe(T.Query())),
+          expand: S.optional(__S(3520, __c110, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8764,13 +9630,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetEnvironmentReleaseRequest" });
   }
 }
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c91(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8779,26 +9639,24 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentReleasesModification" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           attribute: S.optional(S.String),
           op: S.String,
-          values: __S(2913, __c91, 1),
+          values: __S(3040, __c95, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
       ).annotate({ identifier: "EnvironmentReleasesFilter" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           disabled: S.optional(S.Boolean),
           value: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricEventDefaultRep" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -8807,7 +9665,7 @@ function __c91(j: number): any {
           _integrationKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricDataSourceRefRep" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           eventName: S.optional(S.String),
@@ -8815,8 +9673,8 @@ function __c91(j: number): any {
           unitAggregationType: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          dataSource: S.optional(__S(2916, __c91, 4)),
-          filters: S.optional(__S(2914, __c91, 2)),
+          dataSource: S.optional(__S(3491, __c109, 3)),
+          filters: S.optional(__S(3489, __c109, 1)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -8824,13 +9682,14 @@ function __c91(j: number): any {
           winsorIncludeImputed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EnvironmentReleasesMetricDenominatorRep" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           experimentCount: S.optional(S.Number),
           metricGroupCount: S.optional(S.Number),
           guardedRolloutCount: S.optional(S.Number),
           releasePolicyCount: S.optional(S.Number),
+          environmentReleasePlanCount: S.optional(S.Number),
           activeExperimentCount: S.optional(S.Number),
           activeGuardedRolloutCount: S.optional(S.Number),
           _id: S.String,
@@ -8840,33 +9699,33 @@ function __c91(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(3008, __c94, 0),
-          _site: S.optional(__S(2976, __c93, 0)),
-          _access: S.optional(__S(3523, __c110, 3)),
-          tags: __S(3488, __c109, 0),
+          _links: __S(3264, __c102, 0),
+          _site: S.optional(__S(3232, __c101, 0)),
+          _access: S.optional(__S(3939, __c123, 3)),
+          tags: __S(3904, __c122, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(2912, __c91, 0)),
+          lastModified: S.optional(__S(3488, __c109, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(1248, __c39, 0)),
+          _maintainer: S.optional(__S(1600, __c50, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(3488, __c109, 0)),
-          analysisUnits: S.optional(__S(3488, __c109, 0)),
-          filters: S.optional(__S(2914, __c91, 2)),
+          randomizationUnits: S.optional(__S(3904, __c122, 0)),
+          analysisUnits: S.optional(__S(3904, __c122, 0)),
+          filters: S.optional(__S(3489, __c109, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(2915, __c91, 3)),
-          dataSource: __S(2916, __c91, 4),
+          eventDefault: S.optional(__S(3490, __c109, 2)),
+          dataSource: __S(3491, __c109, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(1952, __c61, 0)),
+          urls: S.optional(__S(2368, __c74, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -8875,22 +9734,22 @@ function __c91(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(2917, __c91, 5)),
+          denominator: S.optional(__S(3492, __c109, 4)),
         }),
       ).annotate({ identifier: "EnvironmentReleasesMetricListingRep" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           metricKey: S.String,
           metricVersionId: S.optional(S.String),
           autoRollback: S.Boolean,
           analysisUnit: S.optional(S.String),
-          definition: S.optional(__S(2918, __c91, 6)),
+          definition: S.optional(__S(3493, __c109, 5)),
         }),
       ).annotate({ identifier: "ReleaseMetric" });
+    case 7:
+      return S.Array(__S(3494, __c109, 6));
     case 8:
-      return S.Array(__S(2919, __c91, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           stepIndex: S.Number,
@@ -8900,11 +9759,11 @@ function __c91(j: number): any {
           endedAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReleaseStep" });
+    case 9:
+      return S.Array(__S(3496, __c109, 8));
     case 10:
-      return S.Array(__S(2921, __c91, 9));
-    case 11:
       return S.Record(S.String, S.String);
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8913,18 +9772,18 @@ function __c91(j: number): any {
           description: S.optional(S.String),
           status: S.String,
           statusReason: S.optional(S.String),
-          steps: __S(2922, __c91, 10),
+          steps: __S(3497, __c109, 9),
           currentStepIndex: S.optional(S.Number),
           startedAt: S.optional(S.Number),
           endedAt: S.optional(S.Number),
-          metricStatuses: __S(2923, __c91, 11),
+          metricStatuses: __S(3498, __c109, 10),
         }),
       ).annotate({ identifier: "EnvironmentReleasePhase" });
+    case 12:
+      return S.Array(__S(3499, __c109, 11));
     case 13:
-      return S.Array(__S(2924, __c91, 12));
+      return S.Record(S.String, __S(2304, __c72, 0));
     case 14:
-      return S.Record(S.String, __S(1856, __c58, 0));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8940,69 +9799,87 @@ function __c91(j: number): any {
           randomizationUnit: S.String,
           cleanupBehavior: S.String,
           kind: S.String,
-          metrics: __S(2920, __c91, 8),
-          phases: __S(2925, __c91, 13),
+          metrics: __S(3495, __c109, 7),
+          phases: __S(3500, __c109, 12),
           currentPhaseIndex: S.NullOr(S.Number),
           advancementMode: S.String,
           createdAt: S.Number,
           startedAt: S.optional(S.Number),
           endedAt: S.optional(S.Number),
-          _links: S.optional(__S(2926, __c91, 14)),
+          _links: S.optional(__S(3501, __c109, 13)),
         }),
       ).annotate({ identifier: "EnvironmentRelease" });
   }
 }
-function __c92(j: number): any {
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repositoryKey: S.String,
-          projectKey: S.String,
-        }),
-      ).annotate({ identifier: "InsightsRepositoryProject" });
-    case 1:
-      return S.Array(__S(2944, __c92, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          mappings: __S(2945, __c92, 1),
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          releasePlanKey: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/api/v2/engineering-insights/repositories/projects",
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/release-plans/{releasePlanKey}",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "AssociateRepositoriesAndProjectsRequest" });
-    case 3:
+      ).annotate({ identifier: "GetEnvironmentReleasePlanRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/environments/{environmentKey}/release-plans",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEnvironmentReleasePlansRequest" });
+    case 1:
+      return S.Array(__S(3081, __c96, 9));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _links: S.optional(__S(3616, __c113, 0)),
+          items: __S(3585, __c112, 1),
           totalCount: S.Number,
-          items: __S(2945, __c92, 1),
-          _links: S.optional(__S(3008, __c94, 0)),
         }),
-      ).annotate({ identifier: "InsightsRepositoryProjectCollection" });
+      ).annotate({ identifier: "EnvironmentReleasePlans" });
   }
 }
-function __c93(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          href: S.optional(S.String),
-          type: S.optional(S.String),
+          first: S.optional(__S(3232, __c101, 0)),
+          last: S.optional(__S(3232, __c101, 0)),
+          next: S.optional(__S(3232, __c101, 0)),
+          prev: S.optional(__S(3232, __c101, 0)),
+          self: __S(3232, __c101, 0),
         }),
-      ).annotate({ identifier: "Link" });
+      ).annotate({ identifier: "EnvironmentReleasePlansPaginatedLinks" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(2976, __c93, 0));
-  }
-}
-function __c95(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9023,7 +9900,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetEvaluationsUsageRequest" });
   }
 }
-function __c96(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9035,7 +9912,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetEventsUsageRequest" });
   }
 }
-function __c97(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9053,7 +9930,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetExperimentationEventsUsageRequest" });
   }
 }
-function __c98(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9070,7 +9947,126 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetExperimentationKeysUsageRequest" });
   }
 }
-function __c99(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          integrationKey: S.String.pipe(T.Label()),
+          on: S.optional(S.Boolean),
+          config: __S(3872, __c121, 0),
+          tags: S.optional(__S(3904, __c122, 0)),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/integration-capabilities/big-segment-store/{projectKey}/{environmentKey}/{integrationKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBigSegmentStoreIntegrationRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: __S(3232, __c101, 0),
+          parent: __S(3232, __c101, 0),
+          project: __S(3232, __c101, 0),
+          environment: __S(3232, __c101, 0),
+        }),
+      ).annotate({ identifier: "BigSegmentStoreIntegrationLinks" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          statusCode: S.optional(S.Number),
+          message: S.optional(S.String),
+          timestamp: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StoreIntegrationError" });
+    case 2:
+      return S.Array(__S(3809, __c119, 1));
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          available: S.optional(S.Boolean),
+          potentiallyStale: S.optional(S.Boolean),
+          lastSync: S.optional(S.Number),
+          lastError: S.optional(S.Number),
+          errors: S.optional(__S(3810, __c119, 2)),
+        }),
+      ).annotate({ identifier: "BigSegmentStoreStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(3808, __c119, 0),
+          _id: S.String,
+          integrationKey: S.String,
+          projectKey: S.String,
+          environmentKey: S.String,
+          config: __S(3872, __c121, 0),
+          on: S.Boolean,
+          tags: __S(3904, __c122, 0),
+          name: S.String,
+          version: S.Number,
+          _access: S.optional(__S(3939, __c123, 3)),
+          _status: __S(3840, __c120, 0),
+        }),
+      ).annotate({ identifier: "BigSegmentStoreIntegration" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(3904, __c122, 0)),
+          notResources: S.optional(__S(3904, __c122, 0)),
+          actions: S.optional(__S(3904, __c122, 0)),
+          notActions: S.optional(__S(3904, __c122, 0)),
+          effect: S.String,
+          role_name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccessDeniedReason" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          reason: __S(3936, __c123, 0),
+        }),
+      ).annotate({ identifier: "AccessDenied" });
+    case 2:
+      return S.Array(__S(3937, __c123, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          denied: __S(3938, __c123, 2),
+          allowed: __S(3938, __c123, 2),
+        }),
+      ).annotate({ identifier: "Access" });
+  }
+}
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9110,11 +10106,11 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "VariationEvalSummary" });
     case 3:
-      return S.Array(__S(3170, __c99, 2));
+      return S.Array(__S(3970, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          variations: S.optional(__S(3171, __c99, 3)),
+          variations: S.optional(__S(3971, __c124, 3)),
         }),
       ).annotate({ identifier: "EvaluationsSummary" });
     case 5:
@@ -9123,7 +10119,7 @@ function __c99(j: number): any {
           size: S.optional(S.String),
           percentage: S.optional(S.Number),
           reason: S.optional(S.String),
-          evaluationsSummary: S.optional(__S(3172, __c99, 4)),
+          evaluationsSummary: S.optional(__S(3972, __c124, 4)),
         }),
       ).annotate({ identifier: "FlagEventImpactRep" });
     case 6:
@@ -9133,7 +10129,7 @@ function __c99(j: number): any {
           status: S.String,
           startedAt: S.Number,
           endedAt: S.optional(S.Number),
-          _links: S.optional(__S(3008, __c94, 0)),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "FlagEventExperimentIteration" });
     case 7:
@@ -9141,17 +10137,17 @@ function __c99(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          iteration: __S(3174, __c99, 6),
-          _links: S.optional(__S(3008, __c94, 0)),
+          iteration: __S(3974, __c124, 6),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "FlagEventExperiment" });
     case 8:
-      return S.Array(__S(3175, __c99, 7));
+      return S.Array(__S(3975, __c124, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3176, __c99, 8),
+          items: __S(3976, __c124, 8),
         }),
       ).annotate({ identifier: "FlagEventExperimentCollection" });
     case 10:
@@ -9167,25 +10163,25 @@ function __c99(j: number): any {
           eventTime: S.Number,
           description: S.String,
           auditLogEntryId: S.optional(S.String),
-          member: S.optional(__S(3169, __c99, 1)),
-          actions: S.optional(__S(3488, __c109, 0)),
-          impact: __S(3173, __c99, 5),
-          experiments: S.optional(__S(3177, __c99, 9)),
+          member: S.optional(__S(3969, __c124, 1)),
+          actions: S.optional(__S(3904, __c122, 0)),
+          impact: __S(3973, __c124, 5),
+          experiments: S.optional(__S(3977, __c124, 9)),
         }),
       ).annotate({ identifier: "FlagEventRep" });
     case 11:
-      return S.Array(__S(3178, __c99, 10));
+      return S.Array(__S(3978, __c124, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3179, __c99, 11),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(3979, __c124, 11),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "FlagEventCollectionRep" });
   }
 }
-function __c100(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9203,7 +10199,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "GetFlagImportConfigurationRequest" });
   }
 }
-function __c101(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9212,17 +10208,17 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "GetFlagImportConfigurationsRequest" });
     case 1:
-      return S.Array(__S(4452, __c139, 4));
+      return S.Array(__S(4804, __c150, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(2368, __c74, 0),
-          items: __S(3233, __c101, 1),
+          _links: __S(2784, __c87, 0),
+          items: __S(4033, __c126, 1),
         }),
       ).annotate({ identifier: "FlagImportIntegrationCollection" });
   }
 }
-function __c102(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9238,17 +10234,34 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "GetFlagLinksRequest" });
     case 1:
-      return S.Array(__S(4962, __c155, 2));
+      return S.Array(__S(5282, __c165, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3265, __c102, 1),
-          _links: __S(3008, __c94, 0),
+          items: __S(4065, __c127, 1),
+          _links: __S(3264, __c102, 0),
         }),
       ).annotate({ identifier: "FlagLinkCollectionRep" });
   }
 }
-function __c103(j: number): any {
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          planKey: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v2/projects/{projectKey}/flag-release-plans/{planKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetFlagReleasePlanRequest" });
+  }
+}
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9266,7 +10279,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetFlagStatusChartRequest" });
   }
 }
-function __c104(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9283,126 +10296,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetInsightGroupRequest" });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          integrationKey: S.String.pipe(T.Label()),
-          on: S.optional(S.Boolean),
-          config: __S(3456, __c108, 0),
-          tags: S.optional(__S(3488, __c109, 0)),
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/integration-capabilities/big-segment-store/{projectKey}/{environmentKey}/{integrationKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateBigSegmentStoreIntegrationRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: __S(2976, __c93, 0),
-          parent: __S(2976, __c93, 0),
-          project: __S(2976, __c93, 0),
-          environment: __S(2976, __c93, 0),
-        }),
-      ).annotate({ identifier: "BigSegmentStoreIntegrationLinks" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          statusCode: S.optional(S.Number),
-          message: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StoreIntegrationError" });
-    case 2:
-      return S.Array(__S(3393, __c106, 1));
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          available: S.optional(S.Boolean),
-          potentiallyStale: S.optional(S.Boolean),
-          lastSync: S.optional(S.Number),
-          lastError: S.optional(S.Number),
-          errors: S.optional(__S(3394, __c106, 2)),
-        }),
-      ).annotate({ identifier: "BigSegmentStoreStatus" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _links: __S(3392, __c106, 0),
-          _id: S.String,
-          integrationKey: S.String,
-          projectKey: S.String,
-          environmentKey: S.String,
-          config: __S(3456, __c108, 0),
-          on: S.Boolean,
-          tags: __S(3488, __c109, 0),
-          name: S.String,
-          version: S.Number,
-          _access: S.optional(__S(3523, __c110, 3)),
-          _status: __S(3424, __c107, 0),
-        }),
-      ).annotate({ identifier: "BigSegmentStoreIntegration" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resources: S.optional(__S(3488, __c109, 0)),
-          notResources: S.optional(__S(3488, __c109, 0)),
-          actions: S.optional(__S(3488, __c109, 0)),
-          notActions: S.optional(__S(3488, __c109, 0)),
-          effect: S.String,
-          role_name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccessDeniedReason" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          reason: __S(3520, __c110, 0),
-        }),
-      ).annotate({ identifier: "AccessDenied" });
-    case 2:
-      return S.Array(__S(3521, __c110, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          denied: __S(3522, __c110, 2),
-          allowed: __S(3522, __c110, 2),
-        }),
-      ).annotate({ identifier: "Access" });
-  }
-}
-function __c111(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9417,7 +10311,7 @@ function __c111(j: number): any {
         ),
       ).annotate({ identifier: "GetInsightGroupsRequest" });
     case 1:
-      return S.Array(__S(132, __c4, 4));
+      return S.Array(__S(580, __c18, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9433,22 +10327,22 @@ function __c111(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          countByIndicator: __S(3554, __c111, 2),
+          countByIndicator: __S(4194, __c131, 2),
         }),
       ).annotate({ identifier: "InsightGroupCollectionMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3553, __c111, 1),
-          _links: S.optional(__S(3008, __c94, 0)),
-          metadata: S.optional(__S(3555, __c111, 3)),
-          scoreMetadata: S.optional(__S(131, __c4, 3)),
+          items: __S(4193, __c131, 1),
+          _links: S.optional(__S(3264, __c102, 0)),
+          metadata: S.optional(__S(4195, __c131, 3)),
+          scoreMetadata: S.optional(__S(579, __c18, 3)),
         }),
       ).annotate({ identifier: "InsightGroupCollection" });
   }
 }
-function __c112(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9462,19 +10356,19 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
           key: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "ProjectSummary" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3586, __c112, 2),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(4226, __c132, 2),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "ProjectSummaryCollection" });
     case 4:
@@ -9486,22 +10380,22 @@ function __c112(j: number): any {
           type: S.String,
           url: S.String,
           mainBranch: S.String,
-          projects: S.optional(__S(3587, __c112, 3)),
+          projects: S.optional(__S(4227, __c132, 3)),
         }),
       ).annotate({ identifier: "InsightsRepository" });
     case 5:
-      return S.Array(__S(3588, __c112, 4));
+      return S.Array(__S(4228, __c132, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.Number,
-          items: __S(3589, __c112, 5),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(4229, __c132, 5),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "InsightsRepositoryCollection" });
   }
 }
-function __c113(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9516,15 +10410,49 @@ function __c113(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          period: __S(163, __c5, 3),
-          lastPeriod: __S(163, __c5, 3),
-          scores: __S(162, __c5, 2),
-          _links: S.optional(__S(3008, __c94, 0)),
+          period: __S(611, __c19, 3),
+          lastPeriod: __S(611, __c19, 3),
+          scores: __S(610, __c19, 2),
+          _links: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "InsightScores" });
   }
 }
-function __c114(j: number): any {
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String,
+          environmentKey: S.String,
+          applicationKey: S.String,
+          applicationName: S.optional(S.String),
+          applicationKind: S.optional(S.String),
+          version: S.String,
+          versionName: S.optional(S.String),
+          eventType: S.String,
+          eventTime: S.optional(S.Number),
+          eventMetadata: S.optional(__S(3872, __c121, 0)),
+          deploymentMetadata: S.optional(__S(3872, __c121, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/engineering-insights/deployment-events",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateDeploymentEventRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateDeploymentEventResponse",
+      });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9540,7 +10468,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetIntegrationConfigurationRequest" });
   }
 }
-function __c115(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9557,20 +10485,20 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationByEnvironmentRequest" });
   }
 }
-function __c116(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(2368, __c74, 0),
-          items: __S(3712, __c116, 0),
+          _links: __S(2784, __c87, 0),
+          items: __S(4416, __c138, 0),
         }),
       ).annotate({ identifier: "IntegrationDeliveryConfigurationCollection" });
   }
 }
-function __c117(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9589,7 +10517,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationByIdRequest" });
   }
 }
-function __c118(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9603,7 +10531,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetIntegrationDeliveryConfigurationsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9615,33 +10543,33 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetIpAllowlistRequest" });
   }
 }
-function __c120(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1536, __c48, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(3872, __c121, 0)),
+          _links: S.optional(__S(4576, __c143, 0)),
           sessionAllowlistEnabled: S.Boolean,
           apiTokenAllowlistEnabled: S.Boolean,
           totalCount: S.optional(S.Number),
-          entries: __S(3840, __c120, 0),
+          entries: __S(4544, __c142, 0),
         }),
       ).annotate({ identifier: "IpAllowlistResponse" });
   }
 }
-function __c121(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(1856, __c58, 0),
+          self: __S(2304, __c72, 0),
         }),
       ).annotate({ identifier: "IPAllowlistSelfLink" });
   }
 }
-function __c122(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9665,7 +10593,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetLeadTimeChartRequest" });
   }
 }
-function __c123(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9683,41 +10611,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetMAUClientsideUsageRequest" });
   }
 }
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String,
-          environmentKey: S.String,
-          applicationKey: S.String,
-          applicationName: S.optional(S.String),
-          applicationKind: S.optional(S.String),
-          version: S.String,
-          versionName: S.optional(S.String),
-          eventType: S.String,
-          eventTime: S.optional(S.Number),
-          eventMetadata: S.optional(__S(3456, __c108, 0)),
-          deploymentMetadata: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/engineering-insights/deployment-events",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateDeploymentEventRequest" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "CreateDeploymentEventResponse",
-      });
-  }
-}
-function __c126(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9730,13 +10624,13 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
-          sdks: __S(3488, __c109, 0),
+          _links: __S(3872, __c121, 0),
+          sdks: __S(3904, __c122, 0),
         }),
       ).annotate({ identifier: "SdkListRep" });
   }
 }
-function __c127(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9755,7 +10649,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetMAUTotalUsageRequest" });
   }
 }
-function __c128(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9773,7 +10667,74 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetMetricGroupRequest" });
   }
 }
-function __c129(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          integrationKey: S.String.pipe(T.Label()),
+          config: __S(3872, __c121, 0),
+          tags: S.optional(__S(3904, __c122, 0)),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/integration-capabilities/flag-import/{projectKey}/{integrationKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFlagImportConfigurationRequest" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: __S(3232, __c101, 0),
+          parent: __S(3232, __c101, 0),
+          project: __S(3232, __c101, 0),
+        }),
+      ).annotate({ identifier: "FlagImportIntegrationLinks" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          integrationId: S.optional(S.String),
+          message: S.optional(S.String),
+          statusCode: S.optional(S.Number),
+          timestamp: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StatusResponse" });
+    case 2:
+      return S.Array(__S(4801, __c150, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          lastImport: S.optional(S.Number),
+          lastError: S.optional(S.Number),
+          errors: S.optional(__S(4802, __c150, 2)),
+        }),
+      ).annotate({ identifier: "FlagImportStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(4800, __c150, 0),
+          _id: S.String,
+          integrationKey: S.String,
+          projectKey: S.String,
+          config: __S(3872, __c121, 0),
+          tags: __S(3904, __c122, 0),
+          name: S.String,
+          version: S.Number,
+          _access: S.optional(__S(3939, __c123, 3)),
+          _status: __S(4803, __c150, 3),
+        }),
+      ).annotate({ identifier: "FlagImportIntegration" });
+  }
+}
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9789,18 +10750,18 @@ function __c129(j: number): any {
         ),
       ).annotate({ identifier: "GetMetricGroupsRequest" });
     case 1:
-      return S.Array(__S(1317, __c41, 5));
+      return S.Array(__S(1669, __c52, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(4129, __c129, 1),
-          _links: S.optional(__S(3008, __c94, 0)),
+          items: __S(4833, __c151, 1),
+          _links: S.optional(__S(3264, __c102, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricGroupCollectionRep" });
   }
 }
-function __c130(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9814,7 +10775,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetObservabilityErrorsUsageRequest" });
   }
 }
-function __c131(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9828,7 +10789,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetObservabilityLogsUsageRequest" });
   }
 }
-function __c132(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9842,7 +10803,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetObservabilityMetricsUsageRequest" });
   }
 }
-function __c133(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9856,7 +10817,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetObservabilitySessionsUsageRequest" });
   }
 }
-function __c134(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9870,7 +10831,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetObservabilityTracesUsageRequest" });
   }
 }
-function __c135(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9888,7 +10849,7 @@ function __c135(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3008, __c94, 0),
+          _links: __S(3264, __c102, 0),
           key: S.String,
           name: S.String,
           color: S.String,
@@ -9897,7 +10858,7 @@ function __c135(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(4384, __c137, 0)),
+          _links: S.optional(__S(5088, __c159, 0)),
           kind: S.String,
           key: S.String,
           name: S.String,
@@ -9909,23 +10870,23 @@ function __c135(j: number): any {
           _createdAt: S.Number,
           _updatedAt: S.Number,
           _version: S.Number,
-          environmentSummary: S.optional(__S(4321, __c135, 1)),
-          viewSummaries: S.optional(__S(4354, __c136, 2)),
+          environmentSummary: S.optional(__S(5025, __c157, 1)),
+          viewSummaries: S.optional(__S(5058, __c158, 2)),
         }),
       ).annotate({ identifier: "SdkKeyListItem" });
     case 3:
-      return S.Array(__S(4322, __c135, 2));
+      return S.Array(__S(5026, __c157, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(3872, __c121, 0)),
-          items: __S(4323, __c135, 3),
+          _links: S.optional(__S(4576, __c143, 0)),
+          items: __S(5027, __c157, 3),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "SdkKeys" });
   }
 }
-function __c136(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9937,95 +10898,28 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(4384, __c137, 0)),
+          _links: S.optional(__S(5088, __c159, 0)),
           key: S.String,
           name: S.String,
-          resourceSummary: __S(4352, __c136, 0),
+          resourceSummary: __S(5056, __c158, 0),
         }),
       ).annotate({ identifier: "ViewSummary" });
     case 2:
-      return S.Array(__S(4353, __c136, 1));
+      return S.Array(__S(5057, __c158, 1));
   }
 }
-function __c137(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(1856, __c58, 0),
-          parent: __S(1856, __c58, 0),
+          self: __S(2304, __c72, 0),
+          parent: __S(2304, __c72, 0),
         }),
       ).annotate({ identifier: "ParentAndSelfLinks" });
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          integrationKey: S.String.pipe(T.Label()),
-          config: __S(3456, __c108, 0),
-          tags: S.optional(__S(3488, __c109, 0)),
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/integration-capabilities/flag-import/{projectKey}/{integrationKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateFlagImportConfigurationRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: __S(2976, __c93, 0),
-          parent: __S(2976, __c93, 0),
-          project: __S(2976, __c93, 0),
-        }),
-      ).annotate({ identifier: "FlagImportIntegrationLinks" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          integrationId: S.optional(S.String),
-          message: S.optional(S.String),
-          statusCode: S.optional(S.Number),
-          timestamp: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StatusResponse" });
-    case 2:
-      return S.Array(__S(4449, __c139, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          lastImport: S.optional(S.Number),
-          lastError: S.optional(S.Number),
-          errors: S.optional(__S(4450, __c139, 2)),
-        }),
-      ).annotate({ identifier: "FlagImportStatus" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          _links: __S(4448, __c139, 0),
-          _id: S.String,
-          integrationKey: S.String,
-          projectKey: S.String,
-          config: __S(3456, __c108, 0),
-          tags: __S(3488, __c109, 0),
-          name: S.String,
-          version: S.Number,
-          _access: S.optional(__S(3523, __c110, 3)),
-          _status: __S(4451, __c139, 3),
-        }),
-      ).annotate({ identifier: "FlagImportIntegration" });
-  }
-}
-function __c140(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10048,7 +10942,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetPullRequestsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10074,106 +10968,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetReleaseFrequencyChartRequest" });
   }
 }
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          excludeDefault: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v2/projects/{projectKey}/release-policies",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetReleasePoliciesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(4576, __c143, 0),
-          totalCount: S.Number,
-        }),
-      ).annotate({ identifier: "ReleasePoliciesResponse" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4613, __c144, 5));
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentKeys: S.optional(__S(3488, __c109, 0)),
-          flagTagKeys: S.optional(__S(3488, __c109, 0)),
-        }),
-      ).annotate({ identifier: "ReleasePolicyScope" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          allocation: S.Number,
-          durationMillis: S.Number,
-        }),
-      ).annotate({ identifier: "ReleasePolicyStage" });
-    case 2:
-      return S.Array(__S(4609, __c144, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rolloutContextKindKey: S.optional(S.String),
-          minSampleSize: S.optional(S.Number),
-          rollbackOnRegression: S.optional(S.Boolean),
-          metricKeys: S.optional(__S(3488, __c109, 0)),
-          metricGroupKeys: S.optional(__S(3488, __c109, 0)),
-          stages: S.optional(__S(4610, __c144, 2)),
-        }),
-      ).annotate({ identifier: "GuardedReleaseConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          rolloutContextKindKey: S.optional(S.String),
-          stages: S.optional(__S(4610, __c144, 2)),
-        }),
-      ).annotate({ identifier: "ProgressiveReleaseConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          _access: S.optional(__S(3523, __c110, 3)),
-          _id: S.String,
-          scope: S.optional(__S(4608, __c144, 0)),
-          rank: S.Number,
-          releaseMethod: S.String,
-          guardedReleaseConfig: S.optional(__S(4611, __c144, 3)),
-          progressiveReleaseConfig: S.optional(__S(4612, __c144, 4)),
-          name: S.String,
-          key: S.String,
-        }),
-      ).annotate({ identifier: "ReleasePolicy" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          policyKey: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v2/projects/{projectKey}/release-policies/{policyKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetReleasePolicyRequest" });
-  }
-}
-function __c146(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10188,7 +10983,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetSdkAllVersionsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10214,14 +11009,82 @@ function __c147(j: number): any {
         }),
       ).annotate({ identifier: "SdkVersionDetailsRep" });
     case 1:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 2:
-      return S.suspend(() => __S(4705, __c147, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5217, __c163, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSdkAllVersionsResponse",
       });
   }
 }
-function __c148(j: number): any {
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          featureFlagKey: S.String.pipe(T.Label()),
+          key: S.optional(S.String),
+          integrationKey: S.optional(S.String),
+          timestamp: S.optional(S.Number),
+          deepLink: S.optional(S.String),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+          metadata: S.optional(__S(5312, __c166, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/flag-links/projects/{projectKey}/flags/{featureFlagKey}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateFlagLinkRequest" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          milliseconds: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          rfc3339: S.optional(S.String),
+          simple: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimestampRep" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(3264, __c102, 0),
+          _id: S.String,
+          firstName: S.optional(S.String),
+          lastName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FlagLinkMember" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(3264, __c102, 0),
+          _key: S.optional(S.String),
+          _integrationKey: S.optional(S.String),
+          _id: S.String,
+          _deepLink: S.String,
+          _timestamp: __S(5280, __c165, 0),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+          _metadata: S.optional(__S(5312, __c166, 0)),
+          _createdAt: S.Number,
+          _member: S.optional(__S(5281, __c165, 1)),
+        }),
+      ).annotate({ identifier: "FlagLinkRep" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10239,12 +11102,12 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetSdkKeyByKeyRequest" });
   }
 }
-function __c149(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(4384, __c137, 0)),
+          _links: S.optional(__S(5088, __c159, 0)),
           kind: S.String,
           key: S.String,
           name: S.String,
@@ -10260,7 +11123,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "SdkKey" });
   }
 }
-function __c150(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10280,18 +11143,18 @@ function __c150(j: number): any {
         ),
       ).annotate({ identifier: "GetSdkKeysRequest" });
     case 1:
-      return S.Array(__S(4768, __c149, 0));
+      return S.Array(__S(5376, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(3872, __c121, 0)),
-          items: __S(4801, __c150, 1),
+          _links: S.optional(__S(4576, __c143, 0)),
+          items: __S(5409, __c169, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "SdkKeysForGetSdkKeys" });
   }
 }
-function __c151(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10301,7 +11164,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetSdkVersionsDetailsRequest" });
   }
 }
-function __c152(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10324,15 +11187,15 @@ function __c152(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
-          metadata: __S(1952, __c61, 0),
-          series: __S(1985, __c62, 1),
-          projectedSeries: S.optional(__S(1985, __c62, 1)),
+          _links: __S(3872, __c121, 0),
+          metadata: __S(2368, __c74, 0),
+          series: __S(2401, __c75, 1),
+          projectedSeries: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "SeriesListRepFloat" });
   }
 }
-function __c153(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10354,75 +11217,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetStaleFlagsChartRequest" });
   }
 }
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          featureFlagKey: S.String.pipe(T.Label()),
-          key: S.optional(S.String),
-          integrationKey: S.optional(S.String),
-          timestamp: S.optional(S.Number),
-          deepLink: S.optional(S.String),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          metadata: S.optional(__S(4992, __c156, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/flag-links/projects/{projectKey}/flags/{featureFlagKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateFlagLinkRequest" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          milliseconds: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          rfc3339: S.optional(S.String),
-          simple: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimestampRep" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _links: __S(3008, __c94, 0),
-          _id: S.String,
-          firstName: S.optional(S.String),
-          lastName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FlagLinkMember" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _links: __S(3008, __c94, 0),
-          _key: S.optional(S.String),
-          _integrationKey: S.optional(S.String),
-          _id: S.String,
-          _deepLink: S.String,
-          _timestamp: __S(4960, __c155, 0),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          _metadata: S.optional(__S(4992, __c156, 0)),
-          _createdAt: S.Number,
-          _member: S.optional(__S(4961, __c155, 1)),
-        }),
-      ).annotate({ identifier: "FlagLinkRep" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c157(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10435,7 +11230,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetStreamUsageRequest" });
   }
 }
-function __c158(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10452,7 +11247,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetStreamUsageBySdkVersionRequest" });
   }
 }
-function __c159(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10470,17 +11265,17 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "SdkVersionRep" });
     case 2:
-      return S.Array(__S(5089, __c159, 1));
+      return S.Array(__S(5601, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(3456, __c108, 0),
-          sdkVersions: __S(5090, __c159, 2),
+          _links: __S(3872, __c121, 0),
+          sdkVersions: __S(5602, __c175, 2),
         }),
       ).annotate({ identifier: "SdkVersionListRep" });
   }
 }
-function __c160(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10494,7 +11289,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetVegaAIUsageRequest" });
   }
 }
-function __c161(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10510,158 +11305,6 @@ function __c161(j: number): any {
           granularity: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/usage/warehouse-export", code: 200 })),
       ).annotate({ identifier: "GetWarehouseExportUsageRequest" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/agent-graphs", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListAgentGraphsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          first: S.optional(__S(2976, __c93, 0)),
-          last: S.optional(__S(2976, __c93, 0)),
-          next: S.optional(__S(2976, __c93, 0)),
-          prev: S.optional(__S(2976, __c93, 0)),
-          self: __S(2976, __c93, 0),
-        }),
-      ).annotate({ identifier: "PaginatedLinks" });
-    case 2:
-      return S.Array(__S(1890, __c59, 2));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _links: S.optional(__S(5185, __c162, 1)),
-          items: __S(5186, __c162, 2),
-          totalCount: S.Number,
-        }),
-      ).annotate({ identifier: "AgentGraphs" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          flagKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          _snapshot: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v2/projects/{projectKey}/flags/{flagKey}/environments/{environmentKey}/releases",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListEnvironmentReleasesRequest" });
-    case 1:
-      return S.Array(__S(2927, __c91, 15));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(5217, __c163, 1),
-          totalCount: S.Number,
-          _links: S.optional(__S(2926, __c91, 14)),
-        }),
-      ).annotate({ identifier: "EnvironmentReleaseCollection" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          graphKey: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          maintainerId: S.optional(S.String),
-          maintainerTeamKey: S.optional(S.String),
-          rootConfigKey: S.optional(S.String),
-          edges: S.optional(__S(1889, __c59, 1)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/projects/{projectKey}/agent-graphs/{graphKey}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchAgentGraphRequest" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          autoApplyApprovedChanges: S.optional(S.NullOr(S.Boolean)),
-          bypassApprovalsForPendingChanges: S.optional(S.Boolean),
-          canApplyDeclinedChanges: S.optional(S.Boolean),
-          canReviewOwnRequest: S.optional(S.Boolean),
-          environmentKey: S.String,
-          minNumApprovals: S.optional(S.Number),
-          required: S.optional(S.Boolean),
-          requiredApprovalTags: S.optional(__S(3488, __c109, 0)),
-          resourceKind: S.String,
-          serviceConfig: S.optional(__S(3456, __c108, 0)),
-          serviceKind: S.optional(S.String),
-          serviceKindConfigurationId: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/approval-requests/projects/{projectKey}/settings",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchApprovalRequestSettingsRequest" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          integrationKey: S.String.pipe(T.Label()),
-          integrationId: S.String.pipe(T.Label()),
-          body: __S(5345, __c167, 1).pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v2/integration-capabilities/big-segment-store/{projectKey}/{environmentKey}/{integrationKey}/{integrationId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchBigSegmentStoreIntegrationRequest" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          op: S.String,
-          path: S.String,
-          value: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "PatchOperation" });
-    case 1:
-      return S.Array(__S(5344, __c167, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

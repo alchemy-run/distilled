@@ -3,8 +3,10 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { ClickHouseCloudServiceErrors } from "../errors.ts";
+import { paginateCursor } from "../pagination.ts";
 import {
   ClickHouseCloudProtocol,
+  ClickHouseCloudPaginatedProtocol,
   type ClickHouseCloudOpError,
   type ClickHouseCloudOpContext,
 } from "../protocol.ts";
@@ -135,9 +137,23 @@ export interface GetOrganizationRoleRequest {
 export interface ListOrganizationRolesRequest {
   /** ID of the requested organization. */
   organizationId: string;
+  /** Maximum number of results to return. */
+  limit?: number | undefined;
+  /** Opaque cursor from a previous response's `nextCursor`, marking where to resume the list. */
+  cursor?: string | undefined;
 }
-export type ListOrganizationRolesResponseBodyList = Array<RBACRole>;
-export type ListOrganizationRolesResponse = ListOrganizationRolesResponseBodyList;
+export type ListOrganizationRolesResponseResultList = Array<RBACRole>;
+export interface ListOrganizationRolesResponse {
+  /** HTTP status code. */
+  status?: number | undefined;
+  /** Unique id assigned to every request. UUIDv4 */
+  requestId?: string | undefined;
+  result: ListOrganizationRolesResponseResultList;
+  /** Maximum number of results returned in this page. */
+  limit?: number | undefined;
+  /** Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page. */
+  nextCursor?: string | null | undefined;
+}
 /** New list of actor resource IDs (replaces existing actors) */
 export type UpdateOrganizationRoleRequestActorsList = Array<string>;
 /** New list of policies (replaces existing policies) */
@@ -209,22 +225,33 @@ export const getOrganizationRole: API.OperationMethod<
 }));
 
 export type ListOrganizationRolesError = ClickHouseCloudOpError;
-/** List all available roles for an organization Returns all available roles (system + custom) for an organization. */
-export const listOrganizationRoles: API.OperationMethod<
+/** List all available roles for an organization Returns available roles (system + custom) for an organization, ordered by unique role ID ascending. Results are capped at `limit` (default and maximum 250) per page. Pass `nextCursor` as the `cursor` query parameter to fetch the next page until it is null. */
+export const listOrganizationRoles: API.PaginatedOperationMethod<
   ListOrganizationRolesRequest,
   ListOrganizationRolesResponse,
   ListOrganizationRolesError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListOrganizationRolesRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListOrganizationRolesResponse>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListOrganizationRoles",
-}));
+  ClickHouseCloudOpContext,
+  RBACRole
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(40, __c5, 0) as any as S.Schema<ListOrganizationRolesRequest>,
+    output: __S(42, __c5, 2) as any as S.Schema<ListOrganizationRolesResponse>,
+    errors: [],
+    serviceErrors: ClickHouseCloudServiceErrors,
+    protocol: ClickHouseCloudPaginatedProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationRoles",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "nextCursor",
+      items: "result",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
 
 export type UpdateOrganizationRoleError = ClickHouseCloudOpError;
 /** Update a role Updates an existing custom role. System roles cannot be updated. All fields are optional - only provided fields will be updated. */
@@ -363,6 +390,8 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}/roles", code: 200 }),
         ),
@@ -370,9 +399,15 @@ function __c5(j: number): any {
     case 1:
       return S.Array(__S(12, __c1, 4));
     case 2:
-      return S.suspend(() => __S(41, __c5, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListOrganizationRolesResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          requestId: S.optional(S.String),
+          result: __S(41, __c5, 1),
+          limit: S.optional(S.Number),
+          nextCursor: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListOrganizationRolesResponse" });
   }
 }
 function __c6(j: number): any {

@@ -1645,6 +1645,8 @@ export interface UpgradeDedicatedDCDBInstanceRequest {
   SwitchStartTime?: string | undefined;
   SwitchEndTime?: string | undefined;
   SwitchInterval?: number | undefined;
+  MasterHostId?: string | undefined;
+  SlaveHostIds?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -5564,6 +5566,8 @@ function __c92(j: number): any {
           SwitchStartTime: S.optional(S.String),
           SwitchEndTime: S.optional(S.String),
           SwitchInterval: S.optional(S.Number),
+          MasterHostId: S.optional(S.String),
+          SlaveHostIds: S.optional(__S(16, __c1, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({

@@ -842,6 +842,23 @@ export type EventsOverviewLastEventsList = Array<Event>;
 export interface EventsOverview {
   last_events?: EventsOverviewLastEventsList | undefined;
 }
+export type GetTrailRequestRegion = "fr-par" | "nl-ams";
+export interface GetTrailRequest {
+  /** The region you want to target */
+  region?: GetTrailRequestRegion | (string & {}) | undefined;
+  /** ID of the Organization whose trail is to be retrieved. */
+  organization_id: string;
+}
+export interface TrailCockpit {
+  /** ID of the Project under which the Organization's Audit Trail events are pushed to Cockpit. (UUID format) */
+  target_project_id?: string | undefined;
+}
+export interface Trail {
+  /** ID of the Organization the trail belongs to. (UUID format) */
+  organization_id?: string | undefined;
+  /** The Cockpit destination of the trail. When set, Audit Trail events are pushed to the targeted Cockpit project. When null, forwarding is disabled. */
+  cockpit?: TrailCockpit | undefined;
+}
 export type ListAlertRulesRequestRegion = "fr-par" | "nl-ams";
 export interface ListAlertRulesRequest {
   /** The region you want to target */
@@ -889,7 +906,8 @@ export type AuthenticationEventFailureReason =
   | "passkey_uv_not_verified"
   | "expired_session"
   | "authentication_code_required"
-  | "mfa_required";
+  | "mfa_required"
+  | "invalid_magic_link";
 export type ScalewayStdCountryCode =
   | "unknown_country_code"
   | "AF"
@@ -1147,7 +1165,8 @@ export type AuthenticationEventMethod =
   | "authentication_code"
   | "oauth2"
   | "saml"
-  | "passkey";
+  | "passkey"
+  | "magic_link";
 export type AuthenticationEventOrigin = "unknown_origin" | "public_api" | "admin_api";
 export type AuthenticationEventMFAType = "unknown_mfa_type" | "totp" | "webauthn";
 export interface AuthenticationEvent {
@@ -1440,6 +1459,15 @@ export interface UpdateCustomAlertRuleRequest {
   /** (Optional) New description for the custom alert rule. */
   description?: string | null | undefined;
 }
+export type UpdateTrailRequestRegion = "fr-par" | "nl-ams";
+export interface UpdateTrailRequest {
+  /** The region you want to target */
+  region?: UpdateTrailRequestRegion | (string & {}) | undefined;
+  /** ID of the Organization whose trail is to be updated. */
+  organization_id: string;
+  /** The new Cockpit destination of the trail, used to update the target Project ID to which its Audit Trail events are pushed. An omitted or `null` `cockpit` clears the destination and disables forwarding. */
+  cockpit?: TrailCockpit | undefined;
+}
 export type CreateCustomAlertRuleError = ScalewayOpError;
 /** Create a custom alert rule Create a custom alert rule in a given region specified by the `region` parameter. */
 export const createCustomAlertRule: API.OperationMethod<
@@ -1484,8 +1512,8 @@ export const deleteCustomAlertRule: API.OperationMethod<
   DeleteCustomAlertRuleError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteCustomAlertRuleRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteCustomAlertRuleResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteCustomAlertRuleRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeleteCustomAlertRuleResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1502,8 +1530,8 @@ export const deleteExportJob: API.OperationMethod<
   DeleteExportJobError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteExportJobRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteExportJobResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteExportJobRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeleteExportJobResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1520,8 +1548,8 @@ export const disableAlertRules: API.OperationMethod<
   DisableAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DisableAlertRulesRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DisableAlertRulesResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DisableAlertRulesRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<DisableAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1538,8 +1566,8 @@ export const disableCustomAlertRules: API.OperationMethod<
   DisableCustomAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DisableCustomAlertRulesRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<DisableCustomAlertRulesResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DisableCustomAlertRulesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DisableCustomAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1556,8 +1584,8 @@ export const enableAlertRules: API.OperationMethod<
   EnableAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<EnableAlertRulesRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<EnableAlertRulesResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<EnableAlertRulesRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<EnableAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1574,8 +1602,8 @@ export const enableCustomAlertRules: API.OperationMethod<
   EnableCustomAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<EnableCustomAlertRulesRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<EnableCustomAlertRulesResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<EnableCustomAlertRulesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<EnableCustomAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1592,10 +1620,10 @@ export const getAvailableFieldsForCustomAlertRules: API.OperationMethod<
   GetAvailableFieldsForCustomAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetAvailableFieldsForCustomAlertRulesRequest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetAvailableFieldsForCustomAlertRulesRequest>,
   output: __S(
-    1125,
-    __c35,
+    1221,
+    __c38,
     5,
   ) as any as S.Schema<RetrieveAvailableFieldsForCustomAlertRulesResponse>,
   errors: [],
@@ -1614,7 +1642,7 @@ export const getCustomAlertRule: API.OperationMethod<
   GetCustomAlertRuleError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetCustomAlertRuleRequest>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetCustomAlertRuleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CustomAlertRule>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -1641,6 +1669,24 @@ export const getLastEventsOverview: API.OperationMethod<
   span: "GetLastEventsOverview",
 }));
 
+export type GetTrailError = ScalewayOpError;
+/** Get a trail Retrieve the trail of a specified Organization, including Cockpit's target Project ID to which Audit Trail events are pushed. You must specify the `organization_id`. */
+export const getTrail: API.OperationMethod<
+  GetTrailRequest,
+  Trail,
+  GetTrailError,
+  ScalewayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<GetTrailRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<Trail>,
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
+  protocol: ScalewayProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrail",
+}));
+
 export type ListAlertRulesError = ScalewayOpError;
 /** List alert rules for a specified organization and their current status (enabled or disabled) */
 export const listAlertRules: API.PaginatedOperationMethod<
@@ -1651,8 +1697,8 @@ export const listAlertRules: API.PaginatedOperationMethod<
   AlertRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c10, 0) as any as S.Schema<ListAlertRulesRequest>,
-    output: __S(321, __c10, 1) as any as S.Schema<ListAlertRulesResponse>,
+    input: __S(384, __c12, 0) as any as S.Schema<ListAlertRulesRequest>,
+    output: __S(385, __c12, 1) as any as S.Schema<ListAlertRulesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1680,8 +1726,8 @@ export const listAuthenticationEvents: API.PaginatedOperationMethod<
   AuthenticationEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c11, 0) as any as S.Schema<ListAuthenticationEventsRequest>,
-    output: __S(354, __c11, 2) as any as S.Schema<ListAuthenticationEventsResponse>,
+    input: __S(416, __c13, 0) as any as S.Schema<ListAuthenticationEventsRequest>,
+    output: __S(418, __c13, 2) as any as S.Schema<ListAuthenticationEventsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1708,8 +1754,8 @@ export const listCombinedEvents: API.PaginatedOperationMethod<
   ListCombinedEventsResponseCombinedEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(416, __c13, 0) as any as S.Schema<ListCombinedEventsRequest>,
-    output: __S(419, __c13, 3) as any as S.Schema<ListCombinedEventsResponse>,
+    input: __S(480, __c15, 0) as any as S.Schema<ListCombinedEventsRequest>,
+    output: __S(483, __c15, 3) as any as S.Schema<ListCombinedEventsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1737,8 +1783,8 @@ export const listCustomAlertRules: API.PaginatedOperationMethod<
   CustomAlertRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(480, __c15, 0) as any as S.Schema<ListCustomAlertRulesRequest>,
-    output: __S(481, __c15, 1) as any as S.Schema<ListCustomAlertRulesResponse>,
+    input: __S(544, __c17, 0) as any as S.Schema<ListCustomAlertRulesRequest>,
+    output: __S(545, __c17, 1) as any as S.Schema<ListCustomAlertRulesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1766,8 +1812,8 @@ export const listEvents: API.PaginatedOperationMethod<
   Event
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(512, __c16, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(513, __c16, 1) as any as S.Schema<ListEventsResponse>,
+    input: __S(576, __c18, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(577, __c18, 1) as any as S.Schema<ListEventsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1794,8 +1840,8 @@ export const listExportJobs: API.PaginatedOperationMethod<
   ExportJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(544, __c17, 0) as any as S.Schema<ListExportJobsRequest>,
-    output: __S(546, __c17, 2) as any as S.Schema<ListExportJobsResponse>,
+    input: __S(608, __c19, 0) as any as S.Schema<ListExportJobsRequest>,
+    output: __S(610, __c19, 2) as any as S.Schema<ListExportJobsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1821,8 +1867,8 @@ export const listProducts: API.OperationMethod<
   ListProductsError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListProductsRequest>,
-  output: __S(581, __c18, 5) as any as S.Schema<ListProductsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListProductsRequest>,
+  output: __S(645, __c20, 5) as any as S.Schema<ListProductsResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1841,8 +1887,8 @@ export const listSystemEvents: API.PaginatedOperationMethod<
   SystemEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(608, __c19, 0) as any as S.Schema<ListSystemEventsRequest>,
-    output: __S(610, __c19, 2) as any as S.Schema<ListSystemEventsResponse>,
+    input: __S(672, __c21, 0) as any as S.Schema<ListSystemEventsRequest>,
+    output: __S(674, __c21, 2) as any as S.Schema<ListSystemEventsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -1868,8 +1914,8 @@ export const setEnabledAlertRules: API.OperationMethod<
   SetEnabledAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SetEnabledAlertRulesRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<SetEnabledAlertRulesResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<SetEnabledAlertRulesRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<SetEnabledAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1886,8 +1932,8 @@ export const setEnabledCustomAlertRules: API.OperationMethod<
   SetEnabledCustomAlertRulesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<SetEnabledCustomAlertRulesRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<SetEnabledCustomAlertRulesResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<SetEnabledCustomAlertRulesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<SetEnabledCustomAlertRulesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1904,8 +1950,8 @@ export const testCustomAlertRule: API.OperationMethod<
   TestCustomAlertRuleError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<TestCustomAlertRuleRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<TestCustomAlertRuleResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<TestCustomAlertRuleRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<TestCustomAlertRuleResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -1922,7 +1968,7 @@ export const updateCustomAlertRule: API.OperationMethod<
   UpdateCustomAlertRuleError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<UpdateCustomAlertRuleRequest>,
+  input: __S(864, __c27, 0) as any as S.Schema<UpdateCustomAlertRuleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CustomAlertRule>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
@@ -1930,6 +1976,24 @@ export const updateCustomAlertRule: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCustomAlertRule",
+}));
+
+export type UpdateTrailError = ScalewayOpError;
+/** Update a trail Update the destination of the trail of a specified Organization. Set the `cockpit` destination to change the `target_project_id` to which Audit Trail events are pushed. An omitted or `null` `cockpit` clears the destination and disables forwarding. */
+export const updateTrail: API.OperationMethod<
+  UpdateTrailRequest,
+  Trail,
+  UpdateTrailError,
+  ScalewayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateTrailRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<Trail>,
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
+  protocol: ScalewayProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrail",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2475,6 +2539,41 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           region: S.optional(S.String.pipe(T.Label())),
+          organization_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/audit-trail/v1alpha1/regions/{region}/trails/{organization_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          target_project_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TrailCockpit" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.optional(S.String),
+          cockpit: S.optional(__S(352, __c11, 0)),
+        }),
+      ).annotate({ identifier: "Trail" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
           organization_id: S.String.pipe(T.Query()),
           status: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -2491,13 +2590,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alert_rules: __S(897, __c28, 1),
+          alert_rules: __S(993, __c31, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListAlertRulesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2519,17 +2618,17 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthenticationEventsRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(353, __c11, 1),
+          events: __S(417, __c13, 1),
           next_page_token: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListAuthenticationEventsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2550,7 +2649,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "AuthenticationEvent" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2577,22 +2676,22 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api: S.optional(S.NullOr(__S(258, __c8, 2))),
-          auth: S.optional(S.NullOr(__S(384, __c12, 0))),
-          system: S.optional(S.NullOr(__S(448, __c14, 0))),
+          auth: S.optional(S.NullOr(__S(448, __c14, 0))),
+          system: S.optional(S.NullOr(__S(512, __c16, 0))),
         }),
       ).annotate({ identifier: "ListCombinedEventsResponseCombinedEvent" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: __S(418, __c13, 2),
+          events: __S(482, __c15, 2),
           next_page_token: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListCombinedEventsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2611,7 +2710,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SystemEvent" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2633,13 +2732,13 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          custom_alert_rules: __S(992, __c31, 0),
+          custom_alert_rules: __S(1088, __c34, 0),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListCustomAlertRulesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2678,7 +2777,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListEventsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2704,13 +2803,13 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          export_jobs: __S(545, __c17, 1),
+          export_jobs: __S(609, __c19, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListExportJobsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2734,27 +2833,27 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ProductService" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           name: S.optional(S.String),
-          services: S.optional(__S(578, __c18, 2)),
+          services: S.optional(__S(642, __c20, 2)),
         }),
       ).annotate({ identifier: "Product" });
     case 4:
-      return S.Array(__S(579, __c18, 3));
+      return S.Array(__S(643, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          products: S.optional(__S(580, __c18, 4)),
+          products: S.optional(__S(644, __c20, 4)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListProductsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2776,17 +2875,43 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListSystemEventsRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(609, __c19, 1),
+          events: __S(673, __c21, 1),
           next_page_token: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListSystemEventsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          custom_alert_rule_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/audit-trail/v1alpha1/regions/{region}/custom-alert-rules/{custom_alert_rule_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteCustomAlertRuleRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteCustomAlertRuleResponse",
+      });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2805,33 +2930,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SetEnabledAlertRulesRequest" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.optional(S.String.pipe(T.Label())),
-          custom_alert_rule_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/audit-trail/v1alpha1/regions/{region}/custom-alert-rules/{custom_alert_rule_id}",
-            code: 200,
-            baseUrl: "https://api.scaleway.com",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteCustomAlertRuleRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "DeleteCustomAlertRuleResponse",
-      });
-  }
-}
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2850,7 +2949,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SetEnabledCustomAlertRulesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2877,7 +2976,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TestCustomAlertRuleResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2897,7 +2996,26 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateCustomAlertRuleRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          organization_id: S.String.pipe(T.Label()),
+          cockpit: S.optional(__S(352, __c11, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/audit-trail/v1alpha1/regions/{region}/trails/{organization_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateTrailRequest" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2915,7 +3033,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteExportJobRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2934,7 +3052,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DisableAlertRulesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2948,20 +3066,20 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "AlertRule" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(992, __c31, 0));
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alert_rules: S.optional(__S(897, __c28, 1)),
+          alert_rules: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "DisableAlertRulesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2980,23 +3098,23 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DisableCustomAlertRulesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(32, __c1, 0));
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          custom_alert_rules: S.optional(__S(992, __c31, 0)),
+          custom_alert_rules: S.optional(__S(1088, __c34, 0)),
         }),
       ).annotate({ identifier: "DisableCustomAlertRulesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3015,7 +3133,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "EnableAlertRulesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3034,7 +3152,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "EnableCustomAlertRulesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3055,7 +3173,7 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operators: S.optional(__S(1121, __c35, 1)),
+          operators: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "CustomAlertRuleFieldStringOperators" });
     case 3:
@@ -3063,22 +3181,22 @@ function __c35(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
-          string_operators: S.optional(S.NullOr(__S(1122, __c35, 2))),
-          int_operators: S.optional(S.NullOr(__S(1122, __c35, 2))),
+          string_operators: S.optional(S.NullOr(__S(1218, __c38, 2))),
+          int_operators: S.optional(S.NullOr(__S(1218, __c38, 2))),
         }),
       ).annotate({ identifier: "CustomAlertRuleField" });
     case 4:
-      return S.Array(__S(1123, __c35, 3));
+      return S.Array(__S(1219, __c38, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1124, __c35, 4)),
+          fields: S.optional(__S(1220, __c38, 4)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RetrieveAvailableFieldsForCustomAlertRulesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

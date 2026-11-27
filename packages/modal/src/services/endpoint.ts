@@ -106,6 +106,24 @@ export type EndpointServingMode =
   | "ENDPOINT_SERVING_MODE_UNSPECIFIED"
   | "ENDPOINT_SERVING_MODE_DEDICATED"
   | "ENDPOINT_SERVING_MODE_SHARED";
+export interface AutoscalerSettings {
+  /** A collection of user-configurable settings for Function autoscaling These are used for static configuration and for dynamic autoscaler updates Minimum containers when scale-to-zero is not desired; pka "keep_warm" or "warm_pool_size" */
+  minContainers?: number | undefined;
+  /** Limit on the number of containers that can be running for each Function; pka "concurrency_limit" */
+  maxContainers?: number | undefined;
+  /** Additional container to spin up when Function is active */
+  bufferContainers?: number | undefined;
+  /** Stabilization window (in seconds) before scaling up; requires sustained demand over this period */
+  scaleupWindow?: number | undefined;
+  /** Maximum amount of time a container can be idle before being scaled down, in seconds; pka "container_idle_timeout" */
+  scaledownWindow?: number | undefined;
+  /** Integer-valued target concurrent requests per replica for Flash autoscaling. Superseded by `target_concurrency_float`, which allows non-integer targets. */
+  targetConcurrency?: number | undefined;
+  /** Maximum number of containers that can be scaled down per minute for Flash autoscaling. */
+  scaledownRateLimit?: number | undefined;
+  /** Target concurrent requests per replica for Flash autoscaling; may be fractional. */
+  targetConcurrencyFloat?: number | undefined;
+}
 export interface CreateEndpointRequest {
   name?: string | undefined;
   description?: string | undefined;
@@ -120,6 +138,8 @@ export interface CreateEndpointRequest {
   sharedEndpointNoticeAcknowledged?: boolean | undefined;
   /** Requires Modal admin access. Dedicated endpoints only; must match model. */
   recipeId?: string | undefined;
+  /** Dedicated endpoints only. Fields that are set override the model's default autoscaling configuration. Target concurrency and scaledown rate limits are not supported. */
+  autoscalerSettings?: AutoscalerSettings | undefined;
 }
 export interface CreateEndpointResponse {
   endpointId: string;
@@ -286,8 +306,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7, __c0, 7) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(8, __c0, 8) as any as S.Schema<CreateEndpointResponse>,
+  input: __S(8, __c0, 8) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(9, __c0, 9) as any as S.Schema<CreateEndpointResponse>,
   errors: [EndpointAlreadyExists, EndpointProxyTokenRequired],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -458,6 +478,19 @@ function __c0(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          minContainers: S.optional(S.Number),
+          maxContainers: S.optional(S.Number),
+          bufferContainers: S.optional(S.Number),
+          scaleupWindow: S.optional(S.Number),
+          scaledownWindow: S.optional(S.Number),
+          targetConcurrency: S.optional(S.Number),
+          scaledownRateLimit: S.optional(S.Number),
+          targetConcurrencyFloat: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoscalerSettings" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           description: S.optional(S.String),
           proxyRegions: S.optional(__S(0, __c0, 0)),
@@ -470,11 +503,12 @@ function __c0(j: number): any {
           servingMode: S.optional(S.String),
           sharedEndpointNoticeAcknowledged: S.optional(S.Boolean),
           recipeId: S.optional(S.String),
+          autoscalerSettings: S.optional(__S(7, __c0, 7)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointCreate", code: 200 }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           endpointId: S.String,

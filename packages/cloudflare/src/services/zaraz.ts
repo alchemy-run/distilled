@@ -78,6 +78,8 @@ export interface ConfigGetResponseSettingsContextEnricher {
 export interface ConfigGetResponseSettings {
   /** Automatic injection of Zaraz scripts enabled. */
   autoInjectScript: boolean;
+  /** Minimum bot score required to load Zaraz. */
+  botScoreThreshold?: number | null | undefined;
   /** Details of the worker that receives and edits Zaraz Context object. */
   contextEnricher?: ConfigGetResponseSettingsContextEnricher | null | undefined;
   /** The domain Zaraz will use for writing and reading its cookies. */
@@ -472,6 +474,8 @@ export type ConfigUpdateRequestSettingsContextEnricher = ConfigGetResponseSettin
 export interface ConfigUpdateRequestSettings {
   /** Automatic injection of Zaraz scripts enabled. */
   autoInjectScript: boolean;
+  /** Minimum bot score required to load Zaraz. */
+  botScoreThreshold?: number | undefined;
   /** Details of the worker that receives and edits Zaraz Context object. */
   contextEnricher?: ConfigGetResponseSettingsContextEnricher | undefined;
   /** The domain Zaraz will use for writing and reading its cookies. */
@@ -1057,6 +1061,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoInjectScript: S.Boolean,
+          botScoreThreshold: S.optional(S.NullOr(S.Number)),
           contextEnricher: S.optional(S.NullOr(__S(64, __c4, 0))),
           cookieDomain: S.optional(S.NullOr(S.String)),
           ecommerce: S.optional(S.NullOr(S.Boolean)),
@@ -1299,6 +1304,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoInjectScript: S.Boolean,
+          botScoreThreshold: S.optional(S.Number),
           contextEnricher: S.optional(__S(64, __c4, 0)),
           cookieDomain: S.optional(S.String),
           ecommerce: S.optional(S.Boolean),

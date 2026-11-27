@@ -122,6 +122,8 @@ export interface CreateTokenPlanApiKeysRequest {
   ExclusiveQuota?: number | undefined;
   TotalQuota?: number | undefined;
   TPM?: number | undefined;
+  IpWhitelist?: StringList | undefined;
+  OverageEnabled?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -290,6 +292,8 @@ export interface DescribeEndpointRequest {
 }
 export interface EndpointDetail {
   EndpointId?: string | undefined;
+  WorkspaceId?: string | undefined;
+  OriginEndpointId?: string | undefined;
   EndpointName?: string | undefined;
   ModelName?: string | undefined;
   ModelId?: string | undefined;
@@ -303,6 +307,7 @@ export interface EndpointDetail {
   AutoAdjustQuota?: number | undefined;
   RPM?: number | undefined;
   ModelStatus?: string | undefined;
+  NightDiscountEnabled?: boolean | undefined;
 }
 export interface DescribeEndpointResponse {
   Endpoint?: EndpointDetail | undefined;
@@ -355,6 +360,9 @@ export interface DescribeModelEndpointListRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface ModelImage {
+  Url?: string | undefined;
+}
 export interface ModelEndpointView {
   EndpointId?: string | undefined;
   EndpointName?: string | undefined;
@@ -363,6 +371,7 @@ export interface ModelEndpointView {
   ModelName?: string | undefined;
   Status?: string | undefined;
   ModelStatus?: string | undefined;
+  ModelChargeUnit?: string | undefined;
   ServiceType?: string | undefined;
   ChargeType?: string | undefined;
   PaymentEnabled?: boolean | undefined;
@@ -370,6 +379,10 @@ export interface ModelEndpointView {
   StopReason?: string | undefined;
   RPM?: number | undefined;
   TPM?: number | undefined;
+  ModelImage?: ModelImage | undefined;
+  OfflineAt?: string | undefined;
+  DiscontinuedAt?: string | undefined;
+  NightDiscountEnabled?: boolean | undefined;
 }
 export type ModelEndpointViewList = Array<ModelEndpointView>;
 export interface DescribeModelEndpointListResponse {
@@ -386,9 +399,6 @@ export interface DescribeModelListRequest {
   Offset?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
-}
-export interface ModelImage {
-  Url?: string | undefined;
 }
 export interface ModelChargingItem {
   PriceName?: string | undefined;
@@ -595,6 +605,8 @@ export interface TokenPlanApiKeyListItem {
   UpdatedAt?: string | undefined;
   Balance?: SubPackageBalance | undefined;
   ProductType?: string | undefined;
+  IpWhitelist?: StringList | undefined;
+  OverageEnabled?: boolean | undefined;
 }
 export type TokenPlanApiKeyListItemList = Array<TokenPlanApiKeyListItem>;
 export interface DescribeTokenPlanApiKeyListResponse {
@@ -678,6 +690,30 @@ export type TokenPlanListItemList = Array<TokenPlanListItem>;
 export interface DescribeTokenPlanListResponse {
   TokenPlanSet?: TokenPlanListItemList | undefined;
   TotalCount?: number | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeTokenPlanPersonalPackageRequest {
+  ProductType: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DescribeTokenPlanPersonalPackageResponse {
+  ProductType?: string | undefined;
+  PackageStatus?: string | undefined;
+  ResourceId?: string | undefined;
+  TotalCredits?: string | undefined;
+  TotalUsed?: string | undefined;
+  CycleCredits?: string | undefined;
+  TotalCycles?: number | undefined;
+  CurrentCycle?: number | undefined;
+  RemainCycles?: number | undefined;
+  StartTime?: string | undefined;
+  ExpireTime?: string | undefined;
+  PeriodEndDate?: string | undefined;
+  AutoRenewFlag?: number | undefined;
+  OutputToken?: number | undefined;
+  InputToken?: number | undefined;
+  CacheToken?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeUsageRankListRequest {
@@ -808,6 +844,7 @@ export interface ModifyTokenPlanApiKeyRequest {
   TotalQuota?: number | undefined;
   UseStatus?: string | undefined;
   TPM?: number | undefined;
+  IpWhitelist?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -885,8 +922,8 @@ export const createGlossary: API.OperationMethod<
   CreateGlossaryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateGlossaryRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<CreateGlossaryResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateGlossaryRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<CreateGlossaryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -902,8 +939,8 @@ export const createGlossaryEntries: API.OperationMethod<
   CreateGlossaryEntriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(482, __c30, 2) as any as S.Schema<CreateGlossaryEntriesRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<CreateGlossaryEntriesResponse>,
+  input: __S(498, __c31, 2) as any as S.Schema<CreateGlossaryEntriesRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<CreateGlossaryEntriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -919,8 +956,8 @@ export const createTokenPlanApiKeys: API.OperationMethod<
   CreateTokenPlanApiKeysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreateTokenPlanApiKeysRequest>,
-  output: __S(613, __c38, 5) as any as S.Schema<CreateTokenPlanApiKeysResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateTokenPlanApiKeysRequest>,
+  output: __S(645, __c40, 5) as any as S.Schema<CreateTokenPlanApiKeysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -936,8 +973,8 @@ export const createTokenPlanTeamOrderAndBuy: API.OperationMethod<
   CreateTokenPlanTeamOrderAndBuyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateTokenPlanTeamOrderAndBuyRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<CreateTokenPlanTeamOrderAndBuyResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateTokenPlanTeamOrderAndBuyRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<CreateTokenPlanTeamOrderAndBuyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -953,8 +990,8 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteApiKeyRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteApiKeyResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -970,8 +1007,8 @@ export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteEndpointRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteEndpointResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<DeleteEndpointRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteEndpointResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -987,8 +1024,8 @@ export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteGlossaryRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteGlossaryResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<DeleteGlossaryRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteGlossaryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1004,8 +1041,8 @@ export const deleteGlossaryEntries: API.OperationMethod<
   DeleteGlossaryEntriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(722, __c45, 2) as any as S.Schema<DeleteGlossaryEntriesRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteGlossaryEntriesResponse>,
+  input: __S(754, __c47, 2) as any as S.Schema<DeleteGlossaryEntriesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteGlossaryEntriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1022,7 +1059,7 @@ export const deleteTokenPlanApiKey: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteTokenPlanApiKeyRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteTokenPlanApiKeyResponse>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteTokenPlanApiKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1140,8 +1177,8 @@ export const describeModelList: API.OperationMethod<
   DescribeModelListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DescribeModelListRequest>,
-  output: __S(237, __c14, 13) as any as S.Schema<DescribeModelListResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DescribeModelListRequest>,
+  output: __S(252, __c15, 12) as any as S.Schema<DescribeModelListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1157,8 +1194,8 @@ export const describeModelQuota: API.OperationMethod<
   DescribeModelQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DescribeModelQuotaRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<DescribeModelQuotaResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeModelQuotaRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<DescribeModelQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1174,8 +1211,8 @@ export const describeTokenPlan: API.OperationMethod<
   DescribeTokenPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DescribeTokenPlanRequest>,
-  output: __S(260, __c16, 4) as any as S.Schema<DescribeTokenPlanResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DescribeTokenPlanRequest>,
+  output: __S(276, __c17, 4) as any as S.Schema<DescribeTokenPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1191,8 +1228,8 @@ export const describeTokenPlanApiKey: API.OperationMethod<
   DescribeTokenPlanApiKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DescribeTokenPlanApiKeyRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<DescribeTokenPlanApiKeyResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DescribeTokenPlanApiKeyRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<DescribeTokenPlanApiKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1208,8 +1245,8 @@ export const describeTokenPlanApiKeyList: API.OperationMethod<
   DescribeTokenPlanApiKeyListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DescribeTokenPlanApiKeyListRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<DescribeTokenPlanApiKeyListResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DescribeTokenPlanApiKeyListRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<DescribeTokenPlanApiKeyListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1225,8 +1262,8 @@ export const describeTokenPlanApiKeySecret: API.OperationMethod<
   DescribeTokenPlanApiKeySecretError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DescribeTokenPlanApiKeySecretRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<DescribeTokenPlanApiKeySecretResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DescribeTokenPlanApiKeySecretRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<DescribeTokenPlanApiKeySecretResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1242,8 +1279,8 @@ export const describeTokenPlanApiKeyUsageDetail: API.OperationMethod<
   DescribeTokenPlanApiKeyUsageDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DescribeTokenPlanApiKeyUsageDetailRequest>,
-  output: __S(371, __c23, 3) as any as S.Schema<DescribeTokenPlanApiKeyUsageDetailResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DescribeTokenPlanApiKeyUsageDetailRequest>,
+  output: __S(387, __c24, 3) as any as S.Schema<DescribeTokenPlanApiKeyUsageDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1259,14 +1296,31 @@ export const describeTokenPlanList: API.OperationMethod<
   DescribeTokenPlanListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DescribeTokenPlanListRequest>,
-  output: __S(387, __c24, 3) as any as S.Schema<DescribeTokenPlanListResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DescribeTokenPlanListRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<DescribeTokenPlanListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeTokenPlanList",
+}));
+
+export type DescribeTokenPlanPersonalPackageError = TencentCloudOpError;
+export const describeTokenPlanPersonalPackage: API.OperationMethod<
+  DescribeTokenPlanPersonalPackageRequest,
+  DescribeTokenPlanPersonalPackageResponse,
+  DescribeTokenPlanPersonalPackageError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c26, 0) as any as S.Schema<DescribeTokenPlanPersonalPackageRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<DescribeTokenPlanPersonalPackageResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeTokenPlanPersonalPackage",
 }));
 
 export type DescribeUsageRankListError = TencentCloudOpError;
@@ -1276,8 +1330,8 @@ export const describeUsageRankList: API.OperationMethod<
   DescribeUsageRankListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DescribeUsageRankListRequest>,
-  output: __S(406, __c25, 6) as any as S.Schema<DescribeUsageRankListResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DescribeUsageRankListRequest>,
+  output: __S(438, __c27, 6) as any as S.Schema<DescribeUsageRankListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1293,8 +1347,8 @@ export const modifyApiKeyBindings: API.OperationMethod<
   ModifyApiKeyBindingsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ModifyApiKeyBindingsRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ModifyApiKeyBindingsResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ModifyApiKeyBindingsRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ModifyApiKeyBindingsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1310,8 +1364,8 @@ export const modifyApiKeyInfo: API.OperationMethod<
   ModifyApiKeyInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ModifyApiKeyInfoRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ModifyApiKeyInfoResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ModifyApiKeyInfoRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ModifyApiKeyInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1327,8 +1381,8 @@ export const modifyApiKeyStatus: API.OperationMethod<
   ModifyApiKeyStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ModifyApiKeyStatusRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ModifyApiKeyStatusResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ModifyApiKeyStatusRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ModifyApiKeyStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1344,8 +1398,8 @@ export const modifyEndpoint: API.OperationMethod<
   ModifyEndpointError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ModifyEndpointRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ModifyEndpointResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ModifyEndpointRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ModifyEndpointResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1361,8 +1415,8 @@ export const modifyGlossaryEntries: API.OperationMethod<
   ModifyGlossaryEntriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(530, __c33, 2) as any as S.Schema<ModifyGlossaryEntriesRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<ModifyGlossaryEntriesResponse>,
+  input: __S(562, __c35, 2) as any as S.Schema<ModifyGlossaryEntriesRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ModifyGlossaryEntriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1378,8 +1432,8 @@ export const modifyTokenPlanApiKey: API.OperationMethod<
   ModifyTokenPlanApiKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ModifyTokenPlanApiKeyRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ModifyTokenPlanApiKeyResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ModifyTokenPlanApiKeyRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ModifyTokenPlanApiKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1395,8 +1449,8 @@ export const modifyTokenPlanApiKeySecret: API.OperationMethod<
   ModifyTokenPlanApiKeySecretError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ModifyTokenPlanApiKeySecretRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<ModifyTokenPlanApiKeySecretResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ModifyTokenPlanApiKeySecretRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<ModifyTokenPlanApiKeySecretResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1412,8 +1466,8 @@ export const renewTokenPlanTeamOrder: API.OperationMethod<
   RenewTokenPlanTeamOrderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<RenewTokenPlanTeamOrderRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<RenewTokenPlanTeamOrderResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<RenewTokenPlanTeamOrderRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<RenewTokenPlanTeamOrderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1429,8 +1483,8 @@ export const upgradeTokenPlanTeamOrder: API.OperationMethod<
   UpgradeTokenPlanTeamOrderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UpgradeTokenPlanTeamOrderRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<UpgradeTokenPlanTeamOrderResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<UpgradeTokenPlanTeamOrderRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<UpgradeTokenPlanTeamOrderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1687,6 +1741,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EndpointId: S.optional(S.String),
+          WorkspaceId: S.optional(S.String),
+          OriginEndpointId: S.optional(S.String),
           EndpointName: S.optional(S.String),
           ModelName: S.optional(S.String),
           ModelId: S.optional(S.String),
@@ -1700,6 +1756,7 @@ function __c10(j: number): any {
           AutoAdjustQuota: S.optional(S.Number),
           RPM: S.optional(S.Number),
           ModelStatus: S.optional(S.String),
+          NightDiscountEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EndpointDetail" });
     case 2:
@@ -1771,7 +1828,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Entries: S.optional(__S(497, __c31, 1)),
+          Entries: S.optional(__S(513, __c32, 1)),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -1808,6 +1865,7 @@ function __c13(j: number): any {
           ModelName: S.optional(S.String),
           Status: S.optional(S.String),
           ModelStatus: S.optional(S.String),
+          ModelChargeUnit: S.optional(S.String),
           ServiceType: S.optional(S.String),
           ChargeType: S.optional(S.String),
           PaymentEnabled: S.optional(S.Boolean),
@@ -1815,6 +1873,10 @@ function __c13(j: number): any {
           StopReason: S.optional(S.String),
           RPM: S.optional(S.Number),
           TPM: S.optional(S.Number),
+          ModelImage: S.optional(__S(224, __c14, 0)),
+          OfflineAt: S.optional(S.String),
+          DiscontinuedAt: S.optional(S.String),
+          NightDiscountEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModelEndpointView" });
     case 2:
@@ -1834,6 +1896,16 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelImage" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ModelIds: S.optional(__S(48, __c3, 0)),
           ModelNames: S.optional(__S(48, __c3, 0)),
           ModelTypes: S.optional(__S(48, __c3, 0)),
@@ -1848,12 +1920,6 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ModelImage" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           PriceName: S.optional(S.String),
           DisplayName: S.optional(S.String),
           Price: S.optional(S.String),
@@ -1864,22 +1930,22 @@ function __c14(j: number): any {
           ReferencePrice: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelChargingItem" });
+    case 2:
+      return S.Array(__S(241, __c15, 1));
     case 3:
-      return S.Array(__S(226, __c14, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
           Name: S.optional(S.String),
           Scenario: S.optional(S.String),
-          ChargingItems: S.optional(__S(227, __c14, 3)),
+          ChargingItems: S.optional(__S(242, __c15, 2)),
           ChargeUnit: S.optional(S.String),
           Reference: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelChargingInfo" });
+    case 4:
+      return S.Array(__S(243, __c15, 3));
     case 5:
-      return S.Array(__S(228, __c14, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           TPM: S.optional(S.String),
@@ -1891,22 +1957,22 @@ function __c14(j: number): any {
           InputDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelSpec" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           Site: S.optional(S.String),
           Regions: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ModelSiteRegion" });
+    case 7:
+      return S.Array(__S(246, __c15, 6));
     case 8:
-      return S.Array(__S(231, __c14, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          ModelSiteRegions: S.optional(__S(232, __c14, 8)),
+          ModelSiteRegions: S.optional(__S(247, __c15, 7)),
         }),
       ).annotate({ identifier: "ModelAccessInfo" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           RecommendWeight: S.optional(S.Number),
@@ -1915,7 +1981,7 @@ function __c14(j: number): any {
           ValidityDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ModelFreeTrialInfo" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           ModelName: S.optional(S.String),
@@ -1926,34 +1992,34 @@ function __c14(j: number): any {
           Summary: S.optional(S.String),
           ModelType: S.optional(S.String),
           Brand: S.optional(S.String),
-          ModelImage: S.optional(__S(225, __c14, 1)),
+          ModelImage: S.optional(__S(224, __c14, 0)),
           Provider: S.optional(S.String),
           ProviderIntroduction: S.optional(S.String),
           Status: S.optional(S.String),
           Tags: S.optional(__S(48, __c3, 0)),
-          ModelChargingInfo: S.optional(__S(229, __c14, 5)),
-          ModelSpec: S.optional(__S(230, __c14, 6)),
+          ModelChargingInfo: S.optional(__S(244, __c15, 4)),
+          ModelSpec: S.optional(__S(245, __c15, 5)),
           ReleaseAt: S.optional(S.String),
           RecommendWeight: S.optional(S.Number),
-          ModelAccessInfo: S.optional(__S(233, __c14, 9)),
-          FreeTrialInfo: S.optional(__S(234, __c14, 10)),
+          ModelAccessInfo: S.optional(__S(248, __c15, 8)),
+          FreeTrialInfo: S.optional(__S(249, __c15, 9)),
           OfflineAt: S.optional(S.String),
           DiscontinuedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Model" });
+    case 11:
+      return S.Array(__S(250, __c15, 10));
     case 12:
-      return S.Array(__S(235, __c14, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
-          ModelSet: S.optional(__S(236, __c14, 12)),
+          ModelSet: S.optional(__S(251, __c15, 11)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeModelListResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1981,7 +2047,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DescribeModelQuotaResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2000,14 +2066,14 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "TokenSummaryBillingItem" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           CycleSeq: S.optional(S.Number),
           CycleStartTime: S.optional(S.String),
           CycleEndTime: S.optional(S.String),
-          BillingItems: S.optional(__S(258, __c16, 2)),
+          BillingItems: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "TokenSummary" });
     case 4:
@@ -2024,17 +2090,17 @@ function __c16(j: number): any {
           Creator: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          PackageInfo: S.optional(__S(272, __c17, 0)),
+          PackageInfo: S.optional(__S(288, __c18, 0)),
           AutoRenewFlag: S.optional(S.Number),
           ApiKeyCount: S.optional(S.Number),
-          TokenSummary: S.optional(__S(259, __c16, 3)),
+          TokenSummary: S.optional(__S(275, __c17, 3)),
           ProductType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTokenPlanResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2056,7 +2122,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TokenPlanPackageInfo" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2079,7 +2145,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateGlossaryResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2119,14 +2185,14 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ApiKey: S.optional(__S(305, __c19, 1)),
-          Balance: S.optional(__S(320, __c20, 0)),
+          ApiKey: S.optional(__S(321, __c20, 1)),
+          Balance: S.optional(__S(336, __c21, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTokenPlanApiKeyResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2143,7 +2209,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SubPackageBalance" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2180,23 +2246,25 @@ function __c21(j: number): any {
           Creator: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          Balance: S.optional(__S(320, __c20, 0)),
+          Balance: S.optional(__S(336, __c21, 0)),
           ProductType: S.optional(S.String),
+          IpWhitelist: S.optional(__S(48, __c3, 0)),
+          OverageEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TokenPlanApiKeyListItem" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ApiKeySet: S.optional(__S(338, __c21, 2)),
+          ApiKeySet: S.optional(__S(354, __c22, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTokenPlanApiKeyListResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2221,7 +2289,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DescribeTokenPlanApiKeySecretResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2264,20 +2332,20 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "UsageDetailItem" });
     case 2:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Context: S.optional(S.String),
           ListOver: S.optional(S.Boolean),
-          List: S.optional(__S(370, __c23, 2)),
+          List: S.optional(__S(386, __c24, 2)),
           ProductType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTokenPlanApiKeyUsageDetailResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2307,23 +2375,62 @@ function __c24(j: number): any {
           Creator: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          PackageInfo: S.optional(__S(272, __c17, 0)),
+          PackageInfo: S.optional(__S(288, __c18, 0)),
           AutoRenewFlag: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TokenPlanListItem" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(401, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TokenPlanSet: S.optional(__S(386, __c24, 2)),
+          TokenPlanSet: S.optional(__S(402, __c25, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTokenPlanListResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductType: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "tokenhub",
+            version: "2026-03-22",
+            action: "DescribeTokenPlanPersonalPackage",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeTokenPlanPersonalPackageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProductType: S.optional(S.String),
+          PackageStatus: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          TotalCredits: S.optional(S.String),
+          TotalUsed: S.optional(S.String),
+          CycleCredits: S.optional(S.String),
+          TotalCycles: S.optional(S.Number),
+          CurrentCycle: S.optional(S.Number),
+          RemainCycles: S.optional(S.Number),
+          StartTime: S.optional(S.String),
+          ExpireTime: S.optional(S.String),
+          PeriodEndDate: S.optional(S.String),
+          AutoRenewFlag: S.optional(S.Number),
+          OutputToken: S.optional(S.Number),
+          InputToken: S.optional(S.Number),
+          CacheToken: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeTokenPlanPersonalPackageResponse" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2377,12 +2484,12 @@ function __c25(j: number): any {
           Rank: S.optional(S.Number),
           Key: S.optional(S.String),
           Name: S.optional(S.String),
-          Stats: S.optional(S.NullOr(__S(402, __c25, 2))),
-          Series: S.optional(S.NullOr(__S(403, __c25, 3))),
+          Stats: S.optional(S.NullOr(__S(434, __c27, 2))),
+          Series: S.optional(S.NullOr(__S(435, __c27, 3))),
         }),
       ).annotate({ identifier: "UsageRankItem" });
     case 5:
-      return S.Array(__S(404, __c25, 4));
+      return S.Array(__S(436, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2396,17 +2503,17 @@ function __c25(j: number): any {
           Total: S.optional(S.Number),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Timestamps: S.optional(__S(401, __c25, 1)),
-          TopList: S.optional(__S(405, __c25, 5)),
-          PageStats: S.optional(__S(402, __c25, 2)),
-          TotalStats: S.optional(__S(402, __c25, 2)),
+          Timestamps: S.optional(__S(433, __c27, 1)),
+          TopList: S.optional(__S(437, __c27, 5)),
+          PageStats: S.optional(__S(434, __c27, 2)),
+          TotalStats: S.optional(__S(434, __c27, 2)),
           SortKey: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUsageRankListResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2422,7 +2529,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ModifyApiKeyBindingsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2440,7 +2547,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ModifyApiKeyInfoRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2455,18 +2562,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ModifyApiKeyStatusRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AutoAdjustQuota: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "tokenhub", version: "2026-03-22", action: "ModifyEndpoint" })),
-      ).annotate({ identifier: "ModifyEndpointRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2476,12 +2572,12 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "GlossaryEntryInput" });
     case 1:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           GlossaryId: S.String,
-          Entries: __S(481, __c30, 1),
+          Entries: __S(497, __c31, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tokenhub", version: "2026-03-22", action: "CreateGlossaryEntries" }),
@@ -2489,7 +2585,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateGlossaryEntriesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2501,21 +2597,32 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "GlossaryEntryItem" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Entries: S.optional(__S(497, __c31, 1)),
+          Entries: S.optional(__S(513, __c32, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateGlossaryEntriesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AutoAdjustQuota: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "tokenhub", version: "2026-03-22", action: "ModifyEndpoint" })),
+      ).annotate({ identifier: "ModifyEndpointRequest" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2526,12 +2633,12 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ModifyGlossaryEntryInput" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(560, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           GlossaryId: S.String,
-          Entries: __S(529, __c33, 1),
+          Entries: __S(561, __c35, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tokenhub", version: "2026-03-22", action: "ModifyGlossaryEntries" }),
@@ -2539,7 +2646,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ModifyGlossaryEntriesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2550,6 +2657,7 @@ function __c34(j: number): any {
           TotalQuota: S.optional(S.Number),
           UseStatus: S.optional(S.String),
           TPM: S.optional(S.Number),
+          IpWhitelist: S.optional(__S(48, __c3, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tokenhub", version: "2026-03-22", action: "ModifyTokenPlanApiKey" }),
@@ -2557,7 +2665,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ModifyTokenPlanApiKeyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2582,7 +2690,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ModifyTokenPlanApiKeySecretResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,7 +2708,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "RenewTokenPlanTeamOrderRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2618,7 +2726,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpgradeTokenPlanTeamOrderRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2630,6 +2738,8 @@ function __c38(j: number): any {
           ExclusiveQuota: S.optional(S.Number),
           TotalQuota: S.optional(S.Number),
           TPM: S.optional(S.Number),
+          IpWhitelist: S.optional(__S(48, __c3, 0)),
+          OverageEnabled: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2646,7 +2756,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "CreateApiKeysResultItem" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(641, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2656,18 +2766,18 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "BatchCreateFailedItem" });
     case 4:
-      return S.Array(__S(611, __c38, 3));
+      return S.Array(__S(643, __c40, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(610, __c38, 2)),
-          FailedItems: S.optional(__S(612, __c38, 4)),
+          Items: S.optional(__S(642, __c40, 2)),
+          FailedItems: S.optional(__S(644, __c40, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTokenPlanApiKeysResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2689,7 +2799,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateTokenPlanTeamOrderAndBuyRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2700,7 +2810,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateTokenPlanTeamOrderAndBuyResponse" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2712,7 +2822,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2722,7 +2832,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2732,7 +2842,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteEndpointRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2743,7 +2853,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2752,12 +2862,12 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "DeleteGlossaryEntryInput" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(752, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           GlossaryId: S.String,
-          Entries: __S(721, __c45, 1),
+          Entries: __S(753, __c47, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tokenhub", version: "2026-03-22", action: "DeleteGlossaryEntries" }),

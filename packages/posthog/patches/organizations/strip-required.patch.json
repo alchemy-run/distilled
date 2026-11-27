@@ -515,14 +515,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/secret_api_token/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/secret_api_token_backup/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.organizations#ProjectBackwardCompat/members/heatmaps_screenshot_secret/traits/smithy.api#required"
     },
     {

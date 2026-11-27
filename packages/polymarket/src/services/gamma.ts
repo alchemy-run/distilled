@@ -537,6 +537,32 @@ export interface EventTweetCount {
 }
 export interface GetGammaStatusRequest {}
 export type GetGammaStatusResponse = string;
+/** Maker addresses (proxy wallet or EOA), case-insensitive */
+export type GetMakerTiersRequestAddressesList = Array<string>;
+export interface GetMakerTiersRequest {
+  /** Maker addresses (proxy wallet or EOA), case-insensitive */
+  addresses: GetMakerTiersRequestAddressesList;
+}
+export interface GetMakerTiersResponseTiersItem {
+  /** Normalized (trimmed, lowercased) */
+  address: string;
+  /** UTC day (YYYY-MM-DD) whose fills this tier pays; omitted when no snapshot row */
+  snapshot_date?: string | undefined;
+  /** 0 when no snapshot row */
+  tier: number;
+  /** Share of the taker fee each maker fill generates, in basis points */
+  rebate_bps: number;
+  /** 30-day weighted volume pooled across the maker link group */
+  wv_30d: number;
+  /** This address's own share of wv_30d */
+  own_wv_30d: number;
+}
+/** One entry per distinct requested address, in first-seen request order */
+export type GetMakerTiersResponseTiersList = Array<GetMakerTiersResponseTiersItem>;
+export interface GetMakerTiersResponse {
+  /** One entry per distinct requested address, in first-seen request order */
+  tiers: GetMakerTiersResponseTiersList;
+}
 export interface GetMarketRequest {
   id: number;
   include_tag?: boolean | undefined;
@@ -747,6 +773,20 @@ export interface GetTagsRelatedToATagBySlugRequest {
 }
 export type GetTagsRelatedToATagBySlugResponseBodyList = Array<Tag>;
 export type GetTagsRelatedToATagBySlugResponse = GetTagsRelatedToATagBySlugResponseBodyList;
+export type GetTakerTiersRequestAddressesList = Array<string>;
+export interface GetTakerTiersRequest {
+  addresses: GetTakerTiersRequestAddressesList;
+}
+export interface GetTakerTiersResponseTiersItem {
+  address: string;
+  tier: number;
+  tier_name: string;
+  wv_30d: number;
+}
+export type GetTakerTiersResponseTiersList = Array<GetTakerTiersResponseTiersItem>;
+export interface GetTakerTiersResponse {
+  tiers: GetTakerTiersResponseTiersList;
+}
 export interface GetTeamRequest {
   id: number;
 }
@@ -913,6 +953,47 @@ export interface EventsPagination {
   data?: EventsPaginationDataList | undefined;
   pagination?: Pagination | undefined;
 }
+export type ListMarketClarificationsRequestMarketIdList = Array<number>;
+export type ListMarketClarificationsRequestEventIdList = Array<number>;
+export type ListMarketClarificationsRequestQuestionIdList = Array<string>;
+export interface ListMarketClarificationsRequest {
+  limit?: number | undefined;
+  offset?: number | undefined;
+  /** Comma-separated list of fields to order by */
+  order?: string | undefined;
+  ascending?: boolean | undefined;
+  /** Market IDs. Repeat the parameter to pass several. */
+  market_id?: ListMarketClarificationsRequestMarketIdList | undefined;
+  /** Event IDs. Repeat the parameter to pass several. */
+  event_id?: ListMarketClarificationsRequestEventIdList | undefined;
+  /** Question IDs. Repeat the parameter to pass several. */
+  question_id?: ListMarketClarificationsRequestQuestionIdList | undefined;
+  /** Transaction hash that posted the clarification. */
+  tx_hash?: string | undefined;
+}
+export type MarketClarificationState = "pending" | "queued" | "success" | "failed" | "cancelled";
+export interface MarketClarification {
+  id?: number | undefined;
+  marketId?: number | null | undefined;
+  eventId?: number | null | undefined;
+  questionId?: string | null | undefined;
+  /** Clarification text. */
+  content?: string | null | undefined;
+  state?: MarketClarificationState | null | undefined;
+  /** Whether open orders were cleared when the clarification was posted. */
+  clearBook?: boolean | null | undefined;
+  notifyDiscord?: boolean | null | undefined;
+  showInFrontend?: boolean | null | undefined;
+  adapterAddress?: string | null | undefined;
+  negRiskRequestId?: string | null | undefined;
+  txHash?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  queuedAt?: string | null | undefined;
+  scheduledFor?: string | null | undefined;
+  txTimestamp?: string | null | undefined;
+}
+export type ListMarketClarificationsResponseBodyList = Array<MarketClarification>;
+export type ListMarketClarificationsResponse = ListMarketClarificationsResponseBodyList;
 export type ListMarketsRequestIdList = Array<number>;
 export type ListMarketsRequestSlugList = Array<string>;
 export type ListMarketsRequestClobTokenIdsList = Array<string>;
@@ -1158,7 +1239,7 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetEventRequest>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetEventRequest>,
   output: __S(124, __c7, 12) as any as S.Schema<Event>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1194,8 +1275,8 @@ export const getEventCommentsCount: API.OperationMethod<
   GetEventCommentsCountError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<GetEventCommentsCountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<Count>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetEventCommentsCountRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<Count>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1212,7 +1293,7 @@ export const getEventCreator: API.OperationMethod<
   GetEventCreatorError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetEventCreatorRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetEventCreatorRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<EventCreator>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1230,8 +1311,8 @@ export const getEventTags: API.OperationMethod<
   GetEventTagsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetEventTagsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetEventTagsResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetEventTagsRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetEventTagsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1248,8 +1329,8 @@ export const getEventTweetCount: API.OperationMethod<
   GetEventTweetCountError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetEventTweetCountRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<EventTweetCount>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetEventTweetCountRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<EventTweetCount>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1266,14 +1347,32 @@ export const getGammaStatus: API.OperationMethod<
   GetGammaStatusError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetGammaStatusRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<GetGammaStatusResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetGammaStatusRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<GetGammaStatusResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGammaStatus",
+}));
+
+export type GetMakerTiersError = PolymarketOpError;
+/** Get maker tiers for addresses Maker tier, rebate rate and 30-day weighted volume for up to 100 maker addresses, from the newest daily snapshot (the tier paying each address's fills today). Addresses are case-insensitive and matched as given against the address that made the fills (usually the proxy wallet). An address with no snapshot row returns tier 0 with no snapshot_date. No authentication. */
+export const getMakerTiers: API.OperationMethod<
+  GetMakerTiersRequest,
+  GetMakerTiersResponse,
+  GetMakerTiersError,
+  PolymarketOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<GetMakerTiersRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<GetMakerTiersResponse>,
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
+  protocol: GammaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMakerTiers",
 }));
 
 export type GetMarketError = PolymarketOpError;
@@ -1284,7 +1383,7 @@ export const getMarket: API.OperationMethod<
   GetMarketError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetMarketRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetMarketRequest>,
   output: __S(127, __c7, 15) as any as S.Schema<Market>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1302,7 +1401,7 @@ export const getMarketBySlug: API.OperationMethod<
   GetMarketBySlugError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetMarketBySlugRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetMarketBySlugRequest>,
   output: __S(127, __c7, 15) as any as S.Schema<Market>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1320,8 +1419,8 @@ export const getMarketDescription: API.OperationMethod<
   GetMarketDescriptionError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetMarketDescriptionRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<MarketDescription>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetMarketDescriptionRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<MarketDescription>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1338,7 +1437,7 @@ export const getMarketsInformation: API.OperationMethod<
   GetMarketsInformationError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetMarketsInformationRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetMarketsInformationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<GetMarketsInformationResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1356,8 +1455,8 @@ export const getMarketTags: API.OperationMethod<
   GetMarketTagsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetMarketTagsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetMarketTagsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetMarketTagsRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetMarketTagsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1374,8 +1473,8 @@ export const getPublicProfile: API.OperationMethod<
   GetPublicProfileError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetPublicProfileRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<PublicProfileResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetPublicProfileRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<PublicProfileResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1392,8 +1491,8 @@ export const getPublicProfileByUserAddress: API.OperationMethod<
   GetPublicProfileByUserAddressError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetPublicProfileByUserAddressRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<Profile>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetPublicProfileByUserAddressRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Profile>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1410,8 +1509,8 @@ export const getRelatedTagsById: API.OperationMethod<
   GetRelatedTagsByIdError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetRelatedTagsByIdRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<GetRelatedTagsByIdResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetRelatedTagsByIdRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<GetRelatedTagsByIdResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1428,8 +1527,8 @@ export const getRelatedTagsBySlug: API.OperationMethod<
   GetRelatedTagsBySlugError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetRelatedTagsBySlugRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<GetRelatedTagsBySlugResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetRelatedTagsBySlugRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<GetRelatedTagsBySlugResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1446,7 +1545,7 @@ export const getSeries: API.OperationMethod<
   GetSeriesError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetSeriesRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetSeriesRequest>,
   output: __S(120, __c7, 8) as any as S.Schema<Series>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1464,8 +1563,8 @@ export const getSeriesCommentsCount: API.OperationMethod<
   GetSeriesCommentsCountError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetSeriesCommentsCountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<Count>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetSeriesCommentsCountRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<Count>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1482,8 +1581,8 @@ export const getSeriesSummary: API.OperationMethod<
   GetSeriesSummaryError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetSeriesSummaryRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SeriesSummary>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetSeriesSummaryRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<SeriesSummary>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1500,8 +1599,8 @@ export const getSeriesSummaryBySlug: API.OperationMethod<
   GetSeriesSummaryBySlugError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetSeriesSummaryBySlugRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SeriesSummary>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetSeriesSummaryBySlugRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<SeriesSummary>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1518,8 +1617,8 @@ export const getSportsMarketTypes: API.OperationMethod<
   GetSportsMarketTypesError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetSportsMarketTypesRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<SportsMarketTypesResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetSportsMarketTypesRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<SportsMarketTypesResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1536,8 +1635,8 @@ export const getSportsMetadata: API.OperationMethod<
   GetSportsMetadataError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetSportsMetadataRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<GetSportsMetadataResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetSportsMetadataRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<GetSportsMetadataResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1550,7 +1649,7 @@ export type GetTagError = PolymarketOpError;
 /** Get tag by id */
 export const getTag: API.OperationMethod<GetTagRequest, Tag, GetTagError, PolymarketOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(512, __c32, 0) as any as S.Schema<GetTagRequest>,
+    input: __S(528, __c33, 0) as any as S.Schema<GetTagRequest>,
     output: __S(144, __c9, 0) as any as S.Schema<Tag>,
     errors: [],
     serviceErrors: PolymarketServiceErrors,
@@ -1568,7 +1667,7 @@ export const getTagBySlug: API.OperationMethod<
   GetTagBySlugError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetTagBySlugRequest>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetTagBySlugRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<Tag>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1586,8 +1685,8 @@ export const getTagsRelatedToATagById: API.OperationMethod<
   GetTagsRelatedToATagByIdError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetTagsRelatedToATagByIdRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetTagsRelatedToATagByIdResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetTagsRelatedToATagByIdRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetTagsRelatedToATagByIdResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1604,8 +1703,8 @@ export const getTagsRelatedToATagBySlug: API.OperationMethod<
   GetTagsRelatedToATagBySlugError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetTagsRelatedToATagBySlugRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetTagsRelatedToATagBySlugResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetTagsRelatedToATagBySlugRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetTagsRelatedToATagBySlugResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1614,12 +1713,30 @@ export const getTagsRelatedToATagBySlug: API.OperationMethod<
   span: "GetTagsRelatedToATagBySlug",
 }));
 
+export type GetTakerTiersError = PolymarketOpError;
+/** Get taker tiers for addresses Current taker tier and 30-day weighted volume for up to 100 proxy-wallet (or EOA) addresses. Addresses are case-insensitive; unknown addresses return tier 0. No authentication. */
+export const getTakerTiers: API.OperationMethod<
+  GetTakerTiersRequest,
+  GetTakerTiersResponse,
+  GetTakerTiersError,
+  PolymarketOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c38, 0) as any as S.Schema<GetTakerTiersRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<GetTakerTiersResponse>,
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
+  protocol: GammaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTakerTiers",
+}));
+
 export type GetTeamError = PolymarketOpError;
 /** Get team by id */
 export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, PolymarketOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(576, __c36, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(592, __c37, 0) as any as S.Schema<Team>,
+    input: __S(624, __c39, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(640, __c40, 0) as any as S.Schema<Team>,
     errors: [],
     serviceErrors: PolymarketServiceErrors,
     protocol: GammaProtocol,
@@ -1636,7 +1753,7 @@ export const listComments: API.OperationMethod<
   ListCommentsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListCommentsRequest>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListCommentsRequest>,
   output: __S(199, __c12, 7) as any as S.Schema<ListCommentsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1654,8 +1771,8 @@ export const listEventCreators: API.OperationMethod<
   ListEventCreatorsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListEventCreatorsRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<ListEventCreatorsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListEventCreatorsRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListEventCreatorsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1672,8 +1789,8 @@ export const listEvents: API.OperationMethod<
   ListEventsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListEventsRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ListEventsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListEventsRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ListEventsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1690,8 +1807,8 @@ export const listEventsKeyset: API.OperationMethod<
   ListEventsKeysetError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListEventsKeysetRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<KeysetEventsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListEventsKeysetRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<KeysetEventsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1708,14 +1825,32 @@ export const listEventsPagination: API.OperationMethod<
   ListEventsPaginationError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListEventsPaginationRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<EventsPagination>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListEventsPaginationRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<EventsPagination>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEventsPagination",
+}));
+
+export type ListMarketClarificationsError = PolymarketOpError;
+/** List market clarifications Returns published clarifications, the notes that resolve ambiguity in how a market settles. */
+export const listMarketClarifications: API.OperationMethod<
+  ListMarketClarificationsRequest,
+  ListMarketClarificationsResponse,
+  ListMarketClarificationsError,
+  PolymarketOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c48, 0) as any as S.Schema<ListMarketClarificationsRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<ListMarketClarificationsResponse>,
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
+  protocol: GammaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketClarifications",
 }));
 
 export type ListMarketsError = PolymarketOpError;
@@ -1726,7 +1861,7 @@ export const listMarkets: API.OperationMethod<
   ListMarketsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListMarketsRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListMarketsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ListMarketsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
@@ -1744,8 +1879,8 @@ export const listMarketsKeyset: API.OperationMethod<
   ListMarketsKeysetError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListMarketsKeysetRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<KeysetMarketsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListMarketsKeysetRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<KeysetMarketsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1762,8 +1897,8 @@ export const listSeries: API.OperationMethod<
   ListSeriesError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListSeriesRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<ListSeriesResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListSeriesRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<ListSeriesResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1780,8 +1915,8 @@ export const listSportEventsResults: API.OperationMethod<
   ListSportEventsResultsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListSportEventsResultsRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<ListSportEventsResultsResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListSportEventsResultsRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ListSportEventsResultsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1798,8 +1933,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ListTagsResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ListTagsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1816,8 +1951,8 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<ListTeamsResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<ListTeamsResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -1834,8 +1969,8 @@ export const searchPublic: API.OperationMethod<
   SearchPublicError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<SearchPublicRequest>,
-  output: __S(852, __c53, 4) as any as S.Schema<Search>,
+  input: __S(896, __c56, 0) as any as S.Schema<SearchPublicRequest>,
+  output: __S(900, __c56, 4) as any as S.Schema<Search>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: GammaProtocol,
@@ -2434,13 +2569,42 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          addresses: __S(80, __c5, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/maker-tier/tiers", code: 200 })),
+      ).annotate({ identifier: "GetMakerTiersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          snapshot_date: S.optional(S.String),
+          tier: S.Number,
+          rebate_bps: S.Number,
+          wv_30d: S.Number,
+          own_wv_30d: S.Number,
+        }),
+      ).annotate({ identifier: "GetMakerTiersResponseTiersItem" });
+    case 2:
+      return S.Array(__S(209, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tiers: __S(210, __c13, 2),
+        }),
+      ).annotate({ identifier: "GetMakerTiersResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.Number.pipe(T.Label()),
           include_tag: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/markets/{id}", code: 200 })),
       ).annotate({ identifier: "GetMarketRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2451,7 +2615,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetMarketBySlugRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2467,7 +2631,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "MarketDescription" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2498,7 +2662,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetMarketsInformationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2508,7 +2672,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetMarketTagsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2525,7 +2689,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "PublicProfileUser" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2536,14 +2700,14 @@ function __c18(j: number): any {
           bio: S.optional(S.NullOr(S.String)),
           pseudonym: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          users: S.optional(S.NullOr(__S(290, __c18, 2))),
+          users: S.optional(S.NullOr(__S(306, __c19, 2))),
           xUsername: S.optional(S.NullOr(S.String)),
           verifiedBadge: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PublicProfileResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2553,7 +2717,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetPublicProfileByUserAddressRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2585,7 +2749,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Profile" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2597,7 +2761,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetRelatedTagsByIdRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2609,14 +2773,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "RelatedTag" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(368, __c23, 0));
     case 2:
-      return S.suspend(() => __S(353, __c22, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(369, __c23, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRelatedTagsByIdResponse",
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2626,17 +2790,6 @@ function __c23(j: number): any {
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/tags/slug/{slug}/related-tags", code: 200 })),
       ).annotate({ identifier: "GetRelatedTagsBySlugRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-          include_chat: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/series/{id}", code: 200 })),
-      ).annotate({ identifier: "GetSeriesRequest" });
   }
 }
 function __c25(j: number): any {
@@ -2659,11 +2812,22 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
+          include_chat: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/series/{id}", code: 200 })),
+      ).annotate({ identifier: "GetSeriesRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/series/{id}/comments/count", code: 200 })),
       ).annotate({ identifier: "GetSeriesCommentsCountRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2673,7 +2837,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetSeriesSummaryRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2689,7 +2853,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SeriesSummary" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2699,7 +2863,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetSeriesSummaryBySlugRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2713,7 +2877,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SportsMarketTypesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2731,14 +2895,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "SportsMetadata" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
-      return S.suspend(() => __S(498, __c31, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(514, __c32, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSportsMetadataResponse",
       });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2749,7 +2913,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetTagRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2760,7 +2924,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetTagBySlugRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2772,7 +2936,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetTagsRelatedToATagByIdRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,7 +2948,46 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetTagsRelatedToATagBySlugRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+          include_chat: S.optional(S.Boolean.pipe(T.Query())),
+          include_template: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/events/{id}", code: 200 })),
+      ).annotate({ identifier: "GetEventRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          addresses: __S(80, __c5, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/tiers", code: 200 })),
+      ).annotate({ identifier: "GetTakerTiersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          tier: S.Number,
+          tier_name: S.String,
+          wv_30d: S.Number,
+        }),
+      ).annotate({ identifier: "GetTakerTiersResponseTiersItem" });
+    case 2:
+      return S.Array(__S(609, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tiers: __S(610, __c38, 2),
+        }),
+      ).annotate({ identifier: "GetTakerTiersResponse" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2794,7 +2997,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2812,19 +3015,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "Team" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-          include_chat: S.optional(S.Boolean.pipe(T.Query())),
-          include_template: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/events/{id}", code: 200 })),
-      ).annotate({ identifier: "GetEventRequest" });
-  }
-}
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2841,7 +3032,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListCommentsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2860,7 +3051,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2895,7 +3086,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListEventsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => __S(125, __c7, 13).pipe(T.RawResponseRoot())).annotate({
@@ -2903,7 +3094,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2960,7 +3151,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "KeysetEventsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2978,12 +3169,12 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: S.optional(__S(125, __c7, 13)),
-          pagination: S.optional(__S(720, __c45, 0)),
+          pagination: S.optional(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "EventsPagination" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2994,7 +3185,51 @@ function __c45(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          ascending: S.optional(S.Boolean.pipe(T.Query())),
+          market_id: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          event_id: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          question_id: S.optional(__S(80, __c5, 0).pipe(T.Query())),
+          tx_hash: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/market-clarifications", code: 200 })),
+      ).annotate({ identifier: "ListMarketClarificationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          marketId: S.optional(S.NullOr(S.Number)),
+          eventId: S.optional(S.NullOr(S.Number)),
+          questionId: S.optional(S.NullOr(S.String)),
+          content: S.optional(S.NullOr(S.String)),
+          state: S.optional(S.NullOr(S.String)),
+          clearBook: S.optional(S.NullOr(S.Boolean)),
+          notifyDiscord: S.optional(S.NullOr(S.Boolean)),
+          showInFrontend: S.optional(S.NullOr(S.Boolean)),
+          adapterAddress: S.optional(S.NullOr(S.String)),
+          negRiskRequestId: S.optional(S.NullOr(S.String)),
+          txHash: S.optional(S.NullOr(S.String)),
+          createdAt: S.optional(S.NullOr(S.String)),
+          queuedAt: S.optional(S.NullOr(S.String)),
+          scheduledFor: S.optional(S.NullOr(S.String)),
+          txTimestamp: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MarketClarification" });
+    case 2:
+      return S.Array(__S(769, __c48, 1));
+    case 3:
+      return S.suspend(() => __S(770, __c48, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMarketClarificationsResponse",
+      });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3029,7 +3264,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListMarketsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3075,7 +3310,19 @@ function __c47(j: number): any {
       ).annotate({ identifier: "KeysetMarketsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+          include_chat: S.optional(S.Boolean.pipe(T.Query())),
+          include_template: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/events/slug/{slug}", code: 200 })),
+      ).annotate({ identifier: "GetEventBySlugRequest" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3099,7 +3346,7 @@ function __c48(j: number): any {
       });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3112,7 +3359,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ListSportEventsResultsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3127,19 +3374,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListTagsRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-          include_chat: S.optional(S.Boolean.pipe(T.Query())),
-          include_template: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/events/slug/{slug}", code: 200 })),
-      ).annotate({ identifier: "GetEventBySlugRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3154,14 +3389,14 @@ function __c52(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
       ).annotate({ identifier: "ListTeamsRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(640, __c40, 0));
     case 2:
-      return S.suspend(() => __S(833, __c52, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(881, __c55, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamsResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3192,21 +3427,21 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "SearchTag" });
     case 2:
-      return S.Array(__S(849, __c53, 1));
+      return S.Array(__S(897, __c56, 1));
     case 3:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(336, __c21, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
           events: S.optional(S.NullOr(__S(125, __c7, 13))),
-          tags: S.optional(S.NullOr(__S(850, __c53, 2))),
-          profiles: S.optional(S.NullOr(__S(851, __c53, 3))),
-          pagination: S.optional(__S(720, __c45, 0)),
+          tags: S.optional(S.NullOr(__S(898, __c56, 2))),
+          profiles: S.optional(S.NullOr(__S(899, __c56, 3))),
+          pagination: S.optional(__S(752, __c47, 0)),
         }),
       ).annotate({ identifier: "Search" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3216,7 +3451,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetEventCommentsCountRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3226,7 +3461,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Count" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3236,7 +3471,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetEventCreatorRequest" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3246,7 +3481,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetEventTagsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => __S(160, __c10, 0).pipe(T.RawResponseRoot())).annotate({
@@ -3254,7 +3489,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3270,7 +3505,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "EventTweetCount" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

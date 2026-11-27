@@ -429,6 +429,8 @@ export interface EvaluationBackfill {
   conditions: EvaluationBackfillConditionsList;
   /** Whether units with an existing result are evaluated again. */
   rerun_existing: boolean;
+  /** Most units this backfill evaluates, for a capped preview such as an accepted eval suggestion. Null means no cap. */
+  max_units: number | null;
   /** Units matched at creation. Units that land in the window later can take dispatched_count and skipped_count past it. */
   total_count: number;
   /** Units the backfill has started an evaluation for so far. */
@@ -477,6 +479,63 @@ export interface EvaluationBackfillEstimate {
   /** Window end after clamping. */
   window_end: string;
 }
+export type PreviewConditionPropertiesItemMap = { [key: string]: unknown | undefined };
+/** Property filters (event or person) that scope which generations match this condition set. */
+export type PreviewConditionPropertiesList = Array<PreviewConditionPropertiesItemMap>;
+/** A trigger condition set, as on an evaluation. The id is optional here. */
+export interface PreviewCondition {
+  /** Identifier of this condition set, if any. */
+  id?: string | undefined;
+  /** Percentage (0-100) of matching events to sample for this evaluation. Defaults to 100. */
+  rollout_percentage?: number | undefined;
+  /** Property filters (event or person) that scope which generations match this condition set. */
+  properties?: PreviewConditionPropertiesList | undefined;
+}
+/** Optional trigger conditions to filter which events are sampled. */
+export type CreateEvaluationsSampleTrafficRequestConditionsList = Array<PreviewCondition>;
+/** * `fixed_window` - Fixed window * `inactivity` - Inactivity */
+export type PreviewSettleStrategyEnum = "fixed_window" | "inactivity";
+/** The evaluation's own `target_config` works here, so a client sends it as it is. */
+export interface TestHogTargetConfig {
+  /** The evaluation's settle strategy. A session evaluation with a fixed window is previewed on sessions that have been quiet for `window_seconds`, otherwise for `quiet_period_seconds`. * `fixed_window` - Fixed window * `inactivity` - Inactivity */
+  strategy?: PreviewSettleStrategyEnum | (string & {}) | undefined;
+  /** Aggregation window in seconds. A trace preview defaults to 1800 and uses at most 7200. */
+  window_seconds?: number | undefined;
+  /** For session samples: only sessions with no activity for this long are previewed, matching when a session evaluation would actually run. Defaults to 3600. */
+  quiet_period_seconds?: number | undefined;
+}
+export interface CreateEvaluationsSampleTrafficRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Optional trigger conditions to filter which events are sampled. */
+  conditions?: CreateEvaluationsSampleTrafficRequestConditionsList | undefined;
+  /** What the evaluation runs against: 'generation' samples individual generations, 'trace' samples whole traces, and 'session' samples whole sessions that have gone quiet. Each target runs against the same globals it would run against online. * `generation` - Generation * `trace` - Trace * `session` - Session */
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
+  /** Target-specific preview settings. For a trace target, set window_seconds between 10 and 7200. */
+  target_config?: TestHogTargetConfig | undefined;
+  /** How many units to return, 5 by default. Sessions return at most 3, the number a session test covers. */
+  count?: number | undefined;
+}
+export interface EvaluationSampleTrafficItem {
+  /** Generation event UUID, trace ID, or session ID, matching `target`. */
+  sample_id: string;
+  /** Type of unit: generation, trace, or session. * `generation` - Generation * `trace` - Trace * `session` - Session */
+  sample_type: EvaluationTargetEnum;
+  /** Trace to open for this unit. For a session, its most recent trace. Null when the unit has none. */
+  trace_id: string | null;
+  /** When the unit's latest generation happened. */
+  timestamp: string;
+  /** First 200 characters of the last user message in the unit's latest generation. */
+  input_preview: string;
+  /** First 200 characters of the last assistant message in the unit's latest generation. */
+  output_preview: string;
+}
+export type EvaluationSampleTrafficResponseResultsList = Array<EvaluationSampleTrafficItem>;
+export interface EvaluationSampleTrafficResponse {
+  results: EvaluationSampleTrafficResponseResultsList;
+}
+/** Optional trigger conditions to filter which events are sampled. */
+export type CreateEvaluationsTestHogRequestConditionsList = Array<PreviewCondition>;
 /** * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical */
 export type HogEvaluationOutputTypeEnum = "boolean" | "numeric" | "categorical";
 export type CreateEvaluationsTestHogRequestOutputConfigOptionsItem =
@@ -529,21 +588,17 @@ export interface CreateEvaluationsTestHogRequestOutputConfig {
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
   passing_rule?: CreateEvaluationsTestHogRequestOutputConfigPassingRule | null | undefined;
 }
-export type CreateEvaluationsTestHogRequestConditionsItemMap = {
-  [key: string]: unknown | undefined;
-};
-/** Optional trigger conditions to filter which events are sampled. */
-export type CreateEvaluationsTestHogRequestConditionsList =
-  Array<CreateEvaluationsTestHogRequestConditionsItemMap>;
-export interface TestHogTargetConfig {
-  /** Aggregation window for trace samples, in seconds. */
-  window_seconds?: number | undefined;
-  /** For session samples: only sessions with no activity for this long are previewed, matching when a session evaluation would actually run. */
-  quiet_period_seconds?: number | undefined;
-}
+/** Test exactly these units instead of sampling: generation event UUIDs, trace IDs, or session IDs, matching `target`. Up to 10, and only units from the last 7 days. Conditions and sampling are ignored for pinned units, and unknown IDs are skipped. A session target tests at most 3 sessions. */
+export type CreateEvaluationsTestHogRequestSampleIdsList = Array<string>;
 export interface CreateEvaluationsTestHogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Optional trigger conditions to filter which events are sampled. */
+  conditions?: CreateEvaluationsTestHogRequestConditionsList | undefined;
+  /** What the evaluation runs against: 'generation' samples individual generations, 'trace' samples whole traces, and 'session' samples whole sessions that have gone quiet. Each target runs against the same globals it would run against online. * `generation` - Generation * `trace` - Trace * `session` - Session */
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
+  /** Target-specific preview settings. For a trace target, set window_seconds between 10 and 7200. */
+  target_config?: TestHogTargetConfig | undefined;
   /** Expected output: boolean, numeric, or categorical. Sentiment is not supported by Hog. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical */
   output_type?: HogEvaluationOutputTypeEnum | (string & {}) | undefined;
   /** Output settings used to validate the preview, including bounds, categories, and allows_na. */
@@ -554,15 +609,13 @@ export interface CreateEvaluationsTestHogRequest {
   sample_count?: number | undefined;
   /** Whether the evaluation can return N/A for non-applicable generations. */
   allows_na?: boolean | undefined;
-  /** Optional trigger conditions to filter which events are sampled. */
-  conditions?: CreateEvaluationsTestHogRequestConditionsList | undefined;
-  /** What the evaluation runs against: 'generation' samples individual generations, 'trace' samples whole traces, and 'session' samples whole sessions that have gone quiet. Each target runs against the same globals it would run against online. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum | (string & {}) | undefined;
-  /** Target-specific preview settings. For a trace target, set window_seconds between 10 and 7200. */
-  target_config?: TestHogTargetConfig | undefined;
+  /** Test exactly these units instead of sampling: generation event UUIDs, trace IDs, or session IDs, matching `target`. Up to 10, and only units from the last 7 days. Conditions and sampling are ignored for pinned units, and unknown IDs are skipped. A session target tests at most 3 sessions. */
+  sample_ids?: CreateEvaluationsTestHogRequestSampleIdsList | undefined;
 }
 /** Selected category keys. An empty list is an applicable result; null means no categorical result was produced. */
 export type TestHogResultItemCategoriesList = Array<string>;
+/** * `pass` - Pass * `fail` - Fail * `na` - Not applicable * `error` - Error */
+export type PreviewOutcomeEnum = "pass" | "fail" | "na" | "error";
 export interface TestHogResultItem {
   /** Selected category keys. An empty list is an applicable result; null means no categorical result was produced. */
   categories?: TestHogResultItemCategoriesList | null | undefined;
@@ -586,12 +639,140 @@ export interface TestHogResultItem {
   reasoning?: string | null | undefined;
   /** Error message if the Hog code raised an exception. */
   error?: string | null | undefined;
+  /** How the evaluation's passing rule grades this result: pass, fail, na for a not-applicable result, or error. Null when there is no rule to grade it, such as a score with no passing rule. * `pass` - Pass * `fail` - Fail * `na` - Not applicable * `error` - Error */
+  outcome: PreviewOutcomeEnum | null;
 }
 export type TestHogResponseResultsList = Array<TestHogResultItem>;
 export interface TestHogResponse {
   results?: TestHogResponseResultsList | undefined;
   /** Optional message, e.g. when no recent events were found. */
   message?: string | undefined;
+}
+/** Optional trigger conditions to filter which events are sampled. */
+export type CreateEvaluationsTestOnSampleRequestConditionsList = Array<PreviewCondition>;
+/** * `llm_judge` - LLM as a judge */
+export type TestOnSampleEvaluationTypeEnum = "llm_judge";
+/** Judge method. Omit to keep the saved method; null restores automatic routing. */
+export type CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0JudgeMethod =
+  | "llm"
+  | "decision";
+/** How much the judge model reasons before it answers. Only Anthropic and OpenAI reasoning models with the 'llm' judge method support it. Omit to keep the saved level; null uses the model's default. */
+export type CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0ReasoningLevel =
+  | "minimal"
+  | "low"
+  | "medium"
+  | "high";
+export interface CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0 {
+  /** Evaluation criteria for the LLM judge. Describe what makes a good vs bad response. */
+  prompt: string;
+  /** Judge method. Omit to keep the saved method; null restores automatic routing. */
+  judge_method?:
+    | CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0JudgeMethod
+    | (string & {})
+    | null
+    | undefined;
+  /** Set to false to judge text only. */
+  include_media?: boolean | undefined;
+  /** How much the judge model reasons before it answers. Only Anthropic and OpenAI reasoning models with the 'llm' judge method support it. Omit to keep the saved level; null uses the model's default. */
+  reasoning_level?:
+    | CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0ReasoningLevel
+    | (string & {})
+    | null
+    | undefined;
+}
+export type CreateEvaluationsTestOnSampleRequestEvaluationConfigCase1 =
+  CreateEvaluationRequestEvaluationConfigCase1;
+/** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
+export type CreateEvaluationsTestOnSampleRequestEvaluationConfigCase2Source = "user_messages";
+export interface CreateEvaluationsTestOnSampleRequestEvaluationConfigCase2 {
+  /** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
+  source?:
+    | CreateEvaluationsTestOnSampleRequestEvaluationConfigCase2Source
+    | (string & {})
+    | undefined;
+}
+/** Same as on an evaluation: {prompt, judge_method}. */
+export type CreateEvaluationsTestOnSampleRequestEvaluationConfig =
+  | CreateEvaluationsTestOnSampleRequestEvaluationConfigCase0
+  | CreateEvaluationRequestEvaluationConfigCase1
+  | CreateEvaluationsTestOnSampleRequestEvaluationConfigCase2;
+export type CreateEvaluationsTestOnSampleRequestOutputConfigOptionsItem =
+  CreateEvaluationRequestOutputConfigOptionsItem;
+/** Categorical output options. Keys identify stored results; labels are displayed to users. */
+export type CreateEvaluationsTestOnSampleRequestOutputConfigOptionsList =
+  Array<CreateEvaluationRequestOutputConfigOptionsItem>;
+/** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
+export type CreateEvaluationsTestOnSampleRequestOutputConfigSelectionMode = "single" | "multiple";
+/** Pass at or above (gte), or at or below (lte), the threshold. */
+export type CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase0Operator =
+  | "gte"
+  | "lte";
+export interface CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase0 {
+  /** Pass at or above (gte), or at or below (lte), the threshold. */
+  operator:
+    | CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase0Operator
+    | (string & {});
+  /** Finite passing threshold within any configured score bounds. */
+  threshold: number;
+}
+/** Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes. */
+export type CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase1CategoriesList =
+  Array<string>;
+export interface CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase1 {
+  /** Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes. */
+  categories: CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase1CategoriesList;
+}
+/** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
+export type CreateEvaluationsTestOnSampleRequestOutputConfigPassingRule =
+  | CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase0
+  | CreateEvaluationsTestOnSampleRequestOutputConfigPassingRuleCase1;
+/** Output settings, as on an evaluation: bounds, categories, allows_na, and passing rules. */
+export interface CreateEvaluationsTestOnSampleRequestOutputConfig {
+  /** Whether the evaluation can return N/A for non-applicable generations. */
+  allows_na?: boolean | undefined;
+  /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
+  true_is_failure?: boolean | undefined;
+  /** Boolean decision-model judges only. Minimum probability of true required for a true result, inclusive. Omit or set null to use 0.5. Applies to new runs; historical results are unchanged. */
+  decision_threshold?: number | null | undefined;
+  /** Inclusive minimum numeric score. Omit for no lower bound. Required for numeric decision models. */
+  min?: number | null | undefined;
+  /** Inclusive maximum numeric score. Omit for no upper bound. Required for numeric decision models and must exceed min. */
+  max?: number | null | undefined;
+  /** Optional positive input increment. Does not round evaluation results. */
+  step?: number | null | undefined;
+  /** Categorical output options. Keys identify stored results; labels are displayed to users. */
+  options?: CreateEvaluationsTestOnSampleRequestOutputConfigOptionsList | undefined;
+  /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
+  selection_mode?:
+    | CreateEvaluationsTestOnSampleRequestOutputConfigSelectionMode
+    | (string & {})
+    | undefined;
+  /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
+  passing_rule?: CreateEvaluationsTestOnSampleRequestOutputConfigPassingRule | null | undefined;
+}
+/** Test exactly these units instead of sampling, up to 3: generation event UUIDs, trace IDs, or session IDs, matching `target`. Conditions are ignored for pinned units, and unknown IDs are skipped. */
+export type CreateEvaluationsTestOnSampleRequestSampleIdsList = Array<string>;
+export interface CreateEvaluationsTestOnSampleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Optional trigger conditions to filter which events are sampled. */
+  conditions?: CreateEvaluationsTestOnSampleRequestConditionsList | undefined;
+  /** What the evaluation runs against: 'generation' samples individual generations, 'trace' samples whole traces, and 'session' samples whole sessions that have gone quiet. Each target runs against the same globals it would run against online. * `generation` - Generation * `trace` - Trace * `session` - Session */
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
+  /** Target-specific preview settings. For a trace target, set window_seconds between 10 and 7200. */
+  target_config?: TestHogTargetConfig | undefined;
+  /** 'llm_judge' runs the judge, or the decision model, on your own provider key. * `llm_judge` - LLM as a judge */
+  evaluation_type: TestOnSampleEvaluationTypeEnum | (string & {});
+  /** Same as on an evaluation: {prompt, judge_method}. */
+  evaluation_config: CreateEvaluationsTestOnSampleRequestEvaluationConfig;
+  /** Provider and model for an llm_judge, as on an evaluation. Required for llm_judge. */
+  model_configuration?: ModelConfigurationInput | null | undefined;
+  /** Expected output: boolean, numeric, or categorical. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
+  output_type?: OutputTypeEnum | (string & {}) | undefined;
+  /** Output settings, as on an evaluation: bounds, categories, allows_na, and passing rules. */
+  output_config?: CreateEvaluationsTestOnSampleRequestOutputConfig | undefined;
+  /** Test exactly these units instead of sampling, up to 3: generation event UUIDs, trace IDs, or session IDs, matching `target`. Conditions are ignored for pinned units, and unknown IDs are skipped. */
+  sample_ids?: CreateEvaluationsTestOnSampleRequestSampleIdsList | undefined;
 }
 export interface EvaluationsBackfillsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -771,8 +952,6 @@ export interface PassRateOverviewEntry {
 }
 /** Pass rate evaluations with results in the period, paused ones included, lowest rate first. */
 export type PassRateOverviewEntriesList = Array<PassRateOverviewEntry>;
-/** Median pass rate per bucket, aligned with `buckets`. */
-export type PassRateOverviewMedianTrendList = Array<number | null>;
 export interface PassRateOverview {
   /** Pass rate evaluations with results in the period, paused ones included, lowest rate first. */
   entries: PassRateOverviewEntriesList;
@@ -780,8 +959,6 @@ export interface PassRateOverview {
   median: number | null;
   /** Median pass rate in each period, over evaluations with results in both. Null when none has. */
   medianComparison: PeriodComparison | null;
-  /** Median pass rate per bucket, aligned with `buckets`. */
-  medianTrend: PassRateOverviewMedianTrendList;
 }
 export interface EvaluationsOverview {
   /** Start of the period, in the project's timezone. */
@@ -1207,8 +1384,8 @@ export const createEvaluationsBackfill: API.OperationMethod<
   CreateEvaluationsBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateEvaluationsBackfillRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<EvaluationBackfill>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateEvaluationsBackfillRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<EvaluationBackfill>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1225,14 +1402,32 @@ export const createEvaluationsBackfillsEstimate: API.OperationMethod<
   CreateEvaluationsBackfillsEstimateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateEvaluationsBackfillsEstimateRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<EvaluationBackfillEstimate>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateEvaluationsBackfillsEstimateRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<EvaluationBackfillEstimate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEvaluationsBackfillsEstimate",
+}));
+
+export type CreateEvaluationsSampleTrafficError = PosthogOpError;
+/** The latest units an unsaved evaluation would run on, newest first. */
+export const createEvaluationsSampleTraffic: API.OperationMethod<
+  CreateEvaluationsSampleTrafficRequest,
+  EvaluationSampleTrafficResponse,
+  CreateEvaluationsSampleTrafficError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(304, __c19, 0) as any as S.Schema<CreateEvaluationsSampleTrafficRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<EvaluationSampleTrafficResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationsSampleTraffic",
 }));
 
 export type CreateEvaluationsTestHogError = PosthogOpError;
@@ -1243,14 +1438,32 @@ export const createEvaluationsTestHog: API.OperationMethod<
   CreateEvaluationsTestHogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(258, __c16, 2) as any as S.Schema<CreateEvaluationsTestHogRequest>,
-  output: __S(261, __c16, 5) as any as S.Schema<TestHogResponse>,
+  input: __S(337, __c21, 1) as any as S.Schema<CreateEvaluationsTestHogRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<TestHogResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEvaluationsTestHog",
+}));
+
+export type CreateEvaluationsTestOnSampleError = PosthogOpError;
+/** Run an unsaved LLM judge on a few samples. Saves nothing and emits no results. */
+export const createEvaluationsTestOnSample: API.OperationMethod<
+  CreateEvaluationsTestOnSampleRequest,
+  TestHogResponse,
+  CreateEvaluationsTestOnSampleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(385, __c24, 1) as any as S.Schema<CreateEvaluationsTestOnSampleRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<TestHogResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationsTestOnSample",
 }));
 
 export type EvaluationsBackfillsCancelCreateError = PosthogOpError;
@@ -1261,8 +1474,8 @@ export const evaluationsBackfillsCancelCreate: API.OperationMethod<
   EvaluationsBackfillsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<EvaluationsBackfillsCancelCreateRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<EvaluationBackfill>,
+  input: __S(400, __c25, 0) as any as S.Schema<EvaluationsBackfillsCancelCreateRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<EvaluationBackfill>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1279,8 +1492,8 @@ export const evaluationsDestroy: API.OperationMethod<
   EvaluationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<EvaluationsDestroyRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<EvaluationsDestroyResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<EvaluationsDestroyRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<EvaluationsDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1296,7 +1509,7 @@ export const getEvaluation: API.OperationMethod<
   GetEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetEvaluationRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetEvaluationRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Evaluation>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1314,8 +1527,8 @@ export const getEvaluationsBackfill: API.OperationMethod<
   GetEvaluationsBackfillError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetEvaluationsBackfillRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<EvaluationBackfill>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetEvaluationsBackfillRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<EvaluationBackfill>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1332,8 +1545,8 @@ export const getEvaluationsOverview: API.OperationMethod<
   GetEvaluationsOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetEvaluationsOverviewRequest>,
-  output: __S(365, __c22, 13) as any as S.Schema<EvaluationsOverview>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetEvaluationsOverviewRequest>,
+  output: __S(141, __c8, 13) as any as S.Schema<EvaluationsOverview>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1350,8 +1563,8 @@ export const getEvaluationsRun: API.OperationMethod<
   GetEvaluationsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetEvaluationsRunRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<EvaluationRuns>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetEvaluationsRunRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<EvaluationRuns>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1368,8 +1581,8 @@ export const getEvaluationsScoreDistribution: API.OperationMethod<
   GetEvaluationsScoreDistributionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c8, 1) as any as S.Schema<GetEvaluationsScoreDistributionRequest>,
-  output: __S(132, __c8, 4) as any as S.Schema<ScoreHistogram>,
+  input: __S(177, __c11, 1) as any as S.Schema<GetEvaluationsScoreDistributionRequest>,
+  output: __S(180, __c11, 4) as any as S.Schema<ScoreHistogram>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1385,8 +1598,8 @@ export const listEvaluations: API.OperationMethod<
   ListEvaluationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListEvaluationsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<PaginatedEvaluationList>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListEvaluationsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<PaginatedEvaluationList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1403,8 +1616,8 @@ export const listEvaluationsBackfills: API.OperationMethod<
   ListEvaluationsBackfillsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListEvaluationsBackfillsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<PaginatedEvaluationBackfillList>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListEvaluationsBackfillsRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<PaginatedEvaluationBackfillList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1420,7 +1633,7 @@ export const updateEvaluation: API.OperationMethod<
   UpdateEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<UpdateEvaluationRequest>,
+  input: __S(225, __c14, 1) as any as S.Schema<UpdateEvaluationRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Evaluation>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1437,7 +1650,7 @@ export const updateEvaluationsPartial: API.OperationMethod<
   UpdateEvaluationsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<UpdateEvaluationsPartialRequest>,
+  input: __S(241, __c15, 1) as any as S.Schema<UpdateEvaluationsPartialRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Evaluation>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1459,7 +1672,7 @@ function __c0(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(81, __c5, 1)),
+          options: S.optional(__S(65, __c4, 1)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -1476,10 +1689,10 @@ function __c0(j: number): any {
           evaluation_config: S.optional(S.Unknown),
           output_type: S.optional(S.String),
           output_config: S.optional(__S(0, __c0, 0)),
-          conditions: S.optional(__S(49, __c3, 1)),
+          conditions: S.optional(__S(33, __c2, 1)),
           target: S.optional(S.String),
           target_config: S.optional(__S(96, __c6, 0)),
-          model_configuration: S.optional(S.NullOr(__S(16, __c1, 0))),
+          model_configuration: S.optional(S.NullOr(__S(80, __c5, 0))),
           deleted: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/evaluations/", code: 200 }),
@@ -1490,38 +1703,26 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.optional(S.String),
-          model: S.optional(S.String),
-          provider_key_id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ModelConfigurationInput" });
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Array(__S(16, __c1, 0));
   }
 }
 function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.Array(__S(32, __c2, 0));
-  }
-}
-function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           rollout_percentage: S.optional(S.Number),
-          properties: S.optional(__S(33, __c2, 1)),
+          properties: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "EvaluationCondition" });
     case 1:
-      return S.Array(__S(48, __c3, 0));
+      return S.Array(__S(32, __c2, 0));
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1533,13 +1734,13 @@ function __c4(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(32, __c2, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(16, __c1, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1549,7 +1750,19 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CreateEvaluationRequestOutputConfigOptionsItem" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(64, __c4, 0));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.optional(S.String),
+          model: S.optional(S.String),
+          provider_key_id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ModelConfigurationInput" });
   }
 }
 function __c6(j: number): any {
@@ -1572,7 +1785,7 @@ function __c6(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(81, __c5, 1)),
+          options: S.optional(__S(65, __c4, 1)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -1601,13 +1814,13 @@ function __c6(j: number): any {
           evaluation_config: S.optional(S.Unknown),
           output_type: S.optional(S.String),
           output_config: S.optional(__S(97, __c6, 1)),
-          conditions: S.optional(__S(49, __c3, 1)),
+          conditions: S.optional(__S(33, __c2, 1)),
           target: S.optional(S.String),
           target_config: S.optional(__S(96, __c6, 0)),
           model_configuration: S.optional(S.NullOr(__S(98, __c6, 2))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(64, __c4, 0))),
+          created_by: S.optional(S.NullOr(__S(48, __c3, 0))),
           deleted: S.optional(S.Boolean),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
@@ -1615,6 +1828,152 @@ function __c6(j: number): any {
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          evaluation_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEvaluationsBackfillRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          evaluation_ids: S.optional(__S(368, __c23, 0).pipe(T.Query())),
+          refresh: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/evaluations/overview/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEvaluationsOverviewRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          values: __S(129, __c8, 1),
+          volume: __S(130, __c8, 2),
+        }),
+      ).annotate({ identifier: "EvaluationResultTrend" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.Number,
+          unit: S.String,
+          subject: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ResultChange" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          directoryName: S.NullOr(S.String),
+          evaluationType: S.String,
+          outputType: S.String,
+          enabled: S.Boolean,
+          statusReason: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          gradedCount: S.Number,
+          previousGradedCount: S.NullOr(S.Number),
+          notApplicableCount: S.Number,
+          skippedCount: S.Number,
+          lastRunAt: S.NullOr(S.String),
+          summary: S.Unknown,
+          trend: __S(131, __c8, 3),
+          change: S.NullOr(__S(132, __c8, 4)),
+          lowEvidence: S.Boolean,
+          attentionReasons: __S(144, __c9, 0),
+          bucketStatus: __S(144, __c9, 0),
+          trackedCategory: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "EvaluationResult" });
+    case 6:
+      return S.Array(__S(133, __c8, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.Number,
+          previous: S.Number,
+        }),
+      ).annotate({ identifier: "PeriodComparison" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          evaluationId: S.String,
+          negativeShare: S.Number,
+          previousShare: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "OverviewSentiment" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          graded: S.Number,
+          gradedComparison: S.NullOr(__S(135, __c8, 7)),
+          gradedTrend: __S(130, __c8, 2),
+          sentiment: S.NullOr(__S(136, __c8, 8)),
+        }),
+      ).annotate({ identifier: "OverviewTotals" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          evaluationId: S.String,
+          rate: S.Number,
+          lowEvidence: S.Boolean,
+        }),
+      ).annotate({ identifier: "PassRateOverviewEntry" });
+    case 11:
+      return S.Array(__S(138, __c8, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          entries: __S(139, __c8, 11),
+          median: S.NullOr(S.Number),
+          medianComparison: S.NullOr(__S(135, __c8, 7)),
+        }),
+      ).annotate({ identifier: "PassRateOverview" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.String,
+          end: S.String,
+          previousStart: S.String,
+          previousEnd: S.String,
+          interval: S.String,
+          buckets: __S(368, __c23, 0),
+          evaluations: __S(134, __c8, 6),
+          totals: __S(137, __c8, 9),
+          passRateOverview: __S(140, __c8, 12),
+        }),
+      ).annotate({ identifier: "EvaluationsOverview" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1645,16 +2004,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "EvaluationRun" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(114, __c7, 2),
+          results: __S(162, __c10, 2),
         }),
       ).annotate({ identifier: "EvaluationRuns" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1687,17 +2046,17 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ScoreBucket" });
     case 3:
-      return S.Array(__S(130, __c8, 2));
+      return S.Array(__S(178, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          scale: __S(128, __c8, 0),
-          buckets: __S(131, __c8, 3),
+          scale: __S(176, __c11, 0),
+          buckets: __S(179, __c11, 3),
         }),
       ).annotate({ identifier: "ScoreHistogram" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1707,10 +2066,10 @@ function __c9(j: number): any {
           directory_id__isnull: S.optional(S.Boolean.pipe(T.Query())),
           enabled: S.optional(S.Boolean.pipe(T.Query())),
           evaluation_type: S.optional(S.String.pipe(T.Query())),
-          id__in: S.optional(__S(272, __c17, 0).pipe(T.Query())),
+          id__in: S.optional(__S(368, __c23, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          order_by: S.optional(__S(368, __c23, 0).pipe(T.Query())),
+          order_by: S.optional(__S(144, __c9, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/evaluations/", code: 200 }),
@@ -1724,12 +2083,12 @@ function __c9(j: number): any {
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(145, __c9, 1)),
+          results: S.optional(__S(193, __c12, 1)),
         }),
       ).annotate({ identifier: "PaginatedEvaluationList" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1747,19 +2106,19 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListEvaluationsBackfillsRequest" });
     case 1:
-      return S.Array(__S(226, __c14, 2));
+      return S.Array(__S(274, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(161, __c10, 1),
+          results: __S(209, __c13, 1),
         }),
       ).annotate({ identifier: "PaginatedEvaluationBackfillList" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1770,7 +2129,7 @@ function __c11(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(81, __c5, 1)),
+          options: S.optional(__S(65, __c4, 1)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -1787,11 +2146,11 @@ function __c11(j: number): any {
           evaluation_type: S.optional(S.String),
           evaluation_config: S.optional(S.Unknown),
           output_type: S.optional(S.String),
-          output_config: S.optional(__S(176, __c11, 0)),
-          conditions: S.optional(__S(49, __c3, 1)),
+          output_config: S.optional(__S(224, __c14, 0)),
+          conditions: S.optional(__S(33, __c2, 1)),
           target: S.optional(S.String),
           target_config: S.optional(__S(96, __c6, 0)),
-          model_configuration: S.optional(S.NullOr(__S(16, __c1, 0))),
+          model_configuration: S.optional(S.NullOr(__S(80, __c5, 0))),
           deleted: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/evaluations/{id}/", code: 200 }),
@@ -1799,7 +2158,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateEvaluationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1810,7 +2169,7 @@ function __c12(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(81, __c5, 1)),
+          options: S.optional(__S(65, __c4, 1)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -1827,11 +2186,11 @@ function __c12(j: number): any {
           evaluation_type: S.optional(S.String),
           evaluation_config: S.optional(S.Unknown),
           output_type: S.optional(S.String),
-          output_config: S.optional(__S(192, __c12, 0)),
-          conditions: S.optional(__S(49, __c3, 1)),
+          output_config: S.optional(__S(240, __c15, 0)),
+          conditions: S.optional(__S(33, __c2, 1)),
           target: S.optional(S.String),
           target_config: S.optional(__S(96, __c6, 0)),
-          model_configuration: S.optional(S.NullOr(__S(16, __c1, 0))),
+          model_configuration: S.optional(S.NullOr(__S(80, __c5, 0))),
           deleted: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1843,7 +2202,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateEvaluationsPartialRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,7 +2211,7 @@ function __c13(j: number): any {
           evaluation_id: S.String.pipe(T.Label()),
           window_start: S.String,
           window_end: S.String,
-          conditions: S.optional(__S(49, __c3, 1)),
+          conditions: S.optional(__S(33, __c2, 1)),
           rerun_existing: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1864,17 +2223,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateEvaluationsBackfillRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(33, __c2, 1)),
+          properties: S.optional(__S(17, __c1, 1)),
           rollout_percentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EvaluationBackfillCondition" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1884,8 +2243,9 @@ function __c14(j: number): any {
           target: S.String,
           window_start: S.String,
           window_end: S.String,
-          conditions: __S(225, __c14, 1),
+          conditions: __S(273, __c17, 1),
           rerun_existing: S.Boolean,
+          max_units: S.NullOr(S.Number),
           total_count: S.Number,
           dispatched_count: S.Number,
           completed_count: S.NullOr(S.Number),
@@ -1893,14 +2253,14 @@ function __c14(j: number): any {
           skipped_count: S.Number,
           failed_count: S.Number,
           remaining_count: S.NullOr(S.Number),
-          created_by: S.NullOr(__S(64, __c4, 0)),
+          created_by: S.NullOr(__S(48, __c3, 0)),
           created_at: S.String,
           finished_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "EvaluationBackfill" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1909,7 +2269,7 @@ function __c15(j: number): any {
           evaluation_id: S.String.pipe(T.Label()),
           window_start: S.String,
           window_end: S.String,
-          conditions: S.optional(__S(49, __c3, 1)),
+          conditions: S.optional(__S(33, __c2, 1)),
           rerun_existing: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1931,7 +2291,68 @@ function __c15(j: number): any {
       ).annotate({ identifier: "EvaluationBackfillEstimate" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          conditions: S.optional(__S(321, __c20, 1)),
+          target: S.optional(S.String),
+          target_config: S.optional(__S(322, __c20, 2)),
+          count: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/evaluations/sample_traffic/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateEvaluationsSampleTrafficRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sample_id: S.String,
+          sample_type: S.String,
+          trace_id: S.NullOr(S.String),
+          timestamp: S.String,
+          input_preview: S.String,
+          output_preview: S.String,
+        }),
+      ).annotate({ identifier: "EvaluationSampleTrafficItem" });
+    case 2:
+      return S.Array(__S(305, __c19, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(306, __c19, 2),
+        }),
+      ).annotate({ identifier: "EvaluationSampleTrafficResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          rollout_percentage: S.optional(S.Number),
+          properties: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "PreviewCondition" });
+    case 1:
+      return S.Array(__S(320, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          strategy: S.optional(S.String),
+          window_seconds: S.optional(S.Number),
+          quiet_period_seconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TestHogTargetConfig" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1942,7 +2363,7 @@ function __c16(j: number): any {
           min: S.optional(S.NullOr(S.Number)),
           max: S.optional(S.NullOr(S.Number)),
           step: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(81, __c5, 1)),
+          options: S.optional(__S(65, __c4, 1)),
           selection_mode: S.optional(S.String),
           passing_rule: S.optional(S.NullOr(S.Unknown)),
         }),
@@ -1950,22 +2371,16 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          window_seconds: S.optional(S.Number),
-          quiet_period_seconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TestHogTargetConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           project_id: S.String.pipe(T.Label()),
+          conditions: S.optional(__S(321, __c20, 1)),
+          target: S.optional(S.String),
+          target_config: S.optional(__S(322, __c20, 2)),
           output_type: S.optional(S.String),
-          output_config: S.optional(__S(256, __c16, 0)),
+          output_config: S.optional(__S(336, __c21, 0)),
           source: S.optional(S.String),
           sample_count: S.optional(S.Number),
           allows_na: S.optional(S.Boolean),
-          conditions: S.optional(__S(33, __c2, 1)),
-          target: S.optional(S.String),
-          target_config: S.optional(__S(257, __c16, 1)),
+          sample_ids: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1974,10 +2389,14 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateEvaluationsTestHogRequest" });
-    case 3:
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(S.NullOr(__S(272, __c17, 0))),
+          categories: S.optional(S.NullOr(__S(368, __c23, 0))),
           score: S.optional(S.NullOr(S.Number)),
           sample_id: S.optional(S.String),
           sample_type: S.optional(S.String),
@@ -1988,26 +2407,66 @@ function __c16(j: number): any {
           result: S.optional(S.NullOr(S.Boolean)),
           reasoning: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(S.String)),
+          outcome: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TestHogResultItem" });
-    case 4:
-      return S.Array(__S(259, __c16, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(352, __c22, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(260, __c16, 4)),
+          results: S.optional(__S(353, __c22, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "TestHogResponse" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allows_na: S.optional(S.Boolean),
+          true_is_failure: S.optional(S.Boolean),
+          decision_threshold: S.optional(S.NullOr(S.Number)),
+          min: S.optional(S.NullOr(S.Number)),
+          max: S.optional(S.NullOr(S.Number)),
+          step: S.optional(S.NullOr(S.Number)),
+          options: S.optional(__S(65, __c4, 1)),
+          selection_mode: S.optional(S.String),
+          passing_rule: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "CreateEvaluationsTestOnSampleRequestOutputConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          conditions: S.optional(__S(321, __c20, 1)),
+          target: S.optional(S.String),
+          target_config: S.optional(__S(322, __c20, 2)),
+          evaluation_type: S.String,
+          evaluation_config: S.Unknown,
+          model_configuration: S.optional(S.NullOr(__S(80, __c5, 0))),
+          output_type: S.optional(S.String),
+          output_config: S.optional(__S(384, __c24, 0)),
+          sample_ids: S.optional(__S(368, __c23, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/evaluations/test_on_sample/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateEvaluationsTestOnSampleRequest" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2025,7 +2484,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "EvaluationsBackfillsCancelCreateRequest" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2044,7 +2503,7 @@ function __c19(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "EvaluationsDestroyResponse" });
   }
 }
-function __c20(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2055,153 +2514,6 @@ function __c20(j: number): any {
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/evaluations/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "GetEvaluationRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          evaluation_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetEvaluationsBackfillRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          evaluation_ids: S.optional(__S(272, __c17, 0).pipe(T.Query())),
-          refresh: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/evaluations/overview/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetEvaluationsOverviewRequest" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
-    case 2:
-      return S.Array(S.Number);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          values: __S(353, __c22, 1),
-          volume: __S(354, __c22, 2),
-        }),
-      ).annotate({ identifier: "EvaluationResultTrend" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.Number,
-          unit: S.String,
-          subject: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ResultChange" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          directoryName: S.NullOr(S.String),
-          evaluationType: S.String,
-          outputType: S.String,
-          enabled: S.Boolean,
-          statusReason: S.NullOr(S.String),
-          createdBy: S.NullOr(S.String),
-          gradedCount: S.Number,
-          previousGradedCount: S.NullOr(S.Number),
-          notApplicableCount: S.Number,
-          skippedCount: S.Number,
-          lastRunAt: S.NullOr(S.String),
-          summary: S.Unknown,
-          trend: __S(355, __c22, 3),
-          change: S.NullOr(__S(356, __c22, 4)),
-          lowEvidence: S.Boolean,
-          attentionReasons: __S(368, __c23, 0),
-          bucketStatus: __S(368, __c23, 0),
-          trackedCategory: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "EvaluationResult" });
-    case 6:
-      return S.Array(__S(357, __c22, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          current: S.Number,
-          previous: S.Number,
-        }),
-      ).annotate({ identifier: "PeriodComparison" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          evaluationId: S.String,
-          negativeShare: S.Number,
-          previousShare: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "OverviewSentiment" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          graded: S.Number,
-          gradedComparison: S.NullOr(__S(359, __c22, 7)),
-          gradedTrend: __S(354, __c22, 2),
-          sentiment: S.NullOr(__S(360, __c22, 8)),
-        }),
-      ).annotate({ identifier: "OverviewTotals" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          evaluationId: S.String,
-          rate: S.Number,
-          lowEvidence: S.Boolean,
-        }),
-      ).annotate({ identifier: "PassRateOverviewEntry" });
-    case 11:
-      return S.Array(__S(362, __c22, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          entries: __S(363, __c22, 11),
-          median: S.NullOr(S.Number),
-          medianComparison: S.NullOr(__S(359, __c22, 7)),
-          medianTrend: __S(353, __c22, 1),
-        }),
-      ).annotate({ identifier: "PassRateOverview" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.String,
-          end: S.String,
-          previousStart: S.String,
-          previousEnd: S.String,
-          interval: S.String,
-          buckets: __S(272, __c17, 0),
-          evaluations: __S(358, __c22, 6),
-          totals: __S(361, __c22, 9),
-          passRateOverview: __S(364, __c22, 12),
-        }),
-      ).annotate({ identifier: "EvaluationsOverview" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

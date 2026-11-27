@@ -86,7 +86,8 @@ export type ResourceType =
   | "msgq_cluster"
   | "edge_vpc_endpoint"
   | "dviz_cluster"
-  | "nats_cluster";
+  | "nats_cluster"
+  | "kvdb_instance";
 export interface Resource {
   /** Type of resource the IP is attached to. */
   type?: ResourceType | undefined;

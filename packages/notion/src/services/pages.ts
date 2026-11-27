@@ -1594,6 +1594,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -2549,17 +2551,31 @@ export interface UpdatePageMarkdownRequestInsertContentPositionCase1 {
   /** Insert the content at the end of the page. */
   type: string;
 }
-/** Explicit position for inserted content. Use {"type":"start"} to prepend or {"type":"end"} to append. Cannot be combined with after. */
+export interface UpdatePageMarkdownRequestInsertContentPositionCase2 {
+  /** Insert the content after the block where the anchor ends, at that block's nesting level, so anchoring on a parent block inserts after its children. */
+  type: string;
+  /** Text copied exactly from the page, starting at the beginning of a line with its leading syntax, such as `## ` or `- `, and keeping its inline formatting and escapes. It doesn't need the whole line, only enough to match exactly one place on the page. If the target's text repeats, extend the anchor without moving its end for after_content or its start for before_content: start after_content at an earlier unique line, and continue before_content into the lines after it. */
+  anchor: string;
+}
+export interface UpdatePageMarkdownRequestInsertContentPositionCase3 {
+  /** Insert the content before the block where the anchor starts, at that block's nesting level. */
+  type: string;
+  /** Text copied exactly from the page, starting at the beginning of a line with its leading syntax, such as `## ` or `- `, and keeping its inline formatting and escapes. It doesn't need the whole line, only enough to match exactly one place on the page. If the target's text repeats, extend the anchor without moving its end for after_content or its start for before_content: start after_content at an earlier unique line, and continue before_content into the lines after it. */
+  anchor: string;
+}
+/** Where to insert the content. Use `{"type":"start"}` to prepend or `{"type":"end"}` to append. Use `{"type":"after_content","anchor":"..."}` or `{"type":"before_content","anchor":"..."}` to insert next to the block that the anchor matches; anchored positions require `markdown_version: "v2"`. Omit to append at the end of the page. */
 export type UpdatePageMarkdownRequestInsertContentPosition =
   | UpdatePageMarkdownRequestInsertContentPositionCase0
-  | UpdatePageMarkdownRequestInsertContentPositionCase1;
+  | UpdatePageMarkdownRequestInsertContentPositionCase1
+  | UpdatePageMarkdownRequestInsertContentPositionCase2
+  | UpdatePageMarkdownRequestInsertContentPositionCase3;
 /** Insert new content into the page. */
 export interface UpdatePageMarkdownRequestInsertContent {
   /** The Markdown content to insert into the page, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   content: string;
-  /** Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Omit to append at the end of the page. */
+  /** Deprecated: use `position` with `{"type":"after_content","anchor":"..."}` instead. Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Cannot be combined with `position`. */
   after?: string | undefined;
-  /** Explicit position for inserted content. Use {"type":"start"} to prepend or {"type":"end"} to append. Cannot be combined with after. */
+  /** Where to insert the content. Use `{"type":"start"}` to prepend or `{"type":"end"}` to append. Use `{"type":"after_content","anchor":"..."}` or `{"type":"before_content","anchor":"..."}` to insert next to the block that the anchor matches; anchored positions require `markdown_version: "v2"`. Omit to append at the end of the page. */
   position?: UpdatePageMarkdownRequestInsertContentPosition | undefined;
 }
 /** Replace a range of content in the page. */

@@ -275,6 +275,7 @@ export interface PartialRecordWithdrawSpeedWithdrawFeeConfig {
   wire?: WithdrawFeeConfig | undefined;
   interac?: WithdrawFeeConfig | undefined;
   swift?: WithdrawFeeConfig | undefined;
+  npp?: WithdrawFeeConfig | undefined;
   crypto?: WithdrawFeeConfig | undefined;
 }
 export interface ExternalMerchantResponseWithdrawFees {
@@ -473,6 +474,7 @@ export interface CustomWithdrawFeesConfig {
   wire?: CustomWithdrawFeeValue | undefined;
   interac?: CustomWithdrawFeeValue | undefined;
   swift?: CustomWithdrawFeeValue | undefined;
+  npp?: CustomWithdrawFeeValue | undefined;
   crypto?: CustomWithdrawFeeValue | undefined;
   global: CustomWithdrawFeeValue;
   lineItemLabel: string;
@@ -510,7 +512,9 @@ export type MerchantScope =
   | "viewer"
   | "seller"
   | "pos_device"
-  | "destructive";
+  | "destructive"
+  | "cardholder"
+  | "accounts_payable";
 export type ExternalMerchantResponseApiKeysItemsIpsList = Array<string>;
 export interface ExternalMerchantResponseApiKeysItems {
   createdAt?: string | undefined;
@@ -523,7 +527,7 @@ export interface ExternalMerchantResponseApiKeysItems {
 export type ExternalMerchantResponseApiKeysList = Array<ExternalMerchantResponseApiKeysItems>;
 export type KycType = "person" | "business" | "both";
 export type StableCoin = "USDC" | "SBC" | "EUROe" | "FXUSD" | "HSUSD" | "CFUSD" | "YPUSD";
-export type MpcWalletProvider = "metakeep" | "brale";
+export type MpcWalletProvider = "metakeep" | "brale" | "turnkey";
 export interface ExternalMerchantResponseSettlementAddressesRecipientAddressesItems {
   createdAt: string;
   recipient: string;
@@ -547,6 +551,7 @@ export interface ExternalMerchantResponseSettlementAddresses {
 }
 export type SsoProvider = "google";
 export interface ExternalMerchantResponseUsersItems {
+  mpcSignerId?: boolean | undefined;
   ssoProvider?: SsoProvider | undefined;
   scope: MerchantScope;
   password?: boolean | undefined;
@@ -649,6 +654,7 @@ export type WebhookEventType =
   | "Withdraw On Hold"
   | "Payout Account Linked"
   | "Bank Account Name Match Failed"
+  | "Bank Account Status Updated"
   | "Interac PIN"
   | "Seller Blocked"
   | "Refund"
@@ -747,6 +753,7 @@ export interface ExternalMerchantResponseCardSettings {
   allowServerToServerTokenization?: boolean | undefined;
   allowedCardNetworks?: ExternalMerchantResponseCardSettingsAllowedCardNetworksList | undefined;
   blockCardReuseAcrossCustomers?: boolean | undefined;
+  mitSettings?: CardOnFileSettings | undefined;
   cardOnFileSettings?: CardOnFileSettings | undefined;
   customStatementDescriptor?: boolean | undefined;
   l2l3?: ExternalMerchantResponseCardSettingsL2L3 | undefined;
@@ -900,6 +907,7 @@ export interface ExternalMerchantResponseVenmoSettings {
   processor?: boolean | undefined;
 }
 export type ExternalMerchantResponseApaSettings = ExternalMerchantResponseCashAppSettings;
+export type ExternalMerchantResponseBlockConfigBlockedBinsList = Array<string>;
 export type BlockingRuleScope = "WITHDRAWAL" | "CHECKOUT" | "GLOBAL";
 export type BlockingRuleMethod = "KYC_ADDRESS" | "IP" | "BILLING_ADDRESS" | "GEOLOCATION" | "BIN";
 export type BlockingRuleListMode = "DENY" | "ALLOW";
@@ -1227,6 +1235,7 @@ export type ExternalMerchantResponseBlockConfigWhitelistedBinLocationsList = Arr
 export interface ExternalMerchantResponseBlockConfig {
   maxDistinctTokensPer30Days?: number | undefined;
   disableInvoiceWalletPayment?: boolean | undefined;
+  blockedBins?: ExternalMerchantResponseBlockConfigBlockedBinsList | undefined;
   blockingRules?: ExternalMerchantResponseBlockConfigBlockingRulesList | undefined;
   bannedWithdrawalStates?:
     | ExternalMerchantResponseBlockConfigBannedWithdrawalStatesList
@@ -1243,6 +1252,9 @@ export interface IMerchantFraudNetwork {
 export type ExternalMerchantResponseBillingEmailsList = Array<string>;
 export interface ExternalMerchantResponseWithdrawFeePayment {
   paysWithdrawFees?: boolean | undefined;
+}
+export interface ExternalMerchantResponseLocalRailPayoutProviders {
+  npp?: boolean | undefined;
 }
 export type ExternalMerchantResponseInteracSettingsMinFee = Cents;
 export type ExternalMerchantResponseInteracSettingsFixedFee = Cents;
@@ -1375,6 +1387,7 @@ export interface ExternalMerchantResponse {
   rtpDwolla?: boolean | undefined;
   pixPayoutProviders?: boolean | undefined;
   eftPayoutProviders?: boolean | undefined;
+  localRailPayoutProviders?: ExternalMerchantResponseLocalRailPayoutProviders | undefined;
   p2cPayoutProviders?: boolean | undefined;
   venmoPayoutProviders?: boolean | undefined;
   paypalPayoutProviders?: boolean | undefined;
@@ -1385,6 +1398,7 @@ export interface ExternalMerchantResponse {
   maxTransactionAmount?: Cents | undefined;
   minTransactionAmount?: Cents | undefined;
   parent?: string | undefined;
+  isIsv?: boolean | undefined;
   globalOnboarding?: boolean | undefined;
   creditSeed: string;
   enforceJwt: boolean;
@@ -1531,7 +1545,7 @@ export const getSubmerchant: API.OperationMethod<
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetSubmerchantRequest>,
-  output: __S(221, __c6, 29) as any as S.Schema<ExternalMerchantResponse>,
+  output: __S(222, __c6, 30) as any as S.Schema<ExternalMerchantResponse>,
   errors: [NotFound],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -1781,6 +1795,7 @@ function __c5(j: number): any {
           wire: S.optional(__S(168, __c5, 8)),
           interac: S.optional(__S(168, __c5, 8)),
           swift: S.optional(__S(168, __c5, 8)),
+          npp: S.optional(__S(168, __c5, 8)),
           crypto: S.optional(__S(168, __c5, 8)),
         }),
       ).annotate({ identifier: "PartialRecordWithdrawSpeedWithdrawFeeConfig" });
@@ -1808,6 +1823,7 @@ function __c5(j: number): any {
           wire: S.optional(S.Unknown),
           interac: S.optional(S.Unknown),
           swift: S.optional(S.Unknown),
+          npp: S.optional(S.Unknown),
           crypto: S.optional(S.Unknown),
           global: S.Unknown,
           lineItemLabel: S.String,
@@ -1866,6 +1882,7 @@ function __c5(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
+          mpcSignerId: S.optional(S.Boolean),
           ssoProvider: S.optional(S.String),
           scope: S.String,
           password: S.optional(S.Boolean),
@@ -2002,6 +2019,7 @@ function __c6(j: number): any {
           allowServerToServerTokenization: S.optional(S.Boolean),
           allowedCardNetworks: S.optional(__S(163, __c5, 3)),
           blockCardReuseAcrossCustomers: S.optional(S.Boolean),
+          mitSettings: S.optional(__S(190, __c5, 30)),
           cardOnFileSettings: S.optional(__S(190, __c5, 30)),
           customStatementDescriptor: S.optional(S.Boolean),
           l2l3: S.optional(__S(191, __c5, 31)),
@@ -2195,6 +2213,7 @@ function __c6(j: number): any {
         S.Struct({
           maxDistinctTokensPer30Days: S.optional(S.Number),
           disableInvoiceWalletPayment: S.optional(S.Boolean),
+          blockedBins: S.optional(__S(32, __c1, 0)),
           blockingRules: S.optional(__S(208, __c6, 16)),
           bannedWithdrawalStates: S.optional(__S(163, __c5, 3)),
           whitelistedBinLocations: S.optional(__S(163, __c5, 3)),
@@ -2217,6 +2236,12 @@ function __c6(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
+          npp: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExternalMerchantResponseLocalRailPayoutProviders" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
           rebateFixed: S.optional(__S(165, __c5, 5)),
           rebateBps: S.optional(S.Number),
           merchantEmailNotifications: S.Boolean,
@@ -2228,7 +2253,7 @@ function __c6(j: number): any {
           feeMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalMerchantResponseInteracSettings" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           blockedAt: S.String,
@@ -2237,7 +2262,7 @@ function __c6(j: number): any {
           level: S.String,
         }),
       ).annotate({ identifier: "ExternalMerchantResponseBlocked" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -2245,7 +2270,7 @@ function __c6(j: number): any {
           clientId: S.String,
         }),
       ).annotate({ identifier: "ExternalMerchantResponseVendorSettingsPaze" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -2253,14 +2278,14 @@ function __c6(j: number): any {
           accountId: S.String,
         }),
       ).annotate({ identifier: "ExternalMerchantResponseVendorSettingsKoard" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          paze: S.optional(__S(214, __c6, 22)),
-          koard: S.optional(__S(215, __c6, 23)),
+          paze: S.optional(__S(215, __c6, 23)),
+          koard: S.optional(__S(216, __c6, 24)),
         }),
       ).annotate({ identifier: "ExternalMerchantResponseVendorSettings" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.SensitiveValue({})),
@@ -2268,7 +2293,7 @@ function __c6(j: number): any {
           useWire: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MerchantBankSettlementOptions" });
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           useType: S.Boolean,
@@ -2278,13 +2303,13 @@ function __c6(j: number): any {
           useDurbin: S.Boolean,
         }),
       ).annotate({ identifier: "InterchangeSettings" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          settings: __S(218, __c6, 26),
+          settings: __S(219, __c6, 27),
         }),
       ).annotate({ identifier: "ExternalMerchantResponseInterchangeFees" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
@@ -2294,7 +2319,7 @@ function __c6(j: number): any {
           allowInterEmbeddedTransfers: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EmbeddedAccountSettings" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
@@ -2342,29 +2367,31 @@ function __c6(j: number): any {
           rtpDwolla: S.optional(S.Boolean),
           pixPayoutProviders: S.optional(S.Boolean),
           eftPayoutProviders: S.optional(S.Boolean),
+          localRailPayoutProviders: S.optional(__S(212, __c6, 20)),
           p2cPayoutProviders: S.optional(S.Boolean),
           venmoPayoutProviders: S.optional(S.Boolean),
           paypalPayoutProviders: S.optional(S.Boolean),
           wirePayoutProvider: S.optional(S.Boolean),
           cryptoPayoutProviders: S.optional(S.Boolean),
           interacPayoutProviders: S.optional(S.Boolean),
-          interacSettings: __S(212, __c6, 20),
+          interacSettings: __S(213, __c6, 21),
           maxTransactionAmount: S.optional(__S(165, __c5, 5)),
           minTransactionAmount: S.optional(__S(165, __c5, 5)),
           parent: S.optional(S.String),
+          isIsv: S.optional(S.Boolean),
           globalOnboarding: S.optional(S.Boolean),
           creditSeed: S.String,
           enforceJwt: S.Boolean,
           enforceCheckoutJwt: S.optional(S.Boolean),
           externalVerificationLinks: S.optional(S.Boolean),
           whitelistedAncestorUrls: S.optional(__S(32, __c1, 0)),
-          blocked: S.optional(__S(213, __c6, 21)),
-          vendorSettings: S.optional(__S(216, __c6, 24)),
-          bankSettlementOptions: S.optional(__S(217, __c6, 25)),
-          interchangeFees: __S(219, __c6, 27),
+          blocked: S.optional(__S(214, __c6, 22)),
+          vendorSettings: S.optional(__S(217, __c6, 25)),
+          bankSettlementOptions: S.optional(__S(218, __c6, 26)),
+          interchangeFees: __S(220, __c6, 28),
           enforceLivenessKyc: S.optional(S.Boolean),
           kycMinAge: S.optional(S.Number),
-          embeddedAccountSettings: S.optional(__S(220, __c6, 28)),
+          embeddedAccountSettings: S.optional(__S(221, __c6, 29)),
           acceptedToS: S.optional(S.Boolean),
           chargebackFeeCents: S.optional(S.Number),
           dailyStatementsEnabled: S.optional(S.Boolean),
@@ -2390,7 +2417,7 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/submerchant", code: 200 })),
       ).annotate({ identifier: "GetSubmerchantsRequest" });
     case 1:
-      return S.Array(__S(221, __c6, 29));
+      return S.Array(__S(222, __c6, 30));
     case 2:
       return S.suspend(() => __S(225, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSubmerchantsResponse",

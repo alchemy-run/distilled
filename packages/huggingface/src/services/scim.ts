@@ -90,7 +90,7 @@ export interface CreateScimInvitationRequest {
   userName: string;
   emails: CreateScimInvitationRequestEmailsList;
   active?: boolean | undefined;
-  /** SSO unique identifier (SAML nameid or OIDC sub claim) - required for SSO login */
+  /** IdP SCIM identifier, used to look the user up. SSO login matches the SAML NameID or OIDC sub separately */
   externalId: string;
 }
 export type CreateScimInvitationResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";

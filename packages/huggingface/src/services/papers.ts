@@ -139,7 +139,7 @@ export type GetPaperResponseMediaUrlsList = Array<string>;
 /** User overview information */
 export type GetPaperResponseSubmittedOnDailyBy = GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
 export type GetPaperResponseAiKeywordsList = Array<string>;
-export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvider =
+export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -161,6 +161,29 @@ export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvi
   | "together"
   | "wavespeed"
   | "zai-org";
+export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvider =
+  | GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase0
+  | GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderCase1;
 export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -1007,7 +1030,7 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          provider: S.String,
+          provider: S.Unknown,
           providerStatus: S.String,
           modelStatus: S.String,
           providerId: S.String,

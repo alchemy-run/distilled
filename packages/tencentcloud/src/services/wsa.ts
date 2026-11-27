@@ -34,6 +34,7 @@ export interface SearchProRequest {
   Site?: string | undefined;
   Cnt?: number | undefined;
   Industry?: string | undefined;
+  Switch?: string | undefined;
   Freshness?: string | undefined;
   Deeplinks?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -75,6 +76,7 @@ function __c0(j: number): any {
           Site: S.optional(S.String),
           Cnt: S.optional(S.Number),
           Industry: S.optional(S.String),
+          Switch: S.optional(S.String),
           Freshness: S.optional(S.String),
           Deeplinks: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),

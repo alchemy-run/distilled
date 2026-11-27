@@ -106,23 +106,23 @@ export interface GetEnterprisesDevicesRequest {
 }
 /** Represents device relationships, for instance, structure/room to which the device is assigned to. */
 export interface GoogleHomeEnterpriseSdmV1ParentRelation {
-  /** Output only. The name of the relation -- e.g., structure/room where the device is assigned to. For example: "enterprises/XYZ/structures/ABC" or "enterprises/XYZ/structures/ABC/rooms/123" */
-  parent?: string | undefined;
   /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
   displayName?: string | undefined;
+  /** Output only. The name of the relation -- e.g., structure/room where the device is assigned to. For example: "enterprises/XYZ/structures/ABC" or "enterprises/XYZ/structures/ABC/rooms/123" */
+  parent?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1ParentRelationList =
   Array<GoogleHomeEnterpriseSdmV1ParentRelation>;
 /** Device resource represents an instance of enterprise managed device in the property. */
 export interface GoogleHomeEnterpriseSdmV1Device {
-  /** Output only. Type of the device for general display purposes. For example: "THERMOSTAT". The device type should not be used to deduce or infer functionality of the actual device it is assigned to. Instead, use the returned traits for the device. */
-  type?: string | undefined;
-  /** Output only. Device traits. */
-  traits?: DocumentMap | undefined;
   /** Assignee details of the device. */
   parentRelations?: GoogleHomeEnterpriseSdmV1ParentRelationList | undefined;
   /** Required. The resource name of the device. For example: "enterprises/XYZ/devices/123". */
   name?: string | undefined;
+  /** Output only. Type of the device for general display purposes. For example: "THERMOSTAT". The device type should not be used to deduce or infer functionality of the actual device it is assigned to. Instead, use the returned traits for the device. */
+  type?: string | undefined;
+  /** Output only. Device traits. */
+  traits?: DocumentMap | undefined;
 }
 export interface GetEnterprisesStructuresRequest {
   /** The name of the structure requested. For example: "enterprises/XYZ/structures/ABC". */
@@ -394,8 +394,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String),
           displayName: S.optional(S.String),
+          parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ParentRelation" });
     case 1:
@@ -403,10 +403,10 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          traits: S.optional(__S(8, __c2, 0)),
           parentRelations: S.optional(__S(17, __c4, 1)),
           name: S.optional(S.String),
+          type: S.optional(S.String),
+          traits: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1Device" });
   }

@@ -82,65 +82,45 @@ export class PaymentRequired
     [{ status: 402 }],
   ) {}
 
-/** The kind of flag */
-export type CreateFlagRequestKind = "boolean" | "string" | "number" | "json";
-export type CreateFlagRequestVariantsItemValueCase4List = Array<unknown>;
-export type CreateFlagRequestVariantsItemValue =
-  | string
-  | number
-  | boolean
-  | unknown
-  | CreateFlagRequestVariantsItemValueCase4List;
-export interface CreateFlagRequestVariantsItem {
-  /** The id of the variant */
-  id: string;
-  /** A label for the variant */
-  label?: string | undefined;
-  /** A description of the variant */
-  description?: string | undefined;
-  value: CreateFlagRequestVariantsItemValue;
-}
-/** The variants of the flag */
-export type CreateFlagRequestVariantsList = Array<CreateFlagRequestVariantsItem>;
 /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-export interface CreateFlagRequestEnvironmentsValueReuse {
+export interface CreateFlagRequestEnvironmentsProductionReuse {
   /** Whether the reuse is active or not */
   active: boolean;
   /** The environment to link to */
   environment: string;
 }
-export interface CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem {
+export interface CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem {
   note?: string | undefined;
   value: string;
 }
-export type CreateFlagRequestEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
-export type CreateFlagRequestEnvironmentsValueTargetsValueValueMap = {
-  [key: string]: CreateFlagRequestEnvironmentsValueTargetsValueValueValueList | undefined;
+export type CreateFlagRequestEnvironmentsProductionTargetsValueValueValueList =
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
+export type CreateFlagRequestEnvironmentsProductionTargetsValueValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsProductionTargetsValueValueValueList | undefined;
 };
-export type CreateFlagRequestEnvironmentsValueTargetsValueMap = {
-  [key: string]: CreateFlagRequestEnvironmentsValueTargetsValueValueMap | undefined;
+export type CreateFlagRequestEnvironmentsProductionTargetsValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsProductionTargetsValueValueMap | undefined;
 };
 /** Allows assigning targets to variants while bypassing the flag's rules */
-export type CreateFlagRequestEnvironmentsValueTargetsMap = {
-  [key: string]: CreateFlagRequestEnvironmentsValueTargetsValueMap | undefined;
+export type CreateFlagRequestEnvironmentsProductionTargetsMap = {
+  [key: string]: CreateFlagRequestEnvironmentsProductionTargetsValueMap | undefined;
 };
-export interface CreateFlagRequestEnvironmentsValuePausedOutcome {
+export interface CreateFlagRequestEnvironmentsProductionPausedOutcome {
   type: unknown;
   variantId: string;
 }
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0 {
   type: unknown;
 }
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1 {
   type: unknown;
   kind: string;
   attribute: string;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp =
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhs =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmp =
   | "eq"
   | "!eq"
   | "oneOf"
@@ -164,80 +144,80 @@ export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp =
   | "!regex"
   | "before"
   | "after";
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0Type =
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0Type =
   | "list/inline"
   | "list";
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0 {
   label?: string | undefined;
   note?: string | undefined;
   value: number;
 }
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1 {
   label?: string | undefined;
   note?: string | undefined;
   value: string;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItem>;
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0 {
-  type: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0Type | (string & {});
-  items: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsList;
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItem =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItem>;
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0 {
+  type: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0Type | (string & {});
+  items: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsList;
 }
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1 {
   type: unknown;
   pattern: string;
   flags: string;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhs =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
   | string
   | number
   | boolean;
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions {
   ignoreCase?: boolean | undefined;
 }
-export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItem {
-  lhs: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs;
-  cmp: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp | (string & {});
-  rhs?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs | undefined;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+export interface CreateFlagRequestEnvironmentsProductionRulesItemConditionsItem {
+  lhs: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhs;
+  cmp: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmp | (string & {});
+  rhs?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemConditionsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemConditionsItem>;
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase0 =
-  CreateFlagRequestEnvironmentsValuePausedOutcome;
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsProductionRulesItemConditionsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemConditionsItem>;
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 /** The distribution for each variant */
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase1WeightsMap = {
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase1WeightsMap = {
   [key: string]: number | undefined;
 };
-export interface CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase1 {
+export interface CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase1 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** The distribution for each variant */
-  weights: CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase1WeightsMap;
+  weights: CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase1WeightsMap;
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
-export interface CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem {
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export interface CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem {
   /** Promille of traffic for rollToVariant (0-100_000, where 1_000 = 1%) */
   promille: number;
   /** How long this promille is served in ms before moving to the next slot. */
   durationMs: number;
 }
 /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem>;
-export interface CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** Epoch ms when the rollout begins */
   startTimestamp: number;
   /** The variant to roll away from */
@@ -247,47 +227,47 @@ export interface CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
-  slots: CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsList;
+  slots: CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
   finalPromille?: number | undefined;
 }
-export type CreateFlagRequestEnvironmentsValueRulesItemOutcome =
-  | CreateFlagRequestEnvironmentsValuePausedOutcome
-  | CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase1
-  | CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2;
-export interface CreateFlagRequestEnvironmentsValueRulesItem {
+export type CreateFlagRequestEnvironmentsProductionRulesItemOutcome =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase1
+  | CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2;
+export interface CreateFlagRequestEnvironmentsProductionRulesItem {
   id: string;
-  conditions: CreateFlagRequestEnvironmentsValueRulesItemConditionsList;
-  outcome: CreateFlagRequestEnvironmentsValueRulesItemOutcome;
+  conditions: CreateFlagRequestEnvironmentsProductionRulesItemConditionsList;
+  outcome: CreateFlagRequestEnvironmentsProductionRulesItemOutcome;
 }
-export type CreateFlagRequestEnvironmentsValueRulesList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItem>;
-export type CreateFlagRequestEnvironmentsValueFallthroughCase0 =
-  CreateFlagRequestEnvironmentsValuePausedOutcome;
-export type CreateFlagRequestEnvironmentsValueFallthroughCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsProductionRulesList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItem>;
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 /** The distribution for each variant */
-export type CreateFlagRequestEnvironmentsValueFallthroughCase1WeightsMap = {
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase1WeightsMap = {
   [key: string]: number | undefined;
 };
-export interface CreateFlagRequestEnvironmentsValueFallthroughCase1 {
+export interface CreateFlagRequestEnvironmentsProductionFallthroughCase1 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** The distribution for each variant */
-  weights: CreateFlagRequestEnvironmentsValueFallthroughCase1WeightsMap;
+  weights: CreateFlagRequestEnvironmentsProductionFallthroughCase1WeightsMap;
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
 }
-export type CreateFlagRequestEnvironmentsValueFallthroughCase2Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
-export type CreateFlagRequestEnvironmentsValueFallthroughCase2SlotsItem =
-  CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem;
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase2SlotsItem =
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
 /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
-export type CreateFlagRequestEnvironmentsValueFallthroughCase2SlotsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem>;
-export interface CreateFlagRequestEnvironmentsValueFallthroughCase2 {
+export type CreateFlagRequestEnvironmentsProductionFallthroughCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsProductionFallthroughCase2 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** Epoch ms when the rollout begins */
   startTimestamp: number;
   /** The variant to roll away from */
@@ -297,30 +277,429 @@ export interface CreateFlagRequestEnvironmentsValueFallthroughCase2 {
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
-  slots: CreateFlagRequestEnvironmentsValueFallthroughCase2SlotsList;
+  slots: CreateFlagRequestEnvironmentsProductionFallthroughCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
   finalPromille?: number | undefined;
 }
-export type CreateFlagRequestEnvironmentsValueFallthrough =
-  | CreateFlagRequestEnvironmentsValuePausedOutcome
-  | CreateFlagRequestEnvironmentsValueFallthroughCase1
-  | CreateFlagRequestEnvironmentsValueFallthroughCase2;
-export interface CreateFlagRequestEnvironmentsValue {
+export type CreateFlagRequestEnvironmentsProductionFallthrough =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsProductionFallthroughCase1
+  | CreateFlagRequestEnvironmentsProductionFallthroughCase2;
+export interface CreateFlagRequestEnvironmentsProduction {
   active: boolean;
   /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-  reuse?: CreateFlagRequestEnvironmentsValueReuse | undefined;
+  reuse?: CreateFlagRequestEnvironmentsProductionReuse | undefined;
   /** Allows assigning targets to variants while bypassing the flag's rules */
-  targets?: CreateFlagRequestEnvironmentsValueTargetsMap | undefined;
-  pausedOutcome: CreateFlagRequestEnvironmentsValuePausedOutcome;
-  rules: CreateFlagRequestEnvironmentsValueRulesList;
-  fallthrough: CreateFlagRequestEnvironmentsValueFallthrough;
+  targets?: CreateFlagRequestEnvironmentsProductionTargetsMap | undefined;
+  pausedOutcome: CreateFlagRequestEnvironmentsProductionPausedOutcome;
+  rules: CreateFlagRequestEnvironmentsProductionRulesList;
+  fallthrough: CreateFlagRequestEnvironmentsProductionFallthrough;
   /** The revision of the environment config */
   revision?: number | undefined;
 }
-/** The configuration for the flag in different environments */
-export type CreateFlagRequestEnvironmentsMap = {
-  [key: string]: CreateFlagRequestEnvironmentsValue | undefined;
+/** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
+export type CreateFlagRequestEnvironmentsPreviewReuse =
+  CreateFlagRequestEnvironmentsProductionReuse;
+export type CreateFlagRequestEnvironmentsPreviewTargetsValueValueValueItem =
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
+export type CreateFlagRequestEnvironmentsPreviewTargetsValueValueValueList =
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
+export type CreateFlagRequestEnvironmentsPreviewTargetsValueValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsPreviewTargetsValueValueValueList | undefined;
 };
+export type CreateFlagRequestEnvironmentsPreviewTargetsValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsPreviewTargetsValueValueMap | undefined;
+};
+/** Allows assigning targets to variants while bypassing the flag's rules */
+export type CreateFlagRequestEnvironmentsPreviewTargetsMap = {
+  [key: string]: CreateFlagRequestEnvironmentsPreviewTargetsValueMap | undefined;
+};
+export type CreateFlagRequestEnvironmentsPreviewPausedOutcome =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemLhsCase0 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemLhsCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemLhs =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemCmp =
+  | "eq"
+  | "!eq"
+  | "oneOf"
+  | "!oneOf"
+  | "containsAllOf"
+  | "containsAnyOf"
+  | "containsNoneOf"
+  | "startsWith"
+  | "!startsWith"
+  | "endsWith"
+  | "!endsWith"
+  | "contains"
+  | "!contains"
+  | "ex"
+  | "!ex"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "regex"
+  | "!regex"
+  | "before"
+  | "after";
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0Type =
+  | "list/inline"
+  | "list";
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsItemCase0 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsItemCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsItem =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsList =
+  Array<CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsItem>;
+export interface CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0 {
+  type: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0Type | (string & {});
+  items: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0ItemsList;
+}
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhs =
+  | CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
+  | string
+  | number
+  | boolean;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemCmpOptions =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
+export interface CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItem {
+  lhs: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemLhs;
+  cmp: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemCmp | (string & {});
+  rhs?: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
+}
+export type CreateFlagRequestEnvironmentsPreviewRulesItemConditionsList =
+  Array<CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItem>;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+/** The distribution for each variant */
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase1WeightsMap = {
+  [key: string]: number | undefined;
+};
+export interface CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase1 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** The distribution for each variant */
+  weights: CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase1WeightsMap;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+}
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2SlotsItem =
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
+/** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** Epoch ms when the rollout begins */
+  startTimestamp: number;
+  /** The variant to roll away from */
+  rollFromVariantId: string;
+  /** The variant to roll towards */
+  rollToVariantId: string;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+  /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+  slots: CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2SlotsList;
+  /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
+  finalPromille?: number | undefined;
+}
+export type CreateFlagRequestEnvironmentsPreviewRulesItemOutcome =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase1
+  | CreateFlagRequestEnvironmentsPreviewRulesItemOutcomeCase2;
+export interface CreateFlagRequestEnvironmentsPreviewRulesItem {
+  id: string;
+  conditions: CreateFlagRequestEnvironmentsPreviewRulesItemConditionsList;
+  outcome: CreateFlagRequestEnvironmentsPreviewRulesItemOutcome;
+}
+export type CreateFlagRequestEnvironmentsPreviewRulesList =
+  Array<CreateFlagRequestEnvironmentsPreviewRulesItem>;
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+/** The distribution for each variant */
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase1WeightsMap = {
+  [key: string]: number | undefined;
+};
+export interface CreateFlagRequestEnvironmentsPreviewFallthroughCase1 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** The distribution for each variant */
+  weights: CreateFlagRequestEnvironmentsPreviewFallthroughCase1WeightsMap;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+}
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase2SlotsItem =
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
+/** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+export type CreateFlagRequestEnvironmentsPreviewFallthroughCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsPreviewFallthroughCase2 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** Epoch ms when the rollout begins */
+  startTimestamp: number;
+  /** The variant to roll away from */
+  rollFromVariantId: string;
+  /** The variant to roll towards */
+  rollToVariantId: string;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+  /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+  slots: CreateFlagRequestEnvironmentsPreviewFallthroughCase2SlotsList;
+  /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
+  finalPromille?: number | undefined;
+}
+export type CreateFlagRequestEnvironmentsPreviewFallthrough =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsPreviewFallthroughCase1
+  | CreateFlagRequestEnvironmentsPreviewFallthroughCase2;
+export interface CreateFlagRequestEnvironmentsPreview {
+  active: boolean;
+  /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
+  reuse?: CreateFlagRequestEnvironmentsProductionReuse | undefined;
+  /** Allows assigning targets to variants while bypassing the flag's rules */
+  targets?: CreateFlagRequestEnvironmentsPreviewTargetsMap | undefined;
+  pausedOutcome: CreateFlagRequestEnvironmentsProductionPausedOutcome;
+  rules: CreateFlagRequestEnvironmentsPreviewRulesList;
+  fallthrough: CreateFlagRequestEnvironmentsPreviewFallthrough;
+  /** The revision of the environment config */
+  revision?: number | undefined;
+}
+/** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
+export type CreateFlagRequestEnvironmentsDevelopmentReuse =
+  CreateFlagRequestEnvironmentsProductionReuse;
+export type CreateFlagRequestEnvironmentsDevelopmentTargetsValueValueValueItem =
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
+export type CreateFlagRequestEnvironmentsDevelopmentTargetsValueValueValueList =
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
+export type CreateFlagRequestEnvironmentsDevelopmentTargetsValueValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsDevelopmentTargetsValueValueValueList | undefined;
+};
+export type CreateFlagRequestEnvironmentsDevelopmentTargetsValueMap = {
+  [key: string]: CreateFlagRequestEnvironmentsDevelopmentTargetsValueValueMap | undefined;
+};
+/** Allows assigning targets to variants while bypassing the flag's rules */
+export type CreateFlagRequestEnvironmentsDevelopmentTargetsMap = {
+  [key: string]: CreateFlagRequestEnvironmentsDevelopmentTargetsValueMap | undefined;
+};
+export type CreateFlagRequestEnvironmentsDevelopmentPausedOutcome =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemLhsCase0 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemLhsCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemLhs =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemCmp =
+  | "eq"
+  | "!eq"
+  | "oneOf"
+  | "!oneOf"
+  | "containsAllOf"
+  | "containsAnyOf"
+  | "containsNoneOf"
+  | "startsWith"
+  | "!startsWith"
+  | "endsWith"
+  | "!endsWith"
+  | "contains"
+  | "!contains"
+  | "ex"
+  | "!ex"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "regex"
+  | "!regex"
+  | "before"
+  | "after";
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0Type =
+  | "list/inline"
+  | "list";
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsItemCase0 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsItemCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsItem =
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsList =
+  Array<CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsItem>;
+export interface CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0 {
+  type: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0Type | (string & {});
+  items: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0ItemsList;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase1 =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhs =
+  | CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
+  | string
+  | number
+  | boolean;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemCmpOptions =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
+export interface CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItem {
+  lhs: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemLhs;
+  cmp: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemCmp | (string & {});
+  rhs?: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsList =
+  Array<CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItem>;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+/** The distribution for each variant */
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase1WeightsMap = {
+  [key: string]: number | undefined;
+};
+export interface CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase1 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** The distribution for each variant */
+  weights: CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase1WeightsMap;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2SlotsItem =
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
+/** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** Epoch ms when the rollout begins */
+  startTimestamp: number;
+  /** The variant to roll away from */
+  rollFromVariantId: string;
+  /** The variant to roll towards */
+  rollToVariantId: string;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+  /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+  slots: CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2SlotsList;
+  /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
+  finalPromille?: number | undefined;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcome =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase1
+  | CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcomeCase2;
+export interface CreateFlagRequestEnvironmentsDevelopmentRulesItem {
+  id: string;
+  conditions: CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsList;
+  outcome: CreateFlagRequestEnvironmentsDevelopmentRulesItemOutcome;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentRulesList =
+  Array<CreateFlagRequestEnvironmentsDevelopmentRulesItem>;
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase0 =
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase1Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+/** The distribution for each variant */
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase1WeightsMap = {
+  [key: string]: number | undefined;
+};
+export interface CreateFlagRequestEnvironmentsDevelopmentFallthroughCase1 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** The distribution for each variant */
+  weights: CreateFlagRequestEnvironmentsDevelopmentFallthroughCase1WeightsMap;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2Base =
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2SlotsItem =
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
+/** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+export type CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2SlotsList =
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
+export interface CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2 {
+  type: unknown;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
+  /** Epoch ms when the rollout begins */
+  startTimestamp: number;
+  /** The variant to roll away from */
+  rollFromVariantId: string;
+  /** The variant to roll towards */
+  rollToVariantId: string;
+  /** This variant will be used when the base attribute does not exist */
+  defaultVariantId: string;
+  /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
+  slots: CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2SlotsList;
+  /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
+  finalPromille?: number | undefined;
+}
+export type CreateFlagRequestEnvironmentsDevelopmentFallthrough =
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
+  | CreateFlagRequestEnvironmentsDevelopmentFallthroughCase1
+  | CreateFlagRequestEnvironmentsDevelopmentFallthroughCase2;
+export interface CreateFlagRequestEnvironmentsDevelopment {
+  active: boolean;
+  /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
+  reuse?: CreateFlagRequestEnvironmentsProductionReuse | undefined;
+  /** Allows assigning targets to variants while bypassing the flag's rules */
+  targets?: CreateFlagRequestEnvironmentsDevelopmentTargetsMap | undefined;
+  pausedOutcome: CreateFlagRequestEnvironmentsProductionPausedOutcome;
+  rules: CreateFlagRequestEnvironmentsDevelopmentRulesList;
+  fallthrough: CreateFlagRequestEnvironmentsDevelopmentFallthrough;
+  /** The revision of the environment config */
+  revision?: number | undefined;
+}
+export interface CreateFlagRequestEnvironments {
+  production: CreateFlagRequestEnvironmentsProduction;
+  preview: CreateFlagRequestEnvironmentsPreview;
+  development: CreateFlagRequestEnvironmentsDevelopment;
+}
+/** The kind of flag */
+export type CreateFlagRequestKind = "boolean" | "string" | "number" | "json";
+export type CreateFlagRequestVariantsItemValueCase4List = Array<unknown>;
+export type CreateFlagRequestVariantsItemValue =
+  | string
+  | number
+  | boolean
+  | unknown
+  | CreateFlagRequestVariantsItemValueCase4List;
+export interface CreateFlagRequestVariantsItem {
+  /** The id of the variant */
+  id: string;
+  /** A label for the variant */
+  label?: string | undefined;
+  /** A description of the variant */
+  description?: string | undefined;
+  value: CreateFlagRequestVariantsItemValue;
+}
+/** The variants of the flag */
+export type CreateFlagRequestVariantsList = Array<CreateFlagRequestVariantsItem>;
 export type CreateFlagRequestState = "active" | "archived";
 /** The user ids of the maintainers of the flag */
 export type CreateFlagRequestMaintainerIdsList = Array<string>;
@@ -333,12 +712,11 @@ export interface CreateFlagRequest {
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
+  environments: CreateFlagRequestEnvironments;
   /** The kind of flag */
   kind: CreateFlagRequestKind | (string & {});
   /** The variants of the flag */
   variants?: CreateFlagRequestVariantsList | undefined;
-  /** The configuration for the flag in different environments */
-  environments: CreateFlagRequestEnvironmentsMap;
   /** A random seed to prevent split points in different flags from having the same targets */
   seed?: number | undefined;
   /** A description of the flag */
@@ -438,7 +816,7 @@ export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type = "segment";
 export interface CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0 {
   type: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type;
@@ -453,12 +831,12 @@ export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs =
   | CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0
   | CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
   Array<CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2Type =
@@ -482,7 +860,7 @@ export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface CreateFlagResponseEnvironmentsValueRulesItemConditionsItem {
   cmp: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs;
   rhs?: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
@@ -547,9 +925,9 @@ export interface CreateFlagResponseEnvironmentsValueRulesItem {
 export type CreateFlagResponseEnvironmentsValueRulesList =
   Array<CreateFlagResponseEnvironmentsValueRulesItem>;
 export type CreateFlagResponseEnvironmentsValueTargetsValueValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type CreateFlagResponseEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type CreateFlagResponseEnvironmentsValueTargetsValueValueMap = {
   [key: string]: CreateFlagResponseEnvironmentsValueTargetsValueValueValueList | undefined;
 };
@@ -614,12 +992,12 @@ export interface CreateFlagResponse {
   variants: CreateFlagResponseVariantsList;
 }
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemLhsCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemLhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemLhs =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemCmp =
   | "eq"
   | "!eq"
@@ -648,12 +1026,12 @@ export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0Type =
   | "list/inline"
   | "list";
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsList =
   Array<CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItem>;
 export interface CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0 {
@@ -661,34 +1039,34 @@ export interface CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0 {
   items: CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsList;
 }
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemRhs =
   | CreateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
   | string
   | number
   | boolean;
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export interface CreateFlagSegmentRequestDataRulesItemConditionsItem {
   lhs: CreateFlagSegmentRequestDataRulesItemConditionsItemLhs;
   cmp: CreateFlagSegmentRequestDataRulesItemConditionsItemCmp | (string & {});
   rhs?: CreateFlagSegmentRequestDataRulesItemConditionsItemRhs | undefined;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
 }
 export type CreateFlagSegmentRequestDataRulesItemConditionsList =
   Array<CreateFlagSegmentRequestDataRulesItemConditionsItem>;
 export type CreateFlagSegmentRequestDataRulesItemOutcomeCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
 export type CreateFlagSegmentRequestDataRulesItemOutcomeCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export interface CreateFlagSegmentRequestDataRulesItemOutcomeCase1 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   passPromille: number;
 }
 export type CreateFlagSegmentRequestDataRulesItemOutcome =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
   | CreateFlagSegmentRequestDataRulesItemOutcomeCase1;
 export interface CreateFlagSegmentRequestDataRulesItem {
   id: string;
@@ -697,9 +1075,9 @@ export interface CreateFlagSegmentRequestDataRulesItem {
 }
 export type CreateFlagSegmentRequestDataRulesList = Array<CreateFlagSegmentRequestDataRulesItem>;
 export type CreateFlagSegmentRequestDataIncludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type CreateFlagSegmentRequestDataIncludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type CreateFlagSegmentRequestDataIncludeValueMap = {
   [key: string]: CreateFlagSegmentRequestDataIncludeValueValueList | undefined;
 };
@@ -707,9 +1085,9 @@ export type CreateFlagSegmentRequestDataIncludeMap = {
   [key: string]: CreateFlagSegmentRequestDataIncludeValueMap | undefined;
 };
 export type CreateFlagSegmentRequestDataExcludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type CreateFlagSegmentRequestDataExcludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type CreateFlagSegmentRequestDataExcludeValueMap = {
   [key: string]: CreateFlagSegmentRequestDataExcludeValueValueList | undefined;
 };
@@ -738,9 +1116,9 @@ export interface CreateFlagSegmentRequest {
   hint: string;
 }
 export type CreateFlagSegmentResponseDataExcludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type CreateFlagSegmentResponseDataExcludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type CreateFlagSegmentResponseDataExcludeValueMap = {
   [key: string]: CreateFlagSegmentResponseDataExcludeValueValueList | undefined;
 };
@@ -748,9 +1126,9 @@ export type CreateFlagSegmentResponseDataExcludeMap = {
   [key: string]: CreateFlagSegmentResponseDataExcludeValueMap | undefined;
 };
 export type CreateFlagSegmentResponseDataIncludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type CreateFlagSegmentResponseDataIncludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type CreateFlagSegmentResponseDataIncludeValueMap = {
   [key: string]: CreateFlagSegmentResponseDataIncludeValueValueList | undefined;
 };
@@ -782,7 +1160,7 @@ export type CreateFlagSegmentResponseDataRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemLhsCase0Type = "segment";
 export interface CreateFlagSegmentResponseDataRulesItemConditionsItemLhsCase0 {
   type: CreateFlagSegmentResponseDataRulesItemConditionsItemLhsCase0Type;
@@ -797,12 +1175,12 @@ export type CreateFlagSegmentResponseDataRulesItemConditionsItemLhs =
   | CreateFlagSegmentResponseDataRulesItemConditionsItemLhsCase0
   | CreateFlagSegmentResponseDataRulesItemConditionsItemLhsCase1;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2ItemsList =
   Array<CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2ItemsItem>;
 export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhsCase2Type =
@@ -826,7 +1204,7 @@ export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhs =
   | boolean;
 export interface CreateFlagSegmentResponseDataRulesItemConditionsItem {
   cmp: CreateFlagSegmentResponseDataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: CreateFlagSegmentResponseDataRulesItemConditionsItemLhs;
   rhs?: CreateFlagSegmentResponseDataRulesItemConditionsItemRhs | undefined;
 }
@@ -898,7 +1276,7 @@ export interface CreateFlagsProjectConnectionResponse {
   sourceProjectId: string;
   sourceProjectName: string;
 }
-export type CreateSdkKeyRequestSdkKeyType = "server" | "mobile" | "client";
+export type CreateSdkKeyRequestSdkKeyType = "server";
 export interface CreateSdkKeyRequest {
   /** The project id or name */
   projectIdOrName: string;
@@ -1094,7 +1472,7 @@ export type FlagEnvironmentsValueRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type FlagEnvironmentsValueRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type FlagEnvironmentsValueRulesItemConditionsItemLhsCase0Type = "segment";
 export interface FlagEnvironmentsValueRulesItemConditionsItemLhsCase0 {
   type: FlagEnvironmentsValueRulesItemConditionsItemLhsCase0Type;
@@ -1109,12 +1487,12 @@ export type FlagEnvironmentsValueRulesItemConditionsItemLhs =
   | FlagEnvironmentsValueRulesItemConditionsItemLhsCase0
   | FlagEnvironmentsValueRulesItemConditionsItemLhsCase1;
 export type FlagEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type FlagEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type FlagEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type FlagEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
   Array<FlagEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
 export type FlagEnvironmentsValueRulesItemConditionsItemRhsCase2Type = "list" | "list/inline";
@@ -1136,7 +1514,7 @@ export type FlagEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface FlagEnvironmentsValueRulesItemConditionsItem {
   cmp: FlagEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: FlagEnvironmentsValueRulesItemConditionsItemLhs;
   rhs?: FlagEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
@@ -1200,9 +1578,9 @@ export interface FlagEnvironmentsValueRulesItem {
 }
 export type FlagEnvironmentsValueRulesList = Array<FlagEnvironmentsValueRulesItem>;
 export type FlagEnvironmentsValueTargetsValueValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type FlagEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type FlagEnvironmentsValueTargetsValueValueMap = {
   [key: string]: FlagEnvironmentsValueTargetsValueValueValueList | undefined;
 };
@@ -1285,17 +1663,17 @@ export interface GetFlagSegmentRequest {
   slug?: string | undefined;
 }
 export type SegmentDataExcludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type SegmentDataExcludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type SegmentDataExcludeValueMap = {
   [key: string]: SegmentDataExcludeValueValueList | undefined;
 };
 export type SegmentDataExcludeMap = { [key: string]: SegmentDataExcludeValueMap | undefined };
 export type SegmentDataIncludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type SegmentDataIncludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type SegmentDataIncludeValueMap = {
   [key: string]: SegmentDataIncludeValueValueList | undefined;
 };
@@ -1325,7 +1703,7 @@ export type SegmentDataRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type SegmentDataRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type SegmentDataRulesItemConditionsItemLhsCase0Type = "segment";
 export interface SegmentDataRulesItemConditionsItemLhsCase0 {
   type: SegmentDataRulesItemConditionsItemLhsCase0Type;
@@ -1340,12 +1718,12 @@ export type SegmentDataRulesItemConditionsItemLhs =
   | SegmentDataRulesItemConditionsItemLhsCase0
   | SegmentDataRulesItemConditionsItemLhsCase1;
 export type SegmentDataRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type SegmentDataRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type SegmentDataRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type SegmentDataRulesItemConditionsItemRhsCase2ItemsList =
   Array<SegmentDataRulesItemConditionsItemRhsCase2ItemsItem>;
 export type SegmentDataRulesItemConditionsItemRhsCase2Type = "list" | "list/inline";
@@ -1367,7 +1745,7 @@ export type SegmentDataRulesItemConditionsItemRhs =
   | boolean;
 export interface SegmentDataRulesItemConditionsItem {
   cmp: SegmentDataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: SegmentDataRulesItemConditionsItemLhs;
   rhs?: SegmentDataRulesItemConditionsItemRhs | undefined;
 }
@@ -1782,7 +2160,7 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemCo
   | "regex"
   | "startsWith";
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhsCase0Type =
   "segment";
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhsCase0 {
@@ -1799,12 +2177,12 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemCo
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhsCase0
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhsCase1;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
   Array<ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhsCase2Type =
@@ -1829,7 +2207,7 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemCo
   | boolean;
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItem {
   cmp: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhs;
   rhs?:
     | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhs
@@ -1901,9 +2279,9 @@ export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesI
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesList =
   Array<ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItem>;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsValueValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsValueValueMap = {
   [key: string]:
     | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsValueValueValueList
@@ -2130,6 +2508,24 @@ export interface LookupFlagLabelsResponse {
   data: LookupFlagLabelsResponseDataList;
   missing: LookupFlagLabelsResponseMissingList;
 }
+export interface SignFlagOverridesRequest {
+  /** The project id or name */
+  projectIdOrName: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  /** The value of each overridden flag, by flag key */
+  overrides: unknown;
+  /** production, preview, development or the slug of a custom environment. Defaults to the environment of a Vercel OIDC token. */
+  environment?: string | undefined;
+  /** Seconds until the overrides expire. Defaults to one hour, at most one day. */
+  ttl?: number | undefined;
+}
+export interface SignFlagOverridesResponse {
+  expiresIn: number;
+  token: string | Redacted.Redacted<string>;
+}
 export type UpdateFlagRequestVariantsItemValueCase4List = Array<unknown>;
 export type UpdateFlagRequestVariantsItemValue =
   | string
@@ -2149,11 +2545,11 @@ export interface UpdateFlagRequestVariantsItem {
 /** The variants of the flag */
 export type UpdateFlagRequestVariantsList = Array<UpdateFlagRequestVariantsItem>;
 /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-export type UpdateFlagRequestEnvironmentsValueReuse = CreateFlagRequestEnvironmentsValueReuse;
+export type UpdateFlagRequestEnvironmentsValueReuse = CreateFlagRequestEnvironmentsProductionReuse;
 export type UpdateFlagRequestEnvironmentsValueTargetsValueValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagRequestEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagRequestEnvironmentsValueTargetsValueValueMap = {
   [key: string]: UpdateFlagRequestEnvironmentsValueTargetsValueValueValueList | undefined;
 };
@@ -2165,14 +2561,14 @@ export type UpdateFlagRequestEnvironmentsValueTargetsMap = {
   [key: string]: UpdateFlagRequestEnvironmentsValueTargetsValueMap | undefined;
 };
 export type UpdateFlagRequestEnvironmentsValuePausedOutcome =
-  CreateFlagRequestEnvironmentsValuePausedOutcome;
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp =
   | "eq"
   | "!eq"
@@ -2201,12 +2597,12 @@ export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0Typ
   | "list/inline"
   | "list";
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsList =
   Array<UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItem>;
 export interface UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0 {
@@ -2214,49 +2610,49 @@ export interface UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCas
   items: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsList;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs =
   | UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
   | string
   | number
   | boolean;
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export interface UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem {
   lhs: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs;
   cmp: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp | (string & {});
   rhs?: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs | undefined;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsList =
   Array<UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem>;
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase0 =
-  CreateFlagRequestEnvironmentsValuePausedOutcome;
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 /** The distribution for each variant */
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase1WeightsMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase1 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** The distribution for each variant */
   weights: UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase1WeightsMap;
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem =
-  CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem;
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
 /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem>;
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
 export interface UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** Epoch ms when the rollout begins */
   startTimestamp: number;
   /** The variant to roll away from */
@@ -2271,7 +2667,7 @@ export interface UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
   finalPromille?: number | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcome =
-  | CreateFlagRequestEnvironmentsValuePausedOutcome
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
   | UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase1
   | UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2;
 export interface UpdateFlagRequestEnvironmentsValueRulesItem {
@@ -2282,31 +2678,31 @@ export interface UpdateFlagRequestEnvironmentsValueRulesItem {
 export type UpdateFlagRequestEnvironmentsValueRulesList =
   Array<UpdateFlagRequestEnvironmentsValueRulesItem>;
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase0 =
-  CreateFlagRequestEnvironmentsValuePausedOutcome;
+  CreateFlagRequestEnvironmentsProductionPausedOutcome;
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 /** The distribution for each variant */
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase1WeightsMap = {
   [key: string]: number | undefined;
 };
 export interface UpdateFlagRequestEnvironmentsValueFallthroughCase1 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** The distribution for each variant */
   weights: UpdateFlagRequestEnvironmentsValueFallthroughCase1WeightsMap;
   /** This variant will be used when the base attribute does not exist */
   defaultVariantId: string;
 }
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase2Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase2SlotsItem =
-  CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem;
+  CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem;
 /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
 export type UpdateFlagRequestEnvironmentsValueFallthroughCase2SlotsList =
-  Array<CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsItem>;
+  Array<CreateFlagRequestEnvironmentsProductionRulesItemOutcomeCase2SlotsItem>;
 export interface UpdateFlagRequestEnvironmentsValueFallthroughCase2 {
   type: unknown;
-  base: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  base: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
   /** Epoch ms when the rollout begins */
   startTimestamp: number;
   /** The variant to roll away from */
@@ -2321,16 +2717,16 @@ export interface UpdateFlagRequestEnvironmentsValueFallthroughCase2 {
   finalPromille?: number | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueFallthrough =
-  | CreateFlagRequestEnvironmentsValuePausedOutcome
+  | CreateFlagRequestEnvironmentsProductionPausedOutcome
   | UpdateFlagRequestEnvironmentsValueFallthroughCase1
   | UpdateFlagRequestEnvironmentsValueFallthroughCase2;
 export interface UpdateFlagRequestEnvironmentsValue {
   active: boolean;
   /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-  reuse?: CreateFlagRequestEnvironmentsValueReuse | undefined;
+  reuse?: CreateFlagRequestEnvironmentsProductionReuse | undefined;
   /** Allows assigning targets to variants while bypassing the flag's rules */
   targets?: UpdateFlagRequestEnvironmentsValueTargetsMap | undefined;
-  pausedOutcome: CreateFlagRequestEnvironmentsValuePausedOutcome;
+  pausedOutcome: CreateFlagRequestEnvironmentsProductionPausedOutcome;
   rules: UpdateFlagRequestEnvironmentsValueRulesList;
   fallthrough: UpdateFlagRequestEnvironmentsValueFallthrough;
   /** The revision of the environment config */
@@ -2460,7 +2856,7 @@ export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type = "segment";
 export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0 {
   type: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0Type;
@@ -2475,12 +2871,12 @@ export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs =
   | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase0
   | UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhsCase1;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsList =
   Array<UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2ItemsItem>;
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhsCase2Type =
@@ -2504,7 +2900,7 @@ export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem {
   cmp: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs;
   rhs?: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
@@ -2569,9 +2965,9 @@ export interface UpdateFlagResponseEnvironmentsValueRulesItem {
 export type UpdateFlagResponseEnvironmentsValueRulesList =
   Array<UpdateFlagResponseEnvironmentsValueRulesItem>;
 export type UpdateFlagResponseEnvironmentsValueTargetsValueValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagResponseEnvironmentsValueTargetsValueValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagResponseEnvironmentsValueTargetsValueValueMap = {
   [key: string]: UpdateFlagResponseEnvironmentsValueTargetsValueValueValueList | undefined;
 };
@@ -2638,22 +3034,22 @@ export interface UpdateFlagResponse {
 export type UpdateFlagSegmentRequestOperationsItemAction = "add" | "remove";
 export type UpdateFlagSegmentRequestOperationsItemField = "include" | "exclude";
 export type UpdateFlagSegmentRequestOperationsItemValue =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export interface UpdateFlagSegmentRequestOperationsItem {
   action: UpdateFlagSegmentRequestOperationsItemAction | (string & {});
   field: UpdateFlagSegmentRequestOperationsItemField | (string & {});
   entity: string;
   attribute: string;
-  value: CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  value: CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 }
 export type UpdateFlagSegmentRequestOperationsList = Array<UpdateFlagSegmentRequestOperationsItem>;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemLhsCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemLhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemLhs =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemCmp =
   | "eq"
   | "!eq"
@@ -2682,12 +3078,12 @@ export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0Type =
   | "list/inline"
   | "list";
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsList =
   Array<UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsItem>;
 export interface UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0 {
@@ -2695,31 +3091,31 @@ export interface UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0 {
   items: UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0ItemsList;
 }
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemRhs =
   | UpdateFlagSegmentRequestDataRulesItemConditionsItemRhsCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase1
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase1
   | string
   | number
   | boolean;
 export type UpdateFlagSegmentRequestDataRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export interface UpdateFlagSegmentRequestDataRulesItemConditionsItem {
   lhs: UpdateFlagSegmentRequestDataRulesItemConditionsItemLhs;
   cmp: UpdateFlagSegmentRequestDataRulesItemConditionsItemCmp | (string & {});
   rhs?: UpdateFlagSegmentRequestDataRulesItemConditionsItemRhs | undefined;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
 }
 export type UpdateFlagSegmentRequestDataRulesItemConditionsList =
   Array<UpdateFlagSegmentRequestDataRulesItemConditionsItem>;
 export type UpdateFlagSegmentRequestDataRulesItemOutcomeCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0;
 export type UpdateFlagSegmentRequestDataRulesItemOutcomeCase1Base =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase1;
 export type UpdateFlagSegmentRequestDataRulesItemOutcomeCase1 =
   CreateFlagSegmentRequestDataRulesItemOutcomeCase1;
 export type UpdateFlagSegmentRequestDataRulesItemOutcome =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhsCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemLhsCase0
   | CreateFlagSegmentRequestDataRulesItemOutcomeCase1;
 export interface UpdateFlagSegmentRequestDataRulesItem {
   id: string;
@@ -2728,9 +3124,9 @@ export interface UpdateFlagSegmentRequestDataRulesItem {
 }
 export type UpdateFlagSegmentRequestDataRulesList = Array<UpdateFlagSegmentRequestDataRulesItem>;
 export type UpdateFlagSegmentRequestDataIncludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagSegmentRequestDataIncludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagSegmentRequestDataIncludeValueMap = {
   [key: string]: UpdateFlagSegmentRequestDataIncludeValueValueList | undefined;
 };
@@ -2738,9 +3134,9 @@ export type UpdateFlagSegmentRequestDataIncludeMap = {
   [key: string]: UpdateFlagSegmentRequestDataIncludeValueMap | undefined;
 };
 export type UpdateFlagSegmentRequestDataExcludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagSegmentRequestDataExcludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagSegmentRequestDataExcludeValueMap = {
   [key: string]: UpdateFlagSegmentRequestDataExcludeValueValueList | undefined;
 };
@@ -2772,9 +3168,9 @@ export interface UpdateFlagSegmentRequest {
   hint?: string | undefined;
 }
 export type UpdateFlagSegmentResponseBodyCase0DataExcludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagSegmentResponseBodyCase0DataExcludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagSegmentResponseBodyCase0DataExcludeValueMap = {
   [key: string]: UpdateFlagSegmentResponseBodyCase0DataExcludeValueValueList | undefined;
 };
@@ -2782,9 +3178,9 @@ export type UpdateFlagSegmentResponseBodyCase0DataExcludeMap = {
   [key: string]: UpdateFlagSegmentResponseBodyCase0DataExcludeValueMap | undefined;
 };
 export type UpdateFlagSegmentResponseBodyCase0DataIncludeValueValueItem =
-  CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
+  CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem;
 export type UpdateFlagSegmentResponseBodyCase0DataIncludeValueValueList =
-  Array<CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem>;
+  Array<CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem>;
 export type UpdateFlagSegmentResponseBodyCase0DataIncludeValueMap = {
   [key: string]: UpdateFlagSegmentResponseBodyCase0DataIncludeValueValueList | undefined;
 };
@@ -2816,7 +3212,7 @@ export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemCmp =
   | "regex"
   | "startsWith";
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemCmpOptions =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhsCase0Type = "segment";
 export interface UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhsCase0 {
   type: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhsCase0Type;
@@ -2831,12 +3227,12 @@ export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhs =
   | UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhsCase0
   | UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhsCase1;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2ItemsItemCase0 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2ItemsItemCase1 =
-  CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2ItemsItem =
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0
-  | CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1;
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase0
+  | CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemRhsCase0ItemsItemCase1;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2ItemsList =
   Array<UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2ItemsItem>;
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhsCase2Type =
@@ -2860,7 +3256,7 @@ export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhs =
   | boolean;
 export interface UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItem {
   cmp: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions | undefined;
   lhs: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhs;
   rhs?: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhs | undefined;
 }
@@ -2943,7 +3339,6 @@ export interface UpdateFlagSettingsRequest {
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
-  enabled?: boolean | undefined;
   entities?: UpdateFlagSettingsRequestEntitiesList | undefined;
   /** The environments to sync */
   environments?: UpdateFlagSettingsRequestEnvironmentsList | undefined;
@@ -2993,8 +3388,8 @@ export const createFlag: API.OperationMethod<
   CreateFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c29, 8) as any as S.Schema<CreateFlagRequest>,
-  output: __S(945, __c29, 17) as any as S.Schema<CreateFlagResponse>,
+  input: __S(978, __c30, 18) as any as S.Schema<CreateFlagRequest>,
+  output: __S(987, __c30, 27) as any as S.Schema<CreateFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3017,8 +3412,8 @@ export const createFlagSegment: API.OperationMethod<
   CreateFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1093, __c34, 5) as any as S.Schema<CreateFlagSegmentRequest>,
-  output: __S(1099, __c34, 11) as any as S.Schema<CreateFlagSegmentResponse>,
+  input: __S(1125, __c35, 5) as any as S.Schema<CreateFlagSegmentRequest>,
+  output: __S(1131, __c35, 11) as any as S.Schema<CreateFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3041,8 +3436,8 @@ export const createFlagsProjectConnection: API.OperationMethod<
   CreateFlagsProjectConnectionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateFlagsProjectConnectionRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<CreateFlagsProjectConnectionResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateFlagsProjectConnectionRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<CreateFlagsProjectConnectionResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3065,8 +3460,8 @@ export const createSdkKey: API.OperationMethod<
   CreateSdkKeyError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateSdkKeyRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<FlagsSdkKeyWithSecrets>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateSdkKeyRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<FlagsSdkKeyWithSecrets>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3089,8 +3484,8 @@ export const deleteFlag: API.OperationMethod<
   DeleteFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteFlagRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3114,7 +3509,7 @@ export const deleteFlagSegment: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteFlagSegmentRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagSegmentResponse>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3138,7 +3533,7 @@ export const deleteFlagsProjectConnection: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteFlagsProjectConnectionRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteFlagsProjectConnectionResponse>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteFlagsProjectConnectionResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3162,7 +3557,7 @@ export const deleteSdkKey: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteSdkKeyRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteSdkKeyResponse>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteSdkKeyResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3495,6 +3890,24 @@ export const lookupFlagLabels: API.OperationMethod<
   span: "LookupFlagLabels",
 }));
 
+export type SignFlagOverridesError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Sign flag overrides Signs flag overrides for the `vercel-flag-overrides` cookie, which the Flags SDK accepts without a `FLAGS_SECRET`. The overrides apply to one environment of the project and of the projects that share its microfrontends groups. An access token requires permission to read the project and an `environment`. A Vercel OIDC token signs only for its own project and environment. */
+export const signFlagOverrides: API.OperationMethod<
+  SignFlagOverridesRequest,
+  SignFlagOverridesResponse,
+  SignFlagOverridesError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<SignFlagOverridesRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<SignFlagOverridesResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignFlagOverrides",
+}));
+
 export type UpdateFlagError =
   | BadRequest
   | PaymentRequired
@@ -3509,8 +3922,8 @@ export const updateFlag: API.OperationMethod<
   UpdateFlagError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c26, 8) as any as S.Schema<UpdateFlagRequest>,
-  output: __S(849, __c26, 17) as any as S.Schema<UpdateFlagResponse>,
+  input: __S(872, __c27, 8) as any as S.Schema<UpdateFlagRequest>,
+  output: __S(881, __c27, 17) as any as S.Schema<UpdateFlagResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3533,8 +3946,8 @@ export const updateFlagSegment: API.OperationMethod<
   UpdateFlagSegmentError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(871, __c27, 7) as any as S.Schema<UpdateFlagSegmentRequest>,
-  output: __S(872, __c27, 8) as any as S.Schema<UpdateFlagSegmentResponse>,
+  input: __S(903, __c28, 7) as any as S.Schema<UpdateFlagSegmentRequest>,
+  output: __S(904, __c28, 8) as any as S.Schema<UpdateFlagSegmentResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3557,7 +3970,7 @@ export const updateFlagSettings: API.OperationMethod<
   UpdateFlagSettingsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(900, __c28, 4) as any as S.Schema<UpdateFlagSettingsRequest>,
+  input: __S(932, __c29, 4) as any as S.Schema<UpdateFlagSettingsRequest>,
   output: __S(327, __c10, 7) as any as S.Schema<UpdateFlagSettingsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
@@ -3703,7 +4116,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
@@ -3725,11 +4138,11 @@ function __c6(j: number): any {
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(962, __c30, 2),
-          reuse: S.optional(__S(960, __c30, 0)),
+          pausedOutcome: __S(994, __c31, 2),
+          reuse: S.optional(__S(992, __c31, 0)),
           revision: S.optional(S.Number),
           rules: __S(195, __c6, 3),
-          targets: S.optional(__S(961, __c30, 1)),
+          targets: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "FlagEnvironmentsValue" });
     case 5:
@@ -3754,7 +4167,7 @@ function __c6(j: number): any {
           environments: __S(197, __c6, 5),
           id: S.String,
           kind: S.String,
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           ownerId: S.String,
           permanent: S.optional(S.Boolean),
           projectId: S.String,
@@ -3763,7 +4176,7 @@ function __c6(j: number): any {
           seenInProduction: S.optional(S.Boolean),
           slug: S.String,
           state: S.String,
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
           typeName: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.String),
@@ -3799,7 +4212,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
@@ -3819,8 +4232,8 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(1059, __c33, 3)),
-          include: S.optional(__S(1059, __c33, 3)),
+          exclude: S.optional(__S(1091, __c34, 3)),
+          include: S.optional(__S(1091, __c34, 3)),
           rules: S.optional(__S(259, __c8, 3)),
         }),
       ).annotate({ identifier: "SegmentData" });
@@ -3838,8 +4251,8 @@ function __c8(j: number): any {
           slug: S.String,
           typeName: S.String,
           updatedAt: S.Number,
-          usedByFlags: S.optional(__S(1024, __c32, 0)),
-          usedBySegments: S.optional(__S(1024, __c32, 0)),
+          usedByFlags: S.optional(__S(1056, __c33, 0)),
+          usedBySegments: S.optional(__S(1056, __c33, 0)),
           metadata: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "Segment" });
@@ -3911,7 +4324,7 @@ function __c10(j: number): any {
           createdAt: S.optional(S.Number),
           enabled: S.Boolean,
           entities: __S(325, __c10, 5),
-          environments: __S(1024, __c32, 0),
+          environments: __S(1056, __c33, 0),
           metadata: __S(326, __c10, 6),
           ownerId: S.optional(S.String),
           projectId: S.String,
@@ -4089,7 +4502,7 @@ function __c17(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          tags: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -4152,9 +4565,9 @@ function __c20(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          tags: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
-          maintainerIds: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          maintainerIds: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           includeMarketplaceFlags: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
@@ -4202,7 +4615,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
@@ -4229,11 +4642,11 @@ function __c21(j: number): any {
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(962, __c30, 2),
-          reuse: S.optional(__S(960, __c30, 0)),
+          pausedOutcome: __S(994, __c31, 2),
+          reuse: S.optional(__S(992, __c31, 0)),
           revision: S.optional(S.Number),
           rules: __S(676, __c21, 4),
-          targets: S.optional(__S(961, __c30, 1)),
+          targets: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItemDataEnvironmentsValue" });
     case 6:
@@ -4254,18 +4667,18 @@ function __c21(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           environments: __S(678, __c21, 6),
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           permanent: S.optional(S.Boolean),
           seed: S.Number,
           state: S.String,
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
           variants: __S(680, __c21, 8),
         }),
       ).annotate({ identifier: "ListFlagVersionsResponseVersionsItemData" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          changedEnvironments: __S(1024, __c32, 0),
+          changedEnvironments: __S(1056, __c33, 0),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
           flagId: S.String,
@@ -4299,7 +4712,7 @@ function __c22(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          tags: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/teams/{teamId}/feature-flags/flags", code: 200 }),
@@ -4337,9 +4750,9 @@ function __c24(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          tags: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           createdBy: S.optional(S.String.pipe(T.Query())),
-          maintainerIds: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          maintainerIds: S.optional(__S(1056, __c33, 0).pipe(T.Query())),
           includeMarketplaceFlags: S.optional(S.Boolean.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -4408,6 +4821,34 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectIdOrName: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          overrides: S.Unknown,
+          environment: S.optional(S.String),
+          ttl: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/projects/{projectIdOrName}/feature-flags/overrides/sign",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignFlagOverridesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          expiresIn: S.Number,
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "SignFlagOverridesResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           label: S.optional(S.String),
           description: S.optional(S.String),
@@ -4415,42 +4856,42 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "UpdateFlagRequestVariantsItem" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem" });
     case 3:
-      return S.Array(__S(834, __c26, 2));
+      return S.Array(__S(866, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(835, __c26, 3),
+          conditions: __S(867, __c27, 3),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValueRulesItem" });
     case 5:
-      return S.Array(__S(836, __c26, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          reuse: S.optional(__S(960, __c30, 0)),
-          targets: S.optional(__S(961, __c30, 1)),
-          pausedOutcome: __S(992, __c31, 0),
-          rules: __S(837, __c26, 5),
+          reuse: S.optional(__S(992, __c31, 0)),
+          targets: S.optional(__S(993, __c31, 1)),
+          pausedOutcome: __S(1024, __c32, 0),
+          rules: __S(869, __c27, 5),
           fallthrough: S.Unknown,
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateFlagRequestEnvironmentsValue" });
     case 7:
-      return S.Record(S.String, __S(838, __c26, 6));
+      return S.Record(S.String, __S(870, __c27, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4462,14 +4903,14 @@ function __c26(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           createdBy: S.optional(S.String),
           message: S.optional(S.String),
-          variants: S.optional(__S(833, __c26, 1)),
-          environments: S.optional(__S(839, __c26, 7)),
+          variants: S.optional(__S(865, __c27, 1)),
+          environments: S.optional(__S(871, __c27, 7)),
           seed: S.optional(S.Number),
           description: S.optional(S.String),
           state: S.optional(S.String),
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           permanent: S.optional(S.Boolean),
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4482,37 +4923,37 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem" });
     case 10:
-      return S.Array(__S(841, __c26, 9));
+      return S.Array(__S(873, __c27, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(842, __c26, 10),
+          conditions: __S(874, __c27, 10),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValueRulesItem" });
     case 12:
-      return S.Array(__S(843, __c26, 11));
+      return S.Array(__S(875, __c27, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(962, __c30, 2),
-          reuse: S.optional(__S(960, __c30, 0)),
+          pausedOutcome: __S(994, __c31, 2),
+          reuse: S.optional(__S(992, __c31, 0)),
           revision: S.optional(S.Number),
-          rules: __S(844, __c26, 12),
-          targets: S.optional(__S(961, __c30, 1)),
+          rules: __S(876, __c27, 12),
+          targets: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "UpdateFlagResponseEnvironmentsValue" });
     case 14:
-      return S.Record(S.String, __S(845, __c26, 13));
+      return S.Record(S.String, __S(877, __c27, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -4523,17 +4964,17 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "UpdateFlagResponseVariantsItem" });
     case 16:
-      return S.Array(__S(847, __c26, 15));
+      return S.Array(__S(879, __c27, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
           createdBy: S.String,
           description: S.optional(S.String),
-          environments: __S(846, __c26, 14),
+          environments: __S(878, __c27, 14),
           id: S.String,
           kind: S.String,
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           ownerId: S.String,
           permanent: S.optional(S.Boolean),
           projectId: S.String,
@@ -4542,16 +4983,16 @@ function __c26(j: number): any {
           seenInProduction: S.optional(S.Boolean),
           slug: S.String,
           state: S.String,
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
           typeName: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.String),
-          variants: __S(848, __c26, 16),
+          variants: __S(880, __c27, 16),
         }),
       ).annotate({ identifier: "UpdateFlagResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4560,38 +5001,38 @@ function __c27(j: number): any {
           field: S.String,
           entity: S.String,
           attribute: S.String,
-          value: __S(1056, __c33, 0),
+          value: __S(1088, __c34, 0),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestOperationsItem" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestDataRulesItemConditionsItem" });
     case 3:
-      return S.Array(__S(866, __c27, 2));
+      return S.Array(__S(898, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(867, __c27, 3),
+          conditions: __S(899, __c28, 3),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestDataRulesItem" });
     case 5:
-      return S.Array(__S(868, __c27, 4));
+      return S.Array(__S(900, __c28, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(869, __c27, 5)),
-          include: S.optional(__S(1059, __c33, 3)),
-          exclude: S.optional(__S(1059, __c33, 3)),
+          rules: S.optional(__S(901, __c28, 5)),
+          include: S.optional(__S(1091, __c34, 3)),
+          exclude: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "UpdateFlagSegmentRequestData" });
     case 7:
@@ -4602,10 +5043,10 @@ function __c27(j: number): any {
           withMetadata: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          operations: S.optional(__S(865, __c27, 1)),
+          operations: S.optional(__S(897, __c28, 1)),
           label: S.optional(S.String),
           description: S.optional(S.String),
-          data: S.optional(__S(870, __c27, 6)),
+          data: S.optional(__S(902, __c28, 6)),
           hint: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4621,7 +5062,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4632,26 +5073,25 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "UpdateFlagSettingsRequestEntitiesItemAttributesItem" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
           label: S.String,
-          attributes: __S(897, __c28, 1),
+          attributes: __S(929, __c29, 1),
         }),
       ).annotate({ identifier: "UpdateFlagSettingsRequestEntitiesItem" });
     case 3:
-      return S.Array(__S(898, __c28, 2));
+      return S.Array(__S(930, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           projectIdOrName: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          enabled: S.optional(S.Boolean),
-          entities: S.optional(__S(899, __c28, 3)),
-          environments: S.optional(__S(1024, __c32, 0)),
+          entities: S.optional(__S(931, __c29, 3)),
+          environments: S.optional(__S(1056, __c33, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4662,9 +5102,116 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateFlagSettingsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          lhs: S.Unknown,
+          cmp: S.String,
+          rhs: S.optional(S.Unknown),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsProductionRulesItemConditionsItem" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          conditions: __S(961, __c30, 1),
+          outcome: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsProductionRulesItem" });
+    case 3:
+      return S.Array(__S(962, __c30, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          reuse: S.optional(__S(992, __c31, 0)),
+          targets: S.optional(__S(993, __c31, 1)),
+          pausedOutcome: __S(1024, __c32, 0),
+          rules: __S(963, __c30, 3),
+          fallthrough: S.Unknown,
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsProduction" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          lhs: S.Unknown,
+          cmp: S.String,
+          rhs: S.optional(S.Unknown),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsPreviewRulesItemConditionsItem" });
+    case 6:
+      return S.Array(__S(965, __c30, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          conditions: __S(966, __c30, 6),
+          outcome: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsPreviewRulesItem" });
+    case 8:
+      return S.Array(__S(967, __c30, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          reuse: S.optional(__S(992, __c31, 0)),
+          targets: S.optional(__S(993, __c31, 1)),
+          pausedOutcome: __S(1024, __c32, 0),
+          rules: __S(968, __c30, 8),
+          fallthrough: S.Unknown,
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsPreview" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          lhs: S.Unknown,
+          cmp: S.String,
+          rhs: S.optional(S.Unknown),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsDevelopmentRulesItemConditionsItem" });
+    case 11:
+      return S.Array(__S(970, __c30, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          conditions: __S(971, __c30, 11),
+          outcome: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsDevelopmentRulesItem" });
+    case 13:
+      return S.Array(__S(972, __c30, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          reuse: S.optional(__S(992, __c31, 0)),
+          targets: S.optional(__S(993, __c31, 1)),
+          pausedOutcome: __S(1024, __c32, 0),
+          rules: __S(973, __c30, 13),
+          fallthrough: S.Unknown,
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsDevelopment" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          production: __S(964, __c30, 4),
+          preview: __S(969, __c30, 9),
+          development: __S(974, __c30, 14),
+        }),
+      ).annotate({ identifier: "CreateFlagRequestEnvironments" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -4673,58 +5220,23 @@ function __c29(j: number): any {
           value: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagRequestVariantsItem" });
-    case 1:
-      return S.Array(__S(928, __c29, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          lhs: S.Unknown,
-          cmp: S.String,
-          rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
-        }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueRulesItemConditionsItem" });
-    case 3:
-      return S.Array(__S(930, __c29, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          conditions: __S(931, __c29, 3),
-          outcome: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueRulesItem" });
-    case 5:
-      return S.Array(__S(932, __c29, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Boolean,
-          reuse: S.optional(__S(960, __c30, 0)),
-          targets: S.optional(__S(961, __c30, 1)),
-          pausedOutcome: __S(992, __c31, 0),
-          rules: __S(933, __c29, 5),
-          fallthrough: S.Unknown,
-          revision: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValue" });
-    case 7:
-      return S.Record(S.String, __S(934, __c29, 6));
-    case 8:
+    case 17:
+      return S.Array(__S(976, __c30, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           projectIdOrName: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
+          environments: __S(975, __c30, 15),
           kind: S.String,
-          variants: S.optional(__S(929, __c29, 1)),
-          environments: __S(935, __c29, 7),
+          variants: S.optional(__S(977, __c30, 17)),
           seed: S.optional(S.Number),
           description: S.optional(S.String),
           state: S.optional(S.String),
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           permanent: S.optional(S.Boolean),
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4733,42 +5245,42 @@ function __c29(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateFlagRequest" });
-    case 9:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueRulesItemConditionsItem" });
-    case 10:
-      return S.Array(__S(937, __c29, 9));
-    case 11:
+    case 20:
+      return S.Array(__S(979, __c30, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(938, __c29, 10),
+          conditions: __S(980, __c30, 20),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueRulesItem" });
-    case 12:
-      return S.Array(__S(939, __c29, 11));
-    case 13:
+    case 22:
+      return S.Array(__S(981, __c30, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
           fallthrough: S.Unknown,
-          pausedOutcome: __S(962, __c30, 2),
-          reuse: S.optional(__S(960, __c30, 0)),
+          pausedOutcome: __S(994, __c31, 2),
+          reuse: S.optional(__S(992, __c31, 0)),
           revision: S.optional(S.Number),
-          rules: __S(940, __c29, 12),
-          targets: S.optional(__S(961, __c30, 1)),
+          rules: __S(982, __c30, 22),
+          targets: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValue" });
-    case 14:
-      return S.Record(S.String, __S(941, __c29, 13));
-    case 15:
+    case 24:
+      return S.Record(S.String, __S(983, __c30, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
@@ -4777,18 +5289,18 @@ function __c29(j: number): any {
           value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "CreateFlagResponseVariantsItem" });
-    case 16:
-      return S.Array(__S(943, __c29, 15));
-    case 17:
+    case 26:
+      return S.Array(__S(985, __c30, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
           createdBy: S.String,
           description: S.optional(S.String),
-          environments: __S(942, __c29, 14),
+          environments: __S(984, __c30, 24),
           id: S.String,
           kind: S.String,
-          maintainerIds: S.optional(__S(1024, __c32, 0)),
+          maintainerIds: S.optional(__S(1056, __c33, 0)),
           ownerId: S.String,
           permanent: S.optional(S.Boolean),
           projectId: S.String,
@@ -4797,16 +5309,16 @@ function __c29(j: number): any {
           seenInProduction: S.optional(S.Boolean),
           slug: S.String,
           state: S.String,
-          tags: S.optional(__S(1024, __c32, 0)),
+          tags: S.optional(__S(1056, __c33, 0)),
           typeName: S.String,
           updatedAt: S.Number,
           updatedBy: S.optional(S.String),
-          variants: __S(944, __c29, 16),
+          variants: __S(986, __c30, 26),
         }),
       ).annotate({ identifier: "CreateFlagResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4814,9 +5326,9 @@ function __c30(j: number): any {
           active: S.Boolean,
           environment: S.String,
         }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueReuse" });
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsProductionReuse" });
     case 1:
-      return S.Record(S.String, __S(1059, __c33, 3));
+      return S.Record(S.String, __S(1091, __c34, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4826,7 +5338,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateFlagResponseEnvironmentsValueFallthroughCase0" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4834,38 +5346,13 @@ function __c31(j: number): any {
           type: S.Unknown,
           variantId: S.String,
         }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValuePausedOutcome" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      ).annotate({ identifier: "CreateFlagRequestEnvironmentsProductionPausedOutcome" });
   }
 }
 function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          note: S.optional(S.String),
-          value: S.String,
-        }),
-      ).annotate({ identifier: "CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem" });
-    case 1:
-      return S.Array(__S(1056, __c33, 0));
-    case 2:
-      return S.Record(S.String, __S(1057, __c33, 1));
-    case 3:
-      return S.Record(S.String, __S(1058, __c33, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ignoreCase: S.optional(S.Boolean),
-        }),
-      ).annotate({
-        identifier: "CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions",
-      });
+      return S.Array(S.String);
   }
 }
 function __c34(j: number): any {
@@ -4873,30 +5360,57 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          note: S.optional(S.String),
+          value: S.String,
+        }),
+      ).annotate({
+        identifier: "CreateFlagRequestEnvironmentsProductionTargetsValueValueValueItem",
+      });
+    case 1:
+      return S.Array(__S(1088, __c34, 0));
+    case 2:
+      return S.Record(S.String, __S(1089, __c34, 1));
+    case 3:
+      return S.Record(S.String, __S(1090, __c34, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ignoreCase: S.optional(S.Boolean),
+        }),
+      ).annotate({
+        identifier: "CreateFlagRequestEnvironmentsProductionRulesItemConditionsItemCmpOptions",
+      });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           lhs: S.Unknown,
           cmp: S.String,
           rhs: S.optional(S.Unknown),
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestDataRulesItemConditionsItem" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(1089, __c34, 1),
+          conditions: __S(1121, __c35, 1),
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestDataRulesItem" });
     case 3:
-      return S.Array(__S(1090, __c34, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(1091, __c34, 3)),
-          include: S.optional(__S(1059, __c33, 3)),
-          exclude: S.optional(__S(1059, __c33, 3)),
+          rules: S.optional(__S(1123, __c35, 3)),
+          include: S.optional(__S(1091, __c34, 3)),
+          exclude: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentRequestData" });
     case 5:
@@ -4908,7 +5422,7 @@ function __c34(j: number): any {
           createdBy: S.optional(S.String),
           label: S.String,
           description: S.optional(S.String),
-          data: __S(1092, __c34, 4),
+          data: __S(1124, __c35, 4),
           hint: S.String,
         }).pipe(
           T.Http({
@@ -4922,29 +5436,29 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cmp: S.String,
-          cmpOptions: S.optional(__S(1060, __c33, 4)),
+          cmpOptions: S.optional(__S(1092, __c34, 4)),
           lhs: S.Unknown,
           rhs: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseDataRulesItemConditionsItem" });
     case 7:
-      return S.Array(__S(1094, __c34, 6));
+      return S.Array(__S(1126, __c35, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(1095, __c34, 7),
+          conditions: __S(1127, __c35, 7),
           id: S.String,
           outcome: S.Unknown,
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseDataRulesItem" });
     case 9:
-      return S.Array(__S(1096, __c34, 8));
+      return S.Array(__S(1128, __c35, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(1059, __c33, 3)),
-          include: S.optional(__S(1059, __c33, 3)),
-          rules: S.optional(__S(1097, __c34, 9)),
+          exclude: S.optional(__S(1091, __c34, 3)),
+          include: S.optional(__S(1091, __c34, 3)),
+          rules: S.optional(__S(1129, __c35, 9)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponseData" });
     case 11:
@@ -4952,7 +5466,7 @@ function __c34(j: number): any {
         S.Struct({
           createdAt: S.Number,
           createdBy: S.optional(S.String),
-          data: __S(1098, __c34, 10),
+          data: __S(1130, __c35, 10),
           description: S.optional(S.String),
           hint: S.String,
           id: S.String,
@@ -4961,13 +5475,13 @@ function __c34(j: number): any {
           slug: S.String,
           typeName: S.String,
           updatedAt: S.Number,
-          usedByFlags: S.optional(__S(1024, __c32, 0)),
-          usedBySegments: S.optional(__S(1024, __c32, 0)),
+          usedByFlags: S.optional(__S(1056, __c33, 0)),
+          usedBySegments: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "CreateFlagSegmentResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4997,7 +5511,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateFlagsProjectConnectionResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5035,7 +5549,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "FlagsSdkKeyWithSecrets" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5056,7 +5570,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteFlagRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteFlagResponse" });

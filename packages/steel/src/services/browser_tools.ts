@@ -30,7 +30,7 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -46,7 +46,7 @@ export class UnprocessableEntity
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -192,11 +192,15 @@ export interface ErrorResponseContextItem {
   params: unknown;
 }
 export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+export type ErrorResponseDetailsMap = { [key: string]: unknown | undefined };
 /** An error response from the API */
 export interface ErrorResponse {
   /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
   code?: string | undefined;
   context?: ErrorResponseContextList | undefined;
+  /** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+  details?: ErrorResponseDetailsMap | undefined;
   error?: string | undefined;
   linkToDocs?: string | undefined;
   message: string;
@@ -206,6 +210,8 @@ export interface ErrorResponse {
   retryAfterSeconds?: number | undefined;
   /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
   retryable?: boolean | undefined;
+  /** Where a person turns on the refused feature, e.g. verifying the account. Pass it to your user. */
+  unlockUrl?: string | undefined;
 }
 export type PdfError = BadRequest | UnprocessableEntity | SteelOpError;
 /** Convert webpage to PDF Generates a PDF from a specified webpage. */
@@ -230,7 +236,7 @@ export const scrape: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25, __c3, 1) as any as S.Schema<ScrapeRequest>,
-  output: __S(31, __c3, 7) as any as S.Schema<ScrapeResponse>,
+  output: __S(30, __c3, 6) as any as S.Schema<ScrapeResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -261,6 +267,8 @@ export const screenshot: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           keyword: S.String,
@@ -268,19 +276,21 @@ function __c0(j: number): any {
           params: S.Unknown,
         }),
       ).annotate({ identifier: "ErrorResponseContextItem" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
     case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          context: S.optional(__S(1, __c0, 1)),
+          context: S.optional(__S(2, __c0, 2)),
+          details: S.optional(__S(0, __c0, 0)),
           error: S.optional(S.String),
           linkToDocs: S.optional(S.String),
           message: S.String,
           param: S.optional(S.String),
           retryAfterSeconds: S.optional(S.Number),
           retryable: S.optional(S.Boolean),
+          unlockUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
@@ -327,26 +337,24 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/scrape", code: 200 })),
       ).annotate({ identifier: "ScrapeRequest" });
     case 2:
-      return S.Record(S.String, S.Unknown);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           cleaned_html: S.optional(S.String),
           html: S.optional(S.String),
           markdown: S.optional(S.String),
-          readability: S.optional(__S(26, __c3, 2)),
+          readability: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "ScrapeResponseContent" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           text: S.String,
           url: S.String,
         }),
       ).annotate({ identifier: "ScrapeResponseLinksItem" });
+    case 4:
+      return S.Array(__S(27, __c3, 3));
     case 5:
-      return S.Array(__S(28, __c3, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           articleAuthor: S.optional(S.String),
@@ -370,12 +378,12 @@ function __c3(j: number): any {
           urlSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScrapeResponseMetadata" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          content: __S(27, __c3, 3),
-          links: __S(29, __c3, 5),
-          metadata: __S(30, __c3, 6),
+          content: __S(26, __c3, 2),
+          links: __S(28, __c3, 4),
+          metadata: __S(29, __c3, 5),
           pdf: S.optional(__S(16, __c2, 0)),
           screenshot: S.optional(__S(16, __c2, 0)),
         }),

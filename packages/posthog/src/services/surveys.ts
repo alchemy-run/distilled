@@ -992,6 +992,52 @@ export interface GetSurveysResponsesCountRequest {
   project_id: string;
 }
 export interface GetSurveysResponsesCountResponse {}
+export type GetSurveysSiteSnapshotRequestDevice = "desktop" | "mobile";
+export type GetSurveysSiteSnapshotRequestUrlMatchType =
+  | "regex"
+  | "not_regex"
+  | "exact"
+  | "is_not"
+  | "icontains"
+  | "not_icontains";
+export interface GetSurveysSiteSnapshotRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this survey. */
+  id: string;
+  /** Which viewport to show. Desktop picks a page viewed in a window at least 1024px wide, mobile one at most 767px wide. * `desktop` - Desktop * `mobile` - Mobile */
+  device: GetSurveysSiteSnapshotRequestDevice | (string & {});
+  /** URL condition to use instead of the survey's saved one, for an editor with unsaved targeting. Empty means every page. Leave out to use the saved targeting. */
+  url?: string | undefined;
+  /** How `url` matches a page URL. Defaults to `icontains`. Ignored without `url`. * `regex` - regex * `not_regex` - not_regex * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains */
+  url_match_type?: GetSurveysSiteSnapshotRequestUrlMatchType | (string & {}) | undefined;
+}
+/** * `unavailable` - unavailable * `rendering` - rendering * `ready` - ready */
+export type SnapshotStatusEnum = "unavailable" | "rendering" | "ready";
+export interface SiteStyle {
+  /** Hex color of the page surface behind its main content. */
+  background_color: string;
+  /** Hex color of the page's main text. */
+  text_color: string;
+  /** Hex background color of the page's most prominent button. Null when none was found. */
+  button_color: string | null;
+  /** Hex text color of that button. Null when no button was found. */
+  button_text_color: string | null;
+  /** Corner radius of that button in CSS pixels. Null when no button was found. */
+  button_border_radius: number | null;
+}
+export interface SiteSnapshot {
+  /** `ready` when the snapshot image can be loaded, `rendering` while it is being created, `unavailable` when no recent session recording matches the survey or the user cannot view recordings. * `unavailable` - unavailable * `rendering` - rendering * `ready` - ready */
+  status: SnapshotStatusEnum;
+  /** ID of the exported image. Load it from the exports content endpoint once the status is `ready`. */
+  exported_asset_id: number | null;
+  /** URL of the page the snapshot shows. Null when the status is `unavailable`. */
+  page_url: string | null;
+  /** Width in CSS pixels of the browser window the snapshot was recorded in, to draw it at its real scale. */
+  viewport_width: number | null;
+  /** Colors read from the snapshot's page, to suggest a survey appearance that matches the site. Null until the snapshot is ready, or when the page's colors could not be read. */
+  site_style: SiteStyle | null;
+}
 export interface GetSurveysStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1569,8 +1615,8 @@ export const createSurvey: API.OperationMethod<
   CreateSurveyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateSurveyRequest>,
-  output: __S(271, __c16, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateSurveyRequest>,
+  output: __S(287, __c17, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1591,8 +1637,8 @@ export const createSurveysSummarizeResponse: API.OperationMethod<
   CreateSurveysSummarizeResponseError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateSurveysSummarizeResponseRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<CreateSurveysSummarizeResponseResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<CreateSurveysSummarizeResponseRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<CreateSurveysSummarizeResponseResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1609,8 +1655,8 @@ export const createSurveysSummaryHeadline: API.OperationMethod<
   CreateSurveysSummaryHeadlineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateSurveysSummaryHeadlineRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<CreateSurveysSummaryHeadlineResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateSurveysSummaryHeadlineRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<CreateSurveysSummaryHeadlineResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1627,8 +1673,8 @@ export const getSurvey: API.OperationMethod<
   GetSurveyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetSurveyRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<Survey>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetSurveyRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<Survey>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1645,8 +1691,8 @@ export const getSurveysActivity: API.OperationMethod<
   GetSurveysActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetSurveysActivityRequest>,
-  output: __S(424, __c26, 8) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetSurveysActivityRequest>,
+  output: __S(440, __c27, 8) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1663,8 +1709,8 @@ export const getSurveysAllActivity: API.OperationMethod<
   GetSurveysAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetSurveysAllActivityRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSurveysAllActivityResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetSurveysAllActivityRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<GetSurveysAllActivityResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1681,8 +1727,8 @@ export const getSurveysArchivedResponseUuid: API.OperationMethod<
   GetSurveysArchivedResponseUuidError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetSurveysArchivedResponseUuidRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSurveysArchivedResponseUuidResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetSurveysArchivedResponseUuidRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<GetSurveysArchivedResponseUuidResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1718,13 +1764,31 @@ export const getSurveysResponsesCount: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetSurveysResponsesCountRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSurveysResponsesCountResponse>,
+  output: __S(368, __c23, 0) as any as S.Schema<GetSurveysResponsesCountResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSurveysResponsesCount",
+}));
+
+export type GetSurveysSiteSnapshotError = PosthogOpError;
+/** Get a site snapshot for the draft preview Get an image of the customer's own site for the survey preview. The image is a frame from a recent session recording of a page that matches the survey's URL condition. The first call starts rendering it, so poll until the status is `ready` or `unavailable`. */
+export const getSurveysSiteSnapshot: API.OperationMethod<
+  GetSurveysSiteSnapshotRequest,
+  SiteSnapshot,
+  GetSurveysSiteSnapshotError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c2, 0) as any as S.Schema<GetSurveysSiteSnapshotRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<SiteSnapshot>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysSiteSnapshot",
 }));
 
 export type GetSurveysStatError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1735,8 +1799,8 @@ export const getSurveysStat: API.OperationMethod<
   GetSurveysStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetSurveysStatRequest>,
-  output: __S(34, __c2, 2) as any as S.Schema<SurveyStatsResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetSurveysStatRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<SurveyStatsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1753,8 +1817,8 @@ export const listSurveys: API.OperationMethod<
   ListSurveysError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListSurveysRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<PaginatedSurveyList>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListSurveysRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<PaginatedSurveyList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1771,8 +1835,8 @@ export const listSurveysResponses: API.OperationMethod<
   ListSurveysResponsesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListSurveysResponsesRequest>,
-  output: __S(70, __c4, 6) as any as S.Schema<SurveyResponsesList>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListSurveysResponsesRequest>,
+  output: __S(86, __c5, 6) as any as S.Schema<SurveyResponsesList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1789,8 +1853,8 @@ export const stopSurvey: API.OperationMethod<
   StopSurveyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<StopSurveyRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<Survey>,
+  input: __S(96, __c6, 0) as any as S.Schema<StopSurveyRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<Survey>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1807,8 +1871,8 @@ export const surveysDestroy: API.OperationMethod<
   SurveysDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<SurveysDestroyRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<SurveysDestroyResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<SurveysDestroyRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SurveysDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1829,8 +1893,8 @@ export const surveysDuplicateToProjectsCreate: API.OperationMethod<
   SurveysDuplicateToProjectsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<SurveysDuplicateToProjectsCreateRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<SurveysDuplicateToProjectsCreateResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<SurveysDuplicateToProjectsCreateRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SurveysDuplicateToProjectsCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1847,8 +1911,8 @@ export const surveysGenerateTranslationsCreate: API.OperationMethod<
   SurveysGenerateTranslationsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<SurveysGenerateTranslationsCreateRequest>,
-  output: __S(135, __c8, 7) as any as S.Schema<GenerateSurveyTranslationsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<SurveysGenerateTranslationsCreateRequest>,
+  output: __S(151, __c9, 7) as any as S.Schema<GenerateSurveyTranslationsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1865,8 +1929,8 @@ export const surveysLaunch: API.OperationMethod<
   SurveysLaunchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<SurveysLaunchRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<Survey>,
+  input: __S(160, __c10, 0) as any as S.Schema<SurveysLaunchRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<Survey>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1883,8 +1947,8 @@ export const surveysQuestionLabels: API.OperationMethod<
   SurveysQuestionLabelsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<SurveysQuestionLabelsRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<SurveyQuestionLabelsResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<SurveysQuestionLabelsRequest>,
+  output: __S(179, __c11, 3) as any as S.Schema<SurveyQuestionLabelsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1901,8 +1965,8 @@ export const surveysResponsesArchiveCreate: API.OperationMethod<
   SurveysResponsesArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<SurveysResponsesArchiveCreateRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<SurveysResponsesArchiveCreateResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<SurveysResponsesArchiveCreateRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SurveysResponsesArchiveCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1923,8 +1987,8 @@ export const surveysResponsesUnarchiveCreate: API.OperationMethod<
   SurveysResponsesUnarchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<SurveysResponsesUnarchiveCreateRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<SurveysResponsesUnarchiveCreateResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<SurveysResponsesUnarchiveCreateRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SurveysResponsesUnarchiveCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1941,8 +2005,8 @@ export const updateSurvey: API.OperationMethod<
   UpdateSurveyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<UpdateSurveyRequest>,
-  output: __S(271, __c16, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<UpdateSurveyRequest>,
+  output: __S(287, __c17, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1959,8 +2023,8 @@ export const updateSurveysPartial: API.OperationMethod<
   UpdateSurveysPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<UpdateSurveysPartialRequest>,
-  output: __S(271, __c16, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateSurveysPartialRequest>,
+  output: __S(287, __c17, 15) as any as S.Schema<SurveySerializerCreateUpdateOnlyOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1985,8 +2049,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(288, __c18, 0)),
-          rates: S.optional(__S(288, __c18, 0)),
+          stats: S.optional(__S(304, __c19, 0)),
+          rates: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "SurveyGlobalStatsResponse" });
   }
@@ -2014,6 +2078,46 @@ function __c2(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          device: S.String.pipe(T.Query()),
+          url: S.optional(S.String.pipe(T.Query())),
+          url_match_type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/surveys/{id}/site_snapshot/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSurveysSiteSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          background_color: S.String,
+          text_color: S.String,
+          button_color: S.NullOr(S.String),
+          button_text_color: S.NullOr(S.String),
+          button_border_radius: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "SiteStyle" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          exported_asset_id: S.NullOr(S.Number),
+          page_url: S.NullOr(S.String),
+          viewport_width: S.NullOr(S.Number),
+          site_style: S.NullOr(__S(33, __c2, 1)),
+        }),
+      ).annotate({ identifier: "SiteSnapshot" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           include_per_question_stats: S.optional(S.Boolean.pipe(T.Query())),
@@ -2033,14 +2137,14 @@ function __c2(j: number): any {
           survey_id: S.optional(S.String),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
-          stats: S.optional(__S(288, __c18, 0)),
-          rates: S.optional(__S(288, __c18, 0)),
-          per_question_stats: S.optional(__S(33, __c2, 1)),
+          stats: S.optional(__S(304, __c19, 0)),
+          rates: S.optional(__S(304, __c19, 0)),
+          per_question_stats: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "SurveyStatsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2048,7 +2152,7 @@ function __c3(j: number): any {
           project_id: S.String.pipe(T.Label()),
           archived: S.optional(S.Boolean.pipe(T.Query())),
           created_by: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(304, __c19, 0).pipe(T.Query())),
+          ids: S.optional(__S(320, __c20, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           linked_flag_id: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -2058,19 +2162,19 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/", code: 200 })),
       ).annotate({ identifier: "ListSurveysRequest" });
     case 1:
-      return S.Array(__S(402, __c25, 2));
+      return S.Array(__S(418, __c26, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(49, __c3, 1)),
+          results: S.optional(__S(65, __c4, 1)),
         }),
       ).annotate({ identifier: "PaginatedSurveyList" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2104,7 +2208,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "SurveyResponseAnswer" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2125,18 +2229,18 @@ function __c4(j: number): any {
           distinct_id: S.String,
           session_id: S.NullOr(S.String),
           submitted_at: S.String,
-          answers: __S(66, __c4, 2),
-          extra: __S(67, __c4, 3),
+          answers: __S(82, __c5, 2),
+          extra: __S(83, __c5, 3),
         }),
       ).annotate({ identifier: "SurveyResponseRow" });
     case 5:
-      return S.Array(__S(68, __c4, 4));
+      return S.Array(__S(84, __c5, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(69, __c4, 5),
+          results: __S(85, __c5, 5),
           has_more: S.Boolean,
           limit: S.Number,
           offset: S.Number,
@@ -2144,7 +2248,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SurveyResponsesList" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2161,7 +2265,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "StopSurveyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2174,7 +2278,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SurveysDestroyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2200,7 +2304,7 @@ function __c7(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2224,7 +2328,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SurveysDuplicateToProjectsCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2234,7 +2338,7 @@ function __c8(j: number): any {
           target_language: S.String,
           source_language: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
-          survey: S.optional(__S(288, __c18, 0)),
+          survey: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2257,42 +2361,42 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "GeneratedSurveyRootTranslation" });
     case 2:
-      return S.Record(S.String, __S(129, __c8, 1));
+      return S.Record(S.String, __S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           question: S.optional(S.String),
           description: S.optional(S.String),
           buttonText: S.optional(S.String),
-          choices: S.optional(__S(304, __c19, 0)),
+          choices: S.optional(__S(320, __c20, 0)),
           lowerBoundLabel: S.optional(S.String),
           upperBoundLabel: S.optional(S.String),
           link: S.optional(S.String),
         }),
       ).annotate({ identifier: "GeneratedSurveyQuestionTranslation" });
     case 4:
-      return S.Record(S.String, __S(131, __c8, 3));
+      return S.Record(S.String, __S(147, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          translations: __S(132, __c8, 4),
+          translations: __S(148, __c9, 4),
         }),
       ).annotate({ identifier: "GeneratedSurveyQuestionTranslationPatch" });
     case 6:
-      return S.Array(__S(133, __c8, 5));
+      return S.Array(__S(149, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          translations: __S(130, __c8, 2),
-          questions: __S(134, __c8, 6),
-          generated_field_paths: __S(304, __c19, 0),
+          translations: __S(146, __c9, 2),
+          questions: __S(150, __c9, 6),
+          generated_field_paths: __S(320, __c20, 0),
           trace_id: S.String,
         }),
       ).annotate({ identifier: "GenerateSurveyTranslationsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2309,7 +2413,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SurveysLaunchRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2334,64 +2438,13 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SurveyQuestionLabel" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(162, __c10, 2),
+          labels: __S(178, __c11, 2),
         }),
       ).annotate({ identifier: "SurveyQuestionLabelsResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          response_uuid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          type: S.optional(S.String),
-          schedule: S.optional(S.NullOr(S.String)),
-          linked_flag_id: S.optional(S.NullOr(S.Number)),
-          linked_insight_id: S.optional(S.NullOr(S.Number)),
-          targeting_flag_id: S.optional(S.Number),
-          targeting_flag_filters: S.optional(S.Unknown),
-          remove_targeting_flag: S.optional(S.NullOr(S.Boolean)),
-          questions: S.optional(S.Unknown),
-          conditions: S.optional(S.Unknown),
-          appearance: S.optional(S.Unknown),
-          start_date: S.optional(S.NullOr(S.String)),
-          end_date: S.optional(S.NullOr(S.String)),
-          archived: S.optional(S.Boolean),
-          responses_limit: S.optional(S.NullOr(S.Number)),
-          iteration_count: S.optional(S.NullOr(S.Number)),
-          iteration_frequency_days: S.optional(S.NullOr(S.Number)),
-          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
-          current_iteration: S.optional(S.NullOr(S.Number)),
-          current_iteration_start_date: S.optional(S.NullOr(S.String)),
-          response_sampling_start_date: S.optional(S.NullOr(S.String)),
-          response_sampling_interval_type: S.optional(S.NullOr(S.Unknown)),
-          response_sampling_interval: S.optional(S.NullOr(S.Number)),
-          response_sampling_limit: S.optional(S.NullOr(S.Number)),
-          response_sampling_daily_limits: S.optional(S.Unknown),
-          enable_partial_responses: S.optional(S.NullOr(S.Boolean)),
-          enable_iframe_embedding: S.optional(S.NullOr(S.Boolean)),
-          base_language: S.optional(S.String),
-          translations: S.optional(S.Unknown),
-          _create_in_folder: S.optional(S.String),
-          form_content: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/archive/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SurveysResponsesArchiveCreateRequest" });
   }
 }
 function __c12(j: number): any {
@@ -2421,7 +2474,58 @@ function __c12(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
+          current_iteration: S.optional(S.NullOr(S.Number)),
+          current_iteration_start_date: S.optional(S.NullOr(S.String)),
+          response_sampling_start_date: S.optional(S.NullOr(S.String)),
+          response_sampling_interval_type: S.optional(S.NullOr(S.Unknown)),
+          response_sampling_interval: S.optional(S.NullOr(S.Number)),
+          response_sampling_limit: S.optional(S.NullOr(S.Number)),
+          response_sampling_daily_limits: S.optional(S.Unknown),
+          enable_partial_responses: S.optional(S.NullOr(S.Boolean)),
+          enable_iframe_embedding: S.optional(S.NullOr(S.Boolean)),
+          base_language: S.optional(S.String),
+          translations: S.optional(S.Unknown),
+          _create_in_folder: S.optional(S.String),
+          form_content: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/archive/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SurveysResponsesArchiveCreateRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          response_uuid: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          schedule: S.optional(S.NullOr(S.String)),
+          linked_flag_id: S.optional(S.NullOr(S.Number)),
+          linked_insight_id: S.optional(S.NullOr(S.Number)),
+          targeting_flag_id: S.optional(S.Number),
+          targeting_flag_filters: S.optional(S.Unknown),
+          remove_targeting_flag: S.optional(S.NullOr(S.Boolean)),
+          questions: S.optional(S.Unknown),
+          conditions: S.optional(S.Unknown),
+          appearance: S.optional(S.Unknown),
+          start_date: S.optional(S.NullOr(S.String)),
+          end_date: S.optional(S.NullOr(S.String)),
+          archived: S.optional(S.Boolean),
+          responses_limit: S.optional(S.NullOr(S.Number)),
+          iteration_count: S.optional(S.NullOr(S.Number)),
+          iteration_frequency_days: S.optional(S.NullOr(S.Number)),
+          repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2445,7 +2549,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SurveysResponsesUnarchiveCreateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2459,11 +2563,11 @@ function __c13(j: number): any {
           linked_flag_id: S.optional(S.NullOr(S.Number)),
           linked_insight_id: S.optional(S.NullOr(S.Number)),
           targeting_flag_id: S.optional(S.Number),
-          targeting_flag_filters: S.optional(S.NullOr(__S(263, __c16, 7))),
+          targeting_flag_filters: S.optional(S.NullOr(__S(279, __c17, 7))),
           remove_targeting_flag: S.optional(S.NullOr(S.Boolean)),
-          questions: S.optional(S.NullOr(__S(264, __c16, 8))),
-          conditions: S.optional(S.NullOr(__S(269, __c16, 13))),
-          appearance: S.optional(S.NullOr(__S(270, __c16, 14))),
+          questions: S.optional(S.NullOr(__S(280, __c17, 8))),
+          conditions: S.optional(S.NullOr(__S(285, __c17, 13))),
+          appearance: S.optional(S.NullOr(__S(286, __c17, 14))),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           archived: S.optional(S.Boolean),
@@ -2471,7 +2575,7 @@ function __c13(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2491,7 +2595,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateSurveyRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2505,11 +2609,11 @@ function __c14(j: number): any {
           linked_flag_id: S.optional(S.NullOr(S.Number)),
           linked_insight_id: S.optional(S.NullOr(S.Number)),
           targeting_flag_id: S.optional(S.Number),
-          targeting_flag_filters: S.optional(S.NullOr(__S(263, __c16, 7))),
+          targeting_flag_filters: S.optional(S.NullOr(__S(279, __c17, 7))),
           remove_targeting_flag: S.optional(S.NullOr(S.Boolean)),
-          questions: S.optional(S.NullOr(__S(264, __c16, 8))),
-          conditions: S.optional(S.NullOr(__S(269, __c16, 13))),
-          appearance: S.optional(S.NullOr(__S(270, __c16, 14))),
+          questions: S.optional(S.NullOr(__S(280, __c17, 8))),
+          conditions: S.optional(S.NullOr(__S(285, __c17, 13))),
+          appearance: S.optional(S.NullOr(__S(286, __c17, 14))),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           archived: S.optional(S.Boolean),
@@ -2517,7 +2621,7 @@ function __c14(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2537,7 +2641,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateSurveysPartialRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2550,11 +2654,11 @@ function __c15(j: number): any {
           linked_flag_id: S.optional(S.NullOr(S.Number)),
           linked_insight_id: S.optional(S.NullOr(S.Number)),
           targeting_flag_id: S.optional(S.Number),
-          targeting_flag_filters: S.optional(S.NullOr(__S(263, __c16, 7))),
+          targeting_flag_filters: S.optional(S.NullOr(__S(279, __c17, 7))),
           remove_targeting_flag: S.optional(S.NullOr(S.Boolean)),
-          questions: S.optional(S.NullOr(__S(264, __c16, 8))),
-          conditions: S.optional(S.NullOr(__S(269, __c16, 13))),
-          appearance: S.optional(S.NullOr(__S(270, __c16, 14))),
+          questions: S.optional(S.NullOr(__S(280, __c17, 8))),
+          conditions: S.optional(S.NullOr(__S(285, __c17, 13))),
+          appearance: S.optional(S.NullOr(__S(286, __c17, 14))),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           archived: S.optional(S.Boolean),
@@ -2562,7 +2666,7 @@ function __c15(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2580,21 +2684,21 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateSurveyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(256, __c16, 0)),
+          properties: S.optional(__S(272, __c17, 0)),
           rollout_percentage: S.optional(S.Number),
           variant: S.optional(S.NullOr(S.String)),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2604,11 +2708,11 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "FeatureFlagMultivariateVariantSchema" });
     case 4:
-      return S.Array(__S(259, __c16, 3));
+      return S.Array(__S(275, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          variants: S.optional(__S(260, __c16, 4)),
+          variants: S.optional(__S(276, __c17, 4)),
         }),
       ).annotate({ identifier: "FeatureFlagMultivariateSchema" });
     case 6:
@@ -2616,10 +2720,10 @@ function __c16(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(258, __c16, 2)),
-          multivariate: S.optional(S.NullOr(__S(261, __c16, 5))),
+          groups: S.optional(__S(274, __c17, 2)),
+          multivariate: S.optional(S.NullOr(__S(277, __c17, 5))),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
-          payloads: S.optional(__S(262, __c16, 6)),
+          payloads: S.optional(__S(278, __c17, 6)),
           feature_enrollment: S.optional(S.NullOr(S.Boolean)),
           early_exit: S.optional(S.Boolean),
         }),
@@ -2633,12 +2737,12 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "SurveyConditionEventValueSchema" });
     case 10:
-      return S.Array(__S(265, __c16, 9));
+      return S.Array(__S(281, __c17, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           repeatedActivation: S.optional(S.Boolean),
-          values: S.optional(__S(266, __c16, 10)),
+          values: S.optional(__S(282, __c17, 10)),
         }),
       ).annotate({ identifier: "SurveyEventsConditionSchema" });
     case 12:
@@ -2650,8 +2754,8 @@ function __c16(j: number): any {
           selector: S.optional(S.String),
           seenSurveyWaitPeriodInDays: S.optional(S.Number),
           urlMatchType: S.optional(S.String),
-          events: S.optional(__S(267, __c16, 11)),
-          deviceTypes: S.optional(__S(268, __c16, 12)),
+          events: S.optional(__S(283, __c17, 11)),
+          deviceTypes: S.optional(__S(284, __c17, 12)),
           deviceTypesMatchType: S.optional(S.String),
           linkedFlagVariant: S.optional(S.String),
         }),
@@ -2712,14 +2816,14 @@ function __c16(j: number): any {
           description: S.optional(S.String),
           type: S.optional(S.String),
           schedule: S.optional(S.NullOr(S.String)),
-          linked_flag: S.optional(__S(320, __c20, 0)),
-          targeting_flag: S.optional(__S(320, __c20, 0)),
-          internal_targeting_flag: S.optional(__S(320, __c20, 0)),
+          linked_flag: S.optional(__S(336, __c21, 0)),
+          targeting_flag: S.optional(__S(336, __c21, 0)),
+          internal_targeting_flag: S.optional(__S(336, __c21, 0)),
           questions: S.optional(S.Unknown),
           conditions: S.optional(S.Unknown),
           appearance: S.optional(S.Unknown),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(321, __c20, 1))),
+          created_by: S.optional(S.NullOr(__S(337, __c21, 1))),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           archived: S.optional(S.Boolean),
@@ -2727,7 +2831,7 @@ function __c16(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2744,25 +2848,25 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SurveySerializerCreateUpdateOnlyOutput" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2771,14 +2875,14 @@ function __c20(j: number): any {
           team_id: S.optional(S.Number),
           name: S.optional(S.String),
           key: S.optional(S.String),
-          filters: S.optional(__S(288, __c18, 0)),
+          filters: S.optional(__S(304, __c19, 0)),
           deleted: S.optional(S.Boolean),
           active: S.optional(S.Boolean),
           ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
           version: S.optional(S.NullOr(S.Number)),
           evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
           bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          evaluation_contexts: S.optional(__S(304, __c19, 0)),
+          evaluation_contexts: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "MinimalFeatureFlag" });
     case 1:
@@ -2791,13 +2895,13 @@ function __c20(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(288, __c18, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(304, __c19, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2817,7 +2921,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateSurveysSummarizeResponseRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2825,7 +2929,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2851,7 +2955,7 @@ function __c23(j: number): any {
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2875,7 +2979,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateSurveysSummaryHeadlineRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2888,12 +2992,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetSurveyRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2902,25 +3006,25 @@ function __c25(j: number): any {
           description: S.optional(S.String),
           type: S.optional(S.String),
           schedule: S.optional(S.NullOr(S.String)),
-          linked_flag: S.optional(__S(320, __c20, 0)),
+          linked_flag: S.optional(__S(336, __c21, 0)),
           linked_flag_id: S.optional(S.NullOr(S.Number)),
           linked_insight_id: S.optional(S.NullOr(S.Number)),
-          targeting_flag: S.optional(__S(320, __c20, 0)),
-          internal_targeting_flag: S.optional(__S(320, __c20, 0)),
+          targeting_flag: S.optional(__S(336, __c21, 0)),
+          internal_targeting_flag: S.optional(__S(336, __c21, 0)),
           questions: S.optional(S.Unknown),
-          conditions: S.optional(S.NullOr(__S(288, __c18, 0))),
+          conditions: S.optional(S.NullOr(__S(304, __c19, 0))),
           appearance: S.optional(S.Unknown),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(321, __c20, 1))),
+          created_by: S.optional(S.NullOr(__S(337, __c21, 1))),
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           archived: S.optional(S.Boolean),
           responses_limit: S.optional(S.NullOr(S.Number)),
-          feature_flag_keys: S.optional(__S(401, __c25, 1)),
+          feature_flag_keys: S.optional(__S(417, __c26, 1)),
           iteration_count: S.optional(S.NullOr(S.Number)),
           iteration_frequency_days: S.optional(S.NullOr(S.Number)),
           repeat_until_stopped: S.optional(S.NullOr(S.Boolean)),
-          iteration_start_dates: S.optional(S.NullOr(__S(272, __c17, 0))),
+          iteration_start_dates: S.optional(S.NullOr(__S(288, __c18, 0))),
           current_iteration: S.optional(S.NullOr(S.Number)),
           current_iteration_start_date: S.optional(S.NullOr(S.String)),
           response_sampling_start_date: S.optional(S.NullOr(S.String)),
@@ -2939,7 +3043,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "Survey" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2967,7 +3071,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "Change" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(433, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2988,9 +3092,9 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          changes: S.optional(__S(418, __c26, 2)),
-          merge: S.optional(__S(419, __c26, 3)),
-          trigger: S.optional(__S(420, __c26, 4)),
+          changes: S.optional(__S(434, __c27, 2)),
+          merge: S.optional(__S(435, __c27, 3)),
+          trigger: S.optional(__S(436, __c27, 4)),
           name: S.String,
           short_id: S.String,
           type: S.String,
@@ -3004,7 +3108,7 @@ function __c26(j: number): any {
           activity: S.String,
           scope: S.String,
           item_id: S.String,
-          detail: S.optional(__S(421, __c26, 5)),
+          detail: S.optional(__S(437, __c27, 5)),
           created_at: S.String,
           is_system: S.Boolean,
           was_impersonated: S.Boolean,
@@ -3012,11 +3116,11 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "ActivityLogEntry" });
     case 7:
-      return S.Array(__S(422, __c26, 6));
+      return S.Array(__S(438, __c27, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          results: __S(423, __c26, 7),
+          results: __S(439, __c27, 7),
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
           total_count: S.Number,
@@ -3024,7 +3128,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ActivityLogPaginatedResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3036,7 +3140,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetSurveysAllActivityRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

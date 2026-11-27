@@ -133,6 +133,10 @@ export interface CreateRecTaskRequest {
   KeyWordLibIdList?: StringList | undefined;
   ReplaceTextId?: string | undefined;
   SpeakerRoles?: SpeakerRoleInfoList | undefined;
+  ContextData?: string | undefined;
+  SentenceStrategy?: number | undefined;
+  EnableSpeakerContext?: number | undefined;
+  SpeakerContextId?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -213,6 +217,7 @@ export interface SentenceDetail {
   KeyWordResults?: KeyWordResultList | null | undefined;
   LangType?: string | undefined;
   SpeakerRoleName?: string | undefined;
+  SpeakerVoicePrintId?: string | undefined;
 }
 export type SentenceDetailList = Array<SentenceDetail>;
 export interface LlmResult {
@@ -230,6 +235,7 @@ export interface TaskStatus {
   ResultDetail?: SentenceDetailList | null | undefined;
   AudioDuration?: number | null | undefined;
   LlmResults?: LlmResultList | undefined;
+  SpeakerContextId?: string | undefined;
 }
 export interface DescribeTaskStatusResponse {
   Data?: TaskStatus | undefined;
@@ -1241,6 +1247,7 @@ function __c4(j: number): any {
           KeyWordResults: S.optional(S.NullOr(__S(68, __c4, 4))),
           LangType: S.optional(S.String),
           SpeakerRoleName: S.optional(S.String),
+          SpeakerVoicePrintId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SentenceDetail" });
     case 6:
@@ -1266,6 +1273,7 @@ function __c4(j: number): any {
           ResultDetail: S.optional(S.NullOr(__S(70, __c4, 6))),
           AudioDuration: S.optional(S.NullOr(S.Number)),
           LlmResults: S.optional(__S(72, __c4, 8)),
+          SpeakerContextId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskStatus" });
     case 10:
@@ -1985,6 +1993,10 @@ function __c37(j: number): any {
           KeyWordLibIdList: S.optional(__S(608, __c38, 0)),
           ReplaceTextId: S.optional(S.String),
           SpeakerRoles: S.optional(__S(593, __c37, 1)),
+          ContextData: S.optional(S.String),
+          SentenceStrategy: S.optional(S.Number),
+          EnableSpeakerContext: S.optional(S.Number),
+          SpeakerContextId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "asr", version: "2019-06-14", action: "CreateRecTask" })),
       ).annotate({ identifier: "CreateRecTaskRequest" });

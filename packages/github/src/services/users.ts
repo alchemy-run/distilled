@@ -137,6 +137,152 @@ export interface GpgKey {
   revoked: boolean;
   raw_key: string | null;
 }
+/** The data type of the issue field. */
+export type CreateIssueFieldForAuthenticatedUserRequestDataType =
+  | "text"
+  | "date"
+  | "single_select"
+  | "multi_select"
+  | "number";
+/** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). Defaults to `restricted`. */
+export type CreateIssueFieldForAuthenticatedUserRequestVisibility = "restricted" | "all";
+/** Color for the option. */
+export type CreateIssueFieldForAuthenticatedUserRequestOptionsItemColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+export interface CreateIssueFieldForAuthenticatedUserRequestOptionsItem {
+  /** Name of the option. */
+  name: string;
+  /** Description of the option. */
+  description?: string | null | undefined;
+  /** Color for the option. */
+  color: CreateIssueFieldForAuthenticatedUserRequestOptionsItemColor | (string & {});
+  /** Priority of the option for ordering. */
+  priority: number;
+}
+/** Options for select fields. Required when data_type is 'single_select' or 'multi_select'. */
+export type CreateIssueFieldForAuthenticatedUserRequestOptionsList =
+  Array<CreateIssueFieldForAuthenticatedUserRequestOptionsItem>;
+export interface CreateIssueFieldForAuthenticatedUserRequest {
+  /** Name of the issue field. */
+  name: string;
+  /** Description of the issue field. */
+  description?: string | null | undefined;
+  /** The data type of the issue field. */
+  data_type: CreateIssueFieldForAuthenticatedUserRequestDataType | (string & {});
+  /** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). Defaults to `restricted`. */
+  visibility?: CreateIssueFieldForAuthenticatedUserRequestVisibility | (string & {}) | undefined;
+  /** Options for select fields. Required when data_type is 'single_select' or 'multi_select'. */
+  options?: CreateIssueFieldForAuthenticatedUserRequestOptionsList | null | undefined;
+}
+/** The data type of the issue field. */
+export type UserIssueFieldDataType = "text" | "date" | "single_select" | "multi_select" | "number";
+/** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). */
+export type UserIssueFieldVisibility = "restricted" | "all";
+/** The color of the option. */
+export type UserIssueFieldOptionsItemColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+export interface UserIssueFieldOptionsItem {
+  /** The unique identifier of the option. */
+  id: number;
+  /** The name of the option. */
+  name: string;
+  /** The description of the option. */
+  description?: string | null | undefined;
+  /** The color of the option. */
+  color?: UserIssueFieldOptionsItemColor | null | undefined;
+  /** The priority of the option for ordering. */
+  priority?: number | null | undefined;
+  /** The time the option was created. */
+  created_at?: string | undefined;
+  /** The time the option was last updated. */
+  updated_at?: string | undefined;
+}
+/** Available options for single select and multi select fields. */
+export type UserIssueFieldOptionsList = Array<UserIssueFieldOptionsItem>;
+/** A custom attribute defined by a personal account for attaching structured data to issues. */
+export interface UserIssueField {
+  /** The unique identifier of the issue field. */
+  id: number;
+  /** The node identifier of the issue field. */
+  node_id: string;
+  /** The name of the issue field. */
+  name: string;
+  /** The description of the issue field. */
+  description?: string | null | undefined;
+  /** The data type of the issue field. */
+  data_type: UserIssueFieldDataType;
+  /** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). */
+  visibility?: UserIssueFieldVisibility | undefined;
+  /** Available options for single select and multi select fields. */
+  options?: UserIssueFieldOptionsList | null | undefined;
+  /** The time the issue field was created. */
+  created_at?: string | undefined;
+  /** The time the issue field was updated. */
+  updated_at?: string | undefined;
+}
+/** Color for the issue type. */
+export type CreateIssueTypeForAuthenticatedUserRequestColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+export interface CreateIssueTypeForAuthenticatedUserRequest {
+  /** Name of the issue type. */
+  name: string;
+  /** Whether or not the issue type is enabled. */
+  is_enabled: boolean;
+  /** Description of the issue type. */
+  description?: string | null | undefined;
+  /** Color for the issue type. */
+  color?: CreateIssueTypeForAuthenticatedUserRequestColor | (string & {}) | null | undefined;
+}
+/** The color of the issue type. */
+export type IssueTypeColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+/** The type assigned to the issue. This is only present for issues in repositories where issue types are supported. */
+export interface IssueType {
+  /** The unique identifier of the issue type. */
+  id: number;
+  /** The node identifier of the issue type. */
+  node_id: string;
+  /** The name of the issue type. */
+  name: string;
+  /** The description of the issue type. */
+  description: string | null;
+  /** The color of the issue type. */
+  color?: IssueTypeColor | null | undefined;
+  /** The time the issue type created. */
+  created_at?: string | undefined;
+  /** The time the issue type last updated. */
+  updated_at?: string | undefined;
+  /** The enabled state of the issue type. */
+  is_enabled?: boolean | undefined;
+}
 export interface CreatePublicSshKeyForAuthenticatedUserRequest {
   /** A descriptive name for the new key. */
   title?: string | undefined;
@@ -224,6 +370,16 @@ export interface DeleteGpgKeyForAuthenticatedUserRequest {
   gpg_key_id: number;
 }
 export interface DeleteGpgKeyForAuthenticatedUserResponse {}
+export interface DeleteIssueFieldForAuthenticatedUserRequest {
+  /** The unique identifier of the issue field. */
+  issue_field_id: number;
+}
+export interface DeleteIssueFieldForAuthenticatedUserResponse {}
+export interface DeleteIssueTypeForAuthenticatedUserRequest {
+  /** The unique identifier of the issue type. */
+  issue_type_id: number;
+}
+export interface DeleteIssueTypeForAuthenticatedUserResponse {}
 export interface DeletePublicSshKeyForAuthenticatedUserRequest {
   /** The unique identifier of the key. */
   key_id: number;
@@ -599,6 +755,14 @@ export interface ListGpgKeysForUserRequest {
 }
 export type ListGpgKeysForUserResponseBodyList = Array<GpgKey>;
 export type ListGpgKeysForUserResponse = ListGpgKeysForUserResponseBodyList;
+export interface ListIssueFieldsForAuthenticatedUserRequest {}
+export type ListIssueFieldsForAuthenticatedUserResponseBodyList = Array<UserIssueField | null>;
+export type ListIssueFieldsForAuthenticatedUserResponse =
+  ListIssueFieldsForAuthenticatedUserResponseBodyList;
+export interface ListIssueTypesForAuthenticatedUserRequest {}
+export type ListIssueTypesForAuthenticatedUserResponseBodyList = Array<IssueType | null>;
+export type ListIssueTypesForAuthenticatedUserResponse =
+  ListIssueTypesForAuthenticatedUserResponseBodyList;
 export interface ListPublicEmailsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number | undefined;
@@ -709,6 +873,67 @@ export interface UpdateAuthenticatedRequest {
   /** The new short biography of the user. */
   bio?: string | undefined;
 }
+/** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). */
+export type UpdateIssueFieldForAuthenticatedUserRequestVisibility = "restricted" | "all";
+/** Color for the option. */
+export type UpdateIssueFieldForAuthenticatedUserRequestOptionsItemColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+export interface UpdateIssueFieldForAuthenticatedUserRequestOptionsItem {
+  /** The id of an existing option to retain or update. Omit this when creating a new option. */
+  id?: number | undefined;
+  /** Name of the option. */
+  name: string;
+  /** Description of the option. */
+  description?: string | null | undefined;
+  /** Color for the option. */
+  color: UpdateIssueFieldForAuthenticatedUserRequestOptionsItemColor | (string & {});
+  /** Priority of the option for ordering. */
+  priority: number;
+}
+/** Options for select fields. Only applicable when updating single_select or multi_select fields. When provided, this array **replaces** the entire existing set of options rather than adding to or updating individual options. To retain or update an existing option, include it in the array with its `id`. Options sent without an `id` are treated as new options and may cause existing options to be deleted and recreated. */
+export type UpdateIssueFieldForAuthenticatedUserRequestOptionsList =
+  Array<UpdateIssueFieldForAuthenticatedUserRequestOptionsItem>;
+export interface UpdateIssueFieldForAuthenticatedUserRequest {
+  /** The unique identifier of the issue field. */
+  issue_field_id: number;
+  /** Name of the issue field. */
+  name?: string | undefined;
+  /** Description of the issue field. */
+  description?: string | null | undefined;
+  /** The visibility of the issue field. Can be `restricted` (visible only to the owner and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). */
+  visibility?: UpdateIssueFieldForAuthenticatedUserRequestVisibility | (string & {}) | undefined;
+  /** Options for select fields. Only applicable when updating single_select or multi_select fields. When provided, this array **replaces** the entire existing set of options rather than adding to or updating individual options. To retain or update an existing option, include it in the array with its `id`. Options sent without an `id` are treated as new options and may cause existing options to be deleted and recreated. */
+  options?: UpdateIssueFieldForAuthenticatedUserRequestOptionsList | undefined;
+}
+/** Color for the issue type. */
+export type UpdateIssueTypeForAuthenticatedUserRequestColor =
+  | "gray"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
+export interface UpdateIssueTypeForAuthenticatedUserRequest {
+  /** The unique identifier of the issue type. */
+  issue_type_id: number;
+  /** Name of the issue type. */
+  name: string;
+  /** Whether or not the issue type is enabled. */
+  is_enabled: boolean;
+  /** Description of the issue type. */
+  description?: string | null | undefined;
+  /** Color for the issue type. */
+  color?: UpdateIssueTypeForAuthenticatedUserRequestColor | (string & {}) | null | undefined;
+}
 export type AddEmailForAuthenticatedUserError = GithubOpError;
 /** Add an email address for the authenticated user OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
 export const addEmailForAuthenticatedUser: API.OperationMethod<
@@ -749,8 +974,8 @@ export type BlockError = GithubOpError;
 /** Block a user Blocks the given user and returns a 204. If the authenticated user cannot block the given user a 422 is returned. */
 export const block: API.OperationMethod<BlockRequest, BlockResponse, BlockError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(120, __c15, 0) as any as S.Schema<BlockRequest>,
-    output: __S(128, __c16, 0) as any as S.Schema<BlockResponse>,
+    input: __S(128, __c16, 0) as any as S.Schema<BlockRequest>,
+    output: __S(136, __c17, 0) as any as S.Schema<BlockResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -768,7 +993,7 @@ export const checkBlocked: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<CheckBlockedRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CheckBlockedResponse>,
+  output: __S(136, __c17, 0) as any as S.Schema<CheckBlockedResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -785,8 +1010,8 @@ export const checkFollowingForUser: API.OperationMethod<
   CheckFollowingForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CheckFollowingForUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CheckFollowingForUserResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<CheckFollowingForUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<CheckFollowingForUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -803,8 +1028,8 @@ export const checkPersonIsFollowedByAuthenticated: API.OperationMethod<
   CheckPersonIsFollowedByAuthenticatedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<CheckPersonIsFollowedByAuthenticatedRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CheckPersonIsFollowedByAuthenticatedResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<CheckPersonIsFollowedByAuthenticatedRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<CheckPersonIsFollowedByAuthenticatedResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -821,14 +1046,50 @@ export const createGpgKeyForAuthenticatedUser: API.OperationMethod<
   CreateGpgKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<CreateGpgKeyForAuthenticatedUserRequest>,
-  output: __S(421, __c52, 5) as any as S.Schema<GpgKey>,
+  input: __S(480, __c60, 0) as any as S.Schema<CreateGpgKeyForAuthenticatedUserRequest>,
+  output: __S(493, __c61, 5) as any as S.Schema<GpgKey>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateGpgKeyForAuthenticatedUser",
+}));
+
+export type CreateIssueFieldForAuthenticatedUserError = GithubOpError;
+/** Create an issue field Creates a new issue field for the authenticated user's personal account. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const createIssueFieldForAuthenticatedUser: API.OperationMethod<
+  CreateIssueFieldForAuthenticatedUserRequest,
+  UserIssueField,
+  CreateIssueFieldForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(498, __c62, 2) as any as S.Schema<CreateIssueFieldForAuthenticatedUserRequest>,
+  output: __S(506, __c63, 2) as any as S.Schema<UserIssueField>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueFieldForAuthenticatedUser",
+}));
+
+export type CreateIssueTypeForAuthenticatedUserError = GithubOpError;
+/** Create an issue type Creates a new issue type for the authenticated user's personal account. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const createIssueTypeForAuthenticatedUser: API.OperationMethod<
+  CreateIssueTypeForAuthenticatedUserRequest,
+  IssueType,
+  CreateIssueTypeForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c64, 0) as any as S.Schema<CreateIssueTypeForAuthenticatedUserRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<IssueType>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueTypeForAuthenticatedUser",
 }));
 
 export type CreatePublicSshKeyForAuthenticatedUserError = GithubOpError;
@@ -839,8 +1100,8 @@ export const createPublicSshKeyForAuthenticatedUser: API.OperationMethod<
   CreatePublicSshKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<CreatePublicSshKeyForAuthenticatedUserRequest>,
-  output: __S(432, __c54, 0) as any as S.Schema<Key>,
+  input: __S(528, __c66, 0) as any as S.Schema<CreatePublicSshKeyForAuthenticatedUserRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Key>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -857,8 +1118,8 @@ export const createSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   CreateSshSigningKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CreateSshSigningKeyForAuthenticatedUserRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<SshSigningKey>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateSshSigningKeyForAuthenticatedUserRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SshSigningKey>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -875,8 +1136,8 @@ export const deleteAttestationsBulk: API.OperationMethod<
   DeleteAttestationsBulkError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<DeleteAttestationsBulkRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteAttestationsBulkResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteAttestationsBulkRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteAttestationsBulkResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -893,8 +1154,8 @@ export const deleteAttestationsById: API.OperationMethod<
   DeleteAttestationsByIdError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteAttestationsByIdRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteAttestationsByIdResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteAttestationsByIdRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteAttestationsByIdResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -911,8 +1172,8 @@ export const deleteAttestationsBySubjectDigest: API.OperationMethod<
   DeleteAttestationsBySubjectDigestError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -929,8 +1190,8 @@ export const deleteEmailForAuthenticatedUser: API.OperationMethod<
   DeleteEmailForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteEmailForAuthenticatedUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteEmailForAuthenticatedUserResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteEmailForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteEmailForAuthenticatedUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -947,14 +1208,50 @@ export const deleteGpgKeyForAuthenticatedUser: API.OperationMethod<
   DeleteGpgKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteGpgKeyForAuthenticatedUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteGpgKeyForAuthenticatedUserResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteGpgKeyForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteGpgKeyForAuthenticatedUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteGpgKeyForAuthenticatedUser",
+}));
+
+export type DeleteIssueFieldForAuthenticatedUserError = GithubOpError;
+/** Delete an issue field Deletes an issue field for the authenticated user. The authenticated user must own the issue field. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const deleteIssueFieldForAuthenticatedUser: API.OperationMethod<
+  DeleteIssueFieldForAuthenticatedUserRequest,
+  DeleteIssueFieldForAuthenticatedUserResponse,
+  DeleteIssueFieldForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteIssueFieldForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteIssueFieldForAuthenticatedUserResponse>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueFieldForAuthenticatedUser",
+}));
+
+export type DeleteIssueTypeForAuthenticatedUserError = GithubOpError;
+/** Delete an issue type Deletes an issue type for the authenticated user. The authenticated user must own the issue type. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const deleteIssueTypeForAuthenticatedUser: API.OperationMethod<
+  DeleteIssueTypeForAuthenticatedUserRequest,
+  DeleteIssueTypeForAuthenticatedUserResponse,
+  DeleteIssueTypeForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteIssueTypeForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteIssueTypeForAuthenticatedUserResponse>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueTypeForAuthenticatedUser",
 }));
 
 export type DeletePublicSshKeyForAuthenticatedUserError = GithubOpError;
@@ -965,8 +1262,8 @@ export const deletePublicSshKeyForAuthenticatedUser: API.OperationMethod<
   DeletePublicSshKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeletePublicSshKeyForAuthenticatedUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeletePublicSshKeyForAuthenticatedUserResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeletePublicSshKeyForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeletePublicSshKeyForAuthenticatedUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -983,8 +1280,8 @@ export const deleteSocialAccountForAuthenticatedUser: API.OperationMethod<
   DeleteSocialAccountForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteSocialAccountForAuthenticatedUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteSocialAccountForAuthenticatedUserResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteSocialAccountForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteSocialAccountForAuthenticatedUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1001,8 +1298,8 @@ export const deleteSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   DeleteSshSigningKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteSshSigningKeyForAuthenticatedUserRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<DeleteSshSigningKeyForAuthenticatedUserResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteSshSigningKeyForAuthenticatedUserRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DeleteSshSigningKeyForAuthenticatedUserResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1019,8 +1316,8 @@ export const follow: API.OperationMethod<
   FollowError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<FollowRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<FollowResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<FollowRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<FollowResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1037,8 +1334,8 @@ export const getAuthenticated: API.OperationMethod<
   GetAuthenticatedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetAuthenticatedRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetAuthenticatedResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetAuthenticatedRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<GetAuthenticatedResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1055,8 +1352,8 @@ export const getById: API.OperationMethod<
   GetByIdError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetByIdRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetByIdResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetByIdRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<GetByIdResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1073,8 +1370,8 @@ export const getByUsername: API.OperationMethod<
   GetByUsernameError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetByUsernameRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<GetByUsernameResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetByUsernameRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<GetByUsernameResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1091,8 +1388,8 @@ export const getContextForUser: API.OperationMethod<
   GetContextForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetContextForUserRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<Hovercard>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetContextForUserRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<Hovercard>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1109,8 +1406,8 @@ export const getGpgKeyForAuthenticatedUser: API.OperationMethod<
   GetGpgKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetGpgKeyForAuthenticatedUserRequest>,
-  output: __S(421, __c52, 5) as any as S.Schema<GpgKey>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetGpgKeyForAuthenticatedUserRequest>,
+  output: __S(493, __c61, 5) as any as S.Schema<GpgKey>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1127,8 +1424,8 @@ export const getPublicSshKeyForAuthenticatedUser: API.OperationMethod<
   GetPublicSshKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetPublicSshKeyForAuthenticatedUserRequest>,
-  output: __S(432, __c54, 0) as any as S.Schema<Key>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetPublicSshKeyForAuthenticatedUserRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Key>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1145,8 +1442,8 @@ export const getSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   GetSshSigningKeyForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetSshSigningKeyForAuthenticatedUserRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<SshSigningKey>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetSshSigningKeyForAuthenticatedUserRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SshSigningKey>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1159,8 +1456,8 @@ export type ListError = GithubOpError;
 /** List users Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts. Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users. */
 export const list: API.OperationMethod<ListRequest, ListResponse, ListError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(176, __c22, 0) as any as S.Schema<ListRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListResponse>,
+    input: __S(216, __c27, 0) as any as S.Schema<ListRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1177,8 +1474,8 @@ export const listAttestations: API.OperationMethod<
   ListAttestationsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListAttestationsRequest>,
-  output: __S(195, __c24, 3) as any as S.Schema<ListAttestationsResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<ListAttestationsRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<ListAttestationsResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1195,8 +1492,8 @@ export const listAttestationsBulk: API.OperationMethod<
   ListAttestationsBulkError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListAttestationsBulkRequest>,
-  output: __S(213, __c26, 5) as any as S.Schema<ListAttestationsBulkResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<ListAttestationsBulkRequest>,
+  output: __S(261, __c32, 5) as any as S.Schema<ListAttestationsBulkResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1215,8 +1512,8 @@ export const listBlockedByAuthenticatedUser: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(216, __c27, 0) as any as S.Schema<ListBlockedByAuthenticatedUserRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListBlockedByAuthenticatedUserResponse>,
+    input: __S(264, __c33, 0) as any as S.Schema<ListBlockedByAuthenticatedUserRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListBlockedByAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1238,7 +1535,7 @@ export const listEmailsForAuthenticatedUser: API.PaginatedOperationMethod<
   Email
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c28, 0) as any as S.Schema<ListEmailsForAuthenticatedUserRequest>,
+    input: __S(272, __c34, 0) as any as S.Schema<ListEmailsForAuthenticatedUserRequest>,
     output: __S(10, __c1, 2) as any as S.Schema<ListEmailsForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
@@ -1261,8 +1558,8 @@ export const listFollowedByAuthenticatedUser: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(240, __c30, 0) as any as S.Schema<ListFollowedByAuthenticatedUserRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListFollowedByAuthenticatedUserResponse>,
+    input: __S(280, __c35, 0) as any as S.Schema<ListFollowedByAuthenticatedUserRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListFollowedByAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1284,8 +1581,8 @@ export const listFollowersForAuthenticatedUser: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(248, __c31, 0) as any as S.Schema<ListFollowersForAuthenticatedUserRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListFollowersForAuthenticatedUserResponse>,
+    input: __S(288, __c36, 0) as any as S.Schema<ListFollowersForAuthenticatedUserRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListFollowersForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1307,8 +1604,8 @@ export const listFollowersForUser: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c32, 0) as any as S.Schema<ListFollowersForUserRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListFollowersForUserResponse>,
+    input: __S(296, __c37, 0) as any as S.Schema<ListFollowersForUserRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListFollowersForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1330,8 +1627,8 @@ export const listFollowingForUser: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(264, __c33, 0) as any as S.Schema<ListFollowingForUserRequest>,
-    output: __S(186, __c23, 2) as any as S.Schema<ListFollowingForUserResponse>,
+    input: __S(304, __c38, 0) as any as S.Schema<ListFollowingForUserRequest>,
+    output: __S(226, __c28, 2) as any as S.Schema<ListFollowingForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1353,8 +1650,8 @@ export const listGpgKeysForAuthenticatedUser: API.PaginatedOperationMethod<
   GpgKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c34, 0) as any as S.Schema<ListGpgKeysForAuthenticatedUserRequest>,
-    output: __S(281, __c35, 1) as any as S.Schema<ListGpgKeysForAuthenticatedUserResponse>,
+    input: __S(312, __c39, 0) as any as S.Schema<ListGpgKeysForAuthenticatedUserRequest>,
+    output: __S(321, __c40, 1) as any as S.Schema<ListGpgKeysForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1376,8 +1673,8 @@ export const listGpgKeysForUser: API.PaginatedOperationMethod<
   GpgKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c36, 0) as any as S.Schema<ListGpgKeysForUserRequest>,
-    output: __S(281, __c35, 1) as any as S.Schema<ListGpgKeysForUserResponse>,
+    input: __S(328, __c41, 0) as any as S.Schema<ListGpgKeysForUserRequest>,
+    output: __S(321, __c40, 1) as any as S.Schema<ListGpgKeysForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1389,6 +1686,42 @@ export const listGpgKeysForUser: API.PaginatedOperationMethod<
   paginateLink,
 ) as any;
 
+export type ListIssueFieldsForAuthenticatedUserError = GithubOpError;
+/** List issue fields Lists all issue fields for the authenticated user. OAuth app tokens and personal access tokens (classic) need the `read:user` scope to use this endpoint. */
+export const listIssueFieldsForAuthenticatedUser: API.OperationMethod<
+  ListIssueFieldsForAuthenticatedUserRequest,
+  ListIssueFieldsForAuthenticatedUserResponse,
+  ListIssueFieldsForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(344, __c43, 0) as any as S.Schema<ListIssueFieldsForAuthenticatedUserRequest>,
+  output: __S(346, __c43, 2) as any as S.Schema<ListIssueFieldsForAuthenticatedUserResponse>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueFieldsForAuthenticatedUser",
+}));
+
+export type ListIssueTypesForAuthenticatedUserError = GithubOpError;
+/** List issue types Lists all issue types for the authenticated user. OAuth app tokens and personal access tokens (classic) need the `read:user` scope to use this endpoint. */
+export const listIssueTypesForAuthenticatedUser: API.OperationMethod<
+  ListIssueTypesForAuthenticatedUserRequest,
+  ListIssueTypesForAuthenticatedUserResponse,
+  ListIssueTypesForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c44, 0) as any as S.Schema<ListIssueTypesForAuthenticatedUserRequest>,
+  output: __S(354, __c44, 2) as any as S.Schema<ListIssueTypesForAuthenticatedUserResponse>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueTypesForAuthenticatedUser",
+}));
+
 export type ListPublicEmailsForAuthenticatedUserError = GithubOpError;
 /** List public email addresses for the authenticated user Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. OAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint. */
 export const listPublicEmailsForAuthenticatedUser: API.PaginatedOperationMethod<
@@ -1399,7 +1732,7 @@ export const listPublicEmailsForAuthenticatedUser: API.PaginatedOperationMethod<
   Email
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(296, __c37, 0) as any as S.Schema<ListPublicEmailsForAuthenticatedUserRequest>,
+    input: __S(360, __c45, 0) as any as S.Schema<ListPublicEmailsForAuthenticatedUserRequest>,
     output: __S(10, __c1, 2) as any as S.Schema<ListPublicEmailsForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
@@ -1422,8 +1755,8 @@ export const listPublicKeysForUser: API.PaginatedOperationMethod<
   KeySimple
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(304, __c38, 0) as any as S.Schema<ListPublicKeysForUserRequest>,
-    output: __S(307, __c38, 3) as any as S.Schema<ListPublicKeysForUserResponse>,
+    input: __S(368, __c46, 0) as any as S.Schema<ListPublicKeysForUserRequest>,
+    output: __S(371, __c46, 3) as any as S.Schema<ListPublicKeysForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1445,8 +1778,8 @@ export const listPublicSshKeysForAuthenticatedUser: API.PaginatedOperationMethod
   Key
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(312, __c39, 0) as any as S.Schema<ListPublicSshKeysForAuthenticatedUserRequest>,
-    output: __S(314, __c39, 2) as any as S.Schema<ListPublicSshKeysForAuthenticatedUserResponse>,
+    input: __S(376, __c47, 0) as any as S.Schema<ListPublicSshKeysForAuthenticatedUserRequest>,
+    output: __S(378, __c47, 2) as any as S.Schema<ListPublicSshKeysForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1468,7 +1801,7 @@ export const listSocialAccountsForAuthenticatedUser: API.PaginatedOperationMetho
   SocialAccount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c40, 0) as any as S.Schema<ListSocialAccountsForAuthenticatedUserRequest>,
+    input: __S(384, __c48, 0) as any as S.Schema<ListSocialAccountsForAuthenticatedUserRequest>,
     output: __S(34, __c4, 2) as any as S.Schema<ListSocialAccountsForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
@@ -1491,7 +1824,7 @@ export const listSocialAccountsForUser: API.PaginatedOperationMethod<
   SocialAccount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c42, 0) as any as S.Schema<ListSocialAccountsForUserRequest>,
+    input: __S(392, __c49, 0) as any as S.Schema<ListSocialAccountsForUserRequest>,
     output: __S(34, __c4, 2) as any as S.Schema<ListSocialAccountsForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
@@ -1514,8 +1847,8 @@ export const listSshSigningKeysForAuthenticatedUser: API.PaginatedOperationMetho
   SshSigningKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(344, __c43, 0) as any as S.Schema<ListSshSigningKeysForAuthenticatedUserRequest>,
-    output: __S(353, __c44, 1) as any as S.Schema<ListSshSigningKeysForAuthenticatedUserResponse>,
+    input: __S(400, __c50, 0) as any as S.Schema<ListSshSigningKeysForAuthenticatedUserRequest>,
+    output: __S(409, __c51, 1) as any as S.Schema<ListSshSigningKeysForAuthenticatedUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1537,8 +1870,8 @@ export const listSshSigningKeysForUser: API.PaginatedOperationMethod<
   SshSigningKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(360, __c45, 0) as any as S.Schema<ListSshSigningKeysForUserRequest>,
-    output: __S(353, __c44, 1) as any as S.Schema<ListSshSigningKeysForUserResponse>,
+    input: __S(416, __c52, 0) as any as S.Schema<ListSshSigningKeysForUserRequest>,
+    output: __S(409, __c51, 1) as any as S.Schema<ListSshSigningKeysForUserResponse>,
     errors: [],
     serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
@@ -1559,8 +1892,8 @@ export const setPrimaryEmailVisibilityForAuthenticatedUser: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c46,
+    424,
+    __c53,
     0,
   ) as any as S.Schema<SetPrimaryEmailVisibilityForAuthenticatedUserRequest>,
   output: __S(
@@ -1584,8 +1917,8 @@ export const unblock: API.OperationMethod<
   UnblockError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UnblockRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<UnblockResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<UnblockRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<UnblockResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1602,8 +1935,8 @@ export const unfollow: API.OperationMethod<
   UnfollowError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UnfollowRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<UnfollowResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<UnfollowRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<UnfollowResponse>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
@@ -1620,14 +1953,50 @@ export const updateAuthenticated: API.OperationMethod<
   UpdateAuthenticatedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(394, __c49, 2) as any as S.Schema<UpdateAuthenticatedRequest>,
-  output: __S(393, __c49, 1) as any as S.Schema<PrivateUser>,
+  input: __S(458, __c57, 2) as any as S.Schema<UpdateAuthenticatedRequest>,
+  output: __S(457, __c57, 1) as any as S.Schema<PrivateUser>,
   errors: [],
   serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAuthenticated",
+}));
+
+export type UpdateIssueFieldForAuthenticatedUserError = GithubOpError;
+/** Update an issue field Updates an issue field for the authenticated user. The authenticated user must own the issue field. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const updateIssueFieldForAuthenticatedUser: API.OperationMethod<
+  UpdateIssueFieldForAuthenticatedUserRequest,
+  UserIssueField,
+  UpdateIssueFieldForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(466, __c58, 2) as any as S.Schema<UpdateIssueFieldForAuthenticatedUserRequest>,
+  output: __S(506, __c63, 2) as any as S.Schema<UserIssueField>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueFieldForAuthenticatedUser",
+}));
+
+export type UpdateIssueTypeForAuthenticatedUserError = GithubOpError;
+/** Update an issue type Updates an issue type for the authenticated user. The authenticated user must own the issue type. OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint. */
+export const updateIssueTypeForAuthenticatedUser: API.OperationMethod<
+  UpdateIssueTypeForAuthenticatedUserRequest,
+  IssueType,
+  UpdateIssueTypeForAuthenticatedUserError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(472, __c59, 0) as any as S.Schema<UpdateIssueTypeForAuthenticatedUserRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<IssueType>,
+  errors: [],
+  serviceErrors: GithubServiceErrors,
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueTypeForAuthenticatedUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1698,6 +2067,47 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          title: S.optional(S.String),
+          key: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/user/ssh_signing_keys", code: 200 })),
+      ).annotate({ identifier: "CreateSshSigningKeyForAuthenticatedUserRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          id: S.Number,
+          title: S.String,
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "SshSigningKey" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String.pipe(T.Label()),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/users/{username}/attestations/delete-request",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteAttestationsBulkRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           username: S.String.pipe(T.Label()),
           attestation_id: S.Number.pipe(T.Label()),
         }).pipe(
@@ -1710,7 +2120,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteAttestationsByIdRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,7 +2137,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteAttestationsBySubjectDigestRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1737,7 +2147,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteEmailForAuthenticatedUserRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1747,7 +2157,29 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteGpgKeyForAuthenticatedUserRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          issue_field_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/user/issue-fields/{issue_field_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteIssueFieldForAuthenticatedUserRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          issue_type_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/user/issue-types/{issue_type_id}", code: 200 })),
+      ).annotate({ identifier: "DeleteIssueTypeForAuthenticatedUserRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1757,7 +2189,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeletePublicSshKeyForAuthenticatedUserRequest" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1767,7 +2199,23 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteSocialAccountForAuthenticatedUserRequest" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/user/blocks/{username}", code: 200 })),
+      ).annotate({ identifier: "BlockRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "BlockResponse" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1783,7 +2231,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteSshSigningKeyForAuthenticatedUserRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1793,7 +2241,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "FollowRequest" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1805,7 +2253,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1819,23 +2267,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PUT", uri: "/user/blocks/{username}", code: 200 })),
-      ).annotate({ identifier: "BlockRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "BlockResponse" });
-  }
-}
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1849,7 +2281,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1867,16 +2299,16 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "HovercardContextsItem" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contexts: __S(146, __c18, 2),
+          contexts: __S(186, __c23, 2),
         }),
       ).annotate({ identifier: "Hovercard" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1886,7 +2318,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetGpgKeyForAuthenticatedUserRequest" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1896,7 +2328,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetPublicSshKeyForAuthenticatedUserRequest" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1908,7 +2340,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetSshSigningKeyForAuthenticatedUserRequest" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1919,7 +2351,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListRequest" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1949,14 +2381,24 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "SimpleUser" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
-      return S.suspend(() => __S(185, __c23, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(225, __c28, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResponse",
       });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/user/blocks/{username}", code: 200 })),
+      ).annotate({ identifier: "CheckBlockedRequest" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1978,23 +2420,23 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bundle: S.optional(__S(201, __c25, 1)),
+          bundle: S.optional(__S(249, __c31, 1)),
           repository_id: S.optional(S.Number),
           bundle_url: S.optional(S.String),
           initiator: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAttestationsResponseAttestationsItem" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(241, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attestations: S.optional(__S(194, __c24, 2)),
+          attestations: S.optional(__S(242, __c30, 2)),
         }),
       ).annotate({ identifier: "ListAttestationsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -2002,13 +2444,13 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mediaType: S.optional(S.String),
-          verificationMaterial: S.optional(__S(200, __c25, 0)),
-          dsseEnvelope: S.optional(__S(200, __c25, 0)),
+          verificationMaterial: S.optional(__S(248, __c31, 0)),
+          dsseEnvelope: S.optional(__S(248, __c31, 0)),
         }),
       ).annotate({ identifier: "ListAttestationsResponseAttestationsItemBundle" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2026,15 +2468,15 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bundle: S.optional(__S(201, __c25, 1)),
+          bundle: S.optional(__S(249, __c31, 1)),
           repository_id: S.optional(S.Number),
           bundle_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAttestationsBulkResponseAttestationsSubjectDigestsValueItem" });
     case 2:
-      return S.Array(__S(209, __c26, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(210, __c26, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(258, __c32, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2047,13 +2489,13 @@ function __c26(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          attestations_subject_digests: S.optional(__S(211, __c26, 3)),
-          page_info: S.optional(__S(212, __c26, 4)),
+          attestations_subject_digests: S.optional(__S(259, __c32, 3)),
+          page_info: S.optional(__S(260, __c32, 4)),
         }),
       ).annotate({ identifier: "ListAttestationsBulkResponse" });
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2064,7 +2506,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListBlockedByAuthenticatedUserRequest" });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2075,17 +2517,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ListEmailsForAuthenticatedUserRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/user/blocks/{username}", code: 200 })),
-      ).annotate({ identifier: "CheckBlockedRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2096,7 +2528,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListFollowedByAuthenticatedUserRequest" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2107,7 +2539,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListFollowersForAuthenticatedUserRequest" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2119,7 +2551,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListFollowersForUserRequest" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2131,7 +2563,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListFollowingForUserRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2142,17 +2574,17 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ListGpgKeysForAuthenticatedUserRequest" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(421, __c52, 5));
+      return S.Array(__S(493, __c61, 5));
     case 1:
-      return S.suspend(() => __S(280, __c35, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(320, __c40, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGpgKeysForAuthenticatedUserResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2164,7 +2596,48 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListGpgKeysForUserRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String.pipe(T.Label()),
+          target_user: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/users/{username}/following/{target_user}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CheckFollowingForUserRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user/issue-fields", code: 200 })),
+      ).annotate({ identifier: "ListIssueFieldsForAuthenticatedUserRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(506, __c63, 2)));
+    case 2:
+      return S.suspend(() => __S(345, __c43, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIssueFieldsForAuthenticatedUserResponse",
+      });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user/issue-types", code: 200 })),
+      ).annotate({ identifier: "ListIssueTypesForAuthenticatedUserRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(520, __c65, 0)));
+    case 2:
+      return S.suspend(() => __S(353, __c44, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIssueTypesForAuthenticatedUserResponse",
+      });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2175,7 +2648,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ListPublicEmailsForAuthenticatedUserRequest" });
   }
 }
-function __c38(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2195,14 +2668,14 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "KeySimple" });
     case 2:
-      return S.Array(__S(305, __c38, 1));
+      return S.Array(__S(369, __c46, 1));
     case 3:
-      return S.suspend(() => __S(306, __c38, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(370, __c46, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicKeysForUserResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2212,14 +2685,14 @@ function __c39(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user/keys", code: 200 })),
       ).annotate({ identifier: "ListPublicSshKeysForAuthenticatedUserRequest" });
     case 1:
-      return S.Array(__S(432, __c54, 0));
+      return S.Array(__S(536, __c67, 0));
     case 2:
-      return S.suspend(() => __S(313, __c39, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPublicSshKeysForAuthenticatedUserResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2230,20 +2703,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListSocialAccountsForAuthenticatedUserRequest" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String.pipe(T.Label()),
-          target_user: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/users/{username}/following/{target_user}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CheckFollowingForUserRequest" });
-  }
-}
-function __c42(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2255,7 +2715,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListSocialAccountsForUserRequest" });
   }
 }
-function __c43(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2266,17 +2726,17 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListSshSigningKeysForAuthenticatedUserRequest" });
   }
 }
-function __c44(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(448, __c56, 0));
+      return S.Array(__S(48, __c6, 0));
     case 1:
-      return S.suspend(() => __S(352, __c44, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(408, __c51, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSshSigningKeysForAuthenticatedUserResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2288,7 +2748,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListSshSigningKeysForUserRequest" });
   }
 }
-function __c46(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2298,7 +2758,17 @@ function __c46(j: number): any {
       ).annotate({ identifier: "SetPrimaryEmailVisibilityForAuthenticatedUserRequest" });
   }
 }
-function __c47(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/user/following/{username}", code: 200 })),
+      ).annotate({ identifier: "CheckPersonIsFollowedByAuthenticatedRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2308,7 +2778,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UnblockRequest" });
   }
 }
-function __c48(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2318,7 +2788,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UnfollowRequest" });
   }
 }
-function __c49(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2372,7 +2842,7 @@ function __c49(j: number): any {
           disk_usage: S.Number,
           collaborators: S.Number,
           two_factor_authentication: S.Boolean,
-          plan: S.optional(__S(392, __c49, 0)),
+          plan: S.optional(__S(456, __c57, 0)),
           business_plus: S.optional(S.Boolean),
           ldap_dn: S.optional(S.String),
         }),
@@ -2392,17 +2862,47 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateAuthenticatedRequest" });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          username: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/user/following/{username}", code: 200 })),
-      ).annotate({ identifier: "CheckPersonIsFollowedByAuthenticatedRequest" });
+          id: S.optional(S.Number),
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          color: S.String,
+          priority: S.Number,
+        }),
+      ).annotate({ identifier: "UpdateIssueFieldForAuthenticatedUserRequestOptionsItem" });
+    case 1:
+      return S.Array(__S(464, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          issue_field_id: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          visibility: S.optional(S.String),
+          options: S.optional(__S(465, __c58, 1)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/user/issue-fields/{issue_field_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateIssueFieldForAuthenticatedUserRequest" });
   }
 }
-function __c51(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          issue_type_id: S.Number.pipe(T.Label()),
+          name: S.String,
+          is_enabled: S.Boolean,
+          description: S.optional(S.NullOr(S.String)),
+          color: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PUT", uri: "/user/issue-types/{issue_type_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateIssueTypeForAuthenticatedUserRequest" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2413,7 +2913,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateGpgKeyForAuthenticatedUserRequest" });
   }
 }
-function __c52(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2423,7 +2923,7 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "GpgKeyEmailsItem" });
     case 1:
-      return S.Array(__S(416, __c52, 0));
+      return S.Array(__S(488, __c61, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
@@ -2433,8 +2933,8 @@ function __c52(j: number): any {
           primary_key_id: S.optional(S.Number),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
-          emails: S.optional(__S(417, __c52, 1)),
-          subkeys: S.optional(__S(418, __c52, 2)),
+          emails: S.optional(__S(489, __c61, 1)),
+          subkeys: S.optional(__S(490, __c61, 2)),
           can_sign: S.optional(S.Boolean),
           can_encrypt_comms: S.optional(S.Boolean),
           can_encrypt_storage: S.optional(S.Boolean),
@@ -2446,7 +2946,7 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "GpgKeySubkeysItem" });
     case 4:
-      return S.Array(__S(419, __c52, 3));
+      return S.Array(__S(491, __c61, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2455,8 +2955,8 @@ function __c52(j: number): any {
           primary_key_id: S.NullOr(S.Number),
           key_id: S.String,
           public_key: S.String,
-          emails: __S(417, __c52, 1),
-          subkeys: __S(420, __c52, 4),
+          emails: __S(489, __c61, 1),
+          subkeys: __S(492, __c61, 4),
           can_sign: S.Boolean,
           can_encrypt_comms: S.Boolean,
           can_encrypt_storage: S.Boolean,
@@ -2469,7 +2969,94 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GpgKey" });
   }
 }
-function __c53(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          color: S.String,
+          priority: S.Number,
+        }),
+      ).annotate({ identifier: "CreateIssueFieldForAuthenticatedUserRequestOptionsItem" });
+    case 1:
+      return S.Array(__S(496, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          data_type: S.String,
+          visibility: S.optional(S.String),
+          options: S.optional(S.NullOr(__S(497, __c62, 1))),
+        }).pipe(T.Http({ method: "POST", uri: "/user/issue-fields", code: 200 })),
+      ).annotate({ identifier: "CreateIssueFieldForAuthenticatedUserRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          color: S.optional(S.NullOr(S.String)),
+          priority: S.optional(S.NullOr(S.Number)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserIssueFieldOptionsItem" });
+    case 1:
+      return S.Array(__S(504, __c63, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node_id: S.String,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          data_type: S.String,
+          visibility: S.optional(S.String),
+          options: S.optional(S.NullOr(__S(505, __c63, 1))),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserIssueField" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          is_enabled: S.Boolean,
+          description: S.optional(S.NullOr(S.String)),
+          color: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/user/issue-types", code: 200 })),
+      ).annotate({ identifier: "CreateIssueTypeForAuthenticatedUserRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node_id: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          color: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          is_enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "IssueType" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2480,7 +3067,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreatePublicSshKeyForAuthenticatedUserRequest" });
   }
 }
-function __c54(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2495,47 +3082,6 @@ function __c54(j: number): any {
           last_used: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Key" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          key: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/user/ssh_signing_keys", code: 200 })),
-      ).annotate({ identifier: "CreateSshSigningKeyForAuthenticatedUserRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          id: S.Number,
-          title: S.String,
-          created_at: S.String,
-        }),
-      ).annotate({ identifier: "SshSigningKey" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/users/{username}/attestations/delete-request",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteAttestationsBulkRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

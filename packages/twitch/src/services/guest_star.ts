@@ -66,7 +66,7 @@ export interface CreateGuestStarSessionResponseDataItemGuestsItem {
   is_live?: boolean | undefined;
   /** User ID of the guest assigned to this slot. */
   user_id?: string | undefined;
-  /** Value from 0 to 100 representing the host's volume setting for this guest. */
+  /** Value from 0 to 200 representing the host's volume setting for this guest. The default is **100**. */
   volume?: number | undefined;
   /** Timestamp when this guest was assigned a slot in the session. */
   assigned_at?: string | undefined;
@@ -152,7 +152,7 @@ export interface GetChannelGuestStarSettingsRequest {
   moderator_id: string;
 }
 export interface GetChannelGuestStarSettingsResponseDataItem {
-  /** Flag determining if Guest Star moderators have access to control whether a guest is live once assigned to a slot. */
+  /** Flag determining if [Guest Star moderators](https://help.twitch.tv/s/article/stream-together#settings:~:text=Stream%20Together%20mods%20can%20take%20actions%20like%20inviting%20guests%2C%20reporting%20guests%2C%20removing%20guests%2C%20muting%20guests%2C%20and%20turning%20off%20guests%20video.) can make a guest live once the guest is assigned to a slot. */
   is_moderator_send_live_enabled?: boolean | undefined;
   /** Number of slots the Guest Star call interface will allow the host to add to a call. Required to be between 1 and 6. */
   slot_count?: number | undefined;
@@ -219,7 +219,7 @@ export interface GetGuestStarSessionResponseDataItemGuestsItem {
   is_live?: boolean | undefined;
   /** User ID of the guest assigned to this slot. */
   user_id?: string | undefined;
-  /** Value from 0 to 100 representing the host's volume setting for this guest. */
+  /** Value from 0 to 200 representing the host's volume setting for this guest. The default is **100**. */
   volume?: number | undefined;
   /** Timestamp when this guest was assigned a slot in the session. */
   assigned_at?: string | undefined;
@@ -237,10 +237,10 @@ export interface GetGuestStarSessionResponseDataItem {
   /** List of guests currently interacting with the Guest Star session. */
   guests?: GetGuestStarSessionResponseDataItemGuestsList | undefined;
 }
-/** Summary of the session details. The list is empty if the broadcaster has no active session, or if the user in *moderator_id* isn't the broadcaster, a guest or invited user in the session, or one of the broadcaster's Guest Star moderators. */
+/** Summary of the session details. The list is empty if the broadcaster has no active session, or if the user in *moderator_id* isn't the broadcaster, a guest or invited user in the session, or one of the broadcaster's [Guest Star moderators](https://help.twitch.tv/s/article/stream-together#settings:~:text=Stream%20Together%20mods%20can%20take%20actions%20like%20inviting%20guests%2C%20reporting%20guests%2C%20removing%20guests%2C%20muting%20guests%2C%20and%20turning%20off%20guests%20video.). */
 export type GetGuestStarSessionResponseDataList = Array<GetGuestStarSessionResponseDataItem>;
 export interface GetGuestStarSessionResponse {
-  /** Summary of the session details. The list is empty if the broadcaster has no active session, or if the user in *moderator_id* isn't the broadcaster, a guest or invited user in the session, or one of the broadcaster's Guest Star moderators. */
+  /** Summary of the session details. The list is empty if the broadcaster has no active session, or if the user in *moderator_id* isn't the broadcaster, a guest or invited user in the session, or one of the broadcaster's [Guest Star moderators](https://help.twitch.tv/s/article/stream-together#settings:~:text=Stream%20Together%20mods%20can%20take%20actions%20like%20inviting%20guests%2C%20reporting%20guests%2C%20removing%20guests%2C%20muting%20guests%2C%20and%20turning%20off%20guests%20video.). */
   data?: GetGuestStarSessionResponseDataList | undefined;
 }
 export interface SendGuestStarInviteRequest {
@@ -257,7 +257,7 @@ export interface SendGuestStarInviteResponse {}
 export interface UpdateChannelGuestStarSettingsRequest {
   /** The ID of the broadcaster you want to update Guest Star settings for. */
   broadcaster_id: string;
-  /** Flag determining if Guest Star moderators have access to control whether a guest is live once assigned to a slot. */
+  /** Flag determining if [Guest Star moderators](https://help.twitch.tv/s/article/stream-together#settings:~:text=Stream%20Together%20mods%20can%20take%20actions%20like%20inviting%20guests%2C%20reporting%20guests%2C%20removing%20guests%2C%20muting%20guests%2C%20and%20turning%20off%20guests%20video.) can make a guest live once the guest is assigned to a slot. */
   is_moderator_send_live_enabled?: boolean | undefined;
   /** Number of slots the Guest Star call interface will allow the host to add to a call. Required to be between 1 and 6. */
   slot_count?: number | undefined;

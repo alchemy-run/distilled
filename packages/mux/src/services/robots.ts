@@ -135,14 +135,14 @@ export interface JobSummary {
 export interface CancelJobResponse {
   data: JobSummary;
 }
-/** Optional media execution window. Results remain timestamped against the original media timeline. */
+/** Optional media execution window in seconds on the original asset timeline. At least one of start_time and end_time is required, and start_time must be less than end_time. An end_time past the end of the media is clamped to it, and a window that starts at or after the end of the media is rejected. Results remain timestamped against the original media timeline. */
 export interface OutputSteeringScope {
   /** Start of the execution window in seconds from the beginning of the media. When omitted, the window starts at the beginning. */
   start_time?: number | undefined;
   /** End of the execution window in seconds from the beginning of the media. When omitted, the window extends to the end. */
   end_time?: number | undefined;
 }
-/** Preferred brand or domain terms to use when supported by the source content. */
+/** Preferred brand or domain terms to use when supported by the source content. The combined length of all terms must be 240 characters or fewer. */
 export type OutputSteeringBrandTerms = Array<string>;
 /** Accepted alternate names that should normalize to the canonical label. */
 export type OutputSteeringTaxonomyValueAliasesList = Array<string>;
@@ -181,7 +181,7 @@ export interface AnalyzeStructureJobParameters {
   asset_id: string;
   /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. */
   language_code?: string | undefined;
-  /** BCP 47 language code for generated text. Auto-detected from available evidence when omitted. */
+  /** BCP 47 language code for generated text. Auto-detected from available evidence when omitted. Transcript cues and verbatim quotes remain in their source language. */
   output_language_code?: string | undefined;
   output_steering?: AnalyzeStructureOutputSteering | undefined;
   /** When true, writes the generated title to asset.meta.title after analysis. Defaults to false. Best-effort: a metadata-write failure does not fail the analysis. Check outputs.asset_updates.title for the outcome. */
@@ -242,7 +242,7 @@ export type AnalyzeStructureDirectiveBindingInputsList = Array<string>;
 export interface AnalyzeStructureDirectiveBindingParameters {
   /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. */
   language_code?: string | undefined;
-  /** BCP 47 language code for generated text. Auto-detected from available evidence when omitted. */
+  /** BCP 47 language code for generated text. Auto-detected from available evidence when omitted. Transcript cues and verbatim quotes remain in their source language. */
   output_language_code?: string | undefined;
   output_steering?: AnalyzeStructureOutputSteering | undefined;
   /** When true, writes the generated title to asset.meta.title after analysis. Defaults to false. Best-effort: a metadata-write failure does not fail the analysis. Check outputs.asset_updates.title for the outcome. */
@@ -313,7 +313,7 @@ export interface SummarizeDirectiveBindingParameters {
   language_code?: string | undefined;
   /** BCP 47 language code for the generated summary output (e.g. "en", "fr", "ja"). Auto-detected from the transcript if omitted. */
   output_language_code?: string | undefined;
-  /** When true, the generated title is written to the Mux asset's metadata (asset.meta.title) once the summary completes. Best-effort: a metadata-write failure does not fail the summary. */
+  /** When true, the generated title is written to the Mux asset's metadata (asset.meta.title) once the summary completes. Defaults to false. Best-effort: a metadata-write failure does not fail the summary. Check outputs.asset_updates.title for the outcome. */
   update_asset_meta?: boolean | undefined;
 }
 export interface SummarizeDirectiveBinding {
@@ -348,7 +348,7 @@ export interface ActionOnFlagged {
 }
 /** Parameters for moderate, excluding engine-supplied asset_id and source track_id where applicable. */
 export interface ModerateDirectiveBindingParameters {
-  /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. */
+  /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. If no ready track matches, the request is rejected. Ignored for video assets when include_transcript is false. */
   language_code?: string | undefined;
   /** Score thresholds that determine whether content is flagged. When combined with sampling_interval or max_samples, the exceeds_threshold flag reflects whether any category's highest observed score exceeds its configured threshold. Defaults to {sexual: 0.7, violence: 0.8}. */
   thresholds?: ModerateDirectiveBindingParametersThresholds | undefined;
@@ -530,7 +530,7 @@ export interface EditCaptionsDirectiveBindingParametersAutoCensorProfanity {
 export interface EditCaptionsDirectiveBindingParametersReplacementsItem {
   /** Exact word or phrase to replace in cue text. */
   find: string;
-  /** Replacement text to insert when a match is found. */
+  /** Replacement text to insert when a match is found. Use an empty string to delete the match. */
   replace: string;
   /** When true, `find` is matched only with exact case. Defaults to false (case-insensitive matching), so "gonna" also matches "Gonna" and "GONNA". */
   case_sensitive?: boolean | undefined;
@@ -539,7 +539,7 @@ export interface EditCaptionsDirectiveBindingParametersReplacementsItem {
 export type EditCaptionsDirectiveBindingParametersReplacementsList =
   Array<EditCaptionsDirectiveBindingParametersReplacementsItem>;
 export interface EditCaptionsSpeakerReplacement {
-  /** Existing speaker label without the surrounding square brackets. */
+  /** Existing speaker label without the surrounding square brackets. Must match the label in the track exactly, including case. */
   find: string;
   /** New speaker label without the surrounding square brackets. */
   replace: string;
@@ -623,7 +623,7 @@ export interface TranslateAudioCaptions {
 export interface TranslateAudioDirectiveBindingParameters {
   /** Name for the dubbed Mux audio track. Defaults to "{Language} (Auto-dubbed)", e.g. "Spanish (Auto-dubbed)". Mux requires audio track names to be unique on an asset, and an existing track with this name is handled according to `replace_existing_tracks`. */
   track_name?: string | undefined;
-  /** Whether to automatically upload the translated audio track to the Mux asset. Defaults to true. Must be false for audio-only assets; the job returns downloadable audio instead. */
+  /** Whether to automatically upload the translated audio track to the Mux asset. Defaults to true. Must be false for audio-only assets, clips, and assets created from live streams, because Mux cannot add audio tracks to them; the job then returns downloadable audio instead. To keep a clip's dub on Mux, dub its source asset. */
   upload_to_mux?: boolean | undefined;
   replace_existing_tracks?: TranslateAudioReplaceExistingTracks | (string & {}) | undefined;
   captions?: TranslateAudioCaptions | undefined;
@@ -837,7 +837,7 @@ export interface FindBestThumbnailsDirectiveBindingParameters {
   /** Maximum number of candidate thumbnails to return (1-5). Defaults to 5. */
   max_thumbnails?: number | undefined;
   output_steering?: FindBestThumbnailsOutputSteering | undefined;
-  /** When true, the highest-scoring thumbnail's timestamp is written to the Mux asset's thumbnail_time once the job completes, making that frame the asset's default poster image. The new thumbnail will appear for some clients sooner than others, depending on local cache settings. */
+  /** When true, the highest-scoring thumbnail's timestamp is written to the Mux asset's thumbnail_time once the job completes, making that frame the asset's default poster image. The new thumbnail will appear for some clients sooner than others, depending on local cache settings. Defaults to false. */
   update_asset_thumbnail?: boolean | undefined;
 }
 export interface FindBestThumbnailsDirectiveBinding {
@@ -954,7 +954,7 @@ export interface FindBestThumbnailsJobParameters {
   /** Maximum number of candidate thumbnails to return (1-5). Defaults to 5. */
   max_thumbnails?: number | undefined;
   output_steering?: FindBestThumbnailsOutputSteering | undefined;
-  /** When true, the highest-scoring thumbnail's timestamp is written to the Mux asset's thumbnail_time once the job completes, making that frame the asset's default poster image. The new thumbnail will appear for some clients sooner than others, depending on local cache settings. */
+  /** When true, the highest-scoring thumbnail's timestamp is written to the Mux asset's thumbnail_time once the job completes, making that frame the asset's default poster image. The new thumbnail will appear for some clients sooner than others, depending on local cache settings. Defaults to false. */
   update_asset_thumbnail?: boolean | undefined;
 }
 export interface CreateFindBestThumbnailsJobRequest {
@@ -1055,7 +1055,7 @@ export type ModerateJobParametersThresholds = ModerateDirectiveBindingParameters
 export interface ModerateJobParameters {
   /** The Mux asset ID of the video to moderate. */
   asset_id: string;
-  /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. */
+  /** BCP 47 language code of the caption source. An explicit language must match a ready source exactly, including case; for example, en does not match en-US. Translation target exclusion and track replacement instead compare base languages case-insensitively. When omitted, automatic selection applies. Uses the first ready subtitle in asset track order without English preference. Audio-only assets with one ready text track lacking subtitle metadata can use that legacy transcript. If no ready track matches, the request is rejected. Ignored for video assets when include_transcript is false. */
   language_code?: string | undefined;
   /** Score thresholds that determine whether content is flagged. When combined with sampling_interval or max_samples, the exceeds_threshold flag reflects whether any category's highest observed score exceeds its configured threshold. Defaults to {sexual: 0.7, violence: 0.8}. */
   thresholds?: ModerateDirectiveBindingParametersThresholds | undefined;
@@ -1092,7 +1092,7 @@ export interface SummarizeJobParameters {
   language_code?: string | undefined;
   /** BCP 47 language code for the generated summary output (e.g. "en", "fr", "ja"). Auto-detected from the transcript if omitted. */
   output_language_code?: string | undefined;
-  /** When true, the generated title is written to the Mux asset's metadata (asset.meta.title) once the summary completes. Best-effort: a metadata-write failure does not fail the summary. */
+  /** When true, the generated title is written to the Mux asset's metadata (asset.meta.title) once the summary completes. Defaults to false. Best-effort: a metadata-write failure does not fail the summary. Check outputs.asset_updates.title for the outcome. */
   update_asset_meta?: boolean | undefined;
 }
 export interface CreateSummarizeJobRequest {
@@ -1106,7 +1106,7 @@ export interface TranslateAudioJobParameters {
   asset_id: string;
   /** Name for the dubbed Mux audio track. Defaults to "{Language} (Auto-dubbed)", e.g. "Spanish (Auto-dubbed)". Mux requires audio track names to be unique on an asset, and an existing track with this name is handled according to `replace_existing_tracks`. */
   track_name?: string | undefined;
-  /** Whether to automatically upload the translated audio track to the Mux asset. Defaults to true. Must be false for audio-only assets; the job returns downloadable audio instead. */
+  /** Whether to automatically upload the translated audio track to the Mux asset. Defaults to true. Must be false for audio-only assets, clips, and assets created from live streams, because Mux cannot add audio tracks to them; the job then returns downloadable audio instead. To keep a clip's dub on Mux, dub its source asset. */
   upload_to_mux?: boolean | undefined;
   replace_existing_tracks?: TranslateAudioReplaceExistingTracks | (string & {}) | undefined;
   captions?: TranslateAudioCaptions | undefined;
@@ -1157,8 +1157,10 @@ export interface JobDirectiveContext {
 }
 export type AnalyzeStructureJobWorkflow = "analyze-structure";
 export interface JobError {
-  /** Stable public error category identifier. */
+  /** Stable public error category identifier. New types may be added, so handle unknown values. */
   type: string;
+  /** Identifies the specific condition that failed, when it has a public code. Absent for other failures. New codes may be added, so handle unknown values. */
+  code?: string | undefined;
   /** Human-readable public error message. */
   message: string;
   /** Whether retrying this job may resolve the error. */
@@ -1210,7 +1212,7 @@ export interface AnalyzeStructureChapter {
   /** Concise chapter title. */
   title: string;
 }
-/** Generated chapters in timeline order. Always present and empty below the chapter threshold. */
+/** Generated chapters in timeline order. Chapters are generated only when the analyzed range is at least 60 seconds long and has at least two coverage segments. Always present, and may be empty even when those conditions are met. */
 export type AnalyzeStructureJobOutputsChaptersList = Array<AnalyzeStructureChapter>;
 export interface AnalyzeStructureCue {
   /** Cue start time in seconds on the original asset timeline. Fractional seconds are supported. */
@@ -1338,7 +1340,7 @@ export interface AnalyzeStructureJobOutputs {
   summary: string;
   /** Generated tags. Always present and empty when no tag qualifies. */
   tags: AnalyzeStructureJobOutputsTagsList;
-  /** Generated chapters in timeline order. Always present and empty below the chapter threshold. */
+  /** Generated chapters in timeline order. Chapters are generated only when the analyzed range is at least 60 seconds long and has at least two coverage segments. Always present, and may be empty even when those conditions are met. */
   chapters: AnalyzeStructureJobOutputsChaptersList;
   /** Generated scenes in timeline order. Always present and empty for audio-only media. */
   scenes: AnalyzeStructureJobOutputsScenesList;
@@ -1773,16 +1775,21 @@ export type GenerateContextualTextJobWorkflow = "generate-contextual-text";
 export type GenerateContextualTextJobErrorsList = Array<JobError>;
 export interface GeneratedTextArtifact {
   key: string;
+  /** Generated text for this artifact. */
   content: string;
 }
+/** Generated deliverables for this variant, one per requested artifact. */
 export type GeneratedTextVariantArtifactsList = Array<GeneratedTextArtifact>;
 export interface GeneratedTextVariant {
   key: string;
+  /** Generated deliverables for this variant, one per requested artifact. */
   artifacts: GeneratedTextVariantArtifactsList;
 }
+/** Generated versions of the complete artifact set, one per requested variant. */
 export type GenerateContextualTextJobOutputsVariantsList = Array<GeneratedTextVariant>;
 /** Workflow results. Present when status is 'completed'. */
 export interface GenerateContextualTextJobOutputs {
+  /** Generated versions of the complete artifact set, one per requested variant. */
   variants: GenerateContextualTextJobOutputsVariantsList;
 }
 export interface GenerateContextualTextJob {
@@ -2220,8 +2227,10 @@ export interface RunDirectiveResponse {}
 /** Individual error messages describing what went wrong. */
 export type ErrorDetailMessagesList = Array<string>;
 export interface ErrorDetail {
-  /** Machine-readable error type. */
+  /** Machine-readable error type. New types may be added, so handle unknown values. */
   type: string;
+  /** Identifies the specific condition that failed, when it has a public code. Absent for other errors. New codes may be added, so handle unknown values. */
+  code?: string | undefined;
   /** Individual error messages describing what went wrong. */
   messages: ErrorDetailMessagesList;
 }
@@ -2965,6 +2974,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
+          code: S.optional(S.String),
           messages: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ErrorDetail" });
@@ -3514,6 +3524,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
+          code: S.optional(S.String),
           message: S.String,
           retryable: S.optional(S.Boolean),
         }),

@@ -59,7 +59,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+/** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `email_sandbox` - Email Sandbox * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `motherduck` - Motherduck * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
 export type IntegrationKindEnum =
   | "anthropic"
   | "apple-ads"
@@ -74,6 +74,7 @@ export type IntegrationKindEnum =
   | "customerio-webhook"
   | "databricks"
   | "email"
+  | "email_sandbox"
   | "firebase"
   | "github"
   | "gitlab"
@@ -93,6 +94,7 @@ export type IntegrationKindEnum =
   | "linear"
   | "linkedin-ads"
   | "meta-ads"
+  | "motherduck"
   | "pardot"
   | "pinterest-ads"
   | "postgresql"
@@ -242,7 +244,7 @@ export interface PushTokenImportResponse {
 export interface CreateIntegrationsRequestAccessRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `email_sandbox` - Email Sandbox * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `motherduck` - Motherduck * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind: IntegrationKindEnum | (string & {});
   /** Explanation from the requester of why this integration is needed. Shown to admins in the notification email. */
   reason: string;
@@ -372,20 +374,21 @@ export interface EmailDomainStatusStep {
 }
 /** The three setup steps, in order. */
 export type EmailDomainStatusStepsList = Array<EmailDomainStatusStep>;
-/** * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC */
+/** * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC * `organization` - Organization ownership */
 export type EmailDomainSetupRecordKindEnum =
   | "verification"
   | "dkim"
   | "spf"
   | "mail_from_mx"
   | "mail_from_spf"
-  | "dmarc";
+  | "dmarc"
+  | "organization";
 /** * `TXT` - TXT * `CNAME` - CNAME * `MX` - MX */
 export type EmailDomainSetupRecordTypeEnum = "TXT" | "CNAME" | "MX";
 /** * `pending` - Not found yet * `found` - Found in DNS * `verified` - Verified */
 export type EmailDomainSetupRecordStatusEnum = "pending" | "found" | "verified";
 export interface EmailDomainStatusRecord {
-  /** What the record does: verification proves domain ownership, dkim signs email, spf and mail_from_spf list SES as an allowed sender, mail_from_mx routes bounces, dmarc sets the policy for unauthenticated mail. * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC */
+  /** What the record does: verification proves domain ownership, dkim signs email, spf and mail_from_spf list SES as an allowed sender, mail_from_mx routes bounces, dmarc sets the policy for unauthenticated mail, organization proves this organization owns a domain another organization also added. * `verification` - Domain ownership * `dkim` - DKIM signing * `spf` - SPF * `mail_from_mx` - MAIL FROM MX * `mail_from_spf` - MAIL FROM SPF * `dmarc` - DMARC * `organization` - Organization ownership */
   kind: EmailDomainSetupRecordKindEnum;
   /** Full DNS name to create the record at, including the domain. */
   hostname: string;
@@ -602,6 +605,36 @@ export interface GetIntegrationsGitlabMemberRequest {
   /** Optional case-insensitive name search. Leave blank to list the first users. */
   search?: string | undefined;
 }
+export interface GetIntegrationsGitlabProjectRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique integer value identifying this integration. */
+  id: number;
+  /** Optional search on the project name or path. Leave blank to list the most recently active projects. */
+  search?: string | undefined;
+}
+export interface GitLabProject {
+  /** GitLab numeric project ID. */
+  id: number;
+  /** Full project path, including nested groups, such as `acme/platform/api`. Use it as a task repository. */
+  path_with_namespace: string;
+  /** Project page on GitLab. */
+  web_url: string;
+  /** Default branch of the project. Null for a project without commits. */
+  default_branch: string | null;
+}
+/** The connected project, when the token has the Developer role or higher on it. Empty when it does not, or when it does not match the search. */
+export type GitLabProjectsResponseProjectsList = Array<GitLabProject>;
+/** Token scopes that coding tasks need and the token does not have. Empty when the token has them, or when GitLab does not report the token's scopes. */
+export type GitLabProjectsResponseMissingScopesList = Array<string>;
+export interface GitLabProjectsResponse {
+  /** The connected project, when the token has the Developer role or higher on it. Empty when it does not, or when it does not match the search. */
+  projects: GitLabProjectsResponseProjectsList;
+  /** Token scopes that coding tasks need and the token does not have. Empty when the token has them, or when GitLab does not report the token's scopes. */
+  missing_scopes: GitLabProjectsResponseMissingScopesList;
+  /** Date when the token expires. Null when it does not expire or GitLab does not report it. */
+  token_expires_at: string | null;
+}
 export interface GetIntegrationsGoogleAccessibleAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -746,13 +779,26 @@ export interface IntegrationsDestroyRequest {
   id: number;
 }
 export interface IntegrationsDestroyResponse {}
+/** * `email` - Email sending domain * `proxy` - Reverse proxy domain */
+export type DomainConnectContextKindEnum = "email" | "proxy";
 export interface IntegrationsDomainConnectApplyUrlCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  kind?: string | undefined;
-  config?: unknown | undefined;
+  /** `email` to configure an email sending domain, `proxy` for a reverse proxy domain. * `email` - Email sending domain * `proxy` - Reverse proxy domain */
+  context: DomainConnectContextKindEnum | (string & {});
+  /** ID of the email integration (sender). Required when `context` is `email`. */
+  integration_id?: number | null | undefined;
+  /** ID of the reverse proxy record. Required when `context` is `proxy`. */
+  proxy_record_id?: string | null | undefined;
+  /** Where the DNS host sends the user after they approve. Omit it when handing the URL to a person. */
+  redirect_uri?: string | null | undefined;
+  /** Provider endpoint from `available_providers` in the domain-connect check. Omit it to use the provider detected from the domain's DNS. */
+  provider_endpoint?: string | null | undefined;
 }
-export interface IntegrationsDomainConnectApplyUrlCreateResponse {}
+export interface DomainConnectApplyUrlResponse {
+  /** Signed Domain Connect URL. A person opens it, signs in at their DNS host and approves the records. The records do not change until they approve. */
+  url: string;
+}
 export interface IntegrationsDomainConnectCheckRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -863,6 +909,7 @@ export type ListIntegrationsRequestKind =
   | "customerio-webhook"
   | "databricks"
   | "email"
+  | "email_sandbox"
   | "firebase"
   | "github"
   | "gitlab"
@@ -882,6 +929,7 @@ export type ListIntegrationsRequestKind =
   | "linear"
   | "linkedin-ads"
   | "meta-ads"
+  | "motherduck"
   | "pardot"
   | "pinterest-ads"
   | "postgresql"
@@ -903,7 +951,7 @@ export type ListIntegrationsRequestKind =
 export interface ListIntegrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** * `anthropic` - Anthropic * `apple-ads` - Apple Ads * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `email_sandbox` - Email Sandbox * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `motherduck` - Motherduck * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind?: ListIntegrationsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
@@ -917,14 +965,31 @@ export interface PaginatedIntegrationConfigList {
   previous?: string | null | undefined;
   results?: PaginatedIntegrationConfigListResultsList | undefined;
 }
+/** * `ses` - Amazon SES * `maildev` - Maildev (local development only) */
+export type NativeEmailProviderEnum = "ses" | "maildev";
+/** * `auto` - Domain Connect * `manual` - Manual DNS records */
+export type EmailDomainSetupMethodEnum = "auto" | "manual";
+export interface NativeEmailIntegration {
+  /** Sender address, for example `hello@mail.example.com`. Its domain is the sending domain that needs DNS records. Free and disposable mailbox domains such as gmail.com are rejected. Cannot be changed after creation; send the current address when updating. */
+  email: string;
+  /** Sender display name recipients see in their inbox, for example `Acme`. */
+  name: string;
+  /** Sending provider. Always `ses`. `maildev` is only accepted in local development. * `ses` - Amazon SES * `maildev` - Maildev (local development only) */
+  provider: NativeEmailProviderEnum | (string & {});
+  /** Subdomain of the sending domain used as the custom MAIL FROM (bounce) domain. `feedback` gives `feedback.mail.example.com`. Defaults to `feedback`. Pick another value if that subdomain already has MX records. */
+  mail_from_subdomain?: string | undefined;
+  /** Reply-to address for emails from this sender when the email step sets none. Blank clears it. */
+  reply_to?: string | undefined;
+  /** How the DNS records are being published: `auto` through Domain Connect, `manual` by hand. Reported on the verification event. * `auto` - Domain Connect * `manual` - Manual DNS records */
+  setup_method?: EmailDomainSetupMethodEnum | (string & {}) | undefined;
+}
 export interface UpdateIntegrationsEmailPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
-  /** The provider of the integration, for example 'slack' or 'github'. A create accepts only the kinds that PostHog connects here. Data warehouse sources also store their typed-in credentials as integrations, under a kind per source type. */
-  kind?: string | undefined;
-  config?: unknown | undefined;
+  /** The full sender config. Only `name`, `mail_from_subdomain` and `reply_to` change; `email` must stay the same. */
+  config?: NativeEmailIntegration | undefined;
 }
 export type CreateIntegrationError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createIntegration: API.OperationMethod<
@@ -969,8 +1034,8 @@ export const createIntegrationsGithubPrepareCallback: API.OperationMethod<
   CreateIntegrationsGithubPrepareCallbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<CreateIntegrationsGithubPrepareCallbackResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -987,8 +1052,8 @@ export const createIntegrationsPushToken: API.OperationMethod<
   CreateIntegrationsPushTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(330, __c41, 2) as any as S.Schema<CreateIntegrationsPushTokenRequest>,
-  output: __S(333, __c41, 5) as any as S.Schema<PushTokenImportResponse>,
+  input: __S(338, __c42, 2) as any as S.Schema<CreateIntegrationsPushTokenRequest>,
+  output: __S(341, __c42, 5) as any as S.Schema<PushTokenImportResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1005,8 +1070,8 @@ export const createIntegrationsRequestAccess: API.OperationMethod<
   CreateIntegrationsRequestAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CreateIntegrationsRequestAccessRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<IntegrationAccessRequestResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<CreateIntegrationsRequestAccessRequest>,
+  output: __S(353, __c44, 1) as any as S.Schema<IntegrationAccessRequestResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1022,7 +1087,7 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetIntegrationRequest>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -1039,8 +1104,8 @@ export const getIntegrationsAnthropicManagedAgent: API.OperationMethod<
   GetIntegrationsAnthropicManagedAgentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1057,7 +1122,7 @@ export const getIntegrationsAnthropicManagedAgentEnv: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvResponse>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentEnvResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1074,7 +1139,7 @@ export const getIntegrationsAnthropicManagedAgentVault: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultResponse>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsAnthropicManagedAgentVaultResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1108,7 +1173,7 @@ export const getIntegrationsClickupList: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetIntegrationsClickupListRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupListResponse>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsClickupListResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1125,7 +1190,7 @@ export const getIntegrationsClickupSpace: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetIntegrationsClickupSpaceRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupSpaceResponse>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsClickupSpaceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1142,7 +1207,7 @@ export const getIntegrationsClickupWorkspace: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceResponse>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsClickupWorkspaceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1289,6 +1354,23 @@ export const getIntegrationsGitlabMember: API.OperationMethod<
   span: "GetIntegrationsGitlabMember",
 }));
 
+export type GetIntegrationsGitlabProjectError = PosthogOpError;
+export const getIntegrationsGitlabProject: API.OperationMethod<
+  GetIntegrationsGitlabProjectRequest,
+  GitLabProjectsResponse,
+  GetIntegrationsGitlabProjectError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetIntegrationsGitlabProjectRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<GitLabProjectsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationsGitlabProject",
+}));
+
 export type GetIntegrationsGoogleAccessibleAccountError = Forbidden | NotFound | PosthogOpError;
 export const getIntegrationsGoogleAccessibleAccount: API.OperationMethod<
   GetIntegrationsGoogleAccessibleAccountRequest,
@@ -1296,8 +1378,8 @@ export const getIntegrationsGoogleAccessibleAccount: API.OperationMethod<
   GetIntegrationsGoogleAccessibleAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsGoogleAccessibleAccountResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1313,8 +1395,8 @@ export const getIntegrationsGoogleConversionAction: API.OperationMethod<
   GetIntegrationsGoogleConversionActionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsGoogleConversionActionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1330,7 +1412,7 @@ export const getIntegrationsJiraAssignableUser: API.OperationMethod<
   GetIntegrationsJiraAssignableUserError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetIntegrationsJiraAssignableUserRequest>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetIntegrationsJiraAssignableUserRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1347,8 +1429,8 @@ export const getIntegrationsJiraProject: API.OperationMethod<
   GetIntegrationsJiraProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetIntegrationsJiraProjectRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<JiraProjectsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetIntegrationsJiraProjectRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<JiraProjectsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1364,8 +1446,8 @@ export const getIntegrationsLinearTeam: API.OperationMethod<
   GetIntegrationsLinearTeamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetIntegrationsLinearTeamRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<LinearTeamsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetIntegrationsLinearTeamRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<LinearTeamsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1381,7 +1463,7 @@ export const getIntegrationsLinearTeamMember: API.OperationMethod<
   GetIntegrationsLinearTeamMemberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetIntegrationsLinearTeamMemberRequest>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetIntegrationsLinearTeamMemberRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<IntegrationAssigneesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1398,8 +1480,8 @@ export const getIntegrationsLinkedinAdsAccount: API.OperationMethod<
   GetIntegrationsLinkedinAdsAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsLinkedinAdsAccountResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1415,8 +1497,8 @@ export const getIntegrationsLinkedinAdsConversionRule: API.OperationMethod<
   GetIntegrationsLinkedinAdsConversionRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsLinkedinAdsConversionRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1432,8 +1514,8 @@ export const getIntegrationsTwilioPhoneNumber: API.OperationMethod<
   GetIntegrationsTwilioPhoneNumberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<GetIntegrationsTwilioPhoneNumberResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1449,8 +1531,8 @@ export const getIntegrationsUser: API.OperationMethod<
   GetIntegrationsUserError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetIntegrationsUserRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<SlackUsersResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetIntegrationsUserRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<SlackUsersResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1466,8 +1548,8 @@ export const integrationsAuthorizeRetrieve: API.OperationMethod<
   IntegrationsAuthorizeRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<IntegrationsAuthorizeRetrieveResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1483,8 +1565,8 @@ export const integrationsDestroy: API.OperationMethod<
   IntegrationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<IntegrationsDestroyRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsDestroyResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<IntegrationsDestroyRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<IntegrationsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1498,15 +1580,15 @@ export type IntegrationsDomainConnectApplyUrlCreateError =
   | Forbidden
   | NotFound
   | PosthogOpError;
-/** Unified endpoint for generating Domain Connect apply URLs. Accepts a context ("email" or "proxy") and the relevant resource ID. The backend resolves the domain, template variables, and service ID based on context, then builds the signed apply URL. */
+/** Generate a Domain Connect apply URL Build the signed URL that sends a person to their DNS host to approve the records for an email sending domain or a reverse proxy domain. */
 export const integrationsDomainConnectApplyUrlCreate: API.OperationMethod<
   IntegrationsDomainConnectApplyUrlCreateRequest,
-  IntegrationsDomainConnectApplyUrlCreateResponse,
+  DomainConnectApplyUrlResponse,
   IntegrationsDomainConnectApplyUrlCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<IntegrationsDomainConnectApplyUrlCreateRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<DomainConnectApplyUrlResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1522,8 +1604,8 @@ export const integrationsDomainConnectCheckRetrieve: API.OperationMethod<
   IntegrationsDomainConnectCheckRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<IntegrationsDomainConnectCheckRetrieveRequest>,
-  output: __S(260, __c32, 4) as any as S.Schema<EmailDomainConnectCheck>,
+  input: __S(264, __c33, 0) as any as S.Schema<IntegrationsDomainConnectCheckRetrieveRequest>,
+  output: __S(268, __c33, 4) as any as S.Schema<EmailDomainConnectCheck>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1540,8 +1622,8 @@ export const integrationsEmailVerifyCreate: API.OperationMethod<
   IntegrationsEmailVerifyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<IntegrationsEmailVerifyCreateRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<EmailDomainVerification>,
+  input: __S(272, __c34, 0) as any as S.Schema<IntegrationsEmailVerifyCreateRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<EmailDomainVerification>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1558,8 +1640,8 @@ export const integrationsGithubOauthAuthorizeCreate: API.OperationMethod<
   IntegrationsGithubOauthAuthorizeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<IntegrationsGithubOauthAuthorizeCreateRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<GitHubOAuthAuthorizeResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<IntegrationsGithubOauthAuthorizeCreateRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<GitHubOAuthAuthorizeResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1575,8 +1657,8 @@ export const integrationsGithubReposRefreshCreate: API.OperationMethod<
   IntegrationsGithubReposRefreshCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<IntegrationsGithubReposRefreshCreateRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<GitHubReposRefreshResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<IntegrationsGithubReposRefreshCreateRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<GitHubReposRefreshResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1592,8 +1674,8 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<PaginatedIntegrationConfigList>,
+  input: __S(304, __c38, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(306, __c38, 2) as any as S.Schema<PaginatedIntegrationConfigList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1607,13 +1689,14 @@ export type UpdateIntegrationsEmailPartialError =
   | Forbidden
   | NotFound
   | PosthogOpError;
+/** Update an email sender */
 export const updateIntegrationsEmailPartial: API.OperationMethod<
   UpdateIntegrationsEmailPartialRequest,
   IntegrationConfig,
   UpdateIntegrationsEmailPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<UpdateIntegrationsEmailPartialRequest>,
+  input: __S(313, __c39, 1) as any as S.Schema<UpdateIntegrationsEmailPartialRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<IntegrationConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -1910,7 +1993,7 @@ function __c11(j: number): any {
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          branches: S.optional(__S(336, __c42, 0)),
+          branches: S.optional(__S(344, __c43, 0)),
           default_branch: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
@@ -2057,6 +2140,43 @@ function __c17(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/gitlab_projects/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsGitlabProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          path_with_namespace: S.String,
+          web_url: S.String,
+          default_branch: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "GitLabProject" });
+    case 2:
+      return S.Array(__S(137, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          projects: __S(138, __c17, 2),
+          missing_scopes: __S(344, __c43, 0),
+          token_expires_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "GitLabProjectsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2067,7 +2187,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetIntegrationsGoogleAccessibleAccountRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2084,7 +2204,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetIntegrationsGoogleConversionActionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2103,7 +2223,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetIntegrationsJiraAssignableUserRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2127,16 +2247,16 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "JiraProject" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(162, __c20, 2),
+          projects: __S(170, __c21, 2),
         }),
       ).annotate({ identifier: "JiraProjectsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2157,25 +2277,6 @@ function __c21(j: number): any {
           teams: __S(65, __c8, 1),
         }),
       ).annotate({ identifier: "LinearTeamsResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          search: S.optional(S.String.pipe(T.Query())),
-          team_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/integrations/{id}/linear_team_members/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetIntegrationsLinearTeamMemberRequest" });
   }
 }
 function __c23(j: number): any {
@@ -2236,6 +2337,25 @@ function __c25(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+          team_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/integrations/{id}/linear_team_members/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationsLinearTeamMemberRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2246,7 +2366,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetIntegrationsLinkedinAdsAccountRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2263,7 +2383,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetIntegrationsLinkedinAdsConversionRuleRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2280,7 +2400,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetIntegrationsTwilioPhoneNumberRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2309,20 +2429,20 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "SlackUser" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          users: __S(226, __c28, 2),
+          users: __S(234, __c29, 2),
           lastRefreshedAt: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SlackUsersResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2338,7 +2458,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "IntegrationsAuthorizeRetrieveRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2355,14 +2475,17 @@ function __c30(j: number): any {
       ).annotate({ identifier: "IntegrationsDestroyRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
+          context: S.String,
+          integration_id: S.optional(S.NullOr(S.Number)),
+          proxy_record_id: S.optional(S.NullOr(S.String)),
+          redirect_uri: S.optional(S.NullOr(S.String)),
+          provider_endpoint: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2371,9 +2494,15 @@ function __c31(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IntegrationsDomainConnectApplyUrlCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+        }),
+      ).annotate({ identifier: "DomainConnectApplyUrlResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2397,7 +2526,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "EmailDomainConnectProvider" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(265, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2410,14 +2539,14 @@ function __c32(j: number): any {
         S.Struct({
           supported: S.Boolean,
           provider_name: S.NullOr(S.String),
-          available_providers: __S(258, __c32, 2),
-          dns_host: S.NullOr(__S(259, __c32, 3)),
-          existing_email_tools: __S(336, __c42, 0),
+          available_providers: __S(266, __c33, 2),
+          dns_host: S.NullOr(__S(267, __c33, 3)),
+          existing_email_tools: __S(344, __c43, 0),
         }),
       ).annotate({ identifier: "EmailDomainConnectCheck" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2444,39 +2573,14 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "EmailDomainVerificationRecord" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          dnsRecords: __S(266, __c33, 2),
+          dnsRecords: __S(274, __c34, 2),
         }),
       ).annotate({ identifier: "EmailDomainVerification" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          installation_id: S.optional(S.String),
-          next: S.optional(S.String),
-          connect_from: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/integrations/github/oauth_authorize/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationsGithubOauthAuthorizeCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          oauth_url: S.String,
-        }),
-      ).annotate({ identifier: "GitHubOAuthAuthorizeResponse" });
   }
 }
 function __c35(j: number): any {
@@ -2504,6 +2608,31 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          installation_id: S.optional(S.String),
+          next: S.optional(S.String),
+          connect_from: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/integrations/github/oauth_authorize/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationsGithubOauthAuthorizeCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          oauth_url: S.String,
+        }),
+      ).annotate({ identifier: "GitHubOAuthAuthorizeResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2522,7 +2651,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GitHubReposRefreshResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2543,20 +2672,30 @@ function __c37(j: number): any {
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(297, __c37, 1)),
+          results: S.optional(__S(305, __c38, 1)),
         }),
       ).annotate({ identifier: "PaginatedIntegrationConfigList" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          email: S.String,
+          name: S.String,
+          provider: S.String,
+          mail_from_subdomain: S.optional(S.String),
+          reply_to: S.optional(S.String),
+          setup_method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NativeEmailIntegration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
-          kind: S.optional(S.String),
-          config: S.optional(S.Unknown),
+          config: S.optional(__S(312, __c39, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2567,7 +2706,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationsEmailPartialRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2585,7 +2724,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateIntegrationsGithubPrepareCallbackRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2593,7 +2732,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2603,13 +2742,13 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "PushTokenSubscription" });
     case 1:
-      return S.Array(__S(328, __c41, 0));
+      return S.Array(__S(336, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
-          subscriptions: __S(329, __c41, 1),
+          subscriptions: __S(337, __c42, 1),
           dry_run: S.optional(S.Boolean),
           import_id: S.optional(S.NullOr(S.String)),
           create_missing_persons: S.optional(S.Boolean),
@@ -2632,25 +2771,25 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "PushTokenImportFailure" });
     case 4:
-      return S.Array(__S(331, __c41, 3));
+      return S.Array(__S(339, __c42, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           imported: S.Number,
           dry_run: S.Boolean,
-          failed: __S(332, __c41, 4),
-          failed_distinct_ids: __S(336, __c42, 0),
+          failed: __S(340, __c42, 4),
+          failed_distinct_ids: __S(344, __c43, 0),
         }),
       ).annotate({ identifier: "PushTokenImportResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2674,7 +2813,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "IntegrationAccessRequestResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,7 +2830,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetIntegrationRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

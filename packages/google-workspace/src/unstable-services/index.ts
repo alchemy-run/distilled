@@ -2,4 +2,3 @@
 export * as alertcenter_v1beta1 from "./alertcenter_v1beta1.ts";
 export * as cloudidentity_v1beta1 from "./cloudidentity_v1beta1.ts";
 export * as drivelabels_v2beta from "./drivelabels_v2beta.ts";
-export * as gmailpostmastertools_v1beta1 from "./gmailpostmastertools_v1beta1.ts";

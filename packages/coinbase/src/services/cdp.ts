@@ -2319,6 +2319,34 @@ export interface DeleteWebhookSubscriptionRequest {
   subscriptionId: string;
 }
 export interface DeleteWebhookSubscriptionResponse {}
+export interface DepositToVaultWithEvmAccountRequest {
+  /** The 0x-prefixed address of the EVM account to deposit from. */
+  address: string;
+  vaultId: string;
+  amount: string;
+  receiver?: string | undefined;
+  maxSlippageBps?: number | undefined;
+}
+/** The result of a vault deposit from an EOA after broadcast. */
+export interface EoaVaultDepositResponse {
+  /** The hash of the broadcast deposit transaction, as a 0x-prefixed hex string. */
+  transactionHash: string;
+}
+export interface DepositToVaultWithEvmSmartAccountRequest {
+  /** The 0x-prefixed address of the EVM Smart Account to deposit from. */
+  address: string;
+  vaultId: string;
+  amount: string;
+  receiver?: string | undefined;
+  useCdpPaymaster?: boolean | undefined;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+}
+/** The result of a vault deposit from an EVM Smart Account after broadcast. */
+export interface SmartAccountVaultDepositResponse {
+  /** The hash of the user operation executing the deposit, as a 0x-prefixed hex string. */
+  userOpHash: string;
+}
 export interface ExportEvmAccountRequest {
   /** The 0x-prefixed address of the EVM account. The address does not need to be checksummed. */
   address: string;
@@ -3161,6 +3189,36 @@ export type ListEvmTokenBalancesResponseBalancesList = Array<TokenBalance>;
 export interface ListEvmTokenBalancesResponse {
   /** The list of EVM token balances. */
   balances: ListEvmTokenBalancesResponseBalancesList;
+  /** The token for the next page of items, if any. */
+  nextPageToken?: string | undefined;
+}
+export type ListLendPositionsRequestVaultIdsList = Array<string>;
+export interface ListLendPositionsRequest {
+  /** The 0x-prefixed address of the EVM account or EVM Smart Account to list lend positions for. */
+  address: string;
+  /** Filter positions to these project-owned vaults. Provide 1 to 100 unique, comma-separated vault IDs. Omit to list positions in the vaults discovered for the address. */
+  vaultIds?: ListLendPositionsRequestVaultIdsList | undefined;
+  /** The number of resources to return per page. */
+  pageSize?: number | undefined;
+  /** The token for the next page of resources, if any. */
+  pageToken?: string | undefined;
+}
+/** An account's current share balance and underlying asset value in a lend vault. */
+export interface LendPosition {
+  vaultId: string;
+  network: LendNetwork;
+  /** The symbol of the vault's underlying asset. */
+  underlyingAsset: string;
+  /** The account's vault share balance in standard units of the share token. */
+  vaultShares: string;
+  /** The current underlying asset value of the shares, in standard units of underlyingAsset. */
+  assetBalance: string;
+}
+/** The lend positions on this page. Empty when no matching positions remain. */
+export type ListLendPositionsResponseLendPositionsList = Array<LendPosition>;
+export interface ListLendPositionsResponse {
+  /** The lend positions on this page. Empty when no matching positions remain. */
+  lendPositions: ListLendPositionsResponseLendPositionsList;
   /** The token for the next page of items, if any. */
   nextPageToken?: string | undefined;
 }
@@ -5315,6 +5373,37 @@ export interface VoidPaymentSessionRequest {
   /** Optional customer-facing display data for this void, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
   customerDisplay?: OperationCustomerDisplay | undefined;
 }
+export interface WithdrawFromVaultWithEvmAccountRequest {
+  /** The 0x-prefixed address of the EVM account to withdraw from. */
+  address: string;
+  vaultId: string;
+  amount?: string | undefined;
+  withdrawAll?: boolean | undefined;
+  receiver?: string | undefined;
+  maxSlippageBps?: number | undefined;
+}
+/** The result of a vault withdrawal from an EOA after broadcast. */
+export interface EoaVaultWithdrawResponse {
+  /** The hash of the broadcast withdrawal transaction, as a 0x-prefixed hex string. */
+  transactionHash: string;
+}
+export interface WithdrawFromVaultWithEvmSmartAccountRequest {
+  /** The 0x-prefixed address of the EVM Smart Account to withdraw from. */
+  address: string;
+  vaultId: string;
+  amount?: string | undefined;
+  withdrawAll?: boolean | undefined;
+  receiver?: string | undefined;
+  maxSlippageBps?: number | undefined;
+  useCdpPaymaster?: boolean | undefined;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+}
+/** The result of a vault withdrawal from an EVM Smart Account after broadcast. */
+export interface SmartAccountVaultWithdrawResponse {
+  /** The hash of the user operation executing the withdrawal, as a 0x-prefixed hex string. */
+  userOpHash: string;
+}
 export type AddEndUserEvmAccountError = CoinbaseOpError;
 /** Add EVM account to end user Adds a new EVM EOA account to an existing end user. End users can have up to 10 EVM accounts. This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key. */
 export const addEndUserEvmAccount: API.OperationMethod<
@@ -5359,8 +5448,8 @@ export const addEndUserSolanaAccount: API.OperationMethod<
   AddEndUserSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<AddEndUserSolanaAccountRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<AddEndUserSolanaAccountResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<AddEndUserSolanaAccountRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<AddEndUserSolanaAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5377,8 +5466,8 @@ export const adjustBorrowPositionWithEndUserAccount: API.OperationMethod<
   AdjustBorrowPositionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<AdjustBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(1312, __c82, 0) as any as S.Schema<AdjustBorrowPositionWithEndUserAccountRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5395,8 +5484,8 @@ export const authorizeCoinbasePaymentSession: API.OperationMethod<
   AuthorizeCoinbasePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<AuthorizeCoinbasePaymentSessionRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<Authorization>,
+  input: __S(1568, __c98, 0) as any as S.Schema<AuthorizeCoinbasePaymentSessionRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<Authorization>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5413,8 +5502,8 @@ export const authorizeMandatePaymentSession: API.OperationMethod<
   AuthorizeMandatePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<AuthorizeMandatePaymentSessionRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<Authorization>,
+  input: __S(1840, __c115, 0) as any as S.Schema<AuthorizeMandatePaymentSessionRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<Authorization>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5431,8 +5520,8 @@ export const authorizeWalletPaymentSession: API.OperationMethod<
   AuthorizeWalletPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1906, __c119, 2) as any as S.Schema<AuthorizeWalletPaymentSessionRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<Authorization>,
+  input: __S(2018, __c126, 2) as any as S.Schema<AuthorizeWalletPaymentSessionRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<Authorization>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5449,8 +5538,8 @@ export const authorizeX402PaymentSession: API.OperationMethod<
   AuthorizeX402PaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<AuthorizeX402PaymentSessionRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<Authorization>,
+  input: __S(2240, __c140, 0) as any as S.Schema<AuthorizeX402PaymentSessionRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<Authorization>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5467,8 +5556,8 @@ export const cancelPaymentSession: API.OperationMethod<
   CancelPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<CancelPaymentSessionRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<PaymentSession>,
+  input: __S(2448, __c153, 0) as any as S.Schema<CancelPaymentSessionRequest>,
+  output: __S(2549, __c159, 5) as any as S.Schema<PaymentSession>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5485,8 +5574,8 @@ export const capturePaymentSession: API.OperationMethod<
   CapturePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<CapturePaymentSessionRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<Capture>,
+  input: __S(2752, __c172, 0) as any as S.Schema<CapturePaymentSessionRequest>,
+  output: __S(2576, __c161, 0) as any as S.Schema<Capture>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5504,7 +5593,7 @@ export const closeBorrowPositionWithEndUserAccount: API.OperationMethod<
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CloseBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5521,8 +5610,8 @@ export const createBorrowPositionWithEndUserAccount: API.OperationMethod<
   CreateBorrowPositionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateBorrowPositionWithEndUserAccountRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5539,8 +5628,8 @@ export const createDelegationForEndUserAccount: API.OperationMethod<
   CreateDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreateDelegationForEndUserAccountRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<CreateDelegationForEndUserAccountResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateDelegationForEndUserAccountRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<CreateDelegationForEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5557,8 +5646,8 @@ export const createDisbursement: API.OperationMethod<
   CreateDisbursementError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c42, 1) as any as S.Schema<CreateDisbursementRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<Disbursement>,
+  input: __S(689, __c43, 1) as any as S.Schema<CreateDisbursementRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<Disbursement>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5575,8 +5664,8 @@ export const createEndUser: API.OperationMethod<
   CreateEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(754, __c47, 2) as any as S.Schema<CreateEndUserRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<EndUser>,
+  input: __S(850, __c53, 2) as any as S.Schema<CreateEndUserRequest>,
+  output: __S(869, __c54, 5) as any as S.Schema<EndUser>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5593,8 +5682,8 @@ export const createEvmAccount: API.OperationMethod<
   CreateEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateEvmAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<EvmAccount>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateEvmAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<EvmAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5611,8 +5700,8 @@ export const createEvmEip7702Delegation: API.OperationMethod<
   CreateEvmEip7702DelegationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateEvmEip7702DelegationRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<CreateEvmEip7702DelegationResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CreateEvmEip7702DelegationRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CreateEvmEip7702DelegationResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5629,10 +5718,10 @@ export const createEvmEip7702DelegationWithEndUserAccount: API.OperationMethod<
   CreateEvmEip7702DelegationWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountRequest>,
   output: __S(
-    832,
-    __c52,
+    928,
+    __c58,
     0,
   ) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountResponse>,
   errors: [],
@@ -5651,8 +5740,8 @@ export const createEvmSmartAccount: API.OperationMethod<
   CreateEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<CreateEvmSmartAccountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateEvmSmartAccountRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5669,8 +5758,8 @@ export const createOnrampIosAttestationChallenge: API.OperationMethod<
   CreateOnrampIosAttestationChallengeError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateOnrampIosAttestationChallengeRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<IosAttestationChallenge>,
+  input: __S(992, __c62, 0) as any as S.Schema<CreateOnrampIosAttestationChallengeRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<IosAttestationChallenge>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5687,8 +5776,8 @@ export const createOnrampMobileChallenge: API.OperationMethod<
   CreateOnrampMobileChallengeError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<CreateOnrampMobileChallengeRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<OnrampMobileChallenge>,
+  input: __S(1040, __c65, 0) as any as S.Schema<CreateOnrampMobileChallengeRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<OnrampMobileChallenge>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5705,8 +5794,8 @@ export const createOnrampMobileSession: API.OperationMethod<
   CreateOnrampMobileSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(962, __c60, 2) as any as S.Schema<CreateOnrampMobileSessionRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<CreateOnrampMobileSessionResponse>,
+  input: __S(1058, __c66, 2) as any as S.Schema<CreateOnrampMobileSessionRequest>,
+  output: __S(1059, __c66, 3) as any as S.Schema<CreateOnrampMobileSessionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5723,8 +5812,8 @@ export const createOnrampOrder: API.OperationMethod<
   CreateOnrampOrderError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateOnrampOrderRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<CreateOnrampOrderResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateOnrampOrderRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<CreateOnrampOrderResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5741,8 +5830,8 @@ export const createOnrampSession: API.OperationMethod<
   CreateOnrampSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateOnrampSessionRequest>,
-  output: __S(1042, __c65, 2) as any as S.Schema<CreateOnrampSessionResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CreateOnrampSessionRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<CreateOnrampSessionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5759,8 +5848,8 @@ export const createPaymentSession: API.OperationMethod<
   CreatePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c66, 1) as any as S.Schema<CreatePaymentSessionRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<PaymentSession>,
+  input: __S(1153, __c72, 1) as any as S.Schema<CreatePaymentSessionRequest>,
+  output: __S(2549, __c159, 5) as any as S.Schema<PaymentSession>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5777,8 +5866,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<Policy>,
+  input: __S(1168, __c73, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Policy>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5795,8 +5884,8 @@ export const createSolanaAccount: API.OperationMethod<
   CreateSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateSolanaAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateSolanaAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<SolanaAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5813,8 +5902,8 @@ export const createSpendPermission: API.OperationMethod<
   CreateSpendPermissionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateSpendPermissionRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateSpendPermissionRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5831,8 +5920,8 @@ export const createWebhookSubscription: API.OperationMethod<
   CreateWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5849,8 +5938,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5867,14 +5956,50 @@ export const deleteWebhookSubscription: API.OperationMethod<
   DeleteWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteWebhookSubscription",
+}));
+
+export type DepositToVaultWithEvmAccountError = CoinbaseOpError;
+/** Deposit into a vault with an EVM account Deposits the vault's underlying asset (e.g. USDC) from an EVM account into a vault. The account signs an EIP-2612 permit authorizing the deposit, and the token approval and deposit are executed in a single transaction. The transaction hash is returned in the response. For deposits from EVM Smart Accounts, use `depositToVaultWithEvmSmartAccount` instead. The `amount` field accepts human-readable amounts as decimal strings (e.g., "1.5", "25.50") in the standard unit denomination of the vault's underlying asset. */
+export const depositToVaultWithEvmAccount: API.OperationMethod<
+  DepositToVaultWithEvmAccountRequest,
+  EoaVaultDepositResponse,
+  DepositToVaultWithEvmAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c86, 0) as any as S.Schema<DepositToVaultWithEvmAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<EoaVaultDepositResponse>,
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DepositToVaultWithEvmAccount",
+}));
+
+export type DepositToVaultWithEvmSmartAccountError = CoinbaseOpError;
+/** Deposit into a vault with an EVM Smart Account Deposits the vault's underlying asset (e.g. USDC) from an EVM Smart Account into a vault. The Smart Account's owner must be a CDP EVM account. The token approval and deposit are batched into a single user operation, whose hash is returned in `userOpHash`. Because the approval and deposit execute atomically in a single user operation, no share-price guard is required. Poll `getUserOperation` until the user operation reaches a terminal status. For deposits from EVM accounts, use `depositToVaultWithEvmAccount` instead. The `amount` field accepts human-readable amounts as decimal strings (e.g., "1.5", "25.50") in the standard unit denomination of the vault's underlying asset. */
+export const depositToVaultWithEvmSmartAccount: API.OperationMethod<
+  DepositToVaultWithEvmSmartAccountRequest,
+  SmartAccountVaultDepositResponse,
+  DepositToVaultWithEvmSmartAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1408, __c88, 0) as any as S.Schema<DepositToVaultWithEvmSmartAccountRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<SmartAccountVaultDepositResponse>,
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DepositToVaultWithEvmSmartAccount",
 }));
 
 export type ExportEvmAccountError = CoinbaseOpError;
@@ -5885,8 +6010,8 @@ export const exportEvmAccount: API.OperationMethod<
   ExportEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ExportEvmAccountRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<ExportEvmAccountResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ExportEvmAccountRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<ExportEvmAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5903,8 +6028,8 @@ export const exportEvmAccountByName: API.OperationMethod<
   ExportEvmAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ExportEvmAccountByNameRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<ExportEvmAccountByNameResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ExportEvmAccountByNameRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<ExportEvmAccountByNameResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5921,8 +6046,8 @@ export const exportSolanaAccount: API.OperationMethod<
   ExportSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ExportSolanaAccountRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<ExportSolanaAccountResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ExportSolanaAccountRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<ExportSolanaAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5939,8 +6064,8 @@ export const exportSolanaAccountByName: API.OperationMethod<
   ExportSolanaAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ExportSolanaAccountByNameRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<ExportSolanaAccountByNameResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ExportSolanaAccountByNameRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<ExportSolanaAccountByNameResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5957,8 +6082,8 @@ export const getDelegationForEndUser: API.OperationMethod<
   GetDelegationForEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetDelegationForEndUserRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GetDelegationForEndUserResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<GetDelegationForEndUserRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<GetDelegationForEndUserResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5975,8 +6100,8 @@ export const getDelegationForEndUserAccount: API.OperationMethod<
   GetDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetDelegationForEndUserAccountRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GetDelegationForEndUserAccountResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<GetDelegationForEndUserAccountRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<GetDelegationForEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -5993,8 +6118,8 @@ export const getDisbursement: API.OperationMethod<
   GetDisbursementError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetDisbursementRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<Disbursement>,
+  input: __S(1552, __c97, 0) as any as S.Schema<GetDisbursementRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<Disbursement>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6011,8 +6136,8 @@ export const getEndUser: API.OperationMethod<
   GetEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetEndUserRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<EndUser>,
+  input: __S(1648, __c103, 0) as any as S.Schema<GetEndUserRequest>,
+  output: __S(869, __c54, 5) as any as S.Schema<EndUser>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6029,8 +6154,8 @@ export const getEvmAccount: API.OperationMethod<
   GetEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetEvmAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<EvmAccount>,
+  input: __S(1664, __c104, 0) as any as S.Schema<GetEvmAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<EvmAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6047,8 +6172,8 @@ export const getEvmAccountByName: API.OperationMethod<
   GetEvmAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<GetEvmAccountByNameRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<EvmAccount>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetEvmAccountByNameRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<EvmAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6065,8 +6190,8 @@ export const getEvmBorrowProduct: API.OperationMethod<
   GetEvmBorrowProductError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<GetEvmBorrowProductRequest>,
-  output: __S(1575, __c98, 7) as any as S.Schema<BorrowProduct>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetEvmBorrowProductRequest>,
+  output: __S(1735, __c108, 7) as any as S.Schema<BorrowProduct>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6083,8 +6208,8 @@ export const getEvmEip7702DelegationOperation: API.OperationMethod<
   GetEvmEip7702DelegationOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<GetEvmEip7702DelegationOperationRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<EvmEip7702DelegationOperation>,
+  input: __S(1744, __c109, 0) as any as S.Schema<GetEvmEip7702DelegationOperationRequest>,
+  output: __S(1745, __c109, 1) as any as S.Schema<EvmEip7702DelegationOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6101,8 +6226,8 @@ export const getEvmSmartAccount: API.OperationMethod<
   GetEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<GetEvmSmartAccountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(1760, __c110, 0) as any as S.Schema<GetEvmSmartAccountRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6119,8 +6244,8 @@ export const getEvmSmartAccountByName: API.OperationMethod<
   GetEvmSmartAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetEvmSmartAccountByNameRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(1776, __c111, 0) as any as S.Schema<GetEvmSmartAccountByNameRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6137,8 +6262,8 @@ export const getOnrampOrder: API.OperationMethod<
   GetOnrampOrderError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<GetOnrampOrderRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<GetOnrampOrderResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<GetOnrampOrderRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<GetOnrampOrderResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6155,8 +6280,8 @@ export const getOnrampUserLimits: API.OperationMethod<
   GetOnrampUserLimitsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<GetOnrampUserLimitsRequest>,
-  output: __S(1655, __c103, 7) as any as S.Schema<GetOnrampUserLimitsResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<GetOnrampUserLimitsRequest>,
+  output: __S(1815, __c113, 7) as any as S.Schema<GetOnrampUserLimitsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6173,8 +6298,8 @@ export const getPaymentSession: API.OperationMethod<
   GetPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<GetPaymentSessionRequest>,
-  output: __S(2421, __c151, 5) as any as S.Schema<PaymentSession>,
+  input: __S(1824, __c114, 0) as any as S.Schema<GetPaymentSessionRequest>,
+  output: __S(2549, __c159, 5) as any as S.Schema<PaymentSession>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6191,8 +6316,8 @@ export const getPaymentSessionAuthorization: API.OperationMethod<
   GetPaymentSessionAuthorizationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<GetPaymentSessionAuthorizationRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<Authorization>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetPaymentSessionAuthorizationRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<Authorization>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6209,8 +6334,8 @@ export const getPaymentSessionCapture: API.OperationMethod<
   GetPaymentSessionCaptureError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetPaymentSessionCaptureRequest>,
-  output: __S(2448, __c153, 0) as any as S.Schema<Capture>,
+  input: __S(1872, __c117, 0) as any as S.Schema<GetPaymentSessionCaptureRequest>,
+  output: __S(2576, __c161, 0) as any as S.Schema<Capture>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6227,8 +6352,8 @@ export const getPaymentSessionRefund: API.OperationMethod<
   GetPaymentSessionRefundError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetPaymentSessionRefundRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<Refund>,
+  input: __S(1888, __c118, 0) as any as S.Schema<GetPaymentSessionRefundRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<Refund>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6245,8 +6370,8 @@ export const getPaymentSessionVoid: API.OperationMethod<
   GetPaymentSessionVoidError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetPaymentSessionVoidRequest>,
-  output: __S(2352, __c147, 0) as any as S.Schema<Void>,
+  input: __S(1904, __c119, 0) as any as S.Schema<GetPaymentSessionVoidRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<Void>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6263,8 +6388,8 @@ export const getPolicyById: API.OperationMethod<
   GetPolicyByIdError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetPolicyByIdRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<Policy>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetPolicyByIdRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Policy>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6281,8 +6406,8 @@ export const getSolanaAccount: API.OperationMethod<
   GetSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<GetSolanaAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetSolanaAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<SolanaAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6299,8 +6424,8 @@ export const getSolanaAccountByName: API.OperationMethod<
   GetSolanaAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetSolanaAccountByNameRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetSolanaAccountByNameRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<SolanaAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6317,8 +6442,8 @@ export const getSQLGrammar: API.OperationMethod<
   GetSQLGrammarError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetSQLGrammarRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<GetSQLGrammarResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetSQLGrammarRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<GetSQLGrammarResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6335,8 +6460,8 @@ export const getSQLSchema: API.OperationMethod<
   GetSQLSchemaError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetSQLSchemaRequest>,
-  output: __S(1829, __c114, 5) as any as S.Schema<OnchainDataSchemaResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<GetSQLSchemaRequest>,
+  output: __S(1989, __c124, 5) as any as S.Schema<OnchainDataSchemaResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6353,8 +6478,8 @@ export const getUserOperation: API.OperationMethod<
   GetUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetUserOperationRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetUserOperationRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6371,8 +6496,8 @@ export const getUserOperationWithEndUserAccount: API.OperationMethod<
   GetUserOperationWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetUserOperationWithEndUserAccountRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetUserOperationWithEndUserAccountRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6389,8 +6514,8 @@ export const getVault: API.OperationMethod<
   GetVaultError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<GetVaultRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<Vault>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetVaultRequest>,
+  output: __S(2065, __c129, 1) as any as S.Schema<Vault>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6407,8 +6532,8 @@ export const getWalletAuthorizationOptions: API.OperationMethod<
   GetWalletAuthorizationOptionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c120, 1) as any as S.Schema<GetWalletAuthorizationOptionsRequest>,
-  output: __S(1929, __c120, 9) as any as S.Schema<WalletAuthorizationOptionsResponse>,
+  input: __S(2081, __c130, 1) as any as S.Schema<GetWalletAuthorizationOptionsRequest>,
+  output: __S(2089, __c130, 9) as any as S.Schema<WalletAuthorizationOptionsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6425,8 +6550,8 @@ export const getWebhookSubscription: API.OperationMethod<
   GetWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6443,8 +6568,8 @@ export const importEndUser: API.OperationMethod<
   ImportEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ImportEndUserRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<EndUser>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ImportEndUserRequest>,
+  output: __S(869, __c54, 5) as any as S.Schema<EndUser>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6461,8 +6586,8 @@ export const importEvmAccount: API.OperationMethod<
   ImportEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ImportEvmAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<EvmAccount>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ImportEvmAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<EvmAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6479,8 +6604,8 @@ export const importSolanaAccount: API.OperationMethod<
   ImportSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ImportSolanaAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ImportSolanaAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<SolanaAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6497,8 +6622,8 @@ export const initiateOnrampVerification: API.OperationMethod<
   InitiateOnrampVerificationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<InitiateOnrampVerificationRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<OnrampVerificationInitiation>,
+  input: __S(2160, __c135, 0) as any as S.Schema<InitiateOnrampVerificationRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<OnrampVerificationInitiation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6515,8 +6640,8 @@ export const listBorrowPositionsWithEndUserAccount: API.OperationMethod<
   ListBorrowPositionsWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListBorrowPositionsWithEndUserAccountRequest>,
-  output: __S(2024, __c126, 8) as any as S.Schema<ListBorrowPositionsWithEndUserAccountResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListBorrowPositionsWithEndUserAccountRequest>,
+  output: __S(2184, __c136, 8) as any as S.Schema<ListBorrowPositionsWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6533,8 +6658,8 @@ export const listDataTokenBalances: API.OperationMethod<
   ListDataTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListDataTokenBalancesRequest>,
-  output: __S(2051, __c128, 3) as any as S.Schema<ListDataTokenBalancesResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListDataTokenBalancesRequest>,
+  output: __S(2211, __c138, 3) as any as S.Schema<ListDataTokenBalancesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6551,8 +6676,8 @@ export const listDisbursements: API.OperationMethod<
   ListDisbursementsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListDisbursementsRequest>,
-  output: __S(2082, __c130, 2) as any as S.Schema<ListDisbursementsResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<ListDisbursementsRequest>,
+  output: __S(2258, __c141, 2) as any as S.Schema<ListDisbursementsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6569,8 +6694,8 @@ export const listEndUsers: API.OperationMethod<
   ListEndUsersError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListEndUsersRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<ListEndUsersResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<ListEndUsersRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<ListEndUsersResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6587,8 +6712,8 @@ export const listEvmAccounts: API.OperationMethod<
   ListEvmAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ListEvmAccountsRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ListEvmAccountsResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<ListEvmAccountsRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<ListEvmAccountsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6605,8 +6730,8 @@ export const listEvmBorrowProducts: API.OperationMethod<
   ListEvmBorrowProductsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<ListEvmBorrowProductsRequest>,
-  output: __S(2178, __c136, 2) as any as S.Schema<ListEvmBorrowProductsResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ListEvmBorrowProductsRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<ListEvmBorrowProductsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6623,8 +6748,8 @@ export const listEvmSmartAccounts: API.OperationMethod<
   ListEvmSmartAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<ListEvmSmartAccountsRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<ListEvmSmartAccountsResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<ListEvmSmartAccountsRequest>,
+  output: __S(2354, __c147, 2) as any as S.Schema<ListEvmSmartAccountsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6641,14 +6766,32 @@ export const listEvmTokenBalances: API.OperationMethod<
   ListEvmTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ListEvmTokenBalancesRequest>,
-  output: __S(2051, __c128, 3) as any as S.Schema<ListEvmTokenBalancesResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<ListEvmTokenBalancesRequest>,
+  output: __S(2211, __c138, 3) as any as S.Schema<ListEvmTokenBalancesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEvmTokenBalances",
+}));
+
+export type ListLendPositionsError = CoinbaseOpError;
+/** List lend positions Lists non-zero lend positions for an EVM account or EVM Smart Account in the project. Each position reports the account's vault share balance and its current value in the vault's underlying asset. When `vaultIds` is omitted, only vaults where the address received shares through a Lend deposit are listed. Shares received any other way are not discovered, including transfers, deposits made outside the Lend deposit APIs, and fee shares CDP distributes to a vault's fee recipient, so an empty list does not mean the address holds no shares. Supply `vaultIds` to read specific project-owned vaults. Positions are ordered by vault ID. `pageSize` defaults to 20 and must be between 1 and 100. Keep the address and vault filter unchanged when following `nextPageToken`. Each page fetches fresh balances, so positions and balances may change between page requests as deposits, withdrawals, or yield accrual occur. */
+export const listLendPositions: API.OperationMethod<
+  ListLendPositionsRequest,
+  ListLendPositionsResponse,
+  ListLendPositionsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2384, __c149, 0) as any as S.Schema<ListLendPositionsRequest>,
+  output: __S(2387, __c149, 3) as any as S.Schema<ListLendPositionsResponse>,
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLendPositions",
 }));
 
 export type ListPaymentSessionAuthorizationsError = CoinbaseOpError;
@@ -6659,8 +6802,8 @@ export const listPaymentSessionAuthorizations: API.OperationMethod<
   ListPaymentSessionAuthorizationsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<ListPaymentSessionAuthorizationsRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<ListPaymentSessionAuthorizationsResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<ListPaymentSessionAuthorizationsRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<ListPaymentSessionAuthorizationsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6677,8 +6820,8 @@ export const listPaymentSessionCaptures: API.OperationMethod<
   ListPaymentSessionCapturesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<ListPaymentSessionCapturesRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<ListPaymentSessionCapturesResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<ListPaymentSessionCapturesRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<ListPaymentSessionCapturesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6695,8 +6838,8 @@ export const listPaymentSessionRefunds: API.OperationMethod<
   ListPaymentSessionRefundsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ListPaymentSessionRefundsRequest>,
-  output: __S(2257, __c141, 1) as any as S.Schema<ListPaymentSessionRefundsResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<ListPaymentSessionRefundsRequest>,
+  output: __S(2433, __c152, 1) as any as S.Schema<ListPaymentSessionRefundsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6713,8 +6856,8 @@ export const listPaymentSessions: API.OperationMethod<
   ListPaymentSessionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<ListPaymentSessionsRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<ListPaymentSessionsResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<ListPaymentSessionsRequest>,
+  output: __S(2594, __c162, 2) as any as S.Schema<ListPaymentSessionsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6731,8 +6874,8 @@ export const listPaymentSessionVoids: API.OperationMethod<
   ListPaymentSessionVoidsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<ListPaymentSessionVoidsRequest>,
-  output: __S(2289, __c143, 1) as any as S.Schema<ListPaymentSessionVoidsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<ListPaymentSessionVoidsRequest>,
+  output: __S(2609, __c163, 1) as any as S.Schema<ListPaymentSessionVoidsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6749,8 +6892,8 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(2306, __c144, 2) as any as S.Schema<ListPoliciesResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(2626, __c164, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6767,8 +6910,8 @@ export const listSolanaAccounts: API.OperationMethod<
   ListSolanaAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<ListSolanaAccountsRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ListSolanaAccountsResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ListSolanaAccountsRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<ListSolanaAccountsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6785,8 +6928,8 @@ export const listSolanaTokenBalances: API.OperationMethod<
   ListSolanaTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<ListSolanaTokenBalancesRequest>,
-  output: __S(2484, __c155, 4) as any as S.Schema<ListSolanaTokenBalancesResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<ListSolanaTokenBalancesRequest>,
+  output: __S(2660, __c166, 4) as any as S.Schema<ListSolanaTokenBalancesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6803,8 +6946,8 @@ export const listSpendPermissions: API.OperationMethod<
   ListSpendPermissionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ListSpendPermissionsRequest>,
-  output: __S(2500, __c156, 4) as any as S.Schema<ListSpendPermissionsResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ListSpendPermissionsRequest>,
+  output: __S(2676, __c167, 4) as any as S.Schema<ListSpendPermissionsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6821,8 +6964,8 @@ export const listTokensForAccount: API.OperationMethod<
   ListTokensForAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ListTokensForAccountRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<AccountTokenAddressesResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<ListTokensForAccountRequest>,
+  output: __S(2689, __c168, 1) as any as S.Schema<AccountTokenAddressesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6839,8 +6982,8 @@ export const listVaults: API.OperationMethod<
   ListVaultsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ListVaultsRequest>,
-  output: __S(2530, __c158, 2) as any as S.Schema<ListVaultsResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<ListVaultsRequest>,
+  output: __S(2706, __c169, 2) as any as S.Schema<ListVaultsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6857,8 +7000,8 @@ export const listWebhookSubscriptionEvents: API.OperationMethod<
   ListWebhookSubscriptionEventsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ListWebhookSubscriptionEventsRequest>,
-  output: __S(2548, __c159, 4) as any as S.Schema<WebhookEventListResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<ListWebhookSubscriptionEventsRequest>,
+  output: __S(2724, __c170, 4) as any as S.Schema<WebhookEventListResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6875,8 +7018,8 @@ export const listWebhookSubscriptions: API.OperationMethod<
   ListWebhookSubscriptionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ListWebhookSubscriptionsRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<ListWebhookSubscriptionsResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<ListWebhookSubscriptionsRequest>,
+  output: __S(2738, __c171, 2) as any as S.Schema<ListWebhookSubscriptionsResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6893,8 +7036,8 @@ export const lookupEndUser: API.OperationMethod<
   LookupEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<LookupEndUserRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<LookupEndUserResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<LookupEndUserRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<LookupEndUserResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6911,8 +7054,8 @@ export const pausePolicy: API.OperationMethod<
   PausePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<PausePolicyRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<Policy>,
+  input: __S(2784, __c174, 0) as any as S.Schema<PausePolicyRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Policy>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6929,8 +7072,8 @@ export const prepareAndSendUserOperation: API.OperationMethod<
   PrepareAndSendUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<PrepareAndSendUserOperationRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2800, __c175, 0) as any as S.Schema<PrepareAndSendUserOperationRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6947,8 +7090,8 @@ export const prepareUserOperation: API.OperationMethod<
   PrepareUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<PrepareUserOperationRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2816, __c176, 0) as any as S.Schema<PrepareUserOperationRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6965,8 +7108,8 @@ export const redeemVaultFeesWithEvmAccount: API.OperationMethod<
   RedeemVaultFeesWithEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<RedeemVaultFeesWithEvmAccountRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<EoaVaultRedeemFeesResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<RedeemVaultFeesWithEvmAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<EoaVaultRedeemFeesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -6983,8 +7126,8 @@ export const redeemVaultFeesWithEvmSmartAccount: API.OperationMethod<
   RedeemVaultFeesWithEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<RedeemVaultFeesWithEvmSmartAccountRequest>,
-  output: __S(2689, __c168, 1) as any as S.Schema<SmartAccountVaultRedeemFeesResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<RedeemVaultFeesWithEvmSmartAccountRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<SmartAccountVaultRedeemFeesResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7001,8 +7144,8 @@ export const refundPaymentSession: API.OperationMethod<
   RefundPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<RefundPaymentSessionRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<Refund>,
+  input: __S(2864, __c179, 0) as any as S.Schema<RefundPaymentSessionRequest>,
+  output: __S(2464, __c154, 0) as any as S.Schema<Refund>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7019,8 +7162,8 @@ export const registerOnrampIosAttestation: API.OperationMethod<
   RegisterOnrampIosAttestationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2721, __c170, 1) as any as S.Schema<RegisterOnrampIosAttestationRequest>,
-  output: __S(2722, __c170, 2) as any as S.Schema<IosAttestationRegistrationResponse>,
+  input: __S(2881, __c180, 1) as any as S.Schema<RegisterOnrampIosAttestationRequest>,
+  output: __S(2882, __c180, 2) as any as S.Schema<IosAttestationRegistrationResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7037,8 +7180,8 @@ export const requestEvmFaucet: API.OperationMethod<
   RequestEvmFaucetError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<RequestEvmFaucetRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<RequestEvmFaucetResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<RequestEvmFaucetRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<RequestEvmFaucetResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7055,8 +7198,8 @@ export const requestLimitsUpgrade: API.OperationMethod<
   RequestLimitsUpgradeError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2754, __c172, 2) as any as S.Schema<RequestLimitsUpgradeRequest>,
-  output: __S(2755, __c172, 3) as any as S.Schema<OnrampLimitUpgradeEmbeddedResponse>,
+  input: __S(2914, __c182, 2) as any as S.Schema<RequestLimitsUpgradeRequest>,
+  output: __S(2915, __c182, 3) as any as S.Schema<OnrampLimitUpgradeEmbeddedResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7073,8 +7216,8 @@ export const requestSolanaFaucet: API.OperationMethod<
   RequestSolanaFaucetError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<RequestSolanaFaucetRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<RequestSolanaFaucetResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<RequestSolanaFaucetRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<RequestSolanaFaucetResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7091,8 +7234,8 @@ export const resumePolicy: API.OperationMethod<
   ResumePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<ResumePolicyRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<Policy>,
+  input: __S(128, __c8, 0) as any as S.Schema<ResumePolicyRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Policy>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7109,8 +7252,8 @@ export const revokeDelegationForEndUser: API.OperationMethod<
   RevokeDelegationForEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<RevokeDelegationForEndUserRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<RevokeDelegationForEndUserResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<RevokeDelegationForEndUserRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<RevokeDelegationForEndUserResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7127,8 +7270,8 @@ export const revokeDelegationForEndUserAccount: API.OperationMethod<
   RevokeDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RevokeDelegationForEndUserAccountRequest>,
-  output: __S(1200, __c75, 0) as any as S.Schema<RevokeDelegationForEndUserAccountResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<RevokeDelegationForEndUserAccountRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<RevokeDelegationForEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7145,8 +7288,8 @@ export const revokeSpendPermission: API.OperationMethod<
   RevokeSpendPermissionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<RevokeSpendPermissionRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(176, __c11, 0) as any as S.Schema<RevokeSpendPermissionRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7163,8 +7306,8 @@ export const runSQLQuery: API.OperationMethod<
   RunSQLQueryError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c8, 1) as any as S.Schema<RunSQLQueryRequest>,
-  output: __S(135, __c8, 7) as any as S.Schema<OnchainDataResult>,
+  input: __S(193, __c12, 1) as any as S.Schema<RunSQLQueryRequest>,
+  output: __S(199, __c12, 7) as any as S.Schema<OnchainDataResult>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7181,8 +7324,8 @@ export const sendEvmAssetWithEndUserAccount: API.OperationMethod<
   SendEvmAssetWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<SendEvmAssetWithEndUserAccountRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<SendEvmAssetWithEndUserAccountResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<SendEvmAssetWithEndUserAccountRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<SendEvmAssetWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7199,8 +7342,8 @@ export const sendEvmTransaction: API.OperationMethod<
   SendEvmTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<SendEvmTransactionRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<SendEvmTransactionResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<SendEvmTransactionRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SendEvmTransactionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7217,8 +7360,8 @@ export const sendEvmTransactionWithEndUserAccount: API.OperationMethod<
   SendEvmTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountRequest>,
-  output: __S(2672, __c167, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7235,8 +7378,8 @@ export const sendSolanaAssetWithEndUserAccount: API.OperationMethod<
   SendSolanaAssetWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7253,8 +7396,8 @@ export const sendSolanaTransaction: API.OperationMethod<
   SendSolanaTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<SendSolanaTransactionRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<SendSolanaTransactionResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<SendSolanaTransactionRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<SendSolanaTransactionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7271,8 +7414,8 @@ export const sendSolanaTransactionWithEndUserAccount: API.OperationMethod<
   SendSolanaTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountRequest>,
-  output: __S(2784, __c174, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7289,8 +7432,8 @@ export const sendUserOperation: API.OperationMethod<
   SendUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<SendUserOperationRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(320, __c20, 0) as any as S.Schema<SendUserOperationRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7307,8 +7450,8 @@ export const sendUserOperationWithEndUserAccount: API.OperationMethod<
   SendUserOperationWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<SendUserOperationWithEndUserAccountRequest>,
-  output: __S(1237, __c77, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(336, __c21, 0) as any as S.Schema<SendUserOperationWithEndUserAccountRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<EvmUserOperation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7325,8 +7468,8 @@ export const signEvmHash: API.OperationMethod<
   SignEvmHashError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<SignEvmHashRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignEvmHashResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<SignEvmHashRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignEvmHashResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7343,8 +7486,8 @@ export const signEvmMessage: API.OperationMethod<
   SignEvmMessageError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<SignEvmMessageRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignEvmMessageResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<SignEvmMessageRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignEvmMessageResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7361,8 +7504,8 @@ export const signEvmMessageWithEndUserAccount: API.OperationMethod<
   SignEvmMessageWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7379,8 +7522,8 @@ export const signEvmTransaction: API.OperationMethod<
   SignEvmTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<SignEvmTransactionRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SignEvmTransactionResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<SignEvmTransactionRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SignEvmTransactionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7397,8 +7540,8 @@ export const signEvmTransactionWithEndUserAccount: API.OperationMethod<
   SignEvmTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7415,8 +7558,8 @@ export const signEvmTypedData: API.OperationMethod<
   SignEvmTypedDataError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<SignEvmTypedDataRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignEvmTypedDataResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<SignEvmTypedDataRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignEvmTypedDataResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7433,8 +7576,8 @@ export const signEvmTypedDataWithEndUserAccount: API.OperationMethod<
   SignEvmTypedDataWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(433, __c27, 1) as any as S.Schema<SignEvmTypedDataWithEndUserAccountRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignEvmTypedDataWithEndUserAccountResponse>,
+  input: __S(529, __c33, 1) as any as S.Schema<SignEvmTypedDataWithEndUserAccountRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignEvmTypedDataWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7451,8 +7594,8 @@ export const signSolanaMessage: API.OperationMethod<
   SignSolanaMessageError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<SignSolanaMessageRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignSolanaMessageResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<SignSolanaMessageRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignSolanaMessageResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7469,8 +7612,8 @@ export const signSolanaMessageWithEndUserAccount: API.OperationMethod<
   SignSolanaMessageWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7487,8 +7630,8 @@ export const signSolanaTransaction: API.OperationMethod<
   SignSolanaTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<SignSolanaTransactionRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SignSolanaTransactionResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<SignSolanaTransactionRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SignSolanaTransactionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7505,8 +7648,8 @@ export const signSolanaTransactionWithEndUserAccount: API.OperationMethod<
   SignSolanaTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7523,8 +7666,8 @@ export const signSolanaX402PaymentWithEndUserAccount: API.OperationMethod<
   SignSolanaX402PaymentWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(547, __c34, 3) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountRequest>,
-  output: __S(548, __c34, 4) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountResponse>,
+  input: __S(611, __c38, 3) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountRequest>,
+  output: __S(612, __c38, 4) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7541,8 +7684,8 @@ export const simulatePolicies: API.OperationMethod<
   SimulatePoliciesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<SimulatePoliciesRequest2>,
-  output: __S(568, __c35, 8) as any as S.Schema<PolicySimulationResult>,
+  input: __S(624, __c39, 0) as any as S.Schema<SimulatePoliciesRequest2>,
+  output: __S(632, __c39, 8) as any as S.Schema<PolicySimulationResult>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7559,8 +7702,8 @@ export const submitOnrampVerification: API.OperationMethod<
   SubmitOnrampVerificationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<SubmitOnrampVerificationRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<OnrampVerificationConfirmation>,
+  input: __S(640, __c40, 0) as any as S.Schema<SubmitOnrampVerificationRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<OnrampVerificationConfirmation>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7577,8 +7720,8 @@ export const updateEvmAccount: API.OperationMethod<
   UpdateEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UpdateEvmAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<EvmAccount>,
+  input: __S(656, __c41, 0) as any as S.Schema<UpdateEvmAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<EvmAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7595,8 +7738,8 @@ export const updateEvmSmartAccount: API.OperationMethod<
   UpdateEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<UpdateEvmSmartAccountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(672, __c42, 0) as any as S.Schema<UpdateEvmSmartAccountRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7613,8 +7756,8 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(1089, __c68, 1) as any as S.Schema<Policy>,
+  input: __S(736, __c46, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Policy>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7631,8 +7774,8 @@ export const updateSolanaAccount: API.OperationMethod<
   UpdateSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UpdateSolanaAccountRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(752, __c47, 0) as any as S.Schema<UpdateSolanaAccountRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<SolanaAccount>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7649,8 +7792,8 @@ export const updateWebhookSubscription: API.OperationMethod<
   UpdateWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7667,8 +7810,8 @@ export const validateEndUserAccessToken: API.OperationMethod<
   ValidateEndUserAccessTokenError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ValidateEndUserAccessTokenRequest>,
-  output: __S(773, __c48, 5) as any as S.Schema<EndUser>,
+  input: __S(784, __c49, 0) as any as S.Schema<ValidateEndUserAccessTokenRequest>,
+  output: __S(869, __c54, 5) as any as S.Schema<EndUser>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
@@ -7685,14 +7828,50 @@ export const voidPaymentSession: API.OperationMethod<
   VoidPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<VoidPaymentSessionRequest>,
-  output: __S(2352, __c147, 0) as any as S.Schema<Void>,
+  input: __S(800, __c50, 0) as any as S.Schema<VoidPaymentSessionRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<Void>,
   errors: [],
   serviceErrors: CoinbaseServiceErrors,
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VoidPaymentSession",
+}));
+
+export type WithdrawFromVaultWithEvmAccountError = CoinbaseOpError;
+/** Withdraw from a vault with an EVM account Withdraws the vault's underlying asset (e.g. USDC) from an EVM account's position in a vault. The account signs an EIP-2612 permit over its vault shares authorizing the withdrawal, and the share approval and withdrawal are executed in a single transaction. The transaction hash is returned in the response. For withdrawals from EVM Smart Accounts, use `withdrawFromVaultWithEvmSmartAccount` instead. Provide either `amount` or `withdrawAll: true`. The `amount` field accepts human-readable amounts as decimal strings (e.g., "1.5", "25.50") in the standard unit denomination of the vault's underlying asset. Set `withdrawAll` to `true` to withdraw the entire position: every vault share held by the account is redeemed, so no residual shares remain from interest that accrues before execution. */
+export const withdrawFromVaultWithEvmAccount: API.OperationMethod<
+  WithdrawFromVaultWithEvmAccountRequest,
+  EoaVaultWithdrawResponse,
+  WithdrawFromVaultWithEvmAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(816, __c51, 0) as any as S.Schema<WithdrawFromVaultWithEvmAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<EoaVaultWithdrawResponse>,
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithdrawFromVaultWithEvmAccount",
+}));
+
+export type WithdrawFromVaultWithEvmSmartAccountError = CoinbaseOpError;
+/** Withdraw from a vault with an EVM Smart Account Withdraws the vault's underlying asset (e.g. USDC) from an EVM Smart Account's position in a vault. The Smart Account's owner must be a CDP EVM account. The share approval and withdrawal are batched into a single user operation, whose hash is returned in `userOpHash`. The withdrawal reverts if the vault's share price moves beyond `maxSlippageBps` before the user operation is included onchain. Poll `getUserOperation` until the user operation reaches a terminal status. For withdrawals from EVM accounts, use `withdrawFromVaultWithEvmAccount` instead. Provide either `amount` or `withdrawAll: true`. The `amount` field accepts human-readable amounts as decimal strings (e.g., "1.5", "25.50") in the standard unit denomination of the vault's underlying asset. Set `withdrawAll` to `true` to withdraw the entire position: every vault share held by the account is redeemed, so no residual shares remain from interest that accrues before execution. */
+export const withdrawFromVaultWithEvmSmartAccount: API.OperationMethod<
+  WithdrawFromVaultWithEvmSmartAccountRequest,
+  SmartAccountVaultWithdrawResponse,
+  WithdrawFromVaultWithEvmSmartAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c52, 0) as any as S.Schema<WithdrawFromVaultWithEvmSmartAccountRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<SmartAccountVaultWithdrawResponse>,
+  errors: [],
+  serviceErrors: CoinbaseServiceErrors,
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithdrawFromVaultWithEvmSmartAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -7774,7 +7953,7 @@ function __c5(j: number): any {
           walletSecretId: S.String,
           useCdpPaymaster: S.Boolean,
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7786,6 +7965,61 @@ function __c5(j: number): any {
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          token: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/solana/faucet", code: 200 })),
+      ).annotate({ identifier: "RequestSolanaFaucetRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionSignature: S.String,
+        }),
+      ).annotate({ identifier: "RequestSolanaFaucetResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/policy-engine/policies/{policyId}/resume",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResumePolicyRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          walletSecretId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/delegation/revoke",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeDelegationForEndUserRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7804,7 +8038,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RevokeDelegationForEndUserAccountRequest" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7823,7 +8057,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RevokeSpendPermissionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7835,11 +8069,11 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sql: S.String,
-          cache: S.optional(__S(128, __c8, 0)),
+          cache: S.optional(__S(192, __c12, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/data/query/run", code: 200 })),
       ).annotate({ identifier: "RunSQLQueryRequest" });
     case 2:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(1344, __c84, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7848,11 +8082,11 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "OnchainDataResultSchemaColumnsItem" });
     case 4:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(195, __c12, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(132, __c8, 4)),
+          columns: S.optional(__S(196, __c12, 4)),
         }),
       ).annotate({ identifier: "OnchainDataResultSchema" });
     case 6:
@@ -7867,14 +8101,14 @@ function __c8(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(130, __c8, 2)),
-          schema: S.optional(__S(133, __c8, 5)),
-          metadata: S.optional(__S(134, __c8, 6)),
+          result: S.optional(__S(194, __c12, 2)),
+          schema: S.optional(__S(197, __c12, 5)),
+          metadata: S.optional(__S(198, __c12, 6)),
         }),
       ).annotate({ identifier: "OnchainDataResult" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7888,7 +8122,7 @@ function __c9(j: number): any {
           network: S.String,
           useCdpPaymaster: S.optional(S.Boolean),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
           walletSecretId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -7907,7 +8141,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SendEvmAssetWithEndUserAccountResponse" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7921,7 +8155,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SendEvmTransactionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7942,7 +8176,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SendEvmTransactionWithEndUserAccountRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7967,7 +8201,32 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SendSolanaAssetWithEndUserAccountRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          borrowProductId: S.String,
+          collateralAmount: S.String,
+          loanAmount: S.String,
+          walletSecretId: S.String,
+          useCdpPaymaster: S.Boolean,
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBorrowPositionWithEndUserAccountRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7979,7 +8238,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SendSolanaTransactionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8001,7 +8260,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SendSolanaTransactionWithEndUserAccountRequest" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8019,32 +8278,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SendUserOperationRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          borrowProductId: S.String,
-          collateralAmount: S.String,
-          loanAmount: S.String,
-          walletSecretId: S.String,
-          useCdpPaymaster: S.Boolean,
-          paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateBorrowPositionWithEndUserAccountRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8053,10 +8287,10 @@ function __c17(j: number): any {
           address: S.String.pipe(T.Label()),
           projectID: S.optional(S.String.pipe(T.Query())),
           network: S.String,
-          calls: __S(1233, __c77, 1),
+          calls: __S(1329, __c83, 1),
           useCdpPaymaster: S.Boolean,
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
           walletSecretId: S.optional(S.String),
           dataSuffix: S.optional(S.String),
         }).pipe(
@@ -8069,7 +8303,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SendUserOperationWithEndUserAccountRequest" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8080,7 +8314,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SignEvmHashRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8090,7 +8324,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SignEvmHashResponse" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8103,7 +8337,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SignEvmMessageRequest" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8123,7 +8357,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SignEvmMessageWithEndUserAccountRequest" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8136,7 +8370,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionRequest" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8146,7 +8380,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionResponse" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8166,13 +8400,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionWithEndUserAccountRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
-          domain: __S(416, __c26, 0),
+          domain: __S(480, __c30, 0),
           types: S.Unknown,
           primaryType: S.String,
           message: S.Unknown,
@@ -8182,7 +8416,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SignEvmTypedDataRequest" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8196,70 +8430,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "EIP712Domain" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: __S(416, __c26, 0),
-          types: S.Unknown,
-          primaryType: S.String,
-          message: S.Unknown,
-        }),
-      ).annotate({ identifier: "EIP712Message" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          address: S.String,
-          typedData: __S(432, __c27, 0),
-          walletSecretId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/sign/typed-data",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignEvmTypedDataWithEndUserAccountRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String.pipe(T.Label()),
-          message: S.String,
-          encoding: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v2/solana/accounts/{address}/sign/message", code: 200 }),
-        ),
-      ).annotate({ identifier: "SignSolanaMessageRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          address: S.String,
-          message: S.String,
-          walletSecretId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/solana/sign/message",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignSolanaMessageWithEndUserAccountRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8279,7 +8450,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateDelegationForEndUserAccountRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8289,7 +8460,70 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateDelegationForEndUserAccountResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: __S(480, __c30, 0),
+          types: S.Unknown,
+          primaryType: S.String,
+          message: S.Unknown,
+        }),
+      ).annotate({ identifier: "EIP712Message" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          address: S.String,
+          typedData: __S(528, __c33, 0),
+          walletSecretId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/sign/typed-data",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignEvmTypedDataWithEndUserAccountRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          message: S.String,
+          encoding: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/solana/accounts/{address}/sign/message", code: 200 }),
+        ),
+      ).annotate({ identifier: "SignSolanaMessageRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          address: S.String,
+          message: S.String,
+          walletSecretId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/solana/sign/message",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignSolanaMessageWithEndUserAccountRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8307,7 +8541,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SignSolanaTransactionRequest" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8328,7 +8562,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SignSolanaTransactionWithEndUserAccountRequest" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -8344,10 +8578,10 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           x402Version: S.Number,
-          accepts: __S(544, __c34, 0),
-          resource: S.optional(__S(545, __c34, 1)),
+          accepts: __S(608, __c38, 0),
+          resource: S.optional(__S(609, __c38, 1)),
           error: S.optional(S.String),
-          extensions: S.optional(__S(1248, __c78, 0)),
+          extensions: S.optional(__S(1344, __c84, 0)),
         }),
       ).annotate({ identifier: "X402PaymentRequired" });
     case 3:
@@ -8355,7 +8589,7 @@ function __c34(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           projectID: S.optional(S.String.pipe(T.Query())),
-          paymentRequired: __S(546, __c34, 2),
+          paymentRequired: __S(610, __c38, 2),
           acceptsIndex: S.Number,
           address: S.String,
           walletSecretId: S.optional(S.String),
@@ -8375,7 +8609,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SignSolanaX402PaymentWithEndUserAccountResponse" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8396,16 +8630,16 @@ function __c35(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          policy: __S(561, __c35, 1),
+          policy: __S(625, __c39, 1),
           ruleIndex: S.Number,
           rule: S.Unknown,
-          observations: S.optional(__S(562, __c35, 2)),
+          observations: S.optional(__S(626, __c39, 2)),
         }),
       ).annotate({ identifier: "MatchedPolicyRule" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          policy: __S(561, __c35, 1),
+          policy: __S(625, __c39, 1),
           ruleIndex: S.Number,
           criterionIndex: S.Number,
           criterion: S.Unknown,
@@ -8413,9 +8647,9 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "UnmatchedPolicyRule" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(628, __c39, 4));
     case 6:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(625, __c39, 1));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -8429,15 +8663,15 @@ function __c35(j: number): any {
         S.Struct({
           action: S.String,
           reason: S.String,
-          matchedRule: S.optional(__S(563, __c35, 3)),
-          unmatchedRules: __S(565, __c35, 5),
-          evaluatedPolicies: __S(566, __c35, 6),
-          evaluatedUnit: S.optional(__S(567, __c35, 7)),
+          matchedRule: S.optional(__S(627, __c39, 3)),
+          unmatchedRules: __S(629, __c39, 5),
+          evaluatedPolicies: __S(630, __c39, 6),
+          evaluatedUnit: S.optional(__S(631, __c39, 7)),
         }),
       ).annotate({ identifier: "PolicySimulationResult" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8461,7 +8695,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "OnrampVerificationConfirmation" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8473,7 +8707,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateEvmAccountRequest" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8484,78 +8718,32 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateEvmSmartAccountRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policyId: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          rules: __S(1088, __c68, 0),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/policy-engine/policies/{policyId}", code: 200 })),
-      ).annotate({ identifier: "UpdatePolicyRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          accountPolicy: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/solana/accounts/{address}", code: 200 })),
-      ).annotate({ identifier: "UpdateSolanaAccountRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          eventTypes: __S(1152, __c72, 0),
-          isEnabled: S.Boolean,
-          target: __S(1168, __c73, 0),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          labels: S.optional(__S(1472, __c92, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v2/data/webhooks/subscriptions/{subscriptionId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateWebhookSubscriptionRequest" });
-  }
-}
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requesterIpAddress: S.optional(S.String),
-          recipient: S.optional(__S(689, __c43, 1)),
+          recipient: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "DisbursementCompliance" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: __S(704, __c44, 0),
+          source: __S(720, __c45, 0),
           target: S.Unknown,
           amount: S.String,
           asset: S.String,
           reason: S.optional(S.String),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(705, __c44, 1)),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          compliance: S.optional(__S(672, __c42, 0)),
+          customerDisplay: S.optional(__S(721, __c45, 1)),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          compliance: S.optional(__S(688, __c43, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/disbursements", code: 200 })),
       ).annotate({ identifier: "CreateDisbursementRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8572,12 +8760,12 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          address: S.optional(__S(688, __c43, 0)),
+          address: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "Person" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8597,24 +8785,70 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           disbursementId: S.String,
-          source: __S(704, __c44, 0),
+          source: __S(720, __c45, 0),
           target: S.Unknown,
           amount: S.String,
           asset: S.String,
           status: S.String,
           reason: S.optional(S.String),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(705, __c44, 1)),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          error: S.optional(__S(1488, __c93, 0)),
-          onchainTransactions: S.optional(__S(1490, __c93, 2)),
+          customerDisplay: S.optional(__S(721, __c45, 1)),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          error: S.optional(__S(1616, __c101, 0)),
+          onchainTransactions: S.optional(__S(1618, __c101, 2)),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Disbursement" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policyId: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          rules: __S(1184, __c74, 0),
+        }).pipe(T.Http({ method: "PUT", uri: "/v2/policy-engine/policies/{policyId}", code: 200 })),
+      ).annotate({ identifier: "UpdatePolicyRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          accountPolicy: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v2/solana/accounts/{address}", code: 200 })),
+      ).annotate({ identifier: "UpdateSolanaAccountRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          eventTypes: __S(1248, __c78, 0),
+          isEnabled: S.Boolean,
+          target: __S(1264, __c79, 0),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          labels: S.optional(__S(1600, __c100, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v2/data/webhooks/subscriptions/{subscriptionId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWebhookSubscriptionRequest" });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8624,15 +8858,15 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ValidateEndUserAccessTokenRequest" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentSessionId: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8643,7 +8877,48 @@ function __c46(j: number): any {
       ).annotate({ identifier: "VoidPaymentSessionRequest" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          amount: S.optional(S.String),
+          withdrawAll: S.optional(S.Boolean),
+          receiver: S.optional(S.String),
+          maxSlippageBps: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/evm/accounts/{address}/lend/withdraw", code: 200 }),
+        ),
+      ).annotate({ identifier: "WithdrawFromVaultWithEvmAccountRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          amount: S.optional(S.String),
+          withdrawAll: S.optional(S.Boolean),
+          receiver: S.optional(S.String),
+          maxSlippageBps: S.optional(S.Number),
+          useCdpPaymaster: S.optional(S.Boolean),
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/evm/smart-accounts/{address}/lend/withdraw",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WithdrawFromVaultWithEvmSmartAccountRequest" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8662,14 +8937,14 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.optional(S.String),
-          authenticationMethods: __S(768, __c48, 0),
-          evmAccount: S.optional(__S(752, __c47, 0)),
-          solanaAccount: S.optional(__S(753, __c47, 1)),
+          authenticationMethods: __S(864, __c54, 0),
+          evmAccount: S.optional(__S(848, __c53, 0)),
+          solanaAccount: S.optional(__S(849, __c53, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/end-users", code: 200 })),
       ).annotate({ identifier: "CreateEndUserRequest" });
   }
 }
-function __c48(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -8683,8 +8958,8 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enrollmentPromptedAt: S.optional(S.String),
-          totp: S.optional(__S(769, __c48, 1)),
-          sms: S.optional(__S(769, __c48, 1)),
+          totp: S.optional(__S(865, __c54, 1)),
+          sms: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "MFAMethods" });
     case 3:
@@ -8695,20 +8970,20 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.String,
-          authenticationMethods: __S(768, __c48, 0),
-          mfaMethods: S.optional(__S(770, __c48, 2)),
+          authenticationMethods: __S(864, __c54, 0),
+          mfaMethods: S.optional(__S(866, __c54, 2)),
           evmAccounts: __S(48, __c3, 0),
-          evmAccountObjects: __S(771, __c48, 3),
+          evmAccountObjects: __S(867, __c54, 3),
           evmSmartAccounts: __S(48, __c3, 0),
-          evmSmartAccountObjects: __S(772, __c48, 4),
+          evmSmartAccountObjects: __S(868, __c54, 4),
           solanaAccounts: __S(48, __c3, 0),
-          solanaAccountObjects: __S(771, __c48, 3),
+          solanaAccountObjects: __S(867, __c54, 3),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "EndUser" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8719,7 +8994,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateEvmAccountRequest" });
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8733,7 +9008,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "EvmAccount" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8751,7 +9026,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationRequest" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8761,7 +9036,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationResponse" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8782,7 +9057,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationWithEndUserAccountRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8793,7 +9068,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateEvmSmartAccountRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8808,7 +9083,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "EvmSmartAccount" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8818,7 +9093,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateOnrampIosAttestationChallengeRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8829,7 +9104,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "IosAttestationChallenge" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8845,7 +9120,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "AddEndUserSolanaAccountResponse" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8868,7 +9143,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateOnrampMobileChallengeRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8887,19 +9162,19 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           challenge: S.String,
-          ios: S.optional(__S(960, __c60, 0)),
-          android: S.optional(__S(961, __c60, 1)),
+          ios: S.optional(__S(1056, __c66, 0)),
+          android: S.optional(__S(1057, __c66, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/onramp/mobile/sessions", code: 200 })),
       ).annotate({ identifier: "CreateOnrampMobileSessionRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          session: __S(976, __c61, 0),
+          session: __S(1072, __c67, 0),
         }),
       ).annotate({ identifier: "CreateOnrampMobileSessionResponse" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8909,7 +9184,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "OnrampSession" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8946,14 +9221,14 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          order: __S(1024, __c64, 0),
-          paymentLink: S.optional(__S(993, __c62, 1)),
+          order: __S(1120, __c70, 0),
+          paymentLink: S.optional(__S(1089, __c68, 1)),
           userAuthToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOnrampOrderResponse" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8964,10 +9239,10 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "OnrampOrderFee" });
     case 1:
-      return S.Array(__S(1008, __c63, 0));
+      return S.Array(__S(1104, __c69, 0));
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8979,7 +9254,7 @@ function __c64(j: number): any {
           paymentMethod: S.String,
           purchaseAmount: S.String,
           purchaseCurrency: S.String,
-          fees: __S(1009, __c63, 1),
+          fees: __S(1105, __c69, 1),
           exchangeRate: S.String,
           destinationAddress: S.String,
           destinationNetwork: S.String,
@@ -8993,7 +9268,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "OnrampOrder" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9021,26 +9296,26 @@ function __c65(j: number): any {
           purchaseAmount: S.String,
           purchaseCurrency: S.String,
           destinationNetwork: S.String,
-          fees: __S(1009, __c63, 1),
+          fees: __S(1105, __c69, 1),
           exchangeRate: S.String,
         }),
       ).annotate({ identifier: "OnrampQuote" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          session: __S(976, __c61, 0),
-          quote: S.optional(__S(1041, __c65, 1)),
+          session: __S(1072, __c67, 0),
+          quote: S.optional(__S(1137, __c71, 1)),
         }),
       ).annotate({ identifier: "CreateOnrampSessionResponse" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requesterIpAddress: S.optional(S.String),
-          buyer: S.optional(__S(689, __c43, 1)),
+          buyer: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "PaymentSessionCompliance" });
     case 1:
@@ -9049,30 +9324,30 @@ function __c66(j: number): any {
           amount: S.String,
           asset: S.String,
           target: S.Unknown,
-          expiries: S.optional(__S(2416, __c151, 0)),
-          redirect: S.optional(__S(2418, __c151, 2)),
+          expiries: S.optional(__S(2544, __c159, 0)),
+          redirect: S.optional(__S(2546, __c159, 2)),
           autoCapture: S.optional(S.Boolean),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2420, __c151, 4)),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          compliance: S.optional(__S(1056, __c66, 0)),
+          customerDisplay: S.optional(__S(2548, __c159, 4)),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          compliance: S.optional(__S(1152, __c72, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/payment-sessions", code: 200 })),
       ).annotate({ identifier: "CreatePaymentSessionRequest" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String,
           description: S.optional(S.String),
-          rules: __S(1088, __c68, 0),
+          rules: __S(1184, __c74, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/policy-engine/policies", code: 200 })),
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -9085,14 +9360,14 @@ function __c68(j: number): any {
           status: S.optional(S.String),
           pausedAt: S.optional(S.String),
           resumeAt: S.optional(S.String),
-          rules: __S(1088, __c68, 0),
+          rules: __S(1184, __c74, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9103,7 +9378,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateSolanaAccountRequest" });
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9129,34 +9404,34 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateSpendPermissionRequest" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          eventTypes: __S(1152, __c72, 0),
+          eventTypes: __S(1248, __c78, 0),
           isEnabled: S.Boolean,
-          target: __S(1168, __c73, 0),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          labels: S.optional(__S(1472, __c92, 0)),
+          target: __S(1264, __c79, 0),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          labels: S.optional(__S(1600, __c100, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/data/webhooks/subscriptions", code: 200 })),
       ).annotate({ identifier: "CreateWebhookSubscriptionRequest" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          headers: S.optional(__S(1472, __c92, 0)),
+          headers: S.optional(__S(1600, __c100, 0)),
         }),
       ).annotate({ identifier: "WebhookTarget" });
     case 1:
@@ -9174,18 +9449,18 @@ function __c73(j: number): any {
           createdAt: S.String,
           updatedAt: S.optional(S.String),
           description: S.optional(S.String),
-          eventTypes: __S(1152, __c72, 0),
+          eventTypes: __S(1248, __c78, 0),
           isEnabled: S.Boolean,
-          metadata: S.optional(__S(1169, __c73, 1)),
+          metadata: S.optional(__S(1265, __c79, 1)),
           secret: S.String.pipe(T.SensitiveValue({})),
           subscriptionId: S.String,
-          target: __S(1168, __c73, 0),
-          labels: S.optional(__S(1472, __c92, 0)),
+          target: __S(1264, __c79, 0),
+          labels: S.optional(__S(1600, __c100, 0)),
         }),
       ).annotate({ identifier: "WebhookSubscriptionResponse" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9197,13 +9472,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeletePolicyResponse" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9219,7 +9494,7 @@ function __c76(j: number): any {
           walletSecretId: S.String,
           useCdpPaymaster: S.Boolean,
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9230,7 +9505,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "AdjustBorrowPositionWithEndUserAccountRequest" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9242,7 +9517,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "EvmCall" });
     case 1:
-      return S.Array(__S(1232, __c77, 0));
+      return S.Array(__S(1328, __c83, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9253,7 +9528,7 @@ function __c77(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          revert: S.optional(__S(1234, __c77, 2)),
+          revert: S.optional(__S(1330, __c83, 2)),
           transactionHash: S.optional(S.String),
           blockHash: S.optional(S.String),
           blockNumber: S.optional(S.Number),
@@ -9261,28 +9536,28 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "UserOperationReceipt" });
     case 4:
-      return S.Array(__S(1235, __c77, 3));
+      return S.Array(__S(1331, __c83, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           network: S.String,
           userOpHash: S.String,
-          calls: __S(1233, __c77, 1),
+          calls: __S(1329, __c83, 1),
           status: S.String,
           transactionHash: S.optional(S.String),
-          receipts: S.optional(__S(1236, __c77, 4)),
+          receipts: S.optional(__S(1332, __c83, 4)),
           expiresAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "EvmUserOperation" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9298,7 +9573,65 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteWebhookSubscriptionRequest" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          amount: S.String,
+          receiver: S.optional(S.String),
+          maxSlippageBps: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/evm/accounts/{address}/lend/deposit", code: 200 }),
+        ),
+      ).annotate({ identifier: "DepositToVaultWithEvmAccountRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionHash: S.String,
+        }),
+      ).annotate({ identifier: "EoaVaultDepositResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          amount: S.String,
+          receiver: S.optional(S.String),
+          useCdpPaymaster: S.optional(S.Boolean),
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/evm/smart-accounts/{address}/lend/deposit",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DepositToVaultWithEvmSmartAccountRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userOpHash: S.String,
+        }),
+      ).annotate({ identifier: "SmartAccountVaultDepositResponse" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9309,7 +9642,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountRequest" });
   }
 }
-function __c81(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9319,7 +9652,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountResponse" });
   }
 }
-function __c82(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9332,7 +9665,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountByNameRequest" });
   }
 }
-function __c83(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9343,7 +9676,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "ExportSolanaAccountRequest" });
   }
 }
-function __c84(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9356,7 +9689,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ExportSolanaAccountByNameRequest" });
   }
 }
-function __c85(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9373,7 +9706,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetDelegationForEndUserRequest" });
   }
 }
-function __c86(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9391,7 +9724,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetDelegationForEndUserAccountRequest" });
   }
 }
-function __c87(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9401,34 +9734,14 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetDisbursementRequest" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/end-users/{userId}", code: 200 })),
-      ).annotate({ identifier: "GetEndUserRequest" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/evm/accounts/{address}", code: 200 })),
-      ).annotate({ identifier: "GetEvmAccountRequest" });
-  }
-}
-function __c90(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentSessionId: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
           externalReferenceId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -9440,7 +9753,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "AuthorizeCoinbasePaymentSessionRequest" });
   }
 }
-function __c91(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9449,26 +9762,26 @@ function __c91(j: number): any {
           paymentSessionId: S.optional(S.String),
           status: S.optional(S.String),
           amount: S.optional(S.String),
-          error: S.optional(__S(1488, __c93, 0)),
+          error: S.optional(__S(1616, __c101, 0)),
           message: S.optional(S.String),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
           source: S.optional(S.Unknown),
-          onchainTransactions: S.optional(__S(1490, __c93, 2)),
+          onchainTransactions: S.optional(__S(1618, __c101, 2)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Authorization" });
   }
 }
-function __c92(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c93(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9486,10 +9799,10 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "OnchainTransaction" });
     case 2:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1617, __c101, 1));
   }
 }
-function __c94(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9499,7 +9812,27 @@ function __c94(j: number): any {
       ).annotate({ identifier: "OperationCustomerDisplay" });
   }
 }
-function __c95(j: number): any {
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/end-users/{userId}", code: 200 })),
+      ).annotate({ identifier: "GetEndUserRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/evm/accounts/{address}", code: 200 })),
+      ).annotate({ identifier: "GetEvmAccountRequest" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9509,7 +9842,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetEvmAccountByNameRequest" });
   }
 }
-function __c96(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9526,7 +9859,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetEvmBorrowProductRequest" });
   }
 }
-function __c97(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9547,7 +9880,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "BorrowProductSnapshot" });
   }
 }
-function __c98(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9565,23 +9898,23 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "BorrowProductAssetCapability" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1729, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           assetId: S.String,
-          token: __S(1552, __c97, 0),
-          capabilities: __S(1570, __c98, 2),
+          token: __S(1712, __c107, 0),
+          capabilities: __S(1730, __c108, 2),
         }),
       ).annotate({ identifier: "BorrowProductAsset" });
     case 4:
-      return S.Array(__S(1571, __c98, 3));
+      return S.Array(__S(1731, __c108, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           onchainMarketId: S.String,
-          loanToken: __S(1552, __c97, 0),
-          collateralToken: __S(1552, __c97, 0),
+          loanToken: __S(1712, __c107, 0),
+          collateralToken: __S(1712, __c107, 0),
           oracleAddress: S.String,
           interestRateModelAddress: S.String,
           lltvBps: S.Number,
@@ -9591,7 +9924,7 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          marketParams: __S(1573, __c98, 5),
+          marketParams: __S(1733, __c108, 5),
         }),
       ).annotate({ identifier: "MorphoBlueProtocolDetails" });
     case 7:
@@ -9600,15 +9933,15 @@ function __c98(j: number): any {
           borrowProductId: S.String,
           network: S.String,
           name: S.String,
-          venue: __S(1568, __c98, 0),
-          assets: __S(1572, __c98, 4),
-          snapshot: __S(1553, __c97, 1),
-          protocolDetails: __S(1574, __c98, 6),
+          venue: __S(1728, __c108, 0),
+          assets: __S(1732, __c108, 4),
+          snapshot: __S(1713, __c107, 1),
+          protocolDetails: __S(1734, __c108, 6),
         }),
       ).annotate({ identifier: "BorrowProduct" });
   }
 }
-function __c99(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9634,7 +9967,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "EvmEip7702DelegationOperation" });
   }
 }
-function __c100(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9644,7 +9977,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "GetEvmSmartAccountRequest" });
   }
 }
-function __c101(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9654,7 +9987,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetEvmSmartAccountByNameRequest" });
   }
 }
-function __c102(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9665,12 +9998,12 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          order: __S(1024, __c64, 0),
+          order: __S(1120, __c70, 0),
         }),
       ).annotate({ identifier: "GetOnrampOrderResponse" });
   }
 }
-function __c103(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9690,7 +10023,7 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "OnrampUserLimit" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1809, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9699,27 +10032,27 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "OnrampLimitUpgrade" });
     case 4:
-      return S.Array(__S(1651, __c103, 3));
+      return S.Array(__S(1811, __c113, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          fields: __S(1152, __c72, 0),
-          limitUpgrades: __S(1652, __c103, 4),
+          fields: __S(1248, __c78, 0),
+          limitUpgrades: __S(1812, __c113, 4),
         }),
       ).annotate({ identifier: "OnrampLimitUpgradeOption" });
     case 6:
-      return S.Array(__S(1653, __c103, 5));
+      return S.Array(__S(1813, __c113, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          limits: __S(1650, __c103, 2),
-          limitUpgradeOptions: S.optional(__S(1654, __c103, 6)),
+          limits: __S(1810, __c113, 2),
+          limitUpgradeOptions: S.optional(__S(1814, __c113, 6)),
         }),
       ).annotate({ identifier: "GetOnrampUserLimitsResponse" });
   }
 }
-function __c104(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9731,7 +10064,27 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionRequest" });
   }
 }
-function __c105(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          mandateId: S.String,
+          metadata: S.optional(__S(1600, __c100, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+          externalReferenceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/mandate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AuthorizeMandatePaymentSessionRequest" });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9748,7 +10101,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionAuthorizationRequest" });
   }
 }
-function __c106(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9765,27 +10118,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionCaptureRequest" });
   }
 }
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          mandateId: S.String,
-          metadata: S.optional(__S(1472, __c92, 0)),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-          externalReferenceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/mandate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AuthorizeMandatePaymentSessionRequest" });
-  }
-}
-function __c108(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9802,7 +10135,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionRefundRequest" });
   }
 }
-function __c109(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9819,7 +10152,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionVoidRequest" });
   }
 }
-function __c110(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9829,7 +10162,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetPolicyByIdRequest" });
   }
 }
-function __c111(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9839,7 +10172,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetSolanaAccountRequest" });
   }
 }
-function __c112(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9849,7 +10182,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetSolanaAccountByNameRequest" });
   }
 }
-function __c113(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9861,7 +10194,7 @@ function __c113(j: number): any {
       });
   }
 }
-function __c114(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9881,26 +10214,26 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "OnchainDataColumnSchema" });
     case 2:
-      return S.Array(__S(1825, __c114, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           database: S.optional(S.String),
           table: S.optional(S.String),
-          columns: S.optional(__S(1826, __c114, 2)),
+          columns: S.optional(__S(1986, __c124, 2)),
         }),
       ).annotate({ identifier: "OnchainDataTableSchema" });
     case 4:
-      return S.Array(__S(1827, __c114, 3));
+      return S.Array(__S(1987, __c124, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(1828, __c114, 4)),
+          tables: S.optional(__S(1988, __c124, 4)),
         }),
       ).annotate({ identifier: "OnchainDataSchemaResponse" });
   }
 }
-function __c115(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9917,7 +10250,37 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetUserOperationRequest" });
   }
 }
-function __c116(j: number): any {
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          payloadId: S.optional(S.String),
+          signature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OnchainSignedPayload" });
+    case 1:
+      return S.Array(__S(2016, __c126, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          optionId: S.String,
+          signedPayloads: __S(2017, __c126, 1),
+          metadata: S.optional(__S(1600, __c100, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+          externalReferenceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/wallet",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AuthorizeWalletPaymentSessionRequest" });
+  }
+}
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9936,7 +10299,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetUserOperationWithEndUserAccountRequest" });
   }
 }
-function __c117(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9946,7 +10309,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetVaultRequest" });
   }
 }
-function __c118(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9969,42 +10332,12 @@ function __c118(j: number): any {
           status: S.String,
           createdAt: S.String,
           underlyingAsset: S.String,
-          metrics: S.optional(__S(1888, __c118, 0)),
+          metrics: S.optional(__S(2064, __c129, 0)),
         }),
       ).annotate({ identifier: "Vault" });
   }
 }
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          payloadId: S.optional(S.String),
-          signature: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OnchainSignedPayload" });
-    case 1:
-      return S.Array(__S(1904, __c119, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          optionId: S.String,
-          signedPayloads: __S(1905, __c119, 1),
-          metadata: S.optional(__S(1472, __c92, 0)),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-          externalReferenceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/wallet",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AuthorizeWalletPaymentSessionRequest" });
-  }
-}
-function __c120(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10035,15 +10368,15 @@ function __c120(j: number): any {
       return S.suspend(() =>
         S.Struct({
           optionId: S.String,
-          source: __S(1920, __c120, 0),
+          source: __S(2080, __c130, 0),
           amount: S.String,
           asset: S.String,
           network: S.String,
-          payloads: __S(1922, __c120, 2),
+          payloads: __S(2082, __c130, 2),
         }),
       ).annotate({ identifier: "WalletAuthorizationOption" });
     case 4:
-      return S.Array(__S(1923, __c120, 3));
+      return S.Array(__S(2083, __c130, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10054,28 +10387,28 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "WalletAuthorizationFundsRequirement" });
     case 6:
-      return S.Array(__S(1925, __c120, 5));
+      return S.Array(__S(2085, __c130, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           address: S.String,
           code: S.String,
           message: S.String,
-          fundsRequired: S.optional(__S(1926, __c120, 6)),
+          fundsRequired: S.optional(__S(2086, __c130, 6)),
         }),
       ).annotate({ identifier: "IneligibleWalletAuthorizationAddress" });
     case 8:
-      return S.Array(__S(1927, __c120, 7));
+      return S.Array(__S(2087, __c130, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          options: __S(1924, __c120, 4),
-          ineligibleAddresses: __S(1928, __c120, 8),
+          options: __S(2084, __c130, 4),
+          ineligibleAddresses: __S(2088, __c130, 8),
         }),
       ).annotate({ identifier: "WalletAuthorizationOptionsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10091,20 +10424,20 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetWebhookSubscriptionRequest" });
   }
 }
-function __c122(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String,
-          authenticationMethods: __S(768, __c48, 0),
+          authenticationMethods: __S(864, __c54, 0),
           encryptedPrivateKey: S.String.pipe(T.SensitiveValue({})),
           keyType: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/end-users/import", code: 200 })),
       ).annotate({ identifier: "ImportEndUserRequest" });
   }
 }
-function __c123(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10116,7 +10449,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ImportEvmAccountRequest" });
   }
 }
-function __c124(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10127,7 +10460,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ImportSolanaAccountRequest" });
   }
 }
-function __c125(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10145,7 +10478,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "OnrampVerificationInitiation" });
   }
 }
-function __c126(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10167,29 +10500,29 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           assetId: S.String,
-          token: __S(1552, __c97, 0),
+          token: __S(1712, __c107, 0),
           amount: S.String,
         }),
       ).annotate({ identifier: "BorrowPositionAssetAmount" });
     case 2:
-      return S.Array(__S(2017, __c126, 1));
+      return S.Array(__S(2177, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           assetId: S.String,
-          token: __S(1552, __c97, 0),
+          token: __S(1712, __c107, 0),
           amount: S.String,
           borrowApyBps: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BorrowPositionDebt" });
     case 4:
-      return S.Array(__S(2019, __c126, 3));
+      return S.Array(__S(2179, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          collateral: __S(2018, __c126, 2),
-          debt: __S(2020, __c126, 4),
+          collateral: __S(2178, __c136, 2),
+          debt: __S(2180, __c136, 4),
           healthFactor: S.optional(S.String),
           currentLtvBps: S.optional(S.Number),
           liquidationThresholdBps: S.optional(S.Number),
@@ -10202,22 +10535,22 @@ function __c126(j: number): any {
           borrowProductId: S.String,
           address: S.String,
           network: S.String,
-          snapshot: __S(1553, __c97, 1),
-          onchainState: __S(2021, __c126, 5),
+          snapshot: __S(1713, __c107, 1),
+          onchainState: __S(2181, __c136, 5),
         }),
       ).annotate({ identifier: "BorrowPosition" });
     case 7:
-      return S.Array(__S(2022, __c126, 6));
+      return S.Array(__S(2182, __c136, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          borrowPositions: __S(2023, __c126, 7),
+          borrowPositions: __S(2183, __c136, 7),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBorrowPositionsWithEndUserAccountResponse" });
   }
 }
-function __c127(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10236,7 +10569,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListDataTokenBalancesRequest" });
   }
 }
-function __c128(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10250,22 +10583,22 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(2064, __c129, 0),
-          token: __S(2048, __c128, 0),
+          amount: __S(2224, __c139, 0),
+          token: __S(2208, __c138, 0),
         }),
       ).annotate({ identifier: "TokenBalance" });
     case 2:
-      return S.Array(__S(2049, __c128, 1));
+      return S.Array(__S(2209, __c138, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(2050, __c128, 2),
+          balances: __S(2210, __c138, 2),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataTokenBalancesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10276,55 +10609,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "TokenAmount" });
   }
 }
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          sourceAccountId: S.optional(S.String.pipe(T.Query())),
-          externalReferenceId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/disbursements", code: 200 })),
-      ).annotate({ identifier: "ListDisbursementsRequest" });
-    case 1:
-      return S.Array(__S(706, __c44, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          disbursements: __S(2081, __c130, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListDisbursementsResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(__S(1152, __c72, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/end-users", code: 200 })),
-      ).annotate({ identifier: "ListEndUsersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          endUsers: __S(2112, __c132, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListEndUsersResponse" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(773, __c48, 5));
-  }
-}
-function __c133(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10340,7 +10625,55 @@ function __c133(j: number): any {
       ).annotate({ identifier: "AuthorizeX402PaymentSessionRequest" });
   }
 }
-function __c134(j: number): any {
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          sourceAccountId: S.optional(S.String.pipe(T.Query())),
+          externalReferenceId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/disbursements", code: 200 })),
+      ).annotate({ identifier: "ListDisbursementsRequest" });
+    case 1:
+      return S.Array(__S(722, __c45, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          disbursements: __S(2257, __c141, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListDisbursementsResponse" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(__S(1248, __c78, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/end-users", code: 200 })),
+      ).annotate({ identifier: "ListEndUsersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endUsers: __S(2288, __c143, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListEndUsersResponse" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(869, __c54, 5));
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10351,20 +10684,20 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListEvmAccountsRequest" });
   }
 }
-function __c135(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(896, __c56, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(2160, __c135, 0),
+          accounts: __S(2320, __c145, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEvmAccountsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10379,17 +10712,17 @@ function __c136(j: number): any {
         ),
       ).annotate({ identifier: "ListEvmBorrowProductsRequest" });
     case 1:
-      return S.Array(__S(1575, __c98, 7));
+      return S.Array(__S(1735, __c108, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          borrowProducts: __S(2177, __c136, 1),
+          borrowProducts: __S(2337, __c146, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEvmBorrowProductsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10399,17 +10732,17 @@ function __c137(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/evm/smart-accounts", code: 200 })),
       ).annotate({ identifier: "ListEvmSmartAccountsRequest" });
     case 1:
-      return S.Array(__S(880, __c55, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(2193, __c137, 1),
+          accounts: __S(2353, __c147, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEvmSmartAccountsResponse" });
   }
 }
-function __c138(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10424,7 +10757,39 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ListEvmTokenBalancesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Query()),
+          vaultIds: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/lend/positions", code: 200 })),
+      ).annotate({ identifier: "ListLendPositionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vaultId: S.String,
+          network: S.String,
+          underlyingAsset: S.String,
+          vaultShares: S.String,
+          assetBalance: S.String,
+        }),
+      ).annotate({ identifier: "LendPosition" });
+    case 2:
+      return S.Array(__S(2385, __c149, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          lendPositions: __S(2386, __c149, 2),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLendPositionsResponse" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10443,13 +10808,13 @@ function __c139(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authorizations: __S(2368, __c148, 0),
+          authorizations: __S(2496, __c156, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPaymentSessionAuthorizationsResponse" });
   }
 }
-function __c140(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10468,13 +10833,13 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          captures: __S(2384, __c149, 0),
+          captures: __S(2512, __c157, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPaymentSessionCapturesResponse" });
   }
 }
-function __c141(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10493,79 +10858,13 @@ function __c141(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          refunds: __S(2400, __c150, 0),
+          refunds: __S(2528, __c158, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPaymentSessionRefundsResponse" });
   }
 }
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-sessions", code: 200 })),
-      ).annotate({ identifier: "ListPaymentSessionsRequest" });
-    case 1:
-      return S.Array(__S(2421, __c151, 5));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessions: __S(2273, __c142, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionsResponse" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/payment-sessions/{paymentSessionId}/voids",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPaymentSessionVoidsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          voids: __S(2432, __c152, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionVoidsResponse" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          scope: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/policy-engine/policies", code: 200 })),
-      ).annotate({ identifier: "ListPoliciesRequest" });
-    case 1:
-      return S.Array(__S(1089, __c68, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          policies: __S(2305, __c144, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPoliciesResponse" });
-  }
-}
-function __c145(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10582,7 +10881,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CancelPaymentSessionRequest" });
   }
 }
-function __c146(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10593,18 +10892,18 @@ function __c146(j: number): any {
           status: S.optional(S.String),
           amount: S.optional(S.String),
           reason: S.optional(S.String),
-          error: S.optional(__S(1488, __c93, 0)),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          error: S.optional(__S(1616, __c101, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-          onchainTransactions: S.optional(__S(1490, __c93, 2)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+          onchainTransactions: S.optional(__S(1618, __c101, 2)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Refund" });
   }
 }
-function __c147(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10613,36 +10912,36 @@ function __c147(j: number): any {
           paymentSessionId: S.optional(S.String),
           status: S.optional(S.String),
           amount: S.optional(S.String),
-          error: S.optional(__S(1488, __c93, 0)),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          error: S.optional(__S(1616, __c101, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-          onchainTransactions: S.optional(__S(1490, __c93, 2)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+          onchainTransactions: S.optional(__S(1618, __c101, 2)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Void" });
   }
 }
-function __c148(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1456, __c91, 0));
+      return S.Array(__S(1584, __c99, 0));
   }
 }
-function __c149(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2448, __c153, 0));
+      return S.Array(__S(2576, __c161, 0));
   }
 }
-function __c150(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2336, __c146, 0));
+      return S.Array(__S(2464, __c154, 0));
   }
 }
-function __c151(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10679,7 +10978,7 @@ function __c151(j: number): any {
       return S.suspend(() =>
         S.Struct({
           merchantName: S.optional(S.String),
-          displayAmount: S.optional(__S(2419, __c151, 3)),
+          displayAmount: S.optional(__S(2547, __c159, 3)),
           orderCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerDisplay" });
@@ -10692,19 +10991,19 @@ function __c151(j: number): any {
           asset: S.optional(S.String),
           target: S.optional(S.Unknown),
           autoCapture: S.optional(S.Boolean),
-          expiries: S.optional(__S(2416, __c151, 0)),
+          expiries: S.optional(__S(2544, __c159, 0)),
           source: S.optional(S.Unknown),
           status: S.optional(S.String),
-          balances: S.optional(__S(2417, __c151, 1)),
-          authorizations: S.optional(__S(2368, __c148, 0)),
-          captures: S.optional(__S(2384, __c149, 0)),
-          voids: S.optional(__S(2432, __c152, 0)),
-          refunds: S.optional(__S(2400, __c150, 0)),
+          balances: S.optional(__S(2545, __c159, 1)),
+          authorizations: S.optional(__S(2496, __c156, 0)),
+          captures: S.optional(__S(2512, __c157, 0)),
+          voids: S.optional(__S(2560, __c160, 0)),
+          refunds: S.optional(__S(2528, __c158, 0)),
           url: S.optional(S.String),
           x402Url: S.optional(S.String),
-          redirect: S.optional(__S(2418, __c151, 2)),
-          customerDisplay: S.optional(__S(2420, __c151, 4)),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          redirect: S.optional(__S(2546, __c159, 2)),
+          customerDisplay: S.optional(__S(2548, __c159, 4)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
           cancellationReason: S.optional(S.String),
           createdAt: S.optional(S.String),
@@ -10713,13 +11012,13 @@ function __c151(j: number): any {
       ).annotate({ identifier: "PaymentSession" });
   }
 }
-function __c152(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2352, __c147, 0));
+      return S.Array(__S(2480, __c155, 0));
   }
 }
-function __c153(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10729,18 +11028,84 @@ function __c153(j: number): any {
           status: S.optional(S.String),
           amount: S.optional(S.String),
           finalCapture: S.Boolean,
-          error: S.optional(__S(1488, __c93, 0)),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          error: S.optional(__S(1616, __c101, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-          onchainTransactions: S.optional(__S(1490, __c93, 2)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+          onchainTransactions: S.optional(__S(1618, __c101, 2)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Capture" });
   }
 }
-function __c154(j: number): any {
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-sessions", code: 200 })),
+      ).annotate({ identifier: "ListPaymentSessionsRequest" });
+    case 1:
+      return S.Array(__S(2549, __c159, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessions: __S(2593, __c162, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionsResponse" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/payment-sessions/{paymentSessionId}/voids",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPaymentSessionVoidsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          voids: __S(2560, __c160, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionVoidsResponse" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/policy-engine/policies", code: 200 })),
+      ).annotate({ identifier: "ListPoliciesRequest" });
+    case 1:
+      return S.Array(__S(1185, __c74, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          policies: __S(2625, __c164, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPoliciesResponse" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10751,7 +11116,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ListSolanaAccountsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10779,22 +11144,22 @@ function __c155(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(2064, __c129, 0),
-          token: __S(2481, __c155, 1),
+          amount: __S(2224, __c139, 0),
+          token: __S(2657, __c166, 1),
         }),
       ).annotate({ identifier: "SolanaTokenBalance" });
     case 3:
-      return S.Array(__S(2482, __c155, 2));
+      return S.Array(__S(2658, __c166, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(2483, __c155, 3),
+          balances: __S(2659, __c166, 3),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSolanaTokenBalancesResponse" });
   }
 }
-function __c156(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10827,7 +11192,7 @@ function __c156(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          permission: __S(2497, __c156, 1),
+          permission: __S(2673, __c167, 1),
           permissionHash: S.String,
           revoked: S.Boolean,
           revokedAt: S.optional(S.String),
@@ -10836,17 +11201,17 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "SpendPermissionResponseObject" });
     case 3:
-      return S.Array(__S(2498, __c156, 2));
+      return S.Array(__S(2674, __c167, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          spendPermissions: __S(2499, __c156, 3),
+          spendPermissions: __S(2675, __c167, 3),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSpendPermissionsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10871,7 +11236,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "AccountTokenAddressesResponse" });
   }
 }
-function __c158(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10881,17 +11246,17 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/lend/vaults", code: 200 })),
       ).annotate({ identifier: "ListVaultsRequest" });
     case 1:
-      return S.Array(__S(1889, __c118, 1));
+      return S.Array(__S(2065, __c129, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vaults: __S(2529, __c158, 1),
+          vaults: __S(2705, __c169, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVaultsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10927,20 +11292,20 @@ function __c159(j: number): any {
           createdAt: S.String,
           succeededAt: S.optional(S.String),
           retryCount: S.Number,
-          response: S.optional(__S(2545, __c159, 1)),
+          response: S.optional(__S(2721, __c170, 1)),
         }),
       ).annotate({ identifier: "WebhookEventResponse" });
     case 3:
-      return S.Array(__S(2546, __c159, 2));
+      return S.Array(__S(2722, __c170, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          events: __S(2547, __c159, 3),
+          events: __S(2723, __c170, 3),
         }),
       ).annotate({ identifier: "WebhookEventListResponse" });
   }
 }
-function __c160(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10950,17 +11315,38 @@ function __c160(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/data/webhooks/subscriptions", code: 200 })),
       ).annotate({ identifier: "ListWebhookSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1170, __c73, 2));
+      return S.Array(__S(1266, __c79, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscriptions: __S(2561, __c160, 1),
+          subscriptions: __S(2737, __c171, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWebhookSubscriptionsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          amount: S.optional(S.String),
+          finalCapture: S.Boolean,
+          metadata: S.optional(__S(1600, __c100, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CapturePaymentSessionRequest" });
+  }
+}
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10975,12 +11361,12 @@ function __c161(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endUsers: __S(2112, __c132, 0),
+          endUsers: __S(2288, __c143, 0),
         }),
       ).annotate({ identifier: "LookupEndUserResponse" });
   }
 }
-function __c162(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10993,16 +11379,16 @@ function __c162(j: number): any {
       ).annotate({ identifier: "PausePolicyRequest" });
   }
 }
-function __c163(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
           network: S.String,
-          calls: __S(1233, __c77, 1),
+          calls: __S(1329, __c83, 1),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11013,37 +11399,16 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PrepareAndSendUserOperationRequest" });
   }
 }
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          amount: S.optional(S.String),
-          finalCapture: S.Boolean,
-          metadata: S.optional(__S(1472, __c92, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CapturePaymentSessionRequest" });
-  }
-}
-function __c165(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
           network: S.String,
-          calls: __S(1233, __c77, 1),
+          calls: __S(1329, __c83, 1),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
           dataSuffix: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11055,7 +11420,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PrepareUserOperationRequest" });
   }
 }
-function __c166(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11069,17 +11434,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "RedeemVaultFeesWithEvmAccountRequest" });
   }
 }
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionHash: S.String,
-        }),
-      ).annotate({ identifier: "EoaVaultRedeemFeesResponse" });
-  }
-}
-function __c168(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11089,7 +11444,7 @@ function __c168(j: number): any {
           maxSlippageBps: S.optional(S.Number),
           useCdpPaymaster: S.optional(S.Boolean),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1248, __c78, 0)),
+          paymasterContext: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11098,15 +11453,9 @@ function __c168(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RedeemVaultFeesWithEvmSmartAccountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userOpHash: S.String,
-        }),
-      ).annotate({ identifier: "SmartAccountVaultRedeemFeesResponse" });
   }
 }
-function __c169(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11115,9 +11464,9 @@ function __c169(j: number): any {
           source: S.Unknown,
           amount: S.optional(S.String),
           reason: S.optional(S.String),
-          metadata: S.optional(__S(1472, __c92, 0)),
+          metadata: S.optional(__S(1600, __c100, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(1504, __c94, 0)),
+          customerDisplay: S.optional(__S(1632, __c102, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11128,7 +11477,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "RefundPaymentSessionRequest" });
   }
 }
-function __c170(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11142,7 +11491,7 @@ function __c170(j: number): any {
       return S.suspend(() =>
         S.Struct({
           challenge: S.String,
-          ios: __S(2720, __c170, 0),
+          ios: __S(2880, __c180, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/onramp/mobile/attestation/registrations", code: 200 }),
         ),
@@ -11158,7 +11507,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "IosAttestationRegistrationResponse" });
   }
 }
-function __c171(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11170,7 +11519,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "RequestEvmFaucetRequest" });
   }
 }
-function __c172(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11184,7 +11533,7 @@ function __c172(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ssnLast4: S.optional(S.String),
-          dateOfBirth: S.optional(__S(2752, __c172, 0)),
+          dateOfBirth: S.optional(__S(2912, __c182, 0)),
         }),
       ).annotate({ identifier: "OnrampLimitUpgradeIdentityFields" });
     case 2:
@@ -11193,7 +11542,7 @@ function __c172(j: number): any {
           userId: S.String,
           userIdType: S.String,
           interactionMode: S.optional(S.String),
-          fields: S.optional(__S(2753, __c172, 1)),
+          fields: S.optional(__S(2913, __c182, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/onramp/limits/upgrade", code: 200 })),
       ).annotate({ identifier: "RequestLimitsUpgradeRequest" });
     case 3:
@@ -11203,61 +11552,6 @@ function __c172(j: number): any {
           expiresAt: S.String,
         }),
       ).annotate({ identifier: "OnrampLimitUpgradeEmbeddedResponse" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String,
-          token: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/solana/faucet", code: 200 })),
-      ).annotate({ identifier: "RequestSolanaFaucetRequest" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionSignature: S.String,
-        }),
-      ).annotate({ identifier: "RequestSolanaFaucetResponse" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policyId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/policy-engine/policies/{policyId}/resume",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ResumePolicyRequest" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          walletSecretId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/delegation/revoke",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeDelegationForEndUserRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

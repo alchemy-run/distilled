@@ -70,7 +70,7 @@ export interface ConversationsQueueDestroyRequest {
 }
 export interface ConversationsQueueDestroyResponse {}
 export type CreateConversationRequestContextualToolsMap = { [key: string]: unknown | undefined };
-/** * `product_analytics` - product_analytics * `sql` - sql * `session_replay` - session_replay * `error_tracking` - error_tracking * `plan` - plan * `execution` - execution * `survey` - survey * `research` - research * `flags` - flags * `llm_analytics` - llm_analytics * `sandbox` - sandbox * `user_interview` - user_interview * `customer_analytics` - customer_analytics */
+/** * `product_analytics` - product_analytics * `sql` - sql * `session_replay` - session_replay * `error_tracking` - error_tracking * `plan` - plan * `execution` - execution * `survey` - survey * `research` - research * `flags` - flags * `llm_analytics` - llm_analytics * `sandbox` - sandbox * `customer_analytics` - customer_analytics */
 export type AgentModeEnum =
   | "product_analytics"
   | "sql"
@@ -83,7 +83,6 @@ export type AgentModeEnum =
   | "flags"
   | "llm_analytics"
   | "sandbox"
-  | "user_interview"
   | "customer_analytics";
 export interface CreateConversationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

@@ -90,6 +90,8 @@ export interface CreateLlmSkillRequest {
   owners?: CreateLlmSkillRequestOwnersList | undefined;
   /** Bundled files to include with the initial version (scripts, references, assets). */
   files?: CreateLlmSkillRequestFilesList | undefined;
+  /** Optional note on where this skill came from, such as written from scratch or ported from another skill. Stored on version 1 and shown in the version history. */
+  version_description?: string | undefined;
 }
 /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
 export type LLMSkillAllowedToolsList = Array<string>;
@@ -587,7 +589,7 @@ export interface LlmSkillsNameRenameCreateRequest {
 export interface LlmSkillsSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Case-insensitive substring to search across ordinary skill names, descriptions, bodies, file paths, and Markdown file contents. */
+  /** Case-insensitive text to search for in ordinary skills. Names, descriptions, and file paths match any substring. Bodies and Markdown file contents match whole words and word prefixes. */
   query: string;
 }
 /** * `name` - name * `description` - description * `body` - body * `file_path` - file_path * `file_content` - file_content */
@@ -1342,6 +1344,7 @@ function __c12(j: number): any {
           metadata: S.optional(__S(120, __c15, 0)),
           owners: S.optional(__S(112, __c14, 0)),
           files: S.optional(__S(104, __c13, 0)),
+          version_description: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/llm_skills/", code: 200 }),
         ),

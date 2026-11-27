@@ -133,6 +133,8 @@ export interface ListScheduledChangesRequest {
   offset?: number | undefined;
   /** Filter by the ID of a specific feature flag. */
   record_id?: string | undefined;
+  /** Comma-separated feature flag IDs. Returns the schedules of any of them, at most 200 IDs. */
+  record_ids?: string | undefined;
 }
 export type PaginatedScheduledChangeListResultsList = Array<ScheduledChange>;
 export interface PaginatedScheduledChangeList {
@@ -400,6 +402,7 @@ function __c3(j: number): any {
           model_name: S.optional(S.String.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           record_id: S.optional(S.String.pipe(T.Query())),
+          record_ids: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

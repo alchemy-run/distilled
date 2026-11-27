@@ -93,10 +93,25 @@ export interface DeleteServerRequest {
   serverId: string;
 }
 export type DeleteServerResponse = unknown;
+export type GenerateServerConnectCommandRequestServerType = "deploy" | "build";
+export interface GenerateServerConnectCommandRequest {
+  name: string;
+  description?: string | undefined;
+  serverType?: GenerateServerConnectCommandRequestServerType | (string & {}) | undefined;
+  enableDockerCleanup?: boolean | undefined;
+  onboarding?: boolean | undefined;
+}
+export type GenerateServerConnectCommandResponse = unknown;
 export interface GetServerRequest {
   serverId: string;
 }
 export type GetServerResponse = unknown;
+export interface GetServerConnectFailureRequest {}
+export type GetServerConnectFailureResponse = unknown;
+export interface GetServerConnectStatusRequest {
+  sshKeyId: string;
+}
+export type GetServerConnectStatusResponse = unknown;
 export interface GetServerDefaultCommandRequest {
   serverId: string;
 }
@@ -129,6 +144,10 @@ export interface SetupServerRequest {
   serverId: string;
 }
 export type SetupServerResponse = unknown;
+export interface SetupServerLogRequest {
+  serverId: string;
+}
+export type SetupServerLogResponse = unknown;
 export interface SetupServerMonitoringRequestMetricsConfigServerThresholds {
   cpu: number;
   memory: number;
@@ -229,8 +248,8 @@ export const buildServers: API.OperationMethod<
   BuildServersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<BuildServersRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<BuildServersResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<BuildServersRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<BuildServersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -246,8 +265,8 @@ export const countServers: API.OperationMethod<
   CountServersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CountServersRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CountServersResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<CountServersRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<CountServersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -263,8 +282,8 @@ export const createServer: API.OperationMethod<
   CreateServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<CreateServerResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<CreateServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -280,14 +299,31 @@ export const deleteServer: API.OperationMethod<
   DeleteServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteServerResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<DeleteServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServer",
+}));
+
+export type GenerateServerConnectCommandError = BadRequest | Forbidden | DokployOpError;
+export const generateServerConnectCommand: API.OperationMethod<
+  GenerateServerConnectCommandRequest,
+  GenerateServerConnectCommandResponse,
+  GenerateServerConnectCommandError,
+  DokployOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<GenerateServerConnectCommandRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GenerateServerConnectCommandResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
+  protocol: DokployProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateServerConnectCommand",
 }));
 
 export type GetServerError = BadRequest | Forbidden | NotFound | DokployOpError;
@@ -297,14 +333,48 @@ export const getServer: API.OperationMethod<
   GetServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServer",
+}));
+
+export type GetServerConnectFailureError = BadRequest | Forbidden | NotFound | DokployOpError;
+export const getServerConnectFailure: API.OperationMethod<
+  GetServerConnectFailureRequest,
+  GetServerConnectFailureResponse,
+  GetServerConnectFailureError,
+  DokployOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c24, 0) as any as S.Schema<GetServerConnectFailureRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerConnectFailureResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
+  protocol: DokployProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerConnectFailure",
+}));
+
+export type GetServerConnectStatusError = BadRequest | Forbidden | NotFound | DokployOpError;
+export const getServerConnectStatus: API.OperationMethod<
+  GetServerConnectStatusRequest,
+  GetServerConnectStatusResponse,
+  GetServerConnectStatusError,
+  DokployOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<GetServerConnectStatusRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerConnectStatusResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
+  protocol: DokployProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerConnectStatus",
 }));
 
 export type GetServerDefaultCommandError = BadRequest | Forbidden | NotFound | DokployOpError;
@@ -314,8 +384,8 @@ export const getServerDefaultCommand: API.OperationMethod<
   GetServerDefaultCommandError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetServerDefaultCommandRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerDefaultCommandResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetServerDefaultCommandRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerDefaultCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -331,8 +401,8 @@ export const getServerMetrics: API.OperationMethod<
   GetServerMetricsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetServerMetricsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerMetricsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetServerMetricsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -348,8 +418,8 @@ export const getServerPublicIp: API.OperationMethod<
   GetServerPublicIpError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetServerPublicIpRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerPublicIpResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetServerPublicIpRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerPublicIpResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -365,8 +435,8 @@ export const getServerSecurity: API.OperationMethod<
   GetServerSecurityError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetServerSecurityRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerSecurityResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetServerSecurityRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerSecurityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -382,8 +452,8 @@ export const getServerServices: API.OperationMethod<
   GetServerServicesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetServerServicesRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerServicesResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetServerServicesRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerServicesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -399,8 +469,8 @@ export const getServerTime: API.OperationMethod<
   GetServerTimeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetServerTimeRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerTimeResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetServerTimeRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerTimeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -416,8 +486,8 @@ export const getServerWithSSHKey: API.OperationMethod<
   GetServerWithSSHKeyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetServerWithSSHKeyRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServerWithSSHKeyResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetServerWithSSHKeyRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<GetServerWithSSHKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -433,8 +503,8 @@ export const listServers: API.OperationMethod<
   ListServersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListServersRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ListServersResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListServersRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<ListServersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -450,8 +520,8 @@ export const listServersForPermissions: API.OperationMethod<
   ListServersForPermissionsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListServersForPermissionsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ListServersForPermissionsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListServersForPermissionsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<ListServersForPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -467,14 +537,31 @@ export const setupServer: API.OperationMethod<
   SetupServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<SetupServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SetupServerResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<SetupServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<SetupServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetupServer",
+}));
+
+export type SetupServerLogError = BadRequest | Forbidden | NotFound | DokployOpError;
+export const setupServerLog: API.OperationMethod<
+  SetupServerLogRequest,
+  SetupServerLogResponse,
+  SetupServerLogError,
+  DokployOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<SetupServerLogRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<SetupServerLogResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
+  protocol: DokployProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetupServerLog",
 }));
 
 export type SetupServerMonitoringError = BadRequest | Forbidden | DokployOpError;
@@ -484,8 +571,8 @@ export const setupServerMonitoring: API.OperationMethod<
   SetupServerMonitoringError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(78, __c9, 6) as any as S.Schema<SetupServerMonitoringRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SetupServerMonitoringResponse>,
+  input: __S(110, __c13, 6) as any as S.Schema<SetupServerMonitoringRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<SetupServerMonitoringResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -501,8 +588,8 @@ export const updateServer: API.OperationMethod<
   UpdateServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<UpdateServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -518,8 +605,8 @@ export const updateServerBuildsConcurrency: API.OperationMethod<
   UpdateServerBuildsConcurrencyError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UpdateServerBuildsConcurrencyRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerBuildsConcurrencyResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<UpdateServerBuildsConcurrencyRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<UpdateServerBuildsConcurrencyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -535,8 +622,8 @@ export const validateServer: API.OperationMethod<
   ValidateServerError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ValidateServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ValidateServerResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ValidateServerRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<ValidateServerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -570,11 +657,43 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          sshKeyId: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/server.connectStatus", code: 200 })),
+      ).annotate({ identifier: "GetServerConnectStatusRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serverId: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/server.getDefaultCommand", code: 200 })),
+      ).annotate({ identifier: "GetServerDefaultCommandRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          dataPoints: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/server.getServerMetrics", code: 200 })),
+      ).annotate({ identifier: "GetServerMetricsRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/server.publicIp", code: 200 })),
       ).annotate({ identifier: "GetServerPublicIpRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -584,7 +703,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetServerSecurityRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -594,7 +713,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetServerServicesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -602,7 +721,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetServerTimeRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -610,7 +729,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetServerWithSSHKeyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -618,7 +737,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListServersRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -626,7 +745,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListServersForPermissionsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -636,7 +755,17 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SetupServerRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serverId: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/server.setupLog", code: 200 })),
+      ).annotate({ identifier: "SetupServerLogRequest" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,7 +783,7 @@ function __c9(j: number): any {
           urlCallback: S.String,
           retentionDays: S.Number,
           cronJob: S.String,
-          thresholds: __S(72, __c9, 0),
+          thresholds: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "SetupServerMonitoringRequestMetricsConfigServer" });
     case 2:
@@ -662,34 +791,34 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          include: S.optional(__S(74, __c9, 2)),
-          exclude: S.optional(__S(74, __c9, 2)),
+          include: S.optional(__S(106, __c13, 2)),
+          exclude: S.optional(__S(106, __c13, 2)),
         }),
       ).annotate({ identifier: "SetupServerMonitoringRequestMetricsConfigContainersServices" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           refreshRate: S.Number,
-          services: __S(75, __c9, 3),
+          services: __S(107, __c13, 3),
         }),
       ).annotate({ identifier: "SetupServerMonitoringRequestMetricsConfigContainers" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          server: __S(73, __c9, 1),
-          containers: __S(76, __c9, 4),
+          server: __S(105, __c13, 1),
+          containers: __S(108, __c13, 4),
         }),
       ).annotate({ identifier: "SetupServerMonitoringRequestMetricsConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           serverId: S.String,
-          metricsConfig: __S(77, __c9, 5),
+          metricsConfig: __S(109, __c13, 5),
         }).pipe(T.Http({ method: "POST", uri: "/server.setupMonitoring", code: 200 })),
       ).annotate({ identifier: "SetupServerMonitoringRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -708,7 +837,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateServerRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -719,7 +848,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateServerBuildsConcurrencyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -729,7 +858,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ValidateServerRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -737,7 +866,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "BuildServersRequest" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -745,7 +874,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -753,7 +882,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CountServersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -770,7 +899,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateServerRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -780,7 +909,21 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteServerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          serverType: S.optional(S.String),
+          enableDockerCleanup: S.optional(S.Boolean),
+          onboarding: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/server.generateConnectCommand", code: 200 })),
+      ).annotate({ identifier: "GenerateServerConnectCommandRequest" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -790,26 +933,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetServerRequest" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serverId: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/server.getDefaultCommand", code: 200 })),
-      ).annotate({ identifier: "GetServerDefaultCommandRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String.pipe(T.Query()),
-          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
-          dataPoints: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/server.getServerMetrics", code: 200 })),
-      ).annotate({ identifier: "GetServerMetricsRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/server.connectFailure", code: 200 })),
+      ).annotate({ identifier: "GetServerConnectFailureRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

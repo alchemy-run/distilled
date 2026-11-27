@@ -38,11 +38,6 @@
     },
     {
       "op": "add",
-      "path": "/types/Mutation/fields/pluginResetCredentials/sensitive",
-      "value": true
-    },
-    {
-      "op": "add",
       "path": "/types/Mutation/fields/projectTokenCreate/sensitive",
       "value": true
     },

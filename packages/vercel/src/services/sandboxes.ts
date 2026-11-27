@@ -420,6 +420,8 @@ export interface CreateSandboxesByNameForkV2Request {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: CreateSandboxesByNameForkV2RequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. Defaults to the source sandbox setting. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
   keepLastSnapshots?: CreateSandboxesByNameForkV2RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
@@ -517,6 +519,8 @@ export interface NamedSandbox {
   cwd?: string | undefined;
   /** The time at which the currently running sandbox will time out, in milliseconds since the epoch. Only present while a session is running. */
   expiresAt?: number | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. It affects only that webhook. When a deadline is closer than the lead time, the webhook is sent right away: at the start of a session whose timeout is shorter, and after each extension that leaves the deadline within the lead time. */
+  expiryNotificationLeadTime: number;
   /** The regions the sandbox fails over to. Empty when it does not fail over. */
   failoverRegions?: NamedSandboxFailoverRegionsList | undefined;
   /** Owner-qualified, digest-pinned reference of the container image the sandbox was created from ("{team}/{project}/{repository}@{manifestDigest}"). */
@@ -646,6 +650,8 @@ export type SessionStatus =
   | "snapshotting"
   | "stopped"
   | "stopping";
+/** Why the sandbox stopped: `requested` for a stop requested through the API, `snapshot` for a stop to take a snapshot, `timeout` when the sandbox reached its timeout, `exited` when its main process exited on its own, and `error` when it failed or was stopped by the platform. */
+export type SessionStopReason = "error" | "exited" | "requested" | "snapshot" | "timeout";
 /** The workload type of this sandbox. */
 export type SessionWorkloadType = "sandbox" | "v0";
 /** This object contains information related to a Vercel Sandbox Session. v2 endpoints return "session" instead of "sandbox" as the response wrapper key. */
@@ -691,6 +697,8 @@ export interface Session {
   status: SessionStatus;
   /** The time when the sandbox was stopped, in milliseconds since the epoch. */
   stoppedAt?: number | undefined;
+  /** Why the sandbox stopped: `requested` for a stop requested through the API, `snapshot` for a stop to take a snapshot, `timeout` when the sandbox reached its timeout, `exited` when its main process exited on its own, and `error` when it failed or was stopped by the platform. */
+  stopReason?: SessionStopReason | undefined;
   /** The maximum amount of time the sandbox will run for in milliseconds. */
   timeout: number;
   /** The last time the sandbox was updated, in milliseconds since the epoch. */
@@ -1021,6 +1029,8 @@ export interface CreateSandboxesByNameForkV3Request {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Defaults to 7 days. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: CreateSandboxesByNameForkV3RequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. Defaults to the source sandbox setting. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
   keepLastSnapshots?: CreateSandboxesByNameForkV3RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
@@ -1299,7 +1309,6 @@ export type CreateSandboxesV2RequestNetworkPolicy =
   | CreateSandboxesV2RequestNetworkPolicyCase1;
 /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
 export type CreateSandboxesV2RequestRuntime = "node22" | "node24" | "node26" | "python3.13";
-/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
 export type CreateSandboxesV2RequestArchitecture = "amd64" | "arm64";
 /** Resources to define the VM */
 export type CreateSandboxesV2RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -1421,7 +1430,6 @@ export interface CreateSandboxesV2Request {
   networkPolicy?: CreateSandboxesV2RequestNetworkPolicy | undefined;
   /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
   runtime?: CreateSandboxesV2RequestRuntime | (string & {}) | undefined;
-  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
   architecture?: CreateSandboxesV2RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
@@ -1451,6 +1459,8 @@ export interface CreateSandboxesV2Request {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: CreateSandboxesV2RequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. It affects only that webhook. When a deadline is closer than the lead time, the webhook is sent right away: at the start of a session whose timeout is shorter, and after each extension that leaves the deadline within the lead time. Defaults to 1 minute. Takes effect from the next session. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
   keepLastSnapshots?: CreateSandboxesV2RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
@@ -1654,7 +1664,6 @@ export interface CreateSandboxesV3RequestNetworkPolicyCase1 {
 export type CreateSandboxesV3RequestNetworkPolicy =
   | CreateSandboxesV3RequestNetworkPolicyCase0
   | CreateSandboxesV3RequestNetworkPolicyCase1;
-/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
 export type CreateSandboxesV3RequestArchitecture = "amd64" | "arm64";
 /** Resources to define the VM */
 export type CreateSandboxesV3RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -1751,7 +1760,6 @@ export interface CreateSandboxesV3Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
   networkPolicy?: CreateSandboxesV3RequestNetworkPolicy | undefined;
-  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
   architecture?: CreateSandboxesV3RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
@@ -1781,6 +1789,8 @@ export interface CreateSandboxesV3Request {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: CreateSandboxesV3RequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. It affects only that webhook. When a deadline is closer than the lead time, the webhook is sent right away: at the start of a session whose timeout is shorter, and after each extension that leaves the deadline within the lead time. Defaults to 1 minute. Takes effect from the next session. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
   keepLastSnapshots?: CreateSandboxesV3RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
@@ -1984,7 +1994,6 @@ export interface CreateSandboxesV4RequestNetworkPolicyCase1 {
 export type CreateSandboxesV4RequestNetworkPolicy =
   | CreateSandboxesV4RequestNetworkPolicyCase0
   | CreateSandboxesV4RequestNetworkPolicyCase1;
-/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
 export type CreateSandboxesV4RequestArchitecture = "amd64" | "arm64";
 /** Resources to define the VM */
 export type CreateSandboxesV4RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -2084,7 +2093,6 @@ export interface CreateSandboxesV4Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
   networkPolicy?: CreateSandboxesV4RequestNetworkPolicy | undefined;
-  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
   architecture?: CreateSandboxesV4RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
@@ -2114,6 +2122,8 @@ export interface CreateSandboxesV4Request {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Defaults to 7 days. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: CreateSandboxesV4RequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. It affects only that webhook. When a deadline is closer than the lead time, the webhook is sent right away: at the start of a session whose timeout is shorter, and after each extension that leaves the deadline within the lead time. Defaults to 1 minute. Takes effect from the next session. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
   keepLastSnapshots?: CreateSandboxesV4RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
@@ -2140,48 +2150,6 @@ export interface CreateSessionDirectoryRequest {
   recursive?: boolean | undefined;
 }
 export type CreateSessionDirectoryResponse = unknown;
-export interface DeleteDriveRequest {
-  /** Name for the drive. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name: string;
-  /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string | undefined;
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-}
-/** The workload type of this drive. */
-export type DriveWorkloadType = "sandbox" | "v0";
-/** This object contains information related to a Vercel Sandbox Drive. */
-export interface Drive {
-  /** The time when the drive was created, in milliseconds since the epoch. */
-  createdAt: number;
-  /** Current sandbox name the drive is attached to, if any. */
-  currentSandboxName?: string | undefined;
-  /** Current session ID the drive is attached to, if any. */
-  currentSessionId?: string | undefined;
-  /** The unique drive ID. */
-  id: string;
-  /** The maximum drive size in bytes. */
-  maxSizeBytes: number;
-  /** The unique drive name within the project. */
-  name: string;
-  /** The ID of the source drive when this drive is a fork. */
-  parentDriveId?: string | undefined;
-  /** The project that owns the drive. */
-  projectId: string;
-  /** The region where the drive is stored. */
-  region: string;
-  /** The ID of the original drive at the root of this fork. */
-  rootDriveId?: string | undefined;
-  /** The last time the drive was updated, in milliseconds since the epoch. */
-  updatedAt: number;
-  /** The workload type of this drive. */
-  workloadType?: DriveWorkloadType | undefined;
-}
-export interface DeleteDriveResponse {
-  drive: Drive;
-}
 export interface DeleteSandboxRequest {
   /** The sandbox name to delete. */
   name: string;
@@ -2221,32 +2189,6 @@ export interface ExtendSessionTimeoutRequest {
 export interface ExtendSessionTimeoutResponse {
   session: Session;
 }
-export interface ForkDriveRequest {
-  /** Name of the source drive to fork. */
-  name: string;
-  /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string | undefined;
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-}
-export interface ForkDriveResponse {
-  drive: Drive;
-}
-export interface GetDriveRequest {
-  /** The drive name or ID. */
-  nameOrId: string;
-  /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string | undefined;
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-}
-export interface GetDriveResponse {
-  drive: Drive;
-}
 export interface GetNamedSandboxRequest {
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name: string;
@@ -2266,44 +2208,6 @@ export interface GetNamedSandboxResponse {
   sandbox: NamedSandbox;
   session: Session;
 }
-/** Region where the drive is stored. Defaults to iad1. */
-export type GetOrCreateDriveRequestRegion =
-  | "iad1"
-  | "sfo1"
-  | "cle1"
-  | "cdg1"
-  | "fra1"
-  | "arn1"
-  | "sin1"
-  | "pdx1"
-  | "lhr1"
-  | "icn1"
-  | "bom1"
-  | "cpt1"
-  | "dub1"
-  | "gru1"
-  | "hkg1"
-  | "syd1"
-  | "yul1"
-  | "hnd1"
-  | "kix1";
-export interface GetOrCreateDriveRequest {
-  /** Name for the drive. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name: string;
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-  /** The project ID or name to associate the drive with. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string | undefined;
-  /** Maximum drive size in bytes. Must be a multiple of 4096 bytes. Defaults to 1 TiB when omitted (1 GiB for Hobby). The maximum quota is 16 TiB. Request a quota above 16 TiB at https://vercel.com/help. */
-  maxSizeBytes?: number | undefined;
-  /** Region where the drive is stored. Defaults to iad1. */
-  region?: GetOrCreateDriveRequestRegion | (string & {}) | undefined;
-}
-export interface GetOrCreateDriveResponse {
-  drive: Drive;
-}
 export interface GetSessionRequest {
   /** The unique identifier of the session to retrieve. */
   sessionId: string;
@@ -2322,7 +2226,7 @@ export interface GetSessionCommandRequest {
   sessionId: string;
   /** The unique identifier of the command to retrieve. */
   cmdId: string;
-  /** If set to "true", the request will block until the command finishes execution. Useful for synchronously waiting for command completion. */
+  /** If set to "true", the request will block until the command finishes execution and the response will include its exit code. Otherwise, `exitCode` is `null` unless a previous request waited for the command to finish. */
   wait?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
@@ -2339,7 +2243,7 @@ export interface SessionCommand {
   cwd: string;
   /** Duration of the command execution in milliseconds. */
   durationMs?: number | undefined;
-  /** If the command did finish, the exit code. */
+  /** The exit code of the command, or `null` if no exit code has been recorded. The exit code is recorded only when a request waits for the command to finish (`wait=true` when running or getting the command). Polling without `wait=true` returns `null` until such a request records it, even if the command has already finished. */
   exitCode: number | null;
   /** The ID of the command. */
   id: string;
@@ -2390,37 +2294,6 @@ export interface KillSessionCommandRequest {
 export interface KillSessionCommandResponse {
   command: SessionCommand;
 }
-/** Field to sort drives by. */
-export type ListDrivesRequestSortBy = "createdAt" | "updatedAt" | "name";
-/** Sort direction for results. */
-export type ListDrivesRequestSortOrder = "asc" | "desc";
-export interface ListDrivesRequest {
-  /** The project ID or name associated with the drives. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string | undefined;
-  /** Maximum number of drives to return in the response. Used for pagination. */
-  limit?: number | undefined;
-  /** Opaque pagination cursor from a previous response. */
-  cursor?: string | undefined;
-  /** Field to sort drives by. */
-  sortBy?: ListDrivesRequestSortBy | (string & {}) | undefined;
-  /** Filter drives whose name starts with this prefix. Only valid when sortBy=name. */
-  namePrefix?: string | undefined;
-  /** Sort direction for results. */
-  sortOrder?: ListDrivesRequestSortOrder | (string & {}) | undefined;
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-}
-export type ListDrivesResponseDrivesList = Array<Drive>;
-export interface ListDrivesResponsePagination {
-  count: number;
-  next: string | null;
-}
-export interface ListDrivesResponse {
-  drives: ListDrivesResponseDrivesList;
-  pagination: ListDrivesResponsePagination;
-}
 /** Field to sort by. */
 export type ListNamedSandboxesRequestSortBy =
   | "createdAt"
@@ -2456,10 +2329,13 @@ export interface ListNamedSandboxesRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type ListNamedSandboxesResponsePagination = ListDrivesResponsePagination;
+export interface ListNamedSandboxesResponsePagination {
+  count: number;
+  next: string | null;
+}
 export type ListNamedSandboxesResponseSandboxesList = Array<NamedSandbox>;
 export interface ListNamedSandboxesResponse {
-  pagination: ListDrivesResponsePagination;
+  pagination: ListNamedSandboxesResponsePagination;
   sandboxes: ListNamedSandboxesResponseSandboxesList;
 }
 export interface ListSessionCommandsRequest {
@@ -2492,10 +2368,10 @@ export interface ListSessionsRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
+export type ListSessionsResponseBodyCase1Pagination = ListNamedSandboxesResponsePagination;
 export type ListSessionsResponseBodyCase1SessionsList = Array<Session>;
 export interface ListSessionsResponseBodyCase1 {
-  pagination: ListDrivesResponsePagination;
+  pagination: ListNamedSandboxesResponsePagination;
   sessions: ListSessionsResponseBodyCase1SessionsList;
 }
 export type ListSessionsResponseBody = unknown | ListSessionsResponseBodyCase1;
@@ -2518,10 +2394,10 @@ export interface ListSessionSnapshotsRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
+export type ListSessionSnapshotsResponseBodyCase1Pagination = ListNamedSandboxesResponsePagination;
 export type ListSessionSnapshotsResponseBodyCase1SnapshotsList = Array<Snapshot>;
 export interface ListSessionSnapshotsResponseBodyCase1 {
-  pagination: ListDrivesResponsePagination;
+  pagination: ListNamedSandboxesResponsePagination;
   snapshots: ListSessionSnapshotsResponseBodyCase1SnapshotsList;
 }
 export type ListSessionSnapshotsResponseBody = unknown | ListSessionSnapshotsResponseBodyCase1;
@@ -2877,6 +2753,8 @@ export interface UpdateSandboxRequest {
   persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
   snapshotExpiration?: UpdateSandboxRequestSnapshotExpiration | undefined;
+  /** How long before a session expires, in milliseconds, the `sandbox.session.expiring` webhook is sent. It affects only that webhook. When a deadline is closer than the lead time, the webhook is sent right away: at the start of a session whose timeout is shorter, and after each extension that leaves the deadline within the lead time. Defaults to 1 minute. Takes effect from the next session. */
+  expiryNotificationLeadTime?: number | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Set to null to clear. */
   keepLastSnapshots?: UpdateSandboxRequestKeepLastSnapshots | undefined;
   networkPolicy?: UpdateSandboxRequestNetworkPolicy | undefined;
@@ -3163,8 +3041,8 @@ export const createSandboxesByNameForkV2: API.OperationMethod<
   CreateSandboxesByNameForkV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(609, __c38, 1) as any as S.Schema<CreateSandboxesByNameForkV2Request>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesByNameForkV2Response>,
+  input: __S(481, __c30, 1) as any as S.Schema<CreateSandboxesByNameForkV2Request>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateSandboxesByNameForkV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3188,8 +3066,8 @@ export const createSandboxesByNameForkV3: API.OperationMethod<
   CreateSandboxesByNameForkV3Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateSandboxesByNameForkV3Request>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesByNameForkV3Response>,
+  input: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesByNameForkV3Request>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateSandboxesByNameForkV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3212,10 +3090,10 @@ export const createSandboxesSessionsBySessionIdSnapshotV2: API.OperationMethod<
   CreateSandboxesSessionsBySessionIdSnapshotV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Request>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Request>,
   output: __S(
-    784,
-    __c49,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
@@ -3240,10 +3118,10 @@ export const createSandboxesSessionsBySessionIdSnapshotV3: API.OperationMethod<
   CreateSandboxesSessionsBySessionIdSnapshotV3Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Request>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Request>,
   output: __S(
-    784,
-    __c49,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
@@ -3270,7 +3148,7 @@ export const createSandboxesV2: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateSandboxesV2Request>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV2Response>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateSandboxesV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3295,7 +3173,7 @@ export const createSandboxesV3: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17, __c1, 1) as any as S.Schema<CreateSandboxesV3Request>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV3Response>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateSandboxesV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3320,7 +3198,7 @@ export const createSandboxesV4: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateSandboxesV4Request>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV4Response>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateSandboxesV4Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3352,30 +3230,6 @@ export const createSessionDirectory: API.OperationMethod<
   span: "CreateSessionDirectory",
 }));
 
-export type DeleteDriveError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | VercelOpError;
-/** Delete a drive Deletes a drive by project and name. Attached drives cannot be deleted. Stop or replace the session currently using the drive before retrying deletion. */
-export const deleteDrive: API.OperationMethod<
-  DeleteDriveRequest,
-  DeleteDriveResponse,
-  DeleteDriveError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteDriveRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<DeleteDriveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDrive",
-}));
-
 export type DeleteSandboxError =
   | BadRequest
   | Forbidden
@@ -3389,8 +3243,8 @@ export const deleteSandbox: API.OperationMethod<
   DeleteSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<DeleteSandboxResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<DeleteSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3412,8 +3266,8 @@ export const deleteSessionSnapshot: API.OperationMethod<
   DeleteSessionSnapshotError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteSessionSnapshotRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteSessionSnapshotResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DeleteSessionSnapshotRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteSessionSnapshotResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3435,57 +3289,14 @@ export const extendSessionTimeout: API.OperationMethod<
   ExtendSessionTimeoutError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ExtendSessionTimeoutRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<ExtendSessionTimeoutResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ExtendSessionTimeoutRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<ExtendSessionTimeoutResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExtendSessionTimeout",
-}));
-
-export type ForkDriveError =
-  | BadRequest
-  | PaymentRequired
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | VercelOpError;
-/** Fork a drive Fork the provided drive into a new one with the provided name, inheriting the region and max size. */
-export const forkDrive: API.OperationMethod<
-  ForkDriveRequest,
-  ForkDriveResponse,
-  ForkDriveError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ForkDriveRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<ForkDriveResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ForkDrive",
-}));
-
-export type GetDriveError = BadRequest | Forbidden | NotFound | UnprocessableEntity | VercelOpError;
-/** Get a drive Gets an existing drive by project and name or drive ID. Returns 404 if doesn't exist. */
-export const getDrive: API.OperationMethod<
-  GetDriveRequest,
-  GetDriveResponse,
-  GetDriveError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetDriveRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<GetDriveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDrive",
 }));
 
 export type GetNamedSandboxError =
@@ -3503,39 +3314,14 @@ export const getNamedSandbox: API.OperationMethod<
   GetNamedSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetNamedSandboxRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetNamedSandboxResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetNamedSandboxRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<GetNamedSandboxResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNamedSandbox",
-}));
-
-export type GetOrCreateDriveError =
-  | BadRequest
-  | PaymentRequired
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | VercelOpError;
-/** Get or create a drive Gets an existing drive by project and name, or creates it when it does not exist. */
-export const getOrCreateDrive: API.OperationMethod<
-  GetOrCreateDriveRequest,
-  GetOrCreateDriveResponse,
-  GetOrCreateDriveError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetOrCreateDriveRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<GetOrCreateDriveResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrCreateDrive",
 }));
 
 export type GetSessionError =
@@ -3551,8 +3337,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<GetSessionResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<GetSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3567,15 +3353,15 @@ export type GetSessionCommandError =
   | NotFound
   | UnprocessableEntity
   | VercelOpError;
-/** Get a command Retrieves the current status and details of a command executed in a session. Use the `wait` parameter to block until the command finishes execution. */
+/** Get a command Retrieves the current status and details of a command executed in a session. Without `wait`, the stored command is returned as-is: its `exitCode` is `null` unless a previous request waited for the command to finish. Set `wait` to `true` to block until the command finishes and get its exit code. */
 export const getSessionCommand: API.OperationMethod<
   GetSessionCommandRequest,
   GetSessionCommandResponse,
   GetSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetSessionCommandRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<GetSessionCommandResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetSessionCommandRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<GetSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3590,15 +3376,15 @@ export type GetSessionCommandLogsError =
   | NotFound
   | UnprocessableEntity
   | VercelOpError;
-/** Stream command logs Streams the output of a command in real-time using newline-delimited JSON (ND-JSON). Each entry includes the output data and stream type. Stream types include `stdout`, `stderr`, and `error` (for stream failures). */
+/** Stream command logs Streams the output of a command in real-time using newline-delimited JSON (ND-JSON). Each entry includes the output data and stream type. Stream types include `stdout`, `stderr`, and `error` (for stream failures). Send `Accept: application/vnd.vercel.sandbox.command-stream+cbor-seq` to receive the raw output bytes as a CBOR Sequence (RFC 8742) instead. Each item is a two-element array `[TYPE, PAYLOAD]`, where `TYPE` is `1` for stdout or `2` for stderr with the raw output as a byte string, or `3` for a stream failure with a `{ code, message }` map. */
 export const getSessionCommandLogs: API.OperationMethod<
   GetSessionCommandLogsRequest,
   GetSessionCommandLogsResponse,
   GetSessionCommandLogsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSessionCommandLogsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetSessionCommandLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3620,8 +3406,8 @@ export const getSessionSnapshot: API.OperationMethod<
   GetSessionSnapshotError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetSessionSnapshotRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<GetSessionSnapshotResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetSessionSnapshotRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<GetSessionSnapshotResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3643,37 +3429,14 @@ export const killSessionCommand: API.OperationMethod<
   KillSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<KillSessionCommandRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<KillSessionCommandResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<KillSessionCommandRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<KillSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "KillSessionCommand",
-}));
-
-export type ListDrivesError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | VercelOpError;
-/** List drives Retrieves a paginated list of drives belonging to a specific project. */
-export const listDrives: API.OperationMethod<
-  ListDrivesRequest,
-  ListDrivesResponse,
-  ListDrivesError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListDrivesRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<ListDrivesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListDrives",
 }));
 
 export type ListNamedSandboxesError =
@@ -3689,8 +3452,8 @@ export const listNamedSandboxes: API.OperationMethod<
   ListNamedSandboxesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListNamedSandboxesRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<ListNamedSandboxesResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListNamedSandboxesRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<ListNamedSandboxesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3712,8 +3475,8 @@ export const listSessionCommands: API.OperationMethod<
   ListSessionCommandsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListSessionCommandsRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ListSessionCommandsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListSessionCommandsRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<ListSessionCommandsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3735,8 +3498,8 @@ export const listSessions: API.OperationMethod<
   ListSessionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<ListSessionsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListSessionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3758,8 +3521,8 @@ export const listSessionSnapshots: API.OperationMethod<
   ListSessionSnapshotsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListSessionSnapshotsRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<ListSessionSnapshotsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListSessionSnapshotsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<ListSessionSnapshotsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3781,8 +3544,8 @@ export const readSessionFile: API.OperationMethod<
   ReadSessionFileError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ReadSessionFileRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<ReadSessionFileResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ReadSessionFileRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<ReadSessionFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3797,15 +3560,15 @@ export type RunSessionCommandError =
   | NotFound
   | UnprocessableEntity
   | VercelOpError;
-/** Execute a command Executes a shell command inside a running session. The command runs asynchronously and returns immediately with a command ID that can be used to track its progress and retrieve its output. Optionally, use the `wait` parameter to stream the command status until completion. */
+/** Execute a command Executes a shell command inside a running session. The command runs asynchronously and returns immediately with a command ID that can be used to track its progress and retrieve its output. Optionally, use the `wait` parameter to stream the command status until completion. When `wait` is true, send `Accept: application/vnd.vercel.sandbox.command-stream+cbor-seq` to receive the stream as a CBOR Sequence (RFC 8742) instead of ND-JSON. Each item is a two-element array `[TYPE, PAYLOAD]`. `TYPE` is `1` for stdout or `2` for stderr with the raw output as a byte string, `3` for a stream failure with a `{ code, message }` map, or `128` for the `SessionCommand` as a map, sent when the command starts and again when it finishes. */
 export const runSessionCommand: API.OperationMethod<
   RunSessionCommandRequest,
   RunSessionCommandResponse,
   RunSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<RunSessionCommandRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<RunSessionCommandResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<RunSessionCommandRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<RunSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3827,8 +3590,8 @@ export const stopSession: API.OperationMethod<
   StopSessionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<StopSessionRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<StopSessionResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<StopSessionRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<StopSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3851,8 +3614,8 @@ export const updateSandbox: API.OperationMethod<
   UpdateSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateSandboxRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<UpdateSandboxResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateSandboxRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<UpdateSandboxResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3874,8 +3637,8 @@ export const updateSessionNetworkPolicy: API.OperationMethod<
   UpdateSessionNetworkPolicyError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateSessionNetworkPolicyRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<UpdateSessionNetworkPolicyResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateSessionNetworkPolicyRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<UpdateSessionNetworkPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3898,8 +3661,8 @@ export const writeSessionCommandStdin: API.OperationMethod<
   WriteSessionCommandStdinError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<WriteSessionCommandStdinRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<WriteSessionCommandStdinResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<WriteSessionCommandStdinRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<WriteSessionCommandStdinResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -3921,7 +3684,7 @@ export const writeSessionFiles: API.OperationMethod<
   WriteSessionFilesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<WriteSessionFilesRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<WriteSessionFilesRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<WriteSessionFilesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: VercelServiceErrors,
@@ -3950,22 +3713,23 @@ function __c0(j: number): any {
           networkPolicy: S.optional(S.Unknown),
           runtime: S.optional(S.String),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(704, __c44, 0)),
+          resources: S.optional(__S(576, __c36, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(705, __c44, 1)),
+          ports: S.optional(__S(577, __c36, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(656, __c41, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          env: S.optional(__S(528, __c33, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
+          expiryNotificationLeadTime: S.optional(S.Number),
           keepLastSnapshots: S.optional(__S(0, __c0, 0)),
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV2Request" });
   }
@@ -3987,22 +3751,23 @@ function __c1(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(704, __c44, 0)),
+          resources: S.optional(__S(576, __c36, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(705, __c44, 1)),
+          ports: S.optional(__S(577, __c36, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(656, __c41, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          env: S.optional(__S(528, __c33, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
+          expiryNotificationLeadTime: S.optional(S.Number),
           keepLastSnapshots: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV3Request" });
   }
@@ -4016,22 +3781,23 @@ function __c2(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(704, __c44, 0)),
+          resources: S.optional(__S(576, __c36, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(705, __c44, 1)),
+          ports: S.optional(__S(577, __c36, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(656, __c41, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          env: S.optional(__S(528, __c33, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
+          expiryNotificationLeadTime: S.optional(S.Number),
           keepLastSnapshots: S.optional(S.Unknown),
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v4/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV4Request" });
   }
@@ -4068,50 +3834,6 @@ function __c5(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/sandboxes/drives/{name}", code: 200 })),
-      ).annotate({ identifier: "DeleteDriveRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          drive: __S(112, __c7, 0),
-        }),
-      ).annotate({ identifier: "DeleteDriveResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.Number,
-          currentSandboxName: S.optional(S.String),
-          currentSessionId: S.optional(S.String),
-          id: S.String,
-          maxSizeBytes: S.Number,
-          name: S.String,
-          parentDriveId: S.optional(S.String),
-          projectId: S.String,
-          region: S.String,
-          rootDriveId: S.optional(S.String),
-          updatedAt: S.Number,
-          workloadType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Drive" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
           deleteOrphanSnapshots: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
@@ -4120,12 +3842,12 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandbox: __S(644, __c40, 4),
+          sandbox: __S(516, __c32, 4),
         }),
       ).annotate({ identifier: "DeleteSandboxResponse" });
   }
 }
-function __c9(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4139,17 +3861,17 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteSessionSnapshotRequest" });
   }
 }
-function __c10(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(800, __c50, 0),
+          snapshot: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "DeleteSessionSnapshotResponse" });
   }
 }
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4168,43 +3890,17 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ExtendSessionTimeoutRequest" });
   }
 }
-function __c12(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session: __S(744, __c46, 8),
+          session: __S(616, __c38, 8),
         }),
       ).annotate({ identifier: "ExtendSessionTimeoutResponse" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/drives/{name}/fork", code: 200 })),
-      ).annotate({ identifier: "ForkDriveRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nameOrId: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/drives/{nameOrId}", code: 200 })),
-      ).annotate({ identifier: "GetDriveRequest" });
-  }
-}
-function __c15(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4220,29 +3916,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resumed: S.Boolean,
-          routes: __S(689, __c43, 1),
-          sandbox: __S(644, __c40, 4),
-          session: __S(744, __c46, 8),
+          routes: __S(561, __c35, 1),
+          sandbox: __S(516, __c32, 4),
+          session: __S(616, __c38, 8),
         }),
       ).annotate({ identifier: "GetNamedSandboxResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String),
-          maxSizeBytes: S.optional(S.Number),
-          region: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/drives/{name}", code: 200 })),
-      ).annotate({ identifier: "GetOrCreateDriveRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4255,13 +3936,13 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          routes: __S(689, __c43, 1),
-          session: __S(744, __c46, 8),
+          routes: __S(561, __c35, 1),
+          session: __S(616, __c38, 8),
         }),
       ).annotate({ identifier: "GetSessionResponse" });
   }
 }
-function __c18(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4281,12 +3962,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetSessionCommandRequest" });
   }
 }
-function __c19(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          args: __S(720, __c45, 0),
+          args: __S(592, __c37, 0),
           cwd: S.String,
           durationMs: S.optional(S.Number),
           exitCode: S.NullOr(S.Number),
@@ -4298,17 +3979,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SessionCommand" });
   }
 }
-function __c20(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          command: __S(304, __c19, 0),
+          command: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "GetSessionCommandResponse" });
   }
 }
-function __c21(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4327,7 +4008,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetSessionCommandLogsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4335,7 +4016,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4347,7 +4028,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetSessionSnapshotRequest" });
   }
 }
-function __c24(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4367,44 +4048,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "KillSessionCommandRequest" });
   }
 }
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sortBy: S.optional(S.String.pipe(T.Query())),
-          namePrefix: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/drives", code: 200 })),
-      ).annotate({ identifier: "ListDrivesRequest" });
-    case 1:
-      return S.Array(__S(112, __c7, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          drives: __S(401, __c25, 1),
-          pagination: __S(416, __c26, 0),
-        }),
-      ).annotate({ identifier: "ListDrivesResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ListDrivesResponsePagination" });
-  }
-}
-function __c27(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4422,17 +4066,24 @@ function __c27(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes", code: 200 })),
       ).annotate({ identifier: "ListNamedSandboxesRequest" });
     case 1:
-      return S.Array(__S(644, __c40, 4));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(416, __c26, 0),
-          sandboxes: __S(433, __c27, 1),
+          count: S.Number,
+          next: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ListNamedSandboxesResponsePagination" });
+    case 2:
+      return S.Array(__S(516, __c32, 4));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          pagination: __S(305, __c19, 1),
+          sandboxes: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "ListNamedSandboxesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,16 +4096,16 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListSessionCommandsRequest" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          commands: __S(449, __c28, 1),
+          commands: __S(321, __c20, 1),
         }),
       ).annotate({ identifier: "ListSessionCommandsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4474,7 +4125,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4494,7 +4145,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4510,7 +4161,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ReadSessionFileRequest" });
   }
 }
-function __c32(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4519,9 +4170,9 @@ function __c32(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           command: S.String,
-          args: S.optional(__S(720, __c45, 0)),
+          args: S.optional(__S(592, __c37, 0)),
           cwd: S.optional(S.String),
-          env: S.optional(__S(656, __c41, 0)),
+          env: S.optional(__S(528, __c33, 0)),
           sudo: S.optional(S.Boolean),
           wait: S.optional(S.Boolean),
           logs: S.optional(S.Boolean),
@@ -4533,7 +4184,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RunSessionCommandRequest" });
   }
 }
-function __c33(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4551,7 +4202,7 @@ function __c33(j: number): any {
       });
   }
 }
-function __c34(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4561,21 +4212,22 @@ function __c34(j: number): any {
           resume: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          resources: S.optional(__S(704, __c44, 0)),
+          resources: S.optional(__S(576, __c36, 0)),
           runtime: S.optional(S.String),
           timeout: S.optional(S.Number),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
+          expiryNotificationLeadTime: S.optional(S.Number),
           keepLastSnapshots: S.optional(S.Unknown),
           networkPolicy: S.optional(S.Unknown),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           networkId: S.optional(S.String),
-          env: S.optional(__S(656, __c41, 0)),
-          ports: S.optional(__S(705, __c44, 1)),
+          env: S.optional(__S(528, __c33, 0)),
+          ports: S.optional(__S(577, __c36, 1)),
           currentSnapshotId: S.optional(S.String),
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v2/sandboxes/{name}", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxRequest" });
     case 1:
@@ -4584,7 +4236,7 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4603,7 +4255,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateSessionNetworkPolicyRequest" });
   }
 }
-function __c36(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4627,12 +4279,12 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bytesWritten: S.optional(S.Number),
-          command: __S(304, __c19, 0),
+          command: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "WriteSessionCommandStdinResponse" });
   }
 }
-function __c37(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,7 +4299,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "WriteSessionFilesRequest" });
   }
 }
-function __c38(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4665,36 +4317,37 @@ function __c38(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
-          resources: S.optional(__S(704, __c44, 0)),
-          ports: S.optional(__S(705, __c44, 1)),
+          resources: S.optional(__S(576, __c36, 0)),
+          ports: S.optional(__S(577, __c36, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(656, __c41, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          env: S.optional(__S(528, __c33, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           networkId: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
-          keepLastSnapshots: S.optional(__S(608, __c38, 0)),
-          tags: S.optional(__S(656, __c41, 0)),
+          expiryNotificationLeadTime: S.optional(S.Number),
+          keepLastSnapshots: S.optional(__S(480, __c30, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/{name}/fork", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesByNameForkV2Request" });
   }
 }
-function __c39(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          routes: __S(689, __c43, 1),
-          sandbox: __S(644, __c40, 4),
-          session: __S(744, __c46, 8),
+          routes: __S(561, __c35, 1),
+          sandbox: __S(516, __c32, 4),
+          session: __S(616, __c38, 8),
         }),
       ).annotate({ identifier: "CreateSandboxesByNameForkV2Response" });
   }
 }
-function __c40(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4713,13 +4366,13 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "NamedSandboxMountsValue" });
     case 2:
-      return S.Record(S.String, __S(641, __c40, 1));
+      return S.Record(S.String, __S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedCIDRs: S.optional(__S(720, __c45, 0)),
-          allowedDomains: S.optional(__S(720, __c45, 0)),
-          deniedCIDRs: S.optional(__S(720, __c45, 0)),
+          allowedCIDRs: S.optional(__S(592, __c37, 0)),
+          allowedDomains: S.optional(__S(592, __c37, 0)),
+          deniedCIDRs: S.optional(__S(592, __c37, 0)),
           mode: S.String,
           s3Key: S.optional(S.String),
         }),
@@ -4733,21 +4386,22 @@ function __c40(j: number): any {
           currentSnapshotId: S.optional(S.String),
           cwd: S.optional(S.String),
           expiresAt: S.optional(S.Number),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          expiryNotificationLeadTime: S.Number,
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           image: S.optional(S.String),
-          keepLastSnapshots: S.optional(__S(640, __c40, 0)),
+          keepLastSnapshots: S.optional(__S(512, __c32, 0)),
           memory: S.optional(S.Number),
-          mounts: S.optional(__S(642, __c40, 2)),
+          mounts: S.optional(__S(514, __c32, 2)),
           name: S.String,
           networkId: S.optional(S.String),
-          networkPolicy: S.optional(__S(643, __c40, 3)),
+          networkPolicy: S.optional(__S(515, __c32, 3)),
           persistent: S.Boolean,
           region: S.optional(S.String),
           runtime: S.optional(S.String),
           snapshotExpiration: S.optional(S.Number),
           status: S.String,
           statusUpdatedAt: S.Number,
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
           timeout: S.optional(S.Number),
           totalActiveCpuDurationMs: S.optional(S.Number),
           totalDurationMs: S.optional(S.Number),
@@ -4760,19 +4414,19 @@ function __c40(j: number): any {
       ).annotate({ identifier: "NamedSandbox" });
   }
 }
-function __c41(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c42(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4784,10 +4438,10 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "SandboxPublicRoute" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(560, __c35, 0));
   }
 }
-function __c44(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4806,57 +4460,57 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "CreateSandboxesByNameForkV2RequestMountsValue" });
     case 3:
-      return S.Record(S.String, __S(706, __c44, 2));
+      return S.Record(S.String, __S(578, __c36, 2));
   }
 }
-function __c45(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c46(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String,
           forwardURL: S.String,
-          matchDimensions: S.optional(__S(720, __c45, 0)),
+          matchDimensions: S.optional(__S(592, __c37, 0)),
         }),
       ).annotate({ identifier: "SandboxForwardRule" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(608, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domain: S.String,
-          headerNames: S.optional(__S(720, __c45, 0)),
-          matchDimensions: S.optional(__S(720, __c45, 0)),
+          headerNames: S.optional(__S(592, __c37, 0)),
+          matchDimensions: S.optional(__S(592, __c37, 0)),
         }),
       ).annotate({ identifier: "SandboxInjectionRule" });
     case 3:
-      return S.Array(__S(738, __c46, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           domain: S.String,
-          matchDimensions: S.optional(__S(720, __c45, 0)),
+          matchDimensions: S.optional(__S(592, __c37, 0)),
           statusCode: S.Number,
         }),
       ).annotate({ identifier: "SandboxResponseRule" });
     case 5:
-      return S.Array(__S(740, __c46, 4));
+      return S.Array(__S(612, __c38, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          allowedCIDRs: S.optional(__S(720, __c45, 0)),
-          allowedDomains: S.optional(__S(720, __c45, 0)),
-          deniedCIDRs: S.optional(__S(720, __c45, 0)),
-          forwardRules: S.optional(__S(737, __c46, 1)),
-          injectionRules: S.optional(__S(739, __c46, 3)),
+          allowedCIDRs: S.optional(__S(592, __c37, 0)),
+          allowedDomains: S.optional(__S(592, __c37, 0)),
+          deniedCIDRs: S.optional(__S(592, __c37, 0)),
+          forwardRules: S.optional(__S(609, __c38, 1)),
+          injectionRules: S.optional(__S(611, __c38, 3)),
           mode: S.String,
-          responseRules: S.optional(__S(741, __c46, 5)),
+          responseRules: S.optional(__S(613, __c38, 5)),
         }),
       ).annotate({ identifier: "SandboxNetworkPolicy" });
     case 7:
@@ -4877,8 +4531,8 @@ function __c46(j: number): any {
           duration: S.optional(S.Number),
           id: S.String,
           memory: S.Number,
-          networkPolicy: S.optional(__S(742, __c46, 6)),
-          networkTransfer: S.optional(__S(743, __c46, 7)),
+          networkPolicy: S.optional(__S(614, __c38, 6)),
+          networkTransfer: S.optional(__S(615, __c38, 7)),
           projectId: S.String,
           region: S.String,
           requestedAt: S.Number,
@@ -4890,6 +4544,7 @@ function __c46(j: number): any {
           startedAt: S.optional(S.Number),
           status: S.String,
           stoppedAt: S.optional(S.Number),
+          stopReason: S.optional(S.String),
           timeout: S.Number,
           updatedAt: S.Number,
           vcpus: S.Number,
@@ -4898,7 +4553,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "Session" });
   }
 }
-function __c47(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4908,24 +4563,25 @@ function __c47(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
-          resources: S.optional(__S(704, __c44, 0)),
-          ports: S.optional(__S(705, __c44, 1)),
+          resources: S.optional(__S(576, __c36, 0)),
+          ports: S.optional(__S(577, __c36, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(656, __c41, 0)),
-          mounts: S.optional(__S(707, __c44, 3)),
+          env: S.optional(__S(528, __c33, 0)),
+          mounts: S.optional(__S(579, __c36, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(672, __c42, 0)),
+          failoverRegions: S.optional(__S(544, __c34, 0)),
           networkId: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
+          expiryNotificationLeadTime: S.optional(S.Number),
           keepLastSnapshots: S.optional(S.Unknown),
-          tags: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/sandboxes/{name}/fork", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesByNameForkV3Request" });
   }
 }
-function __c48(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4940,18 +4596,18 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Request" });
   }
 }
-function __c49(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session: __S(744, __c46, 8),
-          snapshot: __S(800, __c50, 0),
+          session: __S(616, __c38, 8),
+          snapshot: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Response" });
   }
 }
-function __c50(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4964,7 +4620,7 @@ function __c50(j: number): any {
           lastUsedAt: S.Number,
           parentId: S.optional(S.String),
           region: S.optional(S.String),
-          regions: S.optional(__S(720, __c45, 0)),
+          regions: S.optional(__S(592, __c37, 0)),
           sizeBytes: S.Number,
           sourceSessionId: S.String,
           status: S.String,
@@ -4974,7 +4630,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c51(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

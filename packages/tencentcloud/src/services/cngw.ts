@@ -1063,6 +1063,21 @@ export interface DescribeAIGWCustomGuardrailPolicyListResponse {
   Result?: DescribeAIGWCustomGuardrailPolicyListResult | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribeAIGWLLMModelAPIIPRestrictionRequest {
+  GatewayId: string;
+  ModelAPIId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface AIGWLLMIPRestrictionResult {
+  Enable?: boolean | undefined;
+  RestrictionType?: string | undefined;
+  AddressList?: StringList | undefined;
+}
+export interface DescribeAIGWLLMModelAPIIPRestrictionResponse {
+  Result?: AIGWLLMIPRestrictionResult | undefined;
+  RequestId?: string | undefined;
+}
 export interface DescribeCloudNativeAPIGatewayAIQuotaRequest {
   GatewayId: string;
   Id: string;
@@ -1964,6 +1979,7 @@ export interface KongTarget {
   CvmInstanceId?: string | undefined;
   CvmInstanceName?: string | undefined;
   Health?: string | undefined;
+  Id?: string | undefined;
   Source?: string | undefined;
   Tags?: StringList | undefined;
 }
@@ -2006,6 +2022,12 @@ export interface KongServicePreview {
 export type LongList = Array<number>;
 export type KVMapping = KeyValue;
 export type KVMappingList = Array<KeyValue>;
+export interface KongUserTagKV {
+  TagId?: number | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+}
+export type KongUserTagKVList = Array<KongUserTagKV>;
 export interface KongRoutePreview {
   ID?: string | undefined;
   Name?: string | undefined;
@@ -2026,6 +2048,9 @@ export interface KongRoutePreview {
   RegexPriority?: number | undefined;
   QueryStringParameters?: KVMappingList | undefined;
   RouteSource?: string | undefined;
+  Tags?: KongUserTagKVList | undefined;
+  Timeout?: number | null | undefined;
+  TimeoutSource?: string | undefined;
 }
 export type KongRoutePreviewList = Array<KongRoutePreview>;
 export interface KongServiceRoute {
@@ -2111,6 +2136,19 @@ export interface ModifyAIGWCustomGuardrailPolicyResult {
 }
 export interface ModifyAIGWCustomGuardrailPolicyResponse {
   Result?: ModifyAIGWCustomGuardrailPolicyResult | undefined;
+  RequestId?: string | undefined;
+}
+export interface ModifyAIGWLLMModelAPIIPRestrictionRequest {
+  GatewayId: string;
+  ModelAPIId: string;
+  Enable?: boolean | undefined;
+  RestrictionType?: string | undefined;
+  AddressList?: StringList | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyAIGWLLMModelAPIIPRestrictionResponse {
+  Result?: boolean | undefined;
   RequestId?: string | undefined;
 }
 export interface ModifyCloudNativeAPIGatewayAIServiceSourceRequest {
@@ -2509,10 +2547,10 @@ export const compareCloudNativeAPIGatewayMCPToolVersion: API.OperationMethod<
   CompareCloudNativeAPIGatewayMCPToolVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CompareCloudNativeAPIGatewayMCPToolVersionRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CompareCloudNativeAPIGatewayMCPToolVersionRequest>,
   output: __S(
-    2146,
-    __c67,
+    2114,
+    __c66,
     2,
   ) as any as S.Schema<CompareCloudNativeAPIGatewayMCPToolVersionResponse>,
   errors: [],
@@ -2585,7 +2623,7 @@ export const createCloudNativeAPIGatewayConsumerGroup: API.OperationMethod<
   CreateCloudNativeAPIGatewayConsumerGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<CreateCloudNativeAPIGatewayConsumerGroupRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateCloudNativeAPIGatewayConsumerGroupRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<CreateCloudNativeAPIGatewayConsumerGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3019,6 +3057,23 @@ export const describeAIGWCustomGuardrailPolicyList: API.OperationMethod<
   span: "DescribeAIGWCustomGuardrailPolicyList",
 }));
 
+export type DescribeAIGWLLMModelAPIIPRestrictionError = TencentCloudOpError;
+export const describeAIGWLLMModelAPIIPRestriction: API.OperationMethod<
+  DescribeAIGWLLMModelAPIIPRestrictionRequest,
+  DescribeAIGWLLMModelAPIIPRestrictionResponse,
+  DescribeAIGWLLMModelAPIIPRestrictionError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c43, 0) as any as S.Schema<DescribeAIGWLLMModelAPIIPRestrictionRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<DescribeAIGWLLMModelAPIIPRestrictionResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeAIGWLLMModelAPIIPRestriction",
+}));
+
 export type DescribeCloudNativeAPIGatewayAIQuotaError = TencentCloudOpError;
 export const describeCloudNativeAPIGatewayAIQuota: API.OperationMethod<
   DescribeCloudNativeAPIGatewayAIQuotaRequest,
@@ -3026,8 +3081,8 @@ export const describeCloudNativeAPIGatewayAIQuota: API.OperationMethod<
   DescribeCloudNativeAPIGatewayAIQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaRequest>,
+  output: __S(1412, __c44, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3043,8 +3098,8 @@ export const describeCloudNativeAPIGatewayAIQuotaList: API.OperationMethod<
   DescribeCloudNativeAPIGatewayAIQuotaListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaListRequest>,
-  output: __S(1412, __c44, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaListResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaListRequest>,
+  output: __S(1444, __c45, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayAIQuotaListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3061,13 +3116,13 @@ export const describeCloudNativeAPIGatewayAIServiceSourceList: API.OperationMeth
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayAIServiceSourceListRequest>,
   output: __S(
-    1476,
-    __c46,
+    1508,
+    __c47,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayAIServiceSourceListResponse>,
   errors: [],
@@ -3085,8 +3140,8 @@ export const describeCloudNativeAPIGatewayConsumer: API.OperationMethod<
   DescribeCloudNativeAPIGatewayConsumerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerRequest>,
-  output: __S(1507, __c47, 3) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3102,10 +3157,10 @@ export const describeCloudNativeAPIGatewayConsumerGroup: API.OperationMethod<
   DescribeCloudNativeAPIGatewayConsumerGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerGroupRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerGroupRequest>,
   output: __S(
-    1569,
-    __c49,
+    1601,
+    __c50,
     1,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayConsumerGroupResponse>,
   errors: [],
@@ -3123,10 +3178,10 @@ export const describeCloudNativeAPIGatewayIPRestriction: API.OperationMethod<
   DescribeCloudNativeAPIGatewayIPRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayIPRestrictionRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayIPRestrictionRequest>,
   output: __S(
-    1602,
-    __c50,
+    1666,
+    __c52,
     2,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayIPRestrictionResponse>,
   errors: [],
@@ -3144,8 +3199,8 @@ export const describeCloudNativeAPIGatewayLLMModelAPI: API.OperationMethod<
   DescribeCloudNativeAPIGatewayLLMModelAPIError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3161,8 +3216,8 @@ export const describeCloudNativeAPIGatewayLLMModelAPIs: API.OperationMethod<
   DescribeCloudNativeAPIGatewayLLMModelAPIsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIsRequest>,
-  output: __S(1731, __c54, 3) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIsRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelAPIsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3179,13 +3234,13 @@ export const describeCloudNativeAPIGatewayLLMModelService: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelServiceRequest>,
   output: __S(
-    1761,
-    __c55,
+    1793,
+    __c56,
     1,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelServiceResponse>,
   errors: [],
@@ -3204,13 +3259,13 @@ export const describeCloudNativeAPIGatewayLLMModelServices: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelServicesRequest>,
   output: __S(
-    1827,
-    __c57,
+    1859,
+    __c58,
     3,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMModelServicesResponse>,
   errors: [],
@@ -3229,13 +3284,13 @@ export const describeCloudNativeAPIGatewayLLMTokenUsageList: API.OperationMethod
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMTokenUsageListRequest>,
   output: __S(
-    1864,
-    __c58,
+    1896,
+    __c59,
     8,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMTokenUsageListResponse>,
   errors: [],
@@ -3254,13 +3309,13 @@ export const describeCloudNativeAPIGatewayLLMTokenUsageStatistics: API.Operation
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1888,
-    __c59,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMTokenUsageStatisticsRequest>,
   output: __S(
-    1892,
-    __c59,
+    1924,
+    __c60,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayLLMTokenUsageStatisticsResponse>,
   errors: [],
@@ -3278,8 +3333,8 @@ export const describeCloudNativeAPIGatewayMCPRouteList: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPRouteListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPRouteListRequest>,
-  output: __S(1924, __c60, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPRouteListResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPRouteListRequest>,
+  output: __S(1956, __c61, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPRouteListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3295,8 +3350,8 @@ export const describeCloudNativeAPIGatewayMCPServer: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3312,8 +3367,8 @@ export const describeCloudNativeAPIGatewayMCPServerACL: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPServerACLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerACLRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerACLResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerACLRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerACLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3329,10 +3384,10 @@ export const describeCloudNativeAPIGatewayMCPServerAuth: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPServerAuthError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerAuthRequest>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerAuthRequest>,
   output: __S(
-    2082,
-    __c65,
+    2146,
+    __c67,
     2,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerAuthResponse>,
   errors: [],
@@ -3350,10 +3405,10 @@ export const describeCloudNativeAPIGatewayMCPServerList: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPServerListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerListRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerListRequest>,
   output: __S(
-    2179,
-    __c68,
+    2211,
+    __c69,
     3,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPServerListResponse>,
   errors: [],
@@ -3371,7 +3426,7 @@ export const describeCloudNativeAPIGatewayMCPTool: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPToolError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3388,10 +3443,10 @@ export const describeCloudNativeAPIGatewayMCPToolACLList: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPToolACLListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolACLListRequest>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolACLListRequest>,
   output: __S(
-    2244,
-    __c70,
+    2276,
+    __c71,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolACLListResponse>,
   errors: [],
@@ -3410,13 +3465,13 @@ export const describeCloudNativeAPIGatewayMCPToolImportTask: API.OperationMethod
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c71,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolImportTaskRequest>,
   output: __S(
-    2276,
-    __c71,
+    2308,
+    __c72,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolImportTaskResponse>,
   errors: [],
@@ -3434,8 +3489,8 @@ export const describeCloudNativeAPIGatewayMCPToolList: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPToolListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolListRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolListResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolListRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3452,13 +3507,13 @@ export const describeCloudNativeAPIGatewayMCPToolsFromFile: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2400,
+    __c75,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolsFromFileRequest>,
   output: __S(
-    2372,
-    __c74,
+    2404,
+    __c75,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolsFromFileResponse>,
   errors: [],
@@ -3476,10 +3531,10 @@ export const describeCloudNativeAPIGatewayMCPToolVersion: API.OperationMethod<
   DescribeCloudNativeAPIGatewayMCPToolVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolVersionRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolVersionRequest>,
   output: __S(
-    2432,
-    __c76,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolVersionResponse>,
   errors: [],
@@ -3498,13 +3553,13 @@ export const describeCloudNativeAPIGatewayMCPToolVersionList: API.OperationMetho
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolVersionListRequest>,
   output: __S(
-    2468,
-    __c77,
+    2500,
+    __c78,
     4,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewayMCPToolVersionListResponse>,
   errors: [],
@@ -3522,8 +3577,8 @@ export const describeCloudNativeAPIGatewaySecretKey: API.OperationMethod<
   DescribeCloudNativeAPIGatewaySecretKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3539,10 +3594,10 @@ export const describeCloudNativeAPIGatewaySecretKeyList: API.OperationMethod<
   DescribeCloudNativeAPIGatewaySecretKeyListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyListRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyListRequest>,
   output: __S(
-    2563,
-    __c80,
+    2723,
+    __c85,
     3,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyListResponse>,
   errors: [],
@@ -3560,10 +3615,10 @@ export const describeCloudNativeAPIGatewaySecretKeyValue: API.OperationMethod<
   DescribeCloudNativeAPIGatewaySecretKeyValueError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyValueRequest>,
+  input: __S(2752, __c86, 0) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyValueRequest>,
   output: __S(
-    2432,
-    __c76,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<DescribeCloudNativeAPIGatewaySecretKeyValueResponse>,
   errors: [],
@@ -3581,8 +3636,8 @@ export const describeCNGWServicesWithRoutes: API.OperationMethod<
   DescribeCNGWServicesWithRoutesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DescribeCNGWServicesWithRoutesRequest>,
-  output: __S(2763, __c86, 11) as any as S.Schema<DescribeCNGWServicesWithRoutesResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<DescribeCNGWServicesWithRoutesRequest>,
+  output: __S(2797, __c87, 13) as any as S.Schema<DescribeCNGWServicesWithRoutesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3598,8 +3653,8 @@ export const exportAIGWCustomGuardrailHits: API.OperationMethod<
   ExportAIGWCustomGuardrailHitsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ExportAIGWCustomGuardrailHitsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<ExportAIGWCustomGuardrailHitsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ExportAIGWCustomGuardrailHitsRequest>,
+  output: __S(2818, __c88, 2) as any as S.Schema<ExportAIGWCustomGuardrailHitsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3615,14 +3670,31 @@ export const modifyAIGWCustomGuardrailPolicy: API.OperationMethod<
   ModifyAIGWCustomGuardrailPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2819, __c88, 3) as any as S.Schema<ModifyAIGWCustomGuardrailPolicyRequest>,
-  output: __S(2821, __c88, 5) as any as S.Schema<ModifyAIGWCustomGuardrailPolicyResponse>,
+  input: __S(2851, __c89, 3) as any as S.Schema<ModifyAIGWCustomGuardrailPolicyRequest>,
+  output: __S(2853, __c89, 5) as any as S.Schema<ModifyAIGWCustomGuardrailPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyAIGWCustomGuardrailPolicy",
+}));
+
+export type ModifyAIGWLLMModelAPIIPRestrictionError = TencentCloudOpError;
+export const modifyAIGWLLMModelAPIIPRestriction: API.OperationMethod<
+  ModifyAIGWLLMModelAPIIPRestrictionRequest,
+  ModifyAIGWLLMModelAPIIPRestrictionResponse,
+  ModifyAIGWLLMModelAPIIPRestrictionError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2880, __c90, 0) as any as S.Schema<ModifyAIGWLLMModelAPIIPRestrictionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ModifyAIGWLLMModelAPIIPRestrictionResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAIGWLLMModelAPIIPRestriction",
 }));
 
 export type ModifyCloudNativeAPIGatewayAIServiceSourceError = TencentCloudOpError;
@@ -3632,7 +3704,7 @@ export const modifyCloudNativeAPIGatewayAIServiceSource: API.OperationMethod<
   ModifyCloudNativeAPIGatewayAIServiceSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayAIServiceSourceRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayAIServiceSourceRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayAIServiceSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3649,7 +3721,7 @@ export const modifyCloudNativeAPIGatewayConsumer: API.OperationMethod<
   ModifyCloudNativeAPIGatewayConsumerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3666,7 +3738,7 @@ export const modifyCloudNativeAPIGatewayConsumerGroup: API.OperationMethod<
   ModifyCloudNativeAPIGatewayConsumerGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerGroupRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerGroupRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayConsumerGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3683,7 +3755,7 @@ export const modifyCloudNativeAPIGatewayLLMModelAPI: API.OperationMethod<
   ModifyCloudNativeAPIGatewayLLMModelAPIError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelAPIRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelAPIRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelAPIResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3700,7 +3772,7 @@ export const modifyCloudNativeAPIGatewayLLMModelService: API.OperationMethod<
   ModifyCloudNativeAPIGatewayLLMModelServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelServiceRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelServiceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayLLMModelServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3717,7 +3789,7 @@ export const modifyCloudNativeAPIGatewayMCPRoute: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPRouteError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3734,8 +3806,12 @@ export const modifyCloudNativeAPIGatewayMCPRouteStatus: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPRouteStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteStatusRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteStatusResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteStatusRequest>,
+  output: __S(
+    3201,
+    __c100,
+    1,
+  ) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPRouteStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3751,7 +3827,7 @@ export const modifyCloudNativeAPIGatewayMCPServer: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3768,7 +3844,7 @@ export const modifyCloudNativeAPIGatewayMCPServerACL: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPServerACLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerACLRequest>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerACLRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerACLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3785,7 +3861,7 @@ export const modifyCloudNativeAPIGatewayMCPServerAuth: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPServerAuthError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerAuthRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerAuthRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerAuthResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3802,7 +3878,7 @@ export const modifyCloudNativeAPIGatewayMCPServerStatus: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPServerStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerStatusRequest>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerStatusRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPServerStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3819,7 +3895,7 @@ export const modifyCloudNativeAPIGatewayMCPTool: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPToolError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3836,7 +3912,7 @@ export const modifyCloudNativeAPIGatewayMCPToolACL: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPToolACLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolACLRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolACLRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolACLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3853,7 +3929,7 @@ export const modifyCloudNativeAPIGatewayMCPToolStatus: API.OperationMethod<
   ModifyCloudNativeAPIGatewayMCPToolStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolStatusRequest>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolStatusRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ModifyCloudNativeAPIGatewayMCPToolStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3870,7 +3946,7 @@ export const modifyCloudNativeAPIGatewaySecretKey: API.OperationMethod<
   ModifyCloudNativeAPIGatewaySecretKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ModifyCloudNativeAPIGatewaySecretKeyRequest>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ModifyCloudNativeAPIGatewaySecretKeyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ModifyCloudNativeAPIGatewaySecretKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3888,8 +3964,8 @@ export const removeCloudNativeAPIGatewayConsumerGroupAuth: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3424,
-    __c107,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<RemoveCloudNativeAPIGatewayConsumerGroupAuthRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<RemoveCloudNativeAPIGatewayConsumerGroupAuthResponse>,
@@ -3908,7 +3984,7 @@ export const removeCloudNativeAPIGatewayConsumerInGroup: API.OperationMethod<
   RemoveCloudNativeAPIGatewayConsumerInGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<RemoveCloudNativeAPIGatewayConsumerInGroupRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<RemoveCloudNativeAPIGatewayConsumerInGroupRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<RemoveCloudNativeAPIGatewayConsumerInGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3926,8 +4002,8 @@ export const rollbackCloudNativeAPIGatewayMCPToolVersion: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c110,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<RollbackCloudNativeAPIGatewayMCPToolVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<RollbackCloudNativeAPIGatewayMCPToolVersionResponse>,
@@ -3946,7 +4022,7 @@ export const unbindCloudNativeAPIGatewaySecretKey: API.OperationMethod<
   UnbindCloudNativeAPIGatewaySecretKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UnbindCloudNativeAPIGatewaySecretKeyRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UnbindCloudNativeAPIGatewaySecretKeyRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UnbindCloudNativeAPIGatewaySecretKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3963,8 +4039,8 @@ export const updateCloudNativeAPIGatewayMCPTools: API.OperationMethod<
   UpdateCloudNativeAPIGatewayMCPToolsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateCloudNativeAPIGatewayMCPToolsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<UpdateCloudNativeAPIGatewayMCPToolsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateCloudNativeAPIGatewayMCPToolsRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<UpdateCloudNativeAPIGatewayMCPToolsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5435,6 +5511,39 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GatewayId: S.String,
+          ModelAPIId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "DescribeAIGWLLMModelAPIIPRestriction",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeAIGWLLMModelAPIIPRestrictionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Enable: S.optional(S.Boolean),
+          RestrictionType: S.optional(S.String),
+          AddressList: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "AIGWLLMIPRestrictionResult" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Result: S.optional(__S(1377, __c43, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeAIGWLLMModelAPIIPRestrictionResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
           Id: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -5453,7 +5562,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "AIGWQuotaSubItem" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5478,19 +5587,19 @@ function __c43(j: number): any {
           UsedExact: S.optional(S.NullOr(S.Number)),
           ConsumerGroupPath: S.optional(S.String),
           ConsumerGroupActive: S.optional(S.Boolean),
-          SubResources: S.optional(__S(1378, __c43, 2)),
+          SubResources: S.optional(__S(1410, __c44, 2)),
         }),
       ).annotate({ identifier: "AIGWQuotaDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1379, __c43, 3)),
+          Result: S.optional(__S(1411, __c44, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayAIQuotaResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5499,7 +5608,7 @@ function __c44(j: number): any {
           Offset: S.Number,
           Limit: S.Number,
           Keyword: S.optional(S.String),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           AlarmLevels: S.optional(__S(32, __c1, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -5541,24 +5650,24 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "AIGWQuota" });
     case 2:
-      return S.Array(__S(1409, __c44, 1));
+      return S.Array(__S(1441, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataList: S.optional(__S(1410, __c44, 2)),
+          DataList: S.optional(__S(1442, __c45, 2)),
         }),
       ).annotate({ identifier: "AIGWQuotaList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1411, __c44, 3)),
+          Result: S.optional(__S(1443, __c45, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayAIQuotaListResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5568,10 +5677,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1472, __c46, 0));
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5580,7 +5689,7 @@ function __c46(j: number): any {
           Limit: S.Number,
           Offset: S.Number,
           Keyword: S.optional(S.String),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -5604,24 +5713,24 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "CNAPIGwAIServiceSource" });
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataList: S.optional(__S(1474, __c46, 2)),
+          DataList: S.optional(__S(1506, __c47, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CNAPIGwAIServiceSourceList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1475, __c46, 3)),
+          Result: S.optional(__S(1507, __c47, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayAIServiceSourceListResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5638,7 +5747,7 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayConsumerRequest" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5648,7 +5757,7 @@ function __c47(j: number): any {
           ModifyTime: S.optional(S.String),
           Priority: S.optional(S.String),
           Description: S.optional(S.NullOr(S.String)),
-          ConsumerGroups: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          ConsumerGroups: S.optional(S.NullOr(__S(1537, __c48, 1))),
           SyncStatus: S.optional(S.String),
           SourceType: S.optional(S.String),
           SyncedVersion: S.optional(S.String),
@@ -5663,13 +5772,13 @@ function __c47(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1506, __c47, 2)),
+          Result: S.optional(__S(1538, __c48, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayConsumerResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5689,7 +5798,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CNAPIGwConsumerGroup" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5708,13 +5817,33 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1536, __c48, 0)),
+          Result: S.optional(__S(1568, __c49, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayConsumerGroupResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
+          ServerId: S.String,
+          ToolId: S.String,
+          ToolVersion: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "CheckCloudNativeAPIGatewayMCPToolVersionExist",
+          }),
+        ),
+      ).annotate({ identifier: "CheckCloudNativeAPIGatewayMCPToolVersionExistRequest" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5744,33 +5873,13 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(S.NullOr(__S(1601, __c50, 1))),
+          Result: S.optional(S.NullOr(__S(1665, __c52, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayIPRestrictionResponse" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          ServerId: S.String,
-          ToolId: S.String,
-          ToolVersion: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "CheckCloudNativeAPIGatewayMCPToolVersionExist",
-          }),
-        ),
-      ).annotate({ identifier: "CheckCloudNativeAPIGatewayMCPToolVersionExistRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5789,13 +5898,13 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1704, __c53, 8)),
+          Result: S.optional(__S(1736, __c54, 8)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelAPIResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5807,13 +5916,13 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "AIGWCustomDesensitizeRule" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
           PredefinedRuleTypes: S.optional(__S(32, __c1, 0)),
-          CustomRules: S.optional(__S(1697, __c53, 1)),
+          CustomRules: S.optional(__S(1729, __c54, 1)),
           Scope: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AIGWLogDesensitizeConfig" });
@@ -5822,7 +5931,7 @@ function __c53(j: number): any {
         S.Struct({
           Enabled: S.optional(S.Boolean),
           PredefinedRuleTypes: S.optional(__S(32, __c1, 0)),
-          CustomRules: S.optional(__S(1697, __c53, 1)),
+          CustomRules: S.optional(__S(1729, __c54, 1)),
           PlaceholderFormat: S.optional(S.String),
           OnFailure: S.optional(S.String),
         }),
@@ -5840,12 +5949,12 @@ function __c53(j: number): any {
         S.Struct({
           PrincipalId: S.optional(S.String),
           PrincipalName: S.optional(S.String),
-          ModelScope: S.optional(__S(1700, __c53, 4)),
+          ModelScope: S.optional(__S(1732, __c54, 4)),
           EffectiveModelNames: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AIGWAuthModelScopeItem" });
     case 6:
-      return S.Array(__S(1701, __c53, 5));
+      return S.Array(__S(1733, __c54, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -5875,14 +5984,14 @@ function __c53(j: number): any {
           DescribeCloudNativeAPIGatewayLLMModelAPI: S.optional(S.Boolean),
           TagFilter: S.optional(__S(281, __c8, 25)),
           LogConfig: S.optional(__S(192, __c6, 0)),
-          LogDesensitizeConfig: S.optional(__S(1698, __c53, 2)),
-          ForwardDesensitizeConfig: S.optional(__S(1699, __c53, 3)),
+          LogDesensitizeConfig: S.optional(__S(1730, __c54, 2)),
+          ForwardDesensitizeConfig: S.optional(__S(1731, __c54, 3)),
           MaxDocumentsConfig: S.optional(__S(282, __c8, 26)),
           SensitiveWordRoute: S.optional(__S(283, __c8, 27)),
-          ConsumerGroupModelScopes: S.optional(__S(1702, __c53, 6)),
-          ConsumerInheritModelScope: S.optional(__S(1703, __c53, 7)),
-          ConsumerDirectModelScopes: S.optional(__S(1702, __c53, 6)),
-          SecretKeyModelScopes: S.optional(__S(1702, __c53, 6)),
+          ConsumerGroupModelScopes: S.optional(__S(1734, __c54, 6)),
+          ConsumerInheritModelScope: S.optional(__S(1735, __c54, 7)),
+          ConsumerDirectModelScopes: S.optional(__S(1734, __c54, 6)),
+          SecretKeyModelScopes: S.optional(__S(1734, __c54, 6)),
           PriorityScheduleConfig: S.optional(__S(284, __c8, 28)),
           PlaygroundAvailable: S.optional(S.Boolean),
           ModelNameRoute: S.optional(__S(285, __c8, 29)),
@@ -5891,7 +6000,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CloudNativeAPIGatewayLLMModelAPI" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5899,7 +6008,7 @@ function __c54(j: number): any {
           GatewayId: S.String,
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           Keyword: S.optional(S.String),
           ConsumerGroupId: S.optional(S.String),
           UseToBind: S.optional(S.Boolean),
@@ -5915,24 +6024,24 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelAPIsRequest" });
     case 1:
-      return S.Array(__S(1704, __c53, 8));
+      return S.Array(__S(1736, __c54, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataList: S.optional(__S(1729, __c54, 1)),
+          DataList: S.optional(__S(1761, __c55, 1)),
         }),
       ).annotate({ identifier: "ListCloudNativeAPIGatewayLLMModelAPI" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1730, __c54, 2)),
+          Result: S.optional(__S(1762, __c55, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelAPIsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5951,13 +6060,13 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1793, __c56, 1)),
+          Result: S.optional(__S(1825, __c57, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelServiceResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6014,14 +6123,14 @@ function __c56(j: number): any {
           SyncedVersion: S.optional(S.String),
           Status: S.optional(S.String),
           EnableHealthCheck: S.optional(S.Boolean),
-          HealthCheck: S.optional(__S(1792, __c56, 0)),
+          HealthCheck: S.optional(__S(1824, __c57, 0)),
           LengthLimitConfig: S.optional(__S(358, __c11, 6)),
           SmartBalance: S.optional(__S(357, __c11, 5)),
         }),
       ).annotate({ identifier: "CloudNativeAPIGatewayLLMModelService" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6029,7 +6138,7 @@ function __c57(j: number): any {
           GatewayId: S.String,
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           ModelAPIId: S.optional(S.String),
           SecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           Keyword: S.optional(S.String),
@@ -6043,24 +6152,24 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelServicesRequest" });
     case 1:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataList: S.optional(__S(1825, __c57, 1)),
+          DataList: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListCloudNativeAPIGatewayLLMModelService" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1826, __c57, 2)),
+          Result: S.optional(__S(1858, __c58, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMModelServicesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6069,7 +6178,7 @@ function __c58(j: number): any {
           StartTime: S.Number,
           EndTime: S.Number,
           Dimension: S.optional(S.String),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6090,7 +6199,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AIGWConsumerGroupBrief" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6099,13 +6208,13 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AIGWLLMResourceDimension" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(1891, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ConsumerId: S.optional(S.String),
           ConsumerName: S.optional(S.String),
-          ConsumerGroups: S.optional(__S(1858, __c58, 2)),
+          ConsumerGroups: S.optional(__S(1890, __c59, 2)),
           ModelServiceId: S.optional(S.String),
           ModelServiceName: S.optional(S.String),
           InputTokens: S.optional(S.Number),
@@ -6115,15 +6224,15 @@ function __c58(j: number): any {
           RequestCount: S.optional(S.Number),
           Cost: S.optional(S.String),
           Currency: S.optional(S.String),
-          DimensionList: S.optional(S.NullOr(__S(1860, __c58, 4))),
+          DimensionList: S.optional(S.NullOr(__S(1892, __c59, 4))),
         }),
       ).annotate({ identifier: "AIGWLLMTokenUsageItem" });
     case 6:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(1893, __c59, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          DataList: S.optional(__S(1862, __c58, 6)),
+          DataList: S.optional(__S(1894, __c59, 6)),
           TotalCount: S.optional(S.Number),
           OrgAttributionIncomplete: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -6131,13 +6240,13 @@ function __c58(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1863, __c58, 7)),
+          Result: S.optional(__S(1895, __c59, 7)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMTokenUsageListResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6146,7 +6255,7 @@ function __c59(j: number): any {
           StartTime: S.Number,
           EndTime: S.Number,
           Dimension: S.optional(S.String),
-          Filters: S.optional(__S(1441, __c45, 1)),
+          Filters: S.optional(__S(1473, __c46, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -6165,7 +6274,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "AIGWTopConsumersItem" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6175,7 +6284,7 @@ function __c59(j: number): any {
           TotalCachedReadInputTokens: S.optional(S.Number),
           TotalCost: S.optional(S.String),
           Currency: S.optional(S.String),
-          TopConsumers: S.optional(__S(1890, __c59, 2)),
+          TopConsumers: S.optional(__S(1922, __c60, 2)),
           TotalTokens: S.optional(S.Number),
           OrgAttributionIncomplete: S.optional(S.NullOr(S.Boolean)),
         }),
@@ -6183,13 +6292,13 @@ function __c59(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1891, __c59, 3)),
+          Result: S.optional(__S(1923, __c60, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayLLMTokenUsageStatisticsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6225,24 +6334,24 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "AIGWMCPRoute" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(1953, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataList: S.optional(__S(1922, __c60, 2)),
+          DataList: S.optional(__S(1954, __c61, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AIGWMCPRouteListResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(S.NullOr(__S(1923, __c60, 3))),
+          Result: S.optional(S.NullOr(__S(1955, __c61, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPRouteListResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6261,13 +6370,13 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(1987, __c62, 3)),
+          Result: S.optional(__S(2019, __c63, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPServerResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6308,7 +6417,7 @@ function __c62(j: number): any {
         S.Struct({
           Enable: S.optional(S.Boolean),
           VerifyType: S.optional(S.String),
-          OAuthConfig: S.optional(__S(1985, __c62, 1)),
+          OAuthConfig: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "AIGWGatewayVerifyConfig" });
     case 3:
@@ -6321,7 +6430,7 @@ function __c62(j: number): any {
           UpstreamType: S.optional(S.String),
           DisplayName: S.optional(S.String),
           MCPEndpoint: S.optional(S.String),
-          UpstreamInfo: S.optional(S.NullOr(__S(1984, __c62, 0))),
+          UpstreamInfo: S.optional(S.NullOr(__S(2016, __c63, 0))),
           SessionConfig: S.optional(S.NullOr(__S(450, __c14, 2))),
           Timeout: S.optional(S.Number),
           RetryCount: S.optional(S.Number),
@@ -6337,12 +6446,12 @@ function __c62(j: number): any {
           PreserveHost: S.optional(S.Boolean),
           LogConfig: S.optional(__S(192, __c6, 0)),
           ParamRewriteConfig: S.optional(__S(455, __c14, 7)),
-          GatewayVerifyConfig: S.optional(__S(1986, __c62, 2)),
+          GatewayVerifyConfig: S.optional(__S(2018, __c63, 2)),
         }),
       ).annotate({ identifier: "AIGWMCPServer" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6362,21 +6471,21 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ACLType: S.optional(S.String),
-          ACLConsumers: S.optional(__S(2049, __c64, 1)),
-          ACLConsumerGroups: S.optional(__S(2049, __c64, 1)),
+          ACLConsumers: S.optional(__S(2081, __c65, 1)),
+          ACLConsumerGroups: S.optional(__S(2081, __c65, 1)),
           AuthType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AIGWMCPServerACLResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2017, __c63, 1)),
+          Result: S.optional(__S(2049, __c64, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPServerACLResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6386,10 +6495,45 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "AIGWACLSubject" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2080, __c65, 0));
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BaseVersion: S.String,
+          GatewayId: S.String,
+          ServerId: S.String,
+          TargetVersion: S.String,
+          ToolId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "CompareCloudNativeAPIGatewayMCPToolVersion",
+          }),
+        ),
+      ).annotate({ identifier: "CompareCloudNativeAPIGatewayMCPToolVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Breaking: S.optional(S.Number),
+          Compatible: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AIGWChangeSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Result: S.optional(__S(2113, __c66, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompareCloudNativeAPIGatewayMCPToolVersionResponse" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6409,21 +6553,21 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthType: S.optional(S.String),
-          JWTAuthConfig: S.optional(__S(2112, __c66, 0)),
-          OAuthAuthConfig: S.optional(__S(2113, __c66, 1)),
-          OIDCAuthConfig: S.optional(__S(2114, __c66, 2)),
+          JWTAuthConfig: S.optional(__S(2176, __c68, 0)),
+          OAuthAuthConfig: S.optional(__S(2177, __c68, 1)),
+          OIDCAuthConfig: S.optional(__S(2178, __c68, 2)),
         }),
       ).annotate({ identifier: "AIGWMCPServerAuthResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2081, __c65, 1)),
+          Result: S.optional(__S(2145, __c67, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPServerAuthResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6466,42 +6610,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "AIGWOIDCAuthPluginConfig" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          BaseVersion: S.String,
-          GatewayId: S.String,
-          ServerId: S.String,
-          TargetVersion: S.String,
-          ToolId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "CompareCloudNativeAPIGatewayMCPToolVersion",
-          }),
-        ),
-      ).annotate({ identifier: "CompareCloudNativeAPIGatewayMCPToolVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Breaking: S.optional(S.Number),
-          Compatible: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AIGWChangeSummary" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Result: S.optional(__S(2145, __c67, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CompareCloudNativeAPIGatewayMCPToolVersionResponse" });
-  }
-}
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6520,24 +6629,24 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPServerListRequest" });
     case 1:
-      return S.Array(__S(1987, __c62, 3));
+      return S.Array(__S(2019, __c63, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          DataList: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          DataList: S.optional(S.NullOr(__S(2209, __c69, 1))),
         }),
       ).annotate({ identifier: "AIGWMCPServerList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2178, __c68, 2)),
+          Result: S.optional(__S(2210, __c69, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPServerListResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6556,7 +6665,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6581,30 +6690,30 @@ function __c70(j: number): any {
           ToolId: S.optional(S.String),
           ToolName: S.optional(S.String),
           ACLType: S.optional(S.String),
-          ACLConsumers: S.optional(__S(2049, __c64, 1)),
-          ACLConsumerGroups: S.optional(__S(2049, __c64, 1)),
+          ACLConsumers: S.optional(__S(2081, __c65, 1)),
+          ACLConsumerGroups: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "AIGWMCPToolACLItem" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ACLType: S.optional(S.String),
-          DataList: S.optional(__S(2242, __c70, 2)),
+          DataList: S.optional(__S(2274, __c71, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AIGWMCPToolACLListResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2243, __c70, 3)),
+          Result: S.optional(__S(2275, __c71, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolACLListResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6632,7 +6741,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "CNAPIGwMCPToolImportResult" });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6643,20 +6752,20 @@ function __c71(j: number): any {
           TaskId: S.optional(S.String),
           TaskStartTime: S.optional(S.NullOr(S.String)),
           TaskStatus: S.optional(S.String),
-          ToolsImportResult: S.optional(__S(2274, __c71, 2)),
+          ToolsImportResult: S.optional(__S(2306, __c72, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CNAPIGwMCPToolImportTaskResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2275, __c71, 3)),
+          Result: S.optional(__S(2307, __c72, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolImportTaskResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6677,20 +6786,20 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DataList: S.optional(__S(2337, __c73, 1)),
+          DataList: S.optional(__S(2369, __c74, 1)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CNAPIGwMCPToolList" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2305, __c72, 1)),
+          Result: S.optional(__S(2337, __c73, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolListResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6711,10 +6820,10 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "CNAPIGwMCPTool" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(2368, __c74, 0));
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6747,24 +6856,24 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "CNAPIGwMCPToolPreview" });
     case 2:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataList: S.optional(__S(2370, __c74, 2)),
+          DataList: S.optional(__S(2402, __c75, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CNAPIGwParseMCPToolsResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2371, __c74, 3)),
+          Result: S.optional(__S(2403, __c75, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolsFromFileResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6784,7 +6893,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolVersionRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,7 +6904,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolVersionResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6825,24 +6934,24 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "AIGWMCPToolVersion" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MCPToolVersions: S.optional(__S(2466, __c77, 2)),
+          MCPToolVersions: S.optional(__S(2498, __c78, 2)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AIGWMCPToolVersionList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2467, __c77, 3)),
+          Result: S.optional(__S(2499, __c78, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayMCPToolVersionListResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6862,13 +6971,13 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2530, __c79, 2)),
+          Result: S.optional(__S(2562, __c80, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyResponse" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6881,7 +6990,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "AIGWSimpleSecretKey" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6912,54 +7021,13 @@ function __c79(j: number): any {
           BasicCredentialConfig: S.optional(__S(616, __c19, 8)),
           CustomHeaderCredentialConfig: S.optional(__S(614, __c19, 6)),
           QueryParamCredentialConfig: S.optional(__S(615, __c19, 7)),
-          BoundModelSecretKeys: S.optional(__S(2529, __c79, 1)),
-          BoundConsumerSecretKeys: S.optional(__S(2529, __c79, 1)),
+          BoundModelSecretKeys: S.optional(__S(2561, __c80, 1)),
+          BoundConsumerSecretKeys: S.optional(__S(2561, __c80, 1)),
           CredentialGenerateType: S.optional(S.String),
           CreationSource: S.optional(S.String),
           BatchId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CNAPIGwSecretKey" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          Limit: S.Number,
-          Offset: S.Number,
-          Filters: S.optional(__S(1441, __c45, 1)),
-          Keyword: S.optional(S.String),
-          ResourceId: S.optional(S.String),
-          ResourceType: S.optional(S.String),
-          UseToBind: S.optional(S.Boolean),
-          IncludeCreationInfo: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "DescribeCloudNativeAPIGatewaySecretKeyList",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyListRequest" });
-    case 1:
-      return S.Array(__S(2530, __c79, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          SecretKeys: S.optional(__S(2561, __c80, 1)),
-          TotalCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CNAPIGwSecretKeyList" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Result: S.optional(__S(2562, __c80, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyListResponse" });
   }
 }
 function __c81(j: number): any {
@@ -7120,6 +7188,47 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GatewayId: S.String,
+          Limit: S.Number,
+          Offset: S.Number,
+          Filters: S.optional(__S(1473, __c46, 1)),
+          Keyword: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          UseToBind: S.optional(S.Boolean),
+          IncludeCreationInfo: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "DescribeCloudNativeAPIGatewaySecretKeyList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyListRequest" });
+    case 1:
+      return S.Array(__S(2562, __c80, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SecretKeys: S.optional(__S(2721, __c85, 1)),
+          TotalCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CNAPIGwSecretKeyList" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Result: S.optional(__S(2722, __c85, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyListResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
           SecretKeyId: S.String.pipe(T.SensitiveValue({})),
           SecretValueType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7133,7 +7242,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewaySecretKeyValueRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7161,12 +7270,13 @@ function __c86(j: number): any {
           CvmInstanceId: S.optional(S.String),
           CvmInstanceName: S.optional(S.String),
           Health: S.optional(S.String),
+          Id: S.optional(S.String),
           Source: S.optional(S.String),
           Tags: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "KongTarget" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2785, __c87, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7192,7 +7302,7 @@ function __c86(j: number): any {
           SourceID: S.optional(S.String),
           SourceName: S.optional(S.String),
           SourceType: S.optional(S.String),
-          Targets: S.optional(S.NullOr(__S(2754, __c86, 2))),
+          Targets: S.optional(S.NullOr(__S(2786, __c87, 2))),
         }),
       ).annotate({ identifier: "KongUpstreamInfo" });
     case 4:
@@ -7204,13 +7314,23 @@ function __c86(j: number): any {
           Name: S.optional(S.String),
           Path: S.optional(S.NullOr(S.String)),
           Tags: S.optional(__S(32, __c1, 0)),
-          UpstreamInfo: S.optional(__S(2755, __c86, 3)),
+          UpstreamInfo: S.optional(__S(2787, __c87, 3)),
           UpstreamType: S.optional(S.String),
         }),
       ).annotate({ identifier: "KongServicePreview" });
     case 5:
       return S.Array(S.Number);
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          TagId: S.optional(S.Number),
+          TagKey: S.optional(S.String),
+          TagValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KongUserTagKV" });
+    case 7:
+      return S.Array(__S(2790, __c87, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
@@ -7225,45 +7345,48 @@ function __c86(j: number): any {
           CreatedTime: S.optional(S.String),
           ServiceName: S.optional(S.String),
           ServiceID: S.optional(S.String),
-          DestinationPorts: S.optional(__S(2757, __c86, 5)),
+          DestinationPorts: S.optional(__S(2789, __c87, 5)),
           Headers: S.optional(__S(321, __c10, 1)),
           RequestBuffering: S.optional(S.Boolean),
           ResponseBuffering: S.optional(S.Boolean),
           RegexPriority: S.optional(S.Number),
           QueryStringParameters: S.optional(__S(321, __c10, 1)),
           RouteSource: S.optional(S.String),
+          Tags: S.optional(__S(2791, __c87, 7)),
+          Timeout: S.optional(S.NullOr(S.Number)),
+          TimeoutSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "KongRoutePreview" });
-    case 7:
-      return S.Array(__S(2758, __c86, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          Service: S.optional(__S(2756, __c86, 4)),
-          RouteTotalCount: S.optional(S.Number),
-          RouteHasMore: S.optional(S.Boolean),
-          Routes: S.optional(__S(2759, __c86, 7)),
-        }),
-      ).annotate({ identifier: "KongServiceRoute" });
     case 9:
-      return S.Array(__S(2760, __c86, 8));
+      return S.Array(__S(2792, __c87, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          ServiceList: S.optional(__S(2761, __c86, 9)),
+          Service: S.optional(__S(2788, __c87, 4)),
+          RouteTotalCount: S.optional(S.Number),
+          RouteHasMore: S.optional(S.Boolean),
+          Routes: S.optional(__S(2793, __c87, 9)),
+        }),
+      ).annotate({ identifier: "KongServiceRoute" });
+    case 11:
+      return S.Array(__S(2794, __c87, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceList: S.optional(__S(2795, __c87, 11)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "KongServiceWithRoutes" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2762, __c86, 10)),
+          Result: S.optional(__S(2796, __c87, 12)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCNGWServicesWithRoutesResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7294,13 +7417,13 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2785, __c87, 1)),
+          Result: S.optional(__S(2817, __c88, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExportAIGWCustomGuardrailHitsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7340,9 +7463,9 @@ function __c88(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
-          ServiceConfig: S.optional(__S(2816, __c88, 0)),
-          AuthConfig: S.optional(__S(2817, __c88, 1)),
-          DecisionConfig: S.optional(__S(2818, __c88, 2)),
+          ServiceConfig: S.optional(__S(2848, __c89, 0)),
+          AuthConfig: S.optional(__S(2849, __c89, 1)),
+          DecisionConfig: S.optional(__S(2850, __c89, 2)),
           BehaviorConfig: S.optional(__S(1316, __c41, 4)),
           FilterConfig: S.optional(__S(2691, __c84, 3)),
           Scope: S.optional(__S(2690, __c84, 2)),
@@ -7369,13 +7492,34 @@ function __c88(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(2820, __c88, 4)),
+          Result: S.optional(__S(2852, __c89, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyAIGWCustomGuardrailPolicyResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
+          ModelAPIId: S.String,
+          Enable: S.optional(S.Boolean),
+          RestrictionType: S.optional(S.String),
+          AddressList: S.optional(__S(32, __c1, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "ModifyAIGWLLMModelAPIIPRestriction",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyAIGWLLMModelAPIIPRestrictionRequest" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7397,7 +7541,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayAIServiceSourceRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7418,7 +7562,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayConsumerRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7439,7 +7583,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayConsumerGroupRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7470,79 +7614,6 @@ function __c92(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayLLMModelAPIRequest" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          ModelServiceId: S.String,
-          Name: S.optional(S.String),
-          DefaultModel: S.optional(S.String),
-          ModelSelector: S.optional(S.String),
-          EnableModelFallback: S.optional(S.Boolean),
-          ModelFallbackRule: S.optional(__S(352, __c11, 0)),
-          EnableModelParamCheck: S.optional(S.Boolean),
-          ModelParamCheckRule: S.optional(__S(353, __c11, 1)),
-          Description: S.optional(S.String),
-          UpstreamURL: S.optional(S.String),
-          ConnectTimeout: S.optional(S.Number),
-          WriteTimeout: S.optional(S.Number),
-          ReadTimeout: S.optional(S.Number),
-          Retries: S.optional(S.Number),
-          UpstreamUrlMode: S.optional(S.String),
-          SNI: S.optional(S.String),
-          QuotaLimit: S.optional(__S(354, __c11, 2)),
-          Tags: S.optional(__S(32, __c1, 0)),
-          ModelRewriteRules: S.optional(__S(356, __c11, 4)),
-          ExternalInstanceId: S.optional(S.String),
-          ExtParams: S.optional(__S(321, __c10, 1)),
-          KeyRotationEnabled: S.optional(S.Boolean),
-          KeyRotationPeriodDays: S.optional(S.Number),
-          SourceId: S.optional(S.String),
-          Namespace: S.optional(S.String),
-          ServiceName: S.optional(S.String),
-          Protocol: S.optional(S.String),
-          CustomProviderName: S.optional(S.String),
-          LoadBalanceConfig: S.optional(__S(357, __c11, 5)),
-          SmartBalance: S.optional(__S(357, __c11, 5)),
-          LengthLimitConfig: S.optional(__S(358, __c11, 6)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "ModifyCloudNativeAPIGatewayLLMModelService",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyCloudNativeAPIGatewayLLMModelServiceRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          RouteId: S.String,
-          ServerId: S.String,
-          Description: S.optional(S.String),
-          HeaderMatch: S.optional(__S(1153, __c36, 1)),
-          Methods: S.optional(__S(32, __c1, 0)),
-          Path: S.optional(S.String),
-          PathMatchType: S.optional(S.String),
-          Priority: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "ModifyCloudNativeAPIGatewayMCPRoute",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPRouteRequest" });
   }
 }
 function __c95(j: number): any {
@@ -7611,6 +7682,79 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GatewayId: S.String,
+          ModelServiceId: S.String,
+          Name: S.optional(S.String),
+          DefaultModel: S.optional(S.String),
+          ModelSelector: S.optional(S.String),
+          EnableModelFallback: S.optional(S.Boolean),
+          ModelFallbackRule: S.optional(__S(352, __c11, 0)),
+          EnableModelParamCheck: S.optional(S.Boolean),
+          ModelParamCheckRule: S.optional(__S(353, __c11, 1)),
+          Description: S.optional(S.String),
+          UpstreamURL: S.optional(S.String),
+          ConnectTimeout: S.optional(S.Number),
+          WriteTimeout: S.optional(S.Number),
+          ReadTimeout: S.optional(S.Number),
+          Retries: S.optional(S.Number),
+          UpstreamUrlMode: S.optional(S.String),
+          SNI: S.optional(S.String),
+          QuotaLimit: S.optional(__S(354, __c11, 2)),
+          Tags: S.optional(__S(32, __c1, 0)),
+          ModelRewriteRules: S.optional(__S(356, __c11, 4)),
+          ExternalInstanceId: S.optional(S.String),
+          ExtParams: S.optional(__S(321, __c10, 1)),
+          KeyRotationEnabled: S.optional(S.Boolean),
+          KeyRotationPeriodDays: S.optional(S.Number),
+          SourceId: S.optional(S.String),
+          Namespace: S.optional(S.String),
+          ServiceName: S.optional(S.String),
+          Protocol: S.optional(S.String),
+          CustomProviderName: S.optional(S.String),
+          LoadBalanceConfig: S.optional(__S(357, __c11, 5)),
+          SmartBalance: S.optional(__S(357, __c11, 5)),
+          LengthLimitConfig: S.optional(__S(358, __c11, 6)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "ModifyCloudNativeAPIGatewayLLMModelService",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyCloudNativeAPIGatewayLLMModelServiceRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
+          RouteId: S.String,
+          ServerId: S.String,
+          Description: S.optional(S.String),
+          HeaderMatch: S.optional(__S(1153, __c36, 1)),
+          Methods: S.optional(__S(32, __c1, 0)),
+          Path: S.optional(S.String),
+          PathMatchType: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "ModifyCloudNativeAPIGatewayMCPRoute",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPRouteRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
           RouteId: S.String,
           ServerId: S.String,
           Status: S.String,
@@ -7632,7 +7776,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPRouteStatusResponse" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7662,7 +7806,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPServerRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7683,7 +7827,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPServerACLRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7691,9 +7835,9 @@ function __c101(j: number): any {
           GatewayId: S.String,
           ServerId: S.String,
           AuthType: S.String,
-          JWTAuthConfig: S.optional(__S(2112, __c66, 0)),
-          OAuthAuthConfig: S.optional(__S(2113, __c66, 1)),
-          OIDCAuthConfig: S.optional(__S(2114, __c66, 2)),
+          JWTAuthConfig: S.optional(__S(2176, __c68, 0)),
+          OAuthAuthConfig: S.optional(__S(2177, __c68, 1)),
+          OIDCAuthConfig: S.optional(__S(2178, __c68, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7705,7 +7849,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPServerAuthRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7724,7 +7868,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPServerStatusRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7751,7 +7895,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPToolRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7773,7 +7917,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPToolACLRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7791,46 +7935,6 @@ function __c105(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyCloudNativeAPIGatewayMCPToolStatusRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          Name: S.String,
-          SecretKeyId: S.String.pipe(T.SensitiveValue({})),
-          Description: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "ModifyCloudNativeAPIGatewaySecretKey",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyCloudNativeAPIGatewaySecretKeyRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayId: S.String,
-          ResourceType: S.String,
-          ResourceId: S.String,
-          ConsumerGroupIds: __S(32, __c1, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cngw",
-            version: "2023-04-18",
-            action: "RemoveCloudNativeAPIGatewayConsumerGroupAuth",
-          }),
-        ),
-      ).annotate({ identifier: "RemoveCloudNativeAPIGatewayConsumerGroupAuthRequest" });
   }
 }
 function __c108(j: number): any {
@@ -7870,6 +7974,46 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GatewayId: S.String,
+          Name: S.String,
+          SecretKeyId: S.String.pipe(T.SensitiveValue({})),
+          Description: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "ModifyCloudNativeAPIGatewaySecretKey",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyCloudNativeAPIGatewaySecretKeyRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
+          ResourceType: S.String,
+          ResourceId: S.String,
+          ConsumerGroupIds: __S(32, __c1, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cngw",
+            version: "2023-04-18",
+            action: "RemoveCloudNativeAPIGatewayConsumerGroupAuth",
+          }),
+        ),
+      ).annotate({ identifier: "RemoveCloudNativeAPIGatewayConsumerGroupAuthRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.String,
           ConsumerGroupId: S.String,
           ConsumerIds: __S(32, __c1, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7883,7 +8027,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "RemoveCloudNativeAPIGatewayConsumerInGroupRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7903,7 +8047,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "RollbackCloudNativeAPIGatewayMCPToolVersionRequest" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7923,14 +8067,14 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UnbindCloudNativeAPIGatewaySecretKeyRequest" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           GatewayId: S.String,
           MCPServerId: S.String,
-          Tools: __S(2337, __c73, 1),
+          Tools: __S(2369, __c74, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7942,7 +8086,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateCloudNativeAPIGatewayMCPToolsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

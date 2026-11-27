@@ -207,12 +207,11 @@ export interface NotFound2 {
   /** Any fields/values that weren't found */
   fields?: NotFoundFieldsList | undefined;
 }
-/** Violation type */
-export type ViolationType = "TermsOfService";
+export type TypeEnum = "TermsOfService";
 /** Field violations (read only) */
 export interface Violation {
   /** Violation type */
-  type: ViolationType;
+  type: TypeEnum;
   /** Violation subject */
   subject: string;
   /** Violation description */

@@ -200,7 +200,8 @@ export type LogTopic =
   | "storage_api_bandwidth"
   | "ai_gateway_usage"
   | "log_stream_egress"
-  | "custom_audit";
+  | "custom_audit"
+  | "s3_export_stats";
 /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
 export type CreateLogStreamArgsCase0TopicsList = Array<LogTopic | (string & {})>;
 export type CreateLogStreamArgsCase0LogStreamType = "datadog";
@@ -296,9 +297,9 @@ export interface CreateLogStreamArgsCase6 {
   bucket: string;
   /** AWS region the bucket lives in, e.g. `us-east-1`. */
   region: string;
-  /** Key prefix within the bucket. Omit to write at the bucket root. */
+  /** Folder in the bucket to put the export under. Convex writes to `<prefix>/<deployment-name>/data-lake/`, or to `<deployment-name>/data-lake/` if you omit it. */
   prefix?: string | null | undefined;
-  /** ARN of a role in the bucket's account that Convex assumes to write. Omit it to create the export first: the response carries the `roleExternalId` the role's trust policy needs, and the export waits until an update supplies the ARN. */
+  /** ARN of the IAM role Convex assumes to write. The role must be named `ConvexIntegrations-<roleExternalId>`, with path `/convex/`. Omit it to create the export first: the response carries the `roleExternalId` the role's name and trust policy need, and the export waits until an update sets the ARN. */
   roleArn?: string | undefined;
   selection?: Selection | null | undefined;
   logStreamType: CreateLogStreamArgsCase6LogStreamType;
@@ -415,7 +416,7 @@ export interface ActiveDataSyncSnapshotting {
   numDocumentsInCurrentTable: number;
   /** Total documents in the current table, as of a recent snapshot. */
   totalDocumentsInCurrentTable: number;
-  /** Documents synced over the sync's lifetime, including deletions and re-synced revisions of documents that changed mid-sync -- so this can slightly exceed `totalDocuments`. */
+  /** Documents in the selected tables traversed so far, counted as of the same snapshot as `totalDocuments`. */
   numDocumentsSynced: number;
   /** Total documents across all selected tables, as of a recent snapshot. */
   totalDocuments: number;
@@ -614,9 +615,9 @@ export interface LogStreamConfigCase6 {
   bucket: string;
   /** AWS region the bucket lives in. */
   region: string;
-  /** Key prefix within the bucket. */
+  /** Folder in the bucket the export is under, if any. */
   prefix?: string | null | undefined;
-  /** ARN of the role Convex assumes to write. Empty until the admin pastes it. */
+  /** ARN of the role Convex assumes to write. Empty if it hasn't been set yet, and the export doesn't sync while it's empty. */
   roleArn: string;
   /** Value the role's trust policy must require as `sts:ExternalId`. */
   roleExternalId: string;
@@ -744,8 +745,10 @@ export interface ListDeploymentAuditLogEventsResponse {
   pagination: PaginationMetadata;
 }
 export interface ListEnvironmentVariablesRequest {}
+/** The value of every environment variable that isn't a secret, by name. */
 export type ListEnvVarsResponseEnvironmentVariablesMap = { [key: string]: string | undefined };
 export interface ListEnvVarsResponse {
+  /** The value of every environment variable that isn't a secret, by name. */
   environmentVariables: ListEnvVarsResponseEnvironmentVariablesMap;
 }
 export interface ListIntegrationsRequest {}
@@ -937,7 +940,7 @@ export interface UpdateLogStreamArgsCase5 {
 }
 export type UpdateLogStreamArgsCase6LogStreamType = "s3Export";
 export interface UpdateLogStreamArgsCase6 {
-  /** The role ARN from the customer's stack. Role exports only; sets or replaces the ARN, within the same AWS account. */
+  /** ARN of the IAM role Convex assumes to write. The role must be named `ConvexIntegrations-<roleExternalId>`, with path `/convex/`. Set it to finish a pending export, or to switch to a role in another account. */
   roleArn?: string | null | undefined;
   selection?: Selection | null | undefined;
   logStreamType: UpdateLogStreamArgsCase6LogStreamType;
@@ -1237,7 +1240,7 @@ export type ListEnvironmentVariablesError =
   | BadDeployKey
   | OperationNotPermitted
   | ConvexOpError;
-/** List environment variables Get all environment variables in a deployment. In the future this might not include "secret" environment variables. */
+/** List environment variables Get the environment variables in a deployment that aren't secrets. */
 export const listEnvironmentVariables: API.OperationMethod<
   ListEnvironmentVariablesRequest,
   ListEnvVarsResponse,
@@ -1457,7 +1460,7 @@ export type UpdateIntegrationError =
   | InvalidLogStreamId
   | LogStreamDoesntExist
   | ConvexOpError;
-/** Update integration Update an existing integration for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. */
+/** Update integration Update an existing integration for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. For S3 exports, `null` keeps the existing value too. */
 export const updateIntegration: API.OperationMethod<
   UpdateIntegrationRequest,
   UpdateIntegrationResponse,

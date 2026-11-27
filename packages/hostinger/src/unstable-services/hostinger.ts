@@ -52,7 +52,14 @@ export interface CreateVPSNewProjectV1Request {
   environment?: string | null | undefined;
 }
 /** Action state */
-export type VPSV1ActionActionResourceState = "success" | "error" | "delayed" | "sent" | "created";
+export type VPSV1ActionActionResourceState =
+  | "success"
+  | "error"
+  | "delayed"
+  | "sent"
+  | "created"
+  | "started"
+  | "cancelled";
 export interface VPSV1ActionActionResource {
   /** Action ID */
   id?: number | undefined;

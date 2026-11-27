@@ -45,7 +45,8 @@ export type JobType =
   | "UPDATE_SANDBOX_SECRETS"
   | "SNAPSHOT_SANDBOX"
   | "FORK_SANDBOX"
-  | "PAUSE_SANDBOX";
+  | "PAUSE_SANDBOX"
+  | "UPDATE_SANDBOX_FABRIC";
 export type JobStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
 /** The type of resource this job operates on */
 export type JobResourceType = "SANDBOX" | "SNAPSHOT" | "BACKUP";

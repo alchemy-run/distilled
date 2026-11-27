@@ -1889,6 +1889,88 @@ export interface BranchPRMatch {
 export type EngineeringAnalyticsResolveBranchResponseBodyList = Array<BranchPRMatch>;
 export type EngineeringAnalyticsResolveBranchResponse =
   EngineeringAnalyticsResolveBranchResponseBodyList;
+export interface EngineeringAnalyticsRevertOutcomesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
+  date_from?: string | undefined;
+  /** Window end: relative or ISO8601. Defaults to now. */
+  date_to?: string | undefined;
+  /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
+  repo?: string | undefined;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
+  source_id?: string | undefined;
+}
+/** * `bot` - Bot account * `agent_context` - Agent context filled in * `no_agent_context` - No agent context */
+export type PullRequestAuthorshipEnum = "bot" | "agent_context" | "no_agent_context";
+export interface AuthorshipRevertOutcome {
+  /** How the pull request was authored: 'bot' for a bot account, 'agent_context' when a person opened it and the description's Agent context section names a tool and model, 'no_agent_context' otherwise. A pull request without the section can still be agent-assisted. * `bot` - Bot account * `agent_context` - Agent context filled in * `no_agent_context` - No agent context */
+  authorship: PullRequestAuthorshipEnum;
+  /** Pull requests merged in the window, excluding pull requests that are themselves reverts. */
+  merged_pr_count: number;
+  /** How many of those pull requests a later merged revert names in its description. A recent merge can still be reverted, so this count can grow. */
+  reverted_pr_count: number;
+  /** reverted_pr_count divided by merged_pr_count. Null when nothing merged. */
+  reverted_share: number | null;
+}
+/** One entry per authorship value, including values with no merges. Empty when body_data_available is false. */
+export type RevertOutcomesByAuthorshipList = Array<AuthorshipRevertOutcome>;
+/** * `human` - Approved by a person * `automated_only` - Approved by bots only * `none` - No approval before merge */
+export type PullRequestApprovalEnum = "human" | "automated_only" | "none";
+export interface ApprovalRevertOutcome {
+  /** Who approved the pull request before it merged: 'human' when at least one person approved, 'automated_only' when every approval came from a bot account, 'none' when no approval was recorded. An approval bot may approve only the pull requests its risk policy allows, so the 'automated_only' share reflects that selection as well as the effect of the approval. * `human` - Approved by a person * `automated_only` - Approved by bots only * `none` - No approval before merge */
+  approval: PullRequestApprovalEnum;
+  /** Pull requests merged in the window, excluding pull requests that are themselves reverts. */
+  merged_pr_count: number;
+  /** How many of those pull requests a later merged revert names in its description. A recent merge can still be reverted, so this count can grow. */
+  reverted_pr_count: number;
+  /** reverted_pr_count divided by merged_pr_count. Null when nothing merged. */
+  reverted_share: number | null;
+}
+/** One entry per approval value, including values with no merges. Empty when body_data_available or review_data_available is false. */
+export type RevertOutcomesByApprovalList = Array<ApprovalRevertOutcome>;
+export interface RevertedPullRequest {
+  /** Number of the pull request that was reverted. */
+  number: number;
+  /** Title of the reverted pull request. */
+  title: string;
+  /** When the reverted pull request merged. */
+  merged_at: string;
+  /** How the pull request was authored: 'bot' for a bot account, 'agent_context' when a person opened it and the description's Agent context section names a tool and model, 'no_agent_context' otherwise. A pull request without the section can still be agent-assisted. * `bot` - Bot account * `agent_context` - Agent context filled in * `no_agent_context` - No agent context */
+  authorship: PullRequestAuthorshipEnum;
+  /** Who approved the pull request before it merged: 'human' when at least one person approved, 'automated_only' when every approval came from a bot account, 'none' when no approval was recorded. An approval bot may approve only the pull requests its risk policy allows, so the 'automated_only' share reflects that selection as well as the effect of the approval. Null when the reviews table is not synced. * `human` - Approved by a person * `automated_only` - Approved by bots only * `none` - No approval before merge */
+  approval: PullRequestApprovalEnum | null;
+  /** Number of the earliest merged pull request that reverted it. */
+  reverting_pr_number: number;
+  /** When that reverting pull request merged. */
+  reverted_at: string;
+  /** Seconds from the merge to the merge of its revert. */
+  merge_to_revert_seconds: number;
+}
+/** The reverted pull requests, most recently reverted first, capped at limit. */
+export type RevertOutcomesRevertedPullRequestsList = Array<RevertedPullRequest>;
+export interface RevertOutcomes {
+  /** One entry per authorship value, including values with no merges. Empty when body_data_available is false. */
+  by_authorship: RevertOutcomesByAuthorshipList;
+  /** One entry per approval value, including values with no merges. Empty when body_data_available or review_data_available is false. */
+  by_approval: RevertOutcomesByApprovalList;
+  /** The reverted pull requests, most recently reverted first, capped at limit. */
+  reverted_pull_requests: RevertOutcomesRevertedPullRequestsList;
+  /** Pull requests merged in the window, excluding pull requests that are themselves reverts. */
+  merged_pr_count: number;
+  /** How many of those pull requests a later merged revert names in its description. A recent merge can still be reverted, so this count can grow. Null when body_data_available is false. */
+  reverted_pr_count: number | null;
+  /** reverted_pr_count divided by merged_pr_count. Null when nothing merged. Null when body_data_available is false. */
+  reverted_share: number | null;
+  /** False when the synced pull requests table has no description column. A revert is linked to the change it undid through the revert's description, so no revert can be linked. */
+  body_data_available: boolean;
+  /** False when the reviews table is not synced for the selected repository. */
+  review_data_available: boolean;
+  /** True when more pull requests were reverted than reverted_pull_requests holds. */
+  truncated: boolean;
+  /** Maximum number of entries in reverted_pull_requests. */
+  limit: number;
+}
 export interface EngineeringAnalyticsSourcesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2510,8 +2592,8 @@ export const engineeringAnalyticsAuthorFrictionDetail: API.OperationMethod<
   EngineeringAnalyticsAuthorFrictionDetailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<EngineeringAnalyticsAuthorFrictionDetailRequest>,
-  output: __S(835, __c52, 3) as any as S.Schema<AuthorFrictionDetail>,
+  input: __S(848, __c53, 0) as any as S.Schema<EngineeringAnalyticsAuthorFrictionDetailRequest>,
+  output: __S(851, __c53, 3) as any as S.Schema<AuthorFrictionDetail>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2528,8 +2610,8 @@ export const engineeringAnalyticsAuthorLlmSpend: API.OperationMethod<
   EngineeringAnalyticsAuthorLlmSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<EngineeringAnalyticsAuthorLlmSpendRequest>,
-  output: __S(851, __c53, 3) as any as S.Schema<AuthorLLMSpendList>,
+  input: __S(864, __c54, 0) as any as S.Schema<EngineeringAnalyticsAuthorLlmSpendRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<AuthorLLMSpendList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2546,8 +2628,8 @@ export const engineeringAnalyticsAuthorWorkflowCosts: API.OperationMethod<
   EngineeringAnalyticsAuthorWorkflowCostsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<EngineeringAnalyticsAuthorWorkflowCostsRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<EngineeringAnalyticsAuthorWorkflowCostsResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<EngineeringAnalyticsAuthorWorkflowCostsRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<EngineeringAnalyticsAuthorWorkflowCostsResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2564,8 +2646,8 @@ export const engineeringAnalyticsBrokenTests: API.OperationMethod<
   EngineeringAnalyticsBrokenTestsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<EngineeringAnalyticsBrokenTestsRequest>,
-  output: __S(915, __c57, 3) as any as S.Schema<BrokenTestsResult>,
+  input: __S(928, __c58, 0) as any as S.Schema<EngineeringAnalyticsBrokenTestsRequest>,
+  output: __S(931, __c58, 3) as any as S.Schema<BrokenTestsResult>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2582,8 +2664,8 @@ export const engineeringAnalyticsCiCards: API.OperationMethod<
   EngineeringAnalyticsCiCardsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<EngineeringAnalyticsCiCardsRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<CICardSummary>,
+  input: __S(960, __c60, 0) as any as S.Schema<EngineeringAnalyticsCiCardsRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<CICardSummary>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3006,6 +3088,24 @@ export const engineeringAnalyticsResolveBranch: API.OperationMethod<
   span: "EngineeringAnalyticsResolveBranch",
 }));
 
+export type EngineeringAnalyticsRevertOutcomesError = BadRequest | PosthogOpError;
+/** How many pull requests merged in the window were later reverted, split by how each was authored and by who approved it, with the list of reverted pull requests. A revert is linked to the pull request it undid through the 'Reverts #N' line in the revert's description, so a revert without that line is not counted. Pull requests that are themselves reverts are left out of every count. */
+export const engineeringAnalyticsRevertOutcomes: API.OperationMethod<
+  EngineeringAnalyticsRevertOutcomesRequest,
+  RevertOutcomes,
+  EngineeringAnalyticsRevertOutcomesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c32, 0) as any as S.Schema<EngineeringAnalyticsRevertOutcomesRequest>,
+  output: __S(519, __c32, 7) as any as S.Schema<RevertOutcomes>,
+  errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EngineeringAnalyticsRevertOutcomes",
+}));
+
 export type EngineeringAnalyticsSourcesError = PosthogOpError;
 /** The team's selectable GitHub repositories, oldest source first: one entry per repository a source is configured to sync, so a source syncing several repositories appears once per repo. Populate a repo picker from this and pass a chosen entry's `id` back as `source_id` and its `repo` back as `repo` to the other endpoints. Includes repositories whose tables aren't fully synced yet. */
 export const engineeringAnalyticsSources: API.OperationMethod<
@@ -3014,8 +3114,8 @@ export const engineeringAnalyticsSources: API.OperationMethod<
   EngineeringAnalyticsSourcesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<EngineeringAnalyticsSourcesRequest>,
-  output: __S(515, __c32, 3) as any as S.Schema<EngineeringAnalyticsSourcesResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<EngineeringAnalyticsSourcesRequest>,
+  output: __S(531, __c33, 3) as any as S.Schema<EngineeringAnalyticsSourcesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3032,8 +3132,8 @@ export const engineeringAnalyticsTeamCiActivity: API.OperationMethod<
   EngineeringAnalyticsTeamCiActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<EngineeringAnalyticsTeamCiActivityRequest>,
-  output: __S(531, __c33, 3) as any as S.Schema<TeamCIActivity>,
+  input: __S(544, __c34, 0) as any as S.Schema<EngineeringAnalyticsTeamCiActivityRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<TeamCIActivity>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3050,8 +3150,8 @@ export const engineeringAnalyticsTeamCiHealth: API.OperationMethod<
   EngineeringAnalyticsTeamCiHealthError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<EngineeringAnalyticsTeamCiHealthRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<TeamCIHealthList>,
+  input: __S(560, __c35, 0) as any as S.Schema<EngineeringAnalyticsTeamCiHealthRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<TeamCIHealthList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3068,8 +3168,8 @@ export const engineeringAnalyticsTrunkQuarantine: API.OperationMethod<
   EngineeringAnalyticsTrunkQuarantineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<EngineeringAnalyticsTrunkQuarantineRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<TrunkQuarantineDebt>,
+  input: __S(576, __c36, 0) as any as S.Schema<EngineeringAnalyticsTrunkQuarantineRequest>,
+  output: __S(581, __c36, 5) as any as S.Schema<TrunkQuarantineDebt>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3086,8 +3186,8 @@ export const engineeringAnalyticsWorkflowHealth: API.OperationMethod<
   EngineeringAnalyticsWorkflowHealthError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<EngineeringAnalyticsWorkflowHealthRequest>,
-  output: __S(581, __c36, 5) as any as S.Schema<EngineeringAnalyticsWorkflowHealthResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<EngineeringAnalyticsWorkflowHealthRequest>,
+  output: __S(597, __c37, 5) as any as S.Schema<EngineeringAnalyticsWorkflowHealthResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3104,8 +3204,8 @@ export const engineeringAnalyticsWorkflowJobs: API.OperationMethod<
   EngineeringAnalyticsWorkflowJobsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<EngineeringAnalyticsWorkflowJobsRequest>,
-  output: __S(597, __c37, 5) as any as S.Schema<EngineeringAnalyticsWorkflowJobsResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<EngineeringAnalyticsWorkflowJobsRequest>,
+  output: __S(613, __c38, 5) as any as S.Schema<EngineeringAnalyticsWorkflowJobsResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3122,8 +3222,8 @@ export const engineeringAnalyticsWorkflowRunnerCosts: API.OperationMethod<
   EngineeringAnalyticsWorkflowRunnerCostsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<EngineeringAnalyticsWorkflowRunnerCostsRequest>,
-  output: __S(611, __c38, 3) as any as S.Schema<EngineeringAnalyticsWorkflowRunnerCostsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<EngineeringAnalyticsWorkflowRunnerCostsRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<EngineeringAnalyticsWorkflowRunnerCostsResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3140,7 +3240,7 @@ export const engineeringAnalyticsWorkflowRuns: API.OperationMethod<
   EngineeringAnalyticsWorkflowRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<EngineeringAnalyticsWorkflowRunsRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<EngineeringAnalyticsWorkflowRunsRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<EngineeringAnalyticsWorkflowRunsResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
@@ -3158,8 +3258,8 @@ export const getEngineeringAnalyticsCiSignalsConfig: API.OperationMethod<
   GetEngineeringAnalyticsCiSignalsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetEngineeringAnalyticsCiSignalsConfigRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CISignalsConfig>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetEngineeringAnalyticsCiSignalsConfigRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<CISignalsConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3176,8 +3276,8 @@ export const mergeEngineeringAnalyticsTeamTrend: API.OperationMethod<
   MergeEngineeringAnalyticsTeamTrendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<MergeEngineeringAnalyticsTeamTrendRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<TeamMergeTrend>,
+  input: __S(736, __c46, 0) as any as S.Schema<MergeEngineeringAnalyticsTeamTrendRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<TeamMergeTrend>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3194,8 +3294,8 @@ export const runEngineeringAnalyticsFailureLogs: API.OperationMethod<
   RunEngineeringAnalyticsFailureLogsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<RunEngineeringAnalyticsFailureLogsRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<RunFailureLogs>,
+  input: __S(752, __c47, 0) as any as S.Schema<RunEngineeringAnalyticsFailureLogsRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<RunFailureLogs>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3212,8 +3312,8 @@ export const runEngineeringAnalyticsRepoActivity: API.OperationMethod<
   RunEngineeringAnalyticsRepoActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<RunEngineeringAnalyticsRepoActivityRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<WorkflowRunActivity>,
+  input: __S(768, __c48, 0) as any as S.Schema<RunEngineeringAnalyticsRepoActivityRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<WorkflowRunActivity>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3230,7 +3330,7 @@ export const runEngineeringAnalyticsWorkflow: API.OperationMethod<
   RunEngineeringAnalyticsWorkflowError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<RunEngineeringAnalyticsWorkflowRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<RunEngineeringAnalyticsWorkflowRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<WorkflowRunDetail>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -3248,8 +3348,8 @@ export const runEngineeringAnalyticsWorkflowActivity: API.OperationMethod<
   RunEngineeringAnalyticsWorkflowActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<RunEngineeringAnalyticsWorkflowActivityRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<WorkflowRunActivity>,
+  input: __S(816, __c51, 0) as any as S.Schema<RunEngineeringAnalyticsWorkflowActivityRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<WorkflowRunActivity>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3266,8 +3366,8 @@ export const updateEngineeringAnalyticsCiSignalsConfig: API.OperationMethod<
   UpdateEngineeringAnalyticsCiSignalsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<UpdateEngineeringAnalyticsCiSignalsConfigRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CISignalsConfig>,
+  input: __S(832, __c52, 0) as any as S.Schema<UpdateEngineeringAnalyticsCiSignalsConfigRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<CISignalsConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3991,9 +4091,9 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          by_workflow: __S(897, __c56, 1),
+          by_workflow: __S(913, __c57, 1),
           by_run: __S(242, __c15, 2),
-          llm_spend: S.optional(S.NullOr(__S(864, __c54, 0))),
+          llm_spend: S.optional(S.NullOr(__S(880, __c55, 0))),
           jobs_available: S.Boolean,
           billable_minutes: S.Number,
           estimated_cost_usd: S.NullOr(S.Number),
@@ -4143,7 +4243,7 @@ function __c20(j: number): any {
           own_red_count: S.Number,
           futile_rerun_count: S.Number,
           push_count: S.Number,
-          ci_wait_seconds: __S(928, __c58, 0),
+          ci_wait_seconds: __S(944, __c59, 0),
           first_approval_wait_seconds: S.NullOr(S.Number),
           pushes_after_approval: S.NullOr(S.Number),
           queue_seconds: S.NullOr(S.Number),
@@ -4658,6 +4758,78 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          repo: S.optional(S.String.pipe(T.Query())),
+          source_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/engineering_analytics/revert_outcomes/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EngineeringAnalyticsRevertOutcomesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authorship: S.String,
+          merged_pr_count: S.Number,
+          reverted_pr_count: S.Number,
+          reverted_share: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "AuthorshipRevertOutcome" });
+    case 2:
+      return S.Array(__S(513, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          approval: S.String,
+          merged_pr_count: S.Number,
+          reverted_pr_count: S.Number,
+          reverted_share: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ApprovalRevertOutcome" });
+    case 4:
+      return S.Array(__S(515, __c32, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          number: S.Number,
+          title: S.String,
+          merged_at: S.String,
+          authorship: S.String,
+          approval: S.NullOr(S.String),
+          reverting_pr_number: S.Number,
+          reverted_at: S.String,
+          merge_to_revert_seconds: S.Number,
+        }),
+      ).annotate({ identifier: "RevertedPullRequest" });
+    case 6:
+      return S.Array(__S(517, __c32, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          by_authorship: __S(514, __c32, 2),
+          by_approval: __S(516, __c32, 4),
+          reverted_pull_requests: __S(518, __c32, 6),
+          merged_pr_count: S.Number,
+          reverted_pr_count: S.NullOr(S.Number),
+          reverted_share: S.NullOr(S.Number),
+          body_data_available: S.Boolean,
+          review_data_available: S.Boolean,
+          truncated: S.Boolean,
+          limit: S.Number,
+        }),
+      ).annotate({ identifier: "RevertOutcomes" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4676,14 +4848,14 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "GitHubSource" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
-      return S.suspend(() => __S(514, __c32, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(530, __c33, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "EngineeringAnalyticsSourcesResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4715,18 +4887,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "TeamTestSignal" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tests: __S(530, __c33, 2),
+          tests: __S(546, __c34, 2),
           owner_team: S.String,
           truncated_tests: S.Boolean,
         }),
       ).annotate({ identifier: "TeamCIActivity" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4769,18 +4941,18 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "TeamCIHealthItem" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(546, __c34, 2),
+          items: __S(562, __c35, 2),
           truncated: S.Boolean,
           limit: S.Number,
         }),
       ).annotate({ identifier: "TeamCIHealthList" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4806,7 +4978,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "TrunkQuarantineTeamDebt" });
     case 2:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4822,12 +4994,12 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "TrunkQuarantinedTest" });
     case 4:
-      return S.Array(__S(563, __c35, 3));
+      return S.Array(__S(579, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          teams: __S(562, __c35, 2),
-          tests: __S(564, __c35, 4),
+          teams: __S(578, __c36, 2),
+          tests: __S(580, __c36, 4),
           available: S.Boolean,
           owners_resolved: S.Boolean,
           ttl_days: S.Number,
@@ -4839,7 +5011,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TrunkQuarantineDebt" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4871,12 +5043,12 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowHealthBucket" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           repo: __S(400, __c25, 0),
-          buckets: __S(578, __c36, 2),
+          buckets: __S(594, __c37, 2),
           workflow_name: S.String,
           run_count: S.Number,
           successful_run_count: S.Number,
@@ -4900,14 +5072,14 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowHealthItem" });
     case 4:
-      return S.Array(__S(579, __c36, 3));
+      return S.Array(__S(595, __c37, 3));
     case 5:
-      return S.suspend(() => __S(580, __c36, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(596, __c37, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "EngineeringAnalyticsWorkflowHealthResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4939,11 +5111,11 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowJobStep" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(594, __c37, 2),
+          steps: __S(610, __c38, 2),
           id: S.Number,
           run_id: S.Number,
           name: S.String,
@@ -4963,49 +5135,10 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowJob" });
     case 4:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(611, __c38, 3));
     case 5:
-      return S.suspend(() => __S(596, __c37, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(612, __c38, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "EngineeringAnalyticsWorkflowJobsResponse",
-      });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch: S.optional(S.String.pipe(T.Query())),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          repo: S.String.pipe(T.Query()),
-          run_scope: S.optional(S.String.pipe(T.Query())),
-          source_id: S.optional(S.String.pipe(T.Query())),
-          workflow_name: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/engineering_analytics/workflow_runner_costs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "EngineeringAnalyticsWorkflowRunnerCostsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          runner_label: S.String,
-          job_count: S.Number,
-          billable_minutes: S.Number,
-          estimated_cost_usd: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "WorkflowRunnerCost" });
-    case 2:
-      return S.Array(__S(609, __c38, 1));
-    case 3:
-      return S.suspend(() => __S(610, __c38, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "EngineeringAnalyticsWorkflowRunnerCostsResponse",
       });
   }
 }
@@ -5099,6 +5232,45 @@ function __c42(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/api/projects/{project_id}/engineering_analytics/workflow_runner_costs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EngineeringAnalyticsWorkflowRunnerCostsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          runner_label: S.String,
+          job_count: S.Number,
+          billable_minutes: S.Number,
+          estimated_cost_usd: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "WorkflowRunnerCost" });
+    case 2:
+      return S.Array(__S(673, __c42, 1));
+    case 3:
+      return S.suspend(() => __S(674, __c42, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "EngineeringAnalyticsWorkflowRunnerCostsResponse",
+      });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch: S.optional(S.String.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          repo: S.String.pipe(T.Query()),
+          run_scope: S.optional(S.String.pipe(T.Query())),
+          source_id: S.optional(S.String.pipe(T.Query())),
+          workflow_name: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/api/projects/{project_id}/engineering_analytics/workflow_runs/",
             code: 200,
           }),
@@ -5106,7 +5278,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "EngineeringAnalyticsWorkflowRunsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5122,7 +5294,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetEngineeringAnalyticsCiSignalsConfigRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5134,7 +5306,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CISignalsConfig" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5163,18 +5335,18 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "TeamMergeTrendPoint" });
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          points: __S(722, __c45, 2),
+          points: __S(738, __c46, 2),
           owner_team: S.String,
           has_membership_data: S.Boolean,
         }),
       ).annotate({ identifier: "TeamMergeTrend" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5204,7 +5376,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RunFailureLogs" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5225,7 +5397,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RunEngineeringAnalyticsRepoActivityRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5241,18 +5413,18 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowRunActivityPoint" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          points: __S(769, __c48, 1),
+          points: __S(785, __c49, 1),
           truncated: S.Boolean,
           limit: S.Number,
         }),
       ).annotate({ identifier: "WorkflowRunActivity" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5272,7 +5444,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RunEngineeringAnalyticsWorkflowRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5295,7 +5467,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RunEngineeringAnalyticsWorkflowActivityRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5312,7 +5484,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateEngineeringAnalyticsCiSignalsConfigRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5341,13 +5513,13 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "PullRequestFrictionItem" });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(849, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           author: S.NullOr(__S(640, __c40, 0)),
           teams: __S(642, __c40, 2),
-          pull_requests: __S(834, __c52, 2),
+          pull_requests: __S(850, __c53, 2),
           available: S.Boolean,
           window_days: S.Number,
           ranked_author_count: S.Number,
@@ -5357,7 +5529,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "AuthorFrictionDetail" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,7 +5552,7 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          llm_spend: S.NullOr(__S(864, __c54, 0)),
+          llm_spend: S.NullOr(__S(880, __c55, 0)),
           number: S.Number,
           title: S.String,
           state: S.String,
@@ -5389,18 +5561,18 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "AuthorPRLLMSpend" });
     case 2:
-      return S.Array(__S(849, __c53, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(850, __c53, 2),
+          items: __S(866, __c54, 2),
           truncated: S.Boolean,
           limit: S.Number,
         }),
       ).annotate({ identifier: "AuthorLLMSpendList" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5416,7 +5588,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PRLLMSpend" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5436,12 +5608,12 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "EngineeringAnalyticsAuthorWorkflowCostsRequest" });
     case 1:
-      return S.suspend(() => __S(897, __c56, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(913, __c57, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "EngineeringAnalyticsAuthorWorkflowCostsResponse",
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5455,10 +5627,10 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowCost" });
     case 1:
-      return S.Array(__S(896, __c56, 0));
+      return S.Array(__S(912, __c57, 0));
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,16 +5664,16 @@ function __c57(j: number): any {
           master_hits: S.Number,
           latest_run_id: S.Number,
           latest_branch: S.String,
-          trend_24h: S.optional(__S(928, __c58, 0)),
+          trend_24h: S.optional(__S(944, __c59, 0)),
           latest_ci_engine: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BrokenTestRow" });
     case 2:
-      return S.Array(__S(913, __c57, 1));
+      return S.Array(__S(929, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(914, __c57, 2),
+          rows: __S(930, __c58, 2),
           breaking_master_jobs: __S(448, __c28, 0),
           window_days: S.Number,
           truncated: S.Boolean,
@@ -5510,13 +5682,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "BrokenTestsResult" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

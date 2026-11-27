@@ -90,6 +90,8 @@ export interface CreateDeploymentRequest {
   ram_per_cpu?: number | undefined;
   /** For the `tiered` storage policy, controls when data is moved from the hot volume (Block Storage) to the cold volume (Object Storage). Data is moved once free space on the hot volume drops below this fraction of its capacity. Value between 0 and 1 (default 0.1, i.e. data is moved when the hot volume is 90% full). */
   move_factor?: number | null | undefined;
+  /** ID of a Key Manager key of the Project, used to encrypt the deployment data at rest. The key must be enabled, with a symmetric encryption usage. Encryption can only be chosen at creation, it cannot be enabled, disabled or changed afterwards. (UUID format) */
+  kms_key_id?: string | null | undefined;
 }
 export type DeploymentStatus =
   | "unknown_status"
@@ -183,6 +185,8 @@ export interface Deployment {
   ram_per_cpu?: number | undefined;
   /** For the `tiered` storage policy, controls when data is moved from the hot volume (Block Storage) to the cold volume (Object Storage). Data is moved once free space on the hot volume drops below this fraction of its capacity. Value between 0 and 1 (default 0.1, i.e. data is moved when the hot volume is 90% full). */
   move_factor?: number | undefined;
+  /** ID of the Key Manager key encrypting the deployment data at rest. Empty if the deployment is not encrypted. (UUID format) */
+  kms_key_id?: string | null | undefined;
   /** Region of the deployment. */
   region?: string | undefined;
   /** The SRN of the deployment. */
@@ -932,6 +936,7 @@ function __c2(j: number): any {
           endpoints: S.optional(__S(16, __c2, 0)),
           ram_per_cpu: S.optional(S.Number),
           move_factor: S.optional(S.NullOr(S.Number)),
+          kms_key_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1028,6 +1033,7 @@ function __c5(j: number): any {
           endpoints: S.optional(__S(41, __c5, 1)),
           ram_per_cpu: S.optional(S.Number),
           move_factor: S.optional(S.Number),
+          kms_key_id: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
           srn: S.optional(S.String),
         }),

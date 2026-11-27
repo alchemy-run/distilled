@@ -1289,6 +1289,21 @@ export interface DescribeMaintenanceWindowResponse {
   EndTime?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribeModulesRequest {
+  InstanceId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface Module {
+  Name?: string | undefined;
+  Status?: string | undefined;
+  IsSupport?: boolean | undefined;
+}
+export type ModuleList = Array<Module>;
+export interface DescribeModulesResponse {
+  Modules?: ModuleList | undefined;
+  RequestId?: string | undefined;
+}
 export interface DescribeParamTemplateInfoRequest {
   TemplateId: string;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -2036,6 +2051,17 @@ export interface ModifyMaintenanceWindowResponse {
   Status?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface ModifyModuleRequest {
+  InstanceId: string;
+  Name: string;
+  Status: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyModuleResponse {
+  TaskId?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface ModifyNetworkConfigRequest {
   InstanceId: string;
   Operation: string;
@@ -2074,6 +2100,27 @@ export interface ModifyReplicationGroupRequest {
   region?: string | undefined;
 }
 export interface ModifyReplicationGroupResponse {
+  RequestId?: string | undefined;
+}
+export interface ModifySSLEncryptionModeRequest {
+  InstanceId: string;
+  EncryptionMode: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifySSLEncryptionModeResponse {
+  TaskId?: number | undefined;
+  RequestId?: string | undefined;
+}
+export interface ModifyValkeyModuleRequest {
+  InstanceId: string;
+  Name: string;
+  Status: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyValkeyModuleResponse {
+  TaskId?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface OpenLogRequest {
@@ -2206,6 +2253,20 @@ export interface SwitchProxyResponse {
   TaskId?: number | undefined;
   RequestId?: string | undefined;
 }
+export interface UpdateSSLCertRequest {
+  InstanceId: string;
+  CertSource?: number | undefined;
+  AddressType?: number | undefined;
+  CertId?: string | undefined;
+  SSLMinVersion?: string | undefined;
+  EncryptionMode?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface UpdateSSLCertResponse {
+  TaskId?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface UpgradeInstanceRequest {
   InstanceId: string;
   MemSize: number;
@@ -2317,8 +2378,8 @@ export const applyParamsTemplate: API.OperationMethod<
   ApplyParamsTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ApplyParamsTemplateRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<ApplyParamsTemplateResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ApplyParamsTemplateRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<ApplyParamsTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2334,8 +2395,8 @@ export const associateSecurityGroups: API.OperationMethod<
   AssociateSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<AssociateSecurityGroupsRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<AssociateSecurityGroupsResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<AssociateSecurityGroupsRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<AssociateSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2351,7 +2412,7 @@ export const changeInstanceRole: API.OperationMethod<
   ChangeInstanceRoleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ChangeInstanceRoleRequest>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ChangeInstanceRoleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangeInstanceRoleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2368,7 +2429,7 @@ export const changeMasterInstance: API.OperationMethod<
   ChangeMasterInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ChangeMasterInstanceRequest>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ChangeMasterInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangeMasterInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2385,7 +2446,7 @@ export const changeReplicaToMaster: API.OperationMethod<
   ChangeReplicaToMasterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ChangeReplicaToMasterRequest>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ChangeReplicaToMasterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangeReplicaToMasterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2402,7 +2463,7 @@ export const cleanUpInstance: API.OperationMethod<
   CleanUpInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<CleanUpInstanceRequest>,
+  input: __S(1728, __c108, 0) as any as S.Schema<CleanUpInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CleanUpInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2419,7 +2480,7 @@ export const clearInstance: API.OperationMethod<
   ClearInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ClearInstanceRequest>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ClearInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClearInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2436,8 +2497,8 @@ export const cloneInstances: API.OperationMethod<
   CloneInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CloneInstancesRequest>,
-  output: __S(2048, __c128, 0) as any as S.Schema<CloneInstancesResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CloneInstancesRequest>,
+  output: __S(2128, __c133, 0) as any as S.Schema<CloneInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2454,7 +2515,7 @@ export const closeLog: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CloseLogRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<CloseLogResponse>,
+  output: __S(992, __c62, 0) as any as S.Schema<CloseLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2504,7 +2565,7 @@ export const createInstanceAccount: API.OperationMethod<
   CreateInstanceAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<CreateInstanceAccountRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateInstanceAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateInstanceAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2521,8 +2582,8 @@ export const createInstances: API.OperationMethod<
   CreateInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateInstancesRequest>,
-  output: __S(2048, __c128, 0) as any as S.Schema<CreateInstancesResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<CreateInstancesRequest>,
+  output: __S(2128, __c133, 0) as any as S.Schema<CreateInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2538,8 +2599,8 @@ export const createParamTemplate: API.OperationMethod<
   CreateParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateParamTemplateRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<CreateParamTemplateResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateParamTemplateRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<CreateParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2555,8 +2616,8 @@ export const createReplicationGroup: API.OperationMethod<
   CreateReplicationGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CreateReplicationGroupRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<CreateReplicationGroupResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateReplicationGroupRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<CreateReplicationGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2572,8 +2633,8 @@ export const deleteExportTask: API.OperationMethod<
   DeleteExportTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DeleteExportTaskRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<DeleteExportTaskResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<DeleteExportTaskRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<DeleteExportTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2589,7 +2650,7 @@ export const deleteInstanceAccount: API.OperationMethod<
   DeleteInstanceAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<DeleteInstanceAccountRequest>,
+  input: __S(704, __c44, 0) as any as S.Schema<DeleteInstanceAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteInstanceAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2606,8 +2667,8 @@ export const deleteParamTemplate: API.OperationMethod<
   DeleteParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DeleteParamTemplateRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<DeleteParamTemplateResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<DeleteParamTemplateRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<DeleteParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2623,7 +2684,7 @@ export const deleteReplicationInstance: API.OperationMethod<
   DeleteReplicationInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteReplicationInstanceRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<DeleteReplicationInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteReplicationInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -2640,8 +2701,8 @@ export const describeAutoBackupConfig: API.OperationMethod<
   DescribeAutoBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DescribeAutoBackupConfigRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<DescribeAutoBackupConfigResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<DescribeAutoBackupConfigRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<DescribeAutoBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2657,8 +2718,8 @@ export const describeBackupDetail: API.OperationMethod<
   DescribeBackupDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DescribeBackupDetailRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<DescribeBackupDetailResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DescribeBackupDetailRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<DescribeBackupDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2674,8 +2735,8 @@ export const describeBackupDownloadRestriction: API.OperationMethod<
   DescribeBackupDownloadRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<DescribeBackupDownloadRestrictionRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<DescribeBackupDownloadRestrictionResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DescribeBackupDownloadRestrictionRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<DescribeBackupDownloadRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2691,8 +2752,8 @@ export const describeBackupEncryptConfig: API.OperationMethod<
   DescribeBackupEncryptConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DescribeBackupEncryptConfigRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<DescribeBackupEncryptConfigResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<DescribeBackupEncryptConfigRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<DescribeBackupEncryptConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2708,8 +2769,8 @@ export const describeBackupUrl: API.OperationMethod<
   DescribeBackupUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DescribeBackupUrlRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<DescribeBackupUrlResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<DescribeBackupUrlRequest>,
+  output: __S(883, __c55, 3) as any as S.Schema<DescribeBackupUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2725,8 +2786,8 @@ export const describeBandwidthRange: API.OperationMethod<
   DescribeBandwidthRangeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<DescribeBandwidthRangeRequest>,
-  output: __S(817, __c51, 1) as any as S.Schema<DescribeBandwidthRangeResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<DescribeBandwidthRangeRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<DescribeBandwidthRangeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2742,8 +2803,8 @@ export const describeCommonDBInstances: API.OperationMethod<
   DescribeCommonDBInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DescribeCommonDBInstancesRequest>,
-  output: __S(835, __c52, 3) as any as S.Schema<DescribeCommonDBInstancesResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<DescribeCommonDBInstancesRequest>,
+  output: __S(915, __c57, 3) as any as S.Schema<DescribeCommonDBInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2759,8 +2820,8 @@ export const describeDBSecurityGroups: API.OperationMethod<
   DescribeDBSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2776,8 +2837,8 @@ export const describeExportTasks: API.OperationMethod<
   DescribeExportTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DescribeExportTasksRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<DescribeExportTasksResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<DescribeExportTasksRequest>,
+  output: __S(963, __c60, 3) as any as S.Schema<DescribeExportTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2793,8 +2854,8 @@ export const describeGlobalReplicationArea: API.OperationMethod<
   DescribeGlobalReplicationAreaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DescribeGlobalReplicationAreaRequest>,
-  output: __S(931, __c58, 3) as any as S.Schema<DescribeGlobalReplicationAreaResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DescribeGlobalReplicationAreaRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<DescribeGlobalReplicationAreaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2810,8 +2871,8 @@ export const describeInstanceAccount: API.OperationMethod<
   DescribeInstanceAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<DescribeInstanceAccountRequest>,
-  output: __S(947, __c59, 3) as any as S.Schema<DescribeInstanceAccountResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<DescribeInstanceAccountRequest>,
+  output: __S(1027, __c64, 3) as any as S.Schema<DescribeInstanceAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2827,8 +2888,8 @@ export const describeInstanceBackups: API.OperationMethod<
   DescribeInstanceBackupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DescribeInstanceBackupsRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<DescribeInstanceBackupsResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DescribeInstanceBackupsRequest>,
+  output: __S(1043, __c65, 3) as any as S.Schema<DescribeInstanceBackupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2844,8 +2905,8 @@ export const describeInstanceDealDetail: API.OperationMethod<
   DescribeInstanceDealDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DescribeInstanceDealDetailRequest>,
-  output: __S(979, __c61, 3) as any as S.Schema<DescribeInstanceDealDetailResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<DescribeInstanceDealDetailRequest>,
+  output: __S(1059, __c66, 3) as any as S.Schema<DescribeInstanceDealDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2861,8 +2922,8 @@ export const describeInstanceDTSInfo: API.OperationMethod<
   DescribeInstanceDTSInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DescribeInstanceDTSInfoRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<DescribeInstanceDTSInfoResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DescribeInstanceDTSInfoRequest>,
+  output: __S(1074, __c67, 2) as any as S.Schema<DescribeInstanceDTSInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2878,8 +2939,8 @@ export const describeInstanceEvents: API.OperationMethod<
   DescribeInstanceEventsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<DescribeInstanceEventsRequest>,
-  output: __S(1011, __c63, 3) as any as S.Schema<DescribeInstanceEventsResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<DescribeInstanceEventsRequest>,
+  output: __S(1091, __c68, 3) as any as S.Schema<DescribeInstanceEventsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2895,8 +2956,8 @@ export const describeInstanceLogDelivery: API.OperationMethod<
   DescribeInstanceLogDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<DescribeInstanceLogDeliveryRequest>,
-  output: __S(1026, __c64, 2) as any as S.Schema<DescribeInstanceLogDeliveryResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<DescribeInstanceLogDeliveryRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<DescribeInstanceLogDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2912,8 +2973,8 @@ export const describeInstanceMonitorBigKey: API.OperationMethod<
   DescribeInstanceMonitorBigKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<DescribeInstanceMonitorBigKeyRequest>,
-  output: __S(1043, __c65, 3) as any as S.Schema<DescribeInstanceMonitorBigKeyResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<DescribeInstanceMonitorBigKeyRequest>,
+  output: __S(1123, __c70, 3) as any as S.Schema<DescribeInstanceMonitorBigKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2929,8 +2990,8 @@ export const describeInstanceMonitorBigKeySizeDist: API.OperationMethod<
   DescribeInstanceMonitorBigKeySizeDistError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<DescribeInstanceMonitorBigKeySizeDistRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<DescribeInstanceMonitorBigKeySizeDistResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<DescribeInstanceMonitorBigKeySizeDistRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<DescribeInstanceMonitorBigKeySizeDistResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2946,8 +3007,8 @@ export const describeInstanceMonitorBigKeyTypeDist: API.OperationMethod<
   DescribeInstanceMonitorBigKeyTypeDistError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<DescribeInstanceMonitorBigKeyTypeDistRequest>,
-  output: __S(1091, __c68, 3) as any as S.Schema<DescribeInstanceMonitorBigKeyTypeDistResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<DescribeInstanceMonitorBigKeyTypeDistRequest>,
+  output: __S(1171, __c73, 3) as any as S.Schema<DescribeInstanceMonitorBigKeyTypeDistResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2963,8 +3024,8 @@ export const describeInstanceMonitorHotKey: API.OperationMethod<
   DescribeInstanceMonitorHotKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<DescribeInstanceMonitorHotKeyRequest>,
-  output: __S(1123, __c70, 3) as any as S.Schema<DescribeInstanceMonitorHotKeyResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DescribeInstanceMonitorHotKeyRequest>,
+  output: __S(1203, __c75, 3) as any as S.Schema<DescribeInstanceMonitorHotKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2980,8 +3041,8 @@ export const describeInstanceMonitorSIP: API.OperationMethod<
   DescribeInstanceMonitorSIPError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DescribeInstanceMonitorSIPRequest>,
-  output: __S(1139, __c71, 3) as any as S.Schema<DescribeInstanceMonitorSIPResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<DescribeInstanceMonitorSIPRequest>,
+  output: __S(1219, __c76, 3) as any as S.Schema<DescribeInstanceMonitorSIPResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2997,8 +3058,8 @@ export const describeInstanceMonitorTookDist: API.OperationMethod<
   DescribeInstanceMonitorTookDistError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<DescribeInstanceMonitorTookDistRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<DescribeInstanceMonitorTookDistResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<DescribeInstanceMonitorTookDistRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<DescribeInstanceMonitorTookDistResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3014,8 +3075,8 @@ export const describeInstanceMonitorTopNCmd: API.OperationMethod<
   DescribeInstanceMonitorTopNCmdError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DescribeInstanceMonitorTopNCmdRequest>,
-  output: __S(1171, __c73, 3) as any as S.Schema<DescribeInstanceMonitorTopNCmdResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DescribeInstanceMonitorTopNCmdRequest>,
+  output: __S(1251, __c78, 3) as any as S.Schema<DescribeInstanceMonitorTopNCmdResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3031,8 +3092,8 @@ export const describeInstanceMonitorTopNCmdTook: API.OperationMethod<
   DescribeInstanceMonitorTopNCmdTookError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DescribeInstanceMonitorTopNCmdTookRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<DescribeInstanceMonitorTopNCmdTookResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DescribeInstanceMonitorTopNCmdTookRequest>,
+  output: __S(1267, __c79, 3) as any as S.Schema<DescribeInstanceMonitorTopNCmdTookResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3048,8 +3109,8 @@ export const describeInstanceNodeInfo: API.OperationMethod<
   DescribeInstanceNodeInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<DescribeInstanceNodeInfoRequest>,
-  output: __S(1207, __c75, 7) as any as S.Schema<DescribeInstanceNodeInfoResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DescribeInstanceNodeInfoRequest>,
+  output: __S(1287, __c80, 7) as any as S.Schema<DescribeInstanceNodeInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3065,8 +3126,8 @@ export const describeInstanceParamRecords: API.OperationMethod<
   DescribeInstanceParamRecordsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<DescribeInstanceParamRecordsRequest>,
-  output: __S(1219, __c76, 3) as any as S.Schema<DescribeInstanceParamRecordsResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<DescribeInstanceParamRecordsRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<DescribeInstanceParamRecordsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3082,8 +3143,8 @@ export const describeInstanceParams: API.OperationMethod<
   DescribeInstanceParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
-  output: __S(1239, __c77, 7) as any as S.Schema<DescribeInstanceParamsResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
+  output: __S(1319, __c82, 7) as any as S.Schema<DescribeInstanceParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3099,8 +3160,8 @@ export const describeInstancePasswordPolicy: API.OperationMethod<
   DescribeInstancePasswordPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DescribeInstancePasswordPolicyRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<DescribeInstancePasswordPolicyResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<DescribeInstancePasswordPolicyRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<DescribeInstancePasswordPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3116,8 +3177,8 @@ export const describeInstances: API.OperationMethod<
   DescribeInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DescribeInstancesRequest>,
-  output: __S(1271, __c79, 7) as any as S.Schema<DescribeInstancesResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<DescribeInstancesRequest>,
+  output: __S(1351, __c84, 7) as any as S.Schema<DescribeInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3133,8 +3194,8 @@ export const describeInstanceSecurityGroup: API.OperationMethod<
   DescribeInstanceSecurityGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<DescribeInstanceSecurityGroupRequest>,
-  output: __S(1299, __c81, 3) as any as S.Schema<DescribeInstanceSecurityGroupResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<DescribeInstanceSecurityGroupRequest>,
+  output: __S(1379, __c86, 3) as any as S.Schema<DescribeInstanceSecurityGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3150,8 +3211,8 @@ export const describeInstanceShards: API.OperationMethod<
   DescribeInstanceShardsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<DescribeInstanceShardsRequest>,
-  output: __S(1331, __c83, 3) as any as S.Schema<DescribeInstanceShardsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DescribeInstanceShardsRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<DescribeInstanceShardsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3167,8 +3228,8 @@ export const describeInstanceSpecBandwidth: API.OperationMethod<
   DescribeInstanceSpecBandwidthError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DescribeInstanceSpecBandwidthRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<DescribeInstanceSpecBandwidthResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<DescribeInstanceSpecBandwidthRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<DescribeInstanceSpecBandwidthResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3184,8 +3245,8 @@ export const describeInstanceSupportFeature: API.OperationMethod<
   DescribeInstanceSupportFeatureError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<DescribeInstanceSupportFeatureRequest>,
-  output: __S(1361, __c85, 1) as any as S.Schema<DescribeInstanceSupportFeatureResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<DescribeInstanceSupportFeatureRequest>,
+  output: __S(1441, __c90, 1) as any as S.Schema<DescribeInstanceSupportFeatureResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3201,8 +3262,8 @@ export const describeInstanceZoneInfo: API.OperationMethod<
   DescribeInstanceZoneInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<DescribeInstanceZoneInfoRequest>,
-  output: __S(1381, __c86, 5) as any as S.Schema<DescribeInstanceZoneInfoResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<DescribeInstanceZoneInfoRequest>,
+  output: __S(1461, __c91, 5) as any as S.Schema<DescribeInstanceZoneInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3218,8 +3279,8 @@ export const describeLogInstanceList: API.OperationMethod<
   DescribeLogInstanceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1394, __c87, 2) as any as S.Schema<DescribeLogInstanceListRequest>,
-  output: __S(1400, __c87, 8) as any as S.Schema<DescribeLogInstanceListResponse>,
+  input: __S(1474, __c92, 2) as any as S.Schema<DescribeLogInstanceListRequest>,
+  output: __S(1480, __c92, 8) as any as S.Schema<DescribeLogInstanceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3235,8 +3296,8 @@ export const describeLogs: API.OperationMethod<
   DescribeLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DescribeLogsRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<DescribeLogsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<DescribeLogsRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<DescribeLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3252,14 +3313,31 @@ export const describeMaintenanceWindow: API.OperationMethod<
   DescribeMaintenanceWindowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DescribeMaintenanceWindowRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<DescribeMaintenanceWindowResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<DescribeMaintenanceWindowRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<DescribeMaintenanceWindowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindow",
+}));
+
+export type DescribeModulesError = TencentCloudOpError;
+export const describeModules: API.OperationMethod<
+  DescribeModulesRequest,
+  DescribeModulesResponse,
+  DescribeModulesError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1520, __c95, 0) as any as S.Schema<DescribeModulesRequest>,
+  output: __S(1523, __c95, 3) as any as S.Schema<DescribeModulesResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeModules",
 }));
 
 export type DescribeParamTemplateInfoError = TencentCloudOpError;
@@ -3269,8 +3347,8 @@ export const describeParamTemplateInfo: API.OperationMethod<
   DescribeParamTemplateInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DescribeParamTemplateInfoRequest>,
-  output: __S(1443, __c90, 3) as any as S.Schema<DescribeParamTemplateInfoResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<DescribeParamTemplateInfoRequest>,
+  output: __S(1539, __c96, 3) as any as S.Schema<DescribeParamTemplateInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3286,8 +3364,8 @@ export const describeParamTemplates: API.OperationMethod<
   DescribeParamTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DescribeParamTemplatesRequest>,
-  output: __S(1459, __c91, 3) as any as S.Schema<DescribeParamTemplatesResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DescribeParamTemplatesRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<DescribeParamTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3303,8 +3381,8 @@ export const describeProductInfo: API.OperationMethod<
   DescribeProductInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DescribeProductInfoRequest>,
-  output: __S(1495, __c93, 7) as any as S.Schema<DescribeProductInfoResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<DescribeProductInfoRequest>,
+  output: __S(1591, __c99, 7) as any as S.Schema<DescribeProductInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3320,8 +3398,8 @@ export const describeProjectSecurityGroup: API.OperationMethod<
   DescribeProjectSecurityGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DescribeProjectSecurityGroupRequest>,
-  output: __S(1505, __c94, 1) as any as S.Schema<DescribeProjectSecurityGroupResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<DescribeProjectSecurityGroupRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<DescribeProjectSecurityGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3337,8 +3415,8 @@ export const describeProjectSecurityGroups: API.OperationMethod<
   DescribeProjectSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
-  output: __S(1521, __c95, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3354,8 +3432,8 @@ export const describeProxySlowLog: API.OperationMethod<
   DescribeProxySlowLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DescribeProxySlowLogRequest>,
-  output: __S(1539, __c96, 3) as any as S.Schema<DescribeProxySlowLogResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<DescribeProxySlowLogRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<DescribeProxySlowLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3371,8 +3449,8 @@ export const describeRedisClusterOverview: API.OperationMethod<
   DescribeRedisClusterOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DescribeRedisClusterOverviewRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<DescribeRedisClusterOverviewResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<DescribeRedisClusterOverviewRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<DescribeRedisClusterOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3388,8 +3466,8 @@ export const describeRedisClusters: API.OperationMethod<
   DescribeRedisClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DescribeRedisClustersRequest>,
-  output: __S(1573, __c98, 5) as any as S.Schema<DescribeRedisClustersResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<DescribeRedisClustersRequest>,
+  output: __S(1669, __c104, 5) as any as S.Schema<DescribeRedisClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3405,8 +3483,8 @@ export const describeReplicationGroup: API.OperationMethod<
   DescribeReplicationGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DescribeReplicationGroupRequest>,
-  output: __S(1589, __c99, 5) as any as S.Schema<DescribeReplicationGroupResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<DescribeReplicationGroupRequest>,
+  output: __S(1685, __c105, 5) as any as S.Schema<DescribeReplicationGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3422,8 +3500,8 @@ export const describeReplicationGroupInstance: API.OperationMethod<
   DescribeReplicationGroupInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DescribeReplicationGroupInstanceRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<DescribeReplicationGroupInstanceResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<DescribeReplicationGroupInstanceRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<DescribeReplicationGroupInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3439,8 +3517,8 @@ export const describeSecondLevelBackupInfo: API.OperationMethod<
   DescribeSecondLevelBackupInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DescribeSecondLevelBackupInfoRequest>,
-  output: __S(1619, __c101, 3) as any as S.Schema<DescribeSecondLevelBackupInfoResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<DescribeSecondLevelBackupInfoRequest>,
+  output: __S(1715, __c107, 3) as any as S.Schema<DescribeSecondLevelBackupInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3456,8 +3534,8 @@ export const describeSlowLog: API.OperationMethod<
   DescribeSlowLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DescribeSlowLogRequest>,
-  output: __S(1635, __c102, 3) as any as S.Schema<DescribeSlowLogResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<DescribeSlowLogRequest>,
+  output: __S(1747, __c109, 3) as any as S.Schema<DescribeSlowLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3473,8 +3551,8 @@ export const describeSSLStatus: API.OperationMethod<
   DescribeSSLStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DescribeSSLStatusRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<DescribeSSLStatusResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<DescribeSSLStatusRequest>,
+  output: __S(1761, __c110, 1) as any as S.Schema<DescribeSSLStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3490,8 +3568,8 @@ export const describeTaskInfo: API.OperationMethod<
   DescribeTaskInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DescribeTaskInfoRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<DescribeTaskInfoResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<DescribeTaskInfoRequest>,
+  output: __S(1777, __c111, 1) as any as S.Schema<DescribeTaskInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3507,8 +3585,8 @@ export const describeTaskList: API.OperationMethod<
   DescribeTaskListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DescribeTaskListRequest>,
-  output: __S(1699, __c106, 3) as any as S.Schema<DescribeTaskListResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<DescribeTaskListRequest>,
+  output: __S(1795, __c112, 3) as any as S.Schema<DescribeTaskListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3524,8 +3602,8 @@ export const describeTendisSlowLog: API.OperationMethod<
   DescribeTendisSlowLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<DescribeTendisSlowLogRequest>,
-  output: __S(1715, __c107, 3) as any as S.Schema<DescribeTendisSlowLogResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<DescribeTendisSlowLogRequest>,
+  output: __S(1811, __c113, 3) as any as S.Schema<DescribeTendisSlowLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3541,7 +3619,7 @@ export const destroyPostpaidInstance: API.OperationMethod<
   DestroyPostpaidInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<DestroyPostpaidInstanceRequest>,
+  input: __S(1824, __c114, 0) as any as S.Schema<DestroyPostpaidInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DestroyPostpaidInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3558,8 +3636,8 @@ export const destroyPrepaidInstance: API.OperationMethod<
   DestroyPrepaidInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DestroyPrepaidInstanceRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<DestroyPrepaidInstanceResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<DestroyPrepaidInstanceRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<DestroyPrepaidInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3575,7 +3653,7 @@ export const disableReplicaReadonly: API.OperationMethod<
   DisableReplicaReadonlyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<DisableReplicaReadonlyRequest>,
+  input: __S(1872, __c117, 0) as any as S.Schema<DisableReplicaReadonlyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DisableReplicaReadonlyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3592,8 +3670,8 @@ export const disassociateSecurityGroups: API.OperationMethod<
   DisassociateSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3609,7 +3687,7 @@ export const enableReplicaReadonly: API.OperationMethod<
   EnableReplicaReadonlyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<EnableReplicaReadonlyRequest>,
+  input: __S(1904, __c119, 0) as any as S.Schema<EnableReplicaReadonlyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EnableReplicaReadonlyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3626,8 +3704,8 @@ export const inquiryPriceCreateInstance: API.OperationMethod<
   InquiryPriceCreateInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<InquiryPriceCreateInstanceRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<InquiryPriceCreateInstanceResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<InquiryPriceCreateInstanceRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<InquiryPriceCreateInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3643,8 +3721,8 @@ export const inquiryPriceRenewInstance: API.OperationMethod<
   InquiryPriceRenewInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<InquiryPriceRenewInstanceRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<InquiryPriceRenewInstanceResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<InquiryPriceRenewInstanceRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<InquiryPriceRenewInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3660,8 +3738,8 @@ export const inquiryPriceUpgradeInstance: API.OperationMethod<
   InquiryPriceUpgradeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<InquiryPriceUpgradeInstanceRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<InquiryPriceUpgradeInstanceResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<InquiryPriceUpgradeInstanceRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<InquiryPriceUpgradeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3677,7 +3755,7 @@ export const killMasterGroup: API.OperationMethod<
   KillMasterGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<KillMasterGroupRequest>,
+  input: __S(2000, __c125, 0) as any as S.Schema<KillMasterGroupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<KillMasterGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3694,7 +3772,7 @@ export const manualBackupInstance: API.OperationMethod<
   ManualBackupInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ManualBackupInstanceRequest>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ManualBackupInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ManualBackupInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3711,7 +3789,7 @@ export const modfiyInstancePassword: API.OperationMethod<
   ModfiyInstancePasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ModfiyInstancePasswordRequest>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ModfiyInstancePasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModfiyInstancePasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3728,8 +3806,8 @@ export const modifyAutoBackupConfig: API.OperationMethod<
   ModifyAutoBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ModifyAutoBackupConfigRequest>,
-  output: __S(1953, __c122, 1) as any as S.Schema<ModifyAutoBackupConfigResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ModifyAutoBackupConfigRequest>,
+  output: __S(2049, __c128, 1) as any as S.Schema<ModifyAutoBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3745,8 +3823,8 @@ export const modifyBackupDownloadRestriction: API.OperationMethod<
   ModifyBackupDownloadRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ModifyBackupDownloadRestrictionRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyBackupDownloadRestrictionResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ModifyBackupDownloadRestrictionRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyBackupDownloadRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3762,8 +3840,8 @@ export const modifyBackupEncrypt: API.OperationMethod<
   ModifyBackupEncryptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ModifyBackupEncryptRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyBackupEncryptResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ModifyBackupEncryptRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyBackupEncryptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3779,7 +3857,7 @@ export const modifyConnectionConfig: API.OperationMethod<
   ModifyConnectionConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ModifyConnectionConfigRequest>,
+  input: __S(2096, __c131, 0) as any as S.Schema<ModifyConnectionConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyConnectionConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3796,8 +3874,8 @@ export const modifyDBInstanceSecurityGroups: API.OperationMethod<
   ModifyDBInstanceSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3813,8 +3891,8 @@ export const modifyInstance: API.OperationMethod<
   ModifyInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ModifyInstanceRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyInstanceResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<ModifyInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3830,7 +3908,7 @@ export const modifyInstanceAccount: API.OperationMethod<
   ModifyInstanceAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ModifyInstanceAccountRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<ModifyInstanceAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyInstanceAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3847,7 +3925,7 @@ export const modifyInstanceAvailabilityZones: API.OperationMethod<
   ModifyInstanceAvailabilityZonesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ModifyInstanceAvailabilityZonesRequest>,
+  input: __S(2240, __c140, 0) as any as S.Schema<ModifyInstanceAvailabilityZonesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyInstanceAvailabilityZonesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3864,7 +3942,7 @@ export const modifyInstanceBackupMode: API.OperationMethod<
   ModifyInstanceBackupModeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ModifyInstanceBackupModeRequest>,
+  input: __S(2256, __c141, 0) as any as S.Schema<ModifyInstanceBackupModeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyInstanceBackupModeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3881,8 +3959,8 @@ export const modifyInstanceChargeType: API.OperationMethod<
   ModifyInstanceChargeTypeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<ModifyInstanceChargeTypeRequest>,
-  output: __S(2179, __c136, 3) as any as S.Schema<ModifyInstanceChargeTypeResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<ModifyInstanceChargeTypeRequest>,
+  output: __S(2275, __c142, 3) as any as S.Schema<ModifyInstanceChargeTypeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3898,8 +3976,8 @@ export const modifyInstanceEvent: API.OperationMethod<
   ModifyInstanceEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<ModifyInstanceEventRequest>,
-  output: __S(2193, __c137, 1) as any as S.Schema<ModifyInstanceEventResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<ModifyInstanceEventRequest>,
+  output: __S(2289, __c143, 1) as any as S.Schema<ModifyInstanceEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3915,8 +3993,8 @@ export const modifyInstanceLogDelivery: API.OperationMethod<
   ModifyInstanceLogDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ModifyInstanceLogDeliveryRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyInstanceLogDeliveryResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<ModifyInstanceLogDeliveryRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyInstanceLogDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3932,8 +4010,8 @@ export const modifyInstanceParams: API.OperationMethod<
   ModifyInstanceParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<ModifyInstanceParamsRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<ModifyInstanceParamsResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<ModifyInstanceParamsRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<ModifyInstanceParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3949,7 +4027,7 @@ export const modifyInstancePassword: API.OperationMethod<
   ModifyInstancePasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<ModifyInstancePasswordRequest>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ModifyInstancePasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyInstancePasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3966,8 +4044,8 @@ export const modifyInstancePasswordPolicy: API.OperationMethod<
   ModifyInstancePasswordPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ModifyInstancePasswordPolicyRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyInstancePasswordPolicyResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ModifyInstancePasswordPolicyRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyInstancePasswordPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3983,7 +4061,7 @@ export const modifyInstanceReadOnly: API.OperationMethod<
   ModifyInstanceReadOnlyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ModifyInstanceReadOnlyRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<ModifyInstanceReadOnlyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyInstanceReadOnlyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4000,8 +4078,8 @@ export const modifyLog: API.OperationMethod<
   ModifyLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ModifyLogRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyLogResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ModifyLogRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4017,14 +4095,31 @@ export const modifyMaintenanceWindow: API.OperationMethod<
   ModifyMaintenanceWindowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ModifyMaintenanceWindowRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ModifyMaintenanceWindowResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ModifyMaintenanceWindowRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<ModifyMaintenanceWindowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyMaintenanceWindow",
+}));
+
+export type ModifyModuleError = TencentCloudOpError;
+export const modifyModule: API.OperationMethod<
+  ModifyModuleRequest,
+  ModifyModuleResponse,
+  ModifyModuleError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<ModifyModuleRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<ModifyModuleResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyModule",
 }));
 
 export type ModifyNetworkConfigError = TencentCloudOpError;
@@ -4034,8 +4129,8 @@ export const modifyNetworkConfig: API.OperationMethod<
   ModifyNetworkConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ModifyNetworkConfigRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<ModifyNetworkConfigResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ModifyNetworkConfigRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ModifyNetworkConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4051,8 +4146,8 @@ export const modifyParamTemplate: API.OperationMethod<
   ModifyParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ModifyParamTemplateRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyParamTemplateResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ModifyParamTemplateRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4068,14 +4163,48 @@ export const modifyReplicationGroup: API.OperationMethod<
   ModifyReplicationGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ModifyReplicationGroupRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ModifyReplicationGroupResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ModifyReplicationGroupRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ModifyReplicationGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyReplicationGroup",
+}));
+
+export type ModifySSLEncryptionModeError = TencentCloudOpError;
+export const modifySSLEncryptionMode: API.OperationMethod<
+  ModifySSLEncryptionModeRequest,
+  ModifySSLEncryptionModeResponse,
+  ModifySSLEncryptionModeError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<ModifySSLEncryptionModeRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<ModifySSLEncryptionModeResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifySSLEncryptionMode",
+}));
+
+export type ModifyValkeyModuleError = TencentCloudOpError;
+export const modifyValkeyModule: API.OperationMethod<
+  ModifyValkeyModuleRequest,
+  ModifyValkeyModuleResponse,
+  ModifyValkeyModuleError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<ModifyValkeyModuleRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<ModifyValkeyModuleResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyValkeyModule",
 }));
 
 export type OpenLogError = TencentCloudOpError;
@@ -4085,8 +4214,8 @@ export const openLog: API.OperationMethod<
   OpenLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<OpenLogRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<OpenLogResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<OpenLogRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<OpenLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4102,7 +4231,7 @@ export const openSSL: API.OperationMethod<
   OpenSSLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<OpenSSLRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<OpenSSLRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<OpenSSLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4119,7 +4248,7 @@ export const releaseWanAddress: API.OperationMethod<
   ReleaseWanAddressError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ReleaseWanAddressRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<ReleaseWanAddressRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ReleaseWanAddressResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4136,8 +4265,8 @@ export const removeReplicationGroup: API.OperationMethod<
   RemoveReplicationGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<RemoveReplicationGroupRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<RemoveReplicationGroupResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<RemoveReplicationGroupRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<RemoveReplicationGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4153,7 +4282,7 @@ export const removeReplicationInstance: API.OperationMethod<
   RemoveReplicationInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<RemoveReplicationInstanceRequest>,
+  input: __S(320, __c20, 0) as any as S.Schema<RemoveReplicationInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveReplicationInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4170,8 +4299,8 @@ export const renewInstance: API.OperationMethod<
   RenewInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<RenewInstanceRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<RenewInstanceResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<RenewInstanceRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<RenewInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4187,7 +4316,7 @@ export const resetPassword: API.OperationMethod<
   ResetPasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ResetPasswordRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResetPasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4204,7 +4333,7 @@ export const restoreInstance: API.OperationMethod<
   RestoreInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<RestoreInstanceRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<RestoreInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4221,8 +4350,8 @@ export const startupInstance: API.OperationMethod<
   StartupInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<StartupInstanceRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<StartupInstanceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<StartupInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<StartupInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4238,8 +4367,8 @@ export const switchAccessNewInstance: API.OperationMethod<
   SwitchAccessNewInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<SwitchAccessNewInstanceRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SwitchAccessNewInstanceResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<SwitchAccessNewInstanceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SwitchAccessNewInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4255,7 +4384,7 @@ export const switchInstanceVip: API.OperationMethod<
   SwitchInstanceVipError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<SwitchInstanceVipRequest>,
+  input: __S(448, __c28, 0) as any as S.Schema<SwitchInstanceVipRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SwitchInstanceVipResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4272,7 +4401,7 @@ export const switchProxy: API.OperationMethod<
   SwitchProxyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<SwitchProxyRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<SwitchProxyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SwitchProxyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4282,6 +4411,23 @@ export const switchProxy: API.OperationMethod<
   span: "SwitchProxy",
 }));
 
+export type UpdateSSLCertError = TencentCloudOpError;
+export const updateSSLCert: API.OperationMethod<
+  UpdateSSLCertRequest,
+  UpdateSSLCertResponse,
+  UpdateSSLCertError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateSSLCertRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateSSLCertResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSSLCert",
+}));
+
 export type UpgradeInstanceError = TencentCloudOpError;
 export const upgradeInstance: API.OperationMethod<
   UpgradeInstanceRequest,
@@ -4289,8 +4435,8 @@ export const upgradeInstance: API.OperationMethod<
   UpgradeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<UpgradeInstanceRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<UpgradeInstanceResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<UpgradeInstanceRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<UpgradeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4306,8 +4452,8 @@ export const upgradeInstanceProductVersion: API.OperationMethod<
   UpgradeInstanceProductVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UpgradeInstanceProductVersionRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<UpgradeInstanceProductVersionResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<UpgradeInstanceProductVersionRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<UpgradeInstanceProductVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4323,8 +4469,8 @@ export const upgradeInstanceVersion: API.OperationMethod<
   UpgradeInstanceVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpgradeInstanceVersionRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<UpgradeInstanceVersionResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<UpgradeInstanceVersionRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<UpgradeInstanceVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4340,8 +4486,8 @@ export const upgradeProxyVersion: API.OperationMethod<
   UpgradeProxyVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<UpgradeProxyVersionRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<UpgradeProxyVersionResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpgradeProxyVersionRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<UpgradeProxyVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4357,8 +4503,8 @@ export const upgradeSmallVersion: API.OperationMethod<
   UpgradeSmallVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpgradeSmallVersionRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<UpgradeSmallVersionResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<UpgradeSmallVersionRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<UpgradeSmallVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4374,8 +4520,8 @@ export const upgradeVersionToMultiAvailabilityZones: API.OperationMethod<
   UpgradeVersionToMultiAvailabilityZonesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UpgradeVersionToMultiAvailabilityZonesRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<UpgradeVersionToMultiAvailabilityZonesResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<UpgradeVersionToMultiAvailabilityZonesRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<UpgradeVersionToMultiAvailabilityZonesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4454,6 +4600,24 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
+          PasswordPolicy: __S(2144, __c134, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "redis",
+            version: "2018-04-12",
+            action: "ModifyInstancePasswordPolicy",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyInstancePasswordPolicyRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
           InputMode: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -4462,7 +4626,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ModifyInstanceReadOnlyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4478,7 +4642,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ModifyLogRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4500,7 +4664,20 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ModifyMaintenanceWindowResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Name: S.String,
+          Status: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ModifyModule" })),
+      ).annotate({ identifier: "ModifyModuleRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4530,7 +4707,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ModifyNetworkConfigResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4538,7 +4715,7 @@ function __c9(j: number): any {
           TemplateId: S.String,
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          ParamList: S.optional(__S(577, __c36, 1)),
+          ParamList: S.optional(__S(657, __c41, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "ModifyParamTemplate" }),
@@ -4546,7 +4723,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ModifyParamTemplateRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4561,47 +4738,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ModifyReplicationGroupRequest" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          LogType: S.String,
-          LogSubType: S.String,
-          LogExpireDay: S.Number,
-          HighLogExpireDay: S.Number,
-          DegradeStrategy: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "OpenLog" })),
-      ).annotate({ identifier: "OpenLogRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          AddressType: S.optional(S.Number),
-          CertSource: S.optional(S.Number),
-          CertId: S.optional(S.String),
-          SSLMinVersion: S.optional(S.String),
-          EncryptionMode: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "OpenSSL" })),
-      ).annotate({ identifier: "OpenSSLRequest" });
-  }
-}
 function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
+          EncryptionMode: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ReleaseWanAddress" })),
-      ).annotate({ identifier: "ReleaseWanAddressRequest" });
+        }).pipe(
+          T.Action({ service: "redis", version: "2018-04-12", action: "ModifySSLEncryptionMode" }),
+        ),
+      ).annotate({ identifier: "ModifySSLEncryptionModeRequest" });
   }
 }
 function __c14(j: number): any {
@@ -4609,12 +4757,14 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          GroupId: S.String,
+          InstanceId: S.String,
+          Name: S.String,
+          Status: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({ service: "redis", version: "2018-04-12", action: "RemoveReplicationGroup" }),
+          T.Action({ service: "redis", version: "2018-04-12", action: "ModifyValkeyModule" }),
         ),
-      ).annotate({ identifier: "RemoveReplicationGroupRequest" });
+      ).annotate({ identifier: "ModifyValkeyModuleRequest" });
   }
 }
 function __c15(j: number): any {
@@ -4634,6 +4784,62 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceId: S.String,
+          LogType: S.String,
+          LogSubType: S.String,
+          LogExpireDay: S.Number,
+          HighLogExpireDay: S.Number,
+          DegradeStrategy: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "OpenLog" })),
+      ).annotate({ identifier: "OpenLogRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          AddressType: S.optional(S.Number),
+          CertSource: S.optional(S.Number),
+          CertId: S.optional(S.String),
+          SSLMinVersion: S.optional(S.String),
+          EncryptionMode: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "OpenSSL" })),
+      ).annotate({ identifier: "OpenSSLRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ReleaseWanAddress" })),
+      ).annotate({ identifier: "ReleaseWanAddressRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GroupId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "redis", version: "2018-04-12", action: "RemoveReplicationGroup" }),
+        ),
+      ).annotate({ identifier: "RemoveReplicationGroupRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           GroupId: S.String,
           InstanceId: S.String,
           SyncType: S.Boolean,
@@ -4648,7 +4854,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RemoveReplicationInstanceRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4661,7 +4867,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RenewInstanceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4675,7 +4881,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ResetPasswordRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4688,7 +4894,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RestoreInstanceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4699,7 +4905,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "StartupInstanceRequest" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4712,69 +4918,6 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SwitchAccessNewInstanceRequest" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SrcInstanceId: S.String,
-          DstInstanceId: S.String,
-          TimeDelay: S.optional(S.Number),
-          ForceSwitch: S.optional(S.Number),
-          SwitchTime: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "SwitchInstanceVip" })),
-      ).annotate({ identifier: "SwitchInstanceVipRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ProxyID: S.optional(S.String),
-          ProxyIDList: S.optional(__S(688, __c43, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "SwitchProxy" })),
-      ).annotate({ identifier: "SwitchProxyRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          MemSize: S.Number,
-          RedisShardNum: S.optional(S.Number),
-          RedisReplicasNum: S.optional(S.Number),
-          NodeSet: S.optional(__S(2097, __c131, 1)),
-          SwitchOption: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "UpgradeInstance" })),
-      ).annotate({ identifier: "UpgradeInstanceRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TargetProductVersion: S.String,
-          SwitchOption: S.Number,
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "redis",
-            version: "2018-04-12",
-            action: "UpgradeInstanceProductVersion",
-          }),
-        ),
-      ).annotate({ identifier: "UpgradeInstanceProductVersionRequest" });
-  }
-}
 function __c26(j: number): any {
   switch (j) {
     case 0:
@@ -4785,7 +4928,7 @@ function __c26(j: number): any {
           StartTime: S.String,
           EndTime: S.String,
           LogFilter: S.optional(__S(433, __c27, 1)),
-          ColumnFilter: S.optional(__S(688, __c43, 0)),
+          ColumnFilter: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "CreateExportTask" })),
       ).annotate({ identifier: "CreateExportTaskRequest" });
@@ -4805,7 +4948,7 @@ function __c27(j: number): any {
         S.Struct({
           Type: S.optional(S.String),
           Compare: S.optional(S.String),
-          Value: S.optional(__S(688, __c43, 0)),
+          Value: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "LogFilter" });
     case 1:
@@ -4813,6 +4956,85 @@ function __c27(j: number): any {
   }
 }
 function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SrcInstanceId: S.String,
+          DstInstanceId: S.String,
+          TimeDelay: S.optional(S.Number),
+          ForceSwitch: S.optional(S.Number),
+          SwitchTime: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "SwitchInstanceVip" })),
+      ).annotate({ identifier: "SwitchInstanceVipRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          ProxyID: S.optional(S.String),
+          ProxyIDList: S.optional(__S(768, __c48, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "SwitchProxy" })),
+      ).annotate({ identifier: "SwitchProxyRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          CertSource: S.optional(S.Number),
+          AddressType: S.optional(S.Number),
+          CertId: S.optional(S.String),
+          SSLMinVersion: S.optional(S.String),
+          EncryptionMode: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "UpdateSSLCert" })),
+      ).annotate({ identifier: "UpdateSSLCertRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          MemSize: S.Number,
+          RedisShardNum: S.optional(S.Number),
+          RedisReplicasNum: S.optional(S.Number),
+          NodeSet: S.optional(__S(2177, __c136, 1)),
+          SwitchOption: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "UpgradeInstance" })),
+      ).annotate({ identifier: "UpgradeInstanceRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TargetProductVersion: S.String,
+          SwitchOption: S.Number,
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "redis",
+            version: "2018-04-12",
+            action: "UpgradeInstanceProductVersion",
+          }),
+        ),
+      ).annotate({ identifier: "UpgradeInstanceProductVersionRequest" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4827,7 +5049,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpgradeInstanceVersionRequest" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4843,7 +5065,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpgradeProxyVersionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4854,7 +5076,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpgradeProxyVersionResponse" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4870,7 +5092,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpgradeSmallVersionRequest" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4888,7 +5110,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpgradeVersionToMultiAvailabilityZonesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4896,7 +5118,7 @@ function __c33(j: number): any {
           InstanceId: S.String,
           AccountName: S.String,
           AccountPassword: S.String.pipe(T.SensitiveValue({})),
-          ReadonlyPolicy: __S(688, __c43, 0),
+          ReadonlyPolicy: __S(768, __c48, 0),
           Privilege: S.String,
           Remark: S.optional(S.String),
           EncryptPassword: S.optional(S.Boolean),
@@ -4907,7 +5129,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateInstanceAccountRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4923,23 +5145,23 @@ function __c34(j: number): any {
           SubnetId: S.optional(S.String),
           ProjectId: S.optional(S.Number),
           AutoRenew: S.optional(S.Number),
-          SecurityGroupIdList: S.optional(__S(688, __c43, 0)),
+          SecurityGroupIdList: S.optional(__S(768, __c48, 0)),
           VPort: S.optional(S.Number),
           RedisShardNum: S.optional(S.Number),
           RedisReplicasNum: S.optional(S.Number),
           ReplicasReadonly: S.optional(S.Boolean),
           InstanceName: S.optional(S.String),
           NoAuth: S.optional(S.Boolean),
-          NodeSet: S.optional(__S(2097, __c131, 1)),
-          ResourceTags: S.optional(__S(2081, __c130, 1)),
+          NodeSet: S.optional(__S(2177, __c136, 1)),
+          ResourceTags: S.optional(__S(2161, __c135, 1)),
           ZoneName: S.optional(S.String),
           TemplateId: S.optional(S.String),
           DryRun: S.optional(S.Boolean),
           ProductVersion: S.optional(S.String),
           RedisClusterId: S.optional(S.String),
-          AlarmPolicyList: S.optional(__S(688, __c43, 0)),
+          AlarmPolicyList: S.optional(__S(768, __c48, 0)),
           EncryptPassword: S.optional(S.Boolean),
-          PasswordPolicy: S.optional(__S(2064, __c129, 0)),
+          PasswordPolicy: S.optional(__S(2144, __c134, 0)),
           EnableSSL: S.optional(S.Boolean),
           SSLBindPrivateIPv4: S.optional(S.Boolean),
           ConnectionMode: S.optional(S.Number),
@@ -4948,7 +5170,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateInstancesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4957,7 +5179,7 @@ function __c35(j: number): any {
           Description: S.optional(S.String),
           ProductType: S.optional(S.Number),
           TemplateId: S.optional(S.String),
-          ParamList: S.optional(__S(577, __c36, 1)),
+          ParamList: S.optional(__S(657, __c41, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "CreateParamTemplate" }),
@@ -4972,7 +5194,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateParamTemplateResponse" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4982,10 +5204,10 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "InstanceParam" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(656, __c41, 0));
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5008,7 +5230,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateReplicationGroupResponse" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5021,7 +5243,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteExportTaskRequest" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5035,7 +5257,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteInstanceAccountRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5048,12 +5270,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteParamTemplateRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(688, __c43, 0),
+          InstanceIds: __S(768, __c48, 0),
           TemplateId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -5063,25 +5285,25 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskIds: S.optional(__S(672, __c42, 0)),
+          TaskIds: S.optional(__S(752, __c47, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplyParamsTemplateResponse" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5100,7 +5322,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteReplicationInstanceRequest" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5115,7 +5337,7 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoBackupType: S.optional(S.Number),
-          WeekDays: S.optional(__S(688, __c43, 0)),
+          WeekDays: S.optional(__S(768, __c48, 0)),
           TimePeriod: S.optional(S.String),
           BackupStorageDays: S.optional(S.Number),
           BinlogStorageDays: S.optional(S.Number),
@@ -5124,7 +5346,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DescribeAutoBackupConfigResponse" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5160,7 +5382,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DescribeBackupDetailResponse" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5180,27 +5402,27 @@ function __c47(j: number): any {
           LimitType: S.optional(S.String),
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpc: S.optional(__S(769, __c48, 1)),
-          LimitIp: S.optional(__S(688, __c43, 0)),
+          LimitVpc: S.optional(__S(849, __c53, 1)),
+          LimitIp: S.optional(__S(768, __c48, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupDownloadRestrictionResponse" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Region: S.String,
-          VpcList: __S(688, __c43, 0),
+          VpcList: __S(768, __c48, 0),
         }),
       ).annotate({ identifier: "BackupLimitVpcItem" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(848, __c53, 0));
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5227,7 +5449,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DescribeBackupEncryptConfigResponse" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5237,8 +5459,8 @@ function __c50(j: number): any {
           LimitType: S.optional(S.String),
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpc: S.optional(__S(769, __c48, 1)),
-          LimitIp: S.optional(__S(688, __c43, 0)),
+          LimitVpc: S.optional(__S(849, __c53, 1)),
+          LimitIp: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "DescribeBackupUrl" })),
       ).annotate({ identifier: "DescribeBackupUrlRequest" });
@@ -5252,17 +5474,17 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "BackupDownloadInfo" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(881, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          BackupInfos: S.optional(__S(802, __c50, 2)),
+          BackupInfos: S.optional(__S(882, __c55, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupUrlResponse" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5285,22 +5507,22 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DescribeBandwidthRangeResponse" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VpcIds: S.optional(__S(672, __c42, 0)),
-          SubnetIds: S.optional(__S(672, __c42, 0)),
+          VpcIds: S.optional(__S(752, __c47, 0)),
+          SubnetIds: S.optional(__S(752, __c47, 0)),
           PayMode: S.optional(S.Number),
-          InstanceIds: S.optional(__S(688, __c43, 0)),
-          InstanceNames: S.optional(__S(688, __c43, 0)),
-          Status: S.optional(__S(688, __c43, 0)),
+          InstanceIds: S.optional(__S(768, __c48, 0)),
+          InstanceNames: S.optional(__S(768, __c48, 0)),
+          Status: S.optional(__S(768, __c48, 0)),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Vips: S.optional(__S(688, __c43, 0)),
-          UniqVpcIds: S.optional(__S(688, __c43, 0)),
-          UniqSubnetIds: S.optional(__S(688, __c43, 0)),
+          Vips: S.optional(__S(768, __c48, 0)),
+          UniqVpcIds: S.optional(__S(768, __c48, 0)),
+          UniqSubnetIds: S.optional(__S(768, __c48, 0)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -5324,7 +5546,7 @@ function __c52(j: number): any {
           VpcId: S.optional(S.String),
           SubnetId: S.optional(S.String),
           Status: S.optional(S.String),
-          Vips: S.optional(__S(688, __c43, 0)),
+          Vips: S.optional(__S(768, __c48, 0)),
           Vport: S.optional(S.Number),
           Createtime: S.optional(S.String),
           PayMode: S.optional(S.Number),
@@ -5332,18 +5554,18 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "RedisCommonInstanceList" });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(913, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceDetails: S.optional(__S(834, __c52, 2)),
+          InstanceDetails: S.optional(__S(914, __c57, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCommonDBInstancesResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5358,7 +5580,7 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(867, __c54, 3)),
+          Groups: S.optional(__S(947, __c59, 3)),
           VIP: S.optional(S.String),
           VPort: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -5366,7 +5588,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DescribeDBSecurityGroupsResponse" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5382,7 +5604,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "Outbound" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(944, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5391,15 +5613,15 @@ function __c54(j: number): any {
           SecurityGroupId: S.optional(S.String),
           SecurityGroupName: S.optional(S.String),
           SecurityGroupRemark: S.optional(S.String),
-          Outbound: S.optional(__S(865, __c54, 1)),
-          Inbound: S.optional(__S(865, __c54, 1)),
+          Outbound: S.optional(__S(945, __c59, 1)),
+          Inbound: S.optional(__S(945, __c59, 1)),
         }),
       ).annotate({ identifier: "SecurityGroup" });
     case 3:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(946, __c59, 2));
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5428,25 +5650,25 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "ExportFile" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(961, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(882, __c55, 2)),
+          Items: S.optional(__S(962, __c60, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeExportTasksResponse" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Product: S.String,
           SecurityGroupId: S.String,
-          InstanceIds: __S(688, __c43, 0),
+          InstanceIds: __S(768, __c48, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "AssociateSecurityGroups" }),
@@ -5454,7 +5676,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "AssociateSecurityGroupsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5464,7 +5686,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "AssociateSecurityGroupsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5482,21 +5704,21 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Region: S.optional(S.String),
-          AvailableZones: S.optional(__S(688, __c43, 0)),
+          AvailableZones: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "AvailableRegion" });
     case 2:
-      return S.Array(__S(929, __c58, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AvailableRegions: S.optional(__S(930, __c58, 2)),
+          AvailableRegions: S.optional(__S(1010, __c63, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGlobalReplicationAreaResponse" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5516,25 +5738,25 @@ function __c59(j: number): any {
           AccountName: S.optional(S.String),
           Remark: S.optional(S.String),
           Privilege: S.optional(S.String),
-          ReadonlyPolicy: S.optional(__S(688, __c43, 0)),
+          ReadonlyPolicy: S.optional(__S(768, __c48, 0)),
           Status: S.optional(S.Number),
           CreateTime: S.optional(S.String),
           PasswordLastModifiedTime: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Account" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(1025, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Accounts: S.optional(__S(946, __c59, 2)),
+          Accounts: S.optional(__S(1026, __c64, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceAccountResponse" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5544,7 +5766,7 @@ function __c60(j: number): any {
           InstanceId: S.optional(S.String),
           BeginTime: S.optional(S.String),
           EndTime: S.optional(S.String),
-          Status: S.optional(__S(672, __c42, 0)),
+          Status: S.optional(__S(752, __c47, 0)),
           InstanceName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -5573,18 +5795,18 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "RedisBackupSet" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(1041, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BackupSet: S.optional(__S(962, __c60, 2)),
+          BackupSet: S.optional(__S(1042, __c65, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceBackupsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5612,21 +5834,21 @@ function __c61(j: number): any {
           Status: S.optional(S.Number),
           Description: S.optional(S.String),
           Price: S.optional(S.Number),
-          InstanceIds: S.optional(__S(688, __c43, 0)),
+          InstanceIds: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "TradeDealDetail" });
     case 2:
-      return S.Array(__S(977, __c61, 1));
+      return S.Array(__S(1057, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DealDetails: S.optional(__S(978, __c61, 2)),
+          DealDetails: S.optional(__S(1058, __c66, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceDealDetailResponse" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5659,14 +5881,14 @@ function __c62(j: number): any {
           StatusDesc: S.optional(S.String),
           Offset: S.optional(S.Number),
           CutDownTime: S.optional(S.String),
-          SrcInfo: S.optional(__S(993, __c62, 1)),
-          DstInfo: S.optional(__S(993, __c62, 1)),
+          SrcInfo: S.optional(__S(1073, __c67, 1)),
+          DstInfo: S.optional(__S(1073, __c67, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceDTSInfoResponse" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5676,9 +5898,9 @@ function __c63(j: number): any {
           InstanceId: S.optional(S.String),
           PageSize: S.optional(S.Number),
           PageNo: S.optional(S.Number),
-          Status: S.optional(__S(688, __c43, 0)),
-          EventTypes: S.optional(__S(688, __c43, 0)),
-          Grades: S.optional(__S(688, __c43, 0)),
+          Status: S.optional(__S(768, __c48, 0)),
+          EventTypes: S.optional(__S(768, __c48, 0)),
+          Grades: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "DescribeInstanceEvents" }),
@@ -5703,18 +5925,18 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "RedisInstanceEvent" });
     case 2:
-      return S.Array(__S(1009, __c63, 1));
+      return S.Array(__S(1089, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          RedisInstanceEvents: S.optional(__S(1010, __c63, 2)),
+          RedisInstanceEvents: S.optional(__S(1090, __c68, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceEventsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5741,13 +5963,13 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SlowLog: S.optional(__S(1025, __c64, 1)),
+          SlowLog: S.optional(__S(1105, __c69, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceLogDeliveryResponse" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5775,17 +5997,17 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "BigKeyInfo" });
     case 2:
-      return S.Array(__S(1041, __c65, 1));
+      return S.Array(__S(1121, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1042, __c65, 2)),
+          Data: S.optional(__S(1122, __c70, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorBigKeyResponse" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5803,7 +6025,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DescribeInstanceMonitorBigKeySizeDistRequest" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5814,17 +6036,17 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "DelayDistribution" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1152, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1073, __c67, 1)),
+          Data: S.optional(__S(1153, __c72, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorBigKeySizeDistResponse" });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5850,17 +6072,17 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "BigKeyTypeInfo" });
     case 2:
-      return S.Array(__S(1089, __c68, 1));
+      return S.Array(__S(1169, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1090, __c68, 2)),
+          Data: S.optional(__S(1170, __c73, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorBigKeyTypeDistResponse" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5875,7 +6097,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ChangeInstanceRoleRequest" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5900,17 +6122,17 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "HotKeyInfo" });
     case 2:
-      return S.Array(__S(1121, __c70, 1));
+      return S.Array(__S(1201, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1122, __c70, 2)),
+          Data: S.optional(__S(1202, __c75, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorHotKeyResponse" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5934,17 +6156,17 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "SourceInfo" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1138, __c71, 2)),
+          Data: S.optional(__S(1218, __c76, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorSIPResponse" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5963,7 +6185,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DescribeInstanceMonitorTookDistRequest" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5987,17 +6209,17 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "SourceCommand" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1249, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1170, __c73, 2)),
+          Data: S.optional(__S(1250, __c78, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorTopNCmdResponse" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6021,17 +6243,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "CommandTake" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1265, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1186, __c74, 2)),
+          Data: S.optional(__S(1266, __c79, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceMonitorTopNCmdTookResponse" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6052,7 +6274,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ProxyNodes" });
     case 2:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6063,7 +6285,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "RedisNodes" });
     case 4:
-      return S.Array(__S(1203, __c75, 3));
+      return S.Array(__S(1283, __c80, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6073,22 +6295,22 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "TendisNodes" });
     case 6:
-      return S.Array(__S(1205, __c75, 5));
+      return S.Array(__S(1285, __c80, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           ProxyCount: S.optional(S.Number),
-          Proxy: S.optional(__S(1202, __c75, 2)),
+          Proxy: S.optional(__S(1282, __c80, 2)),
           RedisCount: S.optional(S.Number),
-          Redis: S.optional(__S(1204, __c75, 4)),
+          Redis: S.optional(__S(1284, __c80, 4)),
           TendisCount: S.optional(S.Number),
-          Tendis: S.optional(__S(1206, __c75, 6)),
+          Tendis: S.optional(__S(1286, __c80, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceNodeInfoResponse" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6116,18 +6338,18 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "InstanceParamHistory" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceParamHistory: S.optional(__S(1218, __c76, 2)),
+          InstanceParamHistory: S.optional(__S(1298, __c81, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceParamRecordsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6147,7 +6369,7 @@ function __c77(j: number): any {
           DefaultValue: S.optional(S.String),
           CurrentValue: S.optional(S.String),
           Tips: S.optional(S.String),
-          EnumValue: S.optional(__S(688, __c43, 0)),
+          EnumValue: S.optional(__S(768, __c48, 0)),
           Status: S.optional(S.Number),
           ParamType: S.optional(S.String),
           FeatureSupported: S.optional(S.Boolean),
@@ -6157,7 +6379,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "InstanceEnumParam" });
     case 2:
-      return S.Array(__S(1233, __c77, 1));
+      return S.Array(__S(1313, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6179,7 +6401,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "InstanceIntegerParam" });
     case 4:
-      return S.Array(__S(1235, __c77, 3));
+      return S.Array(__S(1315, __c82, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6189,7 +6411,7 @@ function __c77(j: number): any {
           DefaultValue: S.optional(S.String),
           CurrentValue: S.optional(S.String),
           Tips: S.optional(S.String),
-          TextValue: S.optional(__S(688, __c43, 0)),
+          TextValue: S.optional(__S(768, __c48, 0)),
           Status: S.optional(S.Number),
           ParamType: S.optional(S.String),
           FeatureSupported: S.optional(S.Boolean),
@@ -6199,21 +6421,21 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "InstanceTextParam" });
     case 6:
-      return S.Array(__S(1237, __c77, 5));
+      return S.Array(__S(1317, __c82, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceEnumParam: S.optional(__S(1234, __c77, 2)),
-          InstanceIntegerParam: S.optional(__S(1236, __c77, 4)),
-          InstanceTextParam: S.optional(__S(1238, __c77, 6)),
-          InstanceMultiParam: S.optional(__S(1234, __c77, 2)),
+          InstanceEnumParam: S.optional(__S(1314, __c82, 2)),
+          InstanceIntegerParam: S.optional(__S(1316, __c82, 4)),
+          InstanceTextParam: S.optional(__S(1318, __c82, 6)),
+          InstanceMultiParam: S.optional(__S(1314, __c82, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceParamsResponse" });
   }
 }
-function __c78(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6231,13 +6453,13 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PasswordPolicy: S.optional(__S(2064, __c129, 0)),
+          PasswordPolicy: S.optional(__S(2144, __c134, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstancePasswordPolicyResponse" });
   }
 }
-function __c79(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6247,27 +6469,27 @@ function __c79(j: number): any {
           InstanceId: S.optional(S.String),
           OrderBy: S.optional(S.String),
           OrderType: S.optional(S.Number),
-          VpcIds: S.optional(__S(688, __c43, 0)),
-          SubnetIds: S.optional(__S(688, __c43, 0)),
+          VpcIds: S.optional(__S(768, __c48, 0)),
+          SubnetIds: S.optional(__S(768, __c48, 0)),
           SearchKey: S.optional(S.String),
-          ProjectIds: S.optional(__S(672, __c42, 0)),
+          ProjectIds: S.optional(__S(752, __c47, 0)),
           InstanceName: S.optional(S.String),
-          UniqVpcIds: S.optional(__S(688, __c43, 0)),
-          UniqSubnetIds: S.optional(__S(688, __c43, 0)),
-          RegionIds: S.optional(__S(672, __c42, 0)),
-          Status: S.optional(__S(672, __c42, 0)),
+          UniqVpcIds: S.optional(__S(768, __c48, 0)),
+          UniqSubnetIds: S.optional(__S(768, __c48, 0)),
+          RegionIds: S.optional(__S(752, __c47, 0)),
+          Status: S.optional(__S(752, __c47, 0)),
           TypeVersion: S.optional(S.Number),
           EngineName: S.optional(S.String),
-          AutoRenew: S.optional(__S(672, __c42, 0)),
+          AutoRenew: S.optional(__S(752, __c47, 0)),
           BillingMode: S.optional(S.String),
           Type: S.optional(S.Number),
-          SearchKeys: S.optional(__S(688, __c43, 0)),
-          TypeList: S.optional(__S(672, __c42, 0)),
+          SearchKeys: S.optional(__S(768, __c48, 0)),
+          TypeList: S.optional(__S(752, __c47, 0)),
           MonitorVersion: S.optional(S.String),
-          InstanceTags: S.optional(__S(2081, __c130, 1)),
-          TagKeys: S.optional(__S(688, __c43, 0)),
-          ProductVersions: S.optional(__S(688, __c43, 0)),
-          InstanceIds: S.optional(__S(688, __c43, 0)),
+          InstanceTags: S.optional(__S(2161, __c135, 1)),
+          TagKeys: S.optional(__S(768, __c48, 0)),
+          ProductVersions: S.optional(__S(768, __c48, 0)),
+          InstanceIds: S.optional(__S(768, __c48, 0)),
           AzMode: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "DescribeInstances" })),
@@ -6291,16 +6513,16 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "InstanceClusterNode" });
     case 2:
-      return S.Array(__S(1265, __c79, 1));
+      return S.Array(__S(1345, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.Number),
-          InstanceClusterNode: S.optional(__S(1266, __c79, 2)),
+          InstanceClusterNode: S.optional(__S(1346, __c84, 2)),
         }),
       ).annotate({ identifier: "InstanceNode" });
     case 4:
-      return S.Array(__S(1267, __c79, 3));
+      return S.Array(__S(1347, __c84, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6328,15 +6550,15 @@ function __c79(j: number): any {
           InstanceTitle: S.optional(S.String),
           OfflineTime: S.optional(S.String),
           SubStatus: S.optional(S.Number),
-          Tags: S.optional(__S(688, __c43, 0)),
-          InstanceNode: S.optional(__S(1268, __c79, 4)),
+          Tags: S.optional(__S(768, __c48, 0)),
+          InstanceNode: S.optional(__S(1348, __c84, 4)),
           RedisShardSize: S.optional(S.Number),
           RedisShardNum: S.optional(S.Number),
           RedisReplicasNum: S.optional(S.Number),
           PriceId: S.optional(S.Number),
           CloseTime: S.optional(S.String),
           SlaveReadWeight: S.optional(S.Number),
-          InstanceTags: S.optional(__S(2081, __c130, 1)),
+          InstanceTags: S.optional(__S(2161, __c135, 1)),
           ProjectName: S.optional(S.String),
           NoAuth: S.optional(S.Boolean),
           ClientLimit: S.optional(S.Number),
@@ -6351,7 +6573,7 @@ function __c79(j: number): any {
           MonitorVersion: S.optional(S.String),
           ClientLimitMin: S.optional(S.Number),
           ClientLimitMax: S.optional(S.Number),
-          NodeSet: S.optional(__S(2097, __c131, 1)),
+          NodeSet: S.optional(__S(2177, __c136, 1)),
           Region: S.optional(S.String),
           WanAddress: S.optional(S.String),
           PolarisServer: S.optional(S.String),
@@ -6367,18 +6589,18 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "InstanceSet" });
     case 6:
-      return S.Array(__S(1269, __c79, 5));
+      return S.Array(__S(1349, __c84, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceSet: S.optional(__S(1270, __c79, 6)),
+          InstanceSet: S.optional(__S(1350, __c84, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstancesResponse" });
   }
 }
-function __c80(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6393,12 +6615,12 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ChangeMasterInstanceRequest" });
   }
 }
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(688, __c43, 0),
+          InstanceIds: __S(768, __c48, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -6412,21 +6634,21 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          SecurityGroupDetails: S.optional(__S(1315, __c82, 3)),
+          SecurityGroupDetails: S.optional(__S(1395, __c87, 3)),
         }),
       ).annotate({ identifier: "InstanceSecurityGroupDetail" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InstanceSecurityGroupsDetail: S.optional(__S(1298, __c81, 2)),
+          InstanceSecurityGroupsDetail: S.optional(__S(1378, __c86, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceSecurityGroupResponse" });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6438,7 +6660,7 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "SecurityGroupsInboundAndOutbound" });
     case 1:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(1392, __c87, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6447,15 +6669,15 @@ function __c82(j: number): any {
           SecurityGroupId: S.optional(S.String),
           SecurityGroupName: S.optional(S.String),
           SecurityGroupRemark: S.optional(S.String),
-          InboundRule: S.optional(__S(1313, __c82, 1)),
-          OutboundRule: S.optional(__S(1313, __c82, 1)),
+          InboundRule: S.optional(__S(1393, __c87, 1)),
+          OutboundRule: S.optional(__S(1393, __c87, 1)),
         }),
       ).annotate({ identifier: "SecurityGroupDetail" });
     case 3:
-      return S.Array(__S(1314, __c82, 2));
+      return S.Array(__S(1394, __c87, 2));
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6485,18 +6707,18 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "InstanceClusterShard" });
     case 2:
-      return S.Array(__S(1329, __c83, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InstanceShards: S.optional(__S(1330, __c83, 2)),
+          InstanceShards: S.optional(__S(1410, __c88, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceShardsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6526,7 +6748,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DescribeInstanceSpecBandwidthResponse" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6551,7 +6773,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DescribeInstanceSupportFeatureResponse" });
   }
 }
-function __c86(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6573,7 +6795,7 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "RedisNode" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1457, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6581,40 +6803,40 @@ function __c86(j: number): any {
           GroupName: S.optional(S.String),
           ZoneId: S.optional(S.String),
           Role: S.optional(S.String),
-          RedisNodes: S.optional(__S(1378, __c86, 2)),
+          RedisNodes: S.optional(__S(1458, __c91, 2)),
         }),
       ).annotate({ identifier: "ReplicaGroup" });
     case 4:
-      return S.Array(__S(1379, __c86, 3));
+      return S.Array(__S(1459, __c91, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ReplicaGroups: S.optional(__S(1380, __c86, 4)),
+          ReplicaGroups: S.optional(__S(1460, __c91, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceZoneInfoResponse" });
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Values: __S(688, __c43, 0),
+          Values: __S(768, __c48, 0),
           ExactMatch: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(1392, __c87, 0));
+      return S.Array(__S(1472, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           LogType: S.String,
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          Filters: S.optional(__S(1393, __c87, 1)),
+          Filters: S.optional(__S(1473, __c92, 1)),
           LogSubType: S.optional(S.String),
           LogSwitch: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6633,7 +6855,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "DeliverSummary" });
     case 4:
-      return S.Array(__S(1395, __c87, 3));
+      return S.Array(__S(1475, __c92, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6644,7 +6866,7 @@ function __c87(j: number): any {
           Region: S.optional(S.NullOr(S.String)),
           Zone: S.optional(S.NullOr(S.String)),
           DegradeStrategy: S.optional(S.NullOr(S.Number)),
-          InstanceTags: S.optional(S.NullOr(__S(2081, __c130, 1))),
+          InstanceTags: S.optional(S.NullOr(__S(2161, __c135, 1))),
           Type: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "InstanceInfo" });
@@ -6662,24 +6884,24 @@ function __c87(j: number): any {
           LowStorage: S.optional(S.Number),
           LogStorage: S.optional(S.Number),
           Deliver: S.optional(S.String),
-          DeliverSummary: S.optional(S.NullOr(__S(1396, __c87, 4))),
-          InstanceInfo: S.optional(__S(1397, __c87, 5)),
+          DeliverSummary: S.optional(S.NullOr(__S(1476, __c92, 4))),
+          InstanceInfo: S.optional(__S(1477, __c92, 5)),
           LogSubType: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogInstance" });
     case 7:
-      return S.Array(__S(1398, __c87, 6));
+      return S.Array(__S(1478, __c92, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(1399, __c87, 7)),
+          Items: S.optional(__S(1479, __c92, 7)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLogInstanceListResponse" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6712,18 +6934,18 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "LogResult" });
     case 2:
-      return S.Array(__S(1409, __c88, 1));
+      return S.Array(__S(1489, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(S.NullOr(__S(1410, __c88, 2))),
+          Items: S.optional(S.NullOr(__S(1490, __c93, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLogsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6748,7 +6970,35 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DescribeMaintenanceWindowResponse" });
   }
 }
-function __c90(j: number): any {
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "DescribeModules" })),
+      ).annotate({ identifier: "DescribeModulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          IsSupport: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Module" });
+    case 2:
+      return S.Array(__S(1521, __c95, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Modules: S.optional(__S(1522, __c95, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeModulesResponse" });
+  }
+}
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6774,11 +7024,11 @@ function __c90(j: number): any {
           NeedReboot: S.optional(S.Number),
           Max: S.optional(S.String),
           Min: S.optional(S.String),
-          EnumValue: S.optional(__S(688, __c43, 0)),
+          EnumValue: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "ParameterDetail" });
     case 2:
-      return S.Array(__S(1441, __c90, 1));
+      return S.Array(__S(1537, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6787,20 +7037,35 @@ function __c90(j: number): any {
           Name: S.optional(S.String),
           ProductType: S.optional(S.Number),
           Description: S.optional(S.String),
-          Items: S.optional(__S(1442, __c90, 2)),
+          Items: S.optional(__S(1538, __c96, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeParamTemplateInfoResponse" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ProductTypes: S.optional(__S(672, __c42, 0)),
-          TemplateNames: S.optional(__S(688, __c43, 0)),
-          TemplateIds: S.optional(__S(688, __c43, 0)),
+          InstanceId: S.String,
+          GroupId: S.optional(S.Number),
+          Emergency: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "redis", version: "2018-04-12", action: "ChangeReplicaToMaster" }),
+        ),
+      ).annotate({ identifier: "ChangeReplicaToMasterRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductTypes: S.optional(__S(752, __c47, 0)),
+          TemplateNames: S.optional(__S(768, __c48, 0)),
+          TemplateIds: S.optional(__S(768, __c48, 0)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6818,33 +7083,18 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "ParamTemplateInfo" });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(1458, __c91, 2)),
+          Items: S.optional(__S(1570, __c98, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeParamTemplatesResponse" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          GroupId: S.optional(S.Number),
-          Emergency: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "redis", version: "2018-04-12", action: "ChangeReplicaToMaster" }),
-        ),
-      ).annotate({ identifier: "ChangeReplicaToMasterRequest" });
-  }
-}
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6864,16 +7114,16 @@ function __c93(j: number): any {
           Saleout: S.optional(S.Boolean),
           Engine: S.optional(S.String),
           Version: S.optional(S.String),
-          TotalSize: S.optional(__S(688, __c43, 0)),
-          ShardSize: S.optional(__S(688, __c43, 0)),
-          ReplicaNum: S.optional(__S(688, __c43, 0)),
-          ShardNum: S.optional(__S(688, __c43, 0)),
+          TotalSize: S.optional(__S(768, __c48, 0)),
+          ShardSize: S.optional(__S(768, __c48, 0)),
+          ReplicaNum: S.optional(__S(768, __c48, 0)),
+          ShardNum: S.optional(__S(768, __c48, 0)),
           PayMode: S.optional(S.String),
           EnableReplicaReadOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ProductConf" });
     case 2:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1585, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6881,13 +7131,13 @@ function __c93(j: number): any {
           ZoneName: S.optional(S.String),
           IsSaleout: S.optional(S.Boolean),
           IsDefault: S.optional(S.Boolean),
-          NetWorkType: S.optional(__S(688, __c43, 0)),
-          ProductSet: S.optional(__S(1490, __c93, 2)),
+          NetWorkType: S.optional(__S(768, __c48, 0)),
+          ProductSet: S.optional(__S(1586, __c99, 2)),
           OldZoneId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ZoneCapacityConf" });
     case 4:
-      return S.Array(__S(1491, __c93, 3));
+      return S.Array(__S(1587, __c99, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6895,21 +7145,21 @@ function __c93(j: number): any {
           RegionName: S.optional(S.String),
           RegionShortName: S.optional(S.String),
           Area: S.optional(S.String),
-          ZoneSet: S.optional(__S(1492, __c93, 4)),
+          ZoneSet: S.optional(__S(1588, __c99, 4)),
         }),
       ).annotate({ identifier: "RegionConf" });
     case 6:
-      return S.Array(__S(1493, __c93, 5));
+      return S.Array(__S(1589, __c99, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          RegionSet: S.optional(__S(1494, __c93, 6)),
+          RegionSet: S.optional(__S(1590, __c99, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProductInfoResponse" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6928,13 +7178,13 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          SecurityGroupDetails: S.optional(__S(1315, __c82, 3)),
+          SecurityGroupDetails: S.optional(__S(1395, __c87, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProjectSecurityGroupResponse" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6956,14 +7206,14 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(867, __c54, 3)),
+          Groups: S.optional(__S(947, __c59, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProjectSecurityGroupsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6993,18 +7243,18 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "InstanceProxySlowlogDetail" });
     case 2:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceProxySlowLogDetail: S.optional(__S(1538, __c96, 2)),
+          InstanceProxySlowLogDetail: S.optional(__S(1634, __c102, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxySlowLogResponse" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7029,15 +7279,15 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DescribeRedisClusterOverviewResponse" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RedisClusterIds: S.optional(__S(688, __c43, 0)),
-          Status: S.optional(__S(672, __c42, 0)),
-          ProjectIds: S.optional(__S(672, __c42, 0)),
-          AutoRenewFlag: S.optional(__S(672, __c42, 0)),
+          RedisClusterIds: S.optional(__S(768, __c48, 0)),
+          Status: S.optional(__S(752, __c47, 0)),
+          ProjectIds: S.optional(__S(752, __c47, 0)),
+          AutoRenewFlag: S.optional(__S(752, __c47, 0)),
           ClusterName: S.optional(S.String),
           SearchKey: S.optional(S.String),
           Limit: S.optional(S.Number),
@@ -7057,7 +7307,7 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "ResourceBundle" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1665, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7072,24 +7322,24 @@ function __c98(j: number): any {
           StartTime: S.optional(S.String),
           EndTime: S.optional(S.String),
           Status: S.optional(S.Number),
-          BaseBundles: S.optional(__S(1570, __c98, 2)),
-          ResourceBundles: S.optional(__S(1570, __c98, 2)),
+          BaseBundles: S.optional(__S(1666, __c104, 2)),
+          ResourceBundles: S.optional(__S(1666, __c104, 2)),
           DedicatedClusterId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CDCResource" });
     case 4:
-      return S.Array(__S(1571, __c98, 3));
+      return S.Array(__S(1667, __c104, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Resources: S.optional(__S(1572, __c98, 4)),
+          Resources: S.optional(__S(1668, __c104, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRedisClustersResponse" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7130,7 +7380,7 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "Instances" });
     case 2:
-      return S.Array(__S(1585, __c99, 1));
+      return S.Array(__S(1681, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7140,23 +7390,23 @@ function __c99(j: number): any {
           GroupName: S.optional(S.String),
           Status: S.optional(S.Number),
           InstanceCount: S.optional(S.Number),
-          Instances: S.optional(__S(1586, __c99, 2)),
+          Instances: S.optional(__S(1682, __c105, 2)),
           Remark: S.optional(S.String),
         }),
       ).annotate({ identifier: "Groups" });
     case 4:
-      return S.Array(__S(1587, __c99, 3));
+      return S.Array(__S(1683, __c105, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Groups: S.optional(__S(1588, __c99, 4)),
+          Groups: S.optional(__S(1684, __c105, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeReplicationGroupResponse" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7184,7 +7434,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DescribeReplicationGroupInstanceResponse" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7208,20 +7458,31 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "SecondLevelBackupMissingTimestamps" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1713, __c107, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           BackupId: S.optional(S.String),
           BackupTimestamp: S.optional(S.Number),
-          MissingTimestamps: S.optional(S.NullOr(__S(1618, __c101, 2))),
+          MissingTimestamps: S.optional(S.NullOr(__S(1714, __c107, 2))),
           StartTimestamp: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSecondLevelBackupInfoResponse" });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "CleanUpInstance" })),
+      ).annotate({ identifier: "CleanUpInstanceRequest" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7248,29 +7509,18 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "InstanceSlowlogDetail" });
     case 2:
-      return S.Array(__S(1633, __c102, 1));
+      return S.Array(__S(1745, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceSlowLogDetail: S.optional(__S(1634, __c102, 2)),
+          InstanceSlowLogDetail: S.optional(__S(1746, __c109, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSlowLogResponse" });
   }
 }
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "CleanUpInstance" })),
-      ).annotate({ identifier: "CleanUpInstanceRequest" });
-  }
-}
-function __c104(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7303,7 +7553,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DescribeSSLStatusResponse" });
   }
 }
-function __c105(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7325,7 +7575,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DescribeTaskInfoResponse" });
   }
 }
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7334,12 +7584,12 @@ function __c106(j: number): any {
           InstanceName: S.optional(S.String),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          TaskTypes: S.optional(__S(688, __c43, 0)),
+          TaskTypes: S.optional(__S(768, __c48, 0)),
           BeginTime: S.optional(S.String),
           EndTime: S.optional(S.String),
-          TaskStatus: S.optional(__S(672, __c42, 0)),
-          Result: S.optional(__S(672, __c42, 0)),
-          OperateUin: S.optional(__S(688, __c43, 0)),
+          TaskStatus: S.optional(__S(752, __c47, 0)),
+          Result: S.optional(__S(752, __c47, 0)),
+          OperateUin: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "DescribeTaskList" })),
       ).annotate({ identifier: "DescribeTaskListRequest" });
@@ -7358,18 +7608,18 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "TaskInfoDetail" });
     case 2:
-      return S.Array(__S(1697, __c106, 1));
+      return S.Array(__S(1793, __c112, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Tasks: S.optional(__S(1698, __c106, 2)),
+          Tasks: S.optional(__S(1794, __c112, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskListResponse" });
   }
 }
-function __c107(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7396,18 +7646,18 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "TendisSlowLogDetail" });
     case 2:
-      return S.Array(__S(1713, __c107, 1));
+      return S.Array(__S(1809, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          TendisSlowLogDetail: S.optional(__S(1714, __c107, 2)),
+          TendisSlowLogDetail: S.optional(__S(1810, __c113, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTendisSlowLogResponse" });
   }
 }
-function __c108(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7420,7 +7670,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DestroyPostpaidInstanceRequest" });
   }
 }
-function __c109(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7433,7 +7683,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DestroyPrepaidInstanceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7444,7 +7694,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DestroyPrepaidInstanceResponse" });
   }
 }
-function __c111(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7457,14 +7707,14 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DisableReplicaReadonlyRequest" });
   }
 }
-function __c112(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Product: S.String,
           SecurityGroupId: S.String,
-          InstanceIds: __S(688, __c43, 0),
+          InstanceIds: __S(768, __c48, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7476,13 +7726,13 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DisassociateSecurityGroupsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          ReadonlyPolicy: S.optional(__S(688, __c43, 0)),
+          ReadonlyPolicy: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "EnableReplicaReadonly" }),
@@ -7490,7 +7740,20 @@ function __c113(j: number): any {
       ).annotate({ identifier: "EnableReplicaReadonlyRequest" });
   }
 }
-function __c114(j: number): any {
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          EncryptPassword: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ClearInstance" })),
+      ).annotate({ identifier: "ClearInstanceRequest" });
+  }
+}
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7517,7 +7780,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "InquiryPriceCreateInstanceRequest" });
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7533,20 +7796,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "InquiryPriceCreateInstanceResponse" });
   }
 }
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          EncryptPassword: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ClearInstance" })),
-      ).annotate({ identifier: "ClearInstanceRequest" });
-  }
-}
-function __c117(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7564,7 +7814,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "InquiryPriceRenewInstanceRequest" });
   }
 }
-function __c118(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7584,20 +7834,20 @@ function __c118(j: number): any {
       ).annotate({ identifier: "InquiryPriceUpgradeInstanceRequest" });
   }
 }
-function __c119(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ShardIds: S.optional(__S(672, __c42, 0)),
+          ShardIds: S.optional(__S(752, __c47, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "KillMasterGroup" })),
       ).annotate({ identifier: "KillMasterGroupRequest" });
   }
 }
-function __c120(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7612,7 +7862,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ManualBackupInstanceRequest" });
   }
 }
-function __c121(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7628,13 +7878,13 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ModfiyInstancePasswordRequest" });
   }
 }
-function __c122(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          WeekDays: S.optional(__S(688, __c43, 0)),
+          WeekDays: S.optional(__S(768, __c48, 0)),
           TimePeriod: S.optional(S.String),
           AutoBackupType: S.optional(S.Number),
           BackupStorageDays: S.optional(S.Number),
@@ -7647,7 +7897,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoBackupType: S.optional(S.Number),
-          WeekDays: S.optional(__S(688, __c43, 0)),
+          WeekDays: S.optional(__S(768, __c48, 0)),
           TimePeriod: S.optional(S.String),
           BackupStorageDays: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -7655,7 +7905,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ModifyAutoBackupConfigResponse" });
   }
 }
-function __c123(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7663,8 +7913,8 @@ function __c123(j: number): any {
           LimitType: S.String,
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpc: S.optional(__S(769, __c48, 1)),
-          LimitIp: S.optional(__S(688, __c43, 0)),
+          LimitVpc: S.optional(__S(849, __c53, 1)),
+          LimitIp: S.optional(__S(768, __c48, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7676,7 +7926,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ModifyBackupDownloadRestrictionRequest" });
   }
 }
-function __c124(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7693,7 +7943,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ModifyBackupEncryptRequest" });
   }
 }
-function __c125(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7708,26 +7958,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ModifyConnectionConfigRequest" });
   }
 }
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Product: S.String,
-          SecurityGroupIds: __S(688, __c43, 0),
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "redis",
-            version: "2018-04-12",
-            action: "ModifyDBInstanceSecurityGroups",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyDBInstanceSecurityGroupsRequest" });
-  }
-}
-function __c127(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7737,7 +7968,7 @@ function __c127(j: number): any {
           ZoneId: S.Number,
           BillingMode: S.Number,
           Period: S.Number,
-          SecurityGroupIdList: __S(688, __c43, 0),
+          SecurityGroupIdList: __S(768, __c48, 0),
           BackupId: S.String,
           NoAuth: S.optional(S.Boolean),
           VpcId: S.optional(S.String),
@@ -7746,14 +7977,14 @@ function __c127(j: number): any {
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AutoRenew: S.optional(S.Number),
           VPort: S.optional(S.Number),
-          NodeSet: S.optional(__S(2097, __c131, 1)),
+          NodeSet: S.optional(__S(2177, __c136, 1)),
           ProjectId: S.optional(S.Number),
-          ResourceTags: S.optional(__S(2081, __c130, 1)),
+          ResourceTags: S.optional(__S(2161, __c135, 1)),
           TemplateId: S.optional(S.String),
-          AlarmPolicyList: S.optional(__S(688, __c43, 0)),
+          AlarmPolicyList: S.optional(__S(768, __c48, 0)),
           CloneTime: S.optional(S.String),
           EncryptPassword: S.optional(S.Boolean),
-          PasswordPolicy: S.optional(__S(2064, __c129, 0)),
+          PasswordPolicy: S.optional(__S(2144, __c134, 0)),
           EnableSSL: S.optional(S.Boolean),
           SSLBindPrivateIPv4: S.optional(S.Boolean),
           ProductVersion: S.optional(S.String),
@@ -7762,19 +7993,19 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CloneInstancesRequest" });
   }
 }
-function __c128(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: S.optional(__S(688, __c43, 0)),
+          InstanceIds: S.optional(__S(768, __c48, 0)),
           DealName: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloneInstancesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7788,7 +8019,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "PasswordPolicy" });
   }
 }
-function __c130(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7798,10 +8029,10 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "ResourceTag" });
     case 1:
-      return S.Array(__S(2080, __c130, 0));
+      return S.Array(__S(2160, __c135, 0));
   }
 }
-function __c131(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7813,26 +8044,45 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "RedisNodeInfo" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2176, __c136, 0));
   }
 }
-function __c132(j: number): any {
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Product: S.String,
+          SecurityGroupIds: __S(768, __c48, 0),
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "redis",
+            version: "2018-04-12",
+            action: "ModifyDBInstanceSecurityGroups",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyDBInstanceSecurityGroupsRequest" });
+  }
+}
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operation: S.String,
-          InstanceIds: S.optional(__S(688, __c43, 0)),
-          InstanceNames: S.optional(__S(688, __c43, 0)),
+          InstanceIds: S.optional(__S(768, __c48, 0)),
+          InstanceNames: S.optional(__S(768, __c48, 0)),
           ProjectId: S.optional(S.Number),
-          AutoRenews: S.optional(__S(672, __c42, 0)),
-          DeleteProtectionSwitches: S.optional(__S(672, __c42, 0)),
+          AutoRenews: S.optional(__S(752, __c47, 0)),
+          DeleteProtectionSwitches: S.optional(__S(752, __c47, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "redis", version: "2018-04-12", action: "ModifyInstance" })),
       ).annotate({ identifier: "ModifyInstanceRequest" });
   }
 }
-function __c133(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7841,11 +8091,11 @@ function __c133(j: number): any {
           AccountName: S.String,
           AccountPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           Remark: S.optional(S.String),
-          ReadonlyPolicy: S.optional(__S(688, __c43, 0)),
+          ReadonlyPolicy: S.optional(__S(768, __c48, 0)),
           Privilege: S.optional(S.String),
           NoAuth: S.optional(S.Boolean),
           EncryptPassword: S.optional(S.Boolean),
-          DisableCommands: S.optional(__S(688, __c43, 0)),
+          DisableCommands: S.optional(__S(768, __c48, 0)),
           ModifyDisableCommands: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7854,14 +8104,14 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ModifyInstanceAccountRequest" });
   }
 }
-function __c134(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           SwitchOption: S.Number,
-          NodeSet: __S(2097, __c131, 1),
+          NodeSet: __S(2177, __c136, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7873,7 +8123,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ModifyInstanceAvailabilityZonesRequest" });
   }
 }
-function __c135(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7887,12 +8137,12 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ModifyInstanceBackupModeRequest" });
   }
 }
-function __c136(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(688, __c43, 0),
+          InstanceIds: __S(768, __c48, 0),
           InstanceChargeType: S.String,
           Period: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7908,17 +8158,17 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "FailedInstance" });
     case 2:
-      return S.Array(__S(2177, __c136, 1));
+      return S.Array(__S(2273, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FailedInstanceIds: S.optional(__S(2178, __c136, 2)),
+          FailedInstanceIds: S.optional(__S(2274, __c142, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyInstanceChargeTypeResponse" });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7943,7 +8193,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ModifyInstanceEventResponse" });
   }
 }
-function __c138(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7969,13 +8219,13 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ModifyInstanceLogDeliveryRequest" });
   }
 }
-function __c139(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          InstanceParams: __S(577, __c36, 1),
+          InstanceParams: __S(657, __c41, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "redis", version: "2018-04-12", action: "ModifyInstanceParams" }),
@@ -7991,7 +8241,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "ModifyInstanceParamsResponse" });
   }
 }
-function __c140(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8004,24 +8254,6 @@ function __c140(j: number): any {
           T.Action({ service: "redis", version: "2018-04-12", action: "ModifyInstancePassword" }),
         ),
       ).annotate({ identifier: "ModifyInstancePasswordRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          PasswordPolicy: __S(2064, __c129, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "redis",
-            version: "2018-04-12",
-            action: "ModifyInstancePasswordPolicy",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyInstancePasswordPolicyRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

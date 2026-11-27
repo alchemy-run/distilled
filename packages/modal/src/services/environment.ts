@@ -81,6 +81,7 @@ export type EnvironmentRole =
   | "ENVIRONMENT_ROLE_NO_ACCESS"
   | "ENVIRONMENT_ROLE_MODAL_ADMINISTERED_OBSERVER"
   | "ENVIRONMENT_ROLE_CUSTOM";
+export type StringMap = { [key: string]: string | undefined };
 export interface CreateEnvironmentRequest {
   name?: string | undefined;
   isManaged?: boolean | undefined;
@@ -89,6 +90,7 @@ export interface CreateEnvironmentRequest {
   defaultMemberRole?: EnvironmentRole | (string & {}) | undefined;
   /** String representation; parsed when the enum is unspecified. */
   defaultMemberRoleStr?: string | undefined;
+  experimentalOptions?: StringMap | undefined;
 }
 export interface CreateEnvironmentResponse {}
 export interface DeleteEnvironmentRequest {
@@ -100,7 +102,6 @@ export interface EnvironmentBillingSummaryRequest {
   startTimestamp?: string | undefined;
   environmentId?: string | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
 export interface EnvironmentBillingSummaryResponse {
   startTimestamp?: string | undefined;
   endTimestamp?: string | undefined;
@@ -242,6 +243,9 @@ export interface EnvironmentListItem {
   blockUnauthenticatedResources?: boolean | undefined;
   effectiveRole?: EnvironmentRole | undefined;
   imageBuilderVersion?: string | undefined;
+  canManage?: boolean | undefined;
+  createdBy?: string | undefined;
+  createdByAvatarUrl?: string | undefined;
 }
 export type EnvironmentListItemList = Array<EnvironmentListItem>;
 export interface ListEnvironmentResponse {
@@ -300,6 +304,9 @@ export interface UpdateEnvironmentResponse {
   blockUnauthenticatedResources?: boolean | undefined;
   effectiveRole?: EnvironmentRole | undefined;
   imageBuilderVersion?: string | undefined;
+  canManage?: boolean | undefined;
+  createdBy?: string | undefined;
+  createdByAvatarUrl?: string | undefined;
 }
 export type CreateEnvironmentError = EnvironmentAlreadyExists | ModalOpError;
 export const createEnvironment: API.OperationMethod<
@@ -325,7 +332,7 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [EnvironmentNotFound],
   serviceErrors: ModalServiceErrors,
@@ -343,8 +350,8 @@ export const environmentBillingSummary: API.OperationMethod<
   EnvironmentBillingSummaryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<EnvironmentBillingSummaryRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<EnvironmentBillingSummaryResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<EnvironmentBillingSummaryRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<EnvironmentBillingSummaryResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -363,8 +370,8 @@ export const environmentGetBudget: API.OperationMethod<
   EnvironmentGetBudgetError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<EnvironmentGetBudgetRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<EnvironmentGetBudgetResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<EnvironmentGetBudgetRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<EnvironmentGetBudgetResponse>,
   errors: [EnvironmentNotFound, EnvironmentBudgetsNotEnabled],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -380,8 +387,8 @@ export const environmentGetManaged: API.OperationMethod<
   EnvironmentGetManagedError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<EnvironmentGetManagedRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<EnvironmentGetManagedResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<EnvironmentGetManagedRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<EnvironmentGetManagedResponse>,
   errors: [EnvironmentNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -397,8 +404,8 @@ export const environmentGetOrCreate: API.OperationMethod<
   EnvironmentGetOrCreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<EnvironmentGetOrCreateRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<EnvironmentGetOrCreateResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<EnvironmentGetOrCreateRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<EnvironmentGetOrCreateResponse>,
   errors: [EnvironmentNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -414,8 +421,8 @@ export const environmentGetRoles: API.OperationMethod<
   EnvironmentGetRolesError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<EnvironmentGetRolesRequest>,
-  output: __S(127, __c15, 7) as any as S.Schema<EnvironmentGetRolesResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<EnvironmentGetRolesRequest>,
+  output: __S(135, __c16, 7) as any as S.Schema<EnvironmentGetRolesResponse>,
   errors: [EnvironmentNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -625,6 +632,9 @@ function __c4(j: number): any {
           blockUnauthenticatedResources: S.optional(S.Boolean),
           effectiveRole: S.optional(S.String),
           imageBuilderVersion: S.optional(S.String),
+          canManage: S.optional(S.Boolean),
+          createdBy: S.optional(S.String),
+          createdByAvatarUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentListItem" });
   }
@@ -677,10 +687,11 @@ function __c7(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isManaged: S.optional(S.Boolean),
-          settings: S.optional(__S(72, __c9, 0)),
+          settings: S.optional(__S(80, __c10, 0)),
           environmentType: S.optional(S.String),
           defaultMemberRole: S.optional(S.String),
           defaultMemberRoleStr: S.optional(S.String),
+          experimentalOptions: S.optional(__S(72, __c9, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentCreate", code: 200 }),
         ),
@@ -696,6 +707,12 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           imageBuilderVersion: S.optional(S.String),
@@ -707,7 +724,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EnvironmentSettings" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -719,7 +736,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,19 +752,17 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "EnvironmentBillingSummaryRequest" });
     case 1:
-      return S.Record(S.String, S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           startTimestamp: S.optional(S.String),
           endTimestamp: S.optional(S.String),
           meteredCost: S.String,
-          meteredCostBreakdown: __S(89, __c11, 1),
+          meteredCostBreakdown: __S(72, __c9, 0),
         }),
       ).annotate({ identifier: "EnvironmentBillingSummaryResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -772,7 +787,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "EnvironmentGetBudgetResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -800,20 +815,20 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentGetManagedResponsePrincipalEnvRole" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           environmentId: S.String,
           name: S.String,
           createdAt: S.Number,
-          principalRoles: __S(106, __c13, 2),
-          additionalRoles: __S(106, __c13, 2),
+          principalRoles: __S(114, __c14, 2),
+          additionalRoles: __S(114, __c14, 2),
         }),
       ).annotate({ identifier: "EnvironmentGetManagedResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -832,7 +847,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          settings: S.optional(__S(72, __c9, 0)),
+          settings: S.optional(__S(80, __c10, 0)),
           environmentType: S.String,
         }),
       ).annotate({ identifier: "EnvironmentMetadata" });
@@ -840,12 +855,12 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           environmentId: S.String,
-          metadata: S.optional(__S(113, __c14, 1)),
+          metadata: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "EnvironmentGetOrCreateResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -867,14 +882,14 @@ function __c15(j: number): any {
           environmentRoleDefinitionId: S.String,
           name: S.String,
           description: S.String,
-          permissions: __S(121, __c15, 1),
+          permissions: __S(129, __c16, 1),
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "EnvironmentRoleDefinition" });
     case 3:
       return S.Array(S.String);
     case 4:
-      return S.Array(__S(122, __c15, 2));
+      return S.Array(__S(130, __c16, 2));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -886,22 +901,22 @@ function __c15(j: number): any {
           serviceUserName: S.String,
           roleStr: S.String,
           role: S.String,
-          roleDefinition: S.optional(__S(122, __c15, 2)),
-          choosableRoles: __S(123, __c15, 3),
-          choosableRoleDefinitions: __S(124, __c15, 4),
+          roleDefinition: S.optional(__S(130, __c16, 2)),
+          choosableRoles: __S(131, __c16, 3),
+          choosableRoleDefinitions: __S(132, __c16, 4),
           memberRole: S.String,
           inheritsDefaultMemberRole: S.optional(S.Boolean),
           hasRoleAssignment: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EnvironmentGetRolesResponsePrincipal" });
     case 6:
-      return S.Array(__S(125, __c15, 5));
+      return S.Array(__S(133, __c16, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           createdAt: S.Number,
-          principalRoles: __S(126, __c15, 6),
+          principalRoles: __S(134, __c16, 6),
           defaultMemberRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentGetRolesResponse" });

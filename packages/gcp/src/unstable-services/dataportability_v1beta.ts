@@ -100,10 +100,10 @@ export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
   | "ACCESS_TYPE_TIME_BASED";
 /** Response from initiating an Archive job. */
 export interface ArchiveInitiatePortabilityResponse {
-  /** The access type of the Archive job initiated by the API. */
-  accessType?: ArchiveInitiatePortabilityResponseAccessTypeEnum | undefined;
   /** The archive job ID that is initiated in the API. This can be used to get the state of the job. */
   archiveJobId?: string | undefined;
+  /** The access type of the Archive job initiated by the API. */
+  accessType?: ArchiveInitiatePortabilityResponseAccessTypeEnum | undefined;
 }
 /** Request to cancel a Portability Archive job. */
 export interface CancelPortabilityArchiveRequest {}
@@ -123,10 +123,10 @@ export interface CheckAccessTypeRequest_ {
 }
 /** Response to checking the token's access type. */
 export interface CheckAccessTypeResponse {
-  /** Jobs initiated with this token will be time-based if all requested resources have time-based access. */
-  timeBasedResources?: StringList | undefined;
   /** Jobs initiated with this token will be one-time if any requested resources have one-time access. */
   oneTimeResources?: StringList | undefined;
+  /** Jobs initiated with this token will be time-based if all requested resources have time-based access. */
+  timeBasedResources?: StringList | undefined;
 }
 export interface GetPortabilityArchiveStateArchiveJobsRequest {
   /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
@@ -140,16 +140,16 @@ export type PortabilityArchiveStateStateEnum =
   | "CANCELLED";
 /** Resource that contains the state of an Archive job. */
 export interface PortabilityArchiveState {
-  /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
-  exportTime?: string | undefined;
   /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
   urls?: StringList | undefined;
-  /** Resource that represents the state of the Archive job. */
-  state?: PortabilityArchiveStateStateEnum | undefined;
   /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
   startTime?: string | undefined;
   /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
   name?: string | undefined;
+  /** Resource that represents the state of the Archive job. */
+  state?: PortabilityArchiveStateStateEnum | undefined;
+  /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
+  exportTime?: string | undefined;
 }
 /** Request to reset exhausted OAuth scopes. */
 export type ResetAuthorizationRequest = CancelPortabilityArchiveRequest;
@@ -309,8 +309,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accessType: S.optional(S.String),
           archiveJobId: S.optional(S.String),
+          accessType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArchiveInitiatePortabilityResponse" });
   }
@@ -363,8 +363,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timeBasedResources: S.optional(__S(4, __c1, 0)),
           oneTimeResources: S.optional(__S(4, __c1, 0)),
+          timeBasedResources: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "CheckAccessTypeResponse" });
   }
@@ -386,11 +386,11 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exportTime: S.optional(S.String),
           urls: S.optional(__S(4, __c1, 0)),
-          state: S.optional(S.String),
           startTime: S.optional(S.String),
           name: S.optional(S.String),
+          state: S.optional(S.String),
+          exportTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PortabilityArchiveState" });
   }

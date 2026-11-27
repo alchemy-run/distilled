@@ -199,8 +199,18 @@ export interface ListFileSystemRequest {
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Only entries under this folder path, at any depth, such as 'Experiments/Q4'. */
+  parent?: string | undefined;
+  /** Only the entry at exactly this path. */
+  path?: string | undefined;
+  /** Only entries pointing at this item: the insight or notebook short_id, or the dashboard id. Combine with type to find an item's entry in the project tree. */
+  ref?: string | undefined;
   /** A search term. */
   search?: string | undefined;
+  /** A JSON array of tag names, such as ["growth", "weekly"]. Keeps only the dashboards and insights that carry at least one of them. */
+  tags?: string | undefined;
+  /** Only entries of this type, such as 'insight', 'dashboard', 'notebook' or 'folder'. */
+  type?: string | undefined;
 }
 export type PaginatedFileSystemListResultsList = Array<FileSystem2>;
 export interface PaginatedFileSystemList {
@@ -679,7 +689,12 @@ function __c11(j: number): any {
           include_tags: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          path: S.optional(S.String.pipe(T.Query())),
+          ref: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/file_system/", code: 200 }),
         ),

@@ -69,6 +69,96 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type ErrorTrackingPlatformAlertFiltersPropertiesItemMap = {
+  [key: string]: unknown | undefined;
+};
+/** Property filters on the exception event. Every filter must match. */
+export type ErrorTrackingPlatformAlertFiltersPropertiesList =
+  Array<ErrorTrackingPlatformAlertFiltersPropertiesItemMap>;
+/** Which issues and exceptions the alert announces, in the shape error tracking's destinations use. */
+export interface ErrorTrackingPlatformAlertFilters {
+  /** Property filters on the exception event. Every filter must match. */
+  properties?: ErrorTrackingPlatformAlertFiltersPropertiesList | undefined;
+}
+export type ErrorTrackingPlatformAlertTrigger =
+  | "issue_created"
+  | "issue_reopened"
+  | "issue_assigned";
+/** The issue changes the alert announces. Each matching change is announced once. */
+export type ErrorTrackingPlatformAlertConditionTriggersList = Array<
+  ErrorTrackingPlatformAlertTrigger | (string & {})
+>;
+export interface ErrorTrackingPlatformAlertCondition {
+  /** The issue changes the alert announces. Each matching change is announced once. */
+  triggers: ErrorTrackingPlatformAlertConditionTriggersList;
+}
+export interface ErrorTrackingPlatformAlertConfig {
+  /** The issues and exceptions the alert announces. */
+  filters?: ErrorTrackingPlatformAlertFilters | undefined;
+  /** The issue changes the alert announces. */
+  condition: ErrorTrackingPlatformAlertCondition;
+}
+/** * `single` - Single * `by_result_labels` - By result labels */
+export type GroupingModeEnum = "single" | "by_result_labels";
+/** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
+export type GroupingKeysList = Array<string>;
+/** * `degrade_visible` - Degrade visible */
+export type OnOverflowEnum = "degrade_visible";
+export interface Grouping {
+  /** single keeps one instance for the whole alert. by_result_labels keeps one instance per distinct value of the labels in keys, so each group fires and resolves on its own. * `single` - Single * `by_result_labels` - By result labels */
+  mode: GroupingModeEnum | (string & {});
+  /** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
+  keys?: GroupingKeysList | undefined;
+  /** Most instances the alert keeps at once. Groups past it are not tracked, and the last message says how many were left out. */
+  max_instances?: number | undefined;
+  /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
+  on_overflow?: OnOverflowEnum | (string & {}) | undefined;
+}
+export interface AlertScheduleRestrictionWindow {
+  /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
+  start?: string | undefined;
+  /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
+  end?: string | undefined;
+}
+/** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
+export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
+export interface AlertScheduleRestriction {
+  /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type ErrorTrackingPlatformAlertConfigurationCreateLabelsMap = {
+  [key: string]: string | undefined;
+};
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type ErrorTrackingPlatformAlertConfigurationCreateAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings of a new alert. Every one but source_config has a default, which is stored. */
+export interface ErrorTrackingPlatformAlertConfigurationCreate {
+  /** Product whose data the alert evaluates. It cannot change after the create. */
+  source_kind: string;
+  /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
+  name?: string | undefined;
+  /** Whether the alert is evaluated on schedule. Defaults to true. */
+  enabled?: boolean | undefined;
+  /** Settings for a error_tracking alert. The bound the alert is evaluated against is under condition. */
+  source_config: ErrorTrackingPlatformAlertConfig;
+  /** How the alert splits its results into instances. Defaults to mode single. */
+  grouping?: Grouping | undefined;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
+  evaluation_periods?: number | undefined;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications for the same alert. Defaults to 0. */
+  cooldown_minutes?: number | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: ErrorTrackingPlatformAlertConfigurationCreateLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: ErrorTrackingPlatformAlertConfigurationCreateAnnotationsMap | undefined;
+}
 export type FilterLogicalOperator = "AND" | "OR";
 export type PropertyOperator =
   | "exact"
@@ -523,34 +613,6 @@ export interface LogsPlatformAlertSourceConfig {
   /** The bound the count is checked against. */
   condition: LogsPlatformAlertCondition;
 }
-/** * `single` - Single * `by_result_labels` - By result labels */
-export type GroupingModeEnum = "single" | "by_result_labels";
-/** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
-export type GroupingKeysList = Array<string>;
-/** * `degrade_visible` - Degrade visible */
-export type OnOverflowEnum = "degrade_visible";
-export interface Grouping {
-  /** single keeps one instance for the whole alert. by_result_labels keeps one instance per distinct value of the labels in keys, so each group fires and resolves on its own. * `single` - Single * `by_result_labels` - By result labels */
-  mode: GroupingModeEnum | (string & {});
-  /** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
-  keys?: GroupingKeysList | undefined;
-  /** Most instances the alert keeps at once. Groups past it are not tracked, and the last message says how many were left out. */
-  max_instances?: number | undefined;
-  /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
-  on_overflow?: OnOverflowEnum | (string & {}) | undefined;
-}
-export interface AlertScheduleRestrictionWindow {
-  /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string | undefined;
-  /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string | undefined;
-}
-/** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
-export interface AlertScheduleRestriction {
-  /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
-}
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type LogsPlatformAlertConfigurationCreateLabelsMap = { [key: string]: string | undefined };
 /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
@@ -571,7 +633,7 @@ export interface LogsPlatformAlertConfigurationCreate {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. Defaults to 1. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
   datapoints_to_alarm?: number | undefined;
@@ -620,7 +682,7 @@ export interface MetricsPlatformAlertConfigurationCreate {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. Defaults to 1. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
   datapoints_to_alarm?: number | undefined;
@@ -630,6 +692,69 @@ export interface MetricsPlatformAlertConfigurationCreate {
   labels?: MetricsPlatformAlertConfigurationCreateLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
   annotations?: MetricsPlatformAlertConfigurationCreateAnnotationsMap | undefined;
+  /** Minutes between scheduled checks. One of: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60. Defaults to 1 on a create. An edit that leaves it out keeps the stored value. */
+  check_interval_minutes?: number | undefined;
+}
+/** Services whose requests the alert measures. */
+export type TracesAlertFiltersServiceNamesList = Array<string>;
+/** The requests an alert measures, in the tracing scene's filter shape. */
+export interface TracesAlertFilters {
+  /** Services whose requests the alert measures. */
+  serviceNames?: TracesAlertFiltersServiceNamesList | undefined;
+  /** Span, span attribute and resource attribute filters, as the tracing scene sends. */
+  filterGroup?: PropertyGroupFilter | null | undefined;
+}
+export type MeasureEnum = "request_count" | "error_count" | "error_rate" | "latency";
+export type TracesPlatformAlertConditionPercentile = 50 | 90 | 95 | 99;
+export type TracesAlertThresholdOperator = "above" | "below";
+export interface TracesPlatformAlertCondition {
+  /** What the alert measures over requests: their count, the count with an error status, the share with an error status, or a latency percentile. A request is a trace root, server or consumer span. */
+  measure: MeasureEnum | (string & {});
+  /** The latency percentile. Required for latency. */
+  percentile?: TracesPlatformAlertConditionPercentile | (number & {}) | null | undefined;
+  /** The bound: a count for request_count and error_count, a fraction from 0 to 1 for error_rate, milliseconds for latency. */
+  threshold: number;
+  /** Whether the alert fires above or below it. */
+  threshold_operator: TracesAlertThresholdOperator | (string & {});
+  /** Time window in minutes that each check measures. */
+  window_minutes: WindowMinutesEnum | (number & {});
+}
+export interface TracesPlatformAlertConfig {
+  /** The requests the alert measures. */
+  filters?: TracesAlertFilters | undefined;
+  /** The bound the measure is checked against. */
+  condition: TracesPlatformAlertCondition;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type TracesPlatformAlertConfigurationCreateLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type TracesPlatformAlertConfigurationCreateAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings of a new alert. Every one but source_config has a default, which is stored. */
+export interface TracesPlatformAlertConfigurationCreate {
+  /** Product whose data the alert evaluates. It cannot change after the create. */
+  source_kind: string;
+  /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
+  name?: string | undefined;
+  /** Whether the alert is evaluated on schedule. Defaults to true. */
+  enabled?: boolean | undefined;
+  /** Settings for a traces alert. The bound the alert is evaluated against is under condition. */
+  source_config: TracesPlatformAlertConfig;
+  /** How the alert splits its results into instances. Defaults to mode single. */
+  grouping?: Grouping | undefined;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
+  evaluation_periods?: number | undefined;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications for the same alert. Defaults to 0. */
+  cooldown_minutes?: number | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: TracesPlatformAlertConfigurationCreateLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: TracesPlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 /** Warehouse destinations the alert watches. Empty watches every destination in the project, including destinations added later. The grouping must be by_result_labels with keys [destination_id]. */
 export type WarehouseDestinationAlertConfigDestinationIdsList = Array<string>;
@@ -661,7 +786,7 @@ export interface WarehouseDestinationPlatformAlertConfigurationCreate {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. Defaults to 1. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
   datapoints_to_alarm?: number | undefined;
@@ -707,7 +832,7 @@ export interface WarehouseSourcePlatformAlertConfigurationCreate {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. Defaults to 1. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. Defaults to 1. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
   datapoints_to_alarm?: number | undefined;
@@ -719,8 +844,10 @@ export interface WarehouseSourcePlatformAlertConfigurationCreate {
   annotations?: WarehouseSourcePlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 export type PlatformAlertConfigurationCreate =
+  | ErrorTrackingPlatformAlertConfigurationCreate
   | LogsPlatformAlertConfigurationCreate
   | MetricsPlatformAlertConfigurationCreate
+  | TracesPlatformAlertConfigurationCreate
   | WarehouseDestinationPlatformAlertConfigurationCreate
   | WarehouseSourcePlatformAlertConfigurationCreate;
 export interface CreatePlatformAlertRequest {
@@ -728,13 +855,15 @@ export interface CreatePlatformAlertRequest {
   project_id: string;
   body?: PlatformAlertConfigurationCreate | undefined;
 }
-/** * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics */
+/** * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics * `traces` - Traces * `error_tracking` - Error tracking */
 export type PlatformAlertConfigurationSourceKindEnum =
   | "logs"
   | "insight"
   | "warehouse_source"
   | "warehouse_destination"
-  | "metrics";
+  | "metrics"
+  | "traces"
+  | "error_tracking";
 /** Source-specific settings. The shape depends on source_kind. The bound the alert is evaluated against is under the condition key. */
 export type PlatformAlertConfigurationSourceConfigMap = { [key: string]: unknown | undefined };
 /** * `day` - Day * `week` - Week * `month` - Month */
@@ -774,6 +903,55 @@ export type PlatformAlertConfigurationAlertsList = Array<PlatformAlert>;
 export type PlatformAlertConfigurationLabelsMap = { [key: string]: string | undefined };
 /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
 export type PlatformAlertConfigurationAnnotationsMap = { [key: string]: string | undefined };
+export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
+/** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
+export type RoleAtOrganizationEnum =
+  | "engineering"
+  | "data"
+  | "product"
+  | "founder"
+  | "leadership"
+  | "marketing"
+  | "sales"
+  | "student"
+  | "other";
+export type BlankEnum = "";
+export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
+export interface UserBasic {
+  id: number;
+  uuid: string;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email: string;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config: UserBasicHedgehogConfigMap | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
+}
+export interface PlatformAlertStateInterval {
+  /** Interval start, inclusive. */
+  start: string;
+  /** Interval end, exclusive. */
+  end: string;
+  /** The whole alert's state during the interval. * `not_firing` - Not firing * `firing` - Firing * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
+  state: BillingAlertConfigurationStateEnum;
+  /** Whether the alert was enabled during the interval. */
+  enabled: boolean;
+}
+/** The whole alert's state over the past 24 hours, oldest first. Each interval holds one state and one enabled setting. Empty on a create or an edit. */
+export type PlatformAlertConfigurationStateTimelineList = Array<PlatformAlertStateInterval>;
+/** * `slack` - Slack * `discord` - Discord * `webhook` - Webhook * `teams` - Microsoft Teams * `pagerduty` - PagerDuty * `incident_io` - incident.io * `email` - Email * `in_app` - In-app notification */
+export type DestinationTypeEnum =
+  | "slack"
+  | "discord"
+  | "webhook"
+  | "teams"
+  | "pagerduty"
+  | "incident_io"
+  | "email"
+  | "in_app";
+/** Types of the alert's enabled notification destinations, such as slack. Empty when it has none. */
+export type PlatformAlertConfigurationDestinationTypesList = Array<DestinationTypeEnum>;
 export interface PlatformAlertConfiguration {
   /** Unique identifier of the alert configuration. */
   id: string;
@@ -781,7 +959,7 @@ export interface PlatformAlertConfiguration {
   name: string;
   /** Whether the alert is evaluated on schedule. */
   enabled: boolean;
-  /** Product whose data the alert evaluates. * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics */
+  /** Product whose data the alert evaluates. * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics * `traces` - Traces * `error_tracking` - Error tracking */
   source_kind: PlatformAlertConfigurationSourceKindEnum;
   /** Source-specific settings. The shape depends on source_kind. The bound the alert is evaluated against is under the condition key. */
   source_config: PlatformAlertConfigurationSourceConfigMap;
@@ -827,6 +1005,16 @@ export interface PlatformAlertConfiguration {
   labels: PlatformAlertConfigurationLabelsMap;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
   annotations: PlatformAlertConfigurationAnnotationsMap;
+  /** Who created the alert. Null when it was created by a system or the user is gone. Set on reads of the list and of one alert. */
+  created_by: UserBasic | null;
+  /** When the alert was last checked. Null when it has not been checked, or when its check history could not be read. */
+  last_checked_at: string | null;
+  /** Error from the alert's last check in the past day, or null when that check succeeded. */
+  last_error_message: string | null;
+  /** The whole alert's state over the past 24 hours, oldest first. Each interval holds one state and one enabled setting. Empty on a create or an edit. */
+  state_timeline: PlatformAlertConfigurationStateTimelineList;
+  /** Types of the alert's enabled notification destinations, such as slack. Empty when it has none. */
+  destination_types: PlatformAlertConfigurationDestinationTypesList;
 }
 /** * `slack` - Slack * `webhook` - Webhook * `teams` - Microsoft Teams * `discord` - Discord * `pagerduty` - PagerDuty */
 export type PlatformAlertDestinationTypeEnum =
@@ -894,6 +1082,13 @@ export interface PlatformAlertDestination {
   /** PagerDuty service region the events go to. * `us` - us * `eu` - eu */
   pagerduty_region?: PagerDutyRegionEnum | undefined;
 }
+export interface CreatePlatformAlertsSnoozeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Time until which every group's notifications are muted. Must be in the future and at most 30 days away. Null clears the snooze. The alert keeps being checked. */
+  snooze_until: string | null;
+}
 export interface CreatePlatformAlertsSnoozeGroupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -908,15 +1103,27 @@ export interface GetPlatformAlertRequest {
   project_id: string;
   id: string;
 }
+export type ListPlatformAlertsRequestSourceKind =
+  | "logs"
+  | "insight"
+  | "warehouse_source"
+  | "warehouse_destination"
+  | "metrics"
+  | "traces"
+  | "error_tracking";
 export interface ListPlatformAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only alerts created by the user with this UUID. */
+  created_by?: string | undefined;
   /** Only the alert copied from, or created with, this source configuration, such as a logs alert's id. */
   legacy_configuration_id?: string | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Only alerts of this source kind, such as metrics. A kind the caller cannot read returns no alerts. * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics * `traces` - Traces * `error_tracking` - Error tracking */
+  source_kind?: ListPlatformAlertsRequestSourceKind | (string & {}) | undefined;
 }
 export type PaginatedPlatformAlertConfigurationListResultsList = Array<PlatformAlertConfiguration>;
 export interface PaginatedPlatformAlertConfigurationList {
@@ -932,6 +1139,45 @@ export interface ListPlatformAlertsDestinationsRequest {
 }
 export type ListPlatformAlertsDestinationsResponseBodyList = Array<PlatformAlertDestination>;
 export type ListPlatformAlertsDestinationsResponse = ListPlatformAlertsDestinationsResponseBodyList;
+export interface ListPlatformAlertsEventsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Most events to return, newest first. Up to 100. */
+  limit?: number | undefined;
+}
+/** * `check` - Check * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `reset` - Reset * `config_change` - Config change * `handback` - Handback */
+export type PlatformAlertEventKindEnum =
+  | "check"
+  | "enable"
+  | "disable"
+  | "snooze"
+  | "unsnooze"
+  | "reset"
+  | "config_change"
+  | "handback";
+/** The condition the check was evaluated against, as it was then, so its value reads in that condition's unit. Empty for a change. */
+export type PlatformAlertEventConditionMap = { [key: string]: unknown | undefined };
+export interface PlatformAlertEvent {
+  /** When it happened. */
+  occurred_at: string;
+  /** check for a check that moved the alert's state or failed, handback for a logs alert an operator handed back to the logs stack, else the change a person made. * `check` - Check * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `reset` - Reset * `config_change` - Config change * `handback` - Handback */
+  kind: PlatformAlertEventKindEnum;
+  /** The alert's state before it. * `not_firing` - Not firing * `firing` - Firing * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
+  previous_state: BillingAlertConfigurationStateEnum;
+  /** The alert's state after it. * `not_firing` - Not firing * `firing` - Firing * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
+  state: BillingAlertConfigurationStateEnum;
+  /** What a check measured. Null for a change, or a check that measured nothing. */
+  value: number | null;
+  /** Why a check failed. Null otherwise. */
+  error_message: string | null;
+  /** Key of the group a check moved, as the grouping_key of the alert's instances. Empty for a change, or for an alert that does not group. */
+  grouping_key: string;
+  /** The condition the check was evaluated against, as it was then, so its value reads in that condition's unit. Empty for a change. */
+  condition: PlatformAlertEventConditionMap;
+}
+export type ListPlatformAlertsEventsResponseBodyList = Array<PlatformAlertEvent>;
+export type ListPlatformAlertsEventsResponse = ListPlatformAlertsEventsResponseBodyList;
 /** IDs of the destinations to delete, as the list endpoint returns them. */
 export type PlatformAlertsDestinationsDeleteCreateRequestDestinationIdsList = Array<string>;
 export interface PlatformAlertsDestinationsDeleteCreateRequest {
@@ -948,6 +1194,44 @@ export interface PlatformAlertsDestroyRequest {
   id: string;
 }
 export interface PlatformAlertsDestroyResponse {}
+export interface PlatformAlertsResetCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type ErrorTrackingPlatformAlertConfigurationEditLabelsMap = {
+  [key: string]: string | undefined;
+};
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type ErrorTrackingPlatformAlertConfigurationEditAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
+export interface ErrorTrackingPlatformAlertConfigurationEdit {
+  /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
+  source_kind: string;
+  /** Human-readable name of the alert. */
+  name: string;
+  /** Whether the alert is evaluated on schedule. */
+  enabled: boolean;
+  /** Settings for a error_tracking alert. The bound the alert is evaluated against is under condition. */
+  source_config: ErrorTrackingPlatformAlertConfig;
+  /** How the alert splits its results into instances. */
+  grouping: Grouping;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
+  schedule_restriction: AlertScheduleRestriction | null;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
+  evaluation_periods: number;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
+  datapoints_to_alarm: number;
+  /** Minimum minutes between notifications for the same alert. */
+  cooldown_minutes: number;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: ErrorTrackingPlatformAlertConfigurationEditLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: ErrorTrackingPlatformAlertConfigurationEditAnnotationsMap | undefined;
+}
 export interface InsightsThresholdBounds {
   /** Alert fires when the value drops below this number. */
   lower?: number | null | undefined;
@@ -970,14 +1254,35 @@ export interface InsightPlatformAlertCondition {
   threshold: InsightThreshold | null;
   /** How the value is compared: as it is, or as an increase or decrease from the previous interval. */
   comparison: AlertCondition;
+  /** The threshold's name, shown with its bounds on the insight. */
+  threshold_name?: string | undefined;
   /** The anomaly detector the alert uses in place of its threshold, or null for a threshold alert. It can't change through this API. */
   detector?: InsightPlatformAlertConditionDetectorMap | null | undefined;
 }
+export type InsightPlatformAlertSourceConfigConfigMap = { [key: string]: unknown | undefined };
+export type InsightPlatformAlertSourceConfigInvestigationInconclusiveActionEnum =
+  | "notify"
+  | "suppress";
 export interface InsightPlatformAlertSourceConfig {
   /** The insight the alert checks. It cannot change through this API. */
   insight_id: number;
   /** The bound the insight's value is checked against. */
   condition: InsightPlatformAlertCondition;
+  /** Which part of the insight the alert reads, such as the series and whether the current interval counts. It can't change through this API. */
+  config?: InsightPlatformAlertSourceConfigConfigMap | null | undefined;
+  /** Whether checks skip Saturdays and Sundays. It can't change through this API. */
+  skip_weekend?: boolean | undefined;
+  /** How many of the most recent intervals a check leaves out, so late data can arrive. It can't change through this API. */
+  evaluation_delay_intervals?: number | undefined;
+  /** Whether an AI agent investigates each firing of an anomaly alert. It can't change through this API. */
+  investigation_agent_enabled?: boolean | undefined;
+  /** Whether a firing waits for the agent's verdict, and is dropped when the agent calls it a false positive. It can't change through this API. */
+  investigation_gates_notifications?: boolean | undefined;
+  /** What a waiting firing does when the agent's verdict is inconclusive. It can't change through this API. */
+  investigation_inconclusive_action?:
+    | InsightPlatformAlertSourceConfigInvestigationInconclusiveActionEnum
+    | (string & {})
+    | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type InsightPlatformAlertConfigurationEditLabelsMap = { [key: string]: string | undefined };
@@ -999,7 +1304,7 @@ export interface InsightPlatformAlertConfigurationEdit {
   grouping: Grouping;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction: AlertScheduleRestriction | null;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods: number;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm: number;
@@ -1030,7 +1335,7 @@ export interface LogsPlatformAlertConfigurationEdit {
   grouping: Grouping;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction: AlertScheduleRestriction | null;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods: number;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm: number;
@@ -1061,7 +1366,7 @@ export interface MetricsPlatformAlertConfigurationEdit {
   grouping: Grouping;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction: AlertScheduleRestriction | null;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods: number;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm: number;
@@ -1071,6 +1376,39 @@ export interface MetricsPlatformAlertConfigurationEdit {
   labels?: MetricsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
   annotations?: MetricsPlatformAlertConfigurationEditAnnotationsMap | undefined;
+  /** Minutes between scheduled checks. One of: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60. Defaults to 1 on a create. An edit that leaves it out keeps the stored value. */
+  check_interval_minutes?: number | undefined;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type TracesPlatformAlertConfigurationEditLabelsMap = { [key: string]: string | undefined };
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type TracesPlatformAlertConfigurationEditAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
+export interface TracesPlatformAlertConfigurationEdit {
+  /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
+  source_kind: string;
+  /** Human-readable name of the alert. */
+  name: string;
+  /** Whether the alert is evaluated on schedule. */
+  enabled: boolean;
+  /** Settings for a traces alert. The bound the alert is evaluated against is under condition. */
+  source_config: TracesPlatformAlertConfig;
+  /** How the alert splits its results into instances. */
+  grouping: Grouping;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
+  schedule_restriction: AlertScheduleRestriction | null;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
+  evaluation_periods: number;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
+  datapoints_to_alarm: number;
+  /** Minimum minutes between notifications for the same alert. */
+  cooldown_minutes: number;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: TracesPlatformAlertConfigurationEditLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: TracesPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type WarehouseDestinationPlatformAlertConfigurationEditLabelsMap = {
@@ -1094,7 +1432,7 @@ export interface WarehouseDestinationPlatformAlertConfigurationEdit {
   grouping: Grouping;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction: AlertScheduleRestriction | null;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods: number;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm: number;
@@ -1127,7 +1465,7 @@ export interface WarehouseSourcePlatformAlertConfigurationEdit {
   grouping: Grouping;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction: AlertScheduleRestriction | null;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods: number;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm: number;
@@ -1139,9 +1477,11 @@ export interface WarehouseSourcePlatformAlertConfigurationEdit {
   annotations?: WarehouseSourcePlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 export type PlatformAlertConfigurationEdit =
+  | ErrorTrackingPlatformAlertConfigurationEdit
   | InsightPlatformAlertConfigurationEdit
   | LogsPlatformAlertConfigurationEdit
   | MetricsPlatformAlertConfigurationEdit
+  | TracesPlatformAlertConfigurationEdit
   | WarehouseDestinationPlatformAlertConfigurationEdit
   | WarehouseSourcePlatformAlertConfigurationEdit;
 export interface UpdatePlatformAlertRequest {
@@ -1149,6 +1489,39 @@ export interface UpdatePlatformAlertRequest {
   project_id: string;
   id: string;
   body?: PlatformAlertConfigurationEdit | undefined;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type PatchedErrorTrackingPlatformAlertConfigurationEditLabelsMap = {
+  [key: string]: string | undefined;
+};
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type PatchedErrorTrackingPlatformAlertConfigurationEditAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
+export interface PatchedErrorTrackingPlatformAlertConfigurationEdit {
+  /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
+  source_kind?: string | undefined;
+  /** Human-readable name of the alert. */
+  name?: string | undefined;
+  /** Whether the alert is evaluated on schedule. */
+  enabled?: boolean | undefined;
+  /** Settings for a error_tracking alert. The bound the alert is evaluated against is under condition. */
+  source_config?: ErrorTrackingPlatformAlertConfig | undefined;
+  /** How the alert splits its results into instances. */
+  grouping?: Grouping | undefined;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
+  evaluation_periods?: number | undefined;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications for the same alert. */
+  cooldown_minutes?: number | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: PatchedErrorTrackingPlatformAlertConfigurationEditLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: PatchedErrorTrackingPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedInsightPlatformAlertConfigurationEditLabelsMap = {
@@ -1172,7 +1545,7 @@ export interface PatchedInsightPlatformAlertConfigurationEdit {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm?: number | undefined;
@@ -1205,7 +1578,7 @@ export interface PatchedLogsPlatformAlertConfigurationEdit {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm?: number | undefined;
@@ -1238,7 +1611,7 @@ export interface PatchedMetricsPlatformAlertConfigurationEdit {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm?: number | undefined;
@@ -1248,6 +1621,41 @@ export interface PatchedMetricsPlatformAlertConfigurationEdit {
   labels?: PatchedMetricsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
   annotations?: PatchedMetricsPlatformAlertConfigurationEditAnnotationsMap | undefined;
+  /** Minutes between scheduled checks. One of: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60. Defaults to 1 on a create. An edit that leaves it out keeps the stored value. */
+  check_interval_minutes?: number | undefined;
+}
+/** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+export type PatchedTracesPlatformAlertConfigurationEditLabelsMap = {
+  [key: string]: string | undefined;
+};
+/** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+export type PatchedTracesPlatformAlertConfigurationEditAnnotationsMap = {
+  [key: string]: string | undefined;
+};
+/** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
+export interface PatchedTracesPlatformAlertConfigurationEdit {
+  /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
+  source_kind?: string | undefined;
+  /** Human-readable name of the alert. */
+  name?: string | undefined;
+  /** Whether the alert is evaluated on schedule. */
+  enabled?: boolean | undefined;
+  /** Settings for a traces alert. The bound the alert is evaluated against is under condition. */
+  source_config?: TracesPlatformAlertConfig | undefined;
+  /** How the alert splits its results into instances. */
+  grouping?: Grouping | undefined;
+  /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
+  evaluation_periods?: number | undefined;
+  /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
+  datapoints_to_alarm?: number | undefined;
+  /** Minimum minutes between notifications for the same alert. */
+  cooldown_minutes?: number | undefined;
+  /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
+  labels?: PatchedTracesPlatformAlertConfigurationEditLabelsMap | undefined;
+  /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
+  annotations?: PatchedTracesPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedWarehouseDestinationPlatformAlertConfigurationEditLabelsMap = {
@@ -1271,7 +1679,7 @@ export interface PatchedWarehouseDestinationPlatformAlertConfigurationEdit {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm?: number | undefined;
@@ -1304,7 +1712,7 @@ export interface PatchedWarehouseSourcePlatformAlertConfigurationEdit {
   grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
   schedule_restriction?: AlertScheduleRestriction | null | undefined;
-  /** Number of recent checks considered when deciding to fire. */
+  /** Number of recent checks considered when deciding to fire. Most source kinds allow up to 10; metrics alerts allow up to 1441. */
   evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
   datapoints_to_alarm?: number | undefined;
@@ -1316,9 +1724,11 @@ export interface PatchedWarehouseSourcePlatformAlertConfigurationEdit {
   annotations?: PatchedWarehouseSourcePlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 export type PatchedPlatformAlertConfigurationEdit =
+  | PatchedErrorTrackingPlatformAlertConfigurationEdit
   | PatchedInsightPlatformAlertConfigurationEdit
   | PatchedLogsPlatformAlertConfigurationEdit
   | PatchedMetricsPlatformAlertConfigurationEdit
+  | PatchedTracesPlatformAlertConfigurationEdit
   | PatchedWarehouseDestinationPlatformAlertConfigurationEdit
   | PatchedWarehouseSourcePlatformAlertConfigurationEdit;
 export interface UpdatePlatformAlertsPartialRequest {
@@ -1328,14 +1738,15 @@ export interface UpdatePlatformAlertsPartialRequest {
   body?: PatchedPlatformAlertConfigurationEdit | undefined;
 }
 export type CreatePlatformAlertError = BadRequest | Forbidden | Conflict | PosthogOpError;
+/** Create an alert Create an alert on the platform. The request body depends on source_kind, which picks the source product and the shape of source_config. The alert notifies nobody until a destination is added. */
 export const createPlatformAlert: API.OperationMethod<
   CreatePlatformAlertRequest,
   PlatformAlertConfiguration,
   CreatePlatformAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreatePlatformAlertRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<PlatformAlertConfiguration>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreatePlatformAlertRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1357,14 +1768,37 @@ export const createPlatformAlertsDestination: API.OperationMethod<
   CreatePlatformAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreatePlatformAlertsDestinationRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<PlatformAlertDestination>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreatePlatformAlertsDestinationRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<PlatformAlertDestination>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePlatformAlertsDestination",
+}));
+
+export type CreatePlatformAlertsSnoozeError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+/** Snooze a whole alert */
+export const createPlatformAlertsSnooze: API.OperationMethod<
+  CreatePlatformAlertsSnoozeRequest,
+  PlatformAlertConfiguration,
+  CreatePlatformAlertsSnoozeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<CreatePlatformAlertsSnoozeRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlatformAlertsSnooze",
 }));
 
 export type CreatePlatformAlertsSnoozeGroupError =
@@ -1380,8 +1814,8 @@ export const createPlatformAlertsSnoozeGroup: API.OperationMethod<
   CreatePlatformAlertsSnoozeGroupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreatePlatformAlertsSnoozeGroupRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<PlatformAlert>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreatePlatformAlertsSnoozeGroupRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<PlatformAlert>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1390,16 +1824,17 @@ export const createPlatformAlertsSnoozeGroup: API.OperationMethod<
   span: "CreatePlatformAlertsSnoozeGroup",
 }));
 
-export type GetPlatformAlertError = PosthogOpError;
+export type GetPlatformAlertError = NotFound | PosthogOpError;
+/** Get an alert Get one alert with the runtime state of each of its groups. */
 export const getPlatformAlert: API.OperationMethod<
   GetPlatformAlertRequest,
   PlatformAlertConfiguration,
   GetPlatformAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetPlatformAlertRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<PlatformAlertConfiguration>,
-  errors: [],
+  input: __S(288, __c18, 0) as any as S.Schema<GetPlatformAlertRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
+  errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1408,14 +1843,15 @@ export const getPlatformAlert: API.OperationMethod<
 }));
 
 export type ListPlatformAlertsError = PosthogOpError;
+/** List alerts List the alerts of the project that the caller can read. */
 export const listPlatformAlerts: API.OperationMethod<
   ListPlatformAlertsRequest,
   PaginatedPlatformAlertConfigurationList,
   ListPlatformAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListPlatformAlertsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<PaginatedPlatformAlertConfigurationList>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListPlatformAlertsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<PaginatedPlatformAlertConfigurationList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1432,14 +1868,32 @@ export const listPlatformAlertsDestinations: API.OperationMethod<
   ListPlatformAlertsDestinationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListPlatformAlertsDestinationsRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<ListPlatformAlertsDestinationsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListPlatformAlertsDestinationsRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<ListPlatformAlertsDestinationsResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPlatformAlertsDestinations",
+}));
+
+export type ListPlatformAlertsEventsError = NotFound | PosthogOpError;
+/** List an alert's history The alert's history over the past 30 days, newest first: checks that moved its state or failed, and the changes people made to it. Checks that changed nothing are left out. */
+export const listPlatformAlertsEvents: API.OperationMethod<
+  ListPlatformAlertsEventsRequest,
+  ListPlatformAlertsEventsResponse,
+  ListPlatformAlertsEventsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<ListPlatformAlertsEventsRequest>,
+  output: __S(19, __c1, 3) as any as S.Schema<ListPlatformAlertsEventsResponse>,
+  errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformAlertsEvents",
 }));
 
 export type PlatformAlertsDestinationsDeleteCreateError =
@@ -1454,8 +1908,8 @@ export const platformAlertsDestinationsDeleteCreate: API.OperationMethod<
   PlatformAlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<PlatformAlertsDestinationsDeleteCreateRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<PlatformAlertsDestinationsDeleteCreateResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<PlatformAlertsDestinationsDeleteCreateRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<PlatformAlertsDestinationsDeleteCreateResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1465,14 +1919,15 @@ export const platformAlertsDestinationsDeleteCreate: API.OperationMethod<
 }));
 
 export type PlatformAlertsDestroyError = Forbidden | NotFound | Conflict | PosthogOpError;
+/** Delete an alert Delete an alert the platform owns, with its destinations. */
 export const platformAlertsDestroy: API.OperationMethod<
   PlatformAlertsDestroyRequest,
   PlatformAlertsDestroyResponse,
   PlatformAlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<PlatformAlertsDestroyRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<PlatformAlertsDestroyResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<PlatformAlertsDestroyRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<PlatformAlertsDestroyResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1481,15 +1936,39 @@ export const platformAlertsDestroy: API.OperationMethod<
   span: "PlatformAlertsDestroy",
 }));
 
+export type PlatformAlertsResetCreateError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+/** Reset a broken alert Clears a broken alert's failure count so it is checked again. */
+export const platformAlertsResetCreate: API.OperationMethod<
+  PlatformAlertsResetCreateRequest,
+  PlatformAlertConfiguration,
+  PlatformAlertsResetCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<PlatformAlertsResetCreateRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlatformAlertsResetCreate",
+}));
+
 export type UpdatePlatformAlertError = Forbidden | NotFound | Conflict | PosthogOpError;
+/** Replace an alert's settings Replace every setting of an alert the platform owns. source_kind must match the stored value. */
 export const updatePlatformAlert: API.OperationMethod<
   UpdatePlatformAlertRequest,
   PlatformAlertConfiguration,
   UpdatePlatformAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<UpdatePlatformAlertRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<PlatformAlertConfiguration>,
+  input: __S(96, __c6, 0) as any as S.Schema<UpdatePlatformAlertRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1499,14 +1978,15 @@ export const updatePlatformAlert: API.OperationMethod<
 }));
 
 export type UpdatePlatformAlertsPartialError = Forbidden | NotFound | Conflict | PosthogOpError;
+/** Change an alert Change some settings of an alert the platform owns. Settings left out keep their stored value. A source_kind that is sent must match the stored value. */
 export const updatePlatformAlertsPartial: API.OperationMethod<
   UpdatePlatformAlertsPartialRequest,
   PlatformAlertConfiguration,
   UpdatePlatformAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdatePlatformAlertsPartialRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<PlatformAlertConfiguration>,
+  input: __S(112, __c7, 0) as any as S.Schema<UpdatePlatformAlertsPartialRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<PlatformAlertConfiguration>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1523,7 +2003,67 @@ function __c0(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          destination_ids: __S(56, __c7, 0),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/platform_alerts/{id}/destinations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPlatformAlertsDestinationsRequest" });
+    case 1:
+      return S.Array(__S(240, __c15, 0));
+    case 2:
+      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPlatformAlertsDestinationsResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/platform_alerts/{id}/events/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPlatformAlertsEventsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          occurred_at: S.String,
+          kind: S.String,
+          previous_state: S.String,
+          state: S.String,
+          value: S.NullOr(S.Number),
+          error_message: S.NullOr(S.String),
+          grouping_key: S.String,
+          condition: __S(176, __c11, 0),
+        }),
+      ).annotate({ identifier: "PlatformAlertEvent" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() => __S(18, __c1, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPlatformAlertsEventsResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          destination_ids: __S(192, __c12, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1534,7 +2074,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "PlatformAlertsDestinationsDeleteCreateRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1542,7 +2082,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1559,7 +2099,24 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PlatformAlertsDestroyRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/platform_alerts/{id}/reset/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PlatformAlertsResetCreateRequest" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,7 +2134,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdatePlatformAlertRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1595,7 +2152,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdatePlatformAlertsPartialRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1608,7 +2165,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreatePlatformAlertRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1621,24 +2184,30 @@ function __c6(j: number): any {
           firing_started_at: S.NullOr(S.String),
           last_notified_at: S.NullOr(S.String),
           snooze_until: S.NullOr(S.String),
-          labels: __S(48, __c6, 0),
+          labels: __S(160, __c10, 0),
         }),
       ).annotate({ identifier: "PlatformAlert" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
-          keys: S.optional(__S(56, __c7, 0)),
+          keys: S.optional(__S(192, __c12, 0)),
           max_instances: S.optional(S.Number),
           on_overflow: S.optional(S.String),
         }),
@@ -1651,36 +2220,59 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blocked_windows: S.optional(__S(66, __c8, 2)),
+          blocked_windows: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "AlertScheduleRestriction" });
     case 4:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(161, __c10, 1));
     case 5:
-      return S.Array(__S(49, __c6, 1));
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          uuid: S.String,
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.String,
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.NullOr(__S(176, __c11, 0)),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.String,
+          end: S.String,
+          state: S.String,
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "PlatformAlertStateInterval" });
+    case 7:
+      return S.Array(__S(214, __c13, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           enabled: S.Boolean,
           source_kind: S.String,
-          source_config: __S(68, __c8, 4),
+          source_config: __S(176, __c11, 0),
           check_interval_minutes: S.Number,
           recurrence_unit: S.NullOr(S.String),
           anchor_time: S.NullOr(S.String),
           evaluation_periods: S.Number,
           datapoints_to_alarm: S.Number,
           cooldown_minutes: S.Number,
-          schedule_restriction: S.NullOr(__S(67, __c8, 3)),
+          schedule_restriction: S.NullOr(__S(211, __c13, 3)),
           next_check_at: S.NullOr(S.String),
           consecutive_failures: S.Number,
           legacy_configuration_id: S.NullOr(S.String),
-          grouping: __S(64, __c8, 0),
+          grouping: __S(208, __c13, 0),
           snooze_until: S.NullOr(S.String),
           check_status: S.String,
           overflowed_groups: S.Number,
@@ -1688,14 +2280,19 @@ function __c8(j: number): any {
           owner: S.String,
           created_at: S.String,
           updated_at: S.String,
-          alerts: __S(69, __c8, 5),
-          labels: __S(48, __c6, 0),
-          annotations: __S(48, __c6, 0),
+          alerts: __S(212, __c13, 4),
+          labels: __S(160, __c10, 0),
+          annotations: __S(160, __c10, 0),
+          created_by: S.NullOr(__S(213, __c13, 5)),
+          last_checked_at: S.NullOr(S.String),
+          last_error_message: S.NullOr(S.String),
+          state_timeline: __S(215, __c13, 7),
+          destination_types: __S(144, __c9, 0),
         }),
       ).annotate({ identifier: "PlatformAlertConfiguration" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1710,7 +2307,7 @@ function __c9(j: number): any {
           pagerduty_routing_key: S.optional(S.String),
           pagerduty_severity: S.optional(S.String),
           pagerduty_region: S.optional(S.String),
-          event_kinds: S.optional(__S(80, __c10, 0)),
+          event_kinds: S.optional(__S(144, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1721,17 +2318,15 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreatePlatformAlertsDestinationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
           enabled: S.Boolean,
-          event_kinds: __S(80, __c10, 0),
+          event_kinds: __S(144, __c9, 0),
           slack_workspace_id: S.optional(S.Number),
           slack_channel_id: S.optional(S.String),
           slack_channel_name: S.optional(S.String),
@@ -1743,7 +2338,25 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PlatformAlertDestination" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          snooze_until: S.NullOr(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/platform_alerts/{id}/snooze/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreatePlatformAlertsSnoozeRequest" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1762,7 +2375,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreatePlatformAlertsSnoozeGroupRequest" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1779,53 +2392,32 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetPlatformAlertRequest" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          created_by: S.optional(S.String.pipe(T.Query())),
           legacy_configuration_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          source_kind: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/platform_alerts/", code: 200 }),
         ),
       ).annotate({ identifier: "ListPlatformAlertsRequest" });
     case 1:
-      return S.Array(__S(70, __c8, 6));
+      return S.Array(__S(216, __c13, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(105, __c13, 1),
+          results: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "PaginatedPlatformAlertConfigurationList" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/platform_alerts/{id}/destinations/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPlatformAlertsDestinationsRequest" });
-    case 1:
-      return S.Array(__S(81, __c10, 1));
-    case 2:
-      return S.suspend(() => __S(113, __c14, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListPlatformAlertsDestinationsResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

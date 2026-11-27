@@ -146,6 +146,7 @@ export interface MoveApplicationRequest {
 export type MoveApplicationResponse = unknown;
 export interface ReadApplicationAppMonitoringRequest {
   appName: string;
+  serviceId?: string | undefined;
 }
 export type ReadApplicationAppMonitoringResponse = unknown;
 export interface ReadApplicationLogsRequest {
@@ -1194,6 +1195,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appName: S.String.pipe(T.Query()),
+          serviceId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/application.readAppMonitoring", code: 200 })),
       ).annotate({ identifier: "ReadApplicationAppMonitoringRequest" });
   }

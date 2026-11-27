@@ -89,7 +89,7 @@ export interface CreateMtlsCertificateRequest {
   accountId: string;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca: boolean;
-  /** The uploaded root CA certificate. */
+  /** The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings. */
   certificates: string;
   /** Optional unique name for the certificate. Only used for human readability. */
   name?: string | undefined;
@@ -103,7 +103,7 @@ export interface CreateMtlsCertificateResponse {
   id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null | undefined;
-  /** The uploaded root CA certificate. */
+  /** The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings. */
   certificates?: string | null | undefined;
   /** When the certificate expires. */
   expiresOn?: string | null | undefined;
@@ -135,7 +135,7 @@ export interface DeleteMtlsCertificateResponse {
   id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null | undefined;
-  /** The uploaded root CA certificate. */
+  /** The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings. */
   certificates?: string | null | undefined;
   /** When the certificate expires. */
   expiresOn?: string | null | undefined;
@@ -184,7 +184,7 @@ export interface GetMtlsCertificateResponse {
   id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null | undefined;
-  /** The uploaded root CA certificate. */
+  /** The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings. */
   certificates?: string | null | undefined;
   /** When the certificate expires. */
   expiresOn?: string | null | undefined;
@@ -206,6 +206,14 @@ export type ListRequestTypeList = Array<ListRequestType | (string & {})>;
 export interface ListMtlsCertificatesRequest {
   /** Identifier. */
   accountId: string;
+  /** Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000. */
+  limit?: number | undefined;
+  /** Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0. */
+  offset?: number | undefined;
+  /** Page number, starting at 1. Defaults to 1. Ignored when offset is provided. */
+  page?: number | undefined;
+  /** Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000. */
+  perPage?: number | undefined;
   /** Filters results by certificate type. Multiple types can be comma-separated. */
   type?: ListRequestTypeList | undefined;
 }
@@ -215,7 +223,7 @@ export interface ListResultItem {
   id?: string | null | undefined;
   /** Indicates whether the certificate is a CA or leaf certificate. */
   ca?: boolean | null | undefined;
-  /** The uploaded root CA certificate. */
+  /** The uploaded root CA certificate. Responses return the certificates as Cloudflare stores them, re-encoded as PEM, not byte for byte as uploaded. Each certificate block ends with a newline, base64 lines are wrapped at 64 characters, text between blocks is dropped, and a chain may be reordered. Compare certificates by their decoded content rather than as strings. */
   certificates?: string | null | undefined;
   /** When the certificate expires. */
   expiresOn?: string | null | undefined;
@@ -478,6 +486,10 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           type: S.optional(__S(40, __c5, 0).pipe(T.Query())),
         })
           .pipe(

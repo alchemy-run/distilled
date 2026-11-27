@@ -124,12 +124,12 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -201,72 +201,87 @@ export interface AllowlistedDomain {
   domain?: string | undefined;
 }
 export interface CreateAllowlistedDomainsRequest extends AllowlistedDomain {}
-export type GoogleAppsCloudidentityDevicesV1CertificateAttributesValidationStateEnum =
-  | "CERTIFICATE_VALIDATION_STATE_UNSPECIFIED"
-  | "VALIDATION_SUCCESSFUL"
-  | "VALIDATION_FAILED";
-/** CertificateTemplate (v3 Extension in X.509). */
-export interface GoogleAppsCloudidentityDevicesV1CertificateTemplate {
-  /** The template id of the template. Example: "1.3.6.1.4.1.311.21.8.15608621.11768144.5720724.16068415.6889630.81.2472537.7784047". */
-  id?: string | undefined;
-  /** The minor version of the template. Example: 12. */
-  minorVersion?: number | undefined;
-  /** The Major version of the template. Example: 100. */
-  majorVersion?: number | undefined;
-}
-/** Stores information about a certificate. */
-export interface GoogleAppsCloudidentityDevicesV1CertificateAttributes {
-  /** Output only. Validation state of this certificate. */
-  validationState?:
-    | GoogleAppsCloudidentityDevicesV1CertificateAttributesValidationStateEnum
+export type StringList = Array<string>;
+export type GoogleAppsCloudidentityDevicesV1DeviceCompromisedStateEnum =
+  | "COMPROMISED_STATE_UNSPECIFIED"
+  | "COMPROMISED"
+  | "UNCOMPROMISED";
+export type GoogleAppsCloudidentityDevicesV1DeviceDeviceTypeEnum =
+  | "DEVICE_TYPE_UNSPECIFIED"
+  | "ANDROID"
+  | "IOS"
+  | "GOOGLE_SYNC"
+  | "WINDOWS"
+  | "MAC_OS"
+  | "LINUX"
+  | "CHROME_OS"
+  | "GOOGLEBOOK";
+export type GoogleAppsCloudidentityDevicesV1AndroidAttributesOwnershipPrivilegeEnum =
+  | "OWNERSHIP_PRIVILEGE_UNSPECIFIED"
+  | "DEVICE_ADMINISTRATOR"
+  | "PROFILE_OWNER"
+  | "DEVICE_OWNER";
+/** Resource representing the Android specific attributes of a Device. */
+export interface GoogleAppsCloudidentityDevicesV1AndroidAttributes {
+  /** Whether device supports Android work profiles. If false, this service will not block access to corp data even if an administrator turns on the "Enforce Work Profile" policy. */
+  supportsWorkProfile?: boolean | undefined;
+  /** Whether applications from unknown sources can be installed on device. */
+  enabledUnknownSources?: boolean | undefined;
+  /** Whether Google Play Protect Verify Apps is enabled. */
+  verifyAppsEnabled?: boolean | undefined;
+  /** Whether this account is on an owner/primary profile. For phones, only true for owner profiles. Android 4+ devices can have secondary or restricted user profiles. */
+  ownerProfileAccount?: boolean | undefined;
+  /** Whether Android verified boot status is GREEN. */
+  verifiedBoot?: boolean | undefined;
+  /** Whether the device passes Android CTS compliance. */
+  ctsProfileMatch?: boolean | undefined;
+  /** Whether any potentially harmful apps were detected on the device. */
+  hasPotentiallyHarmfulApps?: boolean | undefined;
+  /** Ownership privileges on device. */
+  ownershipPrivilege?:
+    | GoogleAppsCloudidentityDevicesV1AndroidAttributesOwnershipPrivilegeEnum
     | (string & {})
     | undefined;
-  /** Certificate not valid at or after this timestamp. */
-  validityExpirationTime?: string | undefined;
-  /** The name of the issuer of this certificate. */
-  issuer?: string | undefined;
-  /** Serial number of the certificate, Example: "123456789". */
-  serialNumber?: string | undefined;
-  /** The X.509 extension for CertificateTemplate. */
-  certificateTemplate?: GoogleAppsCloudidentityDevicesV1CertificateTemplate | undefined;
-  /** Certificate not valid before this timestamp. */
-  validityStartTime?: string | undefined;
-  /** The encoded certificate fingerprint. */
-  fingerprint?: string | undefined;
-  /** The subject name of this certificate. */
-  subject?: string | undefined;
-  /** The certificate thumbprint. */
-  thumbprint?: string | undefined;
 }
-export type GoogleAppsCloudidentityDevicesV1CertificateAttributesList =
-  Array<GoogleAppsCloudidentityDevicesV1CertificateAttributes>;
-export type GoogleAppsCloudidentityDevicesV1BrowserInfoSafeBrowsingProtectionLevelEnum =
-  | "SAFE_BROWSING_LEVEL_UNSPECIFIED"
-  | "DISABLED"
-  | "STANDARD"
-  | "ENHANCED";
+export type GoogleAppsCloudidentityDevicesV1DeviceOwnerTypeEnum =
+  | "DEVICE_OWNERSHIP_UNSPECIFIED"
+  | "COMPANY"
+  | "BYOD";
+export type GoogleAppsCloudidentityDevicesV1DeviceManagementStateEnum =
+  | "MANAGEMENT_STATE_UNSPECIFIED"
+  | "APPROVED"
+  | "BLOCKED"
+  | "PENDING"
+  | "UNPROVISIONED"
+  | "WIPING"
+  | "WIPED";
+export type GoogleAppsCloudidentityDevicesV1BrowserInfoPasswordProtectionWarningTriggerEnum =
+  | "PASSWORD_PROTECTION_TRIGGER_UNSPECIFIED"
+  | "PROTECTION_OFF"
+  | "PASSWORD_REUSE"
+  | "PHISHING_REUSE";
 export type GoogleAppsCloudidentityDevicesV1BrowserInfoBrowserManagementStateEnum =
   | "UNSPECIFIED"
   | "UNMANAGED"
   | "MANAGED_BY_OTHER_DOMAIN"
   | "PROFILE_MANAGED"
   | "BROWSER_MANAGED";
-export type GoogleAppsCloudidentityDevicesV1BrowserInfoPasswordProtectionWarningTriggerEnum =
-  | "PASSWORD_PROTECTION_TRIGGER_UNSPECIFIED"
-  | "PROTECTION_OFF"
-  | "PASSWORD_REUSE"
-  | "PHISHING_REUSE";
+export type GoogleAppsCloudidentityDevicesV1BrowserInfoSafeBrowsingProtectionLevelEnum =
+  | "SAFE_BROWSING_LEVEL_UNSPECIFIED"
+  | "DISABLED"
+  | "STANDARD"
+  | "ENHANCED";
 /** Browser-specific fields reported by the [Endpoint Verification extension](https://chromewebstore.google.com/detail/endpoint-verification/callobklhcbilhphinckomhgkigmfocg?pli=1). */
 export interface GoogleAppsCloudidentityDevicesV1BrowserInfo {
-  /** Deprecated: This field is not used for Chrome version 118 and later. Current state of [Chrome Cleanup](https://chromeenterprise.google/policies/#ChromeCleanupEnabled). */
-  isChromeCleanupEnabled?: boolean | undefined;
-  /** Current state of [real-time URL check](https://chromeenterprise.google/policies/#EnterpriseRealTimeUrlCheckMode). Set to true if provider list from Chrome is non-empty. */
-  isRealtimeUrlCheckEnabled?: boolean | undefined;
-  /** Current state of [Safe Browsing protection level](https://chromeenterprise.google/policies/#SafeBrowsingProtectionLevel). */
-  safeBrowsingProtectionLevel?:
-    | GoogleAppsCloudidentityDevicesV1BrowserInfoSafeBrowsingProtectionLevelEnum
+  /** Current state of [password protection trigger](https://chromeenterprise.google/policies/#PasswordProtectionWarningTrigger). */
+  passwordProtectionWarningTrigger?:
+    | GoogleAppsCloudidentityDevicesV1BrowserInfoPasswordProtectionWarningTriggerEnum
     | (string & {})
     | undefined;
+  /** Current state of [bulk data analysis](https://chromeenterprise.google/policies/#OnBulkDataEntryEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
+  isBulkDataEntryAnalysisEnabled?: boolean | undefined;
+  /** Current state of [file download analysis](https://chromeenterprise.google/policies/#OnFileDownloadedEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
+  isFileDownloadAnalysisEnabled?: boolean | undefined;
   /** Output only. Browser's management state. */
   browserManagementState?:
     | GoogleAppsCloudidentityDevicesV1BrowserInfoBrowserManagementStateEnum
@@ -274,27 +289,27 @@ export interface GoogleAppsCloudidentityDevicesV1BrowserInfo {
     | undefined;
   /** Current state of [security event analysis](https://chromeenterprise.google/policies/#OnSecurityEventEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
   isSecurityEventAnalysisEnabled?: boolean | undefined;
-  /** Current state of [bulk data analysis](https://chromeenterprise.google/policies/#OnBulkDataEntryEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
-  isBulkDataEntryAnalysisEnabled?: boolean | undefined;
-  /** Current state of [site isolation](https://chromeenterprise.google/policies/?policy=IsolateOrigins). */
-  isSiteIsolationEnabled?: boolean | undefined;
-  /** Current state of [built-in DNS client](https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled). */
-  isBuiltInDnsClientEnabled?: boolean | undefined;
-  /** Current state of [file upload analysis](https://chromeenterprise.google/policies/#OnFileAttachedEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
-  isFileUploadAnalysisEnabled?: boolean | undefined;
-  /** Version of the request initiating browser. E.g. `91.0.4442.4`. */
-  browserVersion?: string | undefined;
-  /** Current state of [file download analysis](https://chromeenterprise.google/policies/#OnFileDownloadedEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
-  isFileDownloadAnalysisEnabled?: boolean | undefined;
-  /** Current state of [third-party blocking](https://chromeenterprise.google/policies/#ThirdPartyBlockingEnabled). */
-  isThirdPartyBlockingEnabled?: boolean | undefined;
   /** Current state of [Chrome Remote Desktop app](https://chromeenterprise.google/policies/#URLBlocklist). */
   isChromeRemoteDesktopAppBlocked?: boolean | undefined;
-  /** Current state of [password protection trigger](https://chromeenterprise.google/policies/#PasswordProtectionWarningTrigger). */
-  passwordProtectionWarningTrigger?:
-    | GoogleAppsCloudidentityDevicesV1BrowserInfoPasswordProtectionWarningTriggerEnum
+  /** Current state of [file upload analysis](https://chromeenterprise.google/policies/#OnFileAttachedEnterpriseConnector). Set to true if provider list from Chrome is non-empty. */
+  isFileUploadAnalysisEnabled?: boolean | undefined;
+  /** Current state of [built-in DNS client](https://chromeenterprise.google/policies/#BuiltInDnsClientEnabled). */
+  isBuiltInDnsClientEnabled?: boolean | undefined;
+  /** Current state of [real-time URL check](https://chromeenterprise.google/policies/#EnterpriseRealTimeUrlCheckMode). Set to true if provider list from Chrome is non-empty. */
+  isRealtimeUrlCheckEnabled?: boolean | undefined;
+  /** Current state of [third-party blocking](https://chromeenterprise.google/policies/#ThirdPartyBlockingEnabled). */
+  isThirdPartyBlockingEnabled?: boolean | undefined;
+  /** Current state of [Safe Browsing protection level](https://chromeenterprise.google/policies/#SafeBrowsingProtectionLevel). */
+  safeBrowsingProtectionLevel?:
+    | GoogleAppsCloudidentityDevicesV1BrowserInfoSafeBrowsingProtectionLevelEnum
     | (string & {})
     | undefined;
+  /** Current state of [site isolation](https://chromeenterprise.google/policies/?policy=IsolateOrigins). */
+  isSiteIsolationEnabled?: boolean | undefined;
+  /** Deprecated: This field is not used for Chrome version 118 and later. Current state of [Chrome Cleanup](https://chromeenterprise.google/policies/#ChromeCleanupEnabled). */
+  isChromeCleanupEnabled?: boolean | undefined;
+  /** Version of the request initiating browser. E.g. `91.0.4442.4`. */
+  browserVersion?: string | undefined;
 }
 /** Contains information about browser profiles reported by the [Endpoint Verification extension](https://chromewebstore.google.com/detail/endpoint-verification/callobklhcbilhphinckomhgkigmfocg?pli=1). */
 export interface GoogleAppsCloudidentityDevicesV1BrowserAttributes {
@@ -307,151 +322,136 @@ export interface GoogleAppsCloudidentityDevicesV1BrowserAttributes {
 }
 export type GoogleAppsCloudidentityDevicesV1BrowserAttributesList =
   Array<GoogleAppsCloudidentityDevicesV1BrowserAttributes>;
+/** CertificateTemplate (v3 Extension in X.509). */
+export interface GoogleAppsCloudidentityDevicesV1CertificateTemplate {
+  /** The template id of the template. Example: "1.3.6.1.4.1.311.21.8.15608621.11768144.5720724.16068415.6889630.81.2472537.7784047". */
+  id?: string | undefined;
+  /** The minor version of the template. Example: 12. */
+  minorVersion?: number | undefined;
+  /** The Major version of the template. Example: 100. */
+  majorVersion?: number | undefined;
+}
+export type GoogleAppsCloudidentityDevicesV1CertificateAttributesValidationStateEnum =
+  | "CERTIFICATE_VALIDATION_STATE_UNSPECIFIED"
+  | "VALIDATION_SUCCESSFUL"
+  | "VALIDATION_FAILED";
+/** Stores information about a certificate. */
+export interface GoogleAppsCloudidentityDevicesV1CertificateAttributes {
+  /** The X.509 extension for CertificateTemplate. */
+  certificateTemplate?: GoogleAppsCloudidentityDevicesV1CertificateTemplate | undefined;
+  /** Certificate not valid at or after this timestamp. */
+  validityExpirationTime?: string | undefined;
+  /** Output only. Validation state of this certificate. */
+  validationState?:
+    | GoogleAppsCloudidentityDevicesV1CertificateAttributesValidationStateEnum
+    | (string & {})
+    | undefined;
+  /** Certificate not valid before this timestamp. */
+  validityStartTime?: string | undefined;
+  /** Serial number of the certificate, Example: "123456789". */
+  serialNumber?: string | undefined;
+  /** The encoded certificate fingerprint. */
+  fingerprint?: string | undefined;
+  /** The certificate thumbprint. */
+  thumbprint?: string | undefined;
+  /** The subject name of this certificate. */
+  subject?: string | undefined;
+  /** The name of the issuer of this certificate. */
+  issuer?: string | undefined;
+}
+export type GoogleAppsCloudidentityDevicesV1CertificateAttributesList =
+  Array<GoogleAppsCloudidentityDevicesV1CertificateAttributes>;
 /** Resource representing the [Endpoint Verification-specific attributes](https://cloud.google.com/endpoint-verification/docs/device-information) of a device. */
 export interface GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes {
-  /** Details of certificates. */
-  certificateAttributes?: GoogleAppsCloudidentityDevicesV1CertificateAttributesList | undefined;
   /** Details of browser profiles reported by Endpoint Verification. */
   browserAttributes?: GoogleAppsCloudidentityDevicesV1BrowserAttributesList | undefined;
   /** [Additional signals](https://cloud.google.com/endpoint-verification/docs/device-information) reported by Endpoint Verification. It includes the following attributes: * Non-configurable attributes: hotfixes, av_installed, av_enabled, windows_domain_name, is_os_native_firewall_enabled, and is_secure_boot_enabled. * [Configurable attributes](https://cloud.google.com/endpoint-verification/docs/collect-config-attributes): file, folder, and binary attributes; registry entries; and properties in a plist. */
   additionalSignals?: DocumentMap | undefined;
-}
-export type GoogleAppsCloudidentityDevicesV1AndroidAttributesOwnershipPrivilegeEnum =
-  | "OWNERSHIP_PRIVILEGE_UNSPECIFIED"
-  | "DEVICE_ADMINISTRATOR"
-  | "PROFILE_OWNER"
-  | "DEVICE_OWNER";
-/** Resource representing the Android specific attributes of a Device. */
-export interface GoogleAppsCloudidentityDevicesV1AndroidAttributes {
-  /** Whether applications from unknown sources can be installed on device. */
-  enabledUnknownSources?: boolean | undefined;
-  /** Whether device supports Android work profiles. If false, this service will not block access to corp data even if an administrator turns on the "Enforce Work Profile" policy. */
-  supportsWorkProfile?: boolean | undefined;
-  /** Whether this account is on an owner/primary profile. For phones, only true for owner profiles. Android 4+ devices can have secondary or restricted user profiles. */
-  ownerProfileAccount?: boolean | undefined;
-  /** Whether the device passes Android CTS compliance. */
-  ctsProfileMatch?: boolean | undefined;
-  /** Whether any potentially harmful apps were detected on the device. */
-  hasPotentiallyHarmfulApps?: boolean | undefined;
-  /** Whether Google Play Protect Verify Apps is enabled. */
-  verifyAppsEnabled?: boolean | undefined;
-  /** Whether Android verified boot status is GREEN. */
-  verifiedBoot?: boolean | undefined;
-  /** Ownership privileges on device. */
-  ownershipPrivilege?:
-    | GoogleAppsCloudidentityDevicesV1AndroidAttributesOwnershipPrivilegeEnum
-    | (string & {})
-    | undefined;
+  /** Details of certificates. */
+  certificateAttributes?: GoogleAppsCloudidentityDevicesV1CertificateAttributesList | undefined;
 }
 export type GoogleAppsCloudidentityDevicesV1DeviceEncryptionStateEnum =
   | "ENCRYPTION_STATE_UNSPECIFIED"
   | "UNSUPPORTED_BY_DEVICE"
   | "ENCRYPTED"
   | "NOT_ENCRYPTED";
-export type GoogleAppsCloudidentityDevicesV1DeviceManagementStateEnum =
-  | "MANAGEMENT_STATE_UNSPECIFIED"
-  | "APPROVED"
-  | "BLOCKED"
-  | "PENDING"
-  | "UNPROVISIONED"
-  | "WIPING"
-  | "WIPED";
-export type GoogleAppsCloudidentityDevicesV1DeviceOwnerTypeEnum =
-  | "DEVICE_OWNERSHIP_UNSPECIFIED"
-  | "COMPANY"
-  | "BYOD";
-export type StringList = Array<string>;
-export type GoogleAppsCloudidentityDevicesV1DeviceDeviceTypeEnum =
-  | "DEVICE_TYPE_UNSPECIFIED"
-  | "ANDROID"
-  | "IOS"
-  | "GOOGLE_SYNC"
-  | "WINDOWS"
-  | "MAC_OS"
-  | "LINUX"
-  | "CHROME_OS"
-  | "GOOGLEBOOK";
-export type GoogleAppsCloudidentityDevicesV1DeviceCompromisedStateEnum =
-  | "COMPROMISED_STATE_UNSPECIFIED"
-  | "COMPROMISED"
-  | "UNCOMPROMISED";
 /** A Device within the Cloud Identity Devices API. Represents a Device known to Google Cloud, independent of the device ownership, type, and whether it is assigned or in use by a user. */
 export interface GoogleAppsCloudidentityDevicesV1Device {
-  /** Serial Number of device. Example: HT82V1A01076. */
-  serialNumber?: string | undefined;
-  /** Output only. OS security patch update time on device. */
-  securityPatchTime?: string | undefined;
-  /** Output only. Device bootloader version. Example: 0.6.7. */
-  bootloaderVersion?: string | undefined;
-  /** Host name of the device. */
-  hostname?: string | undefined;
-  /** Output only. OS release version. Example: 6.0. */
-  releaseVersion?: string | undefined;
-  /** Output only. IMEI number of device if GSM device; empty otherwise. */
-  imei?: string | undefined;
-  /** Output only. Attributes specific to [Endpoint Verification](https://cloud.google.com/endpoint-verification/docs/overview) devices. */
-  endpointVerificationSpecificAttributes?:
-    | GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes
-    | undefined;
-  /** Output only. Baseband version of the device. */
-  basebandVersion?: string | undefined;
-  /** Output only. Attributes specific to Android devices. */
-  androidSpecificAttributes?: GoogleAppsCloudidentityDevicesV1AndroidAttributes | undefined;
-  /** Output only. OS version of the device. Example: Android 8.1.0. */
-  osVersion?: string | undefined;
-  /** Output only. Device encryption state. */
-  encryptionState?:
-    | GoogleAppsCloudidentityDevicesV1DeviceEncryptionStateEnum
-    | (string & {})
-    | undefined;
-  /** Output only. MEID number of device if CDMA device; empty otherwise. */
-  meid?: string | undefined;
-  /** Most recent time when device synced with this service. */
-  lastSyncTime?: string | undefined;
   /** Output only. When the Company-Owned device was imported. This field is empty for BYOD devices. */
   createTime?: string | undefined;
-  /** Output only. Kernel version of the device. */
-  kernelVersion?: string | undefined;
-  /** Output only. Mobile or network operator of device, if available. */
-  networkOperator?: string | undefined;
-  /** Output only. Whether developer options is enabled on device. */
-  enabledDeveloperOptions?: boolean | undefined;
-  /** Output only. Management state of the device */
-  managementState?:
-    | GoogleAppsCloudidentityDevicesV1DeviceManagementStateEnum
-    | (string & {})
-    | undefined;
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}`, where device is the unique id assigned to the Device. Important: Device API scopes require that you use domain-wide delegation to access the API. For more information, see [Set up the Devices API](https://cloud.google.com/identity/docs/how-to/setup-devices). */
-  name?: string | undefined;
-  /** Asset tag of the device. */
-  assetTag?: string | undefined;
-  /** Output only. Device manufacturer. Example: Motorola. */
-  manufacturer?: string | undefined;
   /** Output only. Whether USB debugging is enabled on device. */
   enabledUsbDebugging?: boolean | undefined;
-  /** Output only. Device brand. Example: Samsung. */
-  brand?: string | undefined;
   /** Output only. Build number of the device. */
   buildNumber?: string | undefined;
-  /** Output only. Unified device id of the device. */
-  unifiedDeviceId?: string | undefined;
-  /** Unique identifier for the device. */
-  deviceId?: string | undefined;
-  /** Output only. Whether the device is owned by the company or an individual */
-  ownerType?: GoogleAppsCloudidentityDevicesV1DeviceOwnerTypeEnum | (string & {}) | undefined;
-  /** Output only. Model name of device. Example: Pixel 3. */
-  model?: string | undefined;
+  /** Host name of the device. */
+  hostname?: string | undefined;
   /** WiFi MAC addresses of device. */
   wifiMacAddresses?: StringList | undefined;
-  /** Output only. Type of device. */
-  deviceType?: GoogleAppsCloudidentityDevicesV1DeviceDeviceTypeEnum | (string & {}) | undefined;
   /** Output only. Represents whether the Device is compromised. */
   compromisedState?:
     | GoogleAppsCloudidentityDevicesV1DeviceCompromisedStateEnum
     | (string & {})
     | undefined;
+  /** Serial Number of device. Example: HT82V1A01076. */
+  serialNumber?: string | undefined;
+  /** Output only. Type of device. */
+  deviceType?: GoogleAppsCloudidentityDevicesV1DeviceDeviceTypeEnum | (string & {}) | undefined;
   /** Output only. Domain name for Google accounts on device. Type for other accounts on device. On Android, will only be populated if |ownership_privilege| is |PROFILE_OWNER| or |DEVICE_OWNER|. Does not include the account signed in to the device policy app if that account's domain has only one account. Examples: "com.example", "xyz.com". */
   otherAccounts?: StringList | undefined;
+  /** Output only. OS security patch update time on device. */
+  securityPatchTime?: string | undefined;
+  /** Unique identifier for the device. */
+  deviceId?: string | undefined;
+  /** Output only. Kernel version of the device. */
+  kernelVersion?: string | undefined;
+  /** Output only. Baseband version of the device. */
+  basebandVersion?: string | undefined;
+  /** Output only. OS release version. Example: 6.0. */
+  releaseVersion?: string | undefined;
+  /** Output only. Attributes specific to Android devices. */
+  androidSpecificAttributes?: GoogleAppsCloudidentityDevicesV1AndroidAttributes | undefined;
+  /** Output only. IMEI number of device if GSM device; empty otherwise. */
+  imei?: string | undefined;
+  /** Output only. OS version of the device. Example: Android 8.1.0. */
+  osVersion?: string | undefined;
+  /** Output only. Mobile or network operator of device, if available. */
+  networkOperator?: string | undefined;
+  /** Output only. Whether developer options is enabled on device. */
+  enabledDeveloperOptions?: boolean | undefined;
+  /** Most recent time when device synced with this service. */
+  lastSyncTime?: string | undefined;
+  /** Output only. Model name of device. Example: Pixel 3. */
+  model?: string | undefined;
+  /** Output only. Whether the device is owned by the company or an individual */
+  ownerType?: GoogleAppsCloudidentityDevicesV1DeviceOwnerTypeEnum | (string & {}) | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}`, where device is the unique id assigned to the Device. Important: Device API scopes require that you use domain-wide delegation to access the API. For more information, see [Set up the Devices API](https://cloud.google.com/identity/docs/how-to/setup-devices). */
+  name?: string | undefined;
+  /** Output only. Device manufacturer. Example: Motorola. */
+  manufacturer?: string | undefined;
+  /** Output only. Device bootloader version. Example: 0.6.7. */
+  bootloaderVersion?: string | undefined;
+  /** Output only. Unified device id of the device. */
+  unifiedDeviceId?: string | undefined;
+  /** Output only. Management state of the device */
+  managementState?:
+    | GoogleAppsCloudidentityDevicesV1DeviceManagementStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. MEID number of device if CDMA device; empty otherwise. */
+  meid?: string | undefined;
+  /** Output only. Attributes specific to [Endpoint Verification](https://cloud.google.com/endpoint-verification/docs/overview) devices. */
+  endpointVerificationSpecificAttributes?:
+    | GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes
+    | undefined;
+  /** Output only. Device encryption state. */
+  encryptionState?:
+    | GoogleAppsCloudidentityDevicesV1DeviceEncryptionStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Device brand. Example: Samsung. */
+  brand?: string | undefined;
+  /** Asset tag of the device. */
+  assetTag?: string | undefined;
 }
 export interface CreateDevicesRequest extends GoogleAppsCloudidentityDevicesV1Device {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
@@ -461,13 +461,29 @@ export type CreateGroupsInitialGroupConfigEnum =
   | "INITIAL_GROUP_CONFIG_UNSPECIFIED"
   | "WITH_INITIAL_OWNER"
   | "EMPTY";
+/** Represents an external identifier that links a Group in the Cloud Identity Groups API with a corresponding entity in an external directory or identity provider. */
+export interface ExternalId {
+  /** Required. The unique identifier assigned by the external identity provider. The API does not enforce unique IDs across entities, but clients **must** ensure IDs are unique within their namespace. */
+  id?: string | undefined;
+  /** Required. The namespace in which the entity exists. The only supported namespace is `system/external`. */
+  namespace?: string | undefined;
+}
+export type ExternalIdList = Array<ExternalId>;
+/** A unique identifier for an entity in the Cloud Identity Groups API. An entity can represent either a group with an optional `namespace` or a user without a `namespace`. The combination of `id` and `namespace` must be unique; however, the same `id` can be used with different `namespace`s. */
+export interface EntityKey {
+  /** The namespace in which the entity exists. If not specified, the `EntityKey` represents a Google-managed entity such as a Google user or a Google Group. If specified, the `EntityKey` represents an external-identity-mapped group. The namespace must correspond to an identity source created in Admin Console and must be in the form of `identitysources/{identity_source}`. */
+  namespace?: string | undefined;
+  /** The ID of the entity. For Google-managed entities, the `id` should be the email address of an existing group or user. Email addresses need to adhere to [name guidelines for users and groups](https://support.google.com/a/answer/9193374). For external-identity-mapped entities, the `id` must be a string conforming to the Identity Source's requirements. Must be unique within a `namespace`. */
+  id?: string | undefined;
+}
+export type EntityKeyList = Array<EntityKey>;
 export type DynamicGroupQueryResourceTypeEnum = "RESOURCE_TYPE_UNSPECIFIED" | "USER";
 /** Defines a query on a resource. */
 export interface DynamicGroupQuery {
-  /** Resource type for the Dynamic Group Query */
-  resourceType?: DynamicGroupQueryResourceTypeEnum | (string & {}) | undefined;
   /** Query that determines the memberships of the dynamic group. Examples: All users with at least one `organizations.department` of engineering. `user.organizations.exists(org, org.department=='engineering')` All users with at least one location that has `area` of `foo` and `building_id` of `bar`. `user.locations.exists(loc, loc.area=='foo' && loc.building_id=='bar')` All users with any variation of the name John Doe (case-insensitive queries add `equalsIgnoreCase()` to the value being queried). `user.name.value.equalsIgnoreCase('jOhn DoE')` */
   query?: string | undefined;
+  /** Resource type for the Dynamic Group Query */
+  resourceType?: DynamicGroupQueryResourceTypeEnum | (string & {}) | undefined;
 }
 export type DynamicGroupQueryList = Array<DynamicGroupQuery>;
 export type DynamicGroupStatusStatusEnum =
@@ -477,10 +493,10 @@ export type DynamicGroupStatusStatusEnum =
   | "INVALID_QUERY";
 /** The current status of a dynamic group along with timestamp. */
 export interface DynamicGroupStatus {
-  /** Status of the dynamic group. */
-  status?: DynamicGroupStatusStatusEnum | (string & {}) | undefined;
   /** The latest time at which the dynamic group is guaranteed to be in the given status. If status is `UP_TO_DATE`, the latest time at which the dynamic group was confirmed to be up-to-date. If status is `UPDATING_MEMBERSHIPS`, the time at which dynamic group was created. */
   statusTime?: string | undefined;
+  /** Status of the dynamic group. */
+  status?: DynamicGroupStatusStatusEnum | (string & {}) | undefined;
 }
 /** Dynamic group metadata like queries and status. */
 export interface DynamicGroupMetadata {
@@ -490,55 +506,34 @@ export interface DynamicGroupMetadata {
   status?: DynamicGroupStatus | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** A unique identifier for an entity in the Cloud Identity Groups API. An entity can represent either a group with an optional `namespace` or a user without a `namespace`. The combination of `id` and `namespace` must be unique; however, the same `id` can be used with different `namespace`s. */
-export interface EntityKey {
-  /** The ID of the entity. For Google-managed entities, the `id` should be the email address of an existing group or user. Email addresses need to adhere to [name guidelines for users and groups](https://support.google.com/a/answer/9193374). For external-identity-mapped entities, the `id` must be a string conforming to the Identity Source's requirements. Must be unique within a `namespace`. */
-  id?: string | undefined;
-  /** The namespace in which the entity exists. If not specified, the `EntityKey` represents a Google-managed entity such as a Google user or a Google Group. If specified, the `EntityKey` represents an external-identity-mapped group. The namespace must correspond to an identity source created in Admin Console and must be in the form of `identitysources/{identity_source}`. */
-  namespace?: string | undefined;
-}
-export type EntityKeyList = Array<EntityKey>;
-/** Represents an external identifier that links a Group in the Cloud Identity Groups API with a corresponding entity in an external directory or identity provider. */
-export interface ExternalId {
-  /** Required. The namespace in which the entity exists. The only supported namespace is `system/external`. */
-  namespace?: string | undefined;
-  /** Required. The unique identifier assigned by the external identity provider. The API does not enforce unique IDs across entities, but clients **must** ensure IDs are unique within their namespace. */
-  id?: string | undefined;
-}
-export type ExternalIdList = Array<ExternalId>;
 /** A group within the Cloud Identity Groups API. A `Group` is a collection of entities, where each entity is either a user, another group, or a service account. */
 export interface Group {
-  /** Optional. Dynamic group metadata like queries and status. */
-  dynamicGroupMetadata?: DynamicGroupMetadata | undefined;
-  /** Output only. The time when the `Group` was created. */
-  createTime?: string | undefined;
-  /** Required. One or more label entries that apply to the Group. Labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of `cloudidentity.googleapis.com/groups.discussion_forum` and an empty value. Existing Google Groups can have an additional label with a key of `cloudidentity.googleapis.com/groups.security` and an empty value added to them. **This is an immutable change and the security label cannot be removed once added.** Dynamic groups have a label with a key of `cloudidentity.googleapis.com/groups.dynamic`. Identity-mapped groups for Cloud Search have a label with a key of `system/groups/external` and an empty value. Google Groups can be [locked](https://support.google.com/a?p=locked-groups). To lock a group, add a label with a key of `cloudidentity.googleapis.com/groups.locked` and an empty value. Doing so locks the group. To unlock the group, remove this label. */
-  labels?: StringMap | undefined;
-  /** The display name of the `Group`. */
-  displayName?: string | undefined;
-  /** Output only. The time when the `Group` was last updated. */
-  updateTime?: string | undefined;
+  /** Optional. External identifiers associated with the `Group`. Allows external identity providers and directory sync tools link their native unique identifiers with this group. The only supported namespace is `system/external`. */
+  externalIds?: ExternalIdList | undefined;
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group}`. */
   name?: string | undefined;
   /** Output only. Additional group keys associated with the Group. */
   additionalGroupKeys?: EntityKeyList | undefined;
-  /** Optional. External identifiers associated with the `Group`. Allows external identity providers and directory sync tools link their native unique identifiers with this group. The only supported namespace is `system/external`. */
-  externalIds?: ExternalIdList | undefined;
   /** Required. Immutable. The resource name of the entity under which this `Group` resides in the Cloud Identity resource hierarchy. Must be of the form `identitysources/{identity_source}` for external [identity-mapped groups](https://support.google.com/a/answer/9039510) or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
   parent?: string | undefined;
-  /** Required. The `EntityKey` of the `Group`. */
-  groupKey?: EntityKey | undefined;
+  /** Optional. Dynamic group metadata like queries and status. */
+  dynamicGroupMetadata?: DynamicGroupMetadata | undefined;
+  /** Required. One or more label entries that apply to the Group. Labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of `cloudidentity.googleapis.com/groups.discussion_forum` and an empty value. Existing Google Groups can have an additional label with a key of `cloudidentity.googleapis.com/groups.security` and an empty value added to them. **This is an immutable change and the security label cannot be removed once added.** Dynamic groups have a label with a key of `cloudidentity.googleapis.com/groups.dynamic`. Identity-mapped groups for Cloud Search have a label with a key of `system/groups/external` and an empty value. Google Groups can be [locked](https://support.google.com/a?p=locked-groups). To lock a group, add a label with a key of `cloudidentity.googleapis.com/groups.locked` and an empty value. Doing so locks the group. To unlock the group, remove this label. */
+  labels?: StringMap | undefined;
+  /** Output only. The time when the `Group` was last updated. */
+  updateTime?: string | undefined;
   /** An extended description to help users determine the purpose of a `Group`. Must not be longer than 4,096 characters. */
   description?: string | undefined;
+  /** Required. The `EntityKey` of the `Group`. */
+  groupKey?: EntityKey | undefined;
+  /** Output only. The time when the `Group` was created. */
+  createTime?: string | undefined;
+  /** The display name of the `Group`. */
+  displayName?: string | undefined;
 }
 export interface CreateGroupsRequest extends Group {
   /** Optional. The initial configuration option for the `Group`. */
   initialGroupConfig?: CreateGroupsInitialGroupConfigEnum | (string & {}) | undefined;
-}
-/** The `MembershipRole` expiry details. */
-export interface ExpiryDetail {
-  /** The time at which the `MembershipRole` will expire. */
-  expireTime?: string | undefined;
 }
 export type MembershipRoleRestrictionEvaluationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -556,14 +551,19 @@ export interface RestrictionEvaluations {
   /** Evaluation of the member restriction applied to this membership. Empty if the user lacks permission to view the restriction evaluation. */
   memberRestrictionEvaluation?: MembershipRoleRestrictionEvaluation | undefined;
 }
+/** The `MembershipRole` expiry details. */
+export interface ExpiryDetail {
+  /** The time at which the `MembershipRole` will expire. */
+  expireTime?: string | undefined;
+}
 /** A membership role within the Cloud Identity Groups API. A `MembershipRole` defines the privileges granted to a `Membership`. */
 export interface MembershipRole {
-  /** The name of the `MembershipRole`. Must be one of `OWNER`, `MANAGER`, `MEMBER`. */
-  name?: string | undefined;
-  /** The expiry details of the `MembershipRole`. Expiry details are only supported for `MEMBER` `MembershipRoles`. May be set if `name` is `MEMBER`. Must not be set if `name` is any other value. */
-  expiryDetail?: ExpiryDetail | undefined;
   /** Evaluations of restrictions applied to parent group on this membership. */
   restrictionEvaluations?: RestrictionEvaluations | undefined;
+  /** The expiry details of the `MembershipRole`. Expiry details are only supported for `MEMBER` `MembershipRoles`. May be set if `name` is `MEMBER`. Must not be set if `name` is any other value. */
+  expiryDetail?: ExpiryDetail | undefined;
+  /** The name of the `MembershipRole`. Must be one of `OWNER`, `MANAGER`, `MEMBER`. */
+  name?: string | undefined;
 }
 export type MembershipRoleList = Array<MembershipRole>;
 export type MembershipTypeEnum =
@@ -586,92 +586,87 @@ export type MembershipDeliverySettingEnum =
   | "DISABLED";
 /** A membership within the Cloud Identity Groups API. A `Membership` defines a relationship between a `Group` and an entity belonging to that `Group`, referred to as a "member". */
 export interface Membership {
-  /** The `MembershipRole`s that apply to the `Membership`. If unspecified, defaults to a single `MembershipRole` with `name` `MEMBER`. Must not contain duplicate `MembershipRole`s with the same `name`. */
-  roles?: MembershipRoleList | undefined;
-  /** Output only. The type of the membership. */
-  type?: MembershipTypeEnum | (string & {}) | undefined;
-  /** Required. Immutable. The `EntityKey` of the member. */
-  preferredMemberKey?: EntityKey | undefined;
-  /** Output only. The time when the `Membership` was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership`. Shall be of the form `groups/{group}/memberships/{membership}`. */
-  name?: string | undefined;
-  /** Output only. Delivery setting associated with the membership. */
-  deliverySetting?: MembershipDeliverySettingEnum | (string & {}) | undefined;
   /** Output only. The time when the `Membership` was created. */
   createTime?: string | undefined;
+  /** Required. Immutable. The `EntityKey` of the member. */
+  preferredMemberKey?: EntityKey | undefined;
+  /** The `MembershipRole`s that apply to the `Membership`. If unspecified, defaults to a single `MembershipRole` with `name` `MEMBER`. Must not contain duplicate `MembershipRole`s with the same `name`. */
+  roles?: MembershipRoleList | undefined;
+  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership`. Shall be of the form `groups/{group}/memberships/{membership}`. */
+  name?: string | undefined;
+  /** Output only. The type of the membership. */
+  type?: MembershipTypeEnum | (string & {}) | undefined;
+  /** Output only. Delivery setting associated with the membership. */
+  deliverySetting?: MembershipDeliverySettingEnum | (string & {}) | undefined;
+  /** Output only. The time when the `Membership` was last updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateGroupsMembershipsRequest extends Membership {
   /** Required. The parent `Group` resource under which to create the `Membership`. Must be of the form `groups/{group}`. */
   parent: string;
 }
-/** OIDC IDP (identity provider) configuration. */
-export interface OidcIdpConfig {
-  /** Required. The Issuer identifier for the IdP. Must be a URL. The discovery URL will be derived from this as described in Section 4 of [the OIDC specification](https://openid.net/specs/openid-connect-discovery-1_0.html). */
-  issuerUri?: string | undefined;
-  /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
-  changePasswordUri?: string | undefined;
-}
 /** OIDC RP (relying party) configuration. */
 export interface OidcRpConfig {
+  /** Input only. OAuth2 client secret for OIDC. */
+  clientSecret?: string | undefined;
   /** Output only. The URL(s) that this client may use in authentication requests. */
   redirectUris?: StringList | undefined;
   /** OAuth2 client ID for OIDC. */
   clientId?: string | undefined;
-  /** Input only. OAuth2 client secret for OIDC. */
-  clientSecret?: string | undefined;
+}
+/** OIDC IDP (identity provider) configuration. */
+export interface OidcIdpConfig {
+  /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
+  changePasswordUri?: string | undefined;
+  /** Required. The Issuer identifier for the IdP. Must be a URL. The discovery URL will be derived from this as described in Section 4 of [the OIDC specification](https://openid.net/specs/openid-connect-discovery-1_0.html). */
+  issuerUri?: string | undefined;
 }
 /** An [OIDC](https://openid.net/developers/how-connect-works/) federation between a Google enterprise customer and an OIDC identity provider. */
 export interface InboundOidcSsoProfile {
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
-  name?: string | undefined;
-  /** OIDC identity provider configuration. */
-  idpConfig?: OidcIdpConfig | undefined;
-  /** OIDC relying party (RP) configuration for this OIDC SSO profile. These are the RP details provided by Google that should be configured on the corresponding identity provider. */
-  rpConfig?: OidcRpConfig | undefined;
-  /** Human-readable name of the OIDC SSO profile. */
-  displayName?: string | undefined;
   /** Immutable. The customer. For example: `customers/C0123abc`. */
   customer?: string | undefined;
+  /** OIDC relying party (RP) configuration for this OIDC SSO profile. These are the RP details provided by Google that should be configured on the corresponding identity provider. */
+  rpConfig?: OidcRpConfig | undefined;
+  /** OIDC identity provider configuration. */
+  idpConfig?: OidcIdpConfig | undefined;
+  /** Human-readable name of the OIDC SSO profile. */
+  displayName?: string | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
+  name?: string | undefined;
 }
 export interface CreateInboundOidcSsoProfilesRequest extends InboundOidcSsoProfile {}
-/** SAML SP (service provider) configuration. */
-export interface SamlSpConfig {
-  /** Output only. The SAML **Assertion Consumer Service (ACS) URL** to be used for the IDP-initiated login. Assumed to accept response messages via the `HTTP-POST` binding. */
-  assertionConsumerServiceUri?: string | undefined;
-  /** Output only. The SAML **Entity ID** for this service provider. */
-  entityId?: string | undefined;
-}
 /** SAML IDP (identity provider) configuration. */
 export interface SamlIdpConfig {
-  /** Required. The SAML **Entity ID** of the identity provider. */
-  entityId?: string | undefined;
   /** The **Logout Redirect URL** (sign-out page URL) of the identity provider. When a user clicks the sign-out link on a Google page, they will be redirected to this URL. This is a pure redirect with no attached SAML `LogoutRequest` i.e. SAML single logout is not supported. Must use `HTTPS`. */
   logoutRedirectUri?: string | undefined;
-  /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
-  changePasswordUri?: string | undefined;
   /** Required. The `SingleSignOnService` endpoint location (sign-in page URL) of the identity provider. This is the URL where the `AuthnRequest` will be sent. Must use `HTTPS`. Assumed to accept the `HTTP-Redirect` binding. */
   singleSignOnServiceUri?: string | undefined;
+  /** Required. The SAML **Entity ID** of the identity provider. */
+  entityId?: string | undefined;
+  /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
+  changePasswordUri?: string | undefined;
+}
+/** SAML SP (service provider) configuration. */
+export interface SamlSpConfig {
+  /** Output only. The SAML **Entity ID** for this service provider. */
+  entityId?: string | undefined;
+  /** Output only. The SAML **Assertion Consumer Service (ACS) URL** to be used for the IDP-initiated login. Assumed to accept response messages via the `HTTP-POST` binding. */
+  assertionConsumerServiceUri?: string | undefined;
 }
 /** A [SAML 2.0](https://www.oasis-open.org/standards#samlv2.0) federation between a Google enterprise customer and a SAML identity provider. */
 export interface InboundSamlSsoProfile {
+  /** SAML identity provider configuration. */
+  idpConfig?: SamlIdpConfig | undefined;
   /** Immutable. The customer. For example: `customers/C0123abc`. */
   customer?: string | undefined;
   /** SAML service provider configuration for this SAML SSO profile. These are the service provider details provided by Google that should be configured on the corresponding identity provider. */
   spConfig?: SamlSpConfig | undefined;
   /** Human-readable name of the SAML SSO profile. */
   displayName?: string | undefined;
-  /** SAML identity provider configuration. */
-  idpConfig?: SamlIdpConfig | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name?: string | undefined;
 }
 export interface CreateInboundSamlSsoProfilesRequest extends InboundSamlSsoProfile {}
-/** Details that are applicable when `sso_mode` is set to `OIDC_SSO`. */
-export interface OidcSsoInfo {
-  /** Required. Name of the `InboundOidcSsoProfile` to use. Must be of the form `inboundOidcSsoProfiles/{inbound_oidc_sso_profile}`. */
-  inboundOidcSsoProfile?: string | undefined;
-}
 /** Details that are applicable when `sso_mode` == `SAML_SSO`. */
 export interface SamlSsoInfo {
   /** Required. Name of the `InboundSamlSsoProfile` to use. Must be of the form `inboundSamlSsoProfiles/{inbound_saml_sso_profile}`. */
@@ -683,6 +678,11 @@ export type InboundSsoAssignmentSsoModeEnum =
   | "SAML_SSO"
   | "OIDC_SSO"
   | "DOMAIN_WIDE_SAML_IF_ENABLED";
+/** Details that are applicable when `sso_mode` is set to `OIDC_SSO`. */
+export interface OidcSsoInfo {
+  /** Required. Name of the `InboundOidcSsoProfile` to use. Must be of the form `inboundOidcSsoProfiles/{inbound_oidc_sso_profile}`. */
+  inboundOidcSsoProfile?: string | undefined;
+}
 export type SignInBehaviorRedirectConditionEnum = "REDIRECT_CONDITION_UNSPECIFIED" | "NEVER";
 /** Controls sign-in behavior. */
 export interface SignInBehavior {
@@ -691,27 +691,26 @@ export interface SignInBehavior {
 }
 /** Targets with "set" SSO assignments and their respective assignments. */
 export interface InboundSsoAssignment {
+  /** Immutable. Must be of the form `orgUnits/{org_unit}`. */
+  targetOrgUnit?: string | undefined;
   /** Immutable. Must be of the form `groups/{group}`. */
   targetGroup?: string | undefined;
+  /** SAML SSO details. Must be set if and only if `sso_mode` is set to `SAML_SSO`. */
+  samlSsoInfo?: SamlSsoInfo | undefined;
+  /** Inbound SSO behavior. */
+  ssoMode?: InboundSsoAssignmentSsoModeEnum | (string & {}) | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
+  name?: string | undefined;
   /** Immutable. The customer. For example: `customers/C0123abc`. */
   customer?: string | undefined;
   /** OpenID Connect SSO details. Must be set if and only if `sso_mode` is set to `OIDC_SSO`. */
   oidcSsoInfo?: OidcSsoInfo | undefined;
   /** Must be zero (which is the default value so it can be omitted) for assignments with `target_org_unit` set and must be greater-than-or-equal-to one for assignments with `target_group` set. */
   rank?: number | undefined;
-  /** Immutable. Must be of the form `orgUnits/{org_unit}`. */
-  targetOrgUnit?: string | undefined;
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
-  name?: string | undefined;
-  /** SAML SSO details. Must be set if and only if `sso_mode` is set to `SAML_SSO`. */
-  samlSsoInfo?: SamlSsoInfo | undefined;
-  /** Inbound SSO behavior. */
-  ssoMode?: InboundSsoAssignmentSsoModeEnum | (string & {}) | undefined;
   /** Assertions about users assigned to an IdP will always be accepted from that IdP. This controls whether/when Google should redirect a user to the IdP. Unset (defaults) is the recommended configuration. */
   signInBehavior?: SignInBehavior | undefined;
 }
 export interface CreateInboundSsoAssignmentsRequest extends InboundSsoAssignment {}
-export type PolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "SYSTEM" | "ADMIN";
 /** Setting */
 export interface Setting {
   /** Required. The value of the Setting. */
@@ -719,27 +718,28 @@ export interface Setting {
   /** Required. Immutable. The type of the Setting. */
   type?: string | undefined;
 }
+export type PolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "SYSTEM" | "ADMIN";
 /** PolicyQuery */
 export interface PolicyQuery {
-  /** Immutable. The CEL query that defines which entities the Policy applies to (ex. a User entity). For details about CEL see https://opensource.google.com/projects/cel. The OrgUnits the Policy applies to are represented by a clause like so: entity.org_units.exists(org_unit, org_unit.org_unit_id == orgUnitId('{orgUnitId}')) The Group the Policy applies to are represented by a clause like so: entity.groups.exists(group, group.group_id == groupId('{groupId}')) The Licenses the Policy applies to are represented by a clause like so: entity.licenses.exists(license, license in ['/product/{productId}/sku/{skuId}']) **Note:** The licenses clause is not supported in mutate endpoints. The above clauses can be present in any combination, and used in conjunction with the &&, || and ! operators. The org_unit and group fields below are helper fields that contain the corresponding value(s) as the query to make the query easier to use. */
-  query?: string | undefined;
-  /** Required. Immutable. Non-empty default. The OrgUnit the query applies to. This field is only set if there is a single value for org_unit that satisfies all clauses of the query. */
-  orgUnit?: string | undefined;
-  /** Immutable. The group that the query applies to. This field is only set if there is a single value for group that satisfies all clauses of the query. If no group applies, this will be the empty string. */
-  group?: string | undefined;
   /** Output only. The decimal sort order of this PolicyQuery. The value is relative to all other policies with the same setting type for the customer. (There are no duplicates within this set). */
   sortOrder?: number | undefined;
+  /** Immutable. The CEL query that defines which entities the Policy applies to (ex. a User entity). For details about CEL see https://opensource.google.com/projects/cel. The OrgUnits the Policy applies to are represented by a clause like so: entity.org_units.exists(org_unit, org_unit.org_unit_id == orgUnitId('{orgUnitId}')) The Group the Policy applies to are represented by a clause like so: entity.groups.exists(group, group.group_id == groupId('{groupId}')) The Licenses the Policy applies to are represented by a clause like so: entity.licenses.exists(license, license in ['/product/{productId}/sku/{skuId}']) **Note:** The licenses clause is not supported in mutate endpoints. The above clauses can be present in any combination, and used in conjunction with the &&, || and ! operators. The org_unit and group fields below are helper fields that contain the corresponding value(s) as the query to make the query easier to use. */
+  query?: string | undefined;
+  /** Immutable. The group that the query applies to. This field is only set if there is a single value for group that satisfies all clauses of the query. If no group applies, this will be the empty string. */
+  group?: string | undefined;
+  /** Required. Immutable. Non-empty default. The OrgUnit the query applies to. This field is only set if there is a single value for org_unit that satisfies all clauses of the query. */
+  orgUnit?: string | undefined;
 }
 /** A Policy resource binds an instance of a single Setting with the scope of a PolicyQuery. The Setting instance will be applied to all entities that satisfy the query. */
 export interface Policy {
-  /** Immutable. Customer that the Policy belongs to. The value is in the format 'customers/{customerId}'. The `customerId` must begin with "C" To find your customer ID in Admin Console see https://support.google.com/a/answer/10070793. */
-  customer?: string | undefined;
-  /** Output only. The type of the policy. */
-  type?: PolicyTypeEnum | (string & {}) | undefined;
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name?: string | undefined;
+  /** Immutable. Customer that the Policy belongs to. The value is in the format 'customers/{customerId}'. The `customerId` must begin with "C" To find your customer ID in Admin Console see https://support.google.com/a/answer/10070793. */
+  customer?: string | undefined;
   /** Required. The Setting configured by this Policy. */
   setting?: Setting | undefined;
+  /** Output only. The type of the policy. */
+  type?: PolicyTypeEnum | (string & {}) | undefined;
   /** Required. The PolicyQuery the Setting applies to. */
   policyQuery?: PolicyQuery | undefined;
 }
@@ -749,16 +749,16 @@ export interface DeleteAllowlistedDomainsRequest {
   name: string;
 }
 export interface DeleteDevicesRequest {
-  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
-  customer?: string | undefined;
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}`, where device is the unique ID assigned to the Device. */
   name: string;
-}
-export interface DeleteDevicesDeviceUsersRequest {
-  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
-  name: string;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+}
+export interface DeleteDevicesDeviceUsersRequest {
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
+  customer?: string | undefined;
+  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
+  name: string;
 }
 export interface DeleteGroupsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group` to retrieve. Must be of the form `groups/{group}`. */
@@ -804,14 +804,14 @@ export type UserInvitationStateEnum =
   | "DECLINED";
 /** The `UserInvitation` resource represents an email that can be sent to an unmanaged user account inviting them to join the customer's Google Workspace or Cloud Identity account. An unmanaged account shares an email address domain with the Google Workspace or Cloud Identity account but is not managed by it yet. If the user accepts the `UserInvitation`, the user account will become managed. */
 export interface UserInvitation {
-  /** Number of invitation emails sent to the user. */
-  mailsSentCount?: string | undefined;
   /** State of the `UserInvitation`. */
   state?: UserInvitationStateEnum | undefined;
   /** Shall be of the form `customers/{customer}/userinvitations/{user_email_address}`. */
   name?: string | undefined;
   /** Time when the `UserInvitation` was last updated. */
   updateTime?: string | undefined;
+  /** Number of invitation emails sent to the user. */
+  mailsSentCount?: string | undefined;
 }
 export interface GetDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in the format: `devices/{device}`, where device is the unique ID assigned to the Device. */
@@ -820,19 +820,11 @@ export interface GetDevicesRequest {
   customer?: string | undefined;
 }
 export interface GetDevicesDeviceUsersRequest {
-  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
-  name: string;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
+  name: string;
 }
-export type GoogleAppsCloudidentityDevicesV1DeviceUserManagementStateEnum =
-  | "MANAGEMENT_STATE_UNSPECIFIED"
-  | "WIPING"
-  | "WIPED"
-  | "APPROVED"
-  | "BLOCKED"
-  | "PENDING_APPROVAL"
-  | "UNENROLLED";
 export type GoogleAppsCloudidentityDevicesV1DeviceUserPasswordStateEnum =
   | "PASSWORD_STATE_UNSPECIFIED"
   | "PASSWORD_SET"
@@ -841,55 +833,43 @@ export type GoogleAppsCloudidentityDevicesV1DeviceUserCompromisedStateEnum =
   | "COMPROMISED_STATE_UNSPECIFIED"
   | "COMPROMISED"
   | "NOT_COMPROMISED";
+export type GoogleAppsCloudidentityDevicesV1DeviceUserManagementStateEnum =
+  | "MANAGEMENT_STATE_UNSPECIFIED"
+  | "WIPING"
+  | "WIPED"
+  | "APPROVED"
+  | "BLOCKED"
+  | "PENDING_APPROVAL"
+  | "UNENROLLED";
 /** Represents a user's use of a Device in the Cloud Identity Devices API. A DeviceUser is a resource representing a user's use of a Device */
 export interface GoogleAppsCloudidentityDevicesV1DeviceUser {
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the DeviceUser in format: `devices/{device}/deviceUsers/{device_user}`, where `device_user` uniquely identifies a user's use of a device. */
-  name?: string | undefined;
   /** Email address of the user registered on the device. */
   userEmail?: string | undefined;
-  /** Output only. Most recent time when user registered with this service. */
-  firstSyncTime?: string | undefined;
-  /** Output only. Last time when user synced with policies. */
-  lastSyncTime?: string | undefined;
-  /** Output only. User agent on the device for this specific user */
-  userAgent?: string | undefined;
   /** Output only. Default locale used on device, in IETF BCP-47 format. */
   languageCode?: string | undefined;
-  /** Output only. Management state of the user on the device. */
-  managementState?: GoogleAppsCloudidentityDevicesV1DeviceUserManagementStateEnum | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the DeviceUser in format: `devices/{device}/deviceUsers/{device_user}`, where `device_user` uniquely identifies a user's use of a device. */
+  name?: string | undefined;
+  /** Output only. Last time when user synced with policies. */
+  lastSyncTime?: string | undefined;
+  /** Output only. Most recent time when user registered with this service. */
+  firstSyncTime?: string | undefined;
+  /** When the user first signed in to the device */
+  createTime?: string | undefined;
+  /** Output only. User agent on the device for this specific user */
+  userAgent?: string | undefined;
   /** Password state of the DeviceUser object */
   passwordState?: GoogleAppsCloudidentityDevicesV1DeviceUserPasswordStateEnum | undefined;
   /** Compromised State of the DeviceUser object */
   compromisedState?: GoogleAppsCloudidentityDevicesV1DeviceUserCompromisedStateEnum | undefined;
-  /** When the user first signed in to the device */
-  createTime?: string | undefined;
+  /** Output only. Management state of the user on the device. */
+  managementState?: GoogleAppsCloudidentityDevicesV1DeviceUserManagementStateEnum | undefined;
 }
 export interface GetDevicesDeviceUsersClientStatesRequest {
-  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientStates/{partner}`, where `device` is the unique ID assigned to the Device, `device_user` is the unique ID assigned to the User and `partner` identifies the partner storing the data. To get the client state for devices belonging to your own organization, the `partnerId` is in the format: `customerId-*anystring*`. Where the `customerId` is your organization's customer ID and `anystring` is any suffix. This suffix is used in setting up Custom Access Levels in Context-Aware Access. You may use `my_customer` instead of the customer ID for devices managed by your own organization. You may specify `-` in place of the `{device}`, so the ClientState resource name can be: `devices/-/deviceUsers/{device_user_resource}/clientStates/{partner}`. */
-  name: string;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientStates/{partner}`, where `device` is the unique ID assigned to the Device, `device_user` is the unique ID assigned to the User and `partner` identifies the partner storing the data. To get the client state for devices belonging to your own organization, the `partnerId` is in the format: `customerId-*anystring*`. Where the `customerId` is your organization's customer ID and `anystring` is any suffix. This suffix is used in setting up Custom Access Levels in Context-Aware Access. You may use `my_customer` instead of the customer ID for devices managed by your own organization. You may specify `-` in place of the `{device}`, so the ClientState resource name can be: `devices/-/deviceUsers/{device_user_resource}/clientStates/{partner}`. */
+  name: string;
 }
-export type GoogleAppsCloudidentityDevicesV1ClientStateComplianceStateEnum =
-  | "COMPLIANCE_STATE_UNSPECIFIED"
-  | "COMPLIANT"
-  | "NON_COMPLIANT";
-/** Additional custom attribute values may be one of these types */
-export interface GoogleAppsCloudidentityDevicesV1CustomAttributeValue {
-  /** Represents a string value. */
-  stringValue?: string | undefined;
-  /** Represents a boolean value. */
-  boolValue?: boolean | undefined;
-  /** Represents a double value. */
-  numberValue?: number | undefined;
-}
-export type GoogleAppsCloudidentityDevicesV1CustomAttributeValueMap = {
-  [key: string]: GoogleAppsCloudidentityDevicesV1CustomAttributeValue | undefined;
-};
-export type GoogleAppsCloudidentityDevicesV1ClientStateOwnerTypeEnum =
-  | "OWNER_TYPE_UNSPECIFIED"
-  | "OWNER_TYPE_CUSTOMER"
-  | "OWNER_TYPE_PARTNER";
 export type GoogleAppsCloudidentityDevicesV1ClientStateHealthScoreEnum =
   | "HEALTH_SCORE_UNSPECIFIED"
   | "VERY_POOR"
@@ -897,23 +877,38 @@ export type GoogleAppsCloudidentityDevicesV1ClientStateHealthScoreEnum =
   | "NEUTRAL"
   | "GOOD"
   | "VERY_GOOD";
+export type GoogleAppsCloudidentityDevicesV1ClientStateOwnerTypeEnum =
+  | "OWNER_TYPE_UNSPECIFIED"
+  | "OWNER_TYPE_CUSTOMER"
+  | "OWNER_TYPE_PARTNER";
+export type GoogleAppsCloudidentityDevicesV1ClientStateComplianceStateEnum =
+  | "COMPLIANCE_STATE_UNSPECIFIED"
+  | "COMPLIANT"
+  | "NON_COMPLIANT";
+/** Additional custom attribute values may be one of these types */
+export interface GoogleAppsCloudidentityDevicesV1CustomAttributeValue {
+  /** Represents a boolean value. */
+  boolValue?: boolean | undefined;
+  /** Represents a double value. */
+  numberValue?: number | undefined;
+  /** Represents a string value. */
+  stringValue?: string | undefined;
+}
+export type GoogleAppsCloudidentityDevicesV1CustomAttributeValueMap = {
+  [key: string]: GoogleAppsCloudidentityDevicesV1CustomAttributeValue | undefined;
+};
 export type GoogleAppsCloudidentityDevicesV1ClientStateManagedEnum =
   | "MANAGED_STATE_UNSPECIFIED"
   | "MANAGED"
   | "UNMANAGED";
 /** Represents the state associated with an API client calling the Devices API. Resource representing ClientState and supports updates from API users */
 export interface GoogleAppsCloudidentityDevicesV1ClientState {
-  /** The compliance state of the resource as specified by the API client. */
-  complianceState?:
-    | GoogleAppsCloudidentityDevicesV1ClientStateComplianceStateEnum
-    | (string & {})
-    | undefined;
-  /** The map of key-value attributes stored by callers specific to a device. The total serialized length of this map may not exceed 10KB. No limit is placed on the number of attributes in a map. */
-  keyValuePairs?: GoogleAppsCloudidentityDevicesV1CustomAttributeValueMap | undefined;
-  /** Output only. The owner of the ClientState */
-  ownerType?: GoogleAppsCloudidentityDevicesV1ClientStateOwnerTypeEnum | (string & {}) | undefined;
-  /** The caller can specify asset tags for this resource */
-  assetTags?: StringList | undefined;
+  /** This field may be used to store a unique identifier for the API resource within which these CustomAttributes are a field. */
+  customId?: string | undefined;
+  /** Output only. The time the client state data was created. */
+  createTime?: string | undefined;
+  /** A descriptive cause of the health score. */
+  scoreReason?: string | undefined;
   /** Output only. The time the client state data was last updated. */
   lastUpdateTime?: string | undefined;
   /** The Health score of the resource. The Health score is the callers specification of the condition of the device from a usability point of view. For example, a third-party device management provider may specify a health score based on its compliance with organizational policies. */
@@ -921,18 +916,23 @@ export interface GoogleAppsCloudidentityDevicesV1ClientState {
     | GoogleAppsCloudidentityDevicesV1ClientStateHealthScoreEnum
     | (string & {})
     | undefined;
-  /** A descriptive cause of the health score. */
-  scoreReason?: string | undefined;
-  /** The management state of the resource as specified by the API client. */
-  managed?: GoogleAppsCloudidentityDevicesV1ClientStateManagedEnum | (string & {}) | undefined;
+  /** Output only. The owner of the ClientState */
+  ownerType?: GoogleAppsCloudidentityDevicesV1ClientStateOwnerTypeEnum | (string & {}) | undefined;
+  /** The compliance state of the resource as specified by the API client. */
+  complianceState?:
+    | GoogleAppsCloudidentityDevicesV1ClientStateComplianceStateEnum
+    | (string & {})
+    | undefined;
+  /** The caller can specify asset tags for this resource */
+  assetTags?: StringList | undefined;
+  /** The map of key-value attributes stored by callers specific to a device. The total serialized length of this map may not exceed 10KB. No limit is placed on the number of attributes in a map. */
+  keyValuePairs?: GoogleAppsCloudidentityDevicesV1CustomAttributeValueMap | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientState/{partner}`, where partner corresponds to the partner storing the data. For partners belonging to the "BeyondCorp Alliance", this is the partner ID specified to you by Google. For all other callers, this is a string of the form: `{customer}-suffix`, where `customer` is your customer ID. The *suffix* is any string the caller specifies. This string will be displayed verbatim in the administration console. This suffix is used in setting up Custom Access Levels in Context-Aware Access. Your organization's customer ID can be obtained from the URL: `GET https://www.googleapis.com/admin/directory/v1/customers/my_customer` The `id` field in the response contains the customer ID starting with the letter 'C'. The customer ID to be used in this API is the string after the letter 'C' (not including 'C') */
   name?: string | undefined;
   /** The token that needs to be passed back for concurrency control in updates. Token needs to be passed back in UpdateRequest */
   etag?: string | undefined;
-  /** Output only. The time the client state data was created. */
-  createTime?: string | undefined;
-  /** This field may be used to store a unique identifier for the API resource within which these CustomAttributes are a field. */
-  customId?: string | undefined;
+  /** The management state of the resource as specified by the API client. */
+  managed?: GoogleAppsCloudidentityDevicesV1ClientStateManagedEnum | (string & {}) | undefined;
 }
 export interface GetGroupsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group` to retrieve. Must be of the form `groups/{group}`. */
@@ -966,14 +966,14 @@ export interface DsaPublicKeyInfo {
 }
 /** Credential for verifying signatures produced by the Identity Provider. */
 export interface IdpCredential {
-  /** Output only. Information of a RSA public key. */
-  rsaKeyInfo?: RsaPublicKeyInfo | undefined;
   /** Output only. Time when the `IdpCredential` was last updated. */
   updateTime?: string | undefined;
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the credential. */
-  name?: string | undefined;
+  /** Output only. Information of a RSA public key. */
+  rsaKeyInfo?: RsaPublicKeyInfo | undefined;
   /** Output only. Information of a DSA public key. */
   dsaKeyInfo?: DsaPublicKeyInfo | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the credential. */
+  name?: string | undefined;
 }
 export interface GetInboundSsoAssignmentsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSsoAssignment to fetch. Format: `inboundSsoAssignments/{assignment}` */
@@ -990,10 +990,10 @@ export interface GetPoliciesRequest {
   name: string;
 }
 export interface GetSecuritySettingsGroupsRequest {
-  /** Required. The security settings to retrieve. Format: `groups/{group_id}/securitySettings` */
-  name: string;
   /** Field-level read mask of which fields to return. "*" returns all fields. If not specified, all fields will be returned. May only contain the following field: `member_restriction`. */
   readMask?: string | undefined;
+  /** Required. The security settings to retrieve. Format: `groups/{group_id}/securitySettings` */
+  name: string;
 }
 export type RestrictionEvaluationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1008,17 +1008,17 @@ export interface RestrictionEvaluation {
 }
 /** The definition of MemberRestriction */
 export interface MemberRestriction {
-  /** Member Restriction as defined by CEL expression. Supported restrictions are: `member.customer_id` and `member.type`. Valid values for `member.type` are `1`, `2` and `3`. They correspond to USER, SERVICE_ACCOUNT, and GROUP respectively. The value for `member.customer_id` only supports `groupCustomerId()` currently which means the customer id of the group will be used for restriction. Supported operators are `&&`, `||` and `==`, corresponding to AND, OR, and EQUAL. Examples: Allow only service accounts of given customer to be members. `member.type == 2 && member.customer_id == groupCustomerId()` Allow only users or groups to be members. `member.type == 1 || member.type == 3` */
-  query?: string | undefined;
   /** The evaluated state of this restriction on a group. */
   evaluation?: RestrictionEvaluation | undefined;
+  /** Member Restriction as defined by CEL expression. Supported restrictions are: `member.customer_id` and `member.type`. Valid values for `member.type` are `1`, `2` and `3`. They correspond to USER, SERVICE_ACCOUNT, and GROUP respectively. The value for `member.customer_id` only supports `groupCustomerId()` currently which means the customer id of the group will be used for restriction. Supported operators are `&&`, `||` and `==`, corresponding to AND, OR, and EQUAL. Examples: Allow only service accounts of given customer to be members. `member.type == 2 && member.customer_id == groupCustomerId()` Allow only users or groups to be members. `member.type == 1 || member.type == 3` */
+  query?: string | undefined;
 }
 /** The definition of security settings. */
 export interface SecuritySettings {
-  /** Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
-  name?: string | undefined;
   /** The Member Restriction value */
   memberRestriction?: MemberRestriction | undefined;
+  /** Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
+  name?: string | undefined;
 }
 export interface IsInvitableUserCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
@@ -1030,32 +1030,32 @@ export interface IsInvitableUserResponse {
   isInvitableUser?: boolean | undefined;
 }
 export interface ListAllowlistedDomainsRequest {
-  /** Optional. Specifies the requested page size. If unspecified, the service returns at most 5000 domains. The maximum value is 5000; values above 5000 coerce to 5000. The limits can change over time. */
-  pageSize?: number | undefined;
   /** Optional. Identifies a token from a previous page of results, if any. */
   pageToken?: string | undefined;
+  /** Optional. Specifies the requested page size. If unspecified, the service returns at most 5000 domains. The maximum value is 5000; values above 5000 coerce to 5000. The limits can change over time. */
+  pageSize?: number | undefined;
   /** Optional. Provides an optional filter for list results. Currently, only exact matches on the domain are supported, such as "domain = 'google.com'", with no composite conditions. */
   filter?: string | undefined;
 }
 export type AllowlistedDomainList = Array<AllowlistedDomain>;
 /** Response message for AllowlistedDomainsService.ListAllowlistedDomains. */
 export interface ListAllowlistedDomainsResponse {
-  /** Contains the list of domains in the allowlist. There is no defined ordering of domains within a result. */
-  allowlistedDomains?: AllowlistedDomainList | undefined;
   /** Contains the next page token if the result is not exhaustive. If there are no more results, this token is empty. */
   nextPageToken?: string | undefined;
+  /** Contains the list of domains in the allowlist. There is no defined ordering of domains within a result. */
+  allowlistedDomains?: AllowlistedDomainList | undefined;
 }
 export interface ListCustomersUserinvitationsRequest {
-  /** Optional. The maximum number of UserInvitation resources to return. If unspecified, at most 100 resources will be returned. The maximum value is 200; values above 200 will be set to 200. */
-  pageSize?: number | undefined;
-  /** Required. The customer ID of the Google Workspace or Cloud Identity account the UserInvitation resources are associated with. */
-  parent: string;
-  /** Optional. A query string for filtering `UserInvitation` results by their current state, in the format: `"state=='invited'"`. */
-  filter?: string | undefined;
-  /** Optional. The sort order of the list results. You can sort the results in descending order based on either email or last update timestamp but not both, using `order_by="email desc"`. Currently, sorting is supported for `update_time asc`, `update_time desc`, `email asc`, and `email desc`. If not specified, results will be returned based on `email asc` order. */
-  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListUserInvitations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBooks` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. A query string for filtering `UserInvitation` results by their current state, in the format: `"state=='invited'"`. */
+  filter?: string | undefined;
+  /** Optional. The maximum number of UserInvitation resources to return. If unspecified, at most 100 resources will be returned. The maximum value is 200; values above 200 will be set to 200. */
+  pageSize?: number | undefined;
+  /** Optional. The sort order of the list results. You can sort the results in descending order based on either email or last update timestamp but not both, using `order_by="email desc"`. Currently, sorting is supported for `update_time asc`, `update_time desc`, `email asc`, and `email desc`. If not specified, results will be returned based on `email asc` order. */
+  orderBy?: string | undefined;
+  /** Required. The customer ID of the Google Workspace or Cloud Identity account the UserInvitation resources are associated with. */
+  parent: string;
 }
 export type UserInvitationList = Array<UserInvitation>;
 /** Response message for UserInvitation listing request. */
@@ -1070,18 +1070,18 @@ export type ListDevicesViewEnum =
   | "COMPANY_INVENTORY"
   | "USER_ASSIGNED_DEVICES";
 export interface ListDevicesRequest {
-  /** Optional. Order specification for devices in the response. Only one of the following field names may be used to specify the order: `create_time`, `last_sync_time`, `model`, `os_version`, `device_type` and `serial_number`. `desc` may be specified optionally at the end to specify results to be sorted in descending order. Default order is ascending. */
-  orderBy?: string | undefined;
-  /** Optional. The view to use for the List request. */
-  view?: ListDevicesViewEnum | (string & {}) | undefined;
   /** Optional. A page token, received from a previous `ListDevices` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDevices` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. Additional restrictions when fetching list of devices. For a list of search fields, refer to [Mobile device search fields](https://developers.google.com/admin-sdk/directory/v1/search-operators). Multiple search fields are separated by the space character. */
-  filter?: string | undefined;
+  /** Optional. Order specification for devices in the response. Only one of the following field names may be used to specify the order: `create_time`, `last_sync_time`, `model`, `os_version`, `device_type` and `serial_number`. `desc` may be specified optionally at the end to specify results to be sorted in descending order. Default order is ascending. */
+  orderBy?: string | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer in the format: `customers/{customer}`, where customer is the customer to whom the device belongs. If you're using this API for your own organization, use `customers/my_customer`. If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
   /** Optional. The maximum number of Devices to return. If unspecified, at most 20 Devices will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** Optional. Additional restrictions when fetching list of devices. For a list of search fields, refer to [Mobile device search fields](https://developers.google.com/admin-sdk/directory/v1/search-operators). Multiple search fields are separated by the space character. */
+  filter?: string | undefined;
+  /** Optional. The view to use for the List request. */
+  view?: ListDevicesViewEnum | (string & {}) | undefined;
 }
 export type GoogleAppsCloudidentityDevicesV1DeviceList =
   Array<GoogleAppsCloudidentityDevicesV1Device>;
@@ -1095,35 +1095,35 @@ export interface GoogleAppsCloudidentityDevicesV1ListDevicesResponse {
 export interface ListDevicesDeviceUsersRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** Optional. The maximum number of DeviceUsers to return. If unspecified, at most 5 DeviceUsers will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
+  pageSize?: number | undefined;
+  /** Optional. Additional restrictions when fetching list of devices. For a list of search fields, refer to [Mobile device search fields](https://developers.google.com/admin-sdk/directory/v1/search-operators). Multiple search fields are separated by the space character. */
+  filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListDeviceUsers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBooks` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. To list all DeviceUsers, set this to "devices/-". To list all DeviceUsers owned by a device, set this to the resource name of the device. Format: devices/{device} */
   parent: string;
   /** Optional. Order specification for devices in the response. */
   orderBy?: string | undefined;
-  /** Optional. Additional restrictions when fetching list of devices. For a list of search fields, refer to [Mobile device search fields](https://developers.google.com/admin-sdk/directory/v1/search-operators). Multiple search fields are separated by the space character. */
-  filter?: string | undefined;
-  /** Optional. The maximum number of DeviceUsers to return. If unspecified, at most 5 DeviceUsers will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
-  pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListDeviceUsers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBooks` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type GoogleAppsCloudidentityDevicesV1DeviceUserList =
   Array<GoogleAppsCloudidentityDevicesV1DeviceUser>;
 /** Response message that is returned from the ListDeviceUsers method. */
 export interface GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse {
-  /** Devices meeting the list restrictions. */
-  deviceUsers?: GoogleAppsCloudidentityDevicesV1DeviceUserList | undefined;
   /** Token to retrieve the next page of results. Empty if there are no more results. */
   nextPageToken?: string | undefined;
+  /** Devices meeting the list restrictions. */
+  deviceUsers?: GoogleAppsCloudidentityDevicesV1DeviceUserList | undefined;
 }
 export interface ListDevicesDeviceUsersClientStatesRequest {
   /** Required. To list all ClientStates, set this to "devices/-/deviceUsers/-". To list all ClientStates owned by a DeviceUser, set this to the resource name of the DeviceUser. Format: devices/{device}/deviceUsers/{deviceUser} */
   parent: string;
   /** Optional. Order specification for client states in the response. */
   orderBy?: string | undefined;
-  /** Optional. A page token, received from a previous `ListClientStates` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClientStates` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. Additional restrictions when fetching list of client states. */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListClientStates` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClientStates` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
 }
@@ -1138,49 +1138,49 @@ export interface GoogleAppsCloudidentityDevicesV1ListClientStatesResponse {
 }
 export type ListGroupsViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListGroupsRequest {
+  /** Required. The parent resource under which to list all `Group` resources. Must be of the form `identitysources/{identity_source}` for external- identity-mapped groups or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
+  parent?: string | undefined;
+  /** The level of detail to be returned. If unspecified, defaults to `View.BASIC`. */
+  view?: ListGroupsViewEnum | (string & {}) | undefined;
   /** The maximum number of results to return. Note that the number of results returned may be less than this value even if there are more available results. To fetch all results, clients must continue calling this method repeatedly until the response no longer contains a `next_page_token`. If unspecified, defaults to 200 for `View.BASIC` and to 50 for `View.FULL`. Must not be greater than 1000 for `View.BASIC` or 500 for `View.FULL`. */
   pageSize?: number | undefined;
   /** The `next_page_token` value returned from a previous list request, if any. */
   pageToken?: string | undefined;
-  /** The level of detail to be returned. If unspecified, defaults to `View.BASIC`. */
-  view?: ListGroupsViewEnum | (string & {}) | undefined;
-  /** Required. The parent resource under which to list all `Group` resources. Must be of the form `identitysources/{identity_source}` for external- identity-mapped groups or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
-  parent?: string | undefined;
 }
 export type GroupList = Array<Group>;
 /** Response message for ListGroups operation. */
 export interface ListGroupsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results available for listing. */
-  nextPageToken?: string | undefined;
   /** Groups returned in response to list request. The results are not sorted. */
   groups?: GroupList | undefined;
+  /** Token to retrieve the next page of results, or empty if there are no more results available for listing. */
+  nextPageToken?: string | undefined;
 }
 export type ListGroupsMembershipsViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListGroupsMembershipsRequest {
+  /** The `next_page_token` value returned from a previous search request, if any. */
+  pageToken?: string | undefined;
   /** The maximum number of results to return. Note that the number of results returned may be less than this value even if there are more available results. To fetch all results, clients must continue calling this method repeatedly until the response no longer contains a `next_page_token`. If unspecified, defaults to 200 for `GroupView.BASIC` and to 50 for `GroupView.FULL`. Must not be greater than 1000 for `GroupView.BASIC` or 500 for `GroupView.FULL`. */
   pageSize?: number | undefined;
   /** Required. The parent `Group` resource under which to lookup the `Membership` name. Must be of the form `groups/{group}`. */
   parent: string;
   /** The level of detail to be returned. If unspecified, defaults to `View.BASIC`. */
   view?: ListGroupsMembershipsViewEnum | (string & {}) | undefined;
-  /** The `next_page_token` value returned from a previous search request, if any. */
-  pageToken?: string | undefined;
 }
 export type MembershipList = Array<Membership>;
 /** The response message for MembershipsService.ListMemberships. */
 export interface ListMembershipsResponse {
-  /** A continuation token to retrieve the next page of results, or empty if there are no more results available. */
-  nextPageToken?: string | undefined;
   /** The `Membership`s under the specified `parent`. */
   memberships?: MembershipList | undefined;
+  /** A continuation token to retrieve the next page of results, or empty if there are no more results available. */
+  nextPageToken?: string | undefined;
 }
 export interface ListInboundOidcSsoProfilesRequest {
   /** A [Common Expression Language](https://github.com/google/cel-spec) expression to filter the results. The only supported filter is filtering by customer. For example: `customer=="customers/C0123abc"`. Omitting the filter or specifying a filter of `customer=="customers/my_customer"` will return the profiles for the customer that the caller (authenticated user) belongs to. Specifying a filter of `customer==""` will return the global shared OIDC profiles. */
   filter?: string | undefined;
-  /** The maximum number of InboundOidcSsoProfiles to return. The service may return fewer than this value. If omitted (or defaulted to zero) the server will use a sensible default. This default may change over time. The maximum allowed value is 100. Requests with page_size greater than that will be silently interpreted as having this maximum value. */
-  pageSize?: number | undefined;
   /** A page token, received from a previous `ListInboundOidcSsoProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInboundOidcSsoProfiles` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** The maximum number of InboundOidcSsoProfiles to return. The service may return fewer than this value. If omitted (or defaulted to zero) the server will use a sensible default. This default may change over time. The maximum allowed value is 100. Requests with page_size greater than that will be silently interpreted as having this maximum value. */
+  pageSize?: number | undefined;
 }
 export type InboundOidcSsoProfileList = Array<InboundOidcSsoProfile>;
 /** Response of the InboundOidcSsoProfilesService.ListInboundOidcSsoProfiles method. */
@@ -1207,10 +1207,10 @@ export interface ListInboundSamlSsoProfilesResponse {
   inboundSamlSsoProfiles?: InboundSamlSsoProfileList | undefined;
 }
 export interface ListInboundSamlSsoProfilesIdpCredentialsRequest {
-  /** A page token, received from a previous `ListIdpCredentials` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdpCredentials` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of `IdpCredential`s. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   parent: string;
+  /** A page token, received from a previous `ListIdpCredentials` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdpCredentials` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** The maximum number of `IdpCredential`s to return. The service may return fewer than this value. */
   pageSize?: number | undefined;
 }
@@ -1225,10 +1225,10 @@ export interface ListIdpCredentialsResponse {
 export interface ListInboundSsoAssignmentsRequest {
   /** The maximum number of assignments to return. The service may return fewer than this value. If omitted (or defaulted to zero) the server will use a sensible default. This default may change over time. The maximum allowed value is 100, though requests with page_size greater than that will be silently interpreted as having this maximum value. This may increase in the futue. */
   pageSize?: number | undefined;
+  /** A CEL expression to filter the results. The only supported filter is filtering by customer. For example: `customer=="customers/C0123abc"`. Omitting the filter or specifying a filter of `customer=="customers/my_customer"` will return the assignments for the customer that the caller (authenticated user) belongs to. */
+  filter?: string | undefined;
   /** A page token, received from a previous `ListInboundSsoAssignments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInboundSsoAssignments` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** A CEL expression to filter the results. The only supported filter is filtering by customer. For example: `customer==customers/C0123abc`. Omitting the filter or specifying a filter of `customer==customers/my_customer` will return the assignments for the customer that the caller (authenticated user) belongs to. */
-  filter?: string | undefined;
 }
 export type InboundSsoAssignmentList = Array<InboundSsoAssignment>;
 /** Response of the InboundSsoAssignmentsService.ListInboundSsoAssignments method. */
@@ -1239,12 +1239,12 @@ export interface ListInboundSsoAssignmentsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
-  /** Optional. A CEL expression for filtering the results. Policies can be filtered using the expression in the following ways: - Filter by application: `setting.type.matches('^settings/gmail\\..*$')` - Filter by setting type: `setting.type.matches('^.*\\.service_status$')` - Filter by customer: `customer == "customers/{customer}"` Where `customer` is the `id` from the [Admin SDK `Customer` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). You may use `customers/my_customer` to specify your own organization. When no `customer` is mentioned it will be default to `customers/my_customer`. You may only filter on policies for a single customer at a time. The above clauses can be combined together in a single filter expression with the `&&` and `||` operators, like in the following example: `customer == "customers/my_customer" && ( setting.type.matches('^settings/gmail\\..*$') || setting.type.matches('^.*\\.service_status$') )`. */
-  filter?: string | undefined;
   /** Optional. The pagination token received from a prior call to PoliciesService.ListPolicies to retrieve the next page of results. When paginating, all other parameters provided to `ListPoliciesRequest` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of results to return. The service can return fewer than this number. If omitted or set to `0`, the default is `50` results per page. The maximum allowed value is `100`. `page_size` values greater than `100` default to `100`. */
   pageSize?: number | undefined;
+  /** Optional. A CEL expression for filtering the results. Policies can be filtered using the expression in the following ways: - Filter by application: `setting.type.matches('^settings/gmail\\..*$')` - Filter by setting type: `setting.type.matches('^.*\\.service_status$')` - Filter by customer: `customer == "customers/{customer}"` Where `customer` is the `id` from the [Admin SDK `Customer` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). You may use `customers/my_customer` to specify your own organization. When no `customer` is mentioned it will be default to `customers/my_customer`. You may only filter on policies for a single customer at a time. The above clauses can be combined together in a single filter expression with the `&&` and `||` operators, like in the following example: `customer == "customers/my_customer" && ( setting.type.matches('^settings/gmail\\..*$') || setting.type.matches('^.*\\.service_status$') )`. */
+  filter?: string | undefined;
 }
 export type PolicyList = Array<Policy>;
 /** The response message for PoliciesService.ListPolicies. */
@@ -1259,27 +1259,27 @@ export interface LookupDevicesDeviceUsersRequest {
   partner?: string | undefined;
   /** Must be set to "devices/-/deviceUsers" to search across all DeviceUser belonging to the user. */
   parent: string;
-  /** The user whose DeviceUser's resource name will be fetched. Must be set to 'me' to fetch the DeviceUser's resource name for the calling user. */
-  userId?: string | undefined;
+  /** Android Id returned by [Settings.Secure#ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID). */
+  androidId?: string | undefined;
   /** The maximum number of DeviceUsers to return. If unspecified, at most 20 DeviceUsers will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
   pageSize?: number | undefined;
   /** A page token, received from a previous `LookupDeviceUsers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `LookupDeviceUsers` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. The partner-specified device identifier assigned to the iOS device that initiated the Lookup API call. This string must match the value of the iosDeviceId key in the app config dictionary provided to Google Workspace apps. */
-  iosDeviceId?: string | undefined;
   /** Raw Resource Id used by Google Endpoint Verification. If the user is enrolled into Google Endpoint Verification, this id will be saved as the 'device_resource_id' field in the following platform dependent files. Mac: ~/.secureConnect/context_aware_config.json Windows: C:\Users\%USERPROFILE%\.secureConnect\context_aware_config.json Linux: ~/.secureConnect/context_aware_config.json */
   rawResourceId?: string | undefined;
-  /** Android Id returned by [Settings.Secure#ANDROID_ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID). */
-  androidId?: string | undefined;
+  /** The user whose DeviceUser's resource name will be fetched. Must be set to 'me' to fetch the DeviceUser's resource name for the calling user. */
+  userId?: string | undefined;
+  /** Optional. The partner-specified device identifier assigned to the iOS device that initiated the Lookup API call. This string must match the value of the iosDeviceId key in the app config dictionary provided to Google Workspace apps. */
+  iosDeviceId?: string | undefined;
 }
 /** Response containing resource names of the DeviceUsers associated with the caller's credentials. */
 export interface GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse {
+  /** The customer resource name that may be passed back to other Devices API methods such as List, Get, etc. */
+  customer?: string | undefined;
   /** [Resource names](https://cloud.google.com/apis/design/resource_names) of the DeviceUsers in the format: `devices/{device}/deviceUsers/{user_resource}`, where device is the unique ID assigned to a Device and user_resource is the unique user ID */
   names?: StringList | undefined;
   /** Token to retrieve the next page of results. Empty if there are no more results. */
   nextPageToken?: string | undefined;
-  /** The customer resource name that may be passed back to other Devices API methods such as List, Get, etc. */
-  customer?: string | undefined;
 }
 export interface LookupGroupsRequest {
   /** The namespace in which the entity exists. If not specified, the `EntityKey` represents a Google-managed entity such as a Google user or a Google Group. If specified, the `EntityKey` represents an external-identity-mapped group. The namespace must correspond to an identity source created in Admin Console and must be in the form of `identitysources/{identity_source}`. */
@@ -1293,12 +1293,12 @@ export interface LookupGroupNameResponse {
   name?: string | undefined;
 }
 export interface LookupGroupsMembershipsRequest {
+  /** The ID of the entity. For Google-managed entities, the `id` should be the email address of an existing group or user. Email addresses need to adhere to [name guidelines for users and groups](https://support.google.com/a/answer/9193374). For external-identity-mapped entities, the `id` must be a string conforming to the Identity Source's requirements. Must be unique within a `namespace`. */
+  "memberKey.id"?: string | undefined;
   /** Required. The parent `Group` resource under which to lookup the `Membership` name. Must be of the form `groups/{group}`. */
   parent: string;
   /** The namespace in which the entity exists. If not specified, the `EntityKey` represents a Google-managed entity such as a Google user or a Google Group. If specified, the `EntityKey` represents an external-identity-mapped group. The namespace must correspond to an identity source created in Admin Console and must be in the form of `identitysources/{identity_source}`. */
   "memberKey.namespace"?: string | undefined;
-  /** The ID of the entity. For Google-managed entities, the `id` should be the email address of an existing group or user. Email addresses need to adhere to [name guidelines for users and groups](https://support.google.com/a/answer/9193374). For external-identity-mapped entities, the `id` must be a string conforming to the Identity Source's requirements. Must be unique within a `namespace`. */
-  "memberKey.id"?: string | undefined;
 }
 /** The response message for MembershipsService.LookupMembershipName. */
 export interface LookupMembershipNameResponse {
@@ -1335,105 +1335,105 @@ export interface PatchDevicesDeviceUsersClientStatesRequest extends Omit<
   GoogleAppsCloudidentityDevicesV1ClientState,
   "name"
 > {
-  /** Optional. Comma-separated list of fully qualified names of fields to be updated. If not specified, all updatable fields in ClientState are updated. */
-  updateMask?: string | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** Optional. Comma-separated list of fully qualified names of fields to be updated. If not specified, all updatable fields in ClientState are updated. */
+  updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientState/{partner}`, where partner corresponds to the partner storing the data. For partners belonging to the "BeyondCorp Alliance", this is the partner ID specified to you by Google. For all other callers, this is a string of the form: `{customer}-suffix`, where `customer` is your customer ID. The *suffix* is any string the caller specifies. This string will be displayed verbatim in the administration console. This suffix is used in setting up Custom Access Levels in Context-Aware Access. Your organization's customer ID can be obtained from the URL: `GET https://www.googleapis.com/admin/directory/v1/customers/my_customer` The `id` field in the response contains the customer ID starting with the letter 'C'. The customer ID to be used in this API is the string after the letter 'C' (not including 'C') */
   name: string;
 }
 export interface PatchGroupsRequest extends Omit<Group, "name"> {
-  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group}`. */
-  name: string;
   /** Required. The names of fields to update. May only contain the following field names: `display_name`, `description`, `labels`. */
   updateMask?: string | undefined;
+  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group}`. */
+  name: string;
 }
 export interface PatchInboundOidcSsoProfilesRequest extends Omit<InboundOidcSsoProfile, "name"> {
-  /** Required. The list of fields to be updated. */
-  updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name: string;
+  /** Required. The list of fields to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchInboundSamlSsoProfilesRequest extends Omit<InboundSamlSsoProfile, "name"> {
+  /** Required. The list of fields to be updated. */
+  updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name: string;
-  /** Required. The list of fields to be updated. */
-  updateMask?: string | undefined;
 }
 export interface PatchInboundSsoAssignmentsRequest extends Omit<InboundSsoAssignment, "name"> {
-  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
-  name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
+  name: string;
 }
 export interface PatchPoliciesRequest extends Omit<Policy, "name"> {
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name: string;
 }
 export interface SearchDirectGroupsGroupsMembershipsRequest {
-  /** Required. A CEL expression that MUST include member specification AND label(s). Users can search on label attributes of groups. CONTAINS match ('in') is supported on labels. Identity-mapped groups are uniquely identified by both a `member_key_id` and a `member_key_namespace`, which requires an additional query input: `member_key_namespace`. Example query: `member_key_id == 'member_key_id_value' && 'label_value' in labels` */
-  query?: string | undefined;
-  /** The `next_page_token` value returned from a previous list request, if any */
-  pageToken?: string | undefined;
-  /** The ordering of membership relation for the display name or email in the response. The syntax for this field can be found at https://cloud.google.com/apis/design/design_patterns#sorting_order. Example: Sort by the ascending display name: order_by="group_name" or order_by="group_name asc". Sort by the descending display name: order_by="group_name desc". Sort by the ascending group key: order_by="group_key" or order_by="group_key asc". Sort by the descending group key: order_by="group_key desc". */
-  orderBy?: string | undefined;
   /** The default page size is 200 (max 1000). */
   pageSize?: number | undefined;
+  /** The `next_page_token` value returned from a previous list request, if any */
+  pageToken?: string | undefined;
+  /** Required. A CEL expression that MUST include member specification AND label(s). Users can search on label attributes of groups. CONTAINS match ('in') is supported on labels. Identity-mapped groups are uniquely identified by both a `member_key_id` and a `member_key_namespace`, which requires an additional query input: `member_key_namespace`. Example query: `member_key_id == 'member_key_id_value' && 'label_value' in labels` */
+  query?: string | undefined;
+  /** The ordering of membership relation for the display name or email in the response. The syntax for this field can be found at https://cloud.google.com/apis/design/design_patterns#sorting_order. Example: Sort by the ascending display name: order_by="group_name" or order_by="group_name asc". Sort by the descending display name: order_by="group_name desc". Sort by the ascending group key: order_by="group_key" or order_by="group_key asc". Sort by the descending group key: order_by="group_key desc". */
+  orderBy?: string | undefined;
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: groups/{group_id}, where group_id is always '-' as this API will search across all groups for a given member. */
   parent: string;
 }
 /** Message containing membership relation. */
 export interface MembershipRelation {
+  /** The `EntityKey` of the `Group`. */
+  groupKey?: EntityKey | undefined;
+  /** An extended description to help users determine the purpose of a `Group`. */
+  description?: string | undefined;
+  /** The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
+  group?: string | undefined;
   /** One or more label entries that apply to the Group. Currently supported labels contain a key with an empty value. */
   labels?: StringMap | undefined;
   /** The `MembershipRole`s that apply to the `Membership`. */
   roles?: MembershipRoleList | undefined;
-  /** The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
-  group?: string | undefined;
-  /** The `EntityKey` of the `Group`. */
-  groupKey?: EntityKey | undefined;
   /** The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership`. Shall be of the form `groups/{group_id}/memberships/{membership_id}`. */
   membership?: string | undefined;
-  /** An extended description to help users determine the purpose of a `Group`. */
-  description?: string | undefined;
   /** The display name of the `Group`. */
   displayName?: string | undefined;
 }
 export type MembershipRelationList = Array<MembershipRelation>;
 /** The response message for MembershipsService.SearchDirectGroups. */
 export interface SearchDirectGroupsResponse {
-  /** List of direct groups satisfying the query. */
-  memberships?: MembershipRelationList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results available for listing. */
   nextPageToken?: string | undefined;
+  /** List of direct groups satisfying the query. */
+  memberships?: MembershipRelationList | undefined;
 }
 export type SearchGroupsViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface SearchGroupsRequest {
-  /** The maximum number of results to return. Note that the number of results returned may be less than this value even if there are more available results. To fetch all results, clients must continue calling this method repeatedly until the response no longer contains a `next_page_token`. If unspecified, defaults to 200 for `GroupView.BASIC` and 50 for `GroupView.FULL`. Must not be greater than 1000 for `GroupView.BASIC` or 500 for `GroupView.FULL`. */
-  pageSize?: number | undefined;
-  /** The level of detail to be returned. If unspecified, defaults to `View.BASIC`. */
-  view?: SearchGroupsViewEnum | (string & {}) | undefined;
   /** The `next_page_token` value returned from a previous search request, if any. */
   pageToken?: string | undefined;
+  /** The level of detail to be returned. If unspecified, defaults to `View.BASIC`. */
+  view?: SearchGroupsViewEnum | (string & {}) | undefined;
   /** Required. The search query. * Must be specified in [Common Expression Language](https://opensource.google/projects/cel). See [CEL Introduction](https://github.com/google/cel-spec/blob/master/doc/intro.md) for CEL syntax usage and examples. * Must contain equality operators on the parent, e.g. `parent == 'customers/{customer_id}'`. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) * Can contain optional inclusion operators on `labels` such as `'cloudidentity.googleapis.com/groups.discussion_forum' in labels`). * Can contain an optional equality operator on `domain_name`. e.g. `domain_name == 'examplepetstore.com'` * Can contain optional `startsWith/contains/equality` operators on `group_key`, e.g. `group_key.startsWith('dev')`, `group_key.contains('dev'), group_key == 'dev@examplepetstore.com'` * Can contain optional `startsWith/contains/equality` operators on `display_name`, such as `display_name.startsWith('dev')` , `display_name.contains('dev')`, `display_name == 'dev'` Examples: * Search for all discussion forums under a customer: `parent == 'customers/C046psxkn' && 'cloudidentity.googleapis.com/groups.discussion_forum' in labels` * Search for groups with key starting with 'sales': `parent == 'customers/C046psxkn' && group_key.startsWith('sales')` * Search for groups with display name containing 'test': `parent == 'customers/C046psxkn' && display_name.contains('test')` */
   query?: string | undefined;
+  /** The maximum number of results to return. Note that the number of results returned may be less than this value even if there are more available results. To fetch all results, clients must continue calling this method repeatedly until the response no longer contains a `next_page_token`. If unspecified, defaults to 200 for `GroupView.BASIC` and 50 for `GroupView.FULL`. Must not be greater than 1000 for `GroupView.BASIC` or 500 for `GroupView.FULL`. */
+  pageSize?: number | undefined;
 }
 /** The response message for GroupsService.SearchGroups. */
 export interface SearchGroupsResponse {
-  /** The `Group` resources that match the search query. */
-  groups?: GroupList | undefined;
   /** A continuation token to retrieve the next page of results, or empty if there are no more results available. */
   nextPageToken?: string | undefined;
+  /** The `Group` resources that match the search query. */
+  groups?: GroupList | undefined;
 }
 export interface SearchTransitiveGroupsGroupsMembershipsRequest {
-  /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is always '-' as this API will search across all groups for a given member. */
-  parent: string;
   /** The `next_page_token` value returned from a previous list request, if any. */
   pageToken?: string | undefined;
-  /** The default page size is 200 (max 1000). */
-  pageSize?: number | undefined;
   /** Required. A CEL expression that MUST include member specification AND label(s). This is a `required` field. Users can search on label attributes of groups. CONTAINS match ('in') is supported on labels. Identity-mapped groups are uniquely identified by both a `member_key_id` and a `member_key_namespace`, which requires an additional query input: `member_key_namespace`. Example query: `member_key_id == 'member_key_id_value' && in labels` Query may optionally contain equality operators on the parent of the group restricting the search within a particular customer, e.g. `parent == 'customers/{customer_id}'`. The `customer_id` must begin with "C" (for example, 'C046psxkn'). This filtering is only supported for Admins with groups read permissions on the input customer. Example query: `member_key_id == 'member_key_id_value' && in labels && parent == 'customers/C046psxkn'` */
   query?: string | undefined;
+  /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is always '-' as this API will search across all groups for a given member. */
+  parent: string;
+  /** The default page size is 200 (max 1000). */
+  pageSize?: number | undefined;
 }
 export type GroupRelationRelationTypeEnum =
   | "RELATION_TYPE_UNSPECIFIED"
@@ -1450,32 +1450,32 @@ export type TransitiveMembershipRoleList = Array<TransitiveMembershipRole>;
 export interface GroupRelation {
   /** The relation between the member and the transitive group. */
   relationType?: GroupRelationRelationTypeEnum | undefined;
-  /** Display name for this group. */
-  displayName?: string | undefined;
-  /** Entity key has an id and a namespace. In case of discussion forums, the id will be an email address without a namespace. */
-  groupKey?: EntityKey | undefined;
-  /** Resource name for this group. */
-  group?: string | undefined;
   /** Membership roles of the member for the group. */
   roles?: TransitiveMembershipRoleList | undefined;
+  /** Resource name for this group. */
+  group?: string | undefined;
+  /** Entity key has an id and a namespace. In case of discussion forums, the id will be an email address without a namespace. */
+  groupKey?: EntityKey | undefined;
   /** Labels for Group resource. */
   labels?: StringMap | undefined;
+  /** Display name for this group. */
+  displayName?: string | undefined;
 }
 export type GroupRelationList = Array<GroupRelation>;
 /** The response message for MembershipsService.SearchTransitiveGroups. */
 export interface SearchTransitiveGroupsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results available for listing. */
-  nextPageToken?: string | undefined;
   /** List of transitive groups satisfying the query. */
   memberships?: GroupRelationList | undefined;
+  /** Token to retrieve the next page of results, or empty if there are no more results available for listing. */
+  nextPageToken?: string | undefined;
 }
 export interface SearchTransitiveMembershipsGroupsMembershipsRequest {
   /** The default page size is 200 (max 1000). */
   pageSize?: number | undefined;
-  /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is the unique ID assigned to the Group. */
-  parent: string;
   /** The `next_page_token` value returned from a previous list request, if any. */
   pageToken?: string | undefined;
+  /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is the unique ID assigned to the Group. */
+  parent: string;
 }
 export type MemberRelationRelationTypeEnum =
   | "RELATION_TYPE_UNSPECIFIED"
@@ -1486,12 +1486,12 @@ export type MemberRelationRelationTypeEnum =
 export interface MemberRelation {
   /** Resource name for this member. */
   member?: string | undefined;
-  /** The membership role details (i.e name of role and expiry time). */
-  roles?: TransitiveMembershipRoleList | undefined;
-  /** The relation between the group and the transitive member. */
-  relationType?: MemberRelationRelationTypeEnum | undefined;
   /** Entity key has an id and a namespace. In case of discussion forums, the id will be an email address without a namespace. */
   preferredMemberKey?: EntityKeyList | undefined;
+  /** The relation between the group and the transitive member. */
+  relationType?: MemberRelationRelationTypeEnum | undefined;
+  /** The membership role details (i.e name of role and expiry time). */
+  roles?: TransitiveMembershipRoleList | undefined;
 }
 export type MemberRelationList = Array<MemberRelation>;
 /** The response message for MembershipsService.SearchTransitiveMemberships. */
@@ -1510,17 +1510,17 @@ export interface SendCustomersUserinvitationsRequest {
   body?: CancelUserInvitationRequest | undefined;
 }
 export interface UpdateSecuritySettingsGroupsRequest extends Omit<SecuritySettings, "name"> {
-  /** Required. The fully-qualified names of fields to update. May only contain the following field: `member_restriction.query`. */
-  updateMask?: string | undefined;
   /** Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
   name: string;
+  /** Required. The fully-qualified names of fields to update. May only contain the following field: `member_restriction.query`. */
+  updateMask?: string | undefined;
 }
 /** Request message for wiping all data on the device. */
 export interface GoogleAppsCloudidentityDevicesV1WipeDeviceRequest {
-  /** Optional. Specifies if a user is able to factory reset a device after a Device Wipe. On iOS, this is called "Activation Lock", while on Android, this is known as "Factory Reset Protection". If true, this protection will be removed from the device, so that a user can successfully factory reset. If false, the setting is untouched on the device. */
-  removeResetLock?: boolean | undefined;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string | undefined;
+  /** Optional. Specifies if a user is able to factory reset a device after a Device Wipe. On iOS, this is called "Activation Lock", while on Android, this is known as "Factory Reset Protection". If true, this protection will be removed from the device, so that a user can successfully factory reset. If false, the setting is untouched on the device. */
+  removeResetLock?: boolean | undefined;
 }
 export interface WipeDevicesRequest extends GoogleAppsCloudidentityDevicesV1WipeDeviceRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
@@ -3380,114 +3380,114 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          supportsWorkProfile: S.optional(S.Boolean),
+          enabledUnknownSources: S.optional(S.Boolean),
+          verifyAppsEnabled: S.optional(S.Boolean),
+          ownerProfileAccount: S.optional(S.Boolean),
+          verifiedBoot: S.optional(S.Boolean),
+          ctsProfileMatch: S.optional(S.Boolean),
+          hasPotentiallyHarmfulApps: S.optional(S.Boolean),
+          ownershipPrivilege: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1AndroidAttributes" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          passwordProtectionWarningTrigger: S.optional(S.String),
+          isBulkDataEntryAnalysisEnabled: S.optional(S.Boolean),
+          isFileDownloadAnalysisEnabled: S.optional(S.Boolean),
+          browserManagementState: S.optional(S.String),
+          isSecurityEventAnalysisEnabled: S.optional(S.Boolean),
+          isChromeRemoteDesktopAppBlocked: S.optional(S.Boolean),
+          isFileUploadAnalysisEnabled: S.optional(S.Boolean),
+          isBuiltInDnsClientEnabled: S.optional(S.Boolean),
+          isRealtimeUrlCheckEnabled: S.optional(S.Boolean),
+          isThirdPartyBlockingEnabled: S.optional(S.Boolean),
+          safeBrowsingProtectionLevel: S.optional(S.String),
+          isSiteIsolationEnabled: S.optional(S.Boolean),
+          isChromeCleanupEnabled: S.optional(S.Boolean),
+          browserVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1BrowserInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          chromeProfileId: S.optional(S.String),
+          lastProfileSyncTime: S.optional(S.String),
+          chromeBrowserInfo: S.optional(__S(113, __c7, 1)),
+        }),
+      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1BrowserAttributes" });
+    case 3:
+      return S.Array(__S(114, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           minorVersion: S.optional(S.Number),
           majorVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1CertificateTemplate" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          validationState: S.optional(S.String),
+          certificateTemplate: S.optional(__S(116, __c7, 4)),
           validityExpirationTime: S.optional(S.String),
-          issuer: S.optional(S.String),
-          serialNumber: S.optional(S.String),
-          certificateTemplate: S.optional(__S(112, __c7, 0)),
+          validationState: S.optional(S.String),
           validityStartTime: S.optional(S.String),
+          serialNumber: S.optional(S.String),
           fingerprint: S.optional(S.String),
-          subject: S.optional(S.String),
           thumbprint: S.optional(S.String),
+          subject: S.optional(S.String),
+          issuer: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1CertificateAttributes" });
-    case 2:
-      return S.Array(__S(113, __c7, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          isChromeCleanupEnabled: S.optional(S.Boolean),
-          isRealtimeUrlCheckEnabled: S.optional(S.Boolean),
-          safeBrowsingProtectionLevel: S.optional(S.String),
-          browserManagementState: S.optional(S.String),
-          isSecurityEventAnalysisEnabled: S.optional(S.Boolean),
-          isBulkDataEntryAnalysisEnabled: S.optional(S.Boolean),
-          isSiteIsolationEnabled: S.optional(S.Boolean),
-          isBuiltInDnsClientEnabled: S.optional(S.Boolean),
-          isFileUploadAnalysisEnabled: S.optional(S.Boolean),
-          browserVersion: S.optional(S.String),
-          isFileDownloadAnalysisEnabled: S.optional(S.Boolean),
-          isThirdPartyBlockingEnabled: S.optional(S.Boolean),
-          isChromeRemoteDesktopAppBlocked: S.optional(S.Boolean),
-          passwordProtectionWarningTrigger: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1BrowserInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          chromeProfileId: S.optional(S.String),
-          lastProfileSyncTime: S.optional(S.String),
-          chromeBrowserInfo: S.optional(__S(115, __c7, 3)),
-        }),
-      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1BrowserAttributes" });
-    case 5:
-      return S.Array(__S(116, __c7, 4));
     case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          certificateAttributes: S.optional(__S(114, __c7, 2)),
-          browserAttributes: S.optional(__S(117, __c7, 5)),
+          browserAttributes: S.optional(__S(115, __c7, 3)),
           additionalSignals: S.optional(__S(1152, __c72, 0)),
+          certificateAttributes: S.optional(__S(118, __c7, 6)),
         }),
       ).annotate({
         identifier: "GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes",
       });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          enabledUnknownSources: S.optional(S.Boolean),
-          supportsWorkProfile: S.optional(S.Boolean),
-          ownerProfileAccount: S.optional(S.Boolean),
-          ctsProfileMatch: S.optional(S.Boolean),
-          hasPotentiallyHarmfulApps: S.optional(S.Boolean),
-          verifyAppsEnabled: S.optional(S.Boolean),
-          verifiedBoot: S.optional(S.Boolean),
-          ownershipPrivilege: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1AndroidAttributes" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          serialNumber: S.optional(S.String),
-          securityPatchTime: S.optional(S.String),
-          bootloaderVersion: S.optional(S.String),
-          hostname: S.optional(S.String),
-          releaseVersion: S.optional(S.String),
-          imei: S.optional(S.String),
-          endpointVerificationSpecificAttributes: S.optional(__S(118, __c7, 6)),
-          basebandVersion: S.optional(S.String),
-          androidSpecificAttributes: S.optional(__S(119, __c7, 7)),
-          osVersion: S.optional(S.String),
-          encryptionState: S.optional(S.String),
-          meid: S.optional(S.String),
-          lastSyncTime: S.optional(S.String),
           createTime: S.optional(S.String),
+          enabledUsbDebugging: S.optional(S.Boolean),
+          buildNumber: S.optional(S.String),
+          hostname: S.optional(S.String),
+          wifiMacAddresses: S.optional(__S(96, __c6, 0)),
+          compromisedState: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          deviceType: S.optional(S.String),
+          otherAccounts: S.optional(__S(96, __c6, 0)),
+          securityPatchTime: S.optional(S.String),
+          deviceId: S.optional(S.String),
           kernelVersion: S.optional(S.String),
+          basebandVersion: S.optional(S.String),
+          releaseVersion: S.optional(S.String),
+          androidSpecificAttributes: S.optional(__S(112, __c7, 0)),
+          imei: S.optional(S.String),
+          osVersion: S.optional(S.String),
           networkOperator: S.optional(S.String),
           enabledDeveloperOptions: S.optional(S.Boolean),
-          managementState: S.optional(S.String),
-          name: S.optional(S.String),
-          assetTag: S.optional(S.String),
-          manufacturer: S.optional(S.String),
-          enabledUsbDebugging: S.optional(S.Boolean),
-          brand: S.optional(S.String),
-          buildNumber: S.optional(S.String),
-          unifiedDeviceId: S.optional(S.String),
-          deviceId: S.optional(S.String),
-          ownerType: S.optional(S.String),
+          lastSyncTime: S.optional(S.String),
           model: S.optional(S.String),
-          wifiMacAddresses: S.optional(__S(96, __c6, 0)),
-          deviceType: S.optional(S.String),
-          compromisedState: S.optional(S.String),
-          otherAccounts: S.optional(__S(96, __c6, 0)),
+          ownerType: S.optional(S.String),
+          name: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          bootloaderVersion: S.optional(S.String),
+          unifiedDeviceId: S.optional(S.String),
+          managementState: S.optional(S.String),
+          meid: S.optional(S.String),
+          endpointVerificationSpecificAttributes: S.optional(__S(119, __c7, 7)),
+          encryptionState: S.optional(S.String),
+          brand: S.optional(S.String),
+          assetTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1Device" });
   }
@@ -3516,8 +3516,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
           namespace: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityKey" });
   }
@@ -3533,49 +3533,49 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceType: S.optional(S.String),
-          query: S.optional(S.String),
+          id: S.optional(S.String),
+          namespace: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DynamicGroupQuery" });
+      ).annotate({ identifier: "ExternalId" });
     case 1:
       return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          statusTime: S.optional(S.String),
+          query: S.optional(S.String),
+          resourceType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DynamicGroupStatus" });
+      ).annotate({ identifier: "DynamicGroupQuery" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          queries: S.optional(__S(177, __c11, 1)),
-          status: S.optional(__S(178, __c11, 2)),
-        }),
-      ).annotate({ identifier: "DynamicGroupMetadata" });
+      return S.Array(__S(178, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          namespace: S.optional(S.String),
-          id: S.optional(S.String),
+          statusTime: S.optional(S.String),
+          status: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExternalId" });
+      ).annotate({ identifier: "DynamicGroupStatus" });
     case 5:
-      return S.Array(__S(180, __c11, 4));
+      return S.suspend(() =>
+        S.Struct({
+          queries: S.optional(__S(179, __c11, 3)),
+          status: S.optional(__S(180, __c11, 4)),
+        }),
+      ).annotate({ identifier: "DynamicGroupMetadata" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dynamicGroupMetadata: S.optional(__S(179, __c11, 3)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(160, __c10, 0)),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          externalIds: S.optional(__S(177, __c11, 1)),
           name: S.optional(S.String),
           additionalGroupKeys: S.optional(__S(192, __c12, 0)),
-          externalIds: S.optional(__S(181, __c11, 5)),
           parent: S.optional(S.String),
-          groupKey: S.optional(__S(144, __c9, 0)),
+          dynamicGroupMetadata: S.optional(__S(181, __c11, 5)),
+          labels: S.optional(__S(160, __c10, 0)),
+          updateTime: S.optional(S.String),
           description: S.optional(S.String),
+          groupKey: S.optional(__S(144, __c9, 0)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
   }
@@ -3620,13 +3620,13 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(259, __c16, 3)),
-          type: S.optional(S.String),
-          preferredMemberKey: S.optional(__S(144, __c9, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          deliverySetting: S.optional(S.String),
           createTime: S.optional(S.String),
+          preferredMemberKey: S.optional(__S(144, __c9, 0)),
+          roles: S.optional(__S(259, __c16, 3)),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          deliverySetting: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Membership" });
   }
@@ -3636,21 +3636,21 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExpiryDetail" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           memberRestrictionEvaluation: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "RestrictionEvaluations" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          expireTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpiryDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          restrictionEvaluations: S.optional(__S(256, __c16, 0)),
+          expiryDetail: S.optional(__S(257, __c16, 1)),
           name: S.optional(S.String),
-          expiryDetail: S.optional(__S(256, __c16, 0)),
-          restrictionEvaluations: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "MembershipRole" });
     case 3:
@@ -3676,26 +3676,26 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          issuerUri: S.optional(S.String),
-          changePasswordUri: S.optional(S.String),
+          clientSecret: S.optional(S.String),
+          redirectUris: S.optional(__S(96, __c6, 0)),
+          clientId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OidcIdpConfig" });
+      ).annotate({ identifier: "OidcRpConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          redirectUris: S.optional(__S(96, __c6, 0)),
-          clientId: S.optional(S.String),
-          clientSecret: S.optional(S.String),
+          changePasswordUri: S.optional(S.String),
+          issuerUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OidcRpConfig" });
+      ).annotate({ identifier: "OidcIdpConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          idpConfig: S.optional(__S(288, __c18, 0)),
-          rpConfig: S.optional(__S(289, __c18, 1)),
-          displayName: S.optional(S.String),
           customer: S.optional(S.String),
+          rpConfig: S.optional(__S(288, __c18, 0)),
+          idpConfig: S.optional(__S(289, __c18, 1)),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "InboundOidcSsoProfile" });
   }
@@ -3719,26 +3719,26 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assertionConsumerServiceUri: S.optional(S.String),
+          logoutRedirectUri: S.optional(S.String),
+          singleSignOnServiceUri: S.optional(S.String),
           entityId: S.optional(S.String),
+          changePasswordUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SamlSpConfig" });
+      ).annotate({ identifier: "SamlIdpConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           entityId: S.optional(S.String),
-          logoutRedirectUri: S.optional(S.String),
-          changePasswordUri: S.optional(S.String),
-          singleSignOnServiceUri: S.optional(S.String),
+          assertionConsumerServiceUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SamlIdpConfig" });
+      ).annotate({ identifier: "SamlSpConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          idpConfig: S.optional(__S(320, __c20, 0)),
           customer: S.optional(S.String),
-          spConfig: S.optional(__S(320, __c20, 0)),
+          spConfig: S.optional(__S(321, __c20, 1)),
           displayName: S.optional(S.String),
-          idpConfig: S.optional(__S(321, __c20, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "InboundSamlSsoProfile" });
@@ -3763,15 +3763,15 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inboundOidcSsoProfile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OidcSsoInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           inboundSamlSsoProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "SamlSsoInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inboundOidcSsoProfile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OidcSsoInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3781,14 +3781,14 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          targetGroup: S.optional(S.String),
-          customer: S.optional(S.String),
-          oidcSsoInfo: S.optional(__S(352, __c22, 0)),
-          rank: S.optional(S.Number),
           targetOrgUnit: S.optional(S.String),
-          name: S.optional(S.String),
-          samlSsoInfo: S.optional(__S(353, __c22, 1)),
+          targetGroup: S.optional(S.String),
+          samlSsoInfo: S.optional(__S(352, __c22, 0)),
           ssoMode: S.optional(S.String),
+          name: S.optional(S.String),
+          customer: S.optional(S.String),
+          oidcSsoInfo: S.optional(__S(353, __c22, 1)),
+          rank: S.optional(S.Number),
           signInBehavior: S.optional(__S(354, __c22, 2)),
         }),
       ).annotate({ identifier: "InboundSsoAssignment" });
@@ -3820,19 +3820,19 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String),
-          orgUnit: S.optional(S.String),
-          group: S.optional(S.String),
           sortOrder: S.optional(S.Number),
+          query: S.optional(S.String),
+          group: S.optional(S.String),
+          orgUnit: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyQuery" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(S.String),
-          type: S.optional(S.String),
           name: S.optional(S.String),
+          customer: S.optional(S.String),
           setting: S.optional(__S(384, __c24, 0)),
+          type: S.optional(S.String),
           policyQuery: S.optional(__S(385, __c24, 1)),
         }),
       ).annotate({ identifier: "Policy" });
@@ -3859,8 +3859,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          customer: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3876,8 +3876,8 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           customer: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4037,10 +4037,10 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mailsSentCount: S.optional(S.String),
           state: S.optional(S.String),
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
+          mailsSentCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserInvitation" });
   }
@@ -4067,8 +4067,8 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           customer: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4084,16 +4084,16 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           userEmail: S.optional(S.String),
-          firstSyncTime: S.optional(S.String),
-          lastSyncTime: S.optional(S.String),
-          userAgent: S.optional(S.String),
           languageCode: S.optional(S.String),
-          managementState: S.optional(S.String),
+          name: S.optional(S.String),
+          lastSyncTime: S.optional(S.String),
+          firstSyncTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          userAgent: S.optional(S.String),
           passwordState: S.optional(S.String),
           compromisedState: S.optional(S.String),
-          createTime: S.optional(S.String),
+          managementState: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1DeviceUser" });
   }
@@ -4103,8 +4103,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           customer: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4120,9 +4120,9 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
           boolValue: S.optional(S.Boolean),
           numberValue: S.optional(S.Number),
+          stringValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1CustomAttributeValue" });
     case 1:
@@ -4130,18 +4130,18 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          complianceState: S.optional(S.String),
-          keyValuePairs: S.optional(__S(673, __c42, 1)),
-          ownerType: S.optional(S.String),
-          assetTags: S.optional(__S(96, __c6, 0)),
+          customId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          scoreReason: S.optional(S.String),
           lastUpdateTime: S.optional(S.String),
           healthScore: S.optional(S.String),
-          scoreReason: S.optional(S.String),
-          managed: S.optional(S.String),
+          ownerType: S.optional(S.String),
+          complianceState: S.optional(S.String),
+          assetTags: S.optional(__S(96, __c6, 0)),
+          keyValuePairs: S.optional(__S(673, __c42, 1)),
           name: S.optional(S.String),
           etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          customId: S.optional(S.String),
+          managed: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1ClientState" });
   }
@@ -4237,10 +4237,10 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rsaKeyInfo: S.optional(__S(768, __c48, 0)),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
+          rsaKeyInfo: S.optional(__S(768, __c48, 0)),
           dsaKeyInfo: S.optional(__S(768, __c48, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdpCredential" });
   }
@@ -4299,8 +4299,8 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           readMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4316,15 +4316,15 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String),
           evaluation: S.optional(__S(224, __c14, 0)),
+          query: S.optional(S.String),
         }),
       ).annotate({ identifier: "MemberRestriction" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           memberRestriction: S.optional(__S(848, __c53, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecuritySettings" });
   }
@@ -4356,8 +4356,8 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4372,8 +4372,8 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowlistedDomains: S.optional(__S(881, __c55, 1)),
           nextPageToken: S.optional(S.String),
+          allowlistedDomains: S.optional(__S(881, __c55, 1)),
         }),
       ).annotate({ identifier: "ListAllowlistedDomainsResponse" });
   }
@@ -4383,11 +4383,11 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4412,12 +4412,12 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           customer: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4443,11 +4443,11 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4461,8 +4461,8 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deviceUsers: S.optional(__S(929, __c58, 1)),
           nextPageToken: S.optional(S.String),
+          deviceUsers: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse" });
   }
@@ -4474,8 +4474,8 @@ function __c59(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           customer: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4501,10 +4501,10 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4516,8 +4516,8 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           groups: S.optional(__S(976, __c61, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
@@ -4533,10 +4533,10 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4550,8 +4550,8 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           memberships: S.optional(__S(993, __c62, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
@@ -4562,8 +4562,8 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4615,8 +4615,8 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4643,8 +4643,8 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4669,9 +4669,9 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4698,12 +4698,12 @@ function __c68(j: number): any {
         S.Struct({
           partner: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          userId: S.optional(S.String.pipe(T.Query())),
+          androidId: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          iosDeviceId: S.optional(S.String.pipe(T.Query())),
           rawResourceId: S.optional(S.String.pipe(T.Query())),
-          androidId: S.optional(S.String.pipe(T.Query())),
+          userId: S.optional(S.String.pipe(T.Query())),
+          iosDeviceId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4715,9 +4715,9 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          customer: S.optional(S.String),
           names: S.optional(__S(96, __c6, 0)),
           nextPageToken: S.optional(S.String),
-          customer: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse" });
   }
@@ -4787,9 +4787,9 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(1168, __c73, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
@@ -4809,9 +4809,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "memberKey.id": S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           "memberKey.namespace": S.optional(S.String.pipe(T.Query())),
-          "memberKey.id": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4871,8 +4871,8 @@ function __c76(j: number): any {
         S.Extend(
           __S(674, __c42, 2),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             customer: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -4892,8 +4892,8 @@ function __c77(j: number): any {
         S.Extend(
           __S(182, __c11, 6),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4912,8 +4912,8 @@ function __c78(j: number): any {
         S.Extend(
           __S(290, __c18, 2),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -4932,8 +4932,8 @@ function __c79(j: number): any {
         S.Extend(
           __S(322, __c20, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4952,8 +4952,8 @@ function __c80(j: number): any {
         S.Extend(
           __S(355, __c22, 3),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4989,10 +4989,10 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5005,12 +5005,12 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          groupKey: S.optional(__S(144, __c9, 0)),
+          description: S.optional(S.String),
+          group: S.optional(S.String),
           labels: S.optional(__S(160, __c10, 0)),
           roles: S.optional(__S(259, __c16, 3)),
-          group: S.optional(S.String),
-          groupKey: S.optional(__S(144, __c9, 0)),
           membership: S.optional(S.String),
-          description: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MembershipRelation" });
@@ -5019,8 +5019,8 @@ function __c82(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          memberships: S.optional(__S(1314, __c82, 2)),
           nextPageToken: S.optional(S.String),
+          memberships: S.optional(__S(1314, __c82, 2)),
         }),
       ).annotate({ identifier: "SearchDirectGroupsResponse" });
   }
@@ -5030,10 +5030,10 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5045,8 +5045,8 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(976, __c61, 0)),
           nextPageToken: S.optional(S.String),
+          groups: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "SearchGroupsResponse" });
   }
@@ -5085,10 +5085,10 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5101,11 +5101,11 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           relationType: S.optional(S.String),
-          displayName: S.optional(S.String),
-          groupKey: S.optional(__S(144, __c9, 0)),
-          group: S.optional(S.String),
           roles: S.optional(__S(1393, __c87, 1)),
+          group: S.optional(S.String),
+          groupKey: S.optional(__S(144, __c9, 0)),
           labels: S.optional(__S(160, __c10, 0)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupRelation" });
     case 2:
@@ -5113,8 +5113,8 @@ function __c86(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           memberships: S.optional(__S(1378, __c86, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchTransitiveGroupsResponse" });
   }
@@ -5137,8 +5137,8 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5151,9 +5151,9 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           member: S.optional(S.String),
-          roles: S.optional(__S(1393, __c87, 1)),
-          relationType: S.optional(S.String),
           preferredMemberKey: S.optional(__S(192, __c12, 0)),
+          relationType: S.optional(S.String),
+          roles: S.optional(__S(1393, __c87, 1)),
         }),
       ).annotate({ identifier: "MemberRelation" });
     case 2:
@@ -5191,8 +5191,8 @@ function __c90(j: number): any {
         S.Extend(
           __S(849, __c53, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5209,8 +5209,8 @@ function __c91(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          removeResetLock: S.optional(S.Boolean),
           customer: S.optional(S.String),
+          removeResetLock: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAppsCloudidentityDevicesV1WipeDeviceRequest" });
     case 1:

@@ -886,6 +886,8 @@ export type FetchPageRequestFormat =
   | FetchPageRequestFormatCase2;
 /** JSON Schema describing the desired structure of the response. Only used when `format` is `json`. */
 export type FetchPageRequestSchemaMap = { [key: string]: unknown | undefined };
+/** Domains the fetch may reach, up to 1000. A listed domain also permits its subdomains: `example.com` permits `www.example.com`. A URL on any other host is rejected with a 400 before it is fetched, and so is a redirect to one when `allowRedirects` is set, before it is followed. An empty list (the default) allows any host. */
+export type FetchPageRequestAllowedDomainsList = Array<string>;
 export interface FetchPageRequest {
   /** The URL to fetch */
   url: string;
@@ -901,6 +903,8 @@ export interface FetchPageRequest {
   schema?: FetchPageRequestSchemaMap | undefined;
   /** ID of a context whose persisted cookies are sent with the request. */
   contextId?: string | undefined;
+  /** Domains the fetch may reach, up to 1000. A listed domain also permits its subdomains: `example.com` permits `www.example.com`. A URL on any other host is rejected with a 400 before it is fetched, and so is a redirect to one when `allowRedirects` is set, before it is followed. An empty list (the default) allows any host. */
+  allowedDomains?: FetchPageRequestAllowedDomainsList | undefined;
 }
 /** Response headers as key-value pairs */
 export type FetchPageResponseHeadersMap = { [key: string]: string | undefined };
@@ -3995,6 +3999,7 @@ function __c24(j: number): any {
           format: S.optional(S.Unknown),
           schema: S.optional(__S(744, __c93, 0)),
           contextId: S.optional(S.String),
+          allowedDomains: S.optional(__S(784, __c98, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/fetch", code: 200 })),
       ).annotate({ identifier: "FetchPageRequest" });
     case 1:

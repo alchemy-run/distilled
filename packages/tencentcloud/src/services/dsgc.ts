@@ -1265,12 +1265,14 @@ export interface DescribeDSPAAssessmentTemplatesResponse {
   Items?: AssessmentTemplateList | undefined;
   RequestId?: string | undefined;
 }
+export type Filter = DspaAssessmentFilter;
+export type FilterList = Array<DspaAssessmentFilter>;
 export interface DescribeDSPACategoriesRequest {
   DspaId: string;
-  CategoryId?: number | undefined;
-  Name?: string | undefined;
   Offset?: number | undefined;
   Limit?: number | undefined;
+  Filters?: FilterList | undefined;
+  Keyword?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1551,8 +1553,6 @@ export interface DescribeDSPACOSDiscoveryTaskFilesResponse {
   Files?: StringList | undefined;
   RequestId?: string | undefined;
 }
-export type Filter = DspaAssessmentFilter;
-export type FilterList = Array<DspaAssessmentFilter>;
 export interface DescribeDSPACOSDiscoveryTaskResultRequest {
   DspaId: string;
   Offset?: number | undefined;
@@ -8032,10 +8032,10 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DspaId: S.String,
-          CategoryId: S.optional(S.Number),
-          Name: S.optional(S.String),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
+          Filters: S.optional(__S(1617, __c101, 1)),
+          Keyword: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dsgc", version: "2019-07-23", action: "DescribeDSPACategories" }),

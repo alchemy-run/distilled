@@ -160,10 +160,15 @@ export type AssembleProjectDebugFilesResponseBodyValueMissingChunksList = Array<
 export type AssembleProjectDebugFilesResponseBodyValueDifHeadersMap = {
   [key: string]: string | undefined;
 };
-/** Extra data about the file, such as its features */
-export type AssembleProjectDebugFilesResponseBodyValueDifDataMap = {
-  [key: string]: unknown | undefined;
-};
+/** Debug features the file provides, such as symtab, debug, unwind, sources or mapping */
+export type AssembleProjectDebugFilesResponseBodyValueDifDataFeaturesList = Array<string>;
+/** Extra data about the file, such as its features. Empty when not known */
+export interface AssembleProjectDebugFilesResponseBodyValueDifData {
+  /** Kind of the object, such as executable, debug companion or library. Left out for mapping files */
+  type?: string | undefined;
+  /** Debug features the file provides, such as symtab, debug, unwind, sources or mapping */
+  features?: AssembleProjectDebugFilesResponseBodyValueDifDataFeaturesList | undefined;
+}
 /** Debug file created from the chunks. Only set when the state is ok */
 export interface AssembleProjectDebugFilesResponseBodyValueDif {
   /** ID of the debug file */
@@ -188,8 +193,8 @@ export interface AssembleProjectDebugFilesResponseBodyValueDif {
   sha1: string;
   /** When the file was uploaded (ISO 8601) */
   dateCreated: string;
-  /** Extra data about the file, such as its features */
-  data: AssembleProjectDebugFilesResponseBodyValueDifDataMap;
+  /** Extra data about the file, such as its features. Empty when not known */
+  data: AssembleProjectDebugFilesResponseBodyValueDifData;
 }
 export interface AssembleProjectDebugFilesResponseBodyValue {
   /** State of the file: ok, not_found, created, assembling or error */
@@ -207,16 +212,17 @@ export type AssembleProjectDebugFilesResponseBodyMap = {
 export type AssembleProjectDebugFilesResponse = AssembleProjectDebugFilesResponseBodyMap;
 /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
 export type CreateACustomInboundFilterRequestDataType = "all" | "error" | "log" | "metric" | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type CreateACustomInboundFilterRequestConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type CreateACustomInboundFilterRequestConditionsItemOperator =
   | "glob"
   | "equals"
@@ -235,9 +241,9 @@ export type CreateACustomInboundFilterRequestConditionsItemOperator =
 /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
 export type CreateACustomInboundFilterRequestConditionsItemValueList = Array<string>;
 export interface CreateACustomInboundFilterRequestConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: CreateACustomInboundFilterRequestConditionsItemType | (string & {});
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: CreateACustomInboundFilterRequestConditionsItemOperator | (string & {}) | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: CreateACustomInboundFilterRequestConditionsItemValueList;
@@ -266,16 +272,17 @@ export type CreateACustomInboundFilterResponseDataType =
   | "log"
   | "metric"
   | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type CreateACustomInboundFilterResponseConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type CreateACustomInboundFilterResponseConditionsItemOperator =
   | "glob"
   | "equals"
@@ -294,9 +301,9 @@ export type CreateACustomInboundFilterResponseConditionsItemOperator =
 /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
 export type CreateACustomInboundFilterResponseConditionsItemValueList = Array<string>;
 export interface CreateACustomInboundFilterResponseConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: CreateACustomInboundFilterResponseConditionsItemType;
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: CreateACustomInboundFilterResponseConditionsItemOperator | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: CreateACustomInboundFilterResponseConditionsItemValueList;
@@ -322,6 +329,768 @@ export interface CreateACustomInboundFilterResponse {
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
   active?: boolean | undefined;
 }
+/** Unique IDs of accessible projects to include. Defaults to an empty list. */
+export type CreateANotebookRequestProjectIdsList = Array<number>;
+/** Investigation filter object, stored with its original keys. */
+export type CreateANotebookRequestFiltersMap = { [key: string]: unknown | undefined };
+/** What a producer writes this notebook about. type names a registered producer source type, and the other fields depend on it. Projects come from the source, so omit projectIds. An active notebook for the same source is returned instead of a new one. */
+export interface CreateANotebookRequestSource {
+  type: string;
+  [key: string]: unknown;
+}
+export interface CreateANotebookRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** Investigation title. */
+  title: string;
+  /** Unique IDs of accessible projects to include. Defaults to an empty list. */
+  projectIds?: CreateANotebookRequestProjectIdsList | undefined;
+  /** Investigation filter object, stored with its original keys. */
+  filters?: CreateANotebookRequestFiltersMap | undefined;
+  /** What a producer writes this notebook about. type names a registered producer source type, and the other fields depend on it. Projects come from the source, so omit projectIds. An active notebook for the same source is returned instead of a new one. */
+  source?: CreateANotebookRequestSource | undefined;
+}
+/** Whether a user or a service account created the notebook */
+export type CreateANotebookResponseCreatorType =
+  | "user"
+  | "service_account"
+  | "system"
+  | "integration"
+  | "agent"
+  | "unknown";
+/** The user or service account that created the notebook */
+export interface CreateANotebookResponseCreator {
+  /** Whether a user or a service account created the notebook */
+  type: CreateANotebookResponseCreatorType;
+  /** The ID of the user or service account that created the notebook */
+  id: string;
+}
+/** The state of automatic title generation */
+export interface CreateANotebookResponseTitleGeneration {
+  /** The state of automatic title generation, or null if it hasn't run */
+  status: string | null;
+}
+/** The agent's run for the notebook, if it has one */
+export interface CreateANotebookResponseOrchestration {
+  /** The phase the agent's run is in */
+  phase: string;
+  /** The status of the agent's run */
+  status: string;
+  /** When the run last reported progress */
+  heartbeatAt: string | null;
+  /** How many times the run has changed the notebook's report */
+  notebookRevision: number;
+}
+/** The template the notebook started from, if any */
+export interface CreateANotebookResponseTemplate {
+  /** The key of the template the notebook started from, if any */
+  key: string | null;
+  /** The version of that template, if any */
+  version: number | null;
+}
+export type CreateANotebookResponseSourceSnapshotValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseSourceSnapshotValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseSourceSnapshotValue =
+  | CreateANotebookResponseSourceSnapshotValueCase0Map
+  | CreateANotebookResponseSourceSnapshotValueCase1List
+  | string
+  | number
+  | boolean;
+/** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+export type CreateANotebookResponseSourceSnapshotMap = {
+  [key: string]: CreateANotebookResponseSourceSnapshotValue | undefined;
+};
+export type CreateANotebookResponseSourceRefValueCase0Map = { [key: string]: unknown | undefined };
+export type CreateANotebookResponseSourceRefValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseSourceRefValue =
+  | CreateANotebookResponseSourceRefValueCase0Map
+  | CreateANotebookResponseSourceRefValueCase1List
+  | string
+  | number
+  | boolean;
+/** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+export type CreateANotebookResponseSourceRefMap = {
+  [key: string]: CreateANotebookResponseSourceRefValue | undefined;
+};
+/** What the notebook is about */
+export interface CreateANotebookResponseSource {
+  /** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+  snapshot?: CreateANotebookResponseSourceSnapshotMap | undefined;
+  /** The source type: manual, or the type of what the notebook is about */
+  type: string;
+  /** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+  ref: CreateANotebookResponseSourceRefMap;
+  /** The notebook's revision for its source. A new revision starts once the previous one is archived. Null for a manual notebook */
+  revision: number | null;
+}
+export type CreateANotebookResponseFiltersValueCase0Map = { [key: string]: unknown | undefined };
+export type CreateANotebookResponseFiltersValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseFiltersValue =
+  | CreateANotebookResponseFiltersValueCase0Map
+  | CreateANotebookResponseFiltersValueCase1List
+  | string
+  | number
+  | boolean;
+/** Saved filters, stored with their original keys */
+export type CreateANotebookResponseFiltersMap = {
+  [key: string]: CreateANotebookResponseFiltersValue | undefined;
+};
+/** The IDs of the projects the notebook covers */
+export type CreateANotebookResponseProjectIdsList = Array<number>;
+export type CreateANotebookResponseParametersItemConstraintsValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseParametersItemConstraintsValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseParametersItemConstraintsValue =
+  | CreateANotebookResponseParametersItemConstraintsValueCase0Map
+  | CreateANotebookResponseParametersItemConstraintsValueCase1List
+  | string
+  | number
+  | boolean;
+/** Limits on the parameter's value, by type */
+export type CreateANotebookResponseParametersItemConstraintsMap = {
+  [key: string]: CreateANotebookResponseParametersItemConstraintsValue | undefined;
+};
+export type CreateANotebookResponseParametersItemDefaultValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseParametersItemDefaultValueCase1List = Array<unknown>;
+/** The value used when none is saved */
+export type CreateANotebookResponseParametersItemDefaultValue =
+  | CreateANotebookResponseParametersItemDefaultValueCase0Map
+  | CreateANotebookResponseParametersItemDefaultValueCase1List
+  | string
+  | number
+  | boolean;
+export type CreateANotebookResponseParametersItemSavedValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseParametersItemSavedValueCase1List = Array<unknown>;
+/** The saved value, or null */
+export type CreateANotebookResponseParametersItemSavedValue =
+  | CreateANotebookResponseParametersItemSavedValueCase0Map
+  | CreateANotebookResponseParametersItemSavedValueCase1List
+  | string
+  | number
+  | boolean;
+/** Parameter definition and saved override. type and constraints govern accepted values; defaultValue and savedValue may be null. Use key in the parameter-values update request. */
+export interface CreateANotebookResponseParametersItem {
+  /** The parameter ID */
+  id: string;
+  /** The key blocks use to refer to the parameter */
+  key: string;
+  /** The parameter's display name */
+  label: string;
+  /** What the parameter is for */
+  description: string;
+  /** The type of value the parameter takes */
+  type: string;
+  /** Whether the parameter needs a value */
+  required: boolean;
+  /** Limits on the parameter's value, by type */
+  constraints: CreateANotebookResponseParametersItemConstraintsMap;
+  /** The value used when none is saved */
+  defaultValue: CreateANotebookResponseParametersItemDefaultValue;
+  /** The saved value, or null */
+  savedValue: CreateANotebookResponseParametersItemSavedValue;
+  /** Who defined the parameter */
+  source: string;
+  /** The parameter's position in the notebook */
+  position: number;
+  /** The parameter's concurrency token */
+  version: number;
+}
+/** The notebook's parameters, in order */
+export type CreateANotebookResponseParametersList = Array<CreateANotebookResponseParametersItem>;
+export type CreateANotebookResponseBlocksItemOutputCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseBlocksItemOutputCase1List = Array<unknown>;
+/** The latest successful result. Text blocks have schemaVersion and markdown */
+export type CreateANotebookResponseBlocksItemOutput =
+  | CreateANotebookResponseBlocksItemOutputCase0Map
+  | CreateANotebookResponseBlocksItemOutputCase1List
+  | string
+  | number
+  | boolean;
+export type CreateANotebookResponseBlocksItemCurrentExecutionErrorCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseBlocksItemCurrentExecutionErrorCase1List = Array<unknown>;
+/** What went wrong, if the execution failed */
+export type CreateANotebookResponseBlocksItemCurrentExecutionError =
+  | CreateANotebookResponseBlocksItemCurrentExecutionErrorCase0Map
+  | CreateANotebookResponseBlocksItemCurrentExecutionErrorCase1List
+  | string
+  | number
+  | boolean;
+/** The latest execution, if the block has run */
+export interface CreateANotebookResponseBlocksItemCurrentExecution {
+  /** The execution ID */
+  id: string;
+  /** The execution status */
+  status: string;
+  /** What ran the block */
+  executor: string;
+  /** The version of the result's schema */
+  schemaVersion: number;
+  /** When the execution started */
+  startedAt: string | null;
+  /** When the execution finished, if it has */
+  completedAt: string | null;
+  /** What went wrong, if the execution failed */
+  error: CreateANotebookResponseBlocksItemCurrentExecutionError;
+}
+export type CreateANotebookResponseBlocksItemConfigValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseBlocksItemConfigValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseBlocksItemConfigValue =
+  | CreateANotebookResponseBlocksItemConfigValueCase0Map
+  | CreateANotebookResponseBlocksItemConfigValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block runs, such as auto-run */
+export type CreateANotebookResponseBlocksItemConfigMap = {
+  [key: string]: CreateANotebookResponseBlocksItemConfigValue | undefined;
+};
+export type CreateANotebookResponseBlocksItemDisplayValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseBlocksItemDisplayValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseBlocksItemDisplayValue =
+  | CreateANotebookResponseBlocksItemDisplayValueCase0Map
+  | CreateANotebookResponseBlocksItemDisplayValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+export type CreateANotebookResponseBlocksItemDisplayMap = {
+  [key: string]: CreateANotebookResponseBlocksItemDisplayValue | undefined;
+};
+/** The IDs of blocks this block depends on */
+export type CreateANotebookResponseBlocksItemDependenciesList = Array<string>;
+/** The keys of the parameters the block uses */
+export type CreateANotebookResponseBlocksItemParameterKeysList = Array<string>;
+/** Notebook block. version is the block concurrency token; dependencies are block IDs and parameterKeys reference notebook parameters. output is the latest successful result and may remain available during a rerun; currentExecution describes the latest attempt. Poll execution details for transcript and pending input. producerKey and producerRevision are set on blocks a producer wrote. */
+export interface CreateANotebookResponseBlocksItem {
+  /** The block ID */
+  id: string;
+  /** The block's position in the notebook, starting at 0 */
+  position: number;
+  /** text for Markdown, or query for a data query */
+  kind: string;
+  /** The block title. May be empty */
+  title: string;
+  /** The block's content: Markdown for text, the query for query */
+  content: string;
+  /** Instructions used when running the block */
+  generationPrompt: string;
+  /** The latest generated content, before anyone edited it */
+  generatedContent: string;
+  /** The latest successful result. Text blocks have schemaVersion and markdown */
+  output: CreateANotebookResponseBlocksItemOutput;
+  /** available, notRun, or the status of the latest execution */
+  outputStatus: string;
+  /** The latest execution, if the block has run */
+  currentExecution: CreateANotebookResponseBlocksItemCurrentExecution | null;
+  /** How the block runs, such as auto-run */
+  config: CreateANotebookResponseBlocksItemConfigMap;
+  /** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+  display: CreateANotebookResponseBlocksItemDisplayMap;
+  /** The IDs of blocks this block depends on */
+  dependencies: CreateANotebookResponseBlocksItemDependenciesList;
+  /** The keys of the parameters the block uses */
+  parameterKeys: CreateANotebookResponseBlocksItemParameterKeysList;
+  /** The block's concurrency token. Send it as version with a change */
+  version: number;
+  /** When an input changed after the output was made, if one did */
+  staleAt: string | null;
+  /** The ID of the user who added the block, if a user did */
+  createdBy: string | null;
+  /** The ID of the user who last edited the block, if a user did */
+  lastEditedBy: string | null;
+  /** The producer's key for the block, if a producer wrote it */
+  producerKey: string | null;
+  /** The producer's revision for the block, if a producer wrote it */
+  producerRevision: number | null;
+}
+/** The notebook's blocks, in order */
+export type CreateANotebookResponseBlocksList = Array<CreateANotebookResponseBlocksItem>;
+/** The block or hypothesis the request is under, if any */
+export interface CreateANotebookResponseActionRequestsItemAnchor {
+  /** block or hypothesis */
+  type: string;
+  /** The agent's ID for the block or hypothesis */
+  id: string;
+  /** The ID of the block the request is under, if it still exists */
+  blockId: string | null;
+}
+export type CreateANotebookResponseActionRequestsItemActionValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookResponseActionRequestsItemActionValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookResponseActionRequestsItemActionValue =
+  | CreateANotebookResponseActionRequestsItemActionValueCase0Map
+  | CreateANotebookResponseActionRequestsItemActionValueCase1List
+  | string
+  | number
+  | boolean;
+/** The agent's action payload, or null when the request is only advice */
+export type CreateANotebookResponseActionRequestsItemActionMap = {
+  [key: string]: CreateANotebookResponseActionRequestsItemActionValue | undefined;
+};
+/** Why the requesting user can't apply it, if they can't */
+export type CreateANotebookResponseActionRequestsItemCannotApplyReason =
+  | "investigation_archived"
+  | "not_suggested"
+  | "unsupported_action"
+  | "no_access"
+  | "not_target_detector"
+  | "detector_not_found"
+  | "permission_denied"
+  | "dynamic_detector";
+/** Organization the auth provider belongs to */
+export interface CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization {
+  /** Organization slug */
+  slug: string;
+  /** Organization name */
+  name: string;
+}
+/** Auth provider of the identity */
+export interface CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider {
+  /** Auth provider key, such as google or saml2 */
+  id: string;
+  /** Display name of the auth provider */
+  name: string;
+}
+export interface CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem {
+  /** SSO identity ID */
+  id: string;
+  /** User's identifier at the auth provider */
+  name: string;
+  /** Organization the auth provider belongs to */
+  organization: CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization;
+  /** Auth provider of the identity */
+  provider: CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider;
+  /** When the identity was last verified by signing in through the auth provider */
+  dateVerified: string;
+  /** When the identity was last synced from the auth provider */
+  dateSynced: string;
+}
+/** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+export type CreateANotebookResponseActionRequestsItemAppliedByIdentitiesList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem>;
+/** Avatar type */
+export type CreateANotebookResponseActionRequestsItemAppliedByAvatarAvatarType =
+  | "letter_avatar"
+  | "upload"
+  | "gravatar";
+/** User avatar */
+export interface CreateANotebookResponseActionRequestsItemAppliedByAvatar {
+  /** Avatar type */
+  avatarType?: CreateANotebookResponseActionRequestsItemAppliedByAvatarAvatarType | undefined;
+  /** ID of the uploaded avatar image, or null */
+  avatarUuid?: string | null | undefined;
+  /** URL of the avatar image, or null if none is set */
+  avatarUrl?: string | null | undefined;
+}
+export interface CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem {
+  /** Authenticator ID */
+  id: string;
+  /** Authenticator type, such as totp, sms, u2f or recovery */
+  type: string;
+  /** Display name of the authenticator type */
+  name: string;
+  /** When the authenticator was added */
+  dateCreated: string;
+  /** When the authenticator was last used, or null */
+  dateUsed: string | null;
+}
+/** Two-factor authenticators of the user, without backup methods such as recovery codes */
+export type CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem>;
+/** Deprecated. Always an empty object */
+export type CreateANotebookResponseActionRequestsItemAppliedByExperimentsMap = {
+  [key: string]: string | undefined;
+};
+export interface CreateANotebookResponseActionRequestsItemAppliedByEmailsItem {
+  /** Email ID */
+  id: string;
+  /** Email address */
+  email: string;
+  /** Whether the email address is verified */
+  is_verified: boolean;
+}
+/** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+export type CreateANotebookResponseActionRequestsItemAppliedByEmailsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByEmailsItem>;
+/** The user who applied it. Null when Sentry applied it */
+export interface CreateANotebookResponseActionRequestsItemAppliedBy {
+  /** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+  identities?: CreateANotebookResponseActionRequestsItemAppliedByIdentitiesList | undefined;
+  /** User avatar */
+  avatar?: CreateANotebookResponseActionRequestsItemAppliedByAvatar | undefined;
+  /** Two-factor authenticators of the user, without backup methods such as recovery codes */
+  authenticators?: CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsList | undefined;
+  /** Whether the organization can reset the user's two-factor authentication. True only if the user is a member of exactly one active organization */
+  canReset2fa?: boolean | undefined;
+  /** User ID */
+  id: string;
+  /** Display name: the user's name, or their email or username if no name is set */
+  name: string;
+  /** Username */
+  username: string;
+  /** Primary email address */
+  email: string;
+  /** Gravatar URL for the primary email address */
+  avatarUrl: string;
+  /** Whether the account is active */
+  isActive: boolean;
+  /** Whether the account is suspended. Suspended users can't sign in */
+  isSuspended: boolean;
+  /** Whether the user has a password set */
+  hasPasswordAuth: boolean;
+  /** Whether the account is managed, which stops the user from changing their username, password and similar details */
+  isManaged: boolean;
+  /** When the account was created */
+  dateJoined: string;
+  /** When the user last signed in, or null */
+  lastLogin: string | null;
+  /** Whether the user has two-factor authentication enabled */
+  has2fa: boolean;
+  /** When the user was last active, or null */
+  lastActive: string | null;
+  /** Whether the user is a superuser */
+  isSuperuser: boolean;
+  /** Whether the user has staff status */
+  isStaff: boolean;
+  /** Deprecated. Always an empty object */
+  experiments: CreateANotebookResponseActionRequestsItemAppliedByExperimentsMap;
+  /** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+  emails: CreateANotebookResponseActionRequestsItemAppliedByEmailsList;
+}
+/** The monitor settings that were changed */
+export type CreateANotebookResponseActionRequestsItemAppliedDetailsCase0FieldsList = Array<string>;
+export interface CreateANotebookResponseActionRequestsItemAppliedDetailsCase0 {
+  /** The ID of the monitor that was changed */
+  detectorId: string;
+  /** The name of the monitor that was changed */
+  detectorName: string;
+  /** The monitor settings that were changed */
+  fields: CreateANotebookResponseActionRequestsItemAppliedDetailsCase0FieldsList;
+}
+/** The telemetry provider that was connected */
+export type CreateANotebookResponseActionRequestsItemAppliedDetailsCase1Provider =
+  | "datadog"
+  | "gcp";
+export interface CreateANotebookResponseActionRequestsItemAppliedDetailsCase1 {
+  /** The telemetry provider that was connected */
+  provider: CreateANotebookResponseActionRequestsItemAppliedDetailsCase1Provider;
+}
+/** What applying it changed. The fields depend on the action */
+export type CreateANotebookResponseActionRequestsItemAppliedDetails =
+  | CreateANotebookResponseActionRequestsItemAppliedDetailsCase0
+  | CreateANotebookResponseActionRequestsItemAppliedDetailsCase1;
+/** The error code */
+export type CreateANotebookResponseActionRequestsItemErrorCode =
+  | "already_applied"
+  | "withdrawn"
+  | "stale"
+  | "validation_failed"
+  | "action_changed"
+  | "not_stale"
+  | "not_retryable";
+export type CreateANotebookResponseActionRequestsItemErrorCurrentValue = number | number | string;
+/** The current values of the settings the action would change */
+export type CreateANotebookResponseActionRequestsItemErrorCurrentMap = {
+  [key: string]: CreateANotebookResponseActionRequestsItemErrorCurrentValue | null | undefined;
+};
+/** Messages that explain the error */
+export type CreateANotebookResponseActionRequestsItemErrorMessagesList = Array<string>;
+/** What went wrong, if applying it failed */
+export interface CreateANotebookResponseActionRequestsItemError {
+  /** The error code */
+  code: CreateANotebookResponseActionRequestsItemErrorCode;
+  /** The current values of the settings the action would change */
+  current?: CreateANotebookResponseActionRequestsItemErrorCurrentMap | undefined;
+  /** Messages that explain the error */
+  messages?: CreateANotebookResponseActionRequestsItemErrorMessagesList | undefined;
+}
+/** Where the follow-up is */
+export type CreateANotebookResponseActionRequestsItemFollowUpStatus =
+  | "accepted"
+  | "dispatched"
+  | "acknowledged"
+  | "failed";
+/** Why the agent turned down or dropped the follow-up, if it did */
+export type CreateANotebookResponseActionRequestsItemFollowUpReason =
+  | "workflow_version_conflict"
+  | "idempotency_conflict"
+  | "invalid_command_target"
+  | "action_requests_report_changed"
+  | "run_cancelled"
+  | "run_failed"
+  | "provider_not_connected"
+  | "provider_already_used";
+/** What the agent did with a re-run. Null for a re-check */
+export type CreateANotebookResponseActionRequestsItemFollowUpRerun = "started" | "held" | "skipped";
+/** The re-check or re-run Sentry sent the agent, if any */
+export interface CreateANotebookResponseActionRequestsItemFollowUp {
+  /** Where the follow-up is */
+  status: CreateANotebookResponseActionRequestsItemFollowUpStatus;
+  /** Why the agent turned down or dropped the follow-up, if it did */
+  reason: CreateANotebookResponseActionRequestsItemFollowUpReason | null;
+  /** What the agent did with a re-run. Null for a re-check */
+  rerun: CreateANotebookResponseActionRequestsItemFollowUpRerun | null;
+  /** Whether the requesting user can send it again */
+  retryable: boolean;
+}
+/** A step Seer suggests. `primary` marks the recommended next step after a run, and `anchor` puts a request under a block or hypothesis. `action` is Seer's payload, or null when it's only advice. `canApply` says whether this viewer can apply it now, and `cannotApplyReason` says why not. What's in `appliedDetails` depends on the action kind, and `appliedBy` is null when Sentry applied it automatically. `followUp` is what Seer did with the re-check or re-run Sentry sent for this request. */
+export interface CreateANotebookResponseActionRequestsItem {
+  /** The action request ID */
+  id: string;
+  /** The agent's key for the request */
+  key: string;
+  /** The report revision that suggested it */
+  reportRevision: number;
+  /** Whether it's the recommended next step */
+  primary: boolean;
+  /** The block or hypothesis the request is under, if any */
+  anchor: CreateANotebookResponseActionRequestsItemAnchor | null;
+  /** A short title for the step */
+  title: string;
+  /** Why the agent suggests it */
+  rationale: string;
+  /** What the step would change, if the agent said */
+  impact: string | null;
+  /** suggested, applied, failed, superseded, or withdrawn */
+  state: string;
+  /** Why the request is in its state, if there's a reason */
+  reason: string | null;
+  /** The agent's action payload, or null when the request is only advice */
+  action: CreateANotebookResponseActionRequestsItemActionMap | null;
+  /** Whether the requesting user can apply it now */
+  canApply: boolean;
+  /** Why the requesting user can't apply it, if they can't */
+  cannotApplyReason: CreateANotebookResponseActionRequestsItemCannotApplyReason | null;
+  /** The user who applied it. Null when Sentry applied it */
+  appliedBy: CreateANotebookResponseActionRequestsItemAppliedBy | null;
+  /** What applying it changed. The fields depend on the action */
+  appliedDetails: CreateANotebookResponseActionRequestsItemAppliedDetails | null;
+  /** When it was applied */
+  dateApplied: string | null;
+  /** What went wrong, if applying it failed */
+  error: CreateANotebookResponseActionRequestsItemError | null;
+  /** The re-check or re-run Sentry sent the agent, if any */
+  followUp: CreateANotebookResponseActionRequestsItemFollowUp | null;
+  /** When the agent suggested it */
+  dateCreated: string;
+}
+/** Steps the agent suggests, newest report first */
+export type CreateANotebookResponseActionRequestsList =
+  Array<CreateANotebookResponseActionRequestsItem>;
+export interface CreateANotebookResponse {
+  /** The notebook ID */
+  id: string;
+  /** The notebook title */
+  title: string;
+  /** A one-line summary of the notebook, if one was generated */
+  summary: string | null;
+  /** A longer summary of the notebook, if one was generated */
+  summaryDescription: string | null;
+  /** active or archived. Archived notebooks are read-only */
+  status: string;
+  /** What the notebook is about: manual, or a source type */
+  sourceType: string;
+  /** The ID of the user who created the notebook, if a user did */
+  createdBy: string | null;
+  /** The user or service account that created the notebook */
+  creator: CreateANotebookResponseCreator | null;
+  /** When the notebook was created */
+  dateCreated: string;
+  /** When the notebook last changed */
+  dateUpdated: string;
+  /** The notebook's concurrency token. Send it as notebookVersion with a change */
+  version: number;
+  /** The number of blocks the notebook has */
+  blockCount: number;
+  /** Whether the requesting user favorited the notebook */
+  isFavorited: boolean;
+  /** The state of automatic title generation */
+  titleGeneration: CreateANotebookResponseTitleGeneration;
+  /** The agent's run for the notebook, if it has one */
+  orchestration: CreateANotebookResponseOrchestration | null;
+  /** The template the notebook started from, if any */
+  template: CreateANotebookResponseTemplate | null;
+  /** What the notebook is about */
+  source: CreateANotebookResponseSource;
+  /** Saved filters, stored with their original keys */
+  filters: CreateANotebookResponseFiltersMap;
+  /** The IDs of the projects the notebook covers */
+  projectIds: CreateANotebookResponseProjectIdsList;
+  /** The notebook's parameters, in order */
+  parameters: CreateANotebookResponseParametersList;
+  /** The notebook's blocks, in order */
+  blocks: CreateANotebookResponseBlocksList;
+  /** Steps the agent suggests, newest report first */
+  actionRequests: CreateANotebookResponseActionRequestsList;
+}
+/** Block kind: text for Markdown or query for an agent-generated data query. A producer's block must be text. * `text` - Text * `query` - Query */
+export type CreateANotebookBlockRequestKind = "text" | "query";
+/** Block configuration object. Nested keys are preserved. */
+export type CreateANotebookBlockRequestConfigMap = { [key: string]: unknown | undefined };
+/** Display settings. Text uses type markdown; query uses table, line, bar, or area. Versioned settings use version 1. Charts require xAxis and non-empty yAxes. Defaults to Markdown for text and table for query. */
+export type CreateANotebookBlockRequestDisplayMap = { [key: string]: unknown | undefined };
+export interface CreateANotebookBlockRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of an investigation in this organization. */
+  notebook_id: string;
+  /** Block kind: text for Markdown or query for an agent-generated data query. A producer's block must be text. * `text` - Text * `query` - Query */
+  kind: CreateANotebookBlockRequestKind | (string & {});
+  /** Current notebook version from the latest detail response. Stale versions return 409. Send this, or key and revision. */
+  notebookVersion?: number | undefined;
+  /** The producer's stable key for the block. Writing the same key again updates the block, even if a user edited or deleted it. Send with revision instead of notebookVersion. Only service accounts and Seer agents can send it. */
+  key?: string | undefined;
+  /** The producer's revision for the block. A block with a newer revision returns 409, and a write can raise it by at most 100. */
+  revision?: number | undefined;
+  /** Index among the notebook's blocks where a producer's block goes. Later blocks shift down, and a larger index puts it last. A new block goes last when omitted, and an existing block stays put. */
+  position?: number | undefined;
+  /** Block title. May be empty. */
+  title?: string | undefined;
+  /** Markdown content. May be empty, except in a producer's block. */
+  content?: string | undefined;
+  /** Instructions used when executing the block. May be empty. */
+  generationPrompt?: string | undefined;
+  /** Block configuration object. Nested keys are preserved. */
+  config?: CreateANotebookBlockRequestConfigMap | undefined;
+  /** Display settings. Text uses type markdown; query uses table, line, bar, or area. Versioned settings use version 1. Charts require xAxis and non-empty yAxes. Defaults to Markdown for text and table for query. */
+  display?: CreateANotebookBlockRequestDisplayMap | undefined;
+}
+export type CreateANotebookBlockResponseOutputCase0Map = { [key: string]: unknown | undefined };
+export type CreateANotebookBlockResponseOutputCase1List = Array<unknown>;
+/** The latest successful result. Text blocks have schemaVersion and markdown */
+export type CreateANotebookBlockResponseOutput =
+  | CreateANotebookBlockResponseOutputCase0Map
+  | CreateANotebookBlockResponseOutputCase1List
+  | string
+  | number
+  | boolean;
+export type CreateANotebookBlockResponseCurrentExecutionErrorCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookBlockResponseCurrentExecutionErrorCase1List = Array<unknown>;
+/** What went wrong, if the execution failed */
+export type CreateANotebookBlockResponseCurrentExecutionError =
+  | CreateANotebookBlockResponseCurrentExecutionErrorCase0Map
+  | CreateANotebookBlockResponseCurrentExecutionErrorCase1List
+  | string
+  | number
+  | boolean;
+/** The latest execution, if the block has run */
+export interface CreateANotebookBlockResponseCurrentExecution {
+  /** The execution ID */
+  id: string;
+  /** The execution status */
+  status: string;
+  /** What ran the block */
+  executor: string;
+  /** The version of the result's schema */
+  schemaVersion: number;
+  /** When the execution started */
+  startedAt: string | null;
+  /** When the execution finished, if it has */
+  completedAt: string | null;
+  /** What went wrong, if the execution failed */
+  error: CreateANotebookBlockResponseCurrentExecutionError;
+}
+export type CreateANotebookBlockResponseConfigValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookBlockResponseConfigValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookBlockResponseConfigValue =
+  | CreateANotebookBlockResponseConfigValueCase0Map
+  | CreateANotebookBlockResponseConfigValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block runs, such as auto-run */
+export type CreateANotebookBlockResponseConfigMap = {
+  [key: string]: CreateANotebookBlockResponseConfigValue | undefined;
+};
+export type CreateANotebookBlockResponseDisplayValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type CreateANotebookBlockResponseDisplayValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type CreateANotebookBlockResponseDisplayValue =
+  | CreateANotebookBlockResponseDisplayValueCase0Map
+  | CreateANotebookBlockResponseDisplayValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+export type CreateANotebookBlockResponseDisplayMap = {
+  [key: string]: CreateANotebookBlockResponseDisplayValue | undefined;
+};
+/** The IDs of blocks this block depends on */
+export type CreateANotebookBlockResponseDependenciesList = Array<string>;
+/** The keys of the parameters the block uses */
+export type CreateANotebookBlockResponseParameterKeysList = Array<string>;
+export interface CreateANotebookBlockResponse {
+  /** The block ID */
+  id: string;
+  /** The block's position in the notebook, starting at 0 */
+  position: number;
+  /** text for Markdown, or query for a data query */
+  kind: string;
+  /** The block title. May be empty */
+  title: string;
+  /** The block's content: Markdown for text, the query for query */
+  content: string;
+  /** Instructions used when running the block */
+  generationPrompt: string;
+  /** The latest generated content, before anyone edited it */
+  generatedContent: string;
+  /** The latest successful result. Text blocks have schemaVersion and markdown */
+  output: CreateANotebookBlockResponseOutput;
+  /** available, notRun, or the status of the latest execution */
+  outputStatus: string;
+  /** The latest execution, if the block has run */
+  currentExecution: CreateANotebookBlockResponseCurrentExecution | null;
+  /** How the block runs, such as auto-run */
+  config: CreateANotebookBlockResponseConfigMap;
+  /** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+  display: CreateANotebookBlockResponseDisplayMap;
+  /** The IDs of blocks this block depends on */
+  dependencies: CreateANotebookBlockResponseDependenciesList;
+  /** The keys of the parameters the block uses */
+  parameterKeys: CreateANotebookBlockResponseParameterKeysList;
+  /** The block's concurrency token. Send it as version with a change */
+  version: number;
+  /** When an input changed after the output was made, if one did */
+  staleAt: string | null;
+  /** The ID of the user who added the block, if a user did */
+  createdBy: string | null;
+  /** The ID of the user who last edited the block, if a user did */
+  lastEditedBy: string | null;
+  /** The producer's key for the block, if a producer wrote it */
+  producerKey: string | null;
+  /** The producer's revision for the block, if a producer wrote it */
+  producerRevision: number | null;
+}
 export interface DeleteACustomInboundFilterRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -331,6 +1100,19 @@ export interface DeleteACustomInboundFilterRequest {
   filter_id: string;
 }
 export interface DeleteACustomInboundFilterResponse {}
+export interface DeleteANotebookBlockRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of an investigation in this organization. */
+  notebook_id: string;
+  /** The ID of an active block in this investigation. */
+  block_id: string;
+  /** Current notebook version from the latest detail response. Stale versions return 409. */
+  notebookVersion: number;
+  /** Current block version from the latest block response. Stale versions return 409. */
+  version: number;
+}
+export interface DeleteANotebookBlockResponse {}
 export interface DeleteOrganizationIssueExternalIssueRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -391,14 +1173,147 @@ export interface FetchOrganizationAvailableActionsRequest {
   /** Filter by action type. Can be specified multiple times. */
   type?: FetchOrganizationAvailableActionsRequestTypeList | undefined;
 }
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaTypeCase1List =
+  Array<string>;
+/** JSON type or types the value has */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaType =
+  | string
+  | FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaTypeCase1List;
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaPropertiesValue =
+  | unknown
+  | boolean;
+/** Schemas of the object's properties, by property name. false forbids the property */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaPropertiesMap = {
+  [key: string]:
+    | FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaPropertiesValue
+    | undefined;
+};
+/** Properties the object must have */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaRequiredList =
+  Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaEnumItem =
+  | string
+  | number
+  | number
+  | boolean;
+/** Values the value can be */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaEnumList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaEnumItem | null>;
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefaultCase4List =
+  Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefaultCase5Map = {
+  [key: string]: string | undefined;
+};
+/** Value used when none is given */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefault =
+  | string
+  | number
+  | number
+  | boolean
+  | FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefaultCase4List
+  | FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefaultCase5Map;
+/** Schemas that the value must all match */
+export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaAllOfList = Array<unknown>;
 /** JSON schema of the action's config */
-export type FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaMap = {
-  [key: string]: unknown | undefined;
+export interface FetchOrganizationAvailableActionsResponseBodyItemConfigSchema {
+  /** URI of the JSON Schema dialect */
+  _schema?: string | undefined;
+  /** JSON type or types the value has */
+  type?: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaType | undefined;
+  /** What the value is */
+  description?: string | undefined;
+  /** Schemas of the object's properties, by property name. false forbids the property */
+  properties?:
+    | FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaPropertiesMap
+    | undefined;
+  /** Properties the object must have */
+  required?: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaRequiredList | undefined;
+  /** Whether the object can have properties that aren't listed */
+  additionalProperties?: boolean | undefined;
+  /** Values the value can be */
+  enum?: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaEnumList | undefined;
+  /** Value used when none is given */
+  default?: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaDefault | null | undefined;
+  /** Schema of the array's items */
+  items?: unknown | undefined;
+  /** Schemas that the value must all match */
+  allOf?: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaAllOfList | undefined;
+  /** Schema that decides whether then applies */
+  if?: unknown | undefined;
+  /** Schema the value must match when if matches */
+  then?: unknown | undefined;
+  /** Regular expression the string must match */
+  pattern?: string | undefined;
+}
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaTypeCase1List =
+  Array<string>;
+/** JSON type or types the value has */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaType =
+  | string
+  | FetchOrganizationAvailableActionsResponseBodyItemDataSchemaTypeCase1List;
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaPropertiesValue =
+  | unknown
+  | boolean;
+/** Schemas of the object's properties, by property name. false forbids the property */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaPropertiesMap = {
+  [key: string]:
+    | FetchOrganizationAvailableActionsResponseBodyItemDataSchemaPropertiesValue
+    | undefined;
 };
+/** Properties the object must have */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaRequiredList = Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaEnumItem =
+  | string
+  | number
+  | number
+  | boolean;
+/** Values the value can be */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaEnumList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemDataSchemaEnumItem | null>;
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefaultCase4List =
+  Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefaultCase5Map = {
+  [key: string]: string | undefined;
+};
+/** Value used when none is given */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefault =
+  | string
+  | number
+  | number
+  | boolean
+  | FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefaultCase4List
+  | FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefaultCase5Map;
+/** Schemas that the value must all match */
+export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaAllOfList = Array<unknown>;
 /** JSON schema of the action's data */
-export type FetchOrganizationAvailableActionsResponseBodyItemDataSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export interface FetchOrganizationAvailableActionsResponseBodyItemDataSchema {
+  /** URI of the JSON Schema dialect */
+  _schema?: string | undefined;
+  /** JSON type or types the value has */
+  type?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaType | undefined;
+  /** What the value is */
+  description?: string | undefined;
+  /** Schemas of the object's properties, by property name. false forbids the property */
+  properties?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaPropertiesMap | undefined;
+  /** Properties the object must have */
+  required?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaRequiredList | undefined;
+  /** Whether the object can have properties that aren't listed */
+  additionalProperties?: boolean | undefined;
+  /** Values the value can be */
+  enum?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaEnumList | undefined;
+  /** Value used when none is given */
+  default?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaDefault | null | undefined;
+  /** Schema of the array's items */
+  items?: unknown | undefined;
+  /** Schemas that the value must all match */
+  allOf?: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaAllOfList | undefined;
+  /** Schema that decides whether then applies */
+  if?: unknown | undefined;
+  /** Schema the value must match when if matches */
+  then?: unknown | undefined;
+  /** Regular expression the string must match */
+  pattern?: string | undefined;
+}
 /** Status of the Sentry app */
 export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppStatus =
   | "unpublished"
@@ -406,10 +1321,218 @@ export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppStatus =
   | "internal"
   | "publish_request_inprogress"
   | "deletion_in_progress";
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsType =
+  "alert-rule-settings";
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0Type =
+  "select";
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsItemList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0DependsOnList =
+  Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesItemList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesItemList>;
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2Default
+    | undefined;
+}
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItem =
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase0
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase1
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItemCase2;
+/** Fields that the user must fill in */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsItem>;
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0Type =
+  "select";
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsItemList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0DependsOnList =
+  Array<string>;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesItemList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesItemList>;
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2 {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2Default
+    | undefined;
+}
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItem =
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase0
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase1
+  | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItemCase2;
+/** Fields that the user can fill in */
+export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsList =
+  Array<FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsItem>;
 /** Settings form for the action, from the app's alert rule action component */
-export type FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export interface FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettings {
+  /** Type of the element */
+  type: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsType;
+  /** Text shown above the settings form */
+  description?: string | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri: string;
+  /** Fields that the user must fill in */
+  required_fields: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsRequiredFieldsList;
+  /** Fields that the user can fill in */
+  optional_fields?:
+    | FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsOptionalFieldsList
+    | undefined;
+}
 /** Sentry app that provides the action. Only set for Sentry app actions */
 export interface FetchOrganizationAvailableActionsResponseBodyItemSentryApp {
   /** ID of the Sentry app */
@@ -423,7 +1546,7 @@ export interface FetchOrganizationAvailableActionsResponseBodyItemSentryApp {
   /** Status of the Sentry app */
   status: FetchOrganizationAvailableActionsResponseBodyItemSentryAppStatus;
   /** Settings form for the action, from the app's alert rule action component */
-  settings?: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettingsMap | undefined;
+  settings?: FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettings | undefined;
   /** Title of the app's alert rule action component */
   title?: string | undefined;
 }
@@ -466,9 +1589,9 @@ export interface FetchOrganizationAvailableActionsResponseBodyItem {
   /** Group the action belongs to, such as notification or ticket_creation */
   handlerGroup: string;
   /** JSON schema of the action's config */
-  configSchema: FetchOrganizationAvailableActionsResponseBodyItemConfigSchemaMap;
+  configSchema: FetchOrganizationAvailableActionsResponseBodyItemConfigSchema;
   /** JSON schema of the action's data */
-  dataSchema: FetchOrganizationAvailableActionsResponseBodyItemDataSchemaMap;
+  dataSchema: FetchOrganizationAvailableActionsResponseBodyItemDataSchema;
   /** Sentry app that provides the action. Only set for Sentry app actions */
   sentryApp?: FetchOrganizationAvailableActionsResponseBodyItemSentryApp | undefined;
   /** Integrations the action can use */
@@ -492,16 +1615,17 @@ export interface GetACustomInboundFilterRequest {
 }
 /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
 export type GetACustomInboundFilterResponseDataType = "all" | "error" | "log" | "metric" | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type GetACustomInboundFilterResponseConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type GetACustomInboundFilterResponseConditionsItemOperator =
   | "glob"
   | "equals"
@@ -520,9 +1644,9 @@ export type GetACustomInboundFilterResponseConditionsItemOperator =
 /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
 export type GetACustomInboundFilterResponseConditionsItemValueList = Array<string>;
 export interface GetACustomInboundFilterResponseConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: GetACustomInboundFilterResponseConditionsItemType;
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: GetACustomInboundFilterResponseConditionsItemOperator | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: GetACustomInboundFilterResponseConditionsItemValueList;
@@ -547,6 +1671,544 @@ export interface GetACustomInboundFilterResponse {
   name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
   active?: boolean | undefined;
+}
+export interface GetANotebookRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of an investigation in this organization. */
+  notebook_id: string;
+}
+/** Whether a user or a service account created the notebook */
+export type GetANotebookResponseCreatorType =
+  | "user"
+  | "service_account"
+  | "system"
+  | "integration"
+  | "agent"
+  | "unknown";
+/** The user or service account that created the notebook */
+export interface GetANotebookResponseCreator {
+  /** Whether a user or a service account created the notebook */
+  type: GetANotebookResponseCreatorType;
+  /** The ID of the user or service account that created the notebook */
+  id: string;
+}
+/** The state of automatic title generation */
+export type GetANotebookResponseTitleGeneration = CreateANotebookResponseTitleGeneration;
+/** The agent's run for the notebook, if it has one */
+export type GetANotebookResponseOrchestration = CreateANotebookResponseOrchestration;
+/** The template the notebook started from, if any */
+export type GetANotebookResponseTemplate = CreateANotebookResponseTemplate;
+export type GetANotebookResponseSourceSnapshotValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseSourceSnapshotValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseSourceSnapshotValue =
+  | GetANotebookResponseSourceSnapshotValueCase0Map
+  | GetANotebookResponseSourceSnapshotValueCase1List
+  | string
+  | number
+  | boolean;
+/** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+export type GetANotebookResponseSourceSnapshotMap = {
+  [key: string]: GetANotebookResponseSourceSnapshotValue | undefined;
+};
+export type GetANotebookResponseSourceRefValueCase0Map = { [key: string]: unknown | undefined };
+export type GetANotebookResponseSourceRefValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseSourceRefValue =
+  | GetANotebookResponseSourceRefValueCase0Map
+  | GetANotebookResponseSourceRefValueCase1List
+  | string
+  | number
+  | boolean;
+/** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+export type GetANotebookResponseSourceRefMap = {
+  [key: string]: GetANotebookResponseSourceRefValue | undefined;
+};
+/** What the notebook is about */
+export interface GetANotebookResponseSource {
+  /** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+  snapshot?: GetANotebookResponseSourceSnapshotMap | undefined;
+  /** The source type: manual, or the type of what the notebook is about */
+  type: string;
+  /** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+  ref: GetANotebookResponseSourceRefMap;
+  /** The notebook's revision for its source. A new revision starts once the previous one is archived. Null for a manual notebook */
+  revision: number | null;
+}
+export type GetANotebookResponseFiltersValueCase0Map = { [key: string]: unknown | undefined };
+export type GetANotebookResponseFiltersValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseFiltersValue =
+  | GetANotebookResponseFiltersValueCase0Map
+  | GetANotebookResponseFiltersValueCase1List
+  | string
+  | number
+  | boolean;
+/** Saved filters, stored with their original keys */
+export type GetANotebookResponseFiltersMap = {
+  [key: string]: GetANotebookResponseFiltersValue | undefined;
+};
+/** The IDs of the projects the notebook covers */
+export type GetANotebookResponseProjectIdsList = Array<number>;
+export type GetANotebookResponseParametersItemConstraintsValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseParametersItemConstraintsValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseParametersItemConstraintsValue =
+  | GetANotebookResponseParametersItemConstraintsValueCase0Map
+  | GetANotebookResponseParametersItemConstraintsValueCase1List
+  | string
+  | number
+  | boolean;
+/** Limits on the parameter's value, by type */
+export type GetANotebookResponseParametersItemConstraintsMap = {
+  [key: string]: GetANotebookResponseParametersItemConstraintsValue | undefined;
+};
+export type GetANotebookResponseParametersItemDefaultValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseParametersItemDefaultValueCase1List = Array<unknown>;
+/** The value used when none is saved */
+export type GetANotebookResponseParametersItemDefaultValue =
+  | GetANotebookResponseParametersItemDefaultValueCase0Map
+  | GetANotebookResponseParametersItemDefaultValueCase1List
+  | string
+  | number
+  | boolean;
+export type GetANotebookResponseParametersItemSavedValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseParametersItemSavedValueCase1List = Array<unknown>;
+/** The saved value, or null */
+export type GetANotebookResponseParametersItemSavedValue =
+  | GetANotebookResponseParametersItemSavedValueCase0Map
+  | GetANotebookResponseParametersItemSavedValueCase1List
+  | string
+  | number
+  | boolean;
+/** Parameter definition and saved override. type and constraints govern accepted values; defaultValue and savedValue may be null. Use key in the parameter-values update request. */
+export interface GetANotebookResponseParametersItem {
+  /** The parameter ID */
+  id: string;
+  /** The key blocks use to refer to the parameter */
+  key: string;
+  /** The parameter's display name */
+  label: string;
+  /** What the parameter is for */
+  description: string;
+  /** The type of value the parameter takes */
+  type: string;
+  /** Whether the parameter needs a value */
+  required: boolean;
+  /** Limits on the parameter's value, by type */
+  constraints: GetANotebookResponseParametersItemConstraintsMap;
+  /** The value used when none is saved */
+  defaultValue: GetANotebookResponseParametersItemDefaultValue;
+  /** The saved value, or null */
+  savedValue: GetANotebookResponseParametersItemSavedValue;
+  /** Who defined the parameter */
+  source: string;
+  /** The parameter's position in the notebook */
+  position: number;
+  /** The parameter's concurrency token */
+  version: number;
+}
+/** The notebook's parameters, in order */
+export type GetANotebookResponseParametersList = Array<GetANotebookResponseParametersItem>;
+export type GetANotebookResponseBlocksItemOutputCase0Map = { [key: string]: unknown | undefined };
+export type GetANotebookResponseBlocksItemOutputCase1List = Array<unknown>;
+/** The latest successful result. Text blocks have schemaVersion and markdown */
+export type GetANotebookResponseBlocksItemOutput =
+  | GetANotebookResponseBlocksItemOutputCase0Map
+  | GetANotebookResponseBlocksItemOutputCase1List
+  | string
+  | number
+  | boolean;
+export type GetANotebookResponseBlocksItemCurrentExecutionErrorCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseBlocksItemCurrentExecutionErrorCase1List = Array<unknown>;
+/** What went wrong, if the execution failed */
+export type GetANotebookResponseBlocksItemCurrentExecutionError =
+  | GetANotebookResponseBlocksItemCurrentExecutionErrorCase0Map
+  | GetANotebookResponseBlocksItemCurrentExecutionErrorCase1List
+  | string
+  | number
+  | boolean;
+/** The latest execution, if the block has run */
+export interface GetANotebookResponseBlocksItemCurrentExecution {
+  /** The execution ID */
+  id: string;
+  /** The execution status */
+  status: string;
+  /** What ran the block */
+  executor: string;
+  /** The version of the result's schema */
+  schemaVersion: number;
+  /** When the execution started */
+  startedAt: string | null;
+  /** When the execution finished, if it has */
+  completedAt: string | null;
+  /** What went wrong, if the execution failed */
+  error: GetANotebookResponseBlocksItemCurrentExecutionError;
+}
+export type GetANotebookResponseBlocksItemConfigValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseBlocksItemConfigValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseBlocksItemConfigValue =
+  | GetANotebookResponseBlocksItemConfigValueCase0Map
+  | GetANotebookResponseBlocksItemConfigValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block runs, such as auto-run */
+export type GetANotebookResponseBlocksItemConfigMap = {
+  [key: string]: GetANotebookResponseBlocksItemConfigValue | undefined;
+};
+export type GetANotebookResponseBlocksItemDisplayValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseBlocksItemDisplayValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseBlocksItemDisplayValue =
+  | GetANotebookResponseBlocksItemDisplayValueCase0Map
+  | GetANotebookResponseBlocksItemDisplayValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+export type GetANotebookResponseBlocksItemDisplayMap = {
+  [key: string]: GetANotebookResponseBlocksItemDisplayValue | undefined;
+};
+/** The IDs of blocks this block depends on */
+export type GetANotebookResponseBlocksItemDependenciesList = Array<string>;
+/** The keys of the parameters the block uses */
+export type GetANotebookResponseBlocksItemParameterKeysList = Array<string>;
+/** Notebook block. version is the block concurrency token; dependencies are block IDs and parameterKeys reference notebook parameters. output is the latest successful result and may remain available during a rerun; currentExecution describes the latest attempt. Poll execution details for transcript and pending input. producerKey and producerRevision are set on blocks a producer wrote. */
+export interface GetANotebookResponseBlocksItem {
+  /** The block ID */
+  id: string;
+  /** The block's position in the notebook, starting at 0 */
+  position: number;
+  /** text for Markdown, or query for a data query */
+  kind: string;
+  /** The block title. May be empty */
+  title: string;
+  /** The block's content: Markdown for text, the query for query */
+  content: string;
+  /** Instructions used when running the block */
+  generationPrompt: string;
+  /** The latest generated content, before anyone edited it */
+  generatedContent: string;
+  /** The latest successful result. Text blocks have schemaVersion and markdown */
+  output: GetANotebookResponseBlocksItemOutput;
+  /** available, notRun, or the status of the latest execution */
+  outputStatus: string;
+  /** The latest execution, if the block has run */
+  currentExecution: GetANotebookResponseBlocksItemCurrentExecution | null;
+  /** How the block runs, such as auto-run */
+  config: GetANotebookResponseBlocksItemConfigMap;
+  /** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+  display: GetANotebookResponseBlocksItemDisplayMap;
+  /** The IDs of blocks this block depends on */
+  dependencies: GetANotebookResponseBlocksItemDependenciesList;
+  /** The keys of the parameters the block uses */
+  parameterKeys: GetANotebookResponseBlocksItemParameterKeysList;
+  /** The block's concurrency token. Send it as version with a change */
+  version: number;
+  /** When an input changed after the output was made, if one did */
+  staleAt: string | null;
+  /** The ID of the user who added the block, if a user did */
+  createdBy: string | null;
+  /** The ID of the user who last edited the block, if a user did */
+  lastEditedBy: string | null;
+  /** The producer's key for the block, if a producer wrote it */
+  producerKey: string | null;
+  /** The producer's revision for the block, if a producer wrote it */
+  producerRevision: number | null;
+}
+/** The notebook's blocks, in order */
+export type GetANotebookResponseBlocksList = Array<GetANotebookResponseBlocksItem>;
+/** The block or hypothesis the request is under, if any */
+export type GetANotebookResponseActionRequestsItemAnchor =
+  CreateANotebookResponseActionRequestsItemAnchor;
+export type GetANotebookResponseActionRequestsItemActionValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetANotebookResponseActionRequestsItemActionValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetANotebookResponseActionRequestsItemActionValue =
+  | GetANotebookResponseActionRequestsItemActionValueCase0Map
+  | GetANotebookResponseActionRequestsItemActionValueCase1List
+  | string
+  | number
+  | boolean;
+/** The agent's action payload, or null when the request is only advice */
+export type GetANotebookResponseActionRequestsItemActionMap = {
+  [key: string]: GetANotebookResponseActionRequestsItemActionValue | undefined;
+};
+/** Why the requesting user can't apply it, if they can't */
+export type GetANotebookResponseActionRequestsItemCannotApplyReason =
+  | "investigation_archived"
+  | "not_suggested"
+  | "unsupported_action"
+  | "no_access"
+  | "not_target_detector"
+  | "detector_not_found"
+  | "permission_denied"
+  | "dynamic_detector";
+/** Organization the auth provider belongs to */
+export type GetANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization;
+/** Auth provider of the identity */
+export type GetANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider;
+export type GetANotebookResponseActionRequestsItemAppliedByIdentitiesItem =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem;
+/** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+export type GetANotebookResponseActionRequestsItemAppliedByIdentitiesList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem>;
+/** Avatar type */
+export type GetANotebookResponseActionRequestsItemAppliedByAvatarAvatarType =
+  | "letter_avatar"
+  | "upload"
+  | "gravatar";
+/** User avatar */
+export interface GetANotebookResponseActionRequestsItemAppliedByAvatar {
+  /** Avatar type */
+  avatarType?: GetANotebookResponseActionRequestsItemAppliedByAvatarAvatarType | undefined;
+  /** ID of the uploaded avatar image, or null */
+  avatarUuid?: string | null | undefined;
+  /** URL of the avatar image, or null if none is set */
+  avatarUrl?: string | null | undefined;
+}
+export type GetANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem =
+  CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem;
+/** Two-factor authenticators of the user, without backup methods such as recovery codes */
+export type GetANotebookResponseActionRequestsItemAppliedByAuthenticatorsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem>;
+/** Deprecated. Always an empty object */
+export type GetANotebookResponseActionRequestsItemAppliedByExperimentsMap = {
+  [key: string]: string | undefined;
+};
+export type GetANotebookResponseActionRequestsItemAppliedByEmailsItem =
+  CreateANotebookResponseActionRequestsItemAppliedByEmailsItem;
+/** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+export type GetANotebookResponseActionRequestsItemAppliedByEmailsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByEmailsItem>;
+/** The user who applied it. Null when Sentry applied it */
+export interface GetANotebookResponseActionRequestsItemAppliedBy {
+  /** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+  identities?: GetANotebookResponseActionRequestsItemAppliedByIdentitiesList | undefined;
+  /** User avatar */
+  avatar?: GetANotebookResponseActionRequestsItemAppliedByAvatar | undefined;
+  /** Two-factor authenticators of the user, without backup methods such as recovery codes */
+  authenticators?: GetANotebookResponseActionRequestsItemAppliedByAuthenticatorsList | undefined;
+  /** Whether the organization can reset the user's two-factor authentication. True only if the user is a member of exactly one active organization */
+  canReset2fa?: boolean | undefined;
+  /** User ID */
+  id: string;
+  /** Display name: the user's name, or their email or username if no name is set */
+  name: string;
+  /** Username */
+  username: string;
+  /** Primary email address */
+  email: string;
+  /** Gravatar URL for the primary email address */
+  avatarUrl: string;
+  /** Whether the account is active */
+  isActive: boolean;
+  /** Whether the account is suspended. Suspended users can't sign in */
+  isSuspended: boolean;
+  /** Whether the user has a password set */
+  hasPasswordAuth: boolean;
+  /** Whether the account is managed, which stops the user from changing their username, password and similar details */
+  isManaged: boolean;
+  /** When the account was created */
+  dateJoined: string;
+  /** When the user last signed in, or null */
+  lastLogin: string | null;
+  /** Whether the user has two-factor authentication enabled */
+  has2fa: boolean;
+  /** When the user was last active, or null */
+  lastActive: string | null;
+  /** Whether the user is a superuser */
+  isSuperuser: boolean;
+  /** Whether the user has staff status */
+  isStaff: boolean;
+  /** Deprecated. Always an empty object */
+  experiments: GetANotebookResponseActionRequestsItemAppliedByExperimentsMap;
+  /** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+  emails: GetANotebookResponseActionRequestsItemAppliedByEmailsList;
+}
+/** The monitor settings that were changed */
+export type GetANotebookResponseActionRequestsItemAppliedDetailsCase0FieldsList = Array<string>;
+export interface GetANotebookResponseActionRequestsItemAppliedDetailsCase0 {
+  /** The ID of the monitor that was changed */
+  detectorId: string;
+  /** The name of the monitor that was changed */
+  detectorName: string;
+  /** The monitor settings that were changed */
+  fields: GetANotebookResponseActionRequestsItemAppliedDetailsCase0FieldsList;
+}
+/** The telemetry provider that was connected */
+export type GetANotebookResponseActionRequestsItemAppliedDetailsCase1Provider = "datadog" | "gcp";
+export interface GetANotebookResponseActionRequestsItemAppliedDetailsCase1 {
+  /** The telemetry provider that was connected */
+  provider: GetANotebookResponseActionRequestsItemAppliedDetailsCase1Provider;
+}
+/** What applying it changed. The fields depend on the action */
+export type GetANotebookResponseActionRequestsItemAppliedDetails =
+  | GetANotebookResponseActionRequestsItemAppliedDetailsCase0
+  | GetANotebookResponseActionRequestsItemAppliedDetailsCase1;
+/** The error code */
+export type GetANotebookResponseActionRequestsItemErrorCode =
+  | "already_applied"
+  | "withdrawn"
+  | "stale"
+  | "validation_failed"
+  | "action_changed"
+  | "not_stale"
+  | "not_retryable";
+export type GetANotebookResponseActionRequestsItemErrorCurrentValue = number | number | string;
+/** The current values of the settings the action would change */
+export type GetANotebookResponseActionRequestsItemErrorCurrentMap = {
+  [key: string]: GetANotebookResponseActionRequestsItemErrorCurrentValue | null | undefined;
+};
+/** Messages that explain the error */
+export type GetANotebookResponseActionRequestsItemErrorMessagesList = Array<string>;
+/** What went wrong, if applying it failed */
+export interface GetANotebookResponseActionRequestsItemError {
+  /** The error code */
+  code: GetANotebookResponseActionRequestsItemErrorCode;
+  /** The current values of the settings the action would change */
+  current?: GetANotebookResponseActionRequestsItemErrorCurrentMap | undefined;
+  /** Messages that explain the error */
+  messages?: GetANotebookResponseActionRequestsItemErrorMessagesList | undefined;
+}
+/** Where the follow-up is */
+export type GetANotebookResponseActionRequestsItemFollowUpStatus =
+  | "accepted"
+  | "dispatched"
+  | "acknowledged"
+  | "failed";
+/** Why the agent turned down or dropped the follow-up, if it did */
+export type GetANotebookResponseActionRequestsItemFollowUpReason =
+  | "workflow_version_conflict"
+  | "idempotency_conflict"
+  | "invalid_command_target"
+  | "action_requests_report_changed"
+  | "run_cancelled"
+  | "run_failed"
+  | "provider_not_connected"
+  | "provider_already_used";
+/** What the agent did with a re-run. Null for a re-check */
+export type GetANotebookResponseActionRequestsItemFollowUpRerun = "started" | "held" | "skipped";
+/** The re-check or re-run Sentry sent the agent, if any */
+export interface GetANotebookResponseActionRequestsItemFollowUp {
+  /** Where the follow-up is */
+  status: GetANotebookResponseActionRequestsItemFollowUpStatus;
+  /** Why the agent turned down or dropped the follow-up, if it did */
+  reason: GetANotebookResponseActionRequestsItemFollowUpReason | null;
+  /** What the agent did with a re-run. Null for a re-check */
+  rerun: GetANotebookResponseActionRequestsItemFollowUpRerun | null;
+  /** Whether the requesting user can send it again */
+  retryable: boolean;
+}
+/** A step Seer suggests. `primary` marks the recommended next step after a run, and `anchor` puts a request under a block or hypothesis. `action` is Seer's payload, or null when it's only advice. `canApply` says whether this viewer can apply it now, and `cannotApplyReason` says why not. What's in `appliedDetails` depends on the action kind, and `appliedBy` is null when Sentry applied it automatically. `followUp` is what Seer did with the re-check or re-run Sentry sent for this request. */
+export interface GetANotebookResponseActionRequestsItem {
+  /** The action request ID */
+  id: string;
+  /** The agent's key for the request */
+  key: string;
+  /** The report revision that suggested it */
+  reportRevision: number;
+  /** Whether it's the recommended next step */
+  primary: boolean;
+  /** The block or hypothesis the request is under, if any */
+  anchor: CreateANotebookResponseActionRequestsItemAnchor | null;
+  /** A short title for the step */
+  title: string;
+  /** Why the agent suggests it */
+  rationale: string;
+  /** What the step would change, if the agent said */
+  impact: string | null;
+  /** suggested, applied, failed, superseded, or withdrawn */
+  state: string;
+  /** Why the request is in its state, if there's a reason */
+  reason: string | null;
+  /** The agent's action payload, or null when the request is only advice */
+  action: GetANotebookResponseActionRequestsItemActionMap | null;
+  /** Whether the requesting user can apply it now */
+  canApply: boolean;
+  /** Why the requesting user can't apply it, if they can't */
+  cannotApplyReason: GetANotebookResponseActionRequestsItemCannotApplyReason | null;
+  /** The user who applied it. Null when Sentry applied it */
+  appliedBy: GetANotebookResponseActionRequestsItemAppliedBy | null;
+  /** What applying it changed. The fields depend on the action */
+  appliedDetails: GetANotebookResponseActionRequestsItemAppliedDetails | null;
+  /** When it was applied */
+  dateApplied: string | null;
+  /** What went wrong, if applying it failed */
+  error: GetANotebookResponseActionRequestsItemError | null;
+  /** The re-check or re-run Sentry sent the agent, if any */
+  followUp: GetANotebookResponseActionRequestsItemFollowUp | null;
+  /** When the agent suggested it */
+  dateCreated: string;
+}
+/** Steps the agent suggests, newest report first */
+export type GetANotebookResponseActionRequestsList = Array<GetANotebookResponseActionRequestsItem>;
+export interface GetANotebookResponse {
+  /** The notebook ID */
+  id: string;
+  /** The notebook title */
+  title: string;
+  /** A one-line summary of the notebook, if one was generated */
+  summary: string | null;
+  /** A longer summary of the notebook, if one was generated */
+  summaryDescription: string | null;
+  /** active or archived. Archived notebooks are read-only */
+  status: string;
+  /** What the notebook is about: manual, or a source type */
+  sourceType: string;
+  /** The ID of the user who created the notebook, if a user did */
+  createdBy: string | null;
+  /** The user or service account that created the notebook */
+  creator: GetANotebookResponseCreator | null;
+  /** When the notebook was created */
+  dateCreated: string;
+  /** When the notebook last changed */
+  dateUpdated: string;
+  /** The notebook's concurrency token. Send it as notebookVersion with a change */
+  version: number;
+  /** The number of blocks the notebook has */
+  blockCount: number;
+  /** Whether the requesting user favorited the notebook */
+  isFavorited: boolean;
+  /** The state of automatic title generation */
+  titleGeneration: CreateANotebookResponseTitleGeneration;
+  /** The agent's run for the notebook, if it has one */
+  orchestration: CreateANotebookResponseOrchestration | null;
+  /** The template the notebook started from, if any */
+  template: CreateANotebookResponseTemplate | null;
+  /** What the notebook is about */
+  source: GetANotebookResponseSource;
+  /** Saved filters, stored with their original keys */
+  filters: GetANotebookResponseFiltersMap;
+  /** The IDs of the projects the notebook covers */
+  projectIds: GetANotebookResponseProjectIdsList;
+  /** The notebook's parameters, in order */
+  parameters: GetANotebookResponseParametersList;
+  /** The notebook's blocks, in order */
+  blocks: GetANotebookResponseBlocksList;
+  /** Steps the agent suggests, newest report first */
+  actionRequests: GetANotebookResponseActionRequestsList;
 }
 export type GetOrganizationAIConversationRequestProjectItem = number | string;
 export type GetOrganizationAIConversationRequestProjectList =
@@ -749,6 +2411,168 @@ export interface GetOrganizationPreprodSnapshotArchiveStatusResponse {
   /** Whether the archive of the snapshot's images is built and ready */
   ready: boolean;
 }
+export type GetProjectTraceItemRequestItemType =
+  | "attachments"
+  | "logs"
+  | "occurrences"
+  | "preprod"
+  | "processing_errors"
+  | "profile_functions"
+  | "spans"
+  | "tracemetrics"
+  | "uptime_results";
+export interface GetProjectTraceItemRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The hexadecimal ID of the item: the 16-character span ID for a span, or the 32-character item ID for other item types */
+  item_id: string;
+  /** The 32-character ID of the trace the item belongs to */
+  trace_id: string;
+  /** The type of the item */
+  item_type: GetProjectTraceItemRequestItemType | (string & {});
+  /** The opaque `meta.routingHint` of the events response that contained the item. Pass it unchanged to look the item up in the same storage. When it's omitted or empty, the default storage is used */
+  routing_hint?: string | undefined;
+  /** When the item happened, as an ISO 8601 timestamp or Unix seconds. The lookup is narrowed to a few minutes around it, which makes it faster */
+  timestamp?: string | undefined;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string | undefined;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string | undefined;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string | undefined;
+}
+export type GetProjectTraceItemResponseAttributesItemTypeCase0 = "str" | "int" | "float" | "bool";
+export type GetProjectTraceItemResponseAttributesItemTypeCase1 = "array";
+/** The type of the attribute value: `str`, `int`, `float`, `bool` or `array` */
+export type GetProjectTraceItemResponseAttributesItemType =
+  | GetProjectTraceItemResponseAttributesItemTypeCase0
+  | GetProjectTraceItemResponseAttributesItemTypeCase1;
+export type GetProjectTraceItemResponseAttributesItemValueCase3Item = number | boolean | string;
+export type GetProjectTraceItemResponseAttributesItemValueCase3List =
+  Array<GetProjectTraceItemResponseAttributesItemValueCase3Item>;
+/** The attribute value. An `int` value is a string, so 64-bit integers keep their precision. An `array` value is a list of values of one type */
+export type GetProjectTraceItemResponseAttributesItemValue =
+  | number
+  | boolean
+  | string
+  | GetProjectTraceItemResponseAttributesItemValueCase3List;
+export interface GetProjectTraceItemResponseAttributesItem {
+  /** The public name of the attribute, such as `severity`. A custom number or boolean attribute is named `tags[<name>,number]` or `tags[<name>,boolean]` */
+  name: string;
+  /** The name the attribute is stored under */
+  rawName?: string | undefined;
+  /** The type of the attribute value: `str`, `int`, `float`, `bool` or `array` */
+  type: GetProjectTraceItemResponseAttributesItemType;
+  /** The attribute value. An `int` value is a string, so 64-bit integers keep their precision. An `array` value is a list of values of one type */
+  value: GetProjectTraceItemResponseAttributesItemValue;
+}
+/** The attributes of the item, sorted by type and then by name */
+export type GetProjectTraceItemResponseAttributesList =
+  Array<GetProjectTraceItemResponseAttributesItem>;
+export type GetProjectTraceItemResponseMetaValueCase0Map = { [key: string]: unknown | undefined };
+export type GetProjectTraceItemResponseMetaValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type GetProjectTraceItemResponseMetaValue =
+  | GetProjectTraceItemResponseMetaValueCase0Map
+  | GetProjectTraceItemResponseMetaValueCase1List
+  | string
+  | number
+  | boolean;
+/** Processing metadata, keyed by attribute name, for attributes that were changed during ingestion, such as a value that was trimmed for length */
+export type GetProjectTraceItemResponseMetaMap = {
+  [key: string]: GetProjectTraceItemResponseMetaValue | undefined;
+};
+/** The link attribute value */
+export type GetProjectTraceItemResponseLinksItemAttributesItemValue =
+  | string
+  | number
+  | number
+  | boolean;
+/** The type of the link attribute value */
+export type GetProjectTraceItemResponseLinksItemAttributesItemType =
+  | "str"
+  | "int"
+  | "float"
+  | "bool";
+export interface GetProjectTraceItemResponseLinksItemAttributesItem {
+  /** The name of the link attribute, such as `sentry.link.type` */
+  name: string;
+  /** The link attribute value */
+  value: GetProjectTraceItemResponseLinksItemAttributesItemValue;
+  /** The type of the link attribute value */
+  type: GetProjectTraceItemResponseLinksItemAttributesItemType;
+}
+/** The attributes of the link. Attributes with values that aren't a string, number or boolean are left out */
+export type GetProjectTraceItemResponseLinksItemAttributesList =
+  Array<GetProjectTraceItemResponseLinksItemAttributesItem>;
+export interface GetProjectTraceItemResponseLinksItem {
+  /** The ID of the linked span */
+  itemId: string;
+  /** The ID of the trace the linked span belongs to */
+  traceId: string;
+  /** Whether the linked span was sampled */
+  sampled?: boolean | undefined;
+  /** The attributes of the link. Attributes with values that aren't a string, number or boolean are left out */
+  attributes?: GetProjectTraceItemResponseLinksItemAttributesList | undefined;
+}
+/** The span links of the item, or null if it has none */
+export type GetProjectTraceItemResponseLinksList = Array<GetProjectTraceItemResponseLinksItem>;
+export type GetProjectTraceItemResponseEventContextsCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetProjectTraceItemResponseEventContextsCase1List = Array<unknown>;
+/** The contexts of the event the item came from */
+export type GetProjectTraceItemResponseEventContexts =
+  | GetProjectTraceItemResponseEventContextsCase0Map
+  | GetProjectTraceItemResponseEventContextsCase1List
+  | string
+  | number
+  | boolean;
+export type GetProjectTraceItemResponseEventExtraCase0Map = { [key: string]: unknown | undefined };
+export type GetProjectTraceItemResponseEventExtraCase1List = Array<unknown>;
+/** The extra data of the event the item came from */
+export type GetProjectTraceItemResponseEventExtra =
+  | GetProjectTraceItemResponseEventExtraCase0Map
+  | GetProjectTraceItemResponseEventExtraCase1List
+  | string
+  | number
+  | boolean;
+export type GetProjectTraceItemResponseEventBreadcrumbsCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type GetProjectTraceItemResponseEventBreadcrumbsCase1List = Array<unknown>;
+/** The breadcrumbs of the event the item came from. Breadcrumb timestamps are ISO 8601 strings */
+export type GetProjectTraceItemResponseEventBreadcrumbs =
+  | GetProjectTraceItemResponseEventBreadcrumbsCase0Map
+  | GetProjectTraceItemResponseEventBreadcrumbsCase1List
+  | string
+  | number
+  | boolean;
+/** Fields of the event the item came from that are stored with it. Only present when at least one of them is */
+export interface GetProjectTraceItemResponseEvent {
+  /** The contexts of the event the item came from */
+  contexts?: GetProjectTraceItemResponseEventContexts | undefined;
+  /** The extra data of the event the item came from */
+  extra?: GetProjectTraceItemResponseEventExtra | undefined;
+  /** The breadcrumbs of the event the item came from. Breadcrumb timestamps are ISO 8601 strings */
+  breadcrumbs?: GetProjectTraceItemResponseEventBreadcrumbs | undefined;
+}
+export interface GetProjectTraceItemResponse {
+  /** The ID of the item. For a span, this is the 16-character span ID */
+  itemId: string;
+  /** When the item happened, as an RFC 3339 UTC timestamp ending in `Z` */
+  timestamp: string;
+  /** The attributes of the item, sorted by type and then by name */
+  attributes: GetProjectTraceItemResponseAttributesList;
+  /** Processing metadata, keyed by attribute name, for attributes that were changed during ingestion, such as a value that was trimmed for length */
+  meta: GetProjectTraceItemResponseMetaMap;
+  /** The span links of the item, or null if it has none */
+  links: GetProjectTraceItemResponseLinksList | null;
+  /** Fields of the event the item came from that are stored with it. Only present when at least one of them is */
+  event?: GetProjectTraceItemResponseEvent | undefined;
+}
 export interface GetSentryAppInstallationExternalRequestOptionsRequest {
   /** The UUID of the Sentry App installation. */
   uuid: string;
@@ -784,16 +2608,17 @@ export type ListAProjectSCustomInboundFiltersResponseBodyItemDataType =
   | "log"
   | "metric"
   | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemOperator =
   | "glob"
   | "equals"
@@ -813,9 +2638,9 @@ export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemOpera
 export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList =
   Array<string>;
 export interface ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType;
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemOperator | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList;
@@ -1186,10 +3011,64 @@ export type ListOrganizationIssueIntegrationsResponseBodyItemStatus =
   | "deletion_in_progress";
 /** Features the integration provider supports, such as issue-basic or commits */
 export type ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList = Array<string>;
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsAlertsItem {
+  /** Style of the alert, such as warning */
+  type: string;
+  /** Icon shown with the alert, such as icon-warning-sm */
+  icon: string;
+  /** Text of the alert, in Markdown */
+  text: string;
+}
+/** Alerts shown during setup */
+export type ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsAlertsList =
+  Array<ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsAlertsItem>;
+/** Configuration step after install */
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsConfigureIntegration {
+  /** Title of the configuration step */
+  title: string;
+}
+/** Dialog shown before the integration is disabled */
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsDisableDialog {
+  /** Label of the dialog's confirm button */
+  actionText: string;
+  /** Text of the dialog */
+  body: string;
+}
+/** Where to install the integration when it's installed outside Sentry */
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsExternalInstall {
+  /** URL to install the integration from, such as a marketplace */
+  url: string;
+  /** Label of the install button */
+  buttonText: string;
+  /** Notice shown before the user leaves Sentry */
+  noticeText: string;
+}
+/** Dialog shown before the integration is removed */
+export type ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsRemovalDialog =
+  ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsDisableDialog;
 /** Extra provider details shown during setup, such as alerts and configuration instructions */
-export type ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap = {
-  [key: string]: unknown | undefined;
-};
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProviderAspects {
+  /** Alerts shown during setup */
+  alerts?: ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsAlertsList | undefined;
+  /** Configuration step after install */
+  configure_integration?:
+    | ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsConfigureIntegration
+    | undefined;
+  /** Whether the integration is enabled without an install flow */
+  directEnable?: boolean | undefined;
+  /** Dialog shown before the integration is disabled */
+  disable_dialog?:
+    | ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsDisableDialog
+    | undefined;
+  /** Where to install the integration when it's installed outside Sentry */
+  externalInstall?:
+    | ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsExternalInstall
+    | undefined;
+  /** Dialog shown before the integration is removed */
+  removal_dialog?:
+    | ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsDisableDialog
+    | undefined;
+}
 /** Integration provider details */
 export interface ListOrganizationIssueIntegrationsResponseBodyItemProvider {
   /** Key of the integration provider, such as github */
@@ -1205,7 +3084,7 @@ export interface ListOrganizationIssueIntegrationsResponseBodyItemProvider {
   /** Features the integration provider supports, such as issue-basic or commits */
   features: ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList;
   /** Extra provider details shown during setup, such as alerts and configuration instructions */
-  aspects: ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap;
+  aspects: ListOrganizationIssueIntegrationsResponseBodyItemProviderAspects;
 }
 export interface ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem {
   /** ID of the link between the issue and the external issue */
@@ -1488,10 +3367,721 @@ export interface ListOrganizationSentryAppComponentsRequest {
   /** Filter components by type, such as `issue-link`. */
   filter?: string | undefined;
 }
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Type = "issue-link";
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItemCase2;
+/** Fields that the user must fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsItem>;
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItemCase2;
+/** Fields that the user can fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsItem>;
+/** Form for linking an existing issue */
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Link {
+  /** Path on the integration's server that Sentry sends requests to */
+  uri: string;
+  /** Fields that the user must fill in */
+  required_fields: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkRequiredFieldsList;
+  /** Fields that the user can fill in */
+  optional_fields?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0LinkOptionalFieldsList
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItemCase2;
+/** Fields that the user must fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsItem>;
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItemCase2;
+/** Fields that the user can fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsItem>;
+/** Form for creating an issue */
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Create {
+  /** Path on the integration's server that Sentry sends requests to */
+  uri: string;
+  /** Fields that the user must fill in */
+  required_fields: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateRequiredFieldsList;
+  /** Fields that the user can fill in */
+  optional_fields?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0CreateOptionalFieldsList
+    | undefined;
+}
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Type;
+  /** Form for linking an existing issue */
+  link: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Link;
+  /** Form for creating an issue */
+  create: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0Create;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1Type =
+  "alert-rule-action";
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsType =
+  "alert-rule-settings";
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItemCase2;
+/** Fields that the user must fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsItem>;
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0Type =
+  "select";
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsItemItem>;
+/** Options to choose from, each a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsItemList>;
+/** Names of the fields that this field's options depend on */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0DependsOnList =
+  Array<string>;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesItemItem =
+  | string
+  | number;
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesItemList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesItemItem>;
+/** Options to choose from, loaded from options or from uri. Each is a two-item array */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesItemList>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Whether the field loads its options from uri as the user types */
+  async?: boolean | undefined;
+  /** Whether to skip loading the options from uri when the form opens */
+  skip_load_on_open?: boolean | undefined;
+  /** Whether more than one option can be selected */
+  multiple?: boolean | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri?: string | undefined;
+  /** Options to choose from, each a two-item array */
+  options?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0OptionsList
+    | undefined;
+  /** Names of the fields that this field's options depend on */
+  depends_on?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0DependsOnList
+    | undefined;
+  /** Options to choose from, loaded from options or from uri. Each is a two-item array */
+  choices?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0ChoicesList
+    | undefined;
+  /** Value selected by default, from the options loaded from uri */
+  defaultValue?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1Type =
+  "text";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1Default
+    | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2Type =
+  "textarea";
+/** Issue field that prefills the field */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2Default =
+  | "issue.title"
+  | "issue.description";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2Type;
+  /** Label of the form field */
+  label: string;
+  /** Name of the form field, which keys its value in the submitted form */
+  name: string;
+  /** Issue field that prefills the field */
+  default?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2Default
+    | undefined;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItemCase2;
+/** Fields that the user can fill in */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsItem>;
+/** Settings form of the alert rule action */
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1Settings {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsType;
+  /** Text shown above the settings form */
+  description?: string | undefined;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri: string;
+  /** Fields that the user must fill in */
+  required_fields: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsRequiredFieldsList;
+  /** Fields that the user can fill in */
+  optional_fields?:
+    | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1SettingsOptionalFieldsList
+    | undefined;
+}
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1Type;
+  /** Title of the element */
+  title: string;
+  /** Settings form of the alert rule action */
+  settings: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1Settings;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2Type = "issue-media";
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase0Type =
+  "header";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase0 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase0Type;
+  /** Text of the header */
+  text: string;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase1Type =
+  "markdown";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase1 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase1Type;
+  /** Markdown text */
+  text: string;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase2Type =
+  "image";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase2Type;
+  /** URL of the image */
+  url: string;
+  /** Alternative text of the image */
+  alt?: string | undefined;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase3Type =
+  "video";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase3 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase3Type;
+  /** URL of the video */
+  url: string;
+}
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItem =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase2
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItemCase3;
+/** Media elements to show */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsItem>;
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2Type;
+  /** Title of the element */
+  title: string;
+  /** Media elements to show */
+  elements: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2ElementsList;
+}
+/** Type of the element */
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase3Type = "stacktrace-link";
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase3 {
+  /** Type of the element */
+  type: ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase3Type;
+  /** Path on the integration's server that Sentry sends requests to */
+  uri: string;
+  /** URL of the link, built from uri with the installation and project */
+  url?: string | undefined;
+}
 /** UI schema of the component */
-export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchema =
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase0
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase1
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase2
+  | ListOrganizationSentryAppComponentsResponseBodyItemSchemaCase3;
 /** Additional public details about the error, if any */
 export type ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap = {
   [key: string]: unknown | undefined;
@@ -1538,7 +4128,7 @@ export interface ListOrganizationSentryAppComponentsResponseBodyItem {
   /** Type of the component, such as issue-link, stacktrace-link or alert-rule-action */
   type: string;
   /** UI schema of the component */
-  schema: ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap;
+  schema: ListOrganizationSentryAppComponentsResponseBodyItemSchema;
   /** Error from loading the component. Empty when there's none */
   error: ListOrganizationSentryAppComponentsResponseBodyItemError;
   /** Custom integration that provides the component */
@@ -1674,6 +4264,573 @@ export interface ListProjectSeerRepositoriesResponseBodyItem {
 export type ListProjectSeerRepositoriesResponseBodyList =
   Array<ListProjectSeerRepositoriesResponseBodyItem>;
 export type ListProjectSeerRepositoriesResponse = ListProjectSeerRepositoriesResponseBodyList;
+/** Every active block ID exactly once, in the desired order. */
+export type ReorderNotebookBlocksRequestBlockIdsList = Array<number>;
+export interface ReorderNotebookBlocksRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of an investigation in this organization. */
+  notebook_id: string;
+  /** Current notebook version from the latest detail response. Stale versions return 409. */
+  notebookVersion: number;
+  /** Every active block ID exactly once, in the desired order. */
+  blockIds: ReorderNotebookBlocksRequestBlockIdsList;
+}
+/** Whether a user or a service account created the notebook */
+export type ReorderNotebookBlocksResponseCreatorType =
+  | "user"
+  | "service_account"
+  | "system"
+  | "integration"
+  | "agent"
+  | "unknown";
+/** The user or service account that created the notebook */
+export interface ReorderNotebookBlocksResponseCreator {
+  /** Whether a user or a service account created the notebook */
+  type: ReorderNotebookBlocksResponseCreatorType;
+  /** The ID of the user or service account that created the notebook */
+  id: string;
+}
+/** The state of automatic title generation */
+export type ReorderNotebookBlocksResponseTitleGeneration = CreateANotebookResponseTitleGeneration;
+/** The agent's run for the notebook, if it has one */
+export type ReorderNotebookBlocksResponseOrchestration = CreateANotebookResponseOrchestration;
+/** The template the notebook started from, if any */
+export type ReorderNotebookBlocksResponseTemplate = CreateANotebookResponseTemplate;
+export type ReorderNotebookBlocksResponseSourceSnapshotValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseSourceSnapshotValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseSourceSnapshotValue =
+  | ReorderNotebookBlocksResponseSourceSnapshotValueCase0Map
+  | ReorderNotebookBlocksResponseSourceSnapshotValueCase1List
+  | string
+  | number
+  | boolean;
+/** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+export type ReorderNotebookBlocksResponseSourceSnapshotMap = {
+  [key: string]: ReorderNotebookBlocksResponseSourceSnapshotValue | undefined;
+};
+export type ReorderNotebookBlocksResponseSourceRefValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseSourceRefValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseSourceRefValue =
+  | ReorderNotebookBlocksResponseSourceRefValueCase0Map
+  | ReorderNotebookBlocksResponseSourceRefValueCase1List
+  | string
+  | number
+  | boolean;
+/** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+export type ReorderNotebookBlocksResponseSourceRefMap = {
+  [key: string]: ReorderNotebookBlocksResponseSourceRefValue | undefined;
+};
+/** What the notebook is about */
+export interface ReorderNotebookBlocksResponseSource {
+  /** What Sentry knew about the source when the notebook started. Only on source-backed notebooks */
+  snapshot?: ReorderNotebookBlocksResponseSourceSnapshotMap | undefined;
+  /** The source type: manual, or the type of what the notebook is about */
+  type: string;
+  /** The identifying fields of the source, such as an issue ID. Empty for a manual notebook */
+  ref: ReorderNotebookBlocksResponseSourceRefMap;
+  /** The notebook's revision for its source. A new revision starts once the previous one is archived. Null for a manual notebook */
+  revision: number | null;
+}
+export type ReorderNotebookBlocksResponseFiltersValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseFiltersValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseFiltersValue =
+  | ReorderNotebookBlocksResponseFiltersValueCase0Map
+  | ReorderNotebookBlocksResponseFiltersValueCase1List
+  | string
+  | number
+  | boolean;
+/** Saved filters, stored with their original keys */
+export type ReorderNotebookBlocksResponseFiltersMap = {
+  [key: string]: ReorderNotebookBlocksResponseFiltersValue | undefined;
+};
+/** The IDs of the projects the notebook covers */
+export type ReorderNotebookBlocksResponseProjectIdsList = Array<number>;
+export type ReorderNotebookBlocksResponseParametersItemConstraintsValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseParametersItemConstraintsValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseParametersItemConstraintsValue =
+  | ReorderNotebookBlocksResponseParametersItemConstraintsValueCase0Map
+  | ReorderNotebookBlocksResponseParametersItemConstraintsValueCase1List
+  | string
+  | number
+  | boolean;
+/** Limits on the parameter's value, by type */
+export type ReorderNotebookBlocksResponseParametersItemConstraintsMap = {
+  [key: string]: ReorderNotebookBlocksResponseParametersItemConstraintsValue | undefined;
+};
+export type ReorderNotebookBlocksResponseParametersItemDefaultValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseParametersItemDefaultValueCase1List = Array<unknown>;
+/** The value used when none is saved */
+export type ReorderNotebookBlocksResponseParametersItemDefaultValue =
+  | ReorderNotebookBlocksResponseParametersItemDefaultValueCase0Map
+  | ReorderNotebookBlocksResponseParametersItemDefaultValueCase1List
+  | string
+  | number
+  | boolean;
+export type ReorderNotebookBlocksResponseParametersItemSavedValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseParametersItemSavedValueCase1List = Array<unknown>;
+/** The saved value, or null */
+export type ReorderNotebookBlocksResponseParametersItemSavedValue =
+  | ReorderNotebookBlocksResponseParametersItemSavedValueCase0Map
+  | ReorderNotebookBlocksResponseParametersItemSavedValueCase1List
+  | string
+  | number
+  | boolean;
+/** Parameter definition and saved override. type and constraints govern accepted values; defaultValue and savedValue may be null. Use key in the parameter-values update request. */
+export interface ReorderNotebookBlocksResponseParametersItem {
+  /** The parameter ID */
+  id: string;
+  /** The key blocks use to refer to the parameter */
+  key: string;
+  /** The parameter's display name */
+  label: string;
+  /** What the parameter is for */
+  description: string;
+  /** The type of value the parameter takes */
+  type: string;
+  /** Whether the parameter needs a value */
+  required: boolean;
+  /** Limits on the parameter's value, by type */
+  constraints: ReorderNotebookBlocksResponseParametersItemConstraintsMap;
+  /** The value used when none is saved */
+  defaultValue: ReorderNotebookBlocksResponseParametersItemDefaultValue;
+  /** The saved value, or null */
+  savedValue: ReorderNotebookBlocksResponseParametersItemSavedValue;
+  /** Who defined the parameter */
+  source: string;
+  /** The parameter's position in the notebook */
+  position: number;
+  /** The parameter's concurrency token */
+  version: number;
+}
+/** The notebook's parameters, in order */
+export type ReorderNotebookBlocksResponseParametersList =
+  Array<ReorderNotebookBlocksResponseParametersItem>;
+export type ReorderNotebookBlocksResponseBlocksItemOutputCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseBlocksItemOutputCase1List = Array<unknown>;
+/** The latest successful result. Text blocks have schemaVersion and markdown */
+export type ReorderNotebookBlocksResponseBlocksItemOutput =
+  | ReorderNotebookBlocksResponseBlocksItemOutputCase0Map
+  | ReorderNotebookBlocksResponseBlocksItemOutputCase1List
+  | string
+  | number
+  | boolean;
+export type ReorderNotebookBlocksResponseBlocksItemCurrentExecutionErrorCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseBlocksItemCurrentExecutionErrorCase1List = Array<unknown>;
+/** What went wrong, if the execution failed */
+export type ReorderNotebookBlocksResponseBlocksItemCurrentExecutionError =
+  | ReorderNotebookBlocksResponseBlocksItemCurrentExecutionErrorCase0Map
+  | ReorderNotebookBlocksResponseBlocksItemCurrentExecutionErrorCase1List
+  | string
+  | number
+  | boolean;
+/** The latest execution, if the block has run */
+export interface ReorderNotebookBlocksResponseBlocksItemCurrentExecution {
+  /** The execution ID */
+  id: string;
+  /** The execution status */
+  status: string;
+  /** What ran the block */
+  executor: string;
+  /** The version of the result's schema */
+  schemaVersion: number;
+  /** When the execution started */
+  startedAt: string | null;
+  /** When the execution finished, if it has */
+  completedAt: string | null;
+  /** What went wrong, if the execution failed */
+  error: ReorderNotebookBlocksResponseBlocksItemCurrentExecutionError;
+}
+export type ReorderNotebookBlocksResponseBlocksItemConfigValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseBlocksItemConfigValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseBlocksItemConfigValue =
+  | ReorderNotebookBlocksResponseBlocksItemConfigValueCase0Map
+  | ReorderNotebookBlocksResponseBlocksItemConfigValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block runs, such as auto-run */
+export type ReorderNotebookBlocksResponseBlocksItemConfigMap = {
+  [key: string]: ReorderNotebookBlocksResponseBlocksItemConfigValue | undefined;
+};
+export type ReorderNotebookBlocksResponseBlocksItemDisplayValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseBlocksItemDisplayValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseBlocksItemDisplayValue =
+  | ReorderNotebookBlocksResponseBlocksItemDisplayValueCase0Map
+  | ReorderNotebookBlocksResponseBlocksItemDisplayValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+export type ReorderNotebookBlocksResponseBlocksItemDisplayMap = {
+  [key: string]: ReorderNotebookBlocksResponseBlocksItemDisplayValue | undefined;
+};
+/** The IDs of blocks this block depends on */
+export type ReorderNotebookBlocksResponseBlocksItemDependenciesList = Array<string>;
+/** The keys of the parameters the block uses */
+export type ReorderNotebookBlocksResponseBlocksItemParameterKeysList = Array<string>;
+/** Notebook block. version is the block concurrency token; dependencies are block IDs and parameterKeys reference notebook parameters. output is the latest successful result and may remain available during a rerun; currentExecution describes the latest attempt. Poll execution details for transcript and pending input. producerKey and producerRevision are set on blocks a producer wrote. */
+export interface ReorderNotebookBlocksResponseBlocksItem {
+  /** The block ID */
+  id: string;
+  /** The block's position in the notebook, starting at 0 */
+  position: number;
+  /** text for Markdown, or query for a data query */
+  kind: string;
+  /** The block title. May be empty */
+  title: string;
+  /** The block's content: Markdown for text, the query for query */
+  content: string;
+  /** Instructions used when running the block */
+  generationPrompt: string;
+  /** The latest generated content, before anyone edited it */
+  generatedContent: string;
+  /** The latest successful result. Text blocks have schemaVersion and markdown */
+  output: ReorderNotebookBlocksResponseBlocksItemOutput;
+  /** available, notRun, or the status of the latest execution */
+  outputStatus: string;
+  /** The latest execution, if the block has run */
+  currentExecution: ReorderNotebookBlocksResponseBlocksItemCurrentExecution | null;
+  /** How the block runs, such as auto-run */
+  config: ReorderNotebookBlocksResponseBlocksItemConfigMap;
+  /** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+  display: ReorderNotebookBlocksResponseBlocksItemDisplayMap;
+  /** The IDs of blocks this block depends on */
+  dependencies: ReorderNotebookBlocksResponseBlocksItemDependenciesList;
+  /** The keys of the parameters the block uses */
+  parameterKeys: ReorderNotebookBlocksResponseBlocksItemParameterKeysList;
+  /** The block's concurrency token. Send it as version with a change */
+  version: number;
+  /** When an input changed after the output was made, if one did */
+  staleAt: string | null;
+  /** The ID of the user who added the block, if a user did */
+  createdBy: string | null;
+  /** The ID of the user who last edited the block, if a user did */
+  lastEditedBy: string | null;
+  /** The producer's key for the block, if a producer wrote it */
+  producerKey: string | null;
+  /** The producer's revision for the block, if a producer wrote it */
+  producerRevision: number | null;
+}
+/** The notebook's blocks, in order */
+export type ReorderNotebookBlocksResponseBlocksList =
+  Array<ReorderNotebookBlocksResponseBlocksItem>;
+/** The block or hypothesis the request is under, if any */
+export type ReorderNotebookBlocksResponseActionRequestsItemAnchor =
+  CreateANotebookResponseActionRequestsItemAnchor;
+export type ReorderNotebookBlocksResponseActionRequestsItemActionValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type ReorderNotebookBlocksResponseActionRequestsItemActionValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type ReorderNotebookBlocksResponseActionRequestsItemActionValue =
+  | ReorderNotebookBlocksResponseActionRequestsItemActionValueCase0Map
+  | ReorderNotebookBlocksResponseActionRequestsItemActionValueCase1List
+  | string
+  | number
+  | boolean;
+/** The agent's action payload, or null when the request is only advice */
+export type ReorderNotebookBlocksResponseActionRequestsItemActionMap = {
+  [key: string]: ReorderNotebookBlocksResponseActionRequestsItemActionValue | undefined;
+};
+/** Why the requesting user can't apply it, if they can't */
+export type ReorderNotebookBlocksResponseActionRequestsItemCannotApplyReason =
+  | "investigation_archived"
+  | "not_suggested"
+  | "unsupported_action"
+  | "no_access"
+  | "not_target_detector"
+  | "detector_not_found"
+  | "permission_denied"
+  | "dynamic_detector";
+/** Organization the auth provider belongs to */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByIdentitiesItemOrganization =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization;
+/** Auth provider of the identity */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByIdentitiesItemProvider =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider;
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByIdentitiesItem =
+  CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem;
+/** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByIdentitiesList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem>;
+/** Avatar type */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByAvatarAvatarType =
+  | "letter_avatar"
+  | "upload"
+  | "gravatar";
+/** User avatar */
+export interface ReorderNotebookBlocksResponseActionRequestsItemAppliedByAvatar {
+  /** Avatar type */
+  avatarType?: ReorderNotebookBlocksResponseActionRequestsItemAppliedByAvatarAvatarType | undefined;
+  /** ID of the uploaded avatar image, or null */
+  avatarUuid?: string | null | undefined;
+  /** URL of the avatar image, or null if none is set */
+  avatarUrl?: string | null | undefined;
+}
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByAuthenticatorsItem =
+  CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem;
+/** Two-factor authenticators of the user, without backup methods such as recovery codes */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByAuthenticatorsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem>;
+/** Deprecated. Always an empty object */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByExperimentsMap = {
+  [key: string]: string | undefined;
+};
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByEmailsItem =
+  CreateANotebookResponseActionRequestsItemAppliedByEmailsItem;
+/** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedByEmailsList =
+  Array<CreateANotebookResponseActionRequestsItemAppliedByEmailsItem>;
+/** The user who applied it. Null when Sentry applied it */
+export interface ReorderNotebookBlocksResponseActionRequestsItemAppliedBy {
+  /** SSO identities of the user. Only included for the requesting user, unless the request has active superuser or staff access */
+  identities?: ReorderNotebookBlocksResponseActionRequestsItemAppliedByIdentitiesList | undefined;
+  /** User avatar */
+  avatar?: ReorderNotebookBlocksResponseActionRequestsItemAppliedByAvatar | undefined;
+  /** Two-factor authenticators of the user, without backup methods such as recovery codes */
+  authenticators?:
+    | ReorderNotebookBlocksResponseActionRequestsItemAppliedByAuthenticatorsList
+    | undefined;
+  /** Whether the organization can reset the user's two-factor authentication. True only if the user is a member of exactly one active organization */
+  canReset2fa?: boolean | undefined;
+  /** User ID */
+  id: string;
+  /** Display name: the user's name, or their email or username if no name is set */
+  name: string;
+  /** Username */
+  username: string;
+  /** Primary email address */
+  email: string;
+  /** Gravatar URL for the primary email address */
+  avatarUrl: string;
+  /** Whether the account is active */
+  isActive: boolean;
+  /** Whether the account is suspended. Suspended users can't sign in */
+  isSuspended: boolean;
+  /** Whether the user has a password set */
+  hasPasswordAuth: boolean;
+  /** Whether the account is managed, which stops the user from changing their username, password and similar details */
+  isManaged: boolean;
+  /** When the account was created */
+  dateJoined: string;
+  /** When the user last signed in, or null */
+  lastLogin: string | null;
+  /** Whether the user has two-factor authentication enabled */
+  has2fa: boolean;
+  /** When the user was last active, or null */
+  lastActive: string | null;
+  /** Whether the user is a superuser */
+  isSuperuser: boolean;
+  /** Whether the user has staff status */
+  isStaff: boolean;
+  /** Deprecated. Always an empty object */
+  experiments: ReorderNotebookBlocksResponseActionRequestsItemAppliedByExperimentsMap;
+  /** Email addresses of the user. Only included for the requesting user or superusers; empty otherwise */
+  emails: ReorderNotebookBlocksResponseActionRequestsItemAppliedByEmailsList;
+}
+/** The monitor settings that were changed */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase0FieldsList =
+  Array<string>;
+export interface ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase0 {
+  /** The ID of the monitor that was changed */
+  detectorId: string;
+  /** The name of the monitor that was changed */
+  detectorName: string;
+  /** The monitor settings that were changed */
+  fields: ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase0FieldsList;
+}
+/** The telemetry provider that was connected */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase1Provider =
+  | "datadog"
+  | "gcp";
+export interface ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase1 {
+  /** The telemetry provider that was connected */
+  provider: ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase1Provider;
+}
+/** What applying it changed. The fields depend on the action */
+export type ReorderNotebookBlocksResponseActionRequestsItemAppliedDetails =
+  | ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase0
+  | ReorderNotebookBlocksResponseActionRequestsItemAppliedDetailsCase1;
+/** The error code */
+export type ReorderNotebookBlocksResponseActionRequestsItemErrorCode =
+  | "already_applied"
+  | "withdrawn"
+  | "stale"
+  | "validation_failed"
+  | "action_changed"
+  | "not_stale"
+  | "not_retryable";
+export type ReorderNotebookBlocksResponseActionRequestsItemErrorCurrentValue =
+  | number
+  | number
+  | string;
+/** The current values of the settings the action would change */
+export type ReorderNotebookBlocksResponseActionRequestsItemErrorCurrentMap = {
+  [key: string]:
+    | ReorderNotebookBlocksResponseActionRequestsItemErrorCurrentValue
+    | null
+    | undefined;
+};
+/** Messages that explain the error */
+export type ReorderNotebookBlocksResponseActionRequestsItemErrorMessagesList = Array<string>;
+/** What went wrong, if applying it failed */
+export interface ReorderNotebookBlocksResponseActionRequestsItemError {
+  /** The error code */
+  code: ReorderNotebookBlocksResponseActionRequestsItemErrorCode;
+  /** The current values of the settings the action would change */
+  current?: ReorderNotebookBlocksResponseActionRequestsItemErrorCurrentMap | undefined;
+  /** Messages that explain the error */
+  messages?: ReorderNotebookBlocksResponseActionRequestsItemErrorMessagesList | undefined;
+}
+/** Where the follow-up is */
+export type ReorderNotebookBlocksResponseActionRequestsItemFollowUpStatus =
+  | "accepted"
+  | "dispatched"
+  | "acknowledged"
+  | "failed";
+/** Why the agent turned down or dropped the follow-up, if it did */
+export type ReorderNotebookBlocksResponseActionRequestsItemFollowUpReason =
+  | "workflow_version_conflict"
+  | "idempotency_conflict"
+  | "invalid_command_target"
+  | "action_requests_report_changed"
+  | "run_cancelled"
+  | "run_failed"
+  | "provider_not_connected"
+  | "provider_already_used";
+/** What the agent did with a re-run. Null for a re-check */
+export type ReorderNotebookBlocksResponseActionRequestsItemFollowUpRerun =
+  | "started"
+  | "held"
+  | "skipped";
+/** The re-check or re-run Sentry sent the agent, if any */
+export interface ReorderNotebookBlocksResponseActionRequestsItemFollowUp {
+  /** Where the follow-up is */
+  status: ReorderNotebookBlocksResponseActionRequestsItemFollowUpStatus;
+  /** Why the agent turned down or dropped the follow-up, if it did */
+  reason: ReorderNotebookBlocksResponseActionRequestsItemFollowUpReason | null;
+  /** What the agent did with a re-run. Null for a re-check */
+  rerun: ReorderNotebookBlocksResponseActionRequestsItemFollowUpRerun | null;
+  /** Whether the requesting user can send it again */
+  retryable: boolean;
+}
+/** A step Seer suggests. `primary` marks the recommended next step after a run, and `anchor` puts a request under a block or hypothesis. `action` is Seer's payload, or null when it's only advice. `canApply` says whether this viewer can apply it now, and `cannotApplyReason` says why not. What's in `appliedDetails` depends on the action kind, and `appliedBy` is null when Sentry applied it automatically. `followUp` is what Seer did with the re-check or re-run Sentry sent for this request. */
+export interface ReorderNotebookBlocksResponseActionRequestsItem {
+  /** The action request ID */
+  id: string;
+  /** The agent's key for the request */
+  key: string;
+  /** The report revision that suggested it */
+  reportRevision: number;
+  /** Whether it's the recommended next step */
+  primary: boolean;
+  /** The block or hypothesis the request is under, if any */
+  anchor: CreateANotebookResponseActionRequestsItemAnchor | null;
+  /** A short title for the step */
+  title: string;
+  /** Why the agent suggests it */
+  rationale: string;
+  /** What the step would change, if the agent said */
+  impact: string | null;
+  /** suggested, applied, failed, superseded, or withdrawn */
+  state: string;
+  /** Why the request is in its state, if there's a reason */
+  reason: string | null;
+  /** The agent's action payload, or null when the request is only advice */
+  action: ReorderNotebookBlocksResponseActionRequestsItemActionMap | null;
+  /** Whether the requesting user can apply it now */
+  canApply: boolean;
+  /** Why the requesting user can't apply it, if they can't */
+  cannotApplyReason: ReorderNotebookBlocksResponseActionRequestsItemCannotApplyReason | null;
+  /** The user who applied it. Null when Sentry applied it */
+  appliedBy: ReorderNotebookBlocksResponseActionRequestsItemAppliedBy | null;
+  /** What applying it changed. The fields depend on the action */
+  appliedDetails: ReorderNotebookBlocksResponseActionRequestsItemAppliedDetails | null;
+  /** When it was applied */
+  dateApplied: string | null;
+  /** What went wrong, if applying it failed */
+  error: ReorderNotebookBlocksResponseActionRequestsItemError | null;
+  /** The re-check or re-run Sentry sent the agent, if any */
+  followUp: ReorderNotebookBlocksResponseActionRequestsItemFollowUp | null;
+  /** When the agent suggested it */
+  dateCreated: string;
+}
+/** Steps the agent suggests, newest report first */
+export type ReorderNotebookBlocksResponseActionRequestsList =
+  Array<ReorderNotebookBlocksResponseActionRequestsItem>;
+export interface ReorderNotebookBlocksResponse {
+  /** The notebook ID */
+  id: string;
+  /** The notebook title */
+  title: string;
+  /** A one-line summary of the notebook, if one was generated */
+  summary: string | null;
+  /** A longer summary of the notebook, if one was generated */
+  summaryDescription: string | null;
+  /** active or archived. Archived notebooks are read-only */
+  status: string;
+  /** What the notebook is about: manual, or a source type */
+  sourceType: string;
+  /** The ID of the user who created the notebook, if a user did */
+  createdBy: string | null;
+  /** The user or service account that created the notebook */
+  creator: ReorderNotebookBlocksResponseCreator | null;
+  /** When the notebook was created */
+  dateCreated: string;
+  /** When the notebook last changed */
+  dateUpdated: string;
+  /** The notebook's concurrency token. Send it as notebookVersion with a change */
+  version: number;
+  /** The number of blocks the notebook has */
+  blockCount: number;
+  /** Whether the requesting user favorited the notebook */
+  isFavorited: boolean;
+  /** The state of automatic title generation */
+  titleGeneration: CreateANotebookResponseTitleGeneration;
+  /** The agent's run for the notebook, if it has one */
+  orchestration: CreateANotebookResponseOrchestration | null;
+  /** The template the notebook started from, if any */
+  template: CreateANotebookResponseTemplate | null;
+  /** What the notebook is about */
+  source: ReorderNotebookBlocksResponseSource;
+  /** Saved filters, stored with their original keys */
+  filters: ReorderNotebookBlocksResponseFiltersMap;
+  /** The IDs of the projects the notebook covers */
+  projectIds: ReorderNotebookBlocksResponseProjectIdsList;
+  /** The notebook's parameters, in order */
+  parameters: ReorderNotebookBlocksResponseParametersList;
+  /** The notebook's blocks, in order */
+  blocks: ReorderNotebookBlocksResponseBlocksList;
+  /** Steps the agent suggests, newest report first */
+  actionRequests: ReorderNotebookBlocksResponseActionRequestsList;
+}
 /** Allows parameters to be defined in snake case, but passed as camel case. Errors are output in camel case. */
 export type ReplaceProjectSeerRepositoriesRequestReposItemBranchOverridesItem =
   AddProjectSeerRepositoriesRequestReposItemBranchOverridesItem;
@@ -1730,16 +4887,17 @@ export interface UnstarOrganizationServiceSpanRequest {
 export interface UnstarOrganizationServiceSpanResponse {}
 /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
 export type UpdateACustomInboundFilterRequestDataType = "all" | "error" | "log" | "metric" | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type UpdateACustomInboundFilterRequestConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type UpdateACustomInboundFilterRequestConditionsItemOperator =
   | "glob"
   | "equals"
@@ -1758,9 +4916,9 @@ export type UpdateACustomInboundFilterRequestConditionsItemOperator =
 /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
 export type UpdateACustomInboundFilterRequestConditionsItemValueList = Array<string>;
 export interface UpdateACustomInboundFilterRequestConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: UpdateACustomInboundFilterRequestConditionsItemType | (string & {});
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: UpdateACustomInboundFilterRequestConditionsItemOperator | (string & {}) | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: UpdateACustomInboundFilterRequestConditionsItemValueList;
@@ -1791,16 +4949,17 @@ export type UpdateACustomInboundFilterResponseDataType =
   | "log"
   | "metric"
   | "span";
-/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+/** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
 export type UpdateACustomInboundFilterResponseConditionsItemType =
   | "error_type"
   | "error_message"
   | "log_message"
   | "metric_name"
   | "release"
+  | "environment"
   | "ip_address"
   | "geo_country_code";
-/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+/** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
 export type UpdateACustomInboundFilterResponseConditionsItemOperator =
   | "glob"
   | "equals"
@@ -1819,9 +4978,9 @@ export type UpdateACustomInboundFilterResponseConditionsItemOperator =
 /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
 export type UpdateACustomInboundFilterResponseConditionsItemValueList = Array<string>;
 export interface UpdateACustomInboundFilterResponseConditionsItem {
-  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` * `geo_country_code` */
+  /** The field the condition matches against. Every `dataType` accepts `release`, `environment` and `ip_address`. In addition, `error` accepts `error_type`, `error_message` and `geo_country_code`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `environment` * `ip_address` * `geo_country_code` */
   type: UpdateACustomInboundFilterResponseConditionsItemType;
-  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
+  /** How the field compares to `value`. `glob` matches the field against each value as a glob pattern. `equals`, `starts_with`, `contains` and `ends_with` match the field against each value case-insensitively, with every character read literally; `does_not_start_with`, `does_not_contain` and `does_not_end_with` match when the field is set and no value does. `cidr` matches `ip_address` against each value as an address or a CIDR range, and `not_cidr` matches when no value does. `gt`, `gte`, `lt` and `lte` compare one value as a version and only apply to `release`. * `glob` * `equals` * `starts_with` * `contains` * `ends_with` * `does_not_start_with` * `does_not_contain` * `does_not_end_with` * `cidr` * `not_cidr` * `gt` * `gte` * `lt` * `lte` */
   operator?: UpdateACustomInboundFilterResponseConditionsItemOperator | undefined;
   /** The values the field is compared to. The condition matches when any value matches, so multiple values act as OR; a negated operator matches when none does. A version comparison takes one release with a version such as `1.2.0` or `myapp@1.2.0`. A comparison with a package only applies to releases of that package. */
   value: UpdateACustomInboundFilterResponseConditionsItemValueList;
@@ -1846,6 +5005,145 @@ export interface UpdateACustomInboundFilterResponse {
   name?: string | null | undefined;
   /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
   active?: boolean | undefined;
+}
+/** Block configuration object. Nested keys are preserved. */
+export type UpdateANotebookBlockRequestConfigMap = { [key: string]: unknown | undefined };
+/** Display settings. Text uses type markdown; query uses table, line, bar, or area. Versioned settings use version 1. Charts require xAxis and non-empty yAxes. Defaults to Markdown for text and table for query. */
+export type UpdateANotebookBlockRequestDisplayMap = { [key: string]: unknown | undefined };
+export interface UpdateANotebookBlockRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of an investigation in this organization. */
+  notebook_id: string;
+  /** The ID of an active block in this investigation. */
+  block_id: string;
+  /** Current notebook version from the latest detail response. Stale versions return 409. */
+  notebookVersion: number;
+  /** Current block version from the latest block response. Stale versions return 409. */
+  version: number;
+  /** Block title. May be empty. */
+  title?: string | undefined;
+  /** User-authored content. May be empty. */
+  content?: string | undefined;
+  /** Instructions used when executing the block. May be empty. */
+  generationPrompt?: string | undefined;
+  /** Block configuration object. Nested keys are preserved. */
+  config?: UpdateANotebookBlockRequestConfigMap | undefined;
+  /** Display settings. Text uses type markdown; query uses table, line, bar, or area. Versioned settings use version 1. Charts require xAxis and non-empty yAxes. Defaults to Markdown for text and table for query. */
+  display?: UpdateANotebookBlockRequestDisplayMap | undefined;
+}
+export type UpdateANotebookBlockResponseOutputCase0Map = { [key: string]: unknown | undefined };
+export type UpdateANotebookBlockResponseOutputCase1List = Array<unknown>;
+/** The latest successful result. Text blocks have schemaVersion and markdown */
+export type UpdateANotebookBlockResponseOutput =
+  | UpdateANotebookBlockResponseOutputCase0Map
+  | UpdateANotebookBlockResponseOutputCase1List
+  | string
+  | number
+  | boolean;
+export type UpdateANotebookBlockResponseCurrentExecutionErrorCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type UpdateANotebookBlockResponseCurrentExecutionErrorCase1List = Array<unknown>;
+/** What went wrong, if the execution failed */
+export type UpdateANotebookBlockResponseCurrentExecutionError =
+  | UpdateANotebookBlockResponseCurrentExecutionErrorCase0Map
+  | UpdateANotebookBlockResponseCurrentExecutionErrorCase1List
+  | string
+  | number
+  | boolean;
+/** The latest execution, if the block has run */
+export interface UpdateANotebookBlockResponseCurrentExecution {
+  /** The execution ID */
+  id: string;
+  /** The execution status */
+  status: string;
+  /** What ran the block */
+  executor: string;
+  /** The version of the result's schema */
+  schemaVersion: number;
+  /** When the execution started */
+  startedAt: string | null;
+  /** When the execution finished, if it has */
+  completedAt: string | null;
+  /** What went wrong, if the execution failed */
+  error: UpdateANotebookBlockResponseCurrentExecutionError;
+}
+export type UpdateANotebookBlockResponseConfigValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type UpdateANotebookBlockResponseConfigValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type UpdateANotebookBlockResponseConfigValue =
+  | UpdateANotebookBlockResponseConfigValueCase0Map
+  | UpdateANotebookBlockResponseConfigValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block runs, such as auto-run */
+export type UpdateANotebookBlockResponseConfigMap = {
+  [key: string]: UpdateANotebookBlockResponseConfigValue | undefined;
+};
+export type UpdateANotebookBlockResponseDisplayValueCase0Map = {
+  [key: string]: unknown | undefined;
+};
+export type UpdateANotebookBlockResponseDisplayValueCase1List = Array<unknown>;
+/** Any JSON value */
+export type UpdateANotebookBlockResponseDisplayValue =
+  | UpdateANotebookBlockResponseDisplayValueCase0Map
+  | UpdateANotebookBlockResponseDisplayValueCase1List
+  | string
+  | number
+  | boolean;
+/** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+export type UpdateANotebookBlockResponseDisplayMap = {
+  [key: string]: UpdateANotebookBlockResponseDisplayValue | undefined;
+};
+/** The IDs of blocks this block depends on */
+export type UpdateANotebookBlockResponseDependenciesList = Array<string>;
+/** The keys of the parameters the block uses */
+export type UpdateANotebookBlockResponseParameterKeysList = Array<string>;
+export interface UpdateANotebookBlockResponse {
+  /** The block ID */
+  id: string;
+  /** The block's position in the notebook, starting at 0 */
+  position: number;
+  /** text for Markdown, or query for a data query */
+  kind: string;
+  /** The block title. May be empty */
+  title: string;
+  /** The block's content: Markdown for text, the query for query */
+  content: string;
+  /** Instructions used when running the block */
+  generationPrompt: string;
+  /** The latest generated content, before anyone edited it */
+  generatedContent: string;
+  /** The latest successful result. Text blocks have schemaVersion and markdown */
+  output: UpdateANotebookBlockResponseOutput;
+  /** available, notRun, or the status of the latest execution */
+  outputStatus: string;
+  /** The latest execution, if the block has run */
+  currentExecution: UpdateANotebookBlockResponseCurrentExecution | null;
+  /** How the block runs, such as auto-run */
+  config: UpdateANotebookBlockResponseConfigMap;
+  /** How the block is shown. Text uses type markdown; query uses table, line, bar, or area */
+  display: UpdateANotebookBlockResponseDisplayMap;
+  /** The IDs of blocks this block depends on */
+  dependencies: UpdateANotebookBlockResponseDependenciesList;
+  /** The keys of the parameters the block uses */
+  parameterKeys: UpdateANotebookBlockResponseParameterKeysList;
+  /** The block's concurrency token. Send it as version with a change */
+  version: number;
+  /** When an input changed after the output was made, if one did */
+  staleAt: string | null;
+  /** The ID of the user who added the block, if a user did */
+  createdBy: string | null;
+  /** The ID of the user who last edited the block, if a user did */
+  lastEditedBy: string | null;
+  /** The producer's key for the block, if a producer wrote it */
+  producerKey: string | null;
+  /** The producer's revision for the block, if a producer wrote it */
+  producerRevision: number | null;
 }
 /** The chunks to upload. Name each part after the SHA-1 checksum of its uncompressed content. Repeat the field for each chunk, up to `chunksPerRequest` per request. */
 export type UploadOrganizationChunksRequestFileList = Array<string>;
@@ -1877,8 +5175,8 @@ export const addProjectSeerRepositories: API.OperationMethod<
   AddProjectSeerRepositoriesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<AddProjectSeerRepositoriesRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<AddProjectSeerRepositoriesResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<AddProjectSeerRepositoriesRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<AddProjectSeerRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -1899,8 +5197,8 @@ export const assembleOrganizationArtifactBundle: API.OperationMethod<
   AssembleOrganizationArtifactBundleError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<AssembleOrganizationArtifactBundleRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<AssembleOrganizationArtifactBundleResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<AssembleOrganizationArtifactBundleRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<AssembleOrganizationArtifactBundleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -1917,8 +5215,8 @@ export const assembleProjectDebugFiles: API.OperationMethod<
   AssembleProjectDebugFilesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(530, __c33, 2) as any as S.Schema<AssembleProjectDebugFilesRequest>,
-  output: __S(535, __c33, 7) as any as S.Schema<AssembleProjectDebugFilesResponse>,
+  input: __S(1250, __c39, 2) as any as S.Schema<AssembleProjectDebugFilesRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<AssembleProjectDebugFilesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -1935,14 +5233,55 @@ export const createACustomInboundFilter: API.OperationMethod<
   CreateACustomInboundFilterError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateACustomInboundFilterRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<CreateACustomInboundFilterResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateACustomInboundFilterRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<CreateACustomInboundFilterResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateACustomInboundFilter",
+}));
+
+export type CreateANotebookError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Create a blank notebook, or a notebook for a producer's source. Returns 201 with notebook details, blocks, parameters, and orchestration summary, or 200 when an active notebook for the same source already exists. Requires a user or service account. Requires the organizations:investigations feature and open organization membership. */
+export const createANotebook: API.OperationMethod<
+  CreateANotebookRequest,
+  CreateANotebookResponse,
+  CreateANotebookError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1377, __c43, 1) as any as S.Schema<CreateANotebookRequest>,
+  output: __S(1395, __c43, 19) as any as S.Schema<CreateANotebookResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateANotebook",
+}));
+
+export type CreateANotebookBlockError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Append a text or query block to an active investigation, using notebookVersion for concurrency. A producer sends key and revision instead to write its text block: the same key updates the block, overwriting user edits and bringing back a deleted block, and a block with a newer revision returns 409. Returns 201 with the new block, or 200 when a producer's write updates one; fetch investigation details for the updated notebook version. Requires a user or service account; key and revision require a service account or Seer agent token. Requires the organizations:investigations feature and open organization membership. */
+export const createANotebookBlock: API.OperationMethod<
+  CreateANotebookBlockRequest,
+  CreateANotebookBlockResponse,
+  CreateANotebookBlockError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateANotebookBlockRequest>,
+  output: __S(1572, __c49, 4) as any as S.Schema<CreateANotebookBlockResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateANotebookBlock",
 }));
 
 export type DeleteACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -1953,14 +5292,37 @@ export const deleteACustomInboundFilter: API.OperationMethod<
   DeleteACustomInboundFilterError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DeleteACustomInboundFilterRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteACustomInboundFilterResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteACustomInboundFilterRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<DeleteACustomInboundFilterResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteACustomInboundFilter",
+}));
+
+export type DeleteANotebookBlockError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Soft-delete an active block using notebook and block versions. Active executions and other state conflicts return 409. Returns no body. Requires a user or service account. Requires the organizations:investigations feature and open organization membership. */
+export const deleteANotebookBlock: API.OperationMethod<
+  DeleteANotebookBlockRequest,
+  DeleteANotebookBlockResponse,
+  DeleteANotebookBlockError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c1, 0) as any as S.Schema<DeleteANotebookBlockRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<DeleteANotebookBlockResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteANotebookBlock",
 }));
 
 export type DeleteOrganizationIssueExternalIssueError =
@@ -1975,8 +5337,8 @@ export const deleteOrganizationIssueExternalIssue: API.OperationMethod<
   DeleteOrganizationIssueExternalIssueError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DeleteOrganizationIssueExternalIssueRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteOrganizationIssueExternalIssueResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteOrganizationIssueExternalIssueRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<DeleteOrganizationIssueExternalIssueResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -1998,10 +5360,14 @@ export const executeSentryAppInstallationExternalIssueAction: API.OperationMetho
   ExecuteSentryAppInstallationExternalIssueActionError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ExecuteSentryAppInstallationExternalIssueActionRequest>,
+  input: __S(
+    96,
+    __c3,
+    0,
+  ) as any as S.Schema<ExecuteSentryAppInstallationExternalIssueActionRequest>,
   output: __S(
-    1,
-    __c0,
+    97,
+    __c3,
     1,
   ) as any as S.Schema<ExecuteSentryAppInstallationExternalIssueActionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -2024,8 +5390,8 @@ export const fetchOrganizationAvailableActions: API.OperationMethod<
   FetchOrganizationAvailableActionsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<FetchOrganizationAvailableActionsRequest>,
-  output: __S(25, __c1, 9) as any as S.Schema<FetchOrganizationAvailableActionsResponse>,
+  input: __S(129, __c4, 1) as any as S.Schema<FetchOrganizationAvailableActionsRequest>,
+  output: __S(146, __c4, 18) as any as S.Schema<FetchOrganizationAvailableActionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2042,8 +5408,8 @@ export const getACustomInboundFilter: API.OperationMethod<
   GetACustomInboundFilterError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetACustomInboundFilterRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<GetACustomInboundFilterResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetACustomInboundFilterRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<GetACustomInboundFilterResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2052,16 +5418,34 @@ export const getACustomInboundFilter: API.OperationMethod<
   span: "GetACustomInboundFilter",
 }));
 
+export type GetANotebookError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Return notebook metadata, source context, filters, project IDs, parameter definitions and saved values, and ordered active blocks. Poll this endpoint for notebook and block output updates. Requires the organizations:investigations feature and open organization membership. */
+export const getANotebook: API.OperationMethod<
+  GetANotebookRequest,
+  GetANotebookResponse,
+  GetANotebookError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c7, 0) as any as S.Schema<GetANotebookRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<GetANotebookResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetANotebook",
+}));
+
 export type GetOrganizationAIConversationError = BadRequest | Forbidden | NotFound | SentryOpError;
-/** Retrieve an Organization's AI Conversation **Experimental:** This API is under active development and may change. Return spans recorded for one AI conversation in start-time order. Message, tool, and response attributes contain their recorded string values. `stats.errors` counts spans whose status is not `ok`, `cancelled`, or `unknown`. `stats.errorToolNames` lists tools used by those spans. `stats.inputTokens` includes cache-read and cache-write tokens. In `stats.usageByModel`, `inputCost` includes cache-read and cache-write costs, and `outputCost` includes reasoning cost. These cost breakdowns are not added to `totalCost`. Stats are returned on the first page only. Without an explicit range, Sentry widens the search across available retention. A missing conversation returns an empty `spans` list. */
+/** Retrieve an Organization's AI Conversation **Experimental:** This API is under active development and may change. Return spans recorded for one AI conversation in start-time order. Message, tool, and response attributes contain their recorded string values. `stats.errors` counts spans whose status is not `ok`, `cancelled`, or `unknown`. `stats.errorToolNames` lists tools used by those spans. `stats.inputTokens` includes cache-read and cache-write tokens. In `stats.usageByModel`, `inputCost` includes cache-read and cache-write costs, and `outputCost` includes reasoning cost. These cost breakdowns are not added to `totalCost`. Stats are returned on the first page only. Without an explicit range, Sentry widens the search to the last 30 days. Ranges that reach further back, including a `statsPeriod` longer than 30 days, return a 400. A missing conversation returns an empty `spans` list. */
 export const getOrganizationAIConversation: API.OperationMethod<
   GetOrganizationAIConversationRequest,
   GetOrganizationAIConversationResponse,
   GetOrganizationAIConversationError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<GetOrganizationAIConversationRequest>,
-  output: __S(86, __c5, 6) as any as S.Schema<GetOrganizationAIConversationResponse>,
+  input: __S(257, __c8, 1) as any as S.Schema<GetOrganizationAIConversationRequest>,
+  output: __S(262, __c8, 6) as any as S.Schema<GetOrganizationAIConversationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2078,8 +5462,8 @@ export const getOrganizationChunkUploadOptions: API.OperationMethod<
   GetOrganizationChunkUploadOptionsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetOrganizationChunkUploadOptionsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetOrganizationChunkUploadOptionsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetOrganizationChunkUploadOptionsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<GetOrganizationChunkUploadOptionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2096,8 +5480,8 @@ export const getOrganizationIssueAutofixState: API.OperationMethod<
   GetOrganizationIssueAutofixStateError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetOrganizationIssueAutofixStateRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<GetOrganizationIssueAutofixStateResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetOrganizationIssueAutofixStateRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<GetOrganizationIssueAutofixStateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2114,14 +5498,36 @@ export const getOrganizationPreprodSnapshotArchiveStatus: API.OperationMethod<
   GetOrganizationPreprodSnapshotArchiveStatusError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetOrganizationPreprodSnapshotArchiveStatusRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GetOrganizationPreprodSnapshotArchiveStatusResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetOrganizationPreprodSnapshotArchiveStatusRequest>,
+  output: __S(
+    385,
+    __c12,
+    1,
+  ) as any as S.Schema<GetOrganizationPreprodSnapshotArchiveStatusResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationPreprodSnapshotArchiveStatus",
+}));
+
+export type GetProjectTraceItemError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** Retrieve a Trace Item **Experimental:** This API is under active development and may change. Retrieve a span, log or other trace item of a project, with all of its attributes. Pass the `meta.routingHint` of the events response that listed the item as `routing_hint`, unchanged. An invalid hint returns 400. */
+export const getProjectTraceItem: API.OperationMethod<
+  GetProjectTraceItemRequest,
+  GetProjectTraceItemResponse,
+  GetProjectTraceItemError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectTraceItemRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<GetProjectTraceItemResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectTraceItem",
 }));
 
 export type GetSentryAppInstallationExternalRequestOptionsError =
@@ -2137,13 +5543,13 @@ export const getSentryAppInstallationExternalRequestOptions: API.OperationMethod
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c10,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsRequest>,
   output: __S(
-    162,
-    __c10,
+    450,
+    __c14,
     2,
   ) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -2166,8 +5572,8 @@ export const listAProjectSCustomInboundFilters: API.OperationMethod<
   ListAProjectSCustomInboundFiltersError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListAProjectSCustomInboundFiltersRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<ListAProjectSCustomInboundFiltersResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListAProjectSCustomInboundFiltersRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<ListAProjectSCustomInboundFiltersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2181,15 +5587,15 @@ export type ListOrganizationAIConversationsError =
   | Forbidden
   | NotFound
   | SentryOpError;
-/** List an Organization's AI Conversations **Experimental:** This API is under active development and may change. Return AI conversations ordered by latest span time. `query` uses Sentry search syntax. **Span filters** - Description: `"payment failed"`; status: `span.status:[error,internal_error]`. - Operation: `gen_ai.operation.type:tool`; tool: `gen_ai.tool.name:get_weather`. - Duration: `span.duration:>2s`; ID: `gen_ai.conversation.id:"session:123"` or `conversation.conversationId:"session:123"`. **Conversation filters** - Calls: `conversation.llmCalls` or `conversation.messages`, and `conversation.toolCalls`; failures: `conversation.errors` and `conversation.toolErrors`. - Usage: `conversation.inputTokens`, `conversation.outputTokens`, `conversation.totalTokens`, and `conversation.totalCost`. - Timespan: `conversation.timeSpan` measures elapsed time between first and last AI spans; `conversation.generationDuration` sums LLM call durations. Both use milliseconds. Use numeric comparisons such as `conversation.toolCalls:>2`. Queries return conversations, not spans. Each `AND` condition may match a different span. Returned totals include all AI spans in selected project, environment, and time filters, not only matching spans. Negation means no span matches, including when an attribute is absent. Payloads are searchable only when recorded and not scrubbed. Payload failure text does not mark a span as failed; set `span.status:error` for reliable failure search. */
+/** List an Organization's AI Conversations **Experimental:** This API is under active development and may change. Return AI conversations ordered by latest span time. `query` uses Sentry search syntax. **Span filters** - Description: `"payment failed"`; status: `span.status:[error,internal_error]`. - Operation: `gen_ai.operation.type:tool`; tool: `gen_ai.tool.name:get_weather`. - Duration: `span.duration:>2s`; ID: `gen_ai.conversation.id:"session:123"` or `conversation.conversationId:"session:123"`. **Conversation filters** - Calls: `conversation.llmCalls` or `conversation.messages`, and `conversation.toolCalls`; failures: `conversation.errors` and `conversation.toolErrors`. - Usage: `conversation.inputTokens`, `conversation.outputTokens`, `conversation.totalTokens`, and `conversation.totalCost`. - Timespan: `conversation.timeSpan` measures elapsed time between first and last AI spans; `conversation.generationDuration` sums LLM call durations. Both use milliseconds. Use numeric comparisons such as `conversation.toolCalls:>2`. Queries return conversations, not spans. Each `AND` condition may match a different span. Returned totals include all AI spans in selected project, environment, and time filters, not only matching spans. Negation means no span matches, including when an attribute is absent. Payloads are searchable only when recorded and not scrubbed. Payload failure text does not mark a span as failed; set `span.status:error` for reliable failure search. Conversations are searchable for the last 30 days. Ranges that reach further back, including a `statsPeriod` longer than 30 days, return a 400. */
 export const listOrganizationAIConversations: API.OperationMethod<
   ListOrganizationAIConversationsRequest,
   ListOrganizationAIConversationsResponse,
   ListOrganizationAIConversationsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<ListOrganizationAIConversationsRequest>,
-  output: __S(197, __c12, 5) as any as S.Schema<ListOrganizationAIConversationsResponse>,
+  input: __S(513, __c16, 1) as any as S.Schema<ListOrganizationAIConversationsRequest>,
+  output: __S(517, __c16, 5) as any as S.Schema<ListOrganizationAIConversationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2206,8 +5612,8 @@ export const listOrganizationEventsDropped: API.OperationMethod<
   ListOrganizationEventsDroppedError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<ListOrganizationEventsDroppedRequest>,
-  output: __S(215, __c13, 7) as any as S.Schema<ListOrganizationEventsDroppedResponse>,
+  input: __S(545, __c17, 1) as any as S.Schema<ListOrganizationEventsDroppedRequest>,
+  output: __S(551, __c17, 7) as any as S.Schema<ListOrganizationEventsDroppedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2228,8 +5634,8 @@ export const listOrganizationIntegrationChannels: API.OperationMethod<
   ListOrganizationIntegrationChannelsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListOrganizationIntegrationChannelsRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<ListOrganizationIntegrationChannelsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListOrganizationIntegrationChannelsRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<ListOrganizationIntegrationChannelsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2250,8 +5656,8 @@ export const listOrganizationIntegrationRepositories: API.OperationMethod<
   ListOrganizationIntegrationRepositoriesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListOrganizationIntegrationRepositoriesRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<ListOrganizationIntegrationRepositoriesResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListOrganizationIntegrationRepositoriesRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<ListOrganizationIntegrationRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2268,8 +5674,8 @@ export const listOrganizationIssueIntegrations: API.OperationMethod<
   ListOrganizationIssueIntegrationsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListOrganizationIssueIntegrationsRequest>,
-  output: __S(264, __c16, 8) as any as S.Schema<ListOrganizationIssueIntegrationsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListOrganizationIssueIntegrationsRequest>,
+  output: __S(654, __c20, 14) as any as S.Schema<ListOrganizationIssueIntegrationsResponse>,
   errors: [],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2286,8 +5692,8 @@ export const listOrganizationReleaseThresholdStatuses: API.OperationMethod<
   ListOrganizationReleaseThresholdStatusesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(273, __c17, 1) as any as S.Schema<ListOrganizationReleaseThresholdStatusesRequest>,
-  output: __S(282, __c17, 10) as any as S.Schema<ListOrganizationReleaseThresholdStatusesResponse>,
+  input: __S(673, __c21, 1) as any as S.Schema<ListOrganizationReleaseThresholdStatusesRequest>,
+  output: __S(680, __c21, 8) as any as S.Schema<ListOrganizationReleaseThresholdStatusesResponse>,
   errors: [BadRequest],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2304,8 +5710,8 @@ export const listOrganizationSentryAppComponents: API.OperationMethod<
   ListOrganizationSentryAppComponentsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListOrganizationSentryAppComponentsRequest>,
-  output: __S(294, __c18, 6) as any as S.Schema<ListOrganizationSentryAppComponentsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListOrganizationSentryAppComponentsRequest>,
+  output: __S(710, __c22, 6) as any as S.Schema<ListOrganizationSentryAppComponentsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2322,8 +5728,8 @@ export const listOrganizationTraceMetrics: API.OperationMethod<
   ListOrganizationTraceMetricsError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(305, __c19, 1) as any as S.Schema<ListOrganizationTraceMetricsRequest>,
-  output: __S(309, __c19, 5) as any as S.Schema<ListOrganizationTraceMetricsResponse>,
+  input: __S(737, __c23, 1) as any as S.Schema<ListOrganizationTraceMetricsRequest>,
+  output: __S(741, __c23, 5) as any as S.Schema<ListOrganizationTraceMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2340,14 +5746,37 @@ export const listProjectSeerRepositories: API.OperationMethod<
   ListProjectSeerRepositoriesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListProjectSeerRepositoriesRequest>,
-  output: __S(325, __c20, 5) as any as S.Schema<ListProjectSeerRepositoriesResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListProjectSeerRepositoriesRequest>,
+  output: __S(773, __c24, 5) as any as S.Schema<ListProjectSeerRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectSeerRepositories",
+}));
+
+export type ReorderNotebookBlocksError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Set the order of all active blocks. Supply every active block ID exactly once and the current notebook version. Returns the updated notebook with ordered blocks. Requires a user or service account. Requires the organizations:investigations feature and open organization membership. */
+export const reorderNotebookBlocks: API.OperationMethod<
+  ReorderNotebookBlocksRequest,
+  ReorderNotebookBlocksResponse,
+  ReorderNotebookBlocksError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c25, 0) as any as S.Schema<ReorderNotebookBlocksRequest>,
+  output: __S(818, __c25, 18) as any as S.Schema<ReorderNotebookBlocksResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderNotebookBlocks",
 }));
 
 export type ReplaceProjectSeerRepositoriesError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -2358,8 +5787,8 @@ export const replaceProjectSeerRepositories: API.OperationMethod<
   ReplaceProjectSeerRepositoriesError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ReplaceProjectSeerRepositoriesRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<ReplaceProjectSeerRepositoriesResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ReplaceProjectSeerRepositoriesRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<ReplaceProjectSeerRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2376,8 +5805,8 @@ export const starOrganizationServiceSpan: API.OperationMethod<
   StarOrganizationServiceSpanError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<StarOrganizationServiceSpanRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<StarOrganizationServiceSpanResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<StarOrganizationServiceSpanRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StarOrganizationServiceSpanResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2394,8 +5823,8 @@ export const startOrganizationPreprodSnapshotArchive: API.OperationMethod<
   StartOrganizationPreprodSnapshotArchiveError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<StartOrganizationPreprodSnapshotArchiveRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<StartOrganizationPreprodSnapshotArchiveResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<StartOrganizationPreprodSnapshotArchiveRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartOrganizationPreprodSnapshotArchiveResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2412,8 +5841,8 @@ export const unstarOrganizationServiceSpan: API.OperationMethod<
   UnstarOrganizationServiceSpanError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<UnstarOrganizationServiceSpanRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<UnstarOrganizationServiceSpanResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<UnstarOrganizationServiceSpanRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<UnstarOrganizationServiceSpanResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2430,14 +5859,37 @@ export const updateACustomInboundFilter: API.OperationMethod<
   UpdateACustomInboundFilterError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UpdateACustomInboundFilterRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<UpdateACustomInboundFilterResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<UpdateACustomInboundFilterRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<UpdateACustomInboundFilterResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateACustomInboundFilter",
+}));
+
+export type UpdateANotebookBlockError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Update at least one of title, content, generationPrompt, config, or display. Send both notebook and block versions. The block kind cannot change. Returns the updated block. Requires a user or service account. Requires the organizations:investigations feature and open organization membership. */
+export const updateANotebookBlock: API.OperationMethod<
+  UpdateANotebookBlockRequest,
+  UpdateANotebookBlockResponse,
+  UpdateANotebookBlockError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateANotebookBlockRequest>,
+  output: __S(996, __c31, 4) as any as S.Schema<UpdateANotebookBlockResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: SentryServiceErrors,
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateANotebookBlock",
 }));
 
 export type UploadOrganizationChunksError = BadRequest | Forbidden | NotFound | SentryOpError;
@@ -2448,8 +5900,8 @@ export const uploadOrganizationChunks: API.OperationMethod<
   UploadOrganizationChunksError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UploadOrganizationChunksRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<UploadOrganizationChunksResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<UploadOrganizationChunksRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<UploadOrganizationChunksResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2470,8 +5922,8 @@ export const validateOrganizationIntegrationChannel: API.OperationMethod<
   ValidateOrganizationIntegrationChannelError,
   SentryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ValidateOrganizationIntegrationChannelRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<ValidateOrganizationIntegrationChannelResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ValidateOrganizationIntegrationChannelRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<ValidateOrganizationIntegrationChannelResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SentryServiceErrors,
   protocol: SentryProtocol,
@@ -2486,6 +5938,62 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          project_id_or_slug: S.String.pipe(T.Label()),
+          filter_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteACustomInboundFilterRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          notebook_id: S.String.pipe(T.Label()),
+          block_id: S.String.pipe(T.Label()),
+          notebookVersion: S.Number,
+          version: S.Number,
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/{notebook_id}/blocks/{block_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteANotebookBlockRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          issue_id: S.String.pipe(T.Label()),
+          external_issue_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/organizations/{organization_id_or_slug}/issues/{issue_id}/external-issues/{external_issue_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteOrganizationIssueExternalIssueRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           uuid: S.String.pipe(T.Label()),
           expectedExternalIssueUrl: S.optional(S.String.pipe(T.Query())),
           groupId: S.String,
@@ -2494,7 +6002,7 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/sentry-app-installations/{uuid}/external-issue-actions/",
+            uri: "/sentry-app-installations/{uuid}/external-issue-actions/",
             code: 200,
           }),
         ),
@@ -2511,22 +6019,84 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ExecuteSentryAppInstallationExternalIssueActionResponse" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          type: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          type: S.optional(__S(160, __c5, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/available-actions/",
+            uri: "/organizations/{organization_id_or_slug}/available-actions/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "FetchOrganizationAvailableActionsRequest" });
-    case 1:
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          type: S.optional(S.Unknown),
+          description: S.optional(S.String),
+          properties: S.optional(__S(130, __c4, 2)),
+          required: S.optional(__S(1216, __c38, 0)),
+          additionalProperties: S.optional(S.Boolean),
+          enum: S.optional(__S(131, __c4, 3)),
+          default: S.optional(S.NullOr(S.Unknown)),
+          items: S.optional(S.Unknown),
+          allOf: S.optional(__S(128, __c4, 0)),
+          if: S.optional(S.Unknown),
+          then: S.optional(S.Unknown),
+          pattern: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FetchOrganizationAvailableActionsResponseBodyItemConfigSchema" });
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          type: S.optional(S.Unknown),
+          description: S.optional(S.String),
+          properties: S.optional(__S(133, __c4, 5)),
+          required: S.optional(__S(1216, __c38, 0)),
+          additionalProperties: S.optional(S.Boolean),
+          enum: S.optional(__S(134, __c4, 6)),
+          default: S.optional(S.NullOr(S.Unknown)),
+          items: S.optional(S.Unknown),
+          allOf: S.optional(__S(128, __c4, 0)),
+          if: S.optional(S.Unknown),
+          then: S.optional(S.Unknown),
+          pattern: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FetchOrganizationAvailableActionsResponseBodyItemDataSchema" });
+    case 8:
+      return S.Array(S.Unknown);
+    case 9:
+      return S.Array(S.Unknown);
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          description: S.optional(S.String),
+          uri: S.String,
+          required_fields: __S(136, __c4, 8),
+          optional_fields: S.optional(__S(137, __c4, 9)),
+        }),
+      ).annotate({
+        identifier: "FetchOrganizationAvailableActionsResponseBodyItemSentryAppSettings",
+      });
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -2534,74 +6104,54 @@ function __c1(j: number): any {
           installationId: S.String,
           installationUuid: S.String,
           status: S.String,
-          settings: S.optional(__S(544, __c34, 0)),
+          settings: S.optional(__S(138, __c4, 10)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchOrganizationAvailableActionsResponseBodyItemSentryApp" });
-    case 2:
-      return S.Array(__S(32, __c2, 0));
-    case 3:
+    case 12:
+      return S.Array(__S(1408, __c44, 0));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
-          services: S.optional(__S(18, __c1, 2)),
+          services: S.optional(__S(140, __c4, 12)),
         }),
       ).annotate({
         identifier: "FetchOrganizationAvailableActionsResponseBodyItemIntegrationsItem",
       });
-    case 4:
-      return S.Array(__S(19, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "FetchOrganizationAvailableActionsResponseBodyItemServicesItem" });
-    case 6:
-      return S.Array(__S(21, __c1, 5));
-    case 7:
+    case 14:
+      return S.Array(__S(141, __c4, 13));
+    case 15:
+      return S.Array(__S(1440, __c45, 0));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           handlerGroup: S.String,
-          configSchema: __S(544, __c34, 0),
-          dataSchema: __S(544, __c34, 0),
-          sentryApp: S.optional(__S(17, __c1, 1)),
-          integrations: S.optional(__S(20, __c1, 4)),
-          services: S.optional(__S(22, __c1, 6)),
+          configSchema: __S(132, __c4, 4),
+          dataSchema: __S(135, __c4, 7),
+          sentryApp: S.optional(__S(139, __c4, 11)),
+          integrations: S.optional(__S(142, __c4, 14)),
+          services: S.optional(__S(143, __c4, 15)),
           disabledReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchOrganizationAvailableActionsResponseBodyItem" });
-    case 8:
-      return S.Array(__S(23, __c1, 7));
-    case 9:
-      return S.suspend(() => __S(24, __c1, 8).pipe(T.RawResponseRoot())).annotate({
+    case 17:
+      return S.Array(__S(144, __c4, 16));
+    case 18:
+      return S.suspend(() => __S(145, __c4, 17).pipe(T.RawResponseRoot())).annotate({
         identifier: "FetchOrganizationAvailableActionsResponse",
       });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({
-        identifier: "FetchOrganizationAvailableActionsResponseBodyItemIntegrationsItemServicesItem",
-      });
-  }
-}
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2612,14 +6162,175 @@ function __c4(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "GetACustomInboundFilterRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          notebook_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/{notebook_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetANotebookRequest" });
+    case 1:
+      return S.Record(S.String, S.Unknown);
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: S.optional(__S(225, __c7, 1)),
+          type: S.String,
+          ref: __S(226, __c7, 2),
+          revision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "GetANotebookResponseSource" });
+    case 4:
+      return S.Record(S.String, S.Unknown);
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          label: S.String,
+          description: S.String,
+          type: S.String,
+          required: S.Boolean,
+          constraints: __S(229, __c7, 5),
+          defaultValue: S.Unknown,
+          savedValue: S.Unknown,
+          source: S.String,
+          position: S.Number,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "GetANotebookResponseParametersItem" });
+    case 7:
+      return S.Array(__S(230, __c7, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          executor: S.String,
+          schemaVersion: S.Number,
+          startedAt: S.NullOr(S.String),
+          completedAt: S.NullOr(S.String),
+          error: S.Unknown,
+        }),
+      ).annotate({ identifier: "GetANotebookResponseBlocksItemCurrentExecution" });
+    case 9:
+      return S.Record(S.String, S.Unknown);
+    case 10:
+      return S.Record(S.String, S.Unknown);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          position: S.Number,
+          kind: S.String,
+          title: S.String,
+          content: S.String,
+          generationPrompt: S.String,
+          generatedContent: S.String,
+          output: S.Unknown,
+          outputStatus: S.String,
+          currentExecution: S.NullOr(__S(232, __c7, 8)),
+          config: __S(233, __c7, 9),
+          display: __S(234, __c7, 10),
+          dependencies: __S(1216, __c38, 0),
+          parameterKeys: __S(1216, __c38, 0),
+          version: S.Number,
+          staleAt: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          lastEditedBy: S.NullOr(S.String),
+          producerKey: S.NullOr(S.String),
+          producerRevision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "GetANotebookResponseBlocksItem" });
+    case 12:
+      return S.Array(__S(235, __c7, 11));
+    case 13:
+      return S.Record(S.String, S.Unknown);
+    case 14:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          current: S.optional(__S(238, __c7, 14)),
+          messages: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "GetANotebookResponseActionRequestsItemError" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          reportRevision: S.Number,
+          primary: S.Boolean,
+          anchor: S.NullOr(__S(1508, __c47, 4)),
+          title: S.String,
+          rationale: S.String,
+          impact: S.NullOr(S.String),
+          state: S.String,
+          reason: S.NullOr(S.String),
+          action: S.NullOr(__S(237, __c7, 13)),
+          canApply: S.Boolean,
+          cannotApplyReason: S.NullOr(S.String),
+          appliedBy: S.NullOr(__S(1515, __c47, 11)),
+          appliedDetails: S.NullOr(S.Unknown),
+          dateApplied: S.NullOr(S.String),
+          error: S.NullOr(__S(239, __c7, 15)),
+          followUp: S.NullOr(__S(1516, __c47, 12)),
+          dateCreated: S.String,
+        }),
+      ).annotate({ identifier: "GetANotebookResponseActionRequestsItem" });
+    case 17:
+      return S.Array(__S(240, __c7, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          summary: S.NullOr(S.String),
+          summaryDescription: S.NullOr(S.String),
+          status: S.String,
+          sourceType: S.String,
+          createdBy: S.NullOr(S.String),
+          creator: S.NullOr(__S(1504, __c47, 0)),
+          dateCreated: S.String,
+          dateUpdated: S.String,
+          version: S.Number,
+          blockCount: S.Number,
+          isFavorited: S.Boolean,
+          titleGeneration: __S(1505, __c47, 1),
+          orchestration: S.NullOr(__S(1506, __c47, 2)),
+          template: S.NullOr(__S(1507, __c47, 3)),
+          source: __S(227, __c7, 3),
+          filters: __S(228, __c7, 4),
+          projectIds: __S(1472, __c46, 0),
+          parameters: __S(231, __c7, 7),
+          blocks: __S(236, __c7, 12),
+          actionRequests: __S(241, __c7, 17),
+        }),
+      ).annotate({ identifier: "GetANotebookResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2628,8 +6339,8 @@ function __c5(j: number): any {
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
           conversation_id: S.String.pipe(T.Label()),
-          project: S.optional(__S(80, __c5, 0).pipe(T.Query())),
-          environment: S.optional(__S(512, __c32, 0).pipe(T.Query())),
+          project: S.optional(__S(256, __c8, 0).pipe(T.Query())),
+          environment: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           statsPeriod: S.optional(S.String.pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
@@ -2638,13 +6349,13 @@ function __c5(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/agents/conversations/{conversation_id}/",
+            uri: "/organizations/{organization_id_or_slug}/agents/conversations/{conversation_id}/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "GetOrganizationAIConversationRequest" });
     case 2:
-      return S.Array(__S(544, __c34, 0));
+      return S.Array(__S(1536, __c48, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2665,7 +6376,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "GetOrganizationAIConversationResponseStatsUsageByModelItem" });
     case 4:
-      return S.Array(__S(83, __c5, 3));
+      return S.Array(__S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2678,17 +6389,17 @@ function __c5(j: number): any {
           startTimestamp: S.Number,
           toolCalls: S.Number,
           toolErrors: S.Number,
-          toolNames: __S(512, __c32, 0),
+          toolNames: __S(1216, __c38, 0),
           totalCost: S.Number,
           totalTokens: S.Number,
           cacheReadTokens: S.Number,
           cacheWriteTokens: S.Number,
-          errorToolNames: __S(512, __c32, 0),
+          errorToolNames: __S(1216, __c38, 0),
           reasoningTokens: S.Number,
           cacheReadCost: S.Number,
           cacheWriteCost: S.Number,
           reasoningCost: S.Number,
-          usageByModel: __S(84, __c5, 4),
+          usageByModel: __S(260, __c8, 4),
         }),
       ).annotate({ identifier: "GetOrganizationAIConversationResponseStats" });
     case 6:
@@ -2696,15 +6407,15 @@ function __c5(j: number): any {
         S.Struct({
           conversationId: S.String,
           title: S.NullOr(S.String),
-          projects: __S(97, __c6, 1),
+          projects: __S(289, __c9, 1),
           webUrl: S.String,
-          spans: __S(82, __c5, 2),
-          stats: S.NullOr(__S(85, __c5, 5)),
+          spans: __S(258, __c8, 2),
+          stats: S.NullOr(__S(261, __c8, 5)),
         }),
       ).annotate({ identifier: "GetOrganizationAIConversationResponse" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2715,10 +6426,10 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "GetOrganizationAIConversationResponseProjectsItem" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(288, __c9, 0));
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2727,7 +6438,7 @@ function __c7(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/chunk-upload/",
+            uri: "/organizations/{organization_id_or_slug}/chunk-upload/",
             code: 200,
           }),
         ),
@@ -2742,13 +6453,13 @@ function __c7(j: number): any {
           maxRequestSize: S.Number,
           concurrency: S.Number,
           hashAlgorithm: S.String,
-          compression: __S(512, __c32, 0),
-          accept: __S(512, __c32, 0),
+          compression: __S(1216, __c38, 0),
+          accept: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "GetOrganizationChunkUploadOptionsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2759,7 +6470,7 @@ function __c8(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/autofix/",
+            uri: "/organizations/{organization_id_or_slug}/issues/{issue_id}/autofix/",
             code: 200,
           }),
         ),
@@ -2774,13 +6485,13 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          formatted: S.optional(__S(129, __c8, 1)),
-          autofix: S.NullOr(__S(544, __c34, 0)),
+          formatted: S.optional(__S(353, __c11, 1)),
+          autofix: S.NullOr(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "GetOrganizationIssueAutofixStateResponse" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2790,7 +6501,7 @@ function __c9(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/preprodartifacts/snapshots/{snapshot_id}/archive/",
+            uri: "/organizations/{organization_id_or_slug}/preprodartifacts/snapshots/{snapshot_id}/archive/",
             code: 200,
           }),
         ),
@@ -2803,7 +6514,85 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetOrganizationPreprodSnapshotArchiveStatusResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          project_id_or_slug: S.String.pipe(T.Label()),
+          item_id: S.String.pipe(T.Label()),
+          trace_id: S.String.pipe(T.Query()),
+          item_type: S.String.pipe(T.Query()),
+          routing_hint: S.optional(S.String.pipe(T.Query())),
+          timestamp: S.optional(S.String.pipe(T.Query())),
+          statsPeriod: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/trace-items/{item_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectTraceItemRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          rawName: S.optional(S.String),
+          type: S.Unknown,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "GetProjectTraceItemResponseAttributesItem" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.Record(S.String, S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.Unknown,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "GetProjectTraceItemResponseLinksItemAttributesItem" });
+    case 5:
+      return S.Array(__S(420, __c13, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          itemId: S.String,
+          traceId: S.String,
+          sampled: S.optional(S.Boolean),
+          attributes: S.optional(__S(421, __c13, 5)),
+        }),
+      ).annotate({ identifier: "GetProjectTraceItemResponseLinksItem" });
+    case 7:
+      return S.Array(__S(422, __c13, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          contexts: S.optional(S.Unknown),
+          extra: S.optional(S.Unknown),
+          breadcrumbs: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetProjectTraceItemResponseEvent" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          itemId: S.String,
+          timestamp: S.String,
+          attributes: __S(418, __c13, 2),
+          meta: __S(419, __c13, 3),
+          links: S.NullOr(__S(423, __c13, 7)),
+          event: S.optional(__S(424, __c13, 8)),
+        }),
+      ).annotate({ identifier: "GetProjectTraceItemResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2816,23 +6605,23 @@ function __c10(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/sentry-app-installations/{uuid}/external-requests/",
+            uri: "/sentry-app-installations/{uuid}/external-requests/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "GetSentryAppInstallationExternalRequestOptionsRequest" });
     case 1:
-      return S.Array(__S(512, __c32, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          choices: __S(161, __c10, 1),
+          choices: __S(449, __c14, 1),
           defaultValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSentryAppInstallationExternalRequestOptionsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2842,20 +6631,20 @@ function __c11(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "ListAProjectSCustomInboundFiltersRequest" });
     case 1:
-      return S.Array(__S(578, __c36, 2));
+      return S.Array(__S(1346, __c42, 2));
     case 2:
-      return S.suspend(() => __S(177, __c11, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(481, __c15, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAProjectSCustomInboundFiltersResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2863,8 +6652,8 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          project: S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          environment: S.optional(__S(512, __c32, 0).pipe(T.Query())),
+          project: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          environment: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           statsPeriod: S.optional(S.String.pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
@@ -2875,7 +6664,7 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/agents/conversations/",
+            uri: "/organizations/{organization_id_or_slug}/agents/conversations/",
             code: 200,
           }),
         ),
@@ -2901,32 +6690,32 @@ function __c12(j: number): any {
           startTimestamp: S.Number,
           toolCalls: S.Number,
           toolErrors: S.Number,
-          toolNames: __S(512, __c32, 0),
+          toolNames: __S(1216, __c38, 0),
           totalCost: S.Number,
           totalTokens: S.Number,
           conversationId: S.String,
           timeSpan: S.Number,
           title: S.NullOr(S.String),
           projectId: S.NullOr(S.Number),
-          flow: __S(512, __c32, 0),
+          flow: __S(1216, __c38, 0),
           traceCount: S.Number,
-          traceIds: __S(512, __c32, 0),
+          traceIds: __S(1216, __c38, 0),
           firstInput: S.NullOr(S.String),
           lastOutput: S.NullOr(S.String),
-          user: S.NullOr(__S(194, __c12, 2)),
-          projects: __S(97, __c6, 1),
+          user: S.NullOr(__S(514, __c16, 2)),
+          projects: __S(289, __c9, 1),
           webUrl: S.String,
         }),
       ).annotate({ identifier: "ListOrganizationAIConversationsResponseBodyItem" });
     case 4:
-      return S.Array(__S(195, __c12, 3));
+      return S.Array(__S(515, __c16, 3));
     case 5:
-      return S.suspend(() => __S(196, __c12, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(516, __c16, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationAIConversationsResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -2936,8 +6725,8 @@ function __c13(j: number): any {
           organization_id_or_slug: S.String.pipe(T.Label()),
           dataset: S.String.pipe(T.Query()),
           end: S.optional(S.String.pipe(T.Query())),
-          environment: S.optional(__S(512, __c32, 0).pipe(T.Query())),
-          project: S.optional(__S(208, __c13, 0).pipe(T.Query())),
+          environment: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          project: S.optional(__S(544, __c17, 0).pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           statsPeriod: S.optional(S.String.pipe(T.Query())),
           interval: S.optional(S.Unknown.pipe(T.Query())),
@@ -2946,7 +6735,7 @@ function __c13(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/events-dropped/",
+            uri: "/organizations/{organization_id_or_slug}/events-dropped/",
             code: 200,
           }),
         ),
@@ -2962,7 +6751,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ListOrganizationEventsDroppedResponseMetaSuppressedDropsItem" });
     case 3:
-      return S.Array(__S(210, __c13, 2));
+      return S.Array(__S(546, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2970,7 +6759,7 @@ function __c13(j: number): any {
           start: S.Number,
           end: S.Number,
           interval: S.Number,
-          suppressedDrops: __S(211, __c13, 3),
+          suppressedDrops: __S(547, __c17, 3),
         }),
       ).annotate({ identifier: "ListOrganizationEventsDroppedResponseMeta" });
     case 5:
@@ -2983,22 +6772,22 @@ function __c13(j: number): any {
           start: S.Number,
           end: S.Number,
           count: S.Number,
-          tags: __S(512, __c32, 0),
+          tags: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "ListOrganizationEventsDroppedResponseDroppedEventsItem" });
     case 6:
-      return S.Array(__S(213, __c13, 5));
+      return S.Array(__S(549, __c17, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          meta: __S(212, __c13, 4),
-          droppedEvents: __S(214, __c13, 6),
-          acceptedEvents: __S(214, __c13, 6),
+          meta: __S(548, __c17, 4),
+          droppedEvents: __S(550, __c17, 6),
+          acceptedEvents: __S(550, __c17, 6),
         }),
       ).annotate({ identifier: "ListOrganizationEventsDroppedResponse" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3008,7 +6797,7 @@ function __c14(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/integrations/{integration_id}/channels/",
+            uri: "/organizations/{organization_id_or_slug}/integrations/{integration_id}/channels/",
             code: 200,
           }),
         ),
@@ -3023,17 +6812,17 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "ListOrganizationIntegrationChannelsResponseResultsItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           warning: S.optional(S.String),
-          results: __S(226, __c14, 2),
+          results: __S(578, __c18, 2),
         }),
       ).annotate({ identifier: "ListOrganizationIntegrationChannelsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3046,7 +6835,7 @@ function __c15(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/integrations/{integration_id}/repos/",
+            uri: "/organizations/{organization_id_or_slug}/integrations/{integration_id}/repos/",
             code: 200,
           }),
         ),
@@ -3063,17 +6852,17 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ListOrganizationIntegrationRepositoriesResponseReposItem" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          repos: __S(242, __c15, 2),
+          repos: __S(610, __c19, 2),
           searchable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListOrganizationIntegrationRepositoriesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3085,7 +6874,7 @@ function __c16(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/integrations/",
+            uri: "/organizations/{organization_id_or_slug}/issues/{issue_id}/integrations/",
             code: 200,
           }),
         ),
@@ -3100,8 +6889,62 @@ function __c16(j: number): any {
         identifier: "ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesItem",
       });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          icon: S.String,
+          text: S.String,
+        }),
+      ).annotate({
+        identifier: "ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsAlertsItem",
+      });
+    case 4:
+      return S.Array(__S(643, __c20, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+        }),
+      ).annotate({
+        identifier:
+          "ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsConfigureIntegration",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          actionText: S.String,
+          body: S.String,
+        }),
+      ).annotate({
+        identifier: "ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsDisableDialog",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          buttonText: S.String,
+          noticeText: S.String,
+        }),
+      ).annotate({
+        identifier:
+          "ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsExternalInstall",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          alerts: S.optional(__S(644, __c20, 4)),
+          configure_integration: S.optional(__S(645, __c20, 5)),
+          directEnable: S.optional(S.Boolean),
+          disable_dialog: S.optional(__S(646, __c20, 6)),
+          externalInstall: S.optional(__S(647, __c20, 7)),
+          removal_dialog: S.optional(__S(646, __c20, 6)),
+        }),
+      ).annotate({
+        identifier: "ListOrganizationIssueIntegrationsResponseBodyItemProviderAspects",
+      });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -3109,11 +6952,11 @@ function __c16(j: number): any {
           name: S.String,
           canAdd: S.Boolean,
           canDisable: S.Boolean,
-          features: __S(512, __c32, 0),
-          aspects: __S(544, __c34, 0),
+          features: __S(1216, __c38, 0),
+          aspects: __S(648, __c20, 8),
         }),
       ).annotate({ identifier: "ListOrganizationIssueIntegrationsResponseBodyItemProvider" });
-    case 4:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -3126,9 +6969,9 @@ function __c16(j: number): any {
       ).annotate({
         identifier: "ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem",
       });
-    case 5:
-      return S.Array(__S(260, __c16, 4));
-    case 6:
+    case 11:
+      return S.Array(__S(650, __c20, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -3136,23 +6979,23 @@ function __c16(j: number): any {
           icon: S.NullOr(S.String),
           domainName: S.NullOr(S.String),
           accountType: S.NullOr(S.String),
-          scopes: S.NullOr(__S(512, __c32, 0)),
+          scopes: S.NullOr(__S(1216, __c38, 0)),
           outOfDate: S.NullOr(S.Boolean),
-          missingFeatures: S.NullOr(__S(258, __c16, 2)),
+          missingFeatures: S.NullOr(__S(642, __c20, 2)),
           status: S.String,
-          provider: __S(259, __c16, 3),
-          externalIssues: __S(261, __c16, 5),
+          provider: __S(649, __c20, 9),
+          externalIssues: __S(651, __c20, 11),
         }),
       ).annotate({ identifier: "ListOrganizationIssueIntegrationsResponseBodyItem" });
-    case 7:
-      return S.Array(__S(262, __c16, 6));
-    case 8:
-      return S.suspend(() => __S(263, __c16, 7).pipe(T.RawResponseRoot())).annotate({
+    case 13:
+      return S.Array(__S(652, __c20, 12));
+    case 14:
+      return S.suspend(() => __S(653, __c20, 13).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationIssueIntegrationsResponse",
       });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -3162,23 +7005,21 @@ function __c17(j: number): any {
           organization_id_or_slug: S.String.pipe(T.Label()),
           start: S.String.pipe(T.Query()),
           end: S.String.pipe(T.Query()),
-          environment: S.optional(__S(512, __c32, 0).pipe(T.Query())),
-          projectSlug: S.optional(__S(512, __c32, 0).pipe(T.Query())),
-          release: S.optional(__S(512, __c32, 0).pipe(T.Query())),
-          project: S.optional(__S(272, __c17, 0).pipe(T.Query())),
+          environment: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          projectSlug: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          release: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          project: S.optional(__S(672, __c21, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/release-threshold-statuses/",
+            uri: "/organizations/{organization_id_or_slug}/release-threshold-statuses/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "ListOrganizationReleaseThresholdStatusesRequest" });
     case 2:
-      return S.Array(S.Number);
+      return S.Array(__S(1472, __c46, 0));
     case 3:
-      return S.Array(__S(274, __c17, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           currentCrashFreeRate: S.NullOr(S.Number),
@@ -3189,22 +7030,12 @@ function __c17(j: number): any {
         identifier:
           "ListOrganizationReleaseThresholdStatusesResponseBodyValueItemProjectSessionStats",
       });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          avatarType: S.optional(S.String),
-          avatarUuid: S.optional(S.NullOr(S.String)),
-          avatarUrl: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({
-        identifier: "ListOrganizationReleaseThresholdStatusesResponseBodyValueItemProjectAvatar",
-      });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           stats: S.optional(S.Unknown),
-          transactionStats: S.optional(__S(275, __c17, 3)),
-          sessionStats: S.optional(__S(276, __c17, 4)),
+          transactionStats: S.optional(__S(674, __c21, 2)),
+          sessionStats: S.optional(__S(675, __c21, 3)),
           id: S.String,
           slug: S.String,
           name: S.String,
@@ -3212,10 +7043,10 @@ function __c17(j: number): any {
           dateCreated: S.String,
           isBookmarked: S.Boolean,
           isMember: S.Boolean,
-          features: __S(512, __c32, 0),
+          features: __S(1216, __c38, 0),
           firstEvent: S.NullOr(S.String),
           firstTransactionEvent: S.Boolean,
-          access: __S(512, __c32, 0),
+          access: __S(1216, __c38, 0),
           hasAccess: S.Boolean,
           hasFeedbacks: S.Boolean,
           hasFlags: S.Boolean,
@@ -3239,20 +7070,20 @@ function __c17(j: number): any {
           hasTraceMetrics: S.Boolean,
           isInternal: S.Boolean,
           isPublic: S.Boolean,
-          avatar: __S(277, __c17, 5),
+          avatar: __S(1473, __c46, 1),
           color: S.String,
           status: S.String,
         }),
       ).annotate({
         identifier: "ListOrganizationReleaseThresholdStatusesResponseBodyValueItemProject",
       });
-    case 7:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           date_added: S.optional(S.String),
-          environment: S.optional(S.NullOr(__S(32, __c2, 0))),
-          project: S.optional(__S(278, __c17, 6)),
+          environment: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          project: S.optional(__S(676, __c21, 4)),
           release: S.optional(S.String),
           threshold_type: S.optional(S.String),
           trigger_type: S.optional(S.String),
@@ -3267,17 +7098,17 @@ function __c17(j: number): any {
           metric_value: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "ListOrganizationReleaseThresholdStatusesResponseBodyValueItem" });
+    case 6:
+      return S.Array(__S(677, __c21, 5));
+    case 7:
+      return S.Record(S.String, __S(678, __c21, 6));
     case 8:
-      return S.Array(__S(279, __c17, 7));
-    case 9:
-      return S.Record(S.String, __S(280, __c17, 8));
-    case 10:
-      return S.suspend(() => __S(281, __c17, 9).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(679, __c21, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationReleaseThresholdStatusesResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +7119,7 @@ function __c18(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/sentry-app-components/",
+            uri: "/organizations/{organization_id_or_slug}/sentry-app-components/",
             code: 200,
           }),
         ),
@@ -3306,14 +7137,14 @@ function __c18(j: number): any {
         identifier: "ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsItem",
       });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String,
           slug: S.String,
           name: S.String,
-          avatars: __S(290, __c18, 2),
+          avatars: __S(706, __c22, 2),
         }),
       ).annotate({ identifier: "ListOrganizationSentryAppComponentsResponseBodyItemSentryApp" });
     case 4:
@@ -3321,21 +7152,21 @@ function __c18(j: number): any {
         S.Struct({
           uuid: S.String,
           type: S.String,
-          schema: __S(544, __c34, 0),
+          schema: S.Unknown,
           error: S.Unknown,
-          sentryApp: __S(291, __c18, 3),
+          sentryApp: __S(707, __c22, 3),
           installationUuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationSentryAppComponentsResponseBodyItem" });
     case 5:
-      return S.Array(__S(292, __c18, 4));
+      return S.Array(__S(708, __c22, 4));
     case 6:
-      return S.suspend(() => __S(293, __c18, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(709, __c22, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationSentryAppComponentsResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -3343,19 +7174,19 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          project: S.optional(__S(304, __c19, 0).pipe(T.Query())),
-          environment: S.optional(__S(512, __c32, 0).pipe(T.Query())),
+          project: S.optional(__S(736, __c23, 0).pipe(T.Query())),
+          environment: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           statsPeriod: S.optional(S.String.pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          expand: S.optional(__S(160, __c5, 0).pipe(T.Query())),
           contextOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/trace-items/metrics/",
+            uri: "/organizations/{organization_id_or_slug}/trace-items/metrics/",
             code: 200,
           }),
         ),
@@ -3364,7 +7195,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           brief: S.optional(S.String),
-          details: S.optional(__S(512, __c32, 0)),
+          details: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListOrganizationTraceMetricsResponseBodyItemContext" });
     case 3:
@@ -3375,18 +7206,18 @@ function __c19(j: number): any {
           unit: S.NullOr(S.String),
           count: S.Number,
           lastSeen: S.NullOr(S.Number),
-          context: S.optional(__S(306, __c19, 2)),
+          context: S.optional(__S(738, __c23, 2)),
         }),
       ).annotate({ identifier: "ListOrganizationTraceMetricsResponseBodyItem" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(739, __c23, 3));
     case 5:
-      return S.suspend(() => __S(308, __c19, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(740, __c23, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationTraceMetricsResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3400,7 +7231,7 @@ function __c20(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
             code: 200,
           }),
         ),
@@ -3415,7 +7246,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "ListProjectSeerRepositoriesResponseBodyItemBranchOverridesItem" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3428,37 +7259,200 @@ function __c20(j: number): any {
           externalId: S.String,
           integrationId: S.NullOr(S.String),
           branchName: S.NullOr(S.String),
-          branchOverrides: __S(322, __c20, 2),
+          branchOverrides: __S(770, __c24, 2),
           instructions: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListProjectSeerRepositoriesResponseBodyItem" });
     case 4:
-      return S.Array(__S(323, __c20, 3));
+      return S.Array(__S(771, __c24, 3));
     case 5:
-      return S.suspend(() => __S(324, __c20, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(772, __c24, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectSeerRepositoriesResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          notebook_id: S.String.pipe(T.Label()),
+          notebookVersion: S.Number,
+          blockIds: __S(1472, __c46, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/{notebook_id}/blocks/order/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReorderNotebookBlocksRequest" });
+    case 1:
+      return S.Record(S.String, S.Unknown);
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: S.optional(__S(801, __c25, 1)),
+          type: S.String,
+          ref: __S(802, __c25, 2),
+          revision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseSource" });
+    case 4:
+      return S.Record(S.String, S.Unknown);
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          label: S.String,
+          description: S.String,
+          type: S.String,
+          required: S.Boolean,
+          constraints: __S(805, __c25, 5),
+          defaultValue: S.Unknown,
+          savedValue: S.Unknown,
+          source: S.String,
+          position: S.Number,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseParametersItem" });
+    case 7:
+      return S.Array(__S(806, __c25, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          executor: S.String,
+          schemaVersion: S.Number,
+          startedAt: S.NullOr(S.String),
+          completedAt: S.NullOr(S.String),
+          error: S.Unknown,
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseBlocksItemCurrentExecution" });
+    case 9:
+      return S.Record(S.String, S.Unknown);
+    case 10:
+      return S.Record(S.String, S.Unknown);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          position: S.Number,
+          kind: S.String,
+          title: S.String,
+          content: S.String,
+          generationPrompt: S.String,
+          generatedContent: S.String,
+          output: S.Unknown,
+          outputStatus: S.String,
+          currentExecution: S.NullOr(__S(808, __c25, 8)),
+          config: __S(809, __c25, 9),
+          display: __S(810, __c25, 10),
+          dependencies: __S(1216, __c38, 0),
+          parameterKeys: __S(1216, __c38, 0),
+          version: S.Number,
+          staleAt: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          lastEditedBy: S.NullOr(S.String),
+          producerKey: S.NullOr(S.String),
+          producerRevision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseBlocksItem" });
+    case 12:
+      return S.Array(__S(811, __c25, 11));
+    case 13:
+      return S.Record(S.String, S.Unknown);
+    case 14:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          current: S.optional(__S(814, __c25, 14)),
+          messages: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseActionRequestsItemError" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          reportRevision: S.Number,
+          primary: S.Boolean,
+          anchor: S.NullOr(__S(1508, __c47, 4)),
+          title: S.String,
+          rationale: S.String,
+          impact: S.NullOr(S.String),
+          state: S.String,
+          reason: S.NullOr(S.String),
+          action: S.NullOr(__S(813, __c25, 13)),
+          canApply: S.Boolean,
+          cannotApplyReason: S.NullOr(S.String),
+          appliedBy: S.NullOr(__S(1515, __c47, 11)),
+          appliedDetails: S.NullOr(S.Unknown),
+          dateApplied: S.NullOr(S.String),
+          error: S.NullOr(__S(815, __c25, 15)),
+          followUp: S.NullOr(__S(1516, __c47, 12)),
+          dateCreated: S.String,
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponseActionRequestsItem" });
+    case 17:
+      return S.Array(__S(816, __c25, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          summary: S.NullOr(S.String),
+          summaryDescription: S.NullOr(S.String),
+          status: S.String,
+          sourceType: S.String,
+          createdBy: S.NullOr(S.String),
+          creator: S.NullOr(__S(1504, __c47, 0)),
+          dateCreated: S.String,
+          dateUpdated: S.String,
+          version: S.Number,
+          blockCount: S.Number,
+          isFavorited: S.Boolean,
+          titleGeneration: __S(1505, __c47, 1),
+          orchestration: S.NullOr(__S(1506, __c47, 2)),
+          template: S.NullOr(__S(1507, __c47, 3)),
+          source: __S(803, __c25, 3),
+          filters: __S(804, __c25, 4),
+          projectIds: __S(1472, __c46, 0),
+          parameters: __S(807, __c25, 7),
+          blocks: __S(812, __c25, 12),
+          actionRequests: __S(817, __c25, 17),
+        }),
+      ).annotate({ identifier: "ReorderNotebookBlocksResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
           project_id_or_slug: S.String.pipe(T.Label()),
-          repos: __S(467, __c29, 3),
+          repos: __S(1091, __c34, 3),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "ReplaceProjectSeerRepositoriesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3469,14 +7463,14 @@ function __c22(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/organizations/{organization_id_or_slug}/starred-service-spans/",
+            uri: "/organizations/{organization_id_or_slug}/starred-service-spans/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "StarOrganizationServiceSpanRequest" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3486,14 +7480,14 @@ function __c23(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/organizations/{organization_id_or_slug}/preprodartifacts/snapshots/{snapshot_id}/archive/",
+            uri: "/organizations/{organization_id_or_slug}/preprodartifacts/snapshots/{snapshot_id}/archive/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "StartOrganizationPreprodSnapshotArchiveRequest" });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3504,14 +7498,14 @@ function __c24(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/api/0/organizations/{organization_id_or_slug}/starred-service-spans/",
+            uri: "/organizations/{organization_id_or_slug}/starred-service-spans/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "UnstarOrganizationServiceSpanRequest" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3520,30 +7514,147 @@ function __c25(j: number): any {
           project_id_or_slug: S.String.pipe(T.Label()),
           filter_id: S.String.pipe(T.Label()),
           dataType: S.String,
-          conditions: __S(577, __c36, 1),
+          conditions: __S(1345, __c42, 1),
           name: S.optional(S.NullOr(S.String)),
           active: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "UpdateACustomInboundFilterRequest" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          file: __S(512, __c32, 0),
+          notebook_id: S.String.pipe(T.Label()),
+          block_id: S.String.pipe(T.Label()),
+          notebookVersion: S.Number,
+          version: S.Number,
+          title: S.optional(S.String),
+          content: S.optional(S.String),
+          generationPrompt: S.optional(S.String),
+          config: S.optional(__S(1536, __c48, 0)),
+          display: S.optional(__S(1536, __c48, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/{notebook_id}/blocks/{block_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateANotebookBlockRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          executor: S.String,
+          schemaVersion: S.Number,
+          startedAt: S.NullOr(S.String),
+          completedAt: S.NullOr(S.String),
+          error: S.Unknown,
+        }),
+      ).annotate({ identifier: "UpdateANotebookBlockResponseCurrentExecution" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Record(S.String, S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          position: S.Number,
+          kind: S.String,
+          title: S.String,
+          content: S.String,
+          generationPrompt: S.String,
+          generatedContent: S.String,
+          output: S.Unknown,
+          outputStatus: S.String,
+          currentExecution: S.NullOr(__S(993, __c31, 1)),
+          config: __S(994, __c31, 2),
+          display: __S(995, __c31, 3),
+          dependencies: __S(1216, __c38, 0),
+          parameterKeys: __S(1216, __c38, 0),
+          version: S.Number,
+          staleAt: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          lastEditedBy: S.NullOr(S.String),
+          producerKey: S.NullOr(S.String),
+          producerRevision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateANotebookBlockResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          project_id_or_slug: S.String.pipe(T.Label()),
+          repos: __S(1091, __c34, 3),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/organizations/{organization_id_or_slug}/chunk-upload/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddProjectSeerRepositoriesRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AddProjectSeerRepositoriesResponse",
+      });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag_name: S.String,
+          tag_value: S.String,
+          branch_name: S.String,
+        }),
+      ).annotate({ identifier: "AddProjectSeerRepositoriesRequestReposItemBranchOverridesItem" });
+    case 1:
+      return S.Array(__S(1088, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          repository_id: S.Number,
+          branch_name: S.optional(S.NullOr(S.String)),
+          instructions: S.optional(S.NullOr(S.String)),
+          branch_overrides: S.optional(__S(1089, __c34, 1)),
+        }),
+      ).annotate({ identifier: "AddProjectSeerRepositoriesRequestReposItem" });
+    case 3:
+      return S.Array(__S(1090, __c34, 2));
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id_or_slug: S.String.pipe(T.Label()),
+          file: __S(1216, __c38, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organizations/{organization_id_or_slug}/chunk-upload/",
             code: 200,
             contentType: "multipart",
           }),
@@ -3551,7 +7662,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UploadOrganizationChunksRequest" });
   }
 }
-function __c27(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3562,7 +7673,7 @@ function __c27(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/0/organizations/{organization_id_or_slug}/integrations/{integration_id}/channel-validate/",
+            uri: "/organizations/{organization_id_or_slug}/integrations/{integration_id}/channel-validate/",
             code: 200,
           }),
         ),
@@ -3576,72 +7687,21 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ValidateOrganizationIntegrationChannelResponse" });
   }
 }
-function __c28(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          project_id_or_slug: S.String.pipe(T.Label()),
-          repos: __S(467, __c29, 3),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/seer/repos/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddProjectSeerRepositoriesRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag_name: S.String,
-          tag_value: S.String,
-          branch_name: S.String,
-        }),
-      ).annotate({ identifier: "AddProjectSeerRepositoriesRequestReposItemBranchOverridesItem" });
-    case 1:
-      return S.Array(__S(464, __c29, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          repository_id: S.Number,
-          branch_name: S.optional(S.NullOr(S.String)),
-          instructions: S.optional(S.NullOr(S.String)),
-          branch_overrides: S.optional(__S(465, __c29, 1)),
-        }),
-      ).annotate({ identifier: "AddProjectSeerRepositoriesRequestReposItem" });
-    case 3:
-      return S.Array(__S(466, __c29, 2));
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddProjectSeerRepositoriesResponse",
-      });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id_or_slug: S.String.pipe(T.Label()),
-          projects: __S(512, __c32, 0),
+          projects: __S(1216, __c38, 0),
           checksum: S.String,
-          chunks: __S(512, __c32, 0),
+          chunks: __S(1216, __c38, 0),
           version: S.optional(S.String),
           dist: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/organizations/{organization_id_or_slug}/artifactbundle/assemble/",
+            uri: "/organizations/{organization_id_or_slug}/artifactbundle/assemble/",
             code: 200,
           }),
         ),
@@ -3650,49 +7710,54 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          missingChunks: __S(512, __c32, 0),
+          missingChunks: __S(1216, __c38, 0),
           detail: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AssembleOrganizationArtifactBundleResponse" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             name: S.String,
-            chunks: __S(512, __c32, 0),
+            chunks: __S(1216, __c38, 0),
             debug_id: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AssembleProjectDebugFilesRequestBodyValue" });
     case 1:
-      return S.Record(S.String, __S(528, __c33, 0));
+      return S.Record(S.String, __S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
           project_id_or_slug: S.String.pipe(T.Label()),
-          body: S.optional(__S(529, __c33, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/files/difs/assemble/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/files/difs/assemble/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "AssembleProjectDebugFilesRequest" });
     case 3:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          features: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "AssembleProjectDebugFilesResponseBodyValueDifData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3703,37 +7768,37 @@ function __c33(j: number): any {
           cpuName: S.String,
           objectName: S.String,
           symbolType: S.String,
-          headers: __S(531, __c33, 3),
+          headers: __S(1280, __c40, 0),
           size: S.Number,
           sha1: S.String,
           dateCreated: S.String,
-          data: __S(544, __c34, 0),
+          data: __S(1251, __c39, 3),
         }),
       ).annotate({ identifier: "AssembleProjectDebugFilesResponseBodyValueDif" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          missingChunks: __S(512, __c32, 0),
+          missingChunks: __S(1216, __c38, 0),
           detail: S.optional(S.NullOr(S.String)),
-          dif: S.optional(__S(532, __c33, 4)),
+          dif: S.optional(__S(1252, __c39, 4)),
         }),
       ).annotate({ identifier: "AssembleProjectDebugFilesResponseBodyValue" });
     case 6:
-      return S.Record(S.String, __S(533, __c33, 5));
+      return S.Record(S.String, __S(1253, __c39, 5));
     case 7:
-      return S.suspend(() => __S(534, __c33, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1254, __c39, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "AssembleProjectDebugFilesResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Record(S.String, S.String);
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3741,37 +7806,37 @@ function __c35(j: number): any {
           organization_id_or_slug: S.String.pipe(T.Label()),
           project_id_or_slug: S.String.pipe(T.Label()),
           dataType: S.String,
-          conditions: __S(577, __c36, 1),
+          conditions: __S(1345, __c42, 1),
           name: S.optional(S.NullOr(S.String)),
           active: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
+            uri: "/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
             code: 200,
           }),
         ),
       ).annotate({ identifier: "CreateACustomInboundFilterRequest" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           operator: S.optional(S.String),
-          value: __S(512, __c32, 0),
+          value: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "CreateACustomInboundFilterRequestConditionsItem" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           dataType: S.String,
-          conditions: __S(577, __c36, 1),
+          conditions: __S(1345, __c42, 1),
           dateCreated: S.String,
           dateUpdated: S.String,
           legacyFilter: S.NullOr(S.String),
@@ -3781,40 +7846,406 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateACustomInboundFilterResponse" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateANotebookRequestSource" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          project_id_or_slug: S.String.pipe(T.Label()),
-          filter_id: S.String.pipe(T.Label()),
+          title: S.String,
+          projectIds: S.optional(__S(1472, __c46, 0)),
+          filters: S.optional(__S(1536, __c48, 0)),
+          source: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+            method: "POST",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DeleteACustomInboundFilterRequest" });
+      ).annotate({ identifier: "CreateANotebookRequest" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Record(S.String, S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: S.optional(__S(1378, __c43, 2)),
+          type: S.String,
+          ref: __S(1379, __c43, 3),
+          revision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseSource" });
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
+      return S.Record(S.String, S.Unknown);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          label: S.String,
+          description: S.String,
+          type: S.String,
+          required: S.Boolean,
+          constraints: __S(1382, __c43, 6),
+          defaultValue: S.Unknown,
+          savedValue: S.Unknown,
+          source: S.String,
+          position: S.Number,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseParametersItem" });
+    case 8:
+      return S.Array(__S(1383, __c43, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          executor: S.String,
+          schemaVersion: S.Number,
+          startedAt: S.NullOr(S.String),
+          completedAt: S.NullOr(S.String),
+          error: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseBlocksItemCurrentExecution" });
+    case 10:
+      return S.Record(S.String, S.Unknown);
+    case 11:
+      return S.Record(S.String, S.Unknown);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          position: S.Number,
+          kind: S.String,
+          title: S.String,
+          content: S.String,
+          generationPrompt: S.String,
+          generatedContent: S.String,
+          output: S.Unknown,
+          outputStatus: S.String,
+          currentExecution: S.NullOr(__S(1385, __c43, 9)),
+          config: __S(1386, __c43, 10),
+          display: __S(1387, __c43, 11),
+          dependencies: __S(1216, __c38, 0),
+          parameterKeys: __S(1216, __c38, 0),
+          version: S.Number,
+          staleAt: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          lastEditedBy: S.NullOr(S.String),
+          producerKey: S.NullOr(S.String),
+          producerRevision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseBlocksItem" });
+    case 13:
+      return S.Array(__S(1388, __c43, 12));
+    case 14:
+      return S.Record(S.String, S.Unknown);
+    case 15:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          current: S.optional(__S(1391, __c43, 15)),
+          messages: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemError" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          key: S.String,
+          reportRevision: S.Number,
+          primary: S.Boolean,
+          anchor: S.NullOr(__S(1508, __c47, 4)),
+          title: S.String,
+          rationale: S.String,
+          impact: S.NullOr(S.String),
+          state: S.String,
+          reason: S.NullOr(S.String),
+          action: S.NullOr(__S(1390, __c43, 14)),
+          canApply: S.Boolean,
+          cannotApplyReason: S.NullOr(S.String),
+          appliedBy: S.NullOr(__S(1515, __c47, 11)),
+          appliedDetails: S.NullOr(S.Unknown),
+          dateApplied: S.NullOr(S.String),
+          error: S.NullOr(__S(1392, __c43, 16)),
+          followUp: S.NullOr(__S(1516, __c47, 12)),
+          dateCreated: S.String,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItem" });
+    case 18:
+      return S.Array(__S(1393, __c43, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          summary: S.NullOr(S.String),
+          summaryDescription: S.NullOr(S.String),
+          status: S.String,
+          sourceType: S.String,
+          createdBy: S.NullOr(S.String),
+          creator: S.NullOr(__S(1504, __c47, 0)),
+          dateCreated: S.String,
+          dateUpdated: S.String,
+          version: S.Number,
+          blockCount: S.Number,
+          isFavorited: S.Boolean,
+          titleGeneration: __S(1505, __c47, 1),
+          orchestration: S.NullOr(__S(1506, __c47, 2)),
+          template: S.NullOr(__S(1507, __c47, 3)),
+          source: __S(1380, __c43, 4),
+          filters: __S(1381, __c43, 5),
+          projectIds: __S(1472, __c46, 0),
+          parameters: __S(1384, __c43, 8),
+          blocks: __S(1389, __c43, 13),
+          actionRequests: __S(1394, __c43, 18),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponse" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({
+        identifier: "CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemProvider",
+      });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String,
+          name: S.String,
+        }),
+      ).annotate({
+        identifier: "CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItemOrganization",
+      });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          avatarType: S.optional(S.String),
+          avatarUuid: S.optional(S.NullOr(S.String)),
+          avatarUrl: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemAppliedByAvatar" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseCreator" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseTitleGeneration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          phase: S.String,
+          status: S.String,
+          heartbeatAt: S.NullOr(S.String),
+          notebookRevision: S.Number,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseOrchestration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.NullOr(S.String),
+          version: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseTemplate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.String,
+          blockId: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemAnchor" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          organization: __S(1440, __c45, 0),
+          provider: __S(1408, __c44, 0),
+          dateVerified: S.String,
+          dateSynced: S.String,
+        }),
+      ).annotate({
+        identifier: "CreateANotebookResponseActionRequestsItemAppliedByIdentitiesItem",
+      });
+    case 6:
+      return S.Array(__S(1509, __c47, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          dateCreated: S.String,
+          dateUsed: S.NullOr(S.String),
+        }),
+      ).annotate({
+        identifier: "CreateANotebookResponseActionRequestsItemAppliedByAuthenticatorsItem",
+      });
+    case 8:
+      return S.Array(__S(1511, __c47, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          email: S.String,
+          is_verified: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemAppliedByEmailsItem" });
+    case 10:
+      return S.Array(__S(1513, __c47, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          identities: S.optional(__S(1510, __c47, 6)),
+          avatar: S.optional(__S(1473, __c46, 1)),
+          authenticators: S.optional(__S(1512, __c47, 8)),
+          canReset2fa: S.optional(S.Boolean),
+          id: S.String,
+          name: S.String,
+          username: S.String,
+          email: S.String,
+          avatarUrl: S.String,
+          isActive: S.Boolean,
+          isSuspended: S.Boolean,
+          hasPasswordAuth: S.Boolean,
+          isManaged: S.Boolean,
+          dateJoined: S.String,
+          lastLogin: S.NullOr(S.String),
+          has2fa: S.Boolean,
+          lastActive: S.NullOr(S.String),
+          isSuperuser: S.Boolean,
+          isStaff: S.Boolean,
+          experiments: __S(1280, __c40, 0),
+          emails: __S(1514, __c47, 10),
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemAppliedBy" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          reason: S.NullOr(S.String),
+          rerun: S.NullOr(S.String),
+          retryable: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateANotebookResponseActionRequestsItemFollowUp" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id_or_slug: S.String.pipe(T.Label()),
-          issue_id: S.String.pipe(T.Label()),
-          external_issue_id: S.String.pipe(T.Label()),
+          notebook_id: S.String.pipe(T.Label()),
+          kind: S.String,
+          notebookVersion: S.optional(S.Number),
+          key: S.optional(S.String),
+          revision: S.optional(S.Number),
+          position: S.optional(S.Number),
+          title: S.optional(S.String),
+          content: S.optional(S.String),
+          generationPrompt: S.optional(S.String),
+          config: S.optional(__S(1536, __c48, 0)),
+          display: S.optional(__S(1536, __c48, 0)),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/external-issues/{external_issue_id}/",
+            method: "POST",
+            uri: "/organizations/{organization_id_or_slug}/notebooks/{notebook_id}/blocks/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "DeleteOrganizationIssueExternalIssueRequest" });
+      ).annotate({ identifier: "CreateANotebookBlockRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          executor: S.String,
+          schemaVersion: S.Number,
+          startedAt: S.NullOr(S.String),
+          completedAt: S.NullOr(S.String),
+          error: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateANotebookBlockResponseCurrentExecution" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Record(S.String, S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          position: S.Number,
+          kind: S.String,
+          title: S.String,
+          content: S.String,
+          generationPrompt: S.String,
+          generatedContent: S.String,
+          output: S.Unknown,
+          outputStatus: S.String,
+          currentExecution: S.NullOr(__S(1569, __c49, 1)),
+          config: __S(1570, __c49, 2),
+          display: __S(1571, __c49, 3),
+          dependencies: __S(1216, __c38, 0),
+          parameterKeys: __S(1216, __c38, 0),
+          version: S.Number,
+          staleAt: S.NullOr(S.String),
+          createdBy: S.NullOr(S.String),
+          lastEditedBy: S.NullOr(S.String),
+          producerKey: S.NullOr(S.String),
+          producerRevision: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "CreateANotebookBlockResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

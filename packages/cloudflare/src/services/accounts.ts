@@ -320,7 +320,7 @@ export interface CreateResponseSettings {
 export interface CreateAccountResponse {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: CreateResponseType;
   /** Timestamp for the creation of the account */
@@ -675,7 +675,7 @@ export interface CreatePaymentMethodResponse {
   zipcode?: string | null | undefined;
 }
 export type SubscriptionsCreateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsCreateRequestRatePlanId =
+export type SubscriptionsCreateRequestRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -686,10 +686,14 @@ export type SubscriptionsCreateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsCreateForAccountRequestRatePlanId =
+  | string
+  | SubscriptionsCreateRequestRatePlanIdCase0
+  | (string & {});
 export type SubscriptionsCreateRequestRatePlanSetsList = Array<string>;
-export interface SubscriptionsCreateRequestRatePlan {
+export interface SubscriptionsCreateForAccountRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateRequestRatePlanId | (string & {}) | undefined;
+  id?: SubscriptionsCreateForAccountRequestRatePlanId | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -709,10 +713,10 @@ export interface CreateSubscriptionRequest {
   /** How often the subscription is renewed automatically. */
   frequency?: SubscriptionsCreateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateRequestRatePlan | undefined;
+  ratePlan?: SubscriptionsCreateForAccountRequestRatePlan | undefined;
 }
 export type SubscriptionsCreateResponseFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsCreateResponseRatePlanId =
+export type SubscriptionsCreateResponseRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -723,10 +727,13 @@ export type SubscriptionsCreateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsCreateForAccountResponseRatePlanId =
+  | string
+  | SubscriptionsCreateResponseRatePlanIdCase0;
 export type SubscriptionsCreateResponseRatePlanSetsList = Array<string>;
-export interface SubscriptionsCreateResponseRatePlan {
+export interface SubscriptionsCreateForAccountResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateResponseRatePlanId | null | undefined;
+  id?: SubscriptionsCreateForAccountResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -763,7 +770,7 @@ export interface CreateSubscriptionResponse {
   /** The price of the subscription that will be billed, in US dollars. */
   price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateResponseRatePlan | null | undefined;
+  ratePlan?: SubscriptionsCreateForAccountResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
   state?: SubscriptionsCreateResponseState | null | undefined;
 }
@@ -983,7 +990,7 @@ export type GetResponseSettings = CreateResponseSettings;
 export interface GetAccountResponse {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: GetResponseType;
   /** Timestamp for the creation of the account */
@@ -1222,7 +1229,7 @@ export interface GetSubscriptionRequest {
   accountId: string;
 }
 export type SubscriptionsGetResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsGetResultItemRatePlanId =
+export type SubscriptionsGetResultItemRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -1233,10 +1240,13 @@ export type SubscriptionsGetResultItemRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsGetForAccountResultItemRatePlanId =
+  | string
+  | SubscriptionsGetResultItemRatePlanIdCase0;
 export type SubscriptionsGetResultItemRatePlanSetsList = Array<string>;
-export interface SubscriptionsGetResultItemRatePlan {
+export interface SubscriptionsGetForAccountResultItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsGetResultItemRatePlanId | null | undefined;
+  id?: SubscriptionsGetForAccountResultItemRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -1258,7 +1268,7 @@ export type SubscriptionsGetResultItemState =
   | "Cancelled"
   | "Failed"
   | "Expired";
-export interface SubscriptionsGetResultItem {
+export interface SubscriptionsGetForAccountResultItem {
   /** Subscription identifier tag. */
   id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
@@ -1272,14 +1282,14 @@ export interface SubscriptionsGetResultItem {
   /** The price of the subscription that will be billed, in US dollars. */
   price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsGetResultItemRatePlan | null | undefined;
+  ratePlan?: SubscriptionsGetForAccountResultItemRatePlan | null | undefined;
   /** The state that the subscription is in. */
   state?: SubscriptionsGetResultItemState | null | undefined;
 }
-export type SubscriptionsGetResultList = Array<SubscriptionsGetResultItem>;
+export type SubscriptionsGetForAccountResultList = Array<SubscriptionsGetForAccountResultItem>;
 export interface GetSubscriptionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
-  result: SubscriptionsGetResultList;
+  result: SubscriptionsGetForAccountResultList;
   /** Pagination info from the envelope's `result_info`. */
   resultInfo?: ResultInfo | null | undefined;
 }
@@ -1424,7 +1434,7 @@ export type ListResultItemSettings = CreateResponseSettings;
 export interface ListResultItem {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: ListResultItemType;
   /** Timestamp for the creation of the account */
@@ -2247,7 +2257,7 @@ export type SubscriptionsActionsAppendRequestFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export type SubscriptionsActionsAppendRequestRatePlanId =
+export type SubscriptionsActionsAppendRequestRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2258,10 +2268,14 @@ export type SubscriptionsActionsAppendRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsActionsAppendRequestRatePlanId =
+  | string
+  | SubscriptionsActionsAppendRequestRatePlanIdCase0
+  | (string & {});
 export type SubscriptionsActionsAppendRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsActionsAppendRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsActionsAppendRequestRatePlanId | (string & {}) | undefined;
+  id?: SubscriptionsActionsAppendRequestRatePlanId | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -2290,7 +2304,7 @@ export type SubscriptionsActionsAppendResponseFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export type SubscriptionsActionsAppendResponseRatePlanId =
+export type SubscriptionsActionsAppendResponseRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2301,6 +2315,9 @@ export type SubscriptionsActionsAppendResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsActionsAppendResponseRatePlanId =
+  | string
+  | SubscriptionsActionsAppendResponseRatePlanIdCase0;
 export type SubscriptionsActionsAppendResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsActionsAppendResponseRatePlan {
   /** The ID of the rate plan. */
@@ -2350,7 +2367,7 @@ export type SubscriptionsBulkCreateRequestSubscriptionsItemFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
+export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2361,10 +2378,14 @@ export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
+  | string
+  | SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanIdCase0
+  | (string & {});
 export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId | (string & {}) | undefined;
+  id?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -2421,7 +2442,7 @@ export type SubscriptionsBulkCreateResponseSubscriptionsItemFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId =
+export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2432,6 +2453,9 @@ export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId =
+  | string
+  | SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanIdCase0;
 export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsBulkCreateResponseSubscriptionsItemRatePlan {
   /** The ID of the rate plan. */
@@ -2546,7 +2570,7 @@ export type SubscriptionsGetByIdentifierResponseFrequency =
   | "monthly"
   | "quarterly"
   | "yearly";
-export type SubscriptionsGetByIdentifierResponseRatePlanId =
+export type SubscriptionsGetByIdentifierResponseRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2557,6 +2581,9 @@ export type SubscriptionsGetByIdentifierResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsGetByIdentifierResponseRatePlanId =
+  | string
+  | SubscriptionsGetByIdentifierResponseRatePlanIdCase0;
 export type SubscriptionsGetByIdentifierResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetByIdentifierResponseRatePlan {
   /** The ID of the rate plan. */
@@ -2622,7 +2649,7 @@ export interface UpdateAccountRequest {
   accountId: string;
   /** Identifier */
   id: string;
-  /** Account name, limited to 65 UTF-8 bytes. */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   /** Parent container details */
   managedBy?: UpdateRequestManagedBy | undefined;
@@ -2639,7 +2666,7 @@ export type UpdateResponseSettings = CreateResponseSettings;
 export interface UpdateAccountResponse {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: UpdateResponseType;
   /** Timestamp for the creation of the account */
@@ -2963,7 +2990,7 @@ export interface UpdatePaymentMethodResponse {
   zipcode?: string | null | undefined;
 }
 export type SubscriptionsUpdateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsUpdateRequestRatePlanId =
+export type SubscriptionsUpdateRequestRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -2974,10 +3001,14 @@ export type SubscriptionsUpdateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsUpdateRequestRatePlanId =
+  | string
+  | SubscriptionsUpdateRequestRatePlanIdCase0
+  | (string & {});
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateRequestRatePlanId | (string & {}) | undefined;
+  id?: SubscriptionsUpdateRequestRatePlanId | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -3002,7 +3033,7 @@ export interface UpdateSubscriptionRequest {
   ratePlan?: SubscriptionsUpdateRequestRatePlan | undefined;
 }
 export type SubscriptionsUpdateResponseFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsUpdateResponseRatePlanId =
+export type SubscriptionsUpdateResponseRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -3013,6 +3044,9 @@ export type SubscriptionsUpdateResponseRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsUpdateResponseRatePlanId =
+  | string
+  | SubscriptionsUpdateResponseRatePlanIdCase0;
 export type SubscriptionsUpdateResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateResponseRatePlan {
   /** The ID of the rate plan. */
@@ -3338,8 +3372,8 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateSubscriptionRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<CreateSubscriptionResponse>,
+  input: __S(290, __c18, 2) as any as S.Schema<CreateSubscriptionRequest>,
+  output: __S(293, __c18, 5) as any as S.Schema<CreateSubscriptionResponse>,
   errors: [JsonDecodeFailure, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3360,8 +3394,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c22, 4) as any as S.Schema<CreateTokenRequest>,
-  output: __S(361, __c22, 9) as any as S.Schema<CreateTokenResponse>,
+  input: __S(308, __c19, 4) as any as S.Schema<CreateTokenRequest>,
+  output: __S(313, __c19, 9) as any as S.Schema<CreateTokenResponse>,
   errors: [InvalidRoute, InvalidTokenName, PermissionGroupNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3378,8 +3412,8 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<DeleteAccountResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeleteAccountResponse>,
   errors: [InvalidRoute, MethodNotAllowed],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3396,8 +3430,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteMemberRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<DeleteMemberResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteMemberRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [MemberNotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3414,8 +3448,8 @@ export const deletePaymentMethod: API.OperationMethod<
   DeletePaymentMethodError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeletePaymentMethodRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<DeletePaymentMethodResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeletePaymentMethodRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<DeletePaymentMethodResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3432,8 +3466,8 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteSubscriptionRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<DeleteSubscriptionResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteSubscriptionRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<DeleteSubscriptionResponse>,
   errors: [InvalidRoute, EndpointNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3455,8 +3489,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, TokenManagedByCloudflare],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3473,8 +3507,8 @@ export const editInvoice: API.OperationMethod<
   EditInvoiceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<EditInvoiceRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<EditInvoiceResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<EditInvoiceRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<EditInvoiceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3491,7 +3525,7 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetAccountRequest>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GetAccountResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
@@ -3509,8 +3543,8 @@ export const getAccountProfile: API.OperationMethod<
   GetAccountProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetAccountProfileRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<GetAccountProfileResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetAccountProfileRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<GetAccountProfileResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3527,7 +3561,7 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetMemberRequest>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetMemberRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetMemberResponse>,
   errors: [MemberNotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
@@ -3545,7 +3579,7 @@ export const getPaymentMethod: API.OperationMethod<
   GetPaymentMethodError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetPaymentMethodRequest>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetPaymentMethodRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<GetPaymentMethodResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -3563,8 +3597,8 @@ export const getRole: API.OperationMethod<
   GetRoleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<GetRoleResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetRoleRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<GetRoleResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3581,8 +3615,8 @@ export const getSpeedSettingsTransformation: API.OperationMethod<
   GetSpeedSettingsTransformationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetSpeedSettingsTransformationRequest>,
-  output: __S(611, __c38, 3) as any as S.Schema<GetSpeedSettingsTransformationResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetSpeedSettingsTransformationRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<GetSpeedSettingsTransformationResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3598,11 +3632,11 @@ export const getSubscription: API.PaginatedOperationMethod<
   GetSubscriptionResponse,
   GetSubscriptionError,
   CloudflareOpContext,
-  SubscriptionsGetResultItem
+  SubscriptionsGetForAccountResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(624, __c39, 0) as any as S.Schema<GetSubscriptionRequest>,
-    output: __S(625, __c39, 1) as any as S.Schema<GetSubscriptionResponse>,
+    input: __S(576, __c36, 0) as any as S.Schema<GetSubscriptionRequest>,
+    output: __S(581, __c36, 5) as any as S.Schema<GetSubscriptionResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3622,8 +3656,8 @@ export const getToken: API.OperationMethod<
   GetTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(661, __c41, 5) as any as S.Schema<GetTokenResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetTokenRequest>,
+  output: __S(597, __c37, 5) as any as S.Schema<GetTokenResponse>,
   errors: [InvalidRoute, TokenNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3640,8 +3674,8 @@ export const getTokenPermissionGroup: API.OperationMethod<
   GetTokenPermissionGroupError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetTokenPermissionGroupRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<GetTokenPermissionGroupResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetTokenPermissionGroupRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<GetTokenPermissionGroupResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3660,8 +3694,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(720, __c45, 0) as any as S.Schema<ListAccountsRequest>,
-    output: __S(723, __c45, 3) as any as S.Schema<ListAccountsResponse>,
+    input: __S(656, __c41, 0) as any as S.Schema<ListAccountsRequest>,
+    output: __S(659, __c41, 3) as any as S.Schema<ListAccountsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3687,8 +3721,8 @@ export const listEntitlements: API.OperationMethod<
   ListEntitlementsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListEntitlementsRequest>,
-  output: __S(742, __c46, 6) as any as S.Schema<ListEntitlementsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListEntitlementsRequest>,
+  output: __S(678, __c42, 6) as any as S.Schema<ListEntitlementsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3707,8 +3741,8 @@ export const listLogAudits: API.PaginatedOperationMethod<
   LogsAuditListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(756, __c47, 4) as any as S.Schema<ListLogAuditsRequest>,
-    output: __S(757, __c47, 5) as any as S.Schema<ListLogAuditsResponse>,
+    input: __S(692, __c43, 4) as any as S.Schema<ListLogAuditsRequest>,
+    output: __S(693, __c43, 5) as any as S.Schema<ListLogAuditsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3735,8 +3769,8 @@ export const listMembers: API.PaginatedOperationMethod<
   MembersListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(784, __c49, 0) as any as S.Schema<ListMembersRequest>,
-    output: __S(787, __c49, 3) as any as S.Schema<ListMembersResponse>,
+    input: __S(720, __c45, 0) as any as S.Schema<ListMembersRequest>,
+    output: __S(723, __c45, 3) as any as S.Schema<ListMembersResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3762,8 +3796,8 @@ export const listPaymentMethods: API.OperationMethod<
   ListPaymentMethodsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListPaymentMethodsRequest>,
-  output: __S(803, __c50, 3) as any as S.Schema<ListPaymentMethodsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListPaymentMethodsRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<ListPaymentMethodsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3782,8 +3816,8 @@ export const listRoles: API.PaginatedOperationMethod<
   MembersCreateResponseRolesItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(816, __c51, 0) as any as S.Schema<ListRolesRequest>,
-    output: __S(817, __c51, 1) as any as S.Schema<ListRolesResponse>,
+    input: __S(752, __c47, 0) as any as S.Schema<ListRolesRequest>,
+    output: __S(753, __c47, 1) as any as S.Schema<ListRolesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3811,8 +3845,8 @@ export const listTokens: API.PaginatedOperationMethod<
   TokensListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c52, 0) as any as S.Schema<ListTokensRequest>,
-    output: __S(839, __c52, 7) as any as S.Schema<ListTokensResponse>,
+    input: __S(768, __c48, 0) as any as S.Schema<ListTokensRequest>,
+    output: __S(775, __c48, 7) as any as S.Schema<ListTokensResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3838,8 +3872,8 @@ export const listTokensPermissionGroups: API.OperationMethod<
   ListTokensPermissionGroupsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListTokensPermissionGroupsRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<ListTokensPermissionGroupsResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListTokensPermissionGroupsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListTokensPermissionGroupsResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3856,8 +3890,8 @@ export const logsAuditHistory: API.OperationMethod<
   LogsAuditHistoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<LogsAuditHistoryRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<LogsAuditHistoryResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<LogsAuditHistoryRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<LogsAuditHistoryResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3874,8 +3908,8 @@ export const logsAuditProductCategories: API.OperationMethod<
   LogsAuditProductCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<LogsAuditProductCategoriesRequest>,
-  output: __S(885, __c55, 5) as any as S.Schema<LogsAuditProductCategoriesResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<LogsAuditProductCategoriesRequest>,
+  output: __S(821, __c51, 5) as any as S.Schema<LogsAuditProductCategoriesResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3892,8 +3926,8 @@ export const paymentMethodsSetAsDefault: API.OperationMethod<
   PaymentMethodsSetAsDefaultError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<PaymentMethodsSetAsDefaultRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PaymentMethodsSetAsDefaultResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<PaymentMethodsSetAsDefaultRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<PaymentMethodsSetAsDefaultResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3910,8 +3944,8 @@ export const putTokenValue: API.OperationMethod<
   PutTokenValueError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<PutTokenValueRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<PutTokenValueResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<PutTokenValueRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<PutTokenValueResponse>,
   errors: [InvalidRoute, TokenNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3928,8 +3962,8 @@ export const receiptsPdf: API.OperationMethod<
   ReceiptsPdfError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ReceiptsPdfRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<ReceiptsPdfResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ReceiptsPdfRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<ReceiptsPdfResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3946,8 +3980,8 @@ export const subscriptionsActionsAppend: API.OperationMethod<
   SubscriptionsActionsAppendError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<SubscriptionsActionsAppendRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<SubscriptionsActionsAppendResponse>,
+  input: __S(898, __c56, 2) as any as S.Schema<SubscriptionsActionsAppendRequest>,
+  output: __S(901, __c56, 5) as any as S.Schema<SubscriptionsActionsAppendResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3964,8 +3998,8 @@ export const subscriptionsBulkCreate: API.OperationMethod<
   SubscriptionsBulkCreateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(978, __c61, 2) as any as S.Schema<SubscriptionsBulkCreateRequest>,
-  output: __S(979, __c61, 3) as any as S.Schema<SubscriptionsBulkCreateResponse>,
+  input: __S(916, __c57, 4) as any as S.Schema<SubscriptionsBulkCreateRequest>,
+  output: __S(921, __c57, 9) as any as S.Schema<SubscriptionsBulkCreateResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3982,8 +4016,8 @@ export const subscriptionsCancelDowngrade: API.OperationMethod<
   SubscriptionsCancelDowngradeError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SubscriptionsCancelDowngradeRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<SubscriptionsCancelDowngradeResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<SubscriptionsCancelDowngradeRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<SubscriptionsCancelDowngradeResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4000,8 +4034,8 @@ export const subscriptionsCancelReasonCreate: API.OperationMethod<
   SubscriptionsCancelReasonCreateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SubscriptionsCancelReasonCreateRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<SubscriptionsCancelReasonCreateResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<SubscriptionsCancelReasonCreateRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<SubscriptionsCancelReasonCreateResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4018,8 +4052,8 @@ export const subscriptionsCancelReasonGet: API.OperationMethod<
   SubscriptionsCancelReasonGetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<SubscriptionsCancelReasonGetRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<SubscriptionsCancelReasonGetResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<SubscriptionsCancelReasonGetRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<SubscriptionsCancelReasonGetResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4036,8 +4070,8 @@ export const subscriptionsGetByIdentifier: API.OperationMethod<
   SubscriptionsGetByIdentifierError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<SubscriptionsGetByIdentifierRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<SubscriptionsGetByIdentifierResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<SubscriptionsGetByIdentifierRequest>,
+  output: __S(995, __c62, 3) as any as S.Schema<SubscriptionsGetByIdentifierResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4060,7 +4094,7 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1074, __c67, 2) as any as S.Schema<UpdateAccountRequest>,
+  input: __S(1010, __c63, 2) as any as S.Schema<UpdateAccountRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UpdateAccountResponse>,
   errors: [
     InvalidAccountName,
@@ -4084,8 +4118,8 @@ export const updateAccountProfile: API.OperationMethod<
   UpdateAccountProfileError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateAccountProfileRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<UpdateAccountProfileResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<UpdateAccountProfileRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<UpdateAccountProfileResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4107,7 +4141,7 @@ export const updateMember: API.OperationMethod<
   UpdateMemberError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1111, __c69, 7) as any as S.Schema<UpdateMemberRequest>,
+  input: __S(1047, __c65, 7) as any as S.Schema<UpdateMemberRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateMemberResponse>,
   errors: [MemberNotFound, InvalidRoute, BadRequest, MethodNotAllowed],
   serviceErrors: CloudflareServiceErrors,
@@ -4125,7 +4159,7 @@ export const updatePaymentMethod: API.OperationMethod<
   UpdatePaymentMethodError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdatePaymentMethodRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UpdatePaymentMethodRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<UpdatePaymentMethodResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -4147,8 +4181,8 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<UpdateSubscriptionResponse>,
+  input: __S(1074, __c67, 2) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(1077, __c67, 5) as any as S.Schema<UpdateSubscriptionResponse>,
   errors: [JsonDecodeFailure, InvalidRoute, EndpointNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4170,8 +4204,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1156, __c72, 4) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(1161, __c72, 9) as any as S.Schema<UpdateTokenResponse>,
+  input: __S(1092, __c68, 4) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(1097, __c68, 9) as any as S.Schema<UpdateTokenResponse>,
   errors: [InvalidRoute, MethodNotAllowed, TokenNotFound, PermissionGroupNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4188,8 +4222,8 @@ export const verifyToken: API.OperationMethod<
   VerifyTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<VerifyTokenRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<VerifyTokenResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<VerifyTokenRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<VerifyTokenResponse>,
   errors: [MissingAuthenticationToken, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -4620,39 +4654,11 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(320, __c20, 0).pipe(T.Body("rate_plan"))),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/subscriptions", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateSubscriptionRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          currency: S.optional(S.NullOr(S.String)),
-          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
-          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
-          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
-          scope: S.optional(S.NullOr(S.String)),
-          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
-        }),
-      ).annotate({ identifier: "SubscriptionsCreateResponseRatePlan" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
+          id: S.optional(__S(288, __c18, 0)),
           currency: S.optional(S.String),
           externallyManaged: S.optional(S.Boolean.pipe(T.Body("externally_managed"))),
           isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
@@ -4660,12 +4666,32 @@ function __c20(j: number): any {
           scope: S.optional(S.String),
           sets: S.optional(__S(112, __c7, 0)),
         }),
-      ).annotate({ identifier: "SubscriptionsCreateRequestRatePlan" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "SubscriptionsCreateForAccountRequestRatePlan" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          frequency: S.optional(S.String),
+          ratePlan: S.optional(__S(289, __c18, 1).pipe(T.Body("rate_plan"))),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/subscriptions", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateSubscriptionRequest" });
+    case 3:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(__S(291, __c18, 3))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsCreateForAccountResponseRatePlan" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
@@ -4674,35 +4700,35 @@ function __c21(j: number): any {
           currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.NullOr(S.String)),
           price: S.optional(S.NullOr(S.Number)),
-          ratePlan: S.optional(S.NullOr(__S(304, __c19, 0)).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(S.NullOr(__S(292, __c18, 4)).pipe(T.Body("rate_plan"))),
           state: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateSubscriptionResponse" });
   }
 }
-function __c22(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 1:
-      return S.Record(S.String, __S(352, __c22, 0));
+      return S.Record(S.String, __S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
-          permissionGroups: __S(386, __c24, 2).pipe(T.Body("permission_groups")),
-          resources: __S(353, __c22, 1),
+          permissionGroups: __S(338, __c21, 2).pipe(T.Body("permission_groups")),
+          resources: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "TokensCreateRequestPoliciesItem" });
     case 3:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(306, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
-          policies: __S(355, __c22, 3),
-          condition: S.optional(__S(388, __c24, 4)),
+          policies: __S(307, __c19, 3),
+          condition: S.optional(__S(340, __c21, 4)),
           expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
           notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
         })
@@ -4712,23 +4738,23 @@ function __c22(j: number): any {
     case 5:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 6:
-      return S.Record(S.String, __S(357, __c22, 5));
+      return S.Record(S.String, __S(309, __c19, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
           permissionGroups: __S(130, __c8, 2).pipe(T.Body("permission_groups")),
-          resources: __S(358, __c22, 6),
+          resources: __S(310, __c19, 6),
         }),
       ).annotate({ identifier: "TokensCreateResponsePoliciesItem" });
     case 8:
-      return S.Array(__S(359, __c22, 7));
+      return S.Array(__S(311, __c19, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(369, __c23, 1))),
+          condition: S.optional(S.NullOr(__S(321, __c20, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -4738,7 +4764,7 @@ function __c22(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(360, __c22, 8))),
+          policies: S.optional(S.NullOr(__S(312, __c19, 8))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
@@ -4749,7 +4775,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateTokenResponse" });
   }
 }
-function __c23(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4761,12 +4787,12 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          requestIp: S.optional(S.NullOr(__S(368, __c23, 0)).pipe(T.Body("request_ip"))),
+          requestIp: S.optional(S.NullOr(__S(320, __c20, 0)).pipe(T.Body("request_ip"))),
         }),
       ).annotate({ identifier: "TokensCreateResponseCondition" });
   }
 }
-function __c24(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4785,12 +4811,12 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          meta: S.optional(__S(384, __c24, 0)),
+          meta: S.optional(__S(336, __c21, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokensCreateRequestPoliciesItemPermissionGroupsItem" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4801,12 +4827,12 @@ function __c24(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          requestIp: S.optional(__S(387, __c24, 3).pipe(T.Body("request_ip"))),
+          requestIp: S.optional(__S(339, __c21, 3).pipe(T.Body("request_ip"))),
         }),
       ).annotate({ identifier: "TokensCreateRequestCondition" });
   }
 }
-function __c25(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4818,7 +4844,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteAccountRequest" });
   }
 }
-function __c26(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4828,7 +4854,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteAccountResponse" });
   }
 }
-function __c27(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4847,7 +4873,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteMemberRequest" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4866,7 +4892,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeletePaymentMethodRequest" });
   }
 }
-function __c29(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4874,7 +4900,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeletePaymentMethodResponse" });
   }
 }
-function __c30(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4899,7 +4925,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionResponse" });
   }
 }
-function __c31(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4918,7 +4944,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c32(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4931,7 +4957,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "EditInvoiceRequest" });
   }
 }
-function __c33(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4943,7 +4969,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c34(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4965,7 +4991,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetAccountProfileResponse" });
   }
 }
-function __c35(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4980,7 +5006,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetMemberRequest" });
   }
 }
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4999,7 +5025,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetPaymentMethodRequest" });
   }
 }
-function __c37(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5021,7 +5047,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetRoleResponse" });
   }
 }
-function __c38(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5048,14 +5074,14 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GetSpeedSettingsTransformationResultItem" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
-        __S(610, __c38, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(562, __c35, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSpeedSettingsTransformationResponse" });
   }
 }
-function __c39(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5066,17 +5092,20 @@ function __c39(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSubscriptionRequest" });
     case 1:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(641, __c40, 1).pipe(T.EnvelopePayload()),
-          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetSubscriptionResponse" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
+          id: S.optional(S.NullOr(__S(577, __c36, 1))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsGetForAccountResultItemRatePlan" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
@@ -5085,15 +5114,22 @@ function __c40(j: number): any {
           currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.NullOr(S.String)),
           price: S.optional(S.NullOr(S.Number)),
-          ratePlan: S.optional(S.NullOr(__S(304, __c19, 0)).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(S.NullOr(__S(578, __c36, 2)).pipe(T.Body("rate_plan"))),
           state: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "SubscriptionsGetResultItem" });
-    case 1:
-      return S.Array(__S(640, __c40, 0));
+      ).annotate({ identifier: "SubscriptionsGetForAccountResultItem" });
+    case 4:
+      return S.Array(__S(579, __c36, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          result: __S(580, __c36, 4).pipe(T.EnvelopePayload()),
+          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetSubscriptionResponse" });
   }
 }
-function __c41(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5109,23 +5145,23 @@ function __c41(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(657, __c41, 1));
+      return S.Record(S.String, __S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
           permissionGroups: __S(130, __c8, 2).pipe(T.Body("permission_groups")),
-          resources: __S(658, __c41, 2),
+          resources: __S(594, __c37, 2),
         }),
       ).annotate({ identifier: "TokensGetResponsePoliciesItem" });
     case 4:
-      return S.Array(__S(659, __c41, 3));
+      return S.Array(__S(595, __c37, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(369, __c23, 1))),
+          condition: S.optional(S.NullOr(__S(321, __c20, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -5135,7 +5171,7 @@ function __c41(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(660, __c41, 4))),
+          policies: S.optional(S.NullOr(__S(596, __c37, 4))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
@@ -5145,7 +5181,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetTokenResponse" });
   }
 }
-function __c42(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5165,13 +5201,13 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetTokenPermissionGroupRequest" });
   }
 }
-function __c43(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c44(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5180,18 +5216,18 @@ function __c44(j: number): any {
           category: S.optional(S.NullOr(S.String)),
           isSelectable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_selectable"))),
           name: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(S.NullOr(__S(688, __c43, 0))),
+          scopes: S.optional(S.NullOr(__S(624, __c39, 0))),
         }),
       ).annotate({ identifier: "TokensPermissionGroupsGetResultItem" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(640, __c40, 0));
     case 2:
       return S.suspend(() =>
-        __S(705, __c44, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(641, __c40, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetTokenPermissionGroupResponse" });
   }
 }
-function __c45(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5217,17 +5253,17 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(722, __c45, 2).pipe(T.EnvelopePayload()),
+          result: __S(658, __c41, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5243,7 +5279,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          value: __S(737, __c46, 1),
+          value: __S(673, __c42, 1),
         }),
       ).annotate({ identifier: "ListEntitlementsResultItemAllocation" });
     case 3:
@@ -5259,22 +5295,22 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allocation: __S(738, __c46, 2),
+          allocation: __S(674, __c42, 2),
           createdDate: S.String.pipe(T.Body("created_date")),
           deletedDate: S.String.pipe(T.Body("deleted_date")),
           editedDate: S.String.pipe(T.Body("edited_date")),
-          feature: __S(739, __c46, 3),
+          feature: __S(675, __c42, 3),
         }),
       ).annotate({ identifier: "ListEntitlementsResultItem" });
     case 5:
-      return S.Array(__S(740, __c46, 4));
+      return S.Array(__S(676, __c42, 4));
     case 6:
       return S.suspend(() =>
-        __S(741, __c46, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(677, __c42, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListEntitlementsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -5287,13 +5323,13 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          not: S.optional(__S(688, __c43, 0)),
+          not: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "LogsAuditListRequestActionResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          not: S.optional(__S(752, __c47, 0)),
+          not: S.optional(__S(688, __c43, 0)),
         }),
       ).annotate({ identifier: "LogsAuditListRequestRawStatusCode" });
     case 4:
@@ -5302,67 +5338,67 @@ function __c47(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           before: S.String.pipe(T.Query()),
           since: S.String.pipe(T.Query()),
-          id: S.optional(__S(753, __c47, 1).pipe(T.DeepQuery("id"))),
+          id: S.optional(__S(689, __c43, 1).pipe(T.DeepQuery("id"))),
           accountName: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("account_name"), T.DeepQuery("account_name")),
+            __S(689, __c43, 1).pipe(T.Body("account_name"), T.DeepQuery("account_name")),
           ),
           actionResult: S.optional(
-            __S(754, __c47, 2).pipe(T.Body("action_result"), T.DeepQuery("action_result")),
+            __S(690, __c43, 2).pipe(T.Body("action_result"), T.DeepQuery("action_result")),
           ),
           actionType: S.optional(
-            __S(754, __c47, 2).pipe(T.Body("action_type"), T.DeepQuery("action_type")),
+            __S(690, __c43, 2).pipe(T.Body("action_type"), T.DeepQuery("action_type")),
           ),
           actorContext: S.optional(
-            __S(754, __c47, 2).pipe(T.Body("actor_context"), T.DeepQuery("actor_context")),
+            __S(690, __c43, 2).pipe(T.Body("actor_context"), T.DeepQuery("actor_context")),
           ),
           actorEmail: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("actor_email"), T.DeepQuery("actor_email")),
+            __S(689, __c43, 1).pipe(T.Body("actor_email"), T.DeepQuery("actor_email")),
           ),
-          actorId: S.optional(__S(753, __c47, 1).pipe(T.Body("actor_id"), T.DeepQuery("actor_id"))),
+          actorId: S.optional(__S(689, __c43, 1).pipe(T.Body("actor_id"), T.DeepQuery("actor_id"))),
           actorIpAddress: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("actor_ip_address"), T.DeepQuery("actor_ip_address")),
+            __S(689, __c43, 1).pipe(T.Body("actor_ip_address"), T.DeepQuery("actor_ip_address")),
           ),
           actorTokenId: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("actor_token_id"), T.DeepQuery("actor_token_id")),
+            __S(689, __c43, 1).pipe(T.Body("actor_token_id"), T.DeepQuery("actor_token_id")),
           ),
           actorTokenName: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("actor_token_name"), T.DeepQuery("actor_token_name")),
+            __S(689, __c43, 1).pipe(T.Body("actor_token_name"), T.DeepQuery("actor_token_name")),
           ),
           actorType: S.optional(
-            __S(754, __c47, 2).pipe(T.Body("actor_type"), T.DeepQuery("actor_type")),
+            __S(690, __c43, 2).pipe(T.Body("actor_type"), T.DeepQuery("actor_type")),
           ),
           auditLogId: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("audit_log_id"), T.DeepQuery("audit_log_id")),
+            __S(689, __c43, 1).pipe(T.Body("audit_log_id"), T.DeepQuery("audit_log_id")),
           ),
           cursor: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           productCategory: S.optional(__S(112, __c7, 0).pipe(T.Query("product_category"))),
           rawCfRayId: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("raw_cf_ray_id"), T.DeepQuery("raw_cf_ray_id")),
+            __S(689, __c43, 1).pipe(T.Body("raw_cf_ray_id"), T.DeepQuery("raw_cf_ray_id")),
           ),
           rawMethod: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("raw_method"), T.DeepQuery("raw_method")),
+            __S(689, __c43, 1).pipe(T.Body("raw_method"), T.DeepQuery("raw_method")),
           ),
           rawStatusCode: S.optional(
-            __S(755, __c47, 3).pipe(T.Body("raw_status_code"), T.DeepQuery("raw_status_code")),
+            __S(691, __c43, 3).pipe(T.Body("raw_status_code"), T.DeepQuery("raw_status_code")),
           ),
-          rawUri: S.optional(__S(753, __c47, 1).pipe(T.Body("raw_uri"), T.DeepQuery("raw_uri"))),
+          rawUri: S.optional(__S(689, __c43, 1).pipe(T.Body("raw_uri"), T.DeepQuery("raw_uri"))),
           resourceId: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("resource_id"), T.DeepQuery("resource_id")),
+            __S(689, __c43, 1).pipe(T.Body("resource_id"), T.DeepQuery("resource_id")),
           ),
           resourceProduct: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("resource_product"), T.DeepQuery("resource_product")),
+            __S(689, __c43, 1).pipe(T.Body("resource_product"), T.DeepQuery("resource_product")),
           ),
           resourceScope: S.optional(
-            __S(754, __c47, 2).pipe(T.Body("resource_scope"), T.DeepQuery("resource_scope")),
+            __S(690, __c43, 2).pipe(T.Body("resource_scope"), T.DeepQuery("resource_scope")),
           ),
           resourceType: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("resource_type"), T.DeepQuery("resource_type")),
+            __S(689, __c43, 1).pipe(T.Body("resource_type"), T.DeepQuery("resource_type")),
           ),
-          zoneId: S.optional(__S(753, __c47, 1).pipe(T.Body("zone_id"), T.DeepQuery("zone_id"))),
+          zoneId: S.optional(__S(689, __c43, 1).pipe(T.Body("zone_id"), T.DeepQuery("zone_id"))),
           zoneName: S.optional(
-            __S(753, __c47, 1).pipe(T.Body("zone_name"), T.DeepQuery("zone_name")),
+            __S(689, __c43, 1).pipe(T.Body("zone_name"), T.DeepQuery("zone_name")),
           ),
         })
           .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/logs/audit", code: 200 }))
@@ -5371,13 +5407,13 @@ function __c47(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(774, __c48, 6).pipe(T.EnvelopePayload()),
+          result: __S(710, __c44, 6).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListLogAuditsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5432,19 +5468,19 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          account: S.optional(S.NullOr(__S(768, __c48, 0))),
-          action: S.optional(S.NullOr(__S(769, __c48, 1))),
-          actor: S.optional(S.NullOr(__S(770, __c48, 2))),
-          raw: S.optional(S.NullOr(__S(771, __c48, 3))),
-          resource: S.optional(S.NullOr(__S(772, __c48, 4))),
-          zone: S.optional(S.NullOr(__S(768, __c48, 0))),
+          account: S.optional(S.NullOr(__S(704, __c44, 0))),
+          action: S.optional(S.NullOr(__S(705, __c44, 1))),
+          actor: S.optional(S.NullOr(__S(706, __c44, 2))),
+          raw: S.optional(S.NullOr(__S(707, __c44, 3))),
+          resource: S.optional(S.NullOr(__S(708, __c44, 4))),
+          zone: S.optional(S.NullOr(__S(704, __c44, 0))),
         }),
       ).annotate({ identifier: "LogsAuditListResultItem" });
     case 6:
-      return S.Array(__S(773, __c48, 5));
+      return S.Array(__S(709, __c44, 5));
   }
 }
-function __c49(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5471,17 +5507,17 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "MembersListResultItem" });
     case 2:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(721, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(786, __c49, 2).pipe(T.EnvelopePayload()),
+          result: __S(722, __c45, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListMembersResponse" });
   }
 }
-function __c50(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5524,14 +5560,14 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "ListPaymentMethodsResultItem" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
-        __S(802, __c50, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(738, __c46, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListPaymentMethodsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5552,7 +5588,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListRolesResponse" });
   }
 }
-function __c52(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5569,23 +5605,23 @@ function __c52(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
-      return S.Record(S.String, __S(833, __c52, 1));
+      return S.Record(S.String, __S(769, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
           permissionGroups: __S(130, __c8, 2).pipe(T.Body("permission_groups")),
-          resources: __S(834, __c52, 2),
+          resources: __S(770, __c48, 2),
         }),
       ).annotate({ identifier: "TokensListResultItemPoliciesItem" });
     case 4:
-      return S.Array(__S(835, __c52, 3));
+      return S.Array(__S(771, __c48, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(369, __c23, 1))),
+          condition: S.optional(S.NullOr(__S(321, __c20, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -5595,7 +5631,7 @@ function __c52(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(836, __c52, 4))),
+          policies: S.optional(S.NullOr(__S(772, __c48, 4))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
@@ -5604,17 +5640,17 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "TokensListResultItem" });
     case 6:
-      return S.Array(__S(837, __c52, 5));
+      return S.Array(__S(773, __c48, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: __S(838, __c52, 6).pipe(T.EnvelopePayload()),
+          result: __S(774, __c48, 6).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTokensResponse" });
   }
 }
-function __c53(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5634,7 +5670,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListTokensPermissionGroupsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5659,11 +5695,11 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LogsAuditHistoryRequest" });
     case 1:
       return S.suspend(() =>
-        __S(774, __c48, 6).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(710, __c44, 6).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LogsAuditHistoryResponse" });
   }
 }
-function __c55(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5687,24 +5723,24 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "LogsAuditProductCategoriesResultItemProductsItem" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(817, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.NullOr(S.String)),
-          products: S.optional(S.NullOr(__S(882, __c55, 2))),
+          products: S.optional(S.NullOr(__S(818, __c51, 2))),
           value: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LogsAuditProductCategoriesResultItem" });
     case 4:
-      return S.Array(__S(883, __c55, 3));
+      return S.Array(__S(819, __c51, 3));
     case 5:
       return S.suspend(() =>
-        __S(884, __c55, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(820, __c51, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LogsAuditProductCategoriesResponse" });
   }
 }
-function __c56(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5723,7 +5759,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PaymentMethodsSetAsDefaultRequest" });
   }
 }
-function __c57(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5750,7 +5786,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "PutTokenValueResponse" });
   }
 }
-function __c58(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5770,7 +5806,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ReceiptsPdfRequest" });
   }
 }
-function __c59(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
@@ -5778,15 +5814,29 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(__S(896, __c56, 0)),
+          currency: S.optional(S.String),
+          externallyManaged: S.optional(S.Boolean.pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.String.pipe(T.Body("public_name"))),
+          scope: S.optional(S.String),
+          sets: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "SubscriptionsActionsAppendRequestRatePlan" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(320, __c20, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(897, __c56, 1).pipe(T.Body("rate_plan"))),
         })
           .pipe(
             T.Http({
@@ -5797,11 +5847,52 @@ function __c60(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SubscriptionsActionsAppendRequest" });
+    case 3:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(__S(899, __c56, 3))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsActionsAppendResponseRatePlan" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          currency: S.optional(S.NullOr(S.String)),
+          currentPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_end"))),
+          currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
+          frequency: S.optional(S.NullOr(S.String)),
+          price: S.optional(S.NullOr(S.Number)),
+          ratePlan: S.optional(S.NullOr(__S(900, __c56, 4)).pipe(T.Body("rate_plan"))),
+          state: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "SubscriptionsActionsAppendResponse" });
   }
 }
-function __c61(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(__S(912, __c57, 0)),
+          currency: S.optional(S.String),
+          externallyManaged: S.optional(S.Boolean.pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.String.pipe(T.Body("public_name"))),
+          scope: S.optional(S.String),
+          sets: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -5810,20 +5901,20 @@ function __c61(j: number): any {
           currentPeriodStart: S.optional(S.String.pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.String),
           price: S.optional(S.Number),
-          ratePlan: S.optional(__S(320, __c20, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(913, __c57, 1).pipe(T.Body("rate_plan"))),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionsBulkCreateRequestSubscriptionsItem" });
-    case 1:
-      return S.Array(__S(976, __c61, 0));
-    case 2:
+    case 3:
+      return S.Array(__S(914, __c57, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           idempKey: S.optional(S.String.pipe(T.Query("idemp_key"))),
           couponCode: S.optional(S.String.pipe(T.Body("coupon_code"))),
           paymentHoldId: S.optional(S.Number.pipe(T.Body("payment_hold_id"))),
-          subscriptions: S.optional(__S(977, __c61, 1)),
+          subscriptions: S.optional(__S(915, __c57, 3)),
           userIsOnSession: S.optional(S.Boolean.pipe(T.Body("user_is_on_session"))),
         })
           .pipe(
@@ -5831,16 +5922,45 @@ function __c61(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SubscriptionsBulkCreateRequest" });
-    case 3:
+    case 5:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(__S(917, __c57, 5))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsBulkCreateResponseSubscriptionsItemRatePlan" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          currency: S.optional(S.NullOr(S.String)),
+          currentPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_end"))),
+          currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
+          frequency: S.optional(S.NullOr(S.String)),
+          price: S.optional(S.NullOr(S.Number)),
+          ratePlan: S.optional(S.NullOr(__S(918, __c57, 6)).pipe(T.Body("rate_plan"))),
+          state: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SubscriptionsBulkCreateResponseSubscriptionsItem" });
+    case 8:
+      return S.Array(__S(919, __c57, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           clientSecrets: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("client_secrets"))),
-          subscriptions: S.optional(S.NullOr(__S(641, __c40, 1))),
+          subscriptions: S.optional(S.NullOr(__S(920, __c57, 8))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SubscriptionsBulkCreateResponse" });
   }
 }
-function __c62(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5859,7 +5979,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SubscriptionsCancelDowngradeRequest" });
   }
 }
-function __c63(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5880,7 +6000,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SubscriptionsCancelReasonCreateRequest" });
   }
 }
-function __c64(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5894,7 +6014,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SubscriptionsCancelReasonCreateResponse" });
   }
 }
-function __c65(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5913,7 +6033,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "SubscriptionsCancelReasonGetRequest" });
   }
 }
-function __c66(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5930,9 +6050,36 @@ function __c66(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SubscriptionsGetByIdentifierRequest" });
+    case 1:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(__S(993, __c62, 1))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsGetByIdentifierResponseRatePlan" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          currency: S.optional(S.NullOr(S.String)),
+          currentPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_end"))),
+          currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
+          frequency: S.optional(S.NullOr(S.String)),
+          price: S.optional(S.NullOr(S.Number)),
+          ratePlan: S.optional(S.NullOr(__S(994, __c62, 2)).pipe(T.Body("rate_plan"))),
+          state: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "SubscriptionsGetByIdentifierResponse" });
   }
 }
-function __c67(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5956,15 +6103,15 @@ function __c67(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.String,
           name: S.String,
-          managedBy: S.optional(__S(1072, __c67, 0).pipe(T.Body("managed_by"))),
-          settings: S.optional(__S(1073, __c67, 1)),
+          managedBy: S.optional(__S(1008, __c63, 0).pipe(T.Body("managed_by"))),
+          settings: S.optional(__S(1009, __c63, 1)),
         })
           .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateAccountRequest" });
   }
 }
-function __c68(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5981,7 +6128,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateAccountProfileRequest" });
   }
 }
-function __c69(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5993,18 +6140,18 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          analytics: S.optional(__S(1104, __c69, 0)),
-          billing: S.optional(__S(1104, __c69, 0)),
-          cachePurge: S.optional(__S(1104, __c69, 0).pipe(T.Body("cache_purge"))),
-          dns: S.optional(__S(1104, __c69, 0)),
-          dnsRecords: S.optional(__S(1104, __c69, 0).pipe(T.Body("dns_records"))),
-          lb: S.optional(__S(1104, __c69, 0)),
-          logs: S.optional(__S(1104, __c69, 0)),
-          organization: S.optional(__S(1104, __c69, 0)),
-          ssl: S.optional(__S(1104, __c69, 0)),
-          waf: S.optional(__S(1104, __c69, 0)),
-          zoneSettings: S.optional(__S(1104, __c69, 0).pipe(T.Body("zone_settings"))),
-          zones: S.optional(__S(1104, __c69, 0)),
+          analytics: S.optional(__S(1040, __c65, 0)),
+          billing: S.optional(__S(1040, __c65, 0)),
+          cachePurge: S.optional(__S(1040, __c65, 0).pipe(T.Body("cache_purge"))),
+          dns: S.optional(__S(1040, __c65, 0)),
+          dnsRecords: S.optional(__S(1040, __c65, 0).pipe(T.Body("dns_records"))),
+          lb: S.optional(__S(1040, __c65, 0)),
+          logs: S.optional(__S(1040, __c65, 0)),
+          organization: S.optional(__S(1040, __c65, 0)),
+          ssl: S.optional(__S(1040, __c65, 0)),
+          waf: S.optional(__S(1040, __c65, 0)),
+          zoneSettings: S.optional(__S(1040, __c65, 0).pipe(T.Body("zone_settings"))),
+          zones: S.optional(__S(1040, __c65, 0)),
         }),
       ).annotate({ identifier: "MembersUpdateRequestRolesItemPermissions" });
     case 2:
@@ -6013,11 +6160,11 @@ function __c69(j: number): any {
           id: S.String,
           description: S.optional(S.String),
           name: S.optional(S.String),
-          permissions: S.optional(__S(1105, __c69, 1)),
+          permissions: S.optional(__S(1041, __c65, 1)),
         }),
       ).annotate({ identifier: "MembersUpdateRequestRolesItem" });
     case 3:
-      return S.Array(__S(1106, __c69, 2));
+      return S.Array(__S(1042, __c65, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6040,17 +6187,17 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "MembersUpdateRequestPoliciesItem" });
     case 6:
-      return S.Array(__S(1109, __c69, 5));
+      return S.Array(__S(1045, __c65, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           memberId: S.String.pipe(T.Label("member_id")),
           id: S.optional(S.String),
-          roles: S.optional(__S(1107, __c69, 3)),
+          roles: S.optional(__S(1043, __c65, 3)),
           status: S.optional(S.String),
-          user: S.optional(__S(1108, __c69, 4)),
-          policies: S.optional(__S(1110, __c69, 6)),
+          user: S.optional(__S(1044, __c65, 4)),
+          policies: S.optional(__S(1046, __c65, 6)),
         })
           .pipe(
             T.Http({ method: "PUT", uri: "/accounts/{account_id}/members/{member_id}", code: 200 }),
@@ -6059,7 +6206,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateMemberRequest" });
   }
 }
-function __c70(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6100,15 +6247,29 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdatePaymentMethodRequest" });
   }
 }
-function __c71(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(__S(1072, __c67, 0)),
+          currency: S.optional(S.String),
+          externallyManaged: S.optional(S.Boolean.pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.String.pipe(T.Body("public_name"))),
+          scope: S.optional(S.String),
+          sets: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "SubscriptionsUpdateRequestRatePlan" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           subscriptionIdentifier: S.String.pipe(T.Label("subscription_identifier")),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(320, __c20, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(1073, __c67, 1).pipe(T.Body("rate_plan"))),
         })
           .pipe(
             T.Http({
@@ -6119,32 +6280,59 @@ function __c71(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
+    case 3:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(__S(1075, __c67, 3))),
+          currency: S.optional(S.NullOr(S.String)),
+          externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
+          isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
+          publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
+          scope: S.optional(S.NullOr(S.String)),
+          sets: S.optional(S.NullOr(__S(112, __c7, 0))),
+        }),
+      ).annotate({ identifier: "SubscriptionsUpdateResponseRatePlan" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          currency: S.optional(S.NullOr(S.String)),
+          currentPeriodEnd: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_end"))),
+          currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
+          frequency: S.optional(S.NullOr(S.String)),
+          price: S.optional(S.NullOr(S.Number)),
+          ratePlan: S.optional(S.NullOr(__S(1076, __c67, 4)).pipe(T.Body("rate_plan"))),
+          state: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateSubscriptionResponse" });
   }
 }
-function __c72(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 1:
-      return S.Record(S.String, __S(1152, __c72, 0));
+      return S.Record(S.String, __S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
-          permissionGroups: __S(386, __c24, 2).pipe(T.Body("permission_groups")),
-          resources: __S(1153, __c72, 1),
+          permissionGroups: __S(338, __c21, 2).pipe(T.Body("permission_groups")),
+          resources: __S(1089, __c68, 1),
         }),
       ).annotate({ identifier: "TokensUpdateRequestPoliciesItem" });
     case 3:
-      return S.Array(__S(1154, __c72, 2));
+      return S.Array(__S(1090, __c68, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           tokenId: S.String.pipe(T.Label("token_id")),
           name: S.String,
-          policies: __S(1155, __c72, 3),
-          condition: S.optional(__S(388, __c24, 4)),
+          policies: __S(1091, __c68, 3),
+          condition: S.optional(__S(340, __c21, 4)),
           expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
           notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
           status: S.optional(S.String),
@@ -6157,23 +6345,23 @@ function __c72(j: number): any {
     case 5:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 6:
-      return S.Record(S.String, __S(1157, __c72, 5));
+      return S.Record(S.String, __S(1093, __c68, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           effect: S.String,
           permissionGroups: __S(130, __c8, 2).pipe(T.Body("permission_groups")),
-          resources: __S(1158, __c72, 6),
+          resources: __S(1094, __c68, 6),
         }),
       ).annotate({ identifier: "TokensUpdateResponsePoliciesItem" });
     case 8:
-      return S.Array(__S(1159, __c72, 7));
+      return S.Array(__S(1095, __c68, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          condition: S.optional(S.NullOr(__S(369, __c23, 1))),
+          condition: S.optional(S.NullOr(__S(321, __c20, 1))),
           creatorEmailAtCreation: S.optional(
             S.NullOr(S.String).pipe(T.Body("creator_email_at_creation")),
           ),
@@ -6183,7 +6371,7 @@ function __c72(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           name: S.optional(S.NullOr(S.String)),
           notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
-          policies: S.optional(S.NullOr(__S(1160, __c72, 8))),
+          policies: S.optional(S.NullOr(__S(1096, __c68, 8))),
           provisionerId: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_id"))),
           provisionerType: S.optional(S.NullOr(S.String).pipe(T.Body("provisioner_type"))),
           status: S.optional(S.NullOr(S.String)),
@@ -6193,7 +6381,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateTokenResponse" });
   }
 }
-function __c73(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

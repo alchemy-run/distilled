@@ -149,6 +149,18 @@ export interface GroupTypeMetadataUpdate {
   /** Plural display name of the group type. */
   name_plural?: string | null | undefined;
 }
+/** Group type metadata updates to apply, at most 5, one per group type. */
+export type GroupsTypesUpdateMetadataForAgentsPartialUpdateRequestUpdatesList =
+  Array<GroupTypeMetadataUpdate>;
+export interface GroupsTypesUpdateMetadataForAgentsPartialUpdateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Group type metadata updates to apply, at most 5, one per group type. */
+  updates?: GroupsTypesUpdateMetadataForAgentsPartialUpdateRequestUpdatesList | undefined;
+}
+export type GroupsTypesUpdateMetadataForAgentsPartialUpdateResponseBodyList = Array<GroupType>;
+export type GroupsTypesUpdateMetadataForAgentsPartialUpdateResponse =
+  GroupsTypesUpdateMetadataForAgentsPartialUpdateResponseBodyList;
 export type GroupsTypesUpdateMetadataPartialUpdateRequestBodyList = Array<GroupTypeMetadataUpdate>;
 export interface GroupsTypesUpdateMetadataPartialUpdateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -245,8 +257,8 @@ export const createGroupsTypesMetrics: API.OperationMethod<
   CreateGroupsTypesMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CreateGroupsTypesMetricsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<GroupUsageMetric>,
+  input: __S(20, __c5, 0) as any as S.Schema<CreateGroupsTypesMetricsRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GroupUsageMetric>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -262,8 +274,8 @@ export const getGroupsTypesMetrics: API.OperationMethod<
   GetGroupsTypesMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetGroupsTypesMetricsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<GroupUsageMetric>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetGroupsTypesMetricsRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GroupUsageMetric>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -283,8 +295,8 @@ export const groupsTypesCreateDetailDashboardUpdate: API.OperationMethod<
   GroupsTypesCreateDetailDashboardUpdateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GroupsTypesCreateDetailDashboardUpdateRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<GroupType>,
+  input: __S(32, __c8, 0) as any as S.Schema<GroupsTypesCreateDetailDashboardUpdateRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<GroupType>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -300,8 +312,8 @@ export const groupsTypesDestroy: API.OperationMethod<
   GroupsTypesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GroupsTypesDestroyRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<GroupsTypesDestroyResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GroupsTypesDestroyRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<GroupsTypesDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -317,14 +329,39 @@ export const groupsTypesMetricsDestroy: API.OperationMethod<
   GroupsTypesMetricsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GroupsTypesMetricsDestroyRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<GroupsTypesMetricsDestroyResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GroupsTypesMetricsDestroyRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<GroupsTypesMetricsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GroupsTypesMetricsDestroy",
+}));
+
+export type GroupsTypesUpdateMetadataForAgentsPartialUpdateError = PosthogOpError;
+export const groupsTypesUpdateMetadataForAgentsPartialUpdate: API.OperationMethod<
+  GroupsTypesUpdateMetadataForAgentsPartialUpdateRequest,
+  GroupsTypesUpdateMetadataForAgentsPartialUpdateResponse,
+  GroupsTypesUpdateMetadataForAgentsPartialUpdateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    52,
+    __c13,
+    0,
+  ) as any as S.Schema<GroupsTypesUpdateMetadataForAgentsPartialUpdateRequest>,
+  output: __S(
+    61,
+    __c15,
+    1,
+  ) as any as S.Schema<GroupsTypesUpdateMetadataForAgentsPartialUpdateResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsTypesUpdateMetadataForAgentsPartialUpdate",
 }));
 
 export type GroupsTypesUpdateMetadataPartialUpdateError =
@@ -338,8 +375,8 @@ export const groupsTypesUpdateMetadataPartialUpdate: API.OperationMethod<
   GroupsTypesUpdateMetadataPartialUpdateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c12, 2) as any as S.Schema<GroupsTypesUpdateMetadataPartialUpdateRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<GroupsTypesUpdateMetadataPartialUpdateResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<GroupsTypesUpdateMetadataPartialUpdateRequest>,
+  output: __S(61, __c15, 1) as any as S.Schema<GroupsTypesUpdateMetadataPartialUpdateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -355,8 +392,8 @@ export const listGroupsTypes: API.OperationMethod<
   ListGroupsTypesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ListGroupsTypesRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<ListGroupsTypesResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListGroupsTypesRequest>,
+  output: __S(61, __c15, 1) as any as S.Schema<ListGroupsTypesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -372,8 +409,8 @@ export const listGroupsTypesMetrics: API.OperationMethod<
   ListGroupsTypesMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListGroupsTypesMetricsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<PaginatedGroupUsageMetricList>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListGroupsTypesMetricsRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<PaginatedGroupUsageMetricList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -389,8 +426,8 @@ export const updateGroupsTypesMetrics: API.OperationMethod<
   UpdateGroupsTypesMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<UpdateGroupsTypesMetricsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<GroupUsageMetric>,
+  input: __S(8, __c2, 0) as any as S.Schema<UpdateGroupsTypesMetricsRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GroupUsageMetric>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -410,8 +447,8 @@ export const updateGroupsTypesMetricsPartial: API.OperationMethod<
   UpdateGroupsTypesMetricsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<UpdateGroupsTypesMetricsPartialRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<GroupUsageMetric>,
+  input: __S(12, __c3, 0) as any as S.Schema<UpdateGroupsTypesMetricsPartialRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GroupUsageMetric>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -431,8 +468,8 @@ export const updateGroupsTypesSetDefaultColumn: API.OperationMethod<
   UpdateGroupsTypesSetDefaultColumnError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<UpdateGroupsTypesSetDefaultColumnRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<GroupType>,
+  input: __S(16, __c4, 0) as any as S.Schema<UpdateGroupsTypesSetDefaultColumnRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<GroupType>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -443,6 +480,18 @@ export const updateGroupsTypesSetDefaultColumn: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/groups_types/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListGroupsTypesRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -460,41 +509,16 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupsTypesMetricsRequest" });
     case 1:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(25, __c6, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(1, __c0, 1)),
+          results: S.optional(__S(5, __c1, 1)),
         }),
       ).annotate({ identifier: "PaginatedGroupUsageMetricList" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          group_type_index: S.Number.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          format: S.optional(S.String),
-          interval: S.optional(S.Number),
-          display: S.optional(S.String),
-          filters: S.optional(__S(20, __c5, 0)),
-          math: S.optional(S.String),
-          math_property: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateGroupsTypesMetricsRequest" });
   }
 }
 function __c2(j: number): any {
@@ -509,7 +533,32 @@ function __c2(j: number): any {
           format: S.optional(S.String),
           interval: S.optional(S.Number),
           display: S.optional(S.String),
-          filters: S.optional(__S(20, __c5, 0)),
+          filters: S.optional(__S(24, __c6, 0)),
+          math: S.optional(S.String),
+          math_property: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateGroupsTypesMetricsRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          group_type_index: S.Number.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          format: S.optional(S.String),
+          interval: S.optional(S.Number),
+          display: S.optional(S.String),
+          filters: S.optional(__S(24, __c6, 0)),
           math: S.optional(S.String),
           math_property: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -522,14 +571,14 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateGroupsTypesMetricsPartialRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           group_type_index: S.Number,
-          default_columns: __S(32, __c8, 0),
+          default_columns: __S(36, __c9, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -540,7 +589,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateGroupsTypesSetDefaultColumnRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -551,7 +600,7 @@ function __c4(j: number): any {
           format: S.optional(S.String),
           interval: S.optional(S.Number),
           display: S.optional(S.String),
-          filters: S.optional(__S(20, __c5, 0)),
+          filters: S.optional(__S(24, __c6, 0)),
           math: S.optional(S.String),
           math_property: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -564,7 +613,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateGroupsTypesMetricsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -576,14 +625,14 @@ function __c5(j: number): any {
           format: S.optional(S.String),
           interval: S.optional(S.Number),
           display: S.optional(S.String),
-          filters: S.optional(__S(20, __c5, 0)),
+          filters: S.optional(__S(24, __c6, 0)),
           math: S.optional(S.String),
           math_property: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GroupUsageMetric" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -601,7 +650,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetGroupsTypesMetricsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -618,7 +667,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GroupsTypesCreateDetailDashboardUpdateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -630,13 +679,13 @@ function __c8(j: number): any {
           name_singular: S.optional(S.NullOr(S.String)),
           name_plural: S.optional(S.NullOr(S.String)),
           detail_dashboard: S.optional(S.NullOr(S.Number)),
-          default_columns: S.optional(S.NullOr(__S(32, __c8, 0))),
+          default_columns: S.optional(S.NullOr(__S(36, __c9, 0))),
           created_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GroupType" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,13 +702,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GroupsTypesDestroyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GroupsTypesDestroyResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -677,7 +726,24 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GroupsTypesMetricsDestroyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          updates: S.optional(__S(57, __c14, 1)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/groups_types/update_metadata_for_agents/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GroupsTypesUpdateMetadataForAgentsPartialUpdateRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,12 +754,26 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GroupTypeMetadataUpdate" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
-    case 2:
+      return S.Array(__S(56, __c14, 0));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(37, __c9, 1));
+    case 1:
+      return S.suspend(() => __S(60, __c15, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GroupsTypesUpdateMetadataForAgentsPartialUpdateResponse",
+      });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          body: __S(49, __c12, 1).pipe(T.HttpBody()),
+          body: __S(57, __c14, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -702,28 +782,6 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GroupsTypesUpdateMetadataPartialUpdateRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(33, __c8, 1));
-    case 1:
-      return S.suspend(() => __S(52, __c13, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GroupsTypesUpdateMetadataPartialUpdateResponse",
-      });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/groups_types/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListGroupsTypesRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

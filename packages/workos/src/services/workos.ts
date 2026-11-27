@@ -44,6 +44,7 @@ export class BadRequest
           /*@__PURE__*/ S.suspend(() => __S(130, __c4, 2)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(131, __c4, 3)),
           /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
@@ -68,14 +69,15 @@ export class BadRequest
     | ErrorBodyWithCodeStatusCode
     | Error
     | ErrorBodyWithCodeFieldErrors
-    | Error400Body4
     | Error400Body5
+    | Error400Body6
+    | Error400Body4
     | ErrorBodyWithCodeErrors
     | OAuthErrorBody
-    | Error400Body7
-    | Error400Body6
     | Error400Body8
+    | Error400Body7
     | Error400Body9
+    | Error400Body10
     | string;
 }
 
@@ -123,6 +125,7 @@ export class Forbidden
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5184, __c162, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
           S.String,
@@ -133,7 +136,13 @@ export class Forbidden
     [{ status: 403 }],
   )
 {
-  declare readonly body?: ErrorBody | ErrorBodyWithCode | Error403Body | OAuthErrorBody | string;
+  declare readonly body?:
+    | ErrorBody
+    | ErrorBodyWithCode
+    | PolicyDeniedErrorBody
+    | Error403Body
+    | OAuthErrorBody
+    | string;
 }
 
 export class NotFound
@@ -144,6 +153,7 @@ export class NotFound
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
@@ -160,6 +170,7 @@ export class NotFound
   declare readonly body?:
     | ErrorBody
     | Error404Body
+    | Error404Body4
     | Error404Body3
     | Error
     | ErrorBodyWithCode
@@ -178,15 +189,15 @@ export class UnprocessableEntity
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(130, __c4, 2)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(8834, __c276, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(9122, __c285, 2)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(131, __c4, 3)),
           /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(131, __c4, 3)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
@@ -205,12 +216,12 @@ export class UnprocessableEntity
     | ErrorBodyWithConstraintsPropertyErrors
     | Error422Body3
     | Error422Body5
+    | ErrorBodyWithCodeErrors
     | Error
     | Error422Body4
     | Error422Body7
     | AuthMethodMismatchError
     | Error422Body2
-    | ErrorBodyWithCodeErrors
     | Error422Body6
     | AuthMethodMismatchErrorBody
     | string;
@@ -649,9 +660,9 @@ export type AuditLogExportsControllerExportsRequestTargetsList = Array<string>;
 export interface AuditLogExportsControllerExportsRequest {
   /** The unique ID of the Organization. */
   organization_id?: string | undefined;
-  /** ISO-8601 value for start of the export range. */
+  /** ISO-8601 value for start of the export range. The range must span no more than 31 days. */
   range_start?: string | undefined;
-  /** ISO-8601 value for end of the export range. */
+  /** ISO-8601 value for end of the export range. Must be no more than 31 days after the start. */
   range_end?: string | undefined;
   /** List of actions to filter against. */
   actions?: AuditLogExportsControllerExportsRequestActionsList | undefined;
@@ -949,13 +960,13 @@ export interface AuthorizationCheck {
   authorized?: boolean | undefined;
 }
 export interface ClientApiTokenControllerIssueClientApiTokenRequest {
-  /** The ID of the organization to scope the Client API token to. */
+  /** The ID of the organization to scope the Widgets API token to. */
   organization_id: string;
-  /** The ID of the user to issue the Client API token for. */
+  /** The ID of the user to issue the Widgets API token for. */
   user_id: string;
 }
 export interface ClientApiTokenResponse {
-  /** The Client API token. */
+  /** The Widgets API token. */
   token: string | Redacted.Redacted<string>;
 }
 /** A set of key-value pairs to attach to the user. */
@@ -1154,8 +1165,26 @@ export interface Connection {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
 }
-/** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
-export type CreateAgentBlueprintsControllerRequestPermissionsList = Array<string>;
+export type CreateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesItem =
+  | "delegated"
+  | "autonomous";
+/** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. Agent-delegated chaining and refreshes use the type of the presenting instance. */
+export type CreateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesList = Array<
+  CreateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesItem | (string & {})
+>;
+/** A permission in the blueprint ceiling and the sessions it applies to. */
+export interface CreateAgentBlueprintsControllerRequestPermissionsItemCase0 {
+  /** Slug of a permission in the environment. */
+  slug: string;
+  /** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. Agent-delegated chaining and refreshes use the type of the presenting instance. */
+  instance_types: CreateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesList;
+}
+export type CreateAgentBlueprintsControllerRequestPermissionsItem =
+  | CreateAgentBlueprintsControllerRequestPermissionsItemCase0
+  | string;
+/** Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once. */
+export type CreateAgentBlueprintsControllerRequestPermissionsList =
+  Array<CreateAgentBlueprintsControllerRequestPermissionsItem>;
 /** Role slugs whose members may mint user-delegated sessions from this blueprint. An empty list allows any member. */
 export type CreateAgentBlueprintsControllerRequestInvocableByRoleSlugsList = Array<string>;
 /** Organizations in which sessions may be minted from this blueprint, enforced on user-delegated, autonomous, and agent-delegated mints. An empty list allows any organization in the environment. */
@@ -1195,7 +1224,7 @@ export interface CreateAgentBlueprintsControllerRequest {
   name: string;
   /** Human-readable description of the agent blueprint. */
   description?: string | undefined;
-  /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
+  /** Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once. */
   permissions?: CreateAgentBlueprintsControllerRequestPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. */
   invocable_by?: CreateAgentBlueprintsControllerRequestInvocableBy | undefined;
@@ -1204,8 +1233,20 @@ export interface CreateAgentBlueprintsControllerRequest {
   /** Token and session lifetimes for sessions minted from this blueprint. */
   session_settings?: CreateAgentBlueprintsControllerRequestSessionSettings | undefined;
 }
-/** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
+/** Deprecated: use `scoped_permissions`. Slugs of every permission in the ceiling, across all instance types. */
 export type AgentBlueprintPermissionsList = Array<string>;
+export type AgentBlueprintScopedPermissionsItemInstanceTypesItem = "delegated" | "autonomous";
+/** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. */
+export type AgentBlueprintScopedPermissionsItemInstanceTypesList =
+  Array<AgentBlueprintScopedPermissionsItemInstanceTypesItem>;
+export interface AgentBlueprintScopedPermissionsItem {
+  /** Slug of the permission. */
+  slug: string;
+  /** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. */
+  instance_types: AgentBlueprintScopedPermissionsItemInstanceTypesList;
+}
+/** Permissions forming the ceiling on what sessions minted from this blueprint may do, with the instance types that receive each one. */
+export type AgentBlueprintScopedPermissionsList = Array<AgentBlueprintScopedPermissionsItem>;
 /** Role slugs whose members may mint user-delegated sessions from this blueprint. */
 export type AgentBlueprintInvocableByRoleSlugsList = Array<string>;
 /** Organizations in which sessions may be minted from this blueprint, enforced on user-delegated, autonomous, and agent-delegated mints. */
@@ -1244,8 +1285,10 @@ export interface AgentBlueprint {
   name: string;
   /** Human-readable description of the agent blueprint. */
   description: string | null;
-  /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
+  /** Deprecated: use `scoped_permissions`. Slugs of every permission in the ceiling, across all instance types. */
   permissions: AgentBlueprintPermissionsList;
+  /** Permissions forming the ceiling on what sessions minted from this blueprint may do, with the instance types that receive each one. */
+  scoped_permissions: AgentBlueprintScopedPermissionsList;
   /** Who may mint sessions from this blueprint. */
   invocable_by: AgentBlueprintInvocableBy;
   /** How sessions may be minted from this blueprint. */
@@ -1401,7 +1444,7 @@ export interface AuditLogEventContextDto {
 export interface AuditLogEventDto {
   /** Identifier of what happened. */
   action?: string | undefined;
-  /** ISO-8601 value of when the action occurred. */
+  /** ISO-8601 timestamp of when the action occurred. When omitted, defaults to the time WorkOS receives the event. Explicit JSON null is rejected. */
   occurred_at?: string | undefined;
   /** The entity that performed the action. */
   actor?: AuditLogEventActorDto | undefined;
@@ -2261,6 +2304,32 @@ export interface CreateGroupsControllerRequest {
   /** An optional description of the Group. */
   description?: string | null | undefined;
 }
+export interface CreateIssuerTrustsControllerRequest {
+  /** The ID of the organization. */
+  organization_id: string;
+  /** The type of issuer, which identifies who operates it. */
+  type: string;
+  /** The issuer URL. WorkOS fetches the issuer's OpenID configuration to confirm it before creating the trust. */
+  issuer: string;
+}
+export interface IssuerTrust {
+  /** The Issuer Trust object. */
+  object: string;
+  /** The unique ID of the Issuer Trust. */
+  id: string;
+  /** The ID of the Organization that trusts the issuer. */
+  organization_id: string;
+  /** The type of issuer, which identifies who operates it. */
+  type: string;
+  /** The issuer URL. ID-JAGs whose `iss` claim equals this URL are exchanged for access tokens scoped to the Organization. */
+  issuer: string;
+  /** Whether ID-JAGs from the issuer are accepted. A trust is created disabled. */
+  enabled: boolean;
+  /** An ISO 8601 timestamp. */
+  created_at: string;
+  /** An ISO 8601 timestamp. */
+  updated_at: string;
+}
 export interface CreateItContactsControllerRequest {
   /** The ID of the organization. */
   organization_id: string;
@@ -2950,10 +3019,13 @@ export type CreateWebhookEndpointsControllerRequestEventsItem =
   | "api_key.created"
   | "api_key.revoked"
   | "api_key.updated"
+  | "application.token_exchange_failed"
+  | "application.token_exchange_succeeded"
   | "connection.activated"
   | "connection.deactivated"
   | "connection.saml_certificate_renewal_required"
   | "connection.saml_certificate_renewed"
+  | "connection.saml_certificate_replaced"
   | "connection.deleted"
   | "dsync.activated"
   | "dsync.deleted"
@@ -2987,6 +3059,9 @@ export type CreateWebhookEndpointsControllerRequestEventsItem =
   | "invitation.created"
   | "invitation.resent"
   | "invitation.revoked"
+  | "issuer_trust.created"
+  | "issuer_trust.deleted"
+  | "issuer_trust.updated"
   | "magic_auth.created"
   | "organization.created"
   | "organization.deleted"
@@ -3367,6 +3442,11 @@ export interface DeleteConnectionsControllerRequest {
   id: string;
 }
 export interface DeleteConnectionsControllerResponse {}
+export interface DeleteCorsOriginsControllerRequest {
+  /** The ID of the CORS origin to delete. */
+  id: string;
+}
+export interface DeleteCorsOriginsControllerResponse {}
 export interface DeleteDataIntegrationsManagementControllerDataIntegrationRequest {
   /** The slug identifier of the data integration. */
   slug: string;
@@ -3420,6 +3500,13 @@ export interface DeleteGroupsControllerRequest {
   groupId: string;
 }
 export interface DeleteGroupsControllerResponse {}
+export interface DeleteIssuerTrustsControllerRequest {
+  /** The ID of the organization. */
+  organization_id: string;
+  /** The ID of the issuer trust. */
+  id: string;
+}
+export interface DeleteIssuerTrustsControllerResponse {}
 export interface DeleteItContactsControllerRequest {
   /** The ID of the organization. */
   organization_id: string;
@@ -3574,9 +3661,11 @@ export interface Directory {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
 }
-export interface DirectoryGroupsControllerFindRequest {
+export interface DirectoriesGroupsControllerFindRequest {
+  /** Unique identifier of the Directory. */
+  directoryId: string;
   /** Unique identifier for the Directory Group. */
-  id: string;
+  groupId: string;
 }
 /** The raw attributes received from the directory provider. */
 export type DirectoryGroupRawAttributesMap = { [key: string]: unknown | undefined };
@@ -3600,11 +3689,13 @@ export interface DirectoryGroup {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
 }
-export interface DirectoryUsersControllerFindRequest {
+export interface DirectoriesUsersControllerFindRequest {
+  /** Unique identifier of the Directory. */
+  directoryId: string;
   /** Unique identifier for the Directory User. */
-  id: string;
+  userId: string;
 }
-export interface DirectoryUserWithGroupsEmailsItem {
+export interface DirectoryUserEmailsItem {
   /** Whether this is the primary email address. */
   primary?: boolean | undefined;
   /** The type of email address. */
@@ -3613,30 +3704,28 @@ export interface DirectoryUserWithGroupsEmailsItem {
   value?: string | null | undefined;
 }
 /** A list of email addresses for the user. */
-export type DirectoryUserWithGroupsEmailsList = Array<DirectoryUserWithGroupsEmailsItem>;
+export type DirectoryUserEmailsList = Array<DirectoryUserEmailsItem>;
 /** The state of the user. */
-export type DirectoryUserWithGroupsState = "active" | "suspended" | "inactive";
+export type DirectoryUserState = "active" | "suspended" | "inactive";
 /** The raw attributes received from the directory provider. */
-export type DirectoryUserWithGroupsRawAttributesMap = { [key: string]: unknown | undefined };
+export type DirectoryUserRawAttributesMap = { [key: string]: unknown | undefined };
 /** An object containing the custom attribute mapping for the Directory Provider. */
-export type DirectoryUserWithGroupsCustomAttributesMap = { [key: string]: unknown | undefined };
+export type DirectoryUserCustomAttributesMap = { [key: string]: unknown | undefined };
 /** All roles assigned to the user. */
-export type DirectoryUserWithGroupsRolesList = Array<SlimRole>;
-/** The directory groups the user belongs to. Deprecated: starting May 1, 2026, this field returns an empty array by default for newly created teams. Existing teams currently depending on this field should migrate to the new access pattern for better throughput performance -- the field is unbounded by user, so users with many group memberships produce large, slow response payloads. Use the List Directory Groups endpoint with a `user` filter to fetch a user's group memberships. */
-export type DirectoryUserWithGroupsGroupsList = Array<DirectoryGroup>;
-export interface DirectoryUserWithGroups {
+export type DirectoryUserRolesList = Array<SlimRole>;
+export interface DirectoryUser {
   /** Distinguishes the Directory User object. */
-  object?: string | undefined;
+  object: string;
   /** Unique identifier for the Directory User. */
-  id?: string | undefined;
+  id: string;
   /** The identifier of the Directory the Directory User belongs to. */
-  directory_id?: string | undefined;
+  directory_id: string;
   /** The identifier for the Organization in which the Directory resides. */
-  organization_id?: string | undefined;
+  organization_id: string;
   /** Unique identifier for the user, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
-  idp_id?: string | undefined;
+  idp_id: string;
   /** The email address of the user. */
-  email?: string | null | undefined;
+  email: string | null;
   /** The first name of the user. */
   first_name?: string | null | undefined;
   /** The last name of the user. */
@@ -3644,26 +3733,24 @@ export interface DirectoryUserWithGroups {
   /** The full name of the user. */
   name?: string | null | undefined;
   /** A list of email addresses for the user. */
-  emails?: DirectoryUserWithGroupsEmailsList | undefined;
+  emails?: DirectoryUserEmailsList | undefined;
   /** The job title of the user. */
   job_title?: string | null | undefined;
   /** The username of the user. */
   username?: string | null | undefined;
   /** The state of the user. */
-  state?: DirectoryUserWithGroupsState | undefined;
+  state: DirectoryUserState;
   /** The raw attributes received from the directory provider. */
-  raw_attributes?: DirectoryUserWithGroupsRawAttributesMap | undefined;
+  raw_attributes: DirectoryUserRawAttributesMap;
   /** An object containing the custom attribute mapping for the Directory Provider. */
-  custom_attributes?: DirectoryUserWithGroupsCustomAttributesMap | undefined;
+  custom_attributes: DirectoryUserCustomAttributesMap;
   role?: SlimRole | undefined;
   /** All roles assigned to the user. */
-  roles?: DirectoryUserWithGroupsRolesList | undefined;
+  roles?: DirectoryUserRolesList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string | undefined;
+  created_at: string;
   /** An ISO 8601 timestamp. */
-  updated_at?: string | undefined;
-  /** The directory groups the user belongs to. Deprecated: starting May 1, 2026, this field returns an empty array by default for newly created teams. Existing teams currently depending on this field should migrate to the new access pattern for better throughput performance -- the field is unbounded by user, so users with many group memberships produce large, slow response payloads. Use the List Directory Groups endpoint with a `user` filter to fetch a user's group memberships. */
-  groups?: DirectoryUserWithGroupsGroupsList | undefined;
+  updated_at: string;
 }
 export interface DisableFeatureFlagsControllerFlagRequest {
   /** A unique key to reference the Feature Flag. */
@@ -4314,6 +4401,12 @@ export interface GetGroupsControllerRequest {
   /** The ID of the group. */
   groupId: string;
 }
+export interface GetIssuerTrustsControllerRequest {
+  /** The ID of the organization. */
+  organization_id: string;
+  /** The ID of the issuer trust. */
+  id: string;
+}
 export interface GetJwtTemplatesControllerJwtTemplateRequest {}
 export interface JwtTemplate {
   /** The object type. */
@@ -4581,6 +4674,12 @@ export type GetUserlandUserIdentitiesControllerResponseBodyList =
   Array<GetUserlandUserIdentitiesControllerResponseBodyItem>;
 export type GetUserlandUserIdentitiesControllerResponse =
   GetUserlandUserIdentitiesControllerResponseBodyList;
+export interface GetUserlandUserIdentitiesControllerByIdentityRequest {
+  /** The OAuth provider of the identity, the same value you pass as `provider` to [Get authorization URL](/reference/authkit/authentication/get-authorization-url) (case-insensitive). */
+  provider: string;
+  /** The unique ID of the user in the external identity provider. */
+  idp_id: string;
+}
 export interface GetUserlandUserInvitesControllerRequest {
   /** The unique ID of the invitation. */
   id: string;
@@ -4654,6 +4753,10 @@ export interface EmailVerification {
   updated_at?: string | undefined;
   /** The code used to verify the email. */
   code?: string | Redacted.Redacted<string> | undefined;
+}
+export interface GetWebhookEndpointsControllerRequest {
+  /** Unique identifier of the Webhook Endpoint. */
+  id: string;
 }
 export type InviteItContactsControllerRequestIntentsItem =
   | "sso"
@@ -5402,6 +5505,7 @@ export type ListConnectionsControllerRequestConnectionType =
   | "VercelOAuth"
   | "VMwareSAML"
   | "XeroOAuth";
+export type ListConnectionsControllerRequestState = "active" | "inactive" | "validating";
 export interface ListConnectionsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
   before?: string | undefined;
@@ -5419,6 +5523,8 @@ export interface ListConnectionsControllerRequest {
   organization_id?: string | undefined;
   /** Searchable text to match against Connection names. */
   search?: string | undefined;
+  /** Filter Connections by their state. */
+  state?: ListConnectionsControllerRequestState | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type ConnectionListDataList = Array<Connection>;
@@ -5516,7 +5622,9 @@ export interface DirectoryList {
   /** Pagination cursors for navigating between pages of results. */
   list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
-export interface ListDirectoryGroupsControllerRequest {
+export interface ListDirectoriesGroupsControllerRequest {
+  /** Unique identifier of the Directory. */
+  directoryId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
   before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
@@ -5525,25 +5633,25 @@ export interface ListDirectoryGroupsControllerRequest {
   limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
   order?: PaginationOrder | (string & {}) | undefined;
-  /** Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API. */
-  directory?: string | undefined;
-  /** Unique identifier of the WorkOS Directory User. This value can be obtained from the WorkOS API. */
+  /** Filter Directory Groups to those this Directory User belongs to. */
   user?: string | undefined;
 }
-/** The list of records for the current page. */
-export type DirectoryGroupListDataList = Array<DirectoryGroup>;
 /** Pagination cursors for navigating between pages of results. */
-export type DirectoryGroupListListMetadata =
+export type ListDirectoriesGroupsControllerResponseListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
-export interface DirectoryGroupList {
+/** The list of records for the current page. */
+export type ListDirectoriesGroupsControllerResponseDataList = Array<DirectoryGroup>;
+export interface ListDirectoriesGroupsControllerResponse {
   /** Indicates this is a list response. */
   object?: string | undefined;
-  /** The list of records for the current page. */
-  data?: DirectoryGroupListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
   list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
+  /** The list of records for the current page. */
+  data?: ListDirectoriesGroupsControllerResponseDataList | undefined;
 }
-export interface ListDirectoryUsersControllerRequest {
+export interface ListDirectoriesUsersControllerRequest {
+  /** Unique identifier of the Directory. */
+  directoryId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
   before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
@@ -5552,27 +5660,25 @@ export interface ListDirectoryUsersControllerRequest {
   limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
   order?: PaginationOrder | (string & {}) | undefined;
-  /** Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API. */
-  directory?: string | undefined;
-  /** Unique identifier of the WorkOS Directory Group. This value can be obtained from the WorkOS API. */
+  /** Filter Directory Users to the members of this Directory Group. */
   group?: string | undefined;
-  /** Filter Directory Users by the identity provider's unique identifier (`idp_id`). Requires the `directory` parameter to also be provided. */
+  /** Filter Directory Users by the identity provider's unique identifier (`idp_id`). */
   idp_id?: string | undefined;
-  /** Filter Directory Users by their primary email address. Requires the `directory` parameter to also be provided. */
+  /** Filter Directory Users by their primary email address. */
   email?: string | undefined;
 }
-/** The list of records for the current page. */
-export type DirectoryUserListDataList = Array<DirectoryUserWithGroups>;
 /** Pagination cursors for navigating between pages of results. */
-export type DirectoryUserListListMetadata =
+export type ListDirectoriesUsersControllerResponseListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
-export interface DirectoryUserList {
+/** The list of records for the current page. */
+export type ListDirectoriesUsersControllerResponseDataList = Array<DirectoryUser>;
+export interface ListDirectoriesUsersControllerResponse {
   /** Indicates this is a list response. */
   object?: string | undefined;
-  /** The list of records for the current page. */
-  data?: DirectoryUserListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
   list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
+  /** The list of records for the current page. */
+  data?: ListDirectoriesUsersControllerResponseDataList | undefined;
 }
 export type ListEventsControllerRequestEventsList = Array<string>;
 export interface ListEventsControllerRequest {
@@ -5589,8 +5695,20 @@ export interface ListEventsControllerRequest {
   /** Filter events by the [Organization](/reference/organization) that the event is associated with. */
   organization_id?: string | undefined;
 }
-/** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
+/** Deprecated: use `scoped_permissions`. Slugs of every permission in the ceiling, across all instance types. */
 export type EventSchemaDataPermissionsList = Array<string>;
+export type EventSchemaDataScopedPermissionsItemInstanceTypesItem = "delegated" | "autonomous";
+/** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. */
+export type EventSchemaDataScopedPermissionsItemInstanceTypesList =
+  Array<EventSchemaDataScopedPermissionsItemInstanceTypesItem>;
+export interface EventSchemaDataScopedPermissionsItem {
+  /** Slug of the permission. */
+  slug: string;
+  /** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. */
+  instance_types: EventSchemaDataScopedPermissionsItemInstanceTypesList;
+}
+/** Permissions forming the ceiling on what sessions minted from this blueprint may do, with the instance types that receive each one. Absent from events emitted before this field was added. */
+export type EventSchemaDataScopedPermissionsList = Array<EventSchemaDataScopedPermissionsItem>;
 /** Role slugs whose members may mint user-delegated sessions from this blueprint. */
 export type EventSchemaDataInvocableByRoleSlugsList = Array<string>;
 /** Organizations in which autonomous sessions may be minted from this blueprint. */
@@ -5675,13 +5793,13 @@ export interface EventSchemaDataPreviousAttributes {
   expires_at: string | null;
   [key: string]: unknown;
 }
-/** Details about the authentication error. */
+/** Why the token exchange failed. */
 export interface EventSchemaDataError {
-  /** The error code. */
+  /** The OAuth error code returned to the application. */
   code: string;
-  /** A human-readable error message. */
+  /** A human-readable description of the error. */
   message: string;
-  /** The ID of the Radar detection that blocked the authentication. Only set on `policy_denied` errors. */
+  /** The ID of the Radar detection that blocked the authentication. Retrieve the detection with `GET /radar/detections/:id` to see why Radar acted. Only set on `policy_denied` errors that a Radar detection caused. */
   radar_detection_id?: string | undefined;
 }
 export type EventSchemaDataAction = "signup" | "login";
@@ -5800,62 +5918,14 @@ export interface EventSchemaDataCertificate {
   expiry_date: string;
   /** Whether the certificate has already expired. */
   is_expired: boolean;
+  /** The expiry date of the certificate that was replaced. Absent when the connection had no certificate of this type. */
+  previous_expiry_date?: string | undefined;
 }
 /** The raw attributes received from the directory provider. */
 export type EventSchemaDataRawAttributesMap = { [key: string]: unknown | undefined };
-export type DirectoryUserEmailsItem = DirectoryUserWithGroupsEmailsItem;
+export type EventSchemaDataEmailsItem = DirectoryUserEmailsItem;
 /** A list of email addresses for the user. */
-export type DirectoryUserEmailsList = Array<DirectoryUserWithGroupsEmailsItem>;
-/** The state of the user. */
-export type DirectoryUserState = "active" | "suspended" | "inactive";
-/** The raw attributes received from the directory provider. */
-export type DirectoryUserRawAttributesMap = { [key: string]: unknown | undefined };
-/** An object containing the custom attribute mapping for the Directory Provider. */
-export type DirectoryUserCustomAttributesMap = { [key: string]: unknown | undefined };
-/** All roles assigned to the user. */
-export type DirectoryUserRolesList = Array<SlimRole>;
-export interface DirectoryUser {
-  /** Distinguishes the Directory User object. */
-  object: string;
-  /** Unique identifier for the Directory User. */
-  id: string;
-  /** The identifier of the Directory the Directory User belongs to. */
-  directory_id: string;
-  /** The identifier for the Organization in which the Directory resides. */
-  organization_id: string;
-  /** Unique identifier for the user, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
-  idp_id: string;
-  /** The email address of the user. */
-  email: string | null;
-  /** The first name of the user. */
-  first_name?: string | null | undefined;
-  /** The last name of the user. */
-  last_name?: string | null | undefined;
-  /** The full name of the user. */
-  name?: string | null | undefined;
-  /** A list of email addresses for the user. */
-  emails?: DirectoryUserEmailsList | undefined;
-  /** The job title of the user. */
-  job_title?: string | null | undefined;
-  /** The username of the user. */
-  username?: string | null | undefined;
-  /** The state of the user. */
-  state: DirectoryUserState;
-  /** The raw attributes received from the directory provider. */
-  raw_attributes: DirectoryUserRawAttributesMap;
-  /** An object containing the custom attribute mapping for the Directory Provider. */
-  custom_attributes: DirectoryUserCustomAttributesMap;
-  role?: SlimRole | undefined;
-  /** All roles assigned to the user. */
-  roles?: DirectoryUserRolesList | undefined;
-  /** An ISO 8601 timestamp. */
-  created_at: string;
-  /** An ISO 8601 timestamp. */
-  updated_at: string;
-}
-export type EventSchemaDataEmailsItem = DirectoryUserWithGroupsEmailsItem;
-/** A list of email addresses for the user. */
-export type EventSchemaDataEmailsList = Array<DirectoryUserWithGroupsEmailsItem>;
+export type EventSchemaDataEmailsList = Array<DirectoryUserEmailsItem>;
 /** An object containing the custom attribute mapping for the Directory Provider. */
 export type EventSchemaDataCustomAttributesMap = { [key: string]: unknown | undefined };
 /** All roles assigned to the user. */
@@ -5961,8 +6031,10 @@ export interface EventSchemaData {
   name?: string | undefined;
   /** Human-readable description of the agent blueprint. */
   description?: string | null | undefined;
-  /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
+  /** Deprecated: use `scoped_permissions`. Slugs of every permission in the ceiling, across all instance types. */
   permissions?: EventSchemaDataPermissionsList | undefined;
+  /** Permissions forming the ceiling on what sessions minted from this blueprint may do, with the instance types that receive each one. Absent from events emitted before this field was added. */
+  scoped_permissions?: EventSchemaDataScopedPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. */
   invocable_by?: EventSchemaDataInvocableBy | undefined;
   /** How sessions may be minted from this blueprint. */
@@ -6019,18 +6091,32 @@ export interface EventSchemaData {
   last_used_at?: string | null | undefined;
   /** Previous API key attributes before the update. */
   previous_attributes?: EventSchemaDataPreviousAttributes | undefined;
-  /** Details about the authentication error. */
+  /** The OAuth grant type of the token request that presented the token to exchange. */
+  grant_type?: string | undefined;
+  /** The client ID of the application that made the token request. */
+  client_id?: string | undefined;
+  /** The issuer the presented token claims. It is verified only when `signature_verified` is `true`, and is `null` when the token could not be read. */
+  issuer?: string | null | undefined;
+  /** The domain of the email address the presented token names. WorkOS has not verified the domain, and it is `null` when the token could not be read or names no email address. */
+  unverified_email_domain?: string | null | undefined;
+  /** Whether the signature of the presented token was verified before the exchange failed. */
+  signature_verified?: boolean | undefined;
+  /** Why the token exchange failed. */
   error?: EventSchemaDataError | undefined;
+  /** The ID of the SSO connection whose identity provider issued the exchanged token. `null` when the AI client issued it. */
+  connection_id?: string | null | undefined;
+  /** The `jti` claim of the access token that was issued. */
+  jti?: string | undefined;
   /** The OAuth provider used for authentication. */
   provider?: string | undefined;
   /** The authentication method used. */
   auth_method?: string | undefined;
   action?: EventSchemaDataAction | undefined;
-  /** The control action taken for the detected risk. */
+  /** The Radar control that detected the risk. */
   control?: string | null | undefined;
   /** The type of blocklist that triggered the risk detection. */
   blocklist_type?: string | null | undefined;
-  /** The ID of the Radar detection that challenged the authentication. */
+  /** The ID of the Radar detection that challenged the authentication. Retrieve the detection with `GET /radar/detections/:id` to see why Radar acted. */
   radar_detection_id?: string | undefined;
   /** SSO connection details. */
   sso?: EventSchemaDataSso | undefined;
@@ -6050,6 +6136,8 @@ export interface EventSchemaData {
   days_until_expiry?: number | undefined;
   /** An ISO 8601 timestamp. */
   renewed_at?: string | undefined;
+  /** An ISO 8601 timestamp. */
+  replaced_at?: string | undefined;
   /** Unique identifier for the group, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
   idp_id?: string | undefined;
   /** The identifier of the Directory the Directory Group belongs to. */
@@ -6461,6 +6549,23 @@ export interface GroupList {
   /** Pagination cursors for navigating between pages of results. */
   list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
+export interface ListIssuerTrustsControllerRequest {
+  /** The ID of the organization. */
+  organization_id: string;
+}
+/** The list of records for the current page. */
+export type IssuerTrustListDataList = Array<IssuerTrust>;
+/** Pagination cursors for navigating between pages of results. */
+export type IssuerTrustListListMetadata =
+  AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+export interface IssuerTrustList {
+  /** Indicates this is a list response. */
+  object: string;
+  /** The list of records for the current page. */
+  data: IssuerTrustListDataList;
+  /** Pagination cursors for navigating between pages of results. */
+  list_metadata: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+}
 export interface ListItContactsControllerRequest {
   /** The ID of the organization. */
   organization_id: string;
@@ -6622,9 +6727,12 @@ export interface OrganizationList {
   /** Pagination cursors for navigating between pages of results. */
   list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
+export type ListProviderControllerForOrganizationRequestOwnership = "user" | "organization";
 export interface ListProviderControllerForOrganizationRequest {
   /** An [Organization](/reference/organization) identifier to list provider configurations for. */
   organizationId: string;
+  /** Select the provider configuration for `user` connections or `organization` shared connections. Defaults to `user`; never falls back to the other ownership. */
+  ownership?: ListProviderControllerForOrganizationRequestOwnership | (string & {}) | undefined;
 }
 export type DataIntegrationConfigurationResponseScopesList = Array<string>;
 /** The provider-specific config values in effect for this organization, keyed by config field. Reflects the organization override for organization-credential providers, otherwise the provider root. Empty when none are configured. */
@@ -7046,6 +7154,31 @@ export interface PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssign
     | undefined;
 }
 export interface PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse {}
+export interface PatchRoleAssignmentEntryDto {
+  /** The slug of the role. */
+  role_slug: string;
+  /** The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`. */
+  resource_id?: string | undefined;
+  /** The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`. */
+  resource_external_id?: string | undefined;
+  /** The resource type slug. Required with `resource_external_id`. Mutually exclusive with `resource_id`. */
+  resource_type_slug?: string | undefined;
+}
+/** Role assignments to add to the organization membership. Assignments that already exist are skipped. */
+export type PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequestAddList =
+  Array<PatchRoleAssignmentEntryDto>;
+/** Role assignments to remove from the organization membership. Entries that match no assignment are skipped. Roles granted through a group cannot be removed. */
+export type PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequestRemoveList =
+  Array<PatchRoleAssignmentEntryDto>;
+export interface PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest {
+  /** The ID of the organization membership. */
+  organization_membership_id: string;
+  /** Role assignments to add to the organization membership. Assignments that already exist are skipped. */
+  add?: PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequestAddList | undefined;
+  /** Role assignments to remove from the organization membership. Entries that match no assignment are skipped. Roles granted through a group cannot be removed. */
+  remove?: PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequestRemoveList | undefined;
+}
+export interface PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsResponse {}
 export interface PatchConnectionStandardAttributesDto {
   /** The IdP attribute or claim the profile's `idp_id` is mapped from. */
   idp_id?: string | undefined;
@@ -7142,6 +7275,7 @@ export interface PatchConnectionsControllerRequest {
   /** Protocol configuration for OIDC connections. Only the provided fields are updated. Mutually exclusive with `saml_options`. */
   oidc_options?: PatchConnectionOidcOptionsDto | undefined;
 }
+export type ProviderControllerConfigureRequestOwnership = "user" | "organization";
 export type ProviderControllerConfigureRequestScopesList = Array<string>;
 /** Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected. */
 export type ProviderControllerConfigureRequestConfigMap = { [key: string]: string | undefined };
@@ -7150,6 +7284,8 @@ export interface ProviderControllerConfigureRequest {
   organizationId: string;
   /** The slug identifier of the provider to configure (e.g., `github`, `slack`, `notion`). */
   slug: string;
+  /** Select the provider configuration for `user` connections or `organization` shared connections. Defaults to `user`; never falls back to the other ownership. */
+  ownership?: ProviderControllerConfigureRequestOwnership | (string & {}) | undefined;
   /** Whether the provider is enabled for the organization. */
   enabled?: boolean | undefined;
   /** The OAuth scopes to request for the organization. Pass `null` to inherit the provider scopes. */
@@ -7160,6 +7296,263 @@ export interface ProviderControllerConfigureRequest {
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected. */
   config?: ProviderControllerConfigureRequestConfigMap | undefined;
+}
+export interface RadarDetectionsControllerFindRequest {
+  /** The unique ID of the Radar detection. */
+  id: string;
+}
+/** The Radar control that determined the verdict. */
+export type RadarDetectionControl =
+  | "bot_detection"
+  | "brute_force_attack"
+  | "domain_protections"
+  | "impossible_travel"
+  | "repeat_sign_up"
+  | "stale_account"
+  | "unrecognized_device"
+  | "restriction";
+/** The verdict Radar reached for the attempt. */
+export type RadarDetectionVerdict = "allow" | "block" | "challenge" | "log";
+export type RadarDetectionChallengeType = "email" | "sms";
+/** The type of values the list holds. */
+export type RadarDetectionListType =
+  | "ip_address"
+  | "domain"
+  | "email"
+  | "device"
+  | "user_agent"
+  | "device_fingerprint"
+  | "country";
+export type RadarDetectionListAction = "allow" | "block" | "challenge" | "log";
+export interface RadarDetectionList {
+  /** The type of values the list holds. */
+  type: RadarDetectionListType;
+  /** The action the list applies to matching values. `null` for WorkOS-managed lists. */
+  action: RadarDetectionListAction | null;
+  /** The name of the list. */
+  name: string | null;
+  /** Whether WorkOS maintains the list. */
+  workos_managed: boolean;
+}
+export interface RadarDetectionAllowedBy {
+  /** The ID of the matched list. */
+  list_id: string;
+  /** The list as it is now. `null` if the list has since been deleted. */
+  list: RadarDetectionList | null;
+  /** The list entry that matched. */
+  entry?: string | undefined;
+}
+export type RadarDetectionBotDetectionSignalSignal =
+  | "risky_ip"
+  | "anomalous_ip"
+  | "excessive_domain_sign_ups"
+  | "suspicious_browser_signals"
+  | "missing_device_fingerprint"
+  | "suspicious_email_pattern"
+  | "automated_client"
+  | "workos_risk_model";
+/** The action this signal would take on its own. */
+export type RadarDetectionBotDetectionSignalAction = "block" | "challenge";
+export interface RadarDetectionBotDetectionSignal {
+  signal: RadarDetectionBotDetectionSignalSignal;
+  /** The action this signal would take on its own. */
+  action?: RadarDetectionBotDetectionSignalAction | undefined;
+}
+/** Every bot detection signal that fired. */
+export type RadarDetectionEvidenceDetailsSignalsList = Array<RadarDetectionBotDetectionSignal>;
+/** The signal that determined the verdict. */
+export type RadarDetectionEvidenceDetailsDecidedBy =
+  | "risky_ip"
+  | "anomalous_ip"
+  | "excessive_domain_sign_ups"
+  | "suspicious_browser_signals"
+  | "missing_device_fingerprint"
+  | "suspicious_email_pattern"
+  | "automated_client"
+  | "workos_risk_model";
+export type RadarDetectionEvidenceDetailsIpRiskItem =
+  | "abuser"
+  | "anonymous"
+  | "vpn"
+  | "tor"
+  | "proxy";
+/** Why the IP address is risky. */
+export type RadarDetectionEvidenceDetailsIpRiskList =
+  Array<RadarDetectionEvidenceDetailsIpRiskItem>;
+export type RadarDetectionEvidenceDetailsEmailPatternItem =
+  | "generated_looking"
+  | "repeated_format"
+  | "suspicious_domain";
+/** Why the email address looks suspicious. */
+export type RadarDetectionEvidenceDetailsEmailPatternList =
+  Array<RadarDetectionEvidenceDetailsEmailPatternItem>;
+export type RadarDetectionEvidenceDetailsBrowserSignalsItem =
+  | "automation_framework"
+  | "headless_browser"
+  | "tampered_signals"
+  | "inconsistent_hardware"
+  | "missing_signals"
+  | "missing_expected_signals";
+/** Why the browser looks automated. */
+export type RadarDetectionEvidenceDetailsBrowserSignalsList =
+  Array<RadarDetectionEvidenceDetailsBrowserSignalsItem>;
+export interface RadarDetectionIpSignUps {
+  /** The number of sign-ups. */
+  count: number;
+  /** The window the sign-ups were counted in. */
+  window_minutes: number;
+}
+export interface RadarDetectionDomainSignUps {
+  /** The root domain of the email address. */
+  root_domain: string;
+  /** The number of sign-ups. */
+  count?: number | undefined;
+}
+export type RadarDetectionEvidenceDetailsMatchedOn =
+  | "device_fingerprint_and_email"
+  | "ip_and_email";
+/** The IDs of other lists the domain is on. */
+export type RadarDetectionEvidenceDetailsAlsoMatchedListIdsList = Array<string>;
+/** Other lists the domain is on. */
+export type RadarDetectionEvidenceDetailsAlsoMatchedListsList = Array<RadarDetectionList | null>;
+/** Where the IP address of the earlier attempt is located. */
+export interface RadarDetectionPreviousAttemptLocation {
+  /** The city the IP address is located in. */
+  city: string | null;
+  /** ISO 3166-1 alpha-2 country code. */
+  country: string | null;
+}
+export interface RadarDetectionPreviousAttempt {
+  /** The ID of the authentication attempt. */
+  attempt_id: string;
+  /** The IP address of the earlier attempt. */
+  ip_address?: string | undefined;
+  /** The user agent of the earlier attempt. */
+  user_agent?: string | null | undefined;
+  /** Where the IP address of the earlier attempt is located. */
+  location: RadarDetectionPreviousAttemptLocation;
+  /** When that earlier sign-in happened. */
+  created_at: string;
+}
+/** Why SMS sign-in was restricted. */
+export type RadarDetectionEvidenceDetailsTrigger =
+  | "country_mismatch"
+  | "non_mobile_line"
+  | "previously_selected"
+  | "unknown_line_type"
+  | "missing_signals";
+export interface RadarDetectionEvidenceDetails {
+  /** Every bot detection signal that fired. */
+  signals?: RadarDetectionEvidenceDetailsSignalsList | undefined;
+  /** The signal that determined the verdict. */
+  decided_by?: RadarDetectionEvidenceDetailsDecidedBy | undefined;
+  /** Why the IP address is risky. */
+  ip_risk?: RadarDetectionEvidenceDetailsIpRiskList | undefined;
+  /** Why the email address looks suspicious. */
+  email_pattern?: RadarDetectionEvidenceDetailsEmailPatternList | undefined;
+  /** Why the browser looks automated. */
+  browser_signals?: RadarDetectionEvidenceDetailsBrowserSignalsList | undefined;
+  /** Recent sign-ups from this IP address. */
+  ip_sign_ups?: RadarDetectionIpSignUps | undefined;
+  /** Recent sign-ups from this email domain. */
+  domain_sign_ups?: RadarDetectionDomainSignUps | undefined;
+  /** The number of sign-in attempts. */
+  attempts?: number | undefined;
+  /** The window the attempts were counted in. */
+  window_minutes?: number | undefined;
+  matched_on?: RadarDetectionEvidenceDetailsMatchedOn | undefined;
+  /** The ID of the matched list. */
+  list_id?: string | undefined;
+  /** The list as it is now. `null` if the list has since been deleted. */
+  list?: RadarDetectionList | null | undefined;
+  /** The IDs of other lists the domain is on. */
+  also_matched_list_ids?: RadarDetectionEvidenceDetailsAlsoMatchedListIdsList | undefined;
+  /** Other lists the domain is on. */
+  also_matched_lists?: RadarDetectionEvidenceDetailsAlsoMatchedListsList | undefined;
+  /** The domain that matched the list. */
+  matched_domain?: string | undefined;
+  /** The previous successful sign-in. */
+  previous?: RadarDetectionPreviousAttempt | undefined;
+  /** The distance from the previous sign-in, in kilometers. */
+  distance_km?: number | undefined;
+  /** The speed needed to travel that distance, in km per second. */
+  speed_km_per_s?: number | undefined;
+  /** The number of earlier sign-ups. */
+  prior_sign_ups?: number | undefined;
+  /** The window the sign-ups were counted in. */
+  window_days?: number | undefined;
+  /** The existing user whose email this sign-up is an alias of. */
+  matched_user_id?: string | undefined;
+  /** When the user was last active. `null` if unknown. */
+  last_activity_at?: string | null | undefined;
+  /** The device the user last signed in from. */
+  previous_device?: RadarDetectionPreviousAttempt | null | undefined;
+  type?: string | undefined;
+  /** The list entry that matched. */
+  entry?: string | undefined;
+  /** Why SMS sign-in was restricted. */
+  trigger?: RadarDetectionEvidenceDetailsTrigger | undefined;
+  /** The country of the phone number. Only when `trigger` is `country_mismatch`. */
+  phone_country?: string | undefined;
+  /** The line type of the phone number. Only when `trigger` is `non_mobile_line`. */
+  line_type?: string | undefined;
+  /** The phone number, masked to its last four digits. */
+  masked_phone_number?: string | undefined;
+}
+export interface RadarDetectionEvidence {
+  /** A human-readable explanation of why Radar fired. */
+  summary: string;
+  /** The allowlist that overrode the verdict. Only present when an allowlist allowed the attempt. */
+  allowed_by?: RadarDetectionAllowedBy | undefined;
+  /** The control the evidence is for. Always the same as the detection's `control`. */
+  control?: string | undefined;
+  details?: RadarDetectionEvidenceDetails | undefined;
+}
+/** Where the IP address is located. */
+export type RadarDetectionLocation = RadarDetectionPreviousAttemptLocation;
+export type RadarDetectionAction = "signup" | "login";
+export type RadarDetectionAuthMethod =
+  | "password"
+  | "passkey"
+  | "magic_auth"
+  | "oauth"
+  | "sso"
+  | "authenticator"
+  | "sms_otp"
+  | "other";
+export interface RadarDetection {
+  /** Distinguishes the Radar detection object. */
+  object: string;
+  /** The unique ID of the detection. */
+  id: string;
+  /** The ID of the authentication attempt. */
+  attempt_id: string;
+  /** The Radar control that determined the verdict. */
+  control: RadarDetectionControl;
+  /** The verdict Radar reached for the attempt. */
+  verdict: RadarDetectionVerdict;
+  /** The challenge Radar issued, if the verdict is `challenge`. */
+  challenge_type: RadarDetectionChallengeType | null;
+  /** Why Radar fired. `null` for detections recorded before evidence was captured. */
+  evidence: RadarDetectionEvidence | null;
+  /** The IP address of the attempt. */
+  ip_address: string;
+  /** Where the IP address is located. */
+  location: RadarDetectionPreviousAttemptLocation;
+  /** The user agent of the attempt. */
+  user_agent: string;
+  /** The email address used in the attempt. */
+  email: string;
+  /** The ID of the user, if one exists. */
+  user_id: string | null;
+  /** Whether the attempt was a sign-up or a sign-in, as on the `authentication.radar_risk_detected` event. `null` if unknown. */
+  action: RadarDetectionAction | null;
+  /** The authentication method used for the attempt. */
+  auth_method: RadarDetectionAuthMethod | null;
+  /** An ISO 8601 timestamp. */
+  created_at: string;
+  /** An ISO 8601 timestamp. */
+  updated_at: string;
 }
 /** The authentication method being used. */
 export type RadarStandaloneControllerAssessRequestAuthMethod =
@@ -7907,8 +8300,26 @@ export interface SyncDirectoriesControllerDirectoryRequest {
   id: string;
 }
 export interface SyncDirectoriesControllerDirectoryResponse {}
-/** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
-export type UpdateAgentBlueprintsControllerRequestPermissionsList = Array<string>;
+export type UpdateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesItem =
+  | "delegated"
+  | "autonomous";
+/** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. Agent-delegated chaining and refreshes use the type of the presenting instance. */
+export type UpdateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesList = Array<
+  UpdateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesItem | (string & {})
+>;
+/** A permission in the blueprint ceiling and the sessions it applies to. */
+export interface UpdateAgentBlueprintsControllerRequestPermissionsItemCase0 {
+  /** Slug of a permission in the environment. */
+  slug: string;
+  /** Instance types whose sessions receive the permission: `delegated`, `autonomous`, or both. Agent-delegated chaining and refreshes use the type of the presenting instance. */
+  instance_types: UpdateAgentBlueprintsControllerRequestPermissionsItemCase0InstanceTypesList;
+}
+export type UpdateAgentBlueprintsControllerRequestPermissionsItem =
+  | UpdateAgentBlueprintsControllerRequestPermissionsItemCase0
+  | string;
+/** Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once. */
+export type UpdateAgentBlueprintsControllerRequestPermissionsList =
+  Array<UpdateAgentBlueprintsControllerRequestPermissionsItem>;
 /** Role slugs whose members may mint user-delegated sessions from this blueprint. An empty list allows any member. */
 export type UpdateAgentBlueprintsControllerRequestInvocableByRoleSlugsList = Array<string>;
 /** Organizations in which sessions may be minted from this blueprint, enforced on user-delegated, autonomous, and agent-delegated mints. An empty list allows any organization in the environment. */
@@ -7950,7 +8361,7 @@ export interface UpdateAgentBlueprintsControllerRequest {
   name?: string | undefined;
   /** Human-readable description of the agent blueprint. Pass `null` to clear it. */
   description?: string | null | undefined;
-  /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
+  /** Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once. */
   permissions?: UpdateAgentBlueprintsControllerRequestPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. Omitted lists are left unchanged. */
   invocable_by?: UpdateAgentBlueprintsControllerRequestInvocableBy | undefined;
@@ -8411,6 +8822,14 @@ export interface UpdateGroupsControllerRequest {
   /** An optional description of the Group. */
   description?: string | null | undefined;
 }
+export interface UpdateIssuerTrustsControllerRequest {
+  /** The ID of the organization. */
+  organization_id: string;
+  /** The ID of the issuer trust. */
+  id: string;
+  /** Whether ID-JAGs from the issuer are accepted. */
+  enabled?: boolean | undefined;
+}
 export interface UpdateJumpWireWebDataVaultControllerRequest {
   /** Unique identifier of the object. */
   id: string;
@@ -8517,10 +8936,13 @@ export type UpdateWebhookEndpointsControllerRequestEventsItem =
   | "api_key.created"
   | "api_key.revoked"
   | "api_key.updated"
+  | "application.token_exchange_failed"
+  | "application.token_exchange_succeeded"
   | "connection.activated"
   | "connection.deactivated"
   | "connection.saml_certificate_renewal_required"
   | "connection.saml_certificate_renewed"
+  | "connection.saml_certificate_replaced"
   | "connection.deleted"
   | "dsync.activated"
   | "dsync.deleted"
@@ -8554,6 +8976,9 @@ export type UpdateWebhookEndpointsControllerRequestEventsItem =
   | "invitation.created"
   | "invitation.resent"
   | "invitation.revoked"
+  | "issuer_trust.created"
+  | "issuer_trust.deleted"
+  | "issuer_trust.updated"
   | "magic_auth.created"
   | "organization.created"
   | "organization.deleted"
@@ -9701,7 +10126,7 @@ export interface ConnectionFinishErrorBody {
   /** A human-readable description of the error. */
   message: string;
 }
-export type Error400Body4 = ConnectionFinishErrorBody | ErrorBodyWithMessageOrMessageList;
+export type Error400Body5 = ConnectionFinishErrorBody | ErrorBodyWithMessageOrMessageList;
 /** The error code identifying the type of error. */
 export type AuthorizationUrlRequestErrorBodyCode =
   | "invalid_return_to"
@@ -9713,7 +10138,9 @@ export interface AuthorizationUrlRequestErrorBody {
   /** A human-readable description of the error. */
   message: string;
 }
-export type Error400Body5 = AuthorizationUrlRequestErrorBody | ErrorBodyWithMessageOrMessageList;
+export type Error400Body6 = AuthorizationUrlRequestErrorBody | ErrorBodyWithMessageOrMessageList;
+export type RoleAssignmentUpdateOverlapErrorBody = ErrorBodyWithCode;
+export type Error400Body4 = ErrorBodyWithCode | ErrorBodyWithError;
 /** A machine-readable error code; additional values may be added over time. */
 export type ErrorBodyCode =
   | "account_selection_required"
@@ -9731,6 +10158,7 @@ export type ErrorBodyCode =
   | "cannot_deactivate_pending_organization_membership"
   | "cannot_delete_last_certificate"
   | "cannot_reactivate_pending_organization_membership"
+  | "cannot_remove_group_sourced_role"
   | "certificate_expired"
   | "chain_depth_exceeded"
   | "claim_denied"
@@ -9754,6 +10182,7 @@ export type ErrorBodyCode =
   | "directory_sync_rate_limited"
   | "directory_sync_unsupported"
   | "discovery_endpoint_must_use_https"
+  | "discovery_endpoint_tenant_not_allowed"
   | "domain_already_exists"
   | "domain_already_verified"
   | "duplicate_endpoint"
@@ -9778,6 +10207,7 @@ export type ErrorBodyCode =
   | "email_verification_code_incorrect"
   | "email_verification_code_previously_used"
   | "email_verification_required"
+  | "entities_not_found"
   | "entity_not_found"
   | "expires_in_days_too_long"
   | "expires_in_days_too_short"
@@ -9797,6 +10227,8 @@ export type ErrorBodyCode =
   | "invalid_email"
   | "invalid_idp_sso_url"
   | "invalid_invite"
+  | "invalid_issuer_metadata"
+  | "invalid_issuer_url"
   | "invalid_locale"
   | "invalid_metadata"
   | "invalid_one_time_code"
@@ -9818,6 +10250,7 @@ export type ErrorBodyCode =
   | "invite_not_pending"
   | "invite_revoked"
   | "ip_address_required"
+  | "issuer_already_trusted"
   | "it_contact_already_exists"
   | "it_contact_invitation_already_active"
   | "key_pair_not_accepted"
@@ -9830,16 +10263,20 @@ export type ErrorBodyCode =
   | "multiple_roles_not_enabled"
   | "name_already_in_use"
   | "no_pending_email_change"
+  | "not_claude_issuer"
   | "oidc_options_required"
   | "one_time_code_expired"
   | "one_time_code_previously_used"
   | "one_time_code_too_many_attempts"
+  | "organization_already_has_trust"
   | "organization_blocked_from_sending_invites"
+  | "organization_has_idp_managed_ema"
   | "organization_membership_directory_managed"
   | "organization_not_found"
   | "organization_not_invocable"
   | "organization_role_slug_conflict"
   | "organization_selection_required"
+  | "organization_without_verified_domain"
   | "passkey_progressive_enrollment"
   | "password_and_password_hash_provided"
   | "password_and_password_hash_type_provided"
@@ -9850,15 +10287,17 @@ export type ErrorBodyCode =
   | "permission_not_found"
   | "permission_slug_conflict"
   | "phone_number_required"
-  | "policy_denied"
   | "production_feature_requires_billing"
   | "radar_challenge"
+  | "radar_email_challenge"
   | "radar_sign_up_challenge"
+  | "radar_sms_challenge"
   | "radar_sms_sign_in_challenge"
   | "rate_limit_exceeded"
   | "resource_has_dependents"
   | "resource_limit_exceeded"
   | "resource_type_update_in_progress"
+  | "role_assignment_update_overlap"
   | "role_has_assignments"
   | "role_has_group_role_mappings"
   | "role_not_found"
@@ -9907,7 +10346,7 @@ export type InvitationInvalidOAuthErrorBody = OAuthErrorBody;
 export type AuthenticationMethodNotAllowedOAuthErrorBody = OAuthErrorBody;
 export type SignUpNotAllowedOAuthErrorBody = OAuthErrorBody;
 export type EmailDomainNotDeliverableErrorBody = ErrorBodyWithCode;
-export type Error400Body7 = OAuthErrorBody | OAuthErrorBody | OAuthErrorBody | ErrorBodyWithCode;
+export type Error400Body8 = OAuthErrorBody | OAuthErrorBody | OAuthErrorBody | ErrorBodyWithCode;
 export type InvalidOrganizationIdErrorBody = ErrorBodyWithCode;
 export type CodeChallengeNotFoundErrorBody = ErrorBodyWithCode;
 export type InvalidCredentialsErrorBody = ErrorBodyWithCode;
@@ -9955,7 +10394,7 @@ export interface Error400BodyCase34 {
   /** A token that links the subsequent SSO authentication back to the pending authentication so the authorization session can be completed. */
   pending_authentication_token?: string | Redacted.Redacted<string> | undefined;
 }
-export type Error400Body6 =
+export type Error400Body7 =
   | ErrorBodyWithCode
   | ErrorBodyWithCode
   | ErrorBodyWithCode
@@ -10016,9 +10455,10 @@ export type PasswordAndPasswordHashProvidedErrorBody = ErrorBodyWithCode;
 export type PasswordAndPasswordHashTypeProvidedErrorBody = ErrorBodyWithCode;
 export type PasswordSaltPositionRequiresPasswordHashErrorBody = ErrorBodyWithCode;
 export type InvalidMetadataErrorBody = ErrorBodyWithCode;
-export type Error400Body8 =
+export type Error400Body9 =
   | PasswordStrengthErrorErrorBodyWithErrors
   | UserCreationErrorErrorBodyWithErrors
+  | ErrorBodyWithCode
   | ErrorBodyWithCode
   | ErrorBodyWithCode
   | ErrorBodyWithCode
@@ -10027,7 +10467,7 @@ export type Error400Body8 =
 export type EmailAlreadyVerifiedErrorBody = ErrorBodyWithCode;
 export type ExternalIdAlreadyUsedErrorBody = ErrorBodyWithCode;
 export type InvalidLocaleErrorBody = ErrorBodyWithCode;
-export type Error400Body9 =
+export type Error400Body10 =
   | PasswordStrengthErrorErrorBodyWithErrors
   | ErrorBodyWithCode
   | ErrorBodyWithCode
@@ -10079,6 +10519,14 @@ export interface AccountSelectionRequiredError {
   message: string;
 }
 export type AccountSelectionRequiredErrorBody = AccountSelectionRequiredError;
+export interface PolicyDeniedErrorBody {
+  /** The error code identifying the type of error. */
+  code: string;
+  /** A human-readable description of the error. */
+  message: string;
+  /** The ID of the Radar detection that blocked the request. Only set when Radar blocked it. */
+  radar_detection_id?: string | undefined;
+}
 export type MfaEnrollmentErrorBody = ErrorBodyWithCode;
 export type MfaChallengeErrorBody = ErrorBodyWithCode;
 export type AuthenticationMethodNotAllowedErrorBody = ErrorBodyWithCode;
@@ -10095,10 +10543,11 @@ export type EmailPasswordAuthDisabledErrorBody = ErrorBodyWithCode;
 export type OrganizationSelectionRequiredErrorBody = ErrorBodyWithCode;
 export type PasskeyProgressiveEnrollmentErrorBody = ErrorBodyWithCode;
 export type RadarChallengeErrorBody = ErrorBodyWithCode;
+export type RadarEmailChallengeErrorBody = ErrorBodyWithCode;
 export type RadarSignUpChallengeErrorBody = ErrorBodyWithCode;
+export type RadarSmsChallengeErrorBody = ErrorBodyWithCode;
 export type RadarSmsSignInChallengeErrorBody = ErrorBodyWithCode;
 export type ApplicationConsentRequiredErrorBody = ErrorBodyWithCode;
-export type PolicyDeniedErrorBody = ErrorBodyWithCode;
 export type ActionDeniedErrorBody = ErrorBodyWithCode;
 export type Error403Body =
   | ErrorBodyWithCode
@@ -10114,6 +10563,8 @@ export type Error403Body =
   | ErrorBodyWithCode
   | ErrorBodyWithCode
   | ErrorBodyWithCode
+  | ErrorBodyWithCode
+  | PolicyDeniedErrorBody
   | ErrorBodyWithCode;
 /** The error code identifying the type of error. */
 export type ConnectionCreationNotFoundErrorBodyCode =
@@ -10126,6 +10577,27 @@ export interface ConnectionCreationNotFoundErrorBody {
   message: string;
 }
 export type Error404Body = ConnectionCreationNotFoundErrorBody | ErrorBody;
+/** The requested user and organization IDs, in that order. */
+export type EntitiesNotFoundErrorBodyWithIdsListIdsList = Array<string>;
+export interface EntitiesNotFoundErrorBodyWithIdsList {
+  /** The error code identifying the type of error. */
+  code: string;
+  /** A human-readable description of the error. */
+  message: string;
+  /** The requested user and organization IDs, in that order. */
+  ids: EntitiesNotFoundErrorBodyWithIdsListIdsList;
+}
+export interface EntityNotFoundErrorBodyWithEntityId {
+  /** The error code identifying the type of error. */
+  code: string;
+  /** A human-readable description of the error. */
+  message: string;
+  /** The ID of the organization that was not found. */
+  entity_id: string;
+}
+export type Error404Body4 =
+  | EntitiesNotFoundErrorBodyWithIdsList
+  | EntityNotFoundErrorBodyWithEntityId;
 /** The error code identifying the type of error. */
 export type AuthorizationUrlNotFoundErrorBodyCode =
   | "multiple_connections_unavailable"
@@ -10234,8 +10706,8 @@ export const AcceptUserlandUserInvitesController: API.OperationMethod<
   AcceptUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerRequest>,
-  output: __S(9408, __c294, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerRequest>,
+  output: __S(9696, __c303, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10258,13 +10730,13 @@ export const AddAuthorizationOrganizationRolePermissionsControllerPermission: AP
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10016,
-    __c313,
+    10304,
+    __c322,
     0,
   ) as any as S.Schema<AddAuthorizationOrganizationRolePermissionsControllerPermissionRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<AddAuthorizationOrganizationRolePermissionsControllerPermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -10289,13 +10761,13 @@ export const AddAuthorizationRolePermissionsControllerPermission: API.OperationM
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10624,
-    __c332,
+    10944,
+    __c342,
     0,
   ) as any as S.Schema<AddAuthorizationRolePermissionsControllerPermissionRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<AddAuthorizationRolePermissionsControllerPermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -10319,8 +10791,8 @@ export const AddGroupMembershipsControllerMember: API.OperationMethod<
   AddGroupMembershipsControllerMemberError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<AddGroupMembershipsControllerMemberRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Group>,
+  input: __S(11296, __c353, 0) as any as S.Schema<AddGroupMembershipsControllerMemberRequest>,
+  output: __S(11328, __c354, 0) as any as S.Schema<Group>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10342,11 +10814,11 @@ export const AgentAdminControllerLinkClaimAttemptToExternalUser: API.OperationMe
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11361,
-    __c355,
+    11681,
+    __c365,
     1,
   ) as any as S.Schema<AgentAdminControllerLinkClaimAttemptToExternalUserRequest>,
-  output: __S(11362, __c355, 2) as any as S.Schema<ClaimViewResponse>,
+  output: __S(11682, __c365, 2) as any as S.Schema<ClaimViewResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10389,8 +10861,8 @@ export const ApiKeysControllerExpire: API.OperationMethod<
   ApiKeysControllerExpireError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ApiKeysControllerExpireRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<ApiKey>,
+  input: __S(736, __c23, 0) as any as S.Schema<ApiKeysControllerExpireRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<ApiKey>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10407,8 +10879,8 @@ export const ApplicationsControllerFind: API.OperationMethod<
   ApplicationsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ApplicationsControllerFindRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<ApplicationsControllerFindResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ApplicationsControllerFindRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<ApplicationsControllerFindResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10425,8 +10897,8 @@ export const ApproveWaitlistEntriesController: API.OperationMethod<
   ApproveWaitlistEntriesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ApproveWaitlistEntriesControllerRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ApproveWaitlistEntriesControllerResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ApproveWaitlistEntriesControllerRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ApproveWaitlistEntriesControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10440,7 +10912,7 @@ export type AssignAuthorizationRoleAssignmentsControllerRoleError =
   | NotFound
   | UnprocessableEntity
   | WorkosOpError;
-/** Assign a role Assign a role to an organization membership on a specific resource. */
+/** Assign a role Assign a role to an organization membership on a specific resource. If the role is already assigned to the membership on that resource, the existing role assignment is returned and no changes are made. */
 export const AssignAuthorizationRoleAssignmentsControllerRole: API.OperationMethod<
   AssignAuthorizationRoleAssignmentsControllerRoleRequest,
   UserRoleAssignment,
@@ -10448,11 +10920,11 @@ export const AssignAuthorizationRoleAssignmentsControllerRole: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2272,
+    __c71,
     0,
   ) as any as S.Schema<AssignAuthorizationRoleAssignmentsControllerRoleRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<UserRoleAssignment>,
+  output: __S(2305, __c72, 1) as any as S.Schema<UserRoleAssignment>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10469,8 +10941,8 @@ export const AuditLogExportsControllerExports: API.OperationMethod<
   AuditLogExportsControllerExportsError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<AuditLogExportsControllerExportsRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<AuditLogExportJson>,
+  input: __S(2816, __c88, 0) as any as S.Schema<AuditLogExportsControllerExportsRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<AuditLogExportJson>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10488,11 +10960,11 @@ export const AuditLogsRetentionControllerAuditLogsRetention: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3424,
-    __c107,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<AuditLogsRetentionControllerAuditLogsRetentionRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<AuditLogsRetentionJson>,
+  output: __S(3264, __c102, 0) as any as S.Schema<AuditLogsRetentionJson>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10512,10 +10984,10 @@ export const AuditLogValidatorVersionsControllerSchemas: API.OperationMethod<
   AuditLogValidatorVersionsControllerSchemasError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<AuditLogValidatorVersionsControllerSchemasRequest>,
+  input: __S(3776, __c118, 0) as any as S.Schema<AuditLogValidatorVersionsControllerSchemasRequest>,
   output: __S(
-    3874,
-    __c121,
+    3778,
+    __c118,
     2,
   ) as any as S.Schema<AuditLogValidatorVersionsControllerSchemasResponse>,
   errors: [NotFound, UnprocessableEntity],
@@ -10537,8 +11009,8 @@ export const AuthenticationFactorsControllerChallenge: API.OperationMethod<
   AuthenticationFactorsControllerChallengeError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<AuthenticationFactorsControllerChallengeRequest>,
-  output: __S(4448, __c139, 0) as any as S.Schema<AuthenticationChallenge>,
+  input: __S(4256, __c133, 0) as any as S.Schema<AuthenticationFactorsControllerChallengeRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<AuthenticationChallenge>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10555,8 +11027,8 @@ export const AuthorizationPermissionsControllerFind: API.OperationMethod<
   AuthorizationPermissionsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<AuthorizationPermissionsControllerFindRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<AuthorizationPermission>,
+  input: __S(4736, __c148, 0) as any as S.Schema<AuthorizationPermissionsControllerFindRequest>,
+  output: __S(4768, __c149, 0) as any as S.Schema<AuthorizationPermission>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10577,8 +11049,8 @@ export const AuthorizationResourcesControllerFindById: API.OperationMethod<
   AuthorizationResourcesControllerFindByIdError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<AuthorizationResourcesControllerFindByIdRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<AuthorizationResource>,
+  input: __S(5216, __c163, 0) as any as S.Schema<AuthorizationResourcesControllerFindByIdRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<AuthorizationResource>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10595,8 +11067,8 @@ export const AuthorizeSsoController: API.OperationMethod<
   AuthorizeSsoControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<AuthorizeSsoControllerRequest>,
-  output: __S(5697, __c178, 1) as any as S.Schema<SsoAuthorizeUrlResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<AuthorizeSsoControllerRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<SsoAuthorizeUrlResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10613,8 +11085,8 @@ export const AuthorizeUserlandSsoController: API.OperationMethod<
   AuthorizeUserlandSsoControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<AuthorizeUserlandSsoControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<AuthorizeUserlandSsoControllerResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<AuthorizeUserlandSsoControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<AuthorizeUserlandSsoControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10635,8 +11107,8 @@ export const CheckAuthorizationController: API.OperationMethod<
   CheckAuthorizationControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CheckAuthorizationControllerRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<AuthorizationCheck>,
+  input: __S(6432, __c201, 0) as any as S.Schema<CheckAuthorizationControllerRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<AuthorizationCheck>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10650,7 +11122,7 @@ export type ClientApiTokenControllerIssueClientApiTokenError =
   | NotFound
   | UnprocessableEntity
   | WorkosOpError;
-/** Generate a Client API token Generate a short-lived, session-bound token for the Client GraphQL API, scoped to an organization and user. */
+/** Generate a Widgets API token Generate a short-lived, session-bound token for the Widgets API, scoped to an organization and user. */
 export const ClientApiTokenControllerIssueClientApiToken: API.OperationMethod<
   ClientApiTokenControllerIssueClientApiTokenRequest,
   ClientApiTokenResponse,
@@ -10658,11 +11130,11 @@ export const ClientApiTokenControllerIssueClientApiToken: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6880,
-    __c215,
+    6816,
+    __c213,
     0,
   ) as any as S.Schema<ClientApiTokenControllerIssueClientApiTokenRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<ClientApiTokenResponse>,
+  output: __S(6817, __c213, 1) as any as S.Schema<ClientApiTokenResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10676,15 +11148,15 @@ export type CompleteExternalAuthControllerLoginError =
   | NotFound
   | UnprocessableEntity
   | WorkosOpError;
-/** Complete external authentication Completes an external authentication flow and returns control to AuthKit. This endpoint is used with [Standalone Connect](/authkit/connect/standalone) to bridge your existing authentication system with the Connect OAuth API infrastructure. After successfully authenticating a user in your application, calling this endpoint will: - Create or update the user in AuthKit, using the given `id` as its `external_id`. - Return a `redirect_uri` your application should redirect to in order for AuthKit to complete the flow Users are automatically created or updated based on the `id` and `email` provided. If a user with the same `id` exists, their information is updated. Otherwise, a new user is created. If you provide a new `id` with an `email` that already belongs to an existing user, the request will fail with an error as email addresses are unique to a user. */
+/** Complete external authentication Completes a [Standalone Connect](/authkit/connect/standalone) login by creating or updating the AuthKit user and returning a `redirect_uri` your application should redirect to so AuthKit can finish the flow. The user is matched by `id`, stored as its `external_id`, and updated if found. Otherwise: - If a user with the given `email` has no `external_id`, it is linked to `id`. - If a user with the given `email` has a different `external_id`, the request fails. - If no user has the given `email`, a new user is created. */
 export const CompleteExternalAuthControllerLogin: API.OperationMethod<
   CompleteExternalAuthControllerLoginRequest,
   ExternalAuthCompleteResponse,
   CompleteExternalAuthControllerLoginError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7237, __c226, 5) as any as S.Schema<CompleteExternalAuthControllerLoginRequest>,
-  output: __S(7238, __c226, 6) as any as S.Schema<ExternalAuthCompleteResponse>,
+  input: __S(7205, __c225, 5) as any as S.Schema<CompleteExternalAuthControllerLoginRequest>,
+  output: __S(7206, __c225, 6) as any as S.Schema<ExternalAuthCompleteResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10706,10 +11178,10 @@ export const ConfirmUserlandUsersControllerEmailChange: API.OperationMethod<
   ConfirmUserlandUsersControllerEmailChangeError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<ConfirmUserlandUsersControllerEmailChangeRequest>,
+  input: __S(7552, __c236, 0) as any as S.Schema<ConfirmUserlandUsersControllerEmailChangeRequest>,
   output: __S(
-    7618,
-    __c238,
+    7554,
+    __c236,
     2,
   ) as any as S.Schema<ConfirmUserlandUsersControllerEmailChangeResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
@@ -10728,8 +11200,8 @@ export const ConnectionsControllerFind: API.OperationMethod<
   ConnectionsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<ConnectionsControllerFindRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
+  input: __S(7936, __c248, 0) as any as S.Schema<ConnectionsControllerFindRequest>,
+  output: __S(7970, __c249, 2) as any as S.Schema<Connection>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10750,8 +11222,8 @@ export const CreateAgentBlueprintsController: API.OperationMethod<
   CreateAgentBlueprintsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<CreateAgentBlueprintsControllerRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
+  input: __S(8321, __c260, 1) as any as S.Schema<CreateAgentBlueprintsControllerRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<AgentBlueprint>,
   errors: [BadRequest, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10771,8 +11243,8 @@ export const CreateApplicationCredentialsController: API.OperationMethod<
   CreateApplicationCredentialsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<CreateApplicationCredentialsControllerRequest>,
-  output: __S(8321, __c260, 1) as any as S.Schema<NewConnectApplicationSecret>,
+  input: __S(8608, __c269, 0) as any as S.Schema<CreateApplicationCredentialsControllerRequest>,
+  output: __S(8609, __c269, 1) as any as S.Schema<NewConnectApplicationSecret>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10789,8 +11261,8 @@ export const CreateApplicationsController: API.OperationMethod<
   CreateApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<CreateApplicationsControllerRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<CreateApplicationsControllerResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<CreateApplicationsControllerRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<CreateApplicationsControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10811,8 +11283,8 @@ export const CreateAuditLogEventsController: API.OperationMethod<
   CreateAuditLogEventsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8388, __c262, 4) as any as S.Schema<CreateAuditLogEventsControllerRequest>,
-  output: __S(8389, __c262, 5) as any as S.Schema<AuditLogEventCreateResponse>,
+  input: __S(8676, __c271, 4) as any as S.Schema<CreateAuditLogEventsControllerRequest>,
+  output: __S(8677, __c271, 5) as any as S.Schema<AuditLogEventCreateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10829,8 +11301,8 @@ export const CreateAuditLogValidatorVersionsController: API.OperationMethod<
   CreateAuditLogValidatorVersionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8419, __c263, 3) as any as S.Schema<CreateAuditLogValidatorVersionsControllerRequest>,
-  output: __S(3939, __c123, 3) as any as S.Schema<AuditLogSchemaJson>,
+  input: __S(8707, __c272, 3) as any as S.Schema<CreateAuditLogValidatorVersionsControllerRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<AuditLogSchemaJson>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10847,8 +11319,8 @@ export const CreateAuthenticationFactorsController: API.OperationMethod<
   CreateAuthenticationFactorsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<CreateAuthenticationFactorsControllerRequest>,
-  output: __S(8513, __c266, 1) as any as S.Schema<AuthenticationFactorEnrolled>,
+  input: __S(8736, __c273, 0) as any as S.Schema<CreateAuthenticationFactorsControllerRequest>,
+  output: __S(8801, __c275, 1) as any as S.Schema<AuthenticationFactorEnrolled>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10865,8 +11337,8 @@ export const CreateAuthkitOauthResourcesController: API.OperationMethod<
   CreateAuthkitOauthResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<CreateAuthkitOauthResourcesControllerRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<AuthkitOauthResource>,
+  input: __S(8832, __c276, 0) as any as S.Schema<CreateAuthkitOauthResourcesControllerRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<AuthkitOauthResource>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10889,11 +11361,11 @@ export const CreateAuthorizationGroupRoleAssignmentsController: API.OperationMet
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8608,
-    __c269,
+    8896,
+    __c278,
     0,
   ) as any as S.Schema<CreateAuthorizationGroupRoleAssignmentsControllerRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GroupRoleAssignment>,
+  output: __S(8928, __c279, 0) as any as S.Schema<GroupRoleAssignment>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10917,13 +11389,13 @@ export const CreateAuthorizationOrganizationRolesController: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8672,
-    __c271,
+    8960,
+    __c280,
     0,
   ) as any as S.Schema<CreateAuthorizationOrganizationRolesControllerRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<CreateAuthorizationOrganizationRolesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
@@ -10947,8 +11419,8 @@ export const CreateAuthorizationPermissionsController: API.OperationMethod<
   CreateAuthorizationPermissionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<CreateAuthorizationPermissionsControllerRequest>,
-  output: __S(8705, __c272, 1) as any as S.Schema<CreateAuthorizationPermissionsControllerResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<CreateAuthorizationPermissionsControllerRequest>,
+  output: __S(8993, __c281, 1) as any as S.Schema<CreateAuthorizationPermissionsControllerResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10971,8 +11443,8 @@ export const CreateAuthorizationResourcesController: API.OperationMethod<
   CreateAuthorizationResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<CreateAuthorizationResourcesControllerRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<CreateAuthorizationResourcesControllerResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<CreateAuthorizationResourcesControllerRequest>,
+  output: __S(9056, __c283, 0) as any as S.Schema<CreateAuthorizationResourcesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -10995,8 +11467,8 @@ export const CreateAuthorizationRolesController: API.OperationMethod<
   CreateAuthorizationRolesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<CreateAuthorizationRolesControllerRequest>,
-  output: __S(10080, __c315, 0) as any as S.Schema<CreateAuthorizationRolesControllerResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<CreateAuthorizationRolesControllerRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<CreateAuthorizationRolesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11019,8 +11491,8 @@ export const CreateConnectionsController: API.OperationMethod<
   CreateConnectionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8869, __c277, 5) as any as S.Schema<CreateConnectionsControllerRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
+  input: __S(9157, __c286, 5) as any as S.Schema<CreateConnectionsControllerRequest>,
+  output: __S(7970, __c249, 2) as any as S.Schema<Connection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11040,8 +11512,8 @@ export const CreateCorsOriginsControllerCorsOrigin: API.OperationMethod<
   CreateCorsOriginsControllerCorsOriginError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<CreateCorsOriginsControllerCorsOriginRequest>,
-  output: __S(8960, __c280, 0) as any as S.Schema<CorsOriginResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<CreateCorsOriginsControllerCorsOriginRequest>,
+  output: __S(9248, __c289, 0) as any as S.Schema<CorsOriginResponse>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11064,11 +11536,11 @@ export const CreateDataIntegrationsControllerApiKeyConnection: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8992,
-    __c281,
+    9280,
+    __c290,
     0,
   ) as any as S.Schema<CreateDataIntegrationsControllerApiKeyConnectionRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11091,11 +11563,11 @@ export const CreateDataIntegrationsControllerClientCredentialsConnection: API.Op
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9056,
-    __c283,
+    9344,
+    __c292,
     0,
   ) as any as S.Schema<CreateDataIntegrationsControllerClientCredentialsConnectionRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11119,11 +11591,11 @@ export const CreateDataIntegrationsManagementControllerDataIntegration: API.Oper
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9089,
-    __c284,
+    9377,
+    __c293,
     1,
   ) as any as S.Schema<CreateDataIntegrationsManagementControllerDataIntegrationRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
+  output: __S(9411, __c294, 3) as any as S.Schema<DataIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11146,11 +11618,11 @@ export const CreateDataIntegrationsOrganizationControllerOrganizationDataInstall
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9184,
-    __c287,
+    9472,
+    __c296,
     0,
   ) as any as S.Schema<CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11172,11 +11644,11 @@ export const CreateDataIntegrationsUserManagementControllerUserDataInstallation:
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9216,
-    __c288,
+    9504,
+    __c297,
     0,
   ) as any as S.Schema<CreateDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11197,8 +11669,8 @@ export const CreateFlagTargetsControllerTarget: API.OperationMethod<
   CreateFlagTargetsControllerTargetError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<CreateFlagTargetsControllerTargetRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<CreateFlagTargetsControllerTargetResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<CreateFlagTargetsControllerTargetRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<CreateFlagTargetsControllerTargetResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11220,14 +11692,37 @@ export const CreateGroupsController: API.OperationMethod<
   CreateGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<CreateGroupsControllerRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Group>,
+  input: __S(9568, __c299, 0) as any as S.Schema<CreateGroupsControllerRequest>,
+  output: __S(11328, __c354, 0) as any as S.Schema<Group>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateGroupsController",
+}));
+
+export type CreateIssuerTrustsControllerError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | WorkosOpError;
+/** Create an issuer trust Trust an issuer for an organization. WorkOS checks the issuer's OpenID configuration and that the organization has a verified domain. The trust is created disabled; enable it to start accepting ID-JAGs from the issuer. */
+export const CreateIssuerTrustsController: API.OperationMethod<
+  CreateIssuerTrustsControllerRequest,
+  IssuerTrust,
+  CreateIssuerTrustsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(9600, __c300, 0) as any as S.Schema<CreateIssuerTrustsControllerRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<IssuerTrust>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssuerTrustsController",
 }));
 
 export type CreateItContactsControllerError =
@@ -11243,8 +11738,8 @@ export const CreateItContactsController: API.OperationMethod<
   CreateItContactsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<CreateItContactsControllerRequest>,
-  output: __S(9344, __c292, 0) as any as S.Schema<ItContact>,
+  input: __S(9728, __c304, 0) as any as S.Schema<CreateItContactsControllerRequest>,
+  output: __S(9760, __c305, 0) as any as S.Schema<ItContact>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11265,8 +11760,8 @@ export const CreateJumpWireWebDataVaultController: API.OperationMethod<
   CreateJumpWireWebDataVaultControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<CreateJumpWireWebDataVaultControllerRequest>,
-  output: __S(9472, __c296, 0) as any as S.Schema<ObjectMetadata>,
+  input: __S(9792, __c306, 0) as any as S.Schema<CreateJumpWireWebDataVaultControllerRequest>,
+  output: __S(9824, __c307, 0) as any as S.Schema<ObjectMetadata>,
   errors: [BadRequest, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11286,8 +11781,8 @@ export const CreateOrganizationApiKeysController: API.OperationMethod<
   CreateOrganizationApiKeysControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<CreateOrganizationApiKeysControllerRequest>,
-  output: __S(9505, __c297, 1) as any as S.Schema<OrganizationApiKeyWithValue>,
+  input: __S(9856, __c308, 0) as any as S.Schema<CreateOrganizationApiKeysControllerRequest>,
+  output: __S(9857, __c308, 1) as any as S.Schema<OrganizationApiKeyWithValue>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11304,8 +11799,8 @@ export const CreateOrganizationDomainsController: API.OperationMethod<
   CreateOrganizationDomainsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<CreateOrganizationDomainsControllerRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<CreateOrganizationDomainsControllerResponse>,
+  input: __S(9920, __c310, 0) as any as S.Schema<CreateOrganizationDomainsControllerRequest>,
+  output: __S(9952, __c311, 0) as any as S.Schema<CreateOrganizationDomainsControllerResponse>,
   errors: [Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11326,8 +11821,8 @@ export const CreateOrganizationsController: API.OperationMethod<
   CreateOrganizationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<CreateOrganizationsControllerRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
+  input: __S(9984, __c312, 0) as any as S.Schema<CreateOrganizationsControllerRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<Organization>,
   errors: [BadRequest, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11349,8 +11844,8 @@ export const CreatePortalSessionsController: API.OperationMethod<
   CreatePortalSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<CreatePortalSessionsControllerRequest>,
-  output: __S(9729, __c304, 1) as any as S.Schema<PortalLinkResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<CreatePortalSessionsControllerRequest>,
+  output: __S(10081, __c315, 1) as any as S.Schema<PortalLinkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11367,8 +11862,8 @@ export const CreateRedirectUrisController: API.OperationMethod<
   CreateRedirectUrisControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateRedirectUrisControllerRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<RedirectUri>,
+  input: __S(10112, __c316, 0) as any as S.Schema<CreateRedirectUrisControllerRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<RedirectUri>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11390,8 +11885,12 @@ export const CreateSamlIdpSigningCertificatesController: API.OperationMethod<
   CreateSamlIdpSigningCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<CreateSamlIdpSigningCertificatesControllerRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<SamlIdpSigningCertificate>,
+  input: __S(
+    10176,
+    __c318,
+    0,
+  ) as any as S.Schema<CreateSamlIdpSigningCertificatesControllerRequest>,
+  output: __S(10208, __c319, 0) as any as S.Schema<SamlIdpSigningCertificate>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11414,11 +11913,11 @@ export const CreateSamlSpEncryptionCertificatesController: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9888,
-    __c309,
+    10240,
+    __c320,
     0,
   ) as any as S.Schema<CreateSamlSpEncryptionCertificatesControllerRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<SamlSpEncryptionCertificate>,
+  output: __S(10208, __c319, 0) as any as S.Schema<SamlSpEncryptionCertificate>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11440,8 +11939,8 @@ export const CreateSamlSpSigningCertificatesController: API.OperationMethod<
   CreateSamlSpSigningCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<CreateSamlSpSigningCertificatesControllerRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<SamlSpSigningCertificate>,
+  input: __S(10272, __c321, 0) as any as S.Schema<CreateSamlSpSigningCertificatesControllerRequest>,
+  output: __S(10208, __c319, 0) as any as S.Schema<SamlSpSigningCertificate>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11458,8 +11957,8 @@ export const CreateTeamsControllerTeam: API.OperationMethod<
   CreateTeamsControllerTeamError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<CreateTeamsControllerTeamRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<Team>,
+  input: __S(10400, __c325, 0) as any as S.Schema<CreateTeamsControllerTeamRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<Team>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11480,8 +11979,8 @@ export const CreateUserApiKeysController: API.OperationMethod<
   CreateUserApiKeysControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<CreateUserApiKeysControllerRequest>,
-  output: __S(10113, __c316, 1) as any as S.Schema<UserApiKeyWithValue>,
+  input: __S(10464, __c327, 0) as any as S.Schema<CreateUserApiKeysControllerRequest>,
+  output: __S(10465, __c327, 1) as any as S.Schema<UserApiKeyWithValue>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11502,8 +12001,8 @@ export const CreateUserlandUserInvitesController: API.OperationMethod<
   CreateUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<CreateUserlandUserInvitesControllerRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
+  input: __S(10528, __c329, 0) as any as S.Schema<CreateUserlandUserInvitesControllerRequest>,
+  output: __S(10560, __c330, 0) as any as S.Schema<UserlandUserInvite>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11525,13 +12024,13 @@ export const CreateUserlandUserOrganizationMembershipsController: API.OperationM
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10240,
-    __c320,
+    10592,
+    __c331,
     0,
   ) as any as S.Schema<CreateUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(
-    10272,
-    __c321,
+    10624,
+    __c332,
     0,
   ) as any as S.Schema<CreateUserlandUserOrganizationMembershipsControllerResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
@@ -11550,8 +12049,8 @@ export const CreateWaitlistsControllerEntry: API.OperationMethod<
   CreateWaitlistsControllerEntryError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<CreateWaitlistsControllerEntryRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<WaitlistEntry>,
+  input: __S(10720, __c335, 0) as any as S.Schema<CreateWaitlistsControllerEntryRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<WaitlistEntry>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11568,8 +12067,8 @@ export const CreateWebhookEndpointsController: API.OperationMethod<
   CreateWebhookEndpointsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<CreateWebhookEndpointsControllerRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<WebhookEndpointJson>,
+  input: __S(10752, __c336, 0) as any as S.Schema<CreateWebhookEndpointsControllerRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<WebhookEndpointJson>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11590,11 +12089,11 @@ export const DataIntegrationsControllerFinishConnection: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10464,
-    __c327,
+    10816,
+    __c338,
     0,
   ) as any as S.Schema<DataIntegrationsControllerFinishConnectionRequest>,
-  output: __S(10465, __c327, 1) as any as S.Schema<DataIntegrationFinishConnectionResponse>,
+  output: __S(10817, __c338, 1) as any as S.Schema<DataIntegrationFinishConnectionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11618,11 +12117,11 @@ export const DataIntegrationsControllerGetDataIntegrationAuthorizeUrl: API.Opera
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10496,
-    __c328,
+    10848,
+    __c339,
     0,
   ) as any as S.Schema<DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<DataIntegrationAuthorizeUrlResponse>,
+  output: __S(10849, __c339, 1) as any as S.Schema<DataIntegrationAuthorizeUrlResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11645,10 +12144,10 @@ export const DataIntegrationsControllerVendCredentials: API.OperationMethod<
   DataIntegrationsControllerVendCredentialsError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<DataIntegrationsControllerVendCredentialsRequest>,
+  input: __S(10880, __c340, 0) as any as S.Schema<DataIntegrationsControllerVendCredentialsRequest>,
   output: __S(
-    10529,
-    __c329,
+    10881,
+    __c340,
     1,
   ) as any as S.Schema<DataIntegrationsControllerVendCredentialsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
@@ -11672,13 +12171,13 @@ export const DeactivateUserlandUserOrganizationMembershipsController: API.Operat
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10560,
-    __c330,
+    10912,
+    __c341,
     0,
   ) as any as S.Schema<DeactivateUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(
-    10272,
-    __c321,
+    10624,
+    __c332,
     0,
   ) as any as S.Schema<DeactivateUserlandUserOrganizationMembershipsControllerResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
@@ -11697,8 +12196,8 @@ export const DecryptJumpWireWebKeyController: API.OperationMethod<
   DecryptJumpWireWebKeyControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<DecryptJumpWireWebKeyControllerRequest>,
-  output: __S(10593, __c331, 1) as any as S.Schema<DecryptResponse>,
+  input: __S(10976, __c343, 0) as any as S.Schema<DecryptJumpWireWebKeyControllerRequest>,
+  output: __S(10977, __c343, 1) as any as S.Schema<DecryptResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11715,8 +12214,8 @@ export const DeleteAgentBlueprintsController: API.OperationMethod<
   DeleteAgentBlueprintsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<DeleteAgentBlueprintsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAgentBlueprintsControllerResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<DeleteAgentBlueprintsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAgentBlueprintsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11733,8 +12232,8 @@ export const DeleteAgentInstancesController: API.OperationMethod<
   DeleteAgentInstancesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<DeleteAgentInstancesControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAgentInstancesControllerResponse>,
+  input: __S(11040, __c345, 0) as any as S.Schema<DeleteAgentInstancesControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAgentInstancesControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11751,8 +12250,8 @@ export const DeleteApiKeysController: API.OperationMethod<
   DeleteApiKeysControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<DeleteApiKeysControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteApiKeysControllerResponse>,
+  input: __S(11072, __c346, 0) as any as S.Schema<DeleteApiKeysControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteApiKeysControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11769,8 +12268,8 @@ export const DeleteApplicationCredentialsController: API.OperationMethod<
   DeleteApplicationCredentialsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<DeleteApplicationCredentialsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteApplicationCredentialsControllerResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<DeleteApplicationCredentialsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteApplicationCredentialsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11787,8 +12286,8 @@ export const DeleteApplicationsController: API.OperationMethod<
   DeleteApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<DeleteApplicationsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteApplicationsControllerResponse>,
+  input: __S(11136, __c348, 0) as any as S.Schema<DeleteApplicationsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteApplicationsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11805,8 +12304,8 @@ export const DeleteAuthenticationFactorsController: API.OperationMethod<
   DeleteAuthenticationFactorsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerResponse>,
+  input: __S(11168, __c349, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11823,8 +12322,8 @@ export const DeleteAuthkitOauthResourcesController: API.OperationMethod<
   DeleteAuthkitOauthResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerResponse>,
+  input: __S(11200, __c350, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11847,13 +12346,13 @@ export const DeleteAuthorizationOrganizationRolesController: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10880,
-    __c340,
+    11232,
+    __c351,
     0,
   ) as any as S.Schema<DeleteAuthorizationOrganizationRolesControllerRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteAuthorizationOrganizationRolesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -11872,8 +12371,8 @@ export const DeleteAuthorizationPermissionsController: API.OperationMethod<
   DeleteAuthorizationPermissionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerResponse>,
+  input: __S(11264, __c352, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11896,13 +12395,13 @@ export const DeleteAuthorizationResourcesByExternalIdControllerByExternalId: API
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10944,
-    __c342,
+    11360,
+    __c355,
     0,
   ) as any as S.Schema<DeleteAuthorizationResourcesByExternalIdControllerByExternalIdRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteAuthorizationResourcesByExternalIdControllerByExternalIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -11926,8 +12425,8 @@ export const DeleteAuthorizationResourcesController: API.OperationMethod<
   DeleteAuthorizationResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerResponse>,
+  input: __S(11392, __c356, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11944,8 +12443,8 @@ export const DeleteAuthorizedApplicationsController: API.OperationMethod<
   DeleteAuthorizedApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerResponse>,
+  input: __S(11424, __c357, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -11962,14 +12461,32 @@ export const DeleteConnectionsController: API.OperationMethod<
   DeleteConnectionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<DeleteConnectionsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteConnectionsControllerResponse>,
+  input: __S(11456, __c358, 0) as any as S.Schema<DeleteConnectionsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteConnectionsControllerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteConnectionsController",
+}));
+
+export type DeleteCorsOriginsControllerError = NotFound | WorkosOpError;
+/** Delete a CORS origin Deletes a CORS origin from the API key's application. */
+export const DeleteCorsOriginsController: API.OperationMethod<
+  DeleteCorsOriginsControllerRequest,
+  DeleteCorsOriginsControllerResponse,
+  DeleteCorsOriginsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(11488, __c359, 0) as any as S.Schema<DeleteCorsOriginsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteCorsOriginsControllerResponse>,
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCorsOriginsController",
 }));
 
 export type DeleteDataIntegrationsManagementControllerDataIntegrationError =
@@ -11983,13 +12500,13 @@ export const DeleteDataIntegrationsManagementControllerDataIntegration: API.Oper
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11136,
-    __c348,
+    11520,
+    __c360,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerDataIntegrationRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerDataIntegrationResponse>,
   errors: [NotFound],
@@ -12011,13 +12528,13 @@ export const DeleteDataIntegrationsManagementControllerOrganizationDataIntegrati
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11168,
-    __c349,
+    11552,
+    __c361,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerOrganizationDataIntegrationRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerOrganizationDataIntegrationResponse>,
   errors: [NotFound],
@@ -12041,13 +12558,13 @@ export const DeleteDataIntegrationsOrganizationControllerOrganizationDataInstall
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11200,
-    __c350,
+    11584,
+    __c362,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -12071,13 +12588,13 @@ export const DeleteDataIntegrationsUserManagementControllerUserDataInstallation:
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11232,
-    __c351,
+    11616,
+    __c363,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsUserManagementControllerUserDataInstallationResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -12096,8 +12613,8 @@ export const DeleteDirectoriesControllerDirectory: API.OperationMethod<
   DeleteDirectoriesControllerDirectoryError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12118,8 +12635,8 @@ export const DeleteFlagTargetsControllerTarget: API.OperationMethod<
   DeleteFlagTargetsControllerTargetError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetResponse>,
+  input: __S(11776, __c368, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12136,14 +12653,32 @@ export const DeleteGroupsController: API.OperationMethod<
   DeleteGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<DeleteGroupsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteGroupsControllerResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<DeleteGroupsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteGroupsControllerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteGroupsController",
+}));
+
+export type DeleteIssuerTrustsControllerError = Forbidden | NotFound | WorkosOpError;
+/** Delete an issuer trust Stop trusting an issuer. ID-JAGs from the issuer are rejected from then on. */
+export const DeleteIssuerTrustsController: API.OperationMethod<
+  DeleteIssuerTrustsControllerRequest,
+  DeleteIssuerTrustsControllerResponse,
+  DeleteIssuerTrustsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(11840, __c370, 0) as any as S.Schema<DeleteIssuerTrustsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteIssuerTrustsControllerResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssuerTrustsController",
 }));
 
 export type DeleteItContactsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -12154,8 +12689,8 @@ export const DeleteItContactsController: API.OperationMethod<
   DeleteItContactsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<DeleteItContactsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteItContactsControllerResponse>,
+  input: __S(11872, __c371, 0) as any as S.Schema<DeleteItContactsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteItContactsControllerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12172,8 +12707,8 @@ export const DeleteJumpWireWebDataVaultController: API.OperationMethod<
   DeleteJumpWireWebDataVaultControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<DeleteJumpWireWebDataVaultControllerRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<DeleteObjectResponse>,
+  input: __S(11904, __c372, 0) as any as S.Schema<DeleteJumpWireWebDataVaultControllerRequest>,
+  output: __S(11905, __c372, 1) as any as S.Schema<DeleteObjectResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12190,8 +12725,8 @@ export const DeleteOrganizationDomainsController: API.OperationMethod<
   DeleteOrganizationDomainsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<DeleteOrganizationDomainsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteOrganizationDomainsControllerResponse>,
+  input: __S(11936, __c373, 0) as any as S.Schema<DeleteOrganizationDomainsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteOrganizationDomainsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12208,10 +12743,10 @@ export const DeleteOrganizationsControllerOrganization: API.OperationMethod<
   DeleteOrganizationsControllerOrganizationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<DeleteOrganizationsControllerOrganizationRequest>,
+  input: __S(11968, __c374, 0) as any as S.Schema<DeleteOrganizationsControllerOrganizationRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteOrganizationsControllerOrganizationResponse>,
   errors: [Forbidden, NotFound],
@@ -12230,8 +12765,8 @@ export const DeleteRedirectUrisController: API.OperationMethod<
   DeleteRedirectUrisControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<DeleteRedirectUrisControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteRedirectUrisControllerResponse>,
+  input: __S(12000, __c375, 0) as any as S.Schema<DeleteRedirectUrisControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteRedirectUrisControllerResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12253,13 +12788,13 @@ export const DeleteSamlIdpSigningCertificatesController: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11616,
-    __c363,
+    12032,
+    __c376,
     0,
   ) as any as S.Schema<DeleteSamlIdpSigningCertificatesControllerRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteSamlIdpSigningCertificatesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -12282,13 +12817,13 @@ export const DeleteSamlSpEncryptionCertificatesController: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11648,
-    __c364,
+    12064,
+    __c377,
     0,
   ) as any as S.Schema<DeleteSamlSpEncryptionCertificatesControllerRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteSamlSpEncryptionCertificatesControllerResponse>,
   errors: [Forbidden, NotFound],
@@ -12307,10 +12842,10 @@ export const DeleteSamlSpSigningCertificatesController: API.OperationMethod<
   DeleteSamlSpSigningCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<DeleteSamlSpSigningCertificatesControllerRequest>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteSamlSpSigningCertificatesControllerRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteSamlSpSigningCertificatesControllerResponse>,
   errors: [Forbidden, NotFound],
@@ -12333,13 +12868,13 @@ export const DeleteUserlandUserOrganizationMembershipsController: API.OperationM
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11712,
-    __c366,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<DeleteUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<DeleteUserlandUserOrganizationMembershipsControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
@@ -12358,8 +12893,8 @@ export const DeleteWaitlistEntriesController: API.OperationMethod<
   DeleteWaitlistEntriesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<DeleteWaitlistEntriesControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteWaitlistEntriesControllerResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteWaitlistEntriesControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteWaitlistEntriesControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12376,8 +12911,8 @@ export const DeleteWebhookEndpointsController: API.OperationMethod<
   DeleteWebhookEndpointsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteWebhookEndpointsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<DeleteWebhookEndpointsControllerResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteWebhookEndpointsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<DeleteWebhookEndpointsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12394,8 +12929,8 @@ export const DescribeJumpWireWebDataVaultController: API.OperationMethod<
   DescribeJumpWireWebDataVaultControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DescribeJumpWireWebDataVaultControllerRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<ObjectWithoutValue>,
+  input: __S(352, __c11, 0) as any as S.Schema<DescribeJumpWireWebDataVaultControllerRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<ObjectWithoutValue>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12412,8 +12947,8 @@ export const DirectoriesControllerFind: API.OperationMethod<
   DirectoriesControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DirectoriesControllerFindRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<Directory>,
+  input: __S(416, __c13, 0) as any as S.Schema<DirectoriesControllerFindRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<Directory>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12422,40 +12957,40 @@ export const DirectoriesControllerFind: API.OperationMethod<
   span: "DirectoriesControllerFind",
 }));
 
-export type DirectoryGroupsControllerFindError = Forbidden | NotFound | WorkosOpError;
-/** Get a Directory Group Get the details of an existing Directory Group. */
-export const DirectoryGroupsControllerFind: API.OperationMethod<
-  DirectoryGroupsControllerFindRequest,
+export type DirectoriesGroupsControllerFindError = Forbidden | NotFound | WorkosOpError;
+/** Get a Group for a Directory Get the details of a Directory Group in a Directory. */
+export const DirectoriesGroupsControllerFind: API.OperationMethod<
+  DirectoriesGroupsControllerFindRequest,
   DirectoryGroup,
-  DirectoryGroupsControllerFindError,
+  DirectoriesGroupsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DirectoryGroupsControllerFindRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<DirectoryGroup>,
+  input: __S(480, __c15, 0) as any as S.Schema<DirectoriesGroupsControllerFindRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<DirectoryGroup>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DirectoryGroupsControllerFind",
+  span: "DirectoriesGroupsControllerFind",
 }));
 
-export type DirectoryUsersControllerFindError = Forbidden | NotFound | WorkosOpError;
-/** Get a Directory User Get the details of an existing Directory User. */
-export const DirectoryUsersControllerFind: API.OperationMethod<
-  DirectoryUsersControllerFindRequest,
-  DirectoryUserWithGroups,
-  DirectoryUsersControllerFindError,
+export type DirectoriesUsersControllerFindError = Forbidden | NotFound | WorkosOpError;
+/** Get a User for a Directory Get the details of a Directory User in a Directory. */
+export const DirectoriesUsersControllerFind: API.OperationMethod<
+  DirectoriesUsersControllerFindRequest,
+  DirectoryUser,
+  DirectoriesUsersControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DirectoryUsersControllerFindRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<DirectoryUserWithGroups>,
+  input: __S(544, __c17, 0) as any as S.Schema<DirectoriesUsersControllerFindRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<DirectoryUser>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DirectoryUsersControllerFind",
+  span: "DirectoriesUsersControllerFind",
 }));
 
 export type DisableFeatureFlagsControllerFlagError = NotFound | Conflict | WorkosOpError;
@@ -12466,8 +13001,8 @@ export const DisableFeatureFlagsControllerFlag: API.OperationMethod<
   DisableFeatureFlagsControllerFlagError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12484,8 +13019,8 @@ export const EnableFeatureFlagsControllerFlag: API.OperationMethod<
   EnableFeatureFlagsControllerFlagError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12502,8 +13037,8 @@ export const ExportAuditLogExportsController: API.OperationMethod<
   ExportAuditLogExportsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ExportAuditLogExportsControllerRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<AuditLogExportJson>,
+  input: __S(800, __c25, 0) as any as S.Schema<ExportAuditLogExportsControllerRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<AuditLogExportJson>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12520,8 +13055,8 @@ export const FeatureFlagsControllerFindBySlug: API.OperationMethod<
   FeatureFlagsControllerFindBySlugError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<FeatureFlagsControllerFindBySlugRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<Flag>,
+  input: __S(832, __c26, 0) as any as S.Schema<FeatureFlagsControllerFindBySlugRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<Flag>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12538,8 +13073,8 @@ export const GetAgentAdminControllerRegistration: API.OperationMethod<
   GetAgentAdminControllerRegistrationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetAgentAdminControllerRegistrationRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<AgentRegistration>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetAgentAdminControllerRegistrationRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<AgentRegistration>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12556,8 +13091,8 @@ export const GetAgentBlueprintsController: API.OperationMethod<
   GetAgentBlueprintsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetAgentBlueprintsControllerRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetAgentBlueprintsControllerRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<AgentBlueprint>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12574,8 +13109,8 @@ export const GetAgentInstancesController: API.OperationMethod<
   GetAgentInstancesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetAgentInstancesControllerRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<AgentInstance>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetAgentInstancesControllerRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<AgentInstance>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12592,8 +13127,8 @@ export const GetAgentInstanceSessionsController: API.OperationMethod<
   GetAgentInstanceSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetAgentInstanceSessionsControllerRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<AgentInstanceSession>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetAgentInstanceSessionsControllerRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<AgentInstanceSession>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12610,8 +13145,8 @@ export const GetAuthenticationFactorsController: API.OperationMethod<
   GetAuthenticationFactorsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetAuthenticationFactorsControllerRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<AuthenticationFactor>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetAuthenticationFactorsControllerRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<AuthenticationFactor>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12632,11 +13167,11 @@ export const GetAuthorizationGroupRoleAssignmentsController: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c36,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<GetAuthorizationGroupRoleAssignmentsControllerRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GroupRoleAssignment>,
+  output: __S(8928, __c279, 0) as any as S.Schema<GroupRoleAssignment>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12653,10 +13188,10 @@ export const GetAuthorizationOrganizationRolesController: API.OperationMethod<
   GetAuthorizationOrganizationRolesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetAuthorizationOrganizationRolesControllerRequest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetAuthorizationOrganizationRolesControllerRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<GetAuthorizationOrganizationRolesControllerResponse>,
   errors: [Forbidden, NotFound],
@@ -12679,11 +13214,11 @@ export const GetAuthorizationResourcesByExternalIdControllerByExternalId: API.Op
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<GetAuthorizationResourcesByExternalIdControllerByExternalIdRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<AuthorizationResource>,
+  output: __S(5248, __c164, 0) as any as S.Schema<AuthorizationResource>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12700,8 +13235,8 @@ export const GetAuthorizationRolesController: API.OperationMethod<
   GetAuthorizationRolesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetAuthorizationRolesControllerRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<Role>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetAuthorizationRolesControllerRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Role>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12725,13 +13260,13 @@ export const GetDataIntegrationsControllerUserlandUserToken: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c41,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<GetDataIntegrationsControllerUserlandUserTokenRequest>,
   output: __S(
-    1313,
-    __c41,
+    1409,
+    __c44,
     1,
   ) as any as S.Schema<GetDataIntegrationsControllerUserlandUserTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
@@ -12751,11 +13286,11 @@ export const GetDataIntegrationsManagementControllerDataIntegration: API.Operati
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c42,
+    1440,
+    __c45,
     0,
   ) as any as S.Schema<GetDataIntegrationsManagementControllerDataIntegrationRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
+  output: __S(9411, __c294, 3) as any as S.Schema<DataIntegration>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12775,11 +13310,11 @@ export const GetDataIntegrationsManagementControllerOrganizationDataIntegration:
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<GetDataIntegrationsManagementControllerOrganizationDataIntegrationRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
+  output: __S(9411, __c294, 3) as any as S.Schema<DataIntegration>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12801,11 +13336,11 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataInstallati
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<GetDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12825,11 +13360,11 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataIntegratio
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<GetDataIntegrationsOrganizationControllerOrganizationDataIntegrationsRequest>,
-  output: __S(1540, __c48, 4) as any as S.Schema<DataIntegrationsListResponse>,
+  output: __S(1572, __c49, 4) as any as S.Schema<DataIntegrationsListResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12851,11 +13386,11 @@ export const GetDataIntegrationsUserManagementControllerUserDataInstallation: AP
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<GetDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12875,11 +13410,11 @@ export const GetDataIntegrationsUserManagementControllerUserDataIntegrations: AP
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<GetDataIntegrationsUserManagementControllerUserDataIntegrationsRequest>,
-  output: __S(1540, __c48, 4) as any as S.Schema<DataIntegrationsListResponse>,
+  output: __S(1572, __c49, 4) as any as S.Schema<DataIntegrationsListResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12896,14 +13431,32 @@ export const GetGroupsController: API.OperationMethod<
   GetGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetGroupsControllerRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Group>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetGroupsControllerRequest>,
+  output: __S(11328, __c354, 0) as any as S.Schema<Group>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGroupsController",
+}));
+
+export type GetIssuerTrustsControllerError = NotFound | WorkosOpError;
+/** Get an issuer trust Get an issuer trust by its ID. */
+export const GetIssuerTrustsController: API.OperationMethod<
+  GetIssuerTrustsControllerRequest,
+  IssuerTrust,
+  GetIssuerTrustsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c53, 0) as any as S.Schema<GetIssuerTrustsControllerRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<IssuerTrust>,
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssuerTrustsController",
 }));
 
 export type GetJwtTemplatesControllerJwtTemplateError = NotFound | WorkosOpError;
@@ -12914,8 +13467,8 @@ export const GetJwtTemplatesControllerJwtTemplate: API.OperationMethod<
   GetJwtTemplatesControllerJwtTemplateError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetJwtTemplatesControllerJwtTemplateRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<JwtTemplate>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetJwtTemplatesControllerJwtTemplateRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<JwtTemplate>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12932,8 +13485,8 @@ export const GetOrganizationDomainsController: API.OperationMethod<
   GetOrganizationDomainsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetOrganizationDomainsControllerRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<OrganizationDomainStandAlone>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetOrganizationDomainsControllerRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<OrganizationDomainStandAlone>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12951,11 +13504,11 @@ export const GetOrganizationsControllerAuditLogConfiguration: API.OperationMetho
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c56,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<GetOrganizationsControllerAuditLogConfigurationRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<AuditLogConfiguration>,
+  output: __S(1954, __c61, 2) as any as S.Schema<AuditLogConfiguration>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12972,8 +13525,8 @@ export const GetOrganizationsControllerByExternalId: API.OperationMethod<
   GetOrganizationsControllerByExternalIdError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetOrganizationsControllerByExternalIdRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetOrganizationsControllerByExternalIdRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<Organization>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -12990,8 +13543,8 @@ export const GetPublicRadarChallengesController: API.OperationMethod<
   GetPublicRadarChallengesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetPublicRadarChallengesControllerRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<RadarChallenge>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetPublicRadarChallengesControllerRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<RadarChallenge>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13012,8 +13565,8 @@ export const GetSamlSpSigningCertificatesController: API.OperationMethod<
   GetSamlSpSigningCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetSamlSpSigningCertificatesControllerRequest>,
-  output: __S(9856, __c308, 0) as any as S.Schema<SamlSpSigningCertificate>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetSamlSpSigningCertificatesControllerRequest>,
+  output: __S(10208, __c319, 0) as any as S.Schema<SamlSpSigningCertificate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13030,8 +13583,8 @@ export const GetSsoControllerProfile: API.OperationMethod<
   GetSsoControllerProfileError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetSsoControllerProfileRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<Profile>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetSsoControllerProfileRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<Profile>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13048,8 +13601,8 @@ export const GetTeamsControllerTeam: API.OperationMethod<
   GetTeamsControllerTeamError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetTeamsControllerTeamRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<Team>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetTeamsControllerTeamRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<Team>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13066,8 +13619,8 @@ export const GetUserlandMagicAuthController: API.OperationMethod<
   GetUserlandMagicAuthControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetUserlandMagicAuthControllerRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<MagicAuth>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetUserlandMagicAuthControllerRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<MagicAuth>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13084,14 +13637,39 @@ export const GetUserlandUserIdentitiesController: API.OperationMethod<
   GetUserlandUserIdentitiesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetUserlandUserIdentitiesControllerRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<GetUserlandUserIdentitiesControllerResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetUserlandUserIdentitiesControllerRequest>,
+  output: __S(2243, __c70, 3) as any as S.Schema<GetUserlandUserIdentitiesControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUserlandUserIdentitiesController",
+}));
+
+export type GetUserlandUserIdentitiesControllerByIdentityError =
+  | NotFound
+  | UnprocessableEntity
+  | WorkosOpError;
+/** Get a user by identity Get the user that holds an identity, by the identity's provider and its ID in that provider, as returned by [Get user identities](/reference/authkit/identity/list). */
+export const GetUserlandUserIdentitiesControllerByIdentity: API.OperationMethod<
+  GetUserlandUserIdentitiesControllerByIdentityRequest,
+  UserlandUser,
+  GetUserlandUserIdentitiesControllerByIdentityError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    2400,
+    __c75,
+    0,
+  ) as any as S.Schema<GetUserlandUserIdentitiesControllerByIdentityRequest>,
+  output: __S(10688, __c334, 0) as any as S.Schema<UserlandUser>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUserIdentitiesControllerByIdentity",
 }));
 
 export type GetUserlandUserInvitesControllerError = NotFound | WorkosOpError;
@@ -13102,8 +13680,8 @@ export const GetUserlandUserInvitesController: API.OperationMethod<
   GetUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetUserlandUserInvitesControllerRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetUserlandUserInvitesControllerRequest>,
+  output: __S(10560, __c330, 0) as any as S.Schema<UserlandUserInvite>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13120,8 +13698,8 @@ export const GetUserlandUserInvitesControllerByToken: API.OperationMethod<
   GetUserlandUserInvitesControllerByTokenError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetUserlandUserInvitesControllerByTokenRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetUserlandUserInvitesControllerByTokenRequest>,
+  output: __S(10560, __c330, 0) as any as S.Schema<UserlandUserInvite>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13139,11 +13717,11 @@ export const GetUserlandUserOrganizationMembershipsController: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c71,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<GetUserlandUserOrganizationMembershipsControllerRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13160,8 +13738,8 @@ export const GetUserlandUsersControllerByExternalId: API.OperationMethod<
   GetUserlandUsersControllerByExternalIdError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetUserlandUsersControllerByExternalIdRequest>,
-  output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetUserlandUsersControllerByExternalIdRequest>,
+  output: __S(10688, __c334, 0) as any as S.Schema<UserlandUser>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13178,14 +13756,32 @@ export const GetUserlandUsersControllerEmailVerification: API.OperationMethod<
   GetUserlandUsersControllerEmailVerificationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetUserlandUsersControllerEmailVerificationRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<EmailVerification>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetUserlandUsersControllerEmailVerificationRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<EmailVerification>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUserlandUsersControllerEmailVerification",
+}));
+
+export type GetWebhookEndpointsControllerError = NotFound | WorkosOpError;
+/** Get a Webhook Endpoint Get the details of an existing webhook endpoint. */
+export const GetWebhookEndpointsController: API.OperationMethod<
+  GetWebhookEndpointsControllerRequest,
+  WebhookEndpointJson,
+  GetWebhookEndpointsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2624, __c82, 0) as any as S.Schema<GetWebhookEndpointsControllerRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<WebhookEndpointJson>,
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookEndpointsController",
 }));
 
 export type InviteItContactsControllerError =
@@ -13201,8 +13797,8 @@ export const InviteItContactsController: API.OperationMethod<
   InviteItContactsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<InviteItContactsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<InviteItContactsControllerResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<InviteItContactsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<InviteItContactsControllerResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13219,8 +13815,8 @@ export const JumpWireWebDataVaultControllerIndex: API.OperationMethod<
   JumpWireWebDataVaultControllerIndexError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<JumpWireWebDataVaultControllerIndexRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ObjectListResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<JumpWireWebDataVaultControllerIndexRequest>,
+  output: __S(2691, __c84, 3) as any as S.Schema<ObjectListResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13237,8 +13833,8 @@ export const JumpWireWebDataVaultControllerShowById: API.OperationMethod<
   JumpWireWebDataVaultControllerShowByIdError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByIdRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Object>,
+  input: __S(2752, __c86, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByIdRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<Object>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13255,8 +13851,8 @@ export const JumpWireWebDataVaultControllerShowByName: API.OperationMethod<
   JumpWireWebDataVaultControllerShowByNameError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByNameRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Object>,
+  input: __S(2880, __c90, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByNameRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<Object>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13273,8 +13869,8 @@ export const JumpWireWebDataVaultControllerVersions: API.OperationMethod<
   JumpWireWebDataVaultControllerVersionsError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<JumpWireWebDataVaultControllerVersionsRequest>,
-  output: __S(2723, __c85, 3) as any as S.Schema<VersionListResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<JumpWireWebDataVaultControllerVersionsRequest>,
+  output: __S(2915, __c91, 3) as any as S.Schema<VersionListResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13294,8 +13890,8 @@ export const JumpWireWebKeyControllerCreateDataKey: API.OperationMethod<
   JumpWireWebKeyControllerCreateDataKeyError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<JumpWireWebKeyControllerCreateDataKeyRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<CreateDataKeyResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<JumpWireWebKeyControllerCreateDataKeyRequest>,
+  output: __S(2976, __c93, 0) as any as S.Schema<CreateDataKeyResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13312,8 +13908,8 @@ export const JumpWireWebKeyControllerRekey: API.OperationMethod<
   JumpWireWebKeyControllerRekeyError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<JumpWireWebKeyControllerRekeyRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<CreateDataKeyResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<JumpWireWebKeyControllerRekeyRequest>,
+  output: __S(2976, __c93, 0) as any as S.Schema<CreateDataKeyResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13330,8 +13926,8 @@ export const ListAgentBlueprintsController: API.OperationMethod<
   ListAgentBlueprintsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListAgentBlueprintsControllerRequest>,
-  output: __S(2850, __c89, 2) as any as S.Schema<ListAgentBlueprintsControllerResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListAgentBlueprintsControllerRequest>,
+  output: __S(3042, __c95, 2) as any as S.Schema<ListAgentBlueprintsControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13348,8 +13944,8 @@ export const ListAgentInstancesController: API.OperationMethod<
   ListAgentInstancesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListAgentInstancesControllerRequest>,
-  output: __S(2882, __c90, 2) as any as S.Schema<ListAgentInstancesControllerResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListAgentInstancesControllerRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ListAgentInstancesControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13366,8 +13962,8 @@ export const ListAgentInstanceSessionsController: API.OperationMethod<
   ListAgentInstanceSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListAgentInstanceSessionsControllerRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListAgentInstanceSessionsControllerResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListAgentInstanceSessionsControllerRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ListAgentInstanceSessionsControllerResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13384,8 +13980,8 @@ export const ListApplicationCredentialsController: API.OperationMethod<
   ListApplicationCredentialsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListApplicationCredentialsControllerRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<ListApplicationCredentialsControllerResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListApplicationCredentialsControllerRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListApplicationCredentialsControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13402,8 +13998,8 @@ export const ListApplicationsController: API.OperationMethod<
   ListApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListApplicationsControllerRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ConnectApplicationList>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListApplicationsControllerRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<ConnectApplicationList>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13420,8 +14016,8 @@ export const ListAuditLogValidatorsController: API.OperationMethod<
   ListAuditLogValidatorsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListAuditLogValidatorsControllerRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<ListAuditLogValidatorsControllerResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListAuditLogValidatorsControllerRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListAuditLogValidatorsControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13438,8 +14034,8 @@ export const ListAuthkitOauthResourcesController: API.OperationMethod<
   ListAuthkitOauthResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListAuthkitOauthResourcesControllerRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<ListAuthkitOauthResourcesControllerResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListAuthkitOauthResourcesControllerRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<ListAuthkitOauthResourcesControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13461,11 +14057,11 @@ export const ListAuthorizationControllerEffectivePermissions: API.OperationMetho
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    3328,
+    __c104,
     0,
   ) as any as S.Schema<ListAuthorizationControllerEffectivePermissionsRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
+  output: __S(3361, __c105, 1) as any as S.Schema<AuthorizationPermissionList>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13487,11 +14083,11 @@ export const ListAuthorizationControllerEffectivePermissionsByExternalId: API.Op
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<ListAuthorizationControllerEffectivePermissionsByExternalIdRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
+  output: __S(3361, __c105, 1) as any as S.Schema<AuthorizationPermissionList>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13514,11 +14110,11 @@ export const ListAuthorizationControllerResourcesForMembership: API.OperationMet
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<ListAuthorizationControllerResourcesForMembershipRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<AuthorizationResourceList>,
+  output: __S(3457, __c108, 1) as any as S.Schema<AuthorizationResourceList>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13539,11 +14135,11 @@ export const ListAuthorizationGroupRoleAssignmentsController: API.OperationMetho
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<ListAuthorizationGroupRoleAssignmentsControllerRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<GroupRoleAssignmentList>,
+  output: __S(3521, __c110, 1) as any as S.Schema<GroupRoleAssignmentList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13564,11 +14160,11 @@ export const ListAuthorizationOrganizationRolesController: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ListAuthorizationOrganizationRolesControllerRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<RoleList>,
+  output: __S(3585, __c112, 1) as any as S.Schema<RoleList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13585,8 +14181,8 @@ export const ListAuthorizationPermissionsController: API.OperationMethod<
   ListAuthorizationPermissionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ListAuthorizationPermissionsControllerRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListAuthorizationPermissionsControllerRequest>,
+  output: __S(3361, __c105, 1) as any as S.Schema<AuthorizationPermissionList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13609,13 +14205,13 @@ export const ListAuthorizationResourcesByExternalIdControllerOrganizationMembers
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c110,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<ListAuthorizationResourcesByExternalIdControllerOrganizationMembershipsForResourceByExternalIdRequest>,
   output: __S(
-    3554,
-    __c111,
+    3682,
+    __c115,
     2,
   ) as any as S.Schema<UserlandUserOrganizationMembershipBaseWithUserList>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -13638,8 +14234,8 @@ export const ListAuthorizationResourcesController: API.OperationMethod<
   ListAuthorizationResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ListAuthorizationResourcesControllerRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<AuthorizationResourceList>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ListAuthorizationResourcesControllerRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<AuthorizationResourceList>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13662,13 +14258,13 @@ export const ListAuthorizationResourcesControllerOrganizationMembershipsForResou
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3616,
-    __c113,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<ListAuthorizationResourcesControllerOrganizationMembershipsForResourceRequest>,
   output: __S(
-    3554,
-    __c111,
+    3682,
+    __c115,
     2,
   ) as any as S.Schema<UserlandUserOrganizationMembershipBaseWithUserList>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -13691,11 +14287,11 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignments: API.Oper
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3648,
-    __c114,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest>,
-  output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
+  output: __S(3937, __c123, 1) as any as S.Schema<UserRoleAssignmentList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13716,11 +14312,11 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceRequest>,
-  output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
+  output: __S(3937, __c123, 1) as any as S.Schema<UserRoleAssignmentList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13741,11 +14337,11 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3744,
-    __c117,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceByExternalIdRequest>,
-  output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
+  output: __S(3937, __c123, 1) as any as S.Schema<UserRoleAssignmentList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13762,8 +14358,8 @@ export const ListAuthorizationRolesController: API.OperationMethod<
   ListAuthorizationRolesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ListAuthorizationRolesControllerRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<RoleList>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ListAuthorizationRolesControllerRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<RoleList>,
   errors: [Forbidden],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13783,8 +14379,8 @@ export const ListAuthorizedApplicationsController: API.OperationMethod<
   ListAuthorizedApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListAuthorizedApplicationsControllerRequest>,
-  output: __S(3811, __c119, 3) as any as S.Schema<AuthorizedConnectApplicationList>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListAuthorizedApplicationsControllerRequest>,
+  output: __S(4067, __c127, 3) as any as S.Schema<AuthorizedConnectApplicationList>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13801,8 +14397,8 @@ export const ListConnectionsController: API.OperationMethod<
   ListConnectionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListConnectionsControllerRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<ConnectionList>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListConnectionsControllerRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<ConnectionList>,
   errors: [Forbidden, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13819,8 +14415,8 @@ export const ListCorsOriginsController: API.OperationMethod<
   ListCorsOriginsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListCorsOriginsControllerRequest>,
-  output: __S(4002, __c125, 2) as any as S.Schema<ListCorsOriginsControllerResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ListCorsOriginsControllerRequest>,
+  output: __S(4130, __c129, 2) as any as S.Schema<ListCorsOriginsControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13841,11 +14437,11 @@ export const ListDataIntegrationsManagementControllerDataIntegrations: API.Opera
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4032,
-    __c126,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<ListDataIntegrationsManagementControllerDataIntegrationsRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<DataIntegrationList>,
+  output: __S(4162, __c130, 2) as any as S.Schema<DataIntegrationList>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13862,8 +14458,8 @@ export const ListDirectoriesController: API.OperationMethod<
   ListDirectoriesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListDirectoriesControllerRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<DirectoryList>,
+  input: __S(4192, __c131, 0) as any as S.Schema<ListDirectoriesControllerRequest>,
+  output: __S(4194, __c131, 2) as any as S.Schema<DirectoryList>,
   errors: [Forbidden, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13872,48 +14468,48 @@ export const ListDirectoriesController: API.OperationMethod<
   span: "ListDirectoriesController",
 }));
 
-export type ListDirectoryGroupsControllerError =
+export type ListDirectoriesGroupsControllerError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
   | WorkosOpError;
-/** List Directory Groups Get a list of all of existing directory groups matching the criteria specified. */
-export const ListDirectoryGroupsController: API.OperationMethod<
-  ListDirectoryGroupsControllerRequest,
-  DirectoryGroupList,
-  ListDirectoryGroupsControllerError,
+/** List Groups for a Directory Get a list of the Directory Groups in a Directory, optionally filtered to the groups a Directory User belongs to. */
+export const ListDirectoriesGroupsController: API.OperationMethod<
+  ListDirectoriesGroupsControllerRequest,
+  ListDirectoriesGroupsControllerResponse,
+  ListDirectoriesGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListDirectoryGroupsControllerRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<DirectoryGroupList>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ListDirectoriesGroupsControllerRequest>,
+  output: __S(4226, __c132, 2) as any as S.Schema<ListDirectoriesGroupsControllerResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListDirectoryGroupsController",
+  span: "ListDirectoriesGroupsController",
 }));
 
-export type ListDirectoryUsersControllerError =
+export type ListDirectoriesUsersControllerError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
   | WorkosOpError;
-/** List Directory Users Get a list of all of existing Directory Users matching the criteria specified. */
-export const ListDirectoryUsersController: API.OperationMethod<
-  ListDirectoryUsersControllerRequest,
-  DirectoryUserList,
-  ListDirectoryUsersControllerError,
+/** List Users for a Directory Get a list of the Directory Users in a Directory, optionally filtered to the members of a Directory Group. */
+export const ListDirectoriesUsersController: API.OperationMethod<
+  ListDirectoriesUsersControllerRequest,
+  ListDirectoriesUsersControllerResponse,
+  ListDirectoriesUsersControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListDirectoryUsersControllerRequest>,
-  output: __S(4130, __c129, 2) as any as S.Schema<DirectoryUserList>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListDirectoriesUsersControllerRequest>,
+  output: __S(4322, __c135, 2) as any as S.Schema<ListDirectoriesUsersControllerResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListDirectoryUsersController",
+  span: "ListDirectoriesUsersController",
 }));
 
 export type ListEventsControllerError = BadRequest | UnprocessableEntity | WorkosOpError;
@@ -13924,8 +14520,8 @@ export const ListEventsController: API.OperationMethod<
   ListEventsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<ListEventsControllerRequest>,
-  output: __S(4185, __c130, 25) as any as S.Schema<EventList>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListEventsControllerRequest>,
+  output: __S(4375, __c136, 23) as any as S.Schema<EventList>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13946,8 +14542,8 @@ export const ListFeatureFlagsController: API.OperationMethod<
   ListFeatureFlagsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListFeatureFlagsControllerRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListFeatureFlagsControllerRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<FlagList>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13964,8 +14560,8 @@ export const ListGroupMembershipsControllerMembers: API.OperationMethod<
   ListGroupMembershipsControllerMembersError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListGroupMembershipsControllerMembersRequest>,
-  output: __S(4291, __c134, 3) as any as S.Schema<UserlandUserOrganizationMembershipBaseList>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ListGroupMembershipsControllerMembersRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<UserlandUserOrganizationMembershipBaseList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -13982,14 +14578,32 @@ export const ListGroupsController: API.OperationMethod<
   ListGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<ListGroupsControllerRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<GroupList>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListGroupsControllerRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<GroupList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGroupsController",
+}));
+
+export type ListIssuerTrustsControllerError = NotFound | WorkosOpError;
+/** List issuer trusts Get the issuers an organization trusts. */
+export const ListIssuerTrustsController: API.OperationMethod<
+  ListIssuerTrustsControllerRequest,
+  IssuerTrustList,
+  ListIssuerTrustsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4576, __c143, 0) as any as S.Schema<ListIssuerTrustsControllerRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<IssuerTrustList>,
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssuerTrustsController",
 }));
 
 export type ListItContactsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -14000,8 +14614,8 @@ export const ListItContactsController: API.OperationMethod<
   ListItContactsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListItContactsControllerRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<ItContactList>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListItContactsControllerRequest>,
+  output: __S(4610, __c144, 2) as any as S.Schema<ItContactList>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14018,8 +14632,8 @@ export const ListOrganizationApiKeysController: API.OperationMethod<
   ListOrganizationApiKeysControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListOrganizationApiKeysControllerRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<OrganizationApiKeyList>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListOrganizationApiKeysControllerRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<OrganizationApiKeyList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14040,11 +14654,11 @@ export const ListOrganizationAuthorizedApplicationsController: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4512,
-    __c141,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<ListOrganizationAuthorizedApplicationsControllerRequest>,
-  output: __S(4515, __c141, 3) as any as S.Schema<OrganizationAuthorizedConnectApplicationList>,
+  output: __S(4675, __c146, 3) as any as S.Schema<OrganizationAuthorizedConnectApplicationList>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14061,8 +14675,8 @@ export const ListOrganizationFeatureFlagsController: API.OperationMethod<
   ListOrganizationFeatureFlagsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListOrganizationFeatureFlagsControllerRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListOrganizationFeatureFlagsControllerRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<FlagList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14080,11 +14694,11 @@ export const ListOrganizationMembershipGroupsControllerGroups: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4576,
-    __c143,
+    4800,
+    __c150,
     0,
   ) as any as S.Schema<ListOrganizationMembershipGroupsControllerGroupsRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<GroupList>,
+  output: __S(4545, __c142, 1) as any as S.Schema<GroupList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14101,8 +14715,8 @@ export const ListOrganizationsController: API.OperationMethod<
   ListOrganizationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListOrganizationsControllerRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<OrganizationList>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ListOrganizationsControllerRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<OrganizationList>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14111,7 +14725,10 @@ export const ListOrganizationsController: API.OperationMethod<
   span: "ListOrganizationsController",
 }));
 
-export type ListProviderControllerForOrganizationError = NotFound | WorkosOpError;
+export type ListProviderControllerForOrganizationError =
+  | NotFound
+  | UnprocessableEntity
+  | WorkosOpError;
 /** List providers for an organization Returns a list of all providers available to the specified organization, along with any configured custom OAuth scopes, enabled state, and organization-managed credentials where applicable. */
 export const ListProviderControllerForOrganization: API.OperationMethod<
   ListProviderControllerForOrganizationRequest,
@@ -14119,9 +14736,9 @@ export const ListProviderControllerForOrganization: API.OperationMethod<
   ListProviderControllerForOrganizationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ListProviderControllerForOrganizationRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<DataIntegrationConfigurationListResponse>,
-  errors: [NotFound],
+  input: __S(4864, __c152, 0) as any as S.Schema<ListProviderControllerForOrganizationRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<DataIntegrationConfigurationListResponse>,
+  errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
@@ -14137,8 +14754,8 @@ export const ListRedirectUrisController: API.OperationMethod<
   ListRedirectUrisControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListRedirectUrisControllerRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<ListRedirectUrisControllerResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListRedirectUrisControllerRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<ListRedirectUrisControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14159,8 +14776,8 @@ export const ListSamlIdpSigningCertificatesController: API.OperationMethod<
   ListSamlIdpSigningCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListSamlIdpSigningCertificatesControllerRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<SamlIdpSigningCertificateList>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListSamlIdpSigningCertificatesControllerRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<SamlIdpSigningCertificateList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14181,8 +14798,8 @@ export const ListSamlSpEncryptionCertificatesController: API.OperationMethod<
   ListSamlSpEncryptionCertificatesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<ListSamlSpEncryptionCertificatesControllerRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<SamlSpEncryptionCertificateList>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListSamlSpEncryptionCertificatesControllerRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<SamlSpEncryptionCertificateList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14199,8 +14816,8 @@ export const ListUserApiKeysController: API.OperationMethod<
   ListUserApiKeysControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ListUserApiKeysControllerRequest>,
-  output: __S(4835, __c151, 3) as any as S.Schema<UserApiKeyList>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListUserApiKeysControllerRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<UserApiKeyList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14217,8 +14834,8 @@ export const ListUserlandUserFeatureFlagsController: API.OperationMethod<
   ListUserlandUserFeatureFlagsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListUserlandUserFeatureFlagsControllerRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ListUserlandUserFeatureFlagsControllerRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<FlagList>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14235,8 +14852,8 @@ export const ListUserlandUserInvitesController: API.OperationMethod<
   ListUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListUserlandUserInvitesControllerRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<UserlandUserInviteList>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ListUserlandUserInvitesControllerRequest>,
+  output: __S(5122, __c160, 2) as any as S.Schema<UserlandUserInviteList>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14258,11 +14875,11 @@ export const ListUserlandUserOrganizationMembershipsController: API.OperationMet
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4992,
-    __c156,
+    5152,
+    __c161,
     0,
   ) as any as S.Schema<ListUserlandUserOrganizationMembershipsControllerRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<UserlandUserOrganizationMembershipList>,
+  output: __S(5154, __c161, 2) as any as S.Schema<UserlandUserOrganizationMembershipList>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14282,8 +14899,8 @@ export const ListUserlandUserSessionsController: API.OperationMethod<
   ListUserlandUserSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListUserlandUserSessionsControllerRequest>,
-  output: __S(5027, __c157, 3) as any as S.Schema<ListUserlandUserSessionsControllerResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListUserlandUserSessionsControllerRequest>,
+  output: __S(5283, __c165, 3) as any as S.Schema<ListUserlandUserSessionsControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14300,8 +14917,8 @@ export const ListWaitlistsController: API.OperationMethod<
   ListWaitlistsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListWaitlistsControllerRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<ListWaitlistsControllerResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListWaitlistsControllerRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<ListWaitlistsControllerResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14318,8 +14935,8 @@ export const ListWaitlistsControllerEntries: API.OperationMethod<
   ListWaitlistsControllerEntriesError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListWaitlistsControllerEntriesRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<ListWaitlistsControllerEntriesResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListWaitlistsControllerEntriesRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<ListWaitlistsControllerEntriesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14336,8 +14953,8 @@ export const ListWebhookEndpointsController: API.OperationMethod<
   ListWebhookEndpointsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ListWebhookEndpointsControllerRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<WebhookEndpointList>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListWebhookEndpointsControllerRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<WebhookEndpointList>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14354,8 +14971,8 @@ export const LogoutSsoController: API.OperationMethod<
   LogoutSsoControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<LogoutSsoControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<LogoutSsoControllerResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<LogoutSsoControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<LogoutSsoControllerResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14372,8 +14989,8 @@ export const LogoutUserlandSessionsController: API.OperationMethod<
   LogoutUserlandSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<LogoutUserlandSessionsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<LogoutUserlandSessionsControllerResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<LogoutUserlandSessionsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<LogoutUserlandSessionsControllerResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14390,8 +15007,8 @@ export const OrganizationsControllerFind: API.OperationMethod<
   OrganizationsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<OrganizationsControllerFindRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
+  input: __S(5504, __c172, 0) as any as S.Schema<OrganizationsControllerFindRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<Organization>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14414,13 +15031,13 @@ export const PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignment
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5344,
-    __c167,
+    5536,
+    __c173,
     0,
   ) as any as S.Schema<PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -14429,6 +15046,38 @@ export const PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignment
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignments",
+}));
+
+export type PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | WorkosOpError;
+/** Update role assignments for an organization membership Add and remove role assignments for an organization membership in a single atomic operation. Each entry identifies a role and a resource, either by `resource_id` or by `resource_type_slug` and `resource_external_id`; to change an organization-level role, target the organization resource. Additions that already exist and removals that match no assignment are skipped. An assignment in both lists is rejected, as is a removal of a role granted only through a group. `add` and `remove` must contain between 1 and 100 entries combined. */
+export const PatchAuthorizationRoleAssignmentsControllerRoleAssignments: API.OperationMethod<
+  PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest,
+  PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsResponse,
+  PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    5600,
+    __c175,
+    0,
+  ) as any as S.Schema<PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest>,
+  output: __S(
+    6048,
+    __c189,
+    0,
+  ) as any as S.Schema<PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAuthorizationRoleAssignmentsControllerRoleAssignments",
 }));
 
 export type PatchConnectionsControllerError =
@@ -14445,8 +15094,8 @@ export const PatchConnectionsController: API.OperationMethod<
   PatchConnectionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5412, __c169, 4) as any as S.Schema<PatchConnectionsControllerRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
+  input: __S(5636, __c176, 4) as any as S.Schema<PatchConnectionsControllerRequest>,
+  output: __S(7970, __c249, 2) as any as S.Schema<Connection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14467,14 +15116,32 @@ export const ProviderControllerConfigure: API.OperationMethod<
   ProviderControllerConfigureError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ProviderControllerConfigureRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<DataIntegrationConfigurationResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<ProviderControllerConfigureRequest>,
+  output: __S(4897, __c153, 1) as any as S.Schema<DataIntegrationConfigurationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProviderControllerConfigure",
+}));
+
+export type RadarDetectionsControllerFindError = NotFound | WorkosOpError;
+/** Get a Radar detection Get a Radar detection from the last 30 days, including the evidence for why Radar fired. */
+export const RadarDetectionsControllerFind: API.OperationMethod<
+  RadarDetectionsControllerFindRequest,
+  RadarDetection,
+  RadarDetectionsControllerFindError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5728, __c179, 0) as any as S.Schema<RadarDetectionsControllerFindRequest>,
+  output: __S(5740, __c179, 12) as any as S.Schema<RadarDetection>,
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RadarDetectionsControllerFind",
 }));
 
 export type RadarStandaloneControllerAssessError = BadRequest | WorkosOpError;
@@ -14485,8 +15152,8 @@ export const RadarStandaloneControllerAssess: API.OperationMethod<
   RadarStandaloneControllerAssessError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<RadarStandaloneControllerAssessRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<RadarStandaloneResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<RadarStandaloneControllerAssessRequest>,
+  output: __S(5761, __c180, 1) as any as S.Schema<RadarStandaloneResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14507,13 +15174,13 @@ export const RadarStandaloneControllerDeleteRadarListEntry: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5504,
-    __c172,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<RadarStandaloneControllerDeleteRadarListEntryRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<RadarStandaloneControllerDeleteRadarListEntryResponse>,
   errors: [BadRequest, NotFound],
@@ -14532,8 +15199,8 @@ export const RadarStandaloneControllerUpdateRadarList: API.OperationMethod<
   RadarStandaloneControllerUpdateRadarListError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<RadarStandaloneControllerUpdateRadarListRequest>,
-  output: __S(5537, __c173, 1) as any as S.Schema<RadarListEntryAlreadyPresentResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<RadarStandaloneControllerUpdateRadarListRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<RadarListEntryAlreadyPresentResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14554,13 +15221,13 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5568,
-    __c174,
+    5856,
+    __c183,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentResponse>,
   errors: [Forbidden, NotFound],
@@ -14584,13 +15251,13 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5600,
-    __c175,
+    5888,
+    __c184,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -14613,11 +15280,11 @@ export const RemoveAuthorizationOrganizationRolePermissionsControllerPermission:
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5920,
+    __c185,
     0,
   ) as any as S.Schema<RemoveAuthorizationOrganizationRolePermissionsControllerPermissionRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<Role>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Role>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14639,13 +15306,13 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleByCriteria: API.Ope
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c177,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -14668,13 +15335,13 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleById: API.Operation
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5984,
+    __c187,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByIdRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByIdResponse>,
   errors: [Forbidden, NotFound],
@@ -14693,8 +15360,8 @@ export const RemoveGroupMembershipsControllerMember: API.OperationMethod<
   RemoveGroupMembershipsControllerMemberError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14716,11 +15383,11 @@ export const ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignme
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c181,
+    6112,
+    __c191,
     0,
   ) as any as S.Schema<ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<GroupRoleAssignmentList>,
+  output: __S(3521, __c110, 1) as any as S.Schema<GroupRoleAssignmentList>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14741,8 +15408,8 @@ export const ResendUserlandUserInvitesController: API.OperationMethod<
   ResendUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<ResendUserlandUserInvitesControllerRequest>,
-  output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ResendUserlandUserInvitesControllerRequest>,
+  output: __S(10560, __c330, 0) as any as S.Schema<UserlandUserInvite>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14764,8 +15431,8 @@ export const ResetUserlandUsersControllerPassword0: API.OperationMethod<
   ResetUserlandUsersControllerPassword0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<ResetUserlandUsersControllerPassword0Request>,
-  output: __S(5888, __c184, 0) as any as S.Schema<ResetPasswordResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<ResetUserlandUsersControllerPassword0Request>,
+  output: __S(6208, __c194, 0) as any as S.Schema<ResetPasswordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14782,8 +15449,8 @@ export const RevokeAgentAdminControllerRegistration: API.OperationMethod<
   RevokeAgentAdminControllerRegistrationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<RevokeAgentAdminControllerRegistrationRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<AgentRegistration>,
+  input: __S(6240, __c195, 0) as any as S.Schema<RevokeAgentAdminControllerRegistrationRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<AgentRegistration>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14800,8 +15467,8 @@ export const RevokeAgentInstanceSessionsController: API.OperationMethod<
   RevokeAgentInstanceSessionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<RevokeAgentInstanceSessionsControllerRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<AgentInstanceSession>,
+  input: __S(6272, __c196, 0) as any as S.Schema<RevokeAgentInstanceSessionsControllerRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<AgentInstanceSession>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14818,8 +15485,8 @@ export const RevokeItContactsController: API.OperationMethod<
   RevokeItContactsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<RevokeItContactsControllerRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<RevokeItContactsControllerResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<RevokeItContactsControllerRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<RevokeItContactsControllerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14839,8 +15506,8 @@ export const RevokePortalSessionsControllerLink: API.OperationMethod<
   RevokePortalSessionsControllerLinkError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<RevokePortalSessionsControllerLinkRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<RevokePortalSessionsControllerLinkResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<RevokePortalSessionsControllerLinkRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<RevokePortalSessionsControllerLinkResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14857,8 +15524,8 @@ export const RevokeUserlandSessionsControllerSession: API.OperationMethod<
   RevokeUserlandSessionsControllerSessionError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14875,8 +15542,8 @@ export const RevokeUserlandUserInvitesController: API.OperationMethod<
   RevokeUserlandUserInvitesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerRequest>,
-  output: __S(9408, __c294, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerRequest>,
+  output: __S(9696, __c303, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerResponse>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14894,11 +15561,11 @@ export const SendPublicRadarChallengesControllerRadarSmsChallenge: API.Operation
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6176,
-    __c193,
+    6464,
+    __c202,
     0,
   ) as any as S.Schema<SendPublicRadarChallengesControllerRadarSmsChallengeRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<SendRadarSmsChallengeResponse>,
+  output: __S(6465, __c202, 1) as any as S.Schema<SendRadarSmsChallengeResponse>,
   errors: [],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14919,8 +15586,8 @@ export const SendUserlandUsersControllerEmailChange: API.OperationMethod<
   SendUserlandUsersControllerEmailChangeError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<SendUserlandUsersControllerEmailChangeRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<EmailChange>,
+  input: __S(6496, __c203, 0) as any as S.Schema<SendUserlandUsersControllerEmailChangeRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<EmailChange>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14942,11 +15609,11 @@ export const SendUserlandUsersControllerVerificationEmail0: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6240,
-    __c195,
+    6528,
+    __c204,
     0,
   ) as any as S.Schema<SendUserlandUsersControllerVerificationEmail0Request>,
-  output: __S(5888, __c184, 0) as any as S.Schema<SendVerificationEmailResponse>,
+  output: __S(6208, __c194, 0) as any as S.Schema<SendVerificationEmailResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -14968,13 +15635,13 @@ export const SetAuthorizationOrganizationRolePermissionsControllerPermissions: A
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6272,
-    __c196,
+    6560,
+    __c205,
     0,
   ) as any as S.Schema<SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<SetAuthorizationOrganizationRolePermissionsControllerPermissionsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
@@ -14999,13 +15666,13 @@ export const SetAuthorizationRolePermissionsControllerPermissions: API.Operation
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6304,
-    __c197,
+    6592,
+    __c206,
     0,
   ) as any as S.Schema<SetAuthorizationRolePermissionsControllerPermissionsRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<SetAuthorizationRolePermissionsControllerPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -15024,8 +15691,8 @@ export const SsoControllerJsonWebKeySet: API.OperationMethod<
   SsoControllerJsonWebKeySetError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<SsoControllerJsonWebKeySetRequest>,
-  output: __S(6339, __c198, 3) as any as S.Schema<JwksResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<SsoControllerJsonWebKeySetRequest>,
+  output: __S(6627, __c207, 3) as any as S.Schema<JwksResponse>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15042,8 +15709,8 @@ export const SsoControllerLogoutAuthorize: API.OperationMethod<
   SsoControllerLogoutAuthorizeError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<SsoControllerLogoutAuthorizeRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<SsoLogoutAuthorizeResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<SsoControllerLogoutAuthorizeRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<SsoLogoutAuthorizeResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15060,8 +15727,8 @@ export const SsoControllerToken: API.OperationMethod<
   SsoControllerTokenError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<SsoControllerTokenRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<SsoTokenResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<SsoControllerTokenRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<SsoTokenResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15083,8 +15750,8 @@ export const SyncDirectoriesControllerDirectory: API.OperationMethod<
   SyncDirectoriesControllerDirectoryError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15106,8 +15773,8 @@ export const UpdateAgentBlueprintsController: API.OperationMethod<
   UpdateAgentBlueprintsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6529, __c204, 1) as any as S.Schema<UpdateAgentBlueprintsControllerRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
+  input: __S(6786, __c212, 2) as any as S.Schema<UpdateAgentBlueprintsControllerRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<AgentBlueprint>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15124,8 +15791,8 @@ export const UpdateApplicationsController: API.OperationMethod<
   UpdateApplicationsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6562, __c205, 2) as any as S.Schema<UpdateApplicationsControllerRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<UpdateApplicationsControllerResponse>,
+  input: __S(6850, __c214, 2) as any as S.Schema<UpdateApplicationsControllerRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<UpdateApplicationsControllerResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15146,11 +15813,11 @@ export const UpdateAuditLogsRetentionControllerAuditLogsRetention: API.Operation
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6592,
-    __c206,
+    6880,
+    __c215,
     0,
   ) as any as S.Schema<UpdateAuditLogsRetentionControllerAuditLogsRetentionRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<AuditLogsRetentionJson>,
+  output: __S(3264, __c102, 0) as any as S.Schema<AuditLogsRetentionJson>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15173,13 +15840,13 @@ export const UpdateAuthorizationOrganizationRolesController: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6624,
-    __c207,
+    6912,
+    __c216,
     0,
   ) as any as S.Schema<UpdateAuthorizationOrganizationRolesControllerRequest>,
   output: __S(
-    10080,
-    __c315,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<UpdateAuthorizationOrganizationRolesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
@@ -15202,8 +15869,8 @@ export const UpdateAuthorizationPermissionsController: API.OperationMethod<
   UpdateAuthorizationPermissionsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<UpdateAuthorizationPermissionsControllerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<AuthorizationPermission>,
+  input: __S(6944, __c217, 0) as any as S.Schema<UpdateAuthorizationPermissionsControllerRequest>,
+  output: __S(4768, __c149, 0) as any as S.Schema<AuthorizationPermission>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15227,13 +15894,13 @@ export const UpdateAuthorizationResourcesByExternalIdControllerByExternalId: API
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6688,
-    __c209,
+    6976,
+    __c218,
     0,
   ) as any as S.Schema<UpdateAuthorizationResourcesByExternalIdControllerByExternalIdRequest>,
   output: __S(
-    8768,
-    __c274,
+    9056,
+    __c283,
     0,
   ) as any as S.Schema<UpdateAuthorizationResourcesByExternalIdControllerByExternalIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
@@ -15258,8 +15925,8 @@ export const UpdateAuthorizationResourcesController: API.OperationMethod<
   UpdateAuthorizationResourcesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerRequest>,
+  output: __S(9056, __c283, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15281,8 +15948,8 @@ export const UpdateAuthorizationRolesController: API.OperationMethod<
   UpdateAuthorizationRolesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<UpdateAuthorizationRolesControllerRequest>,
-  output: __S(10080, __c315, 0) as any as S.Schema<UpdateAuthorizationRolesControllerResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<UpdateAuthorizationRolesControllerRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<UpdateAuthorizationRolesControllerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15306,11 +15973,11 @@ export const UpdateDataIntegrationsManagementControllerDataIntegration: API.Oper
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6784,
-    __c212,
+    7072,
+    __c221,
     0,
   ) as any as S.Schema<UpdateDataIntegrationsManagementControllerDataIntegrationRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
+  output: __S(9411, __c294, 3) as any as S.Schema<DataIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15334,11 +16001,11 @@ export const UpdateDataIntegrationsManagementControllerOrganizationDataIntegrati
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6848,
-    __c214,
+    7136,
+    __c223,
     0,
   ) as any as S.Schema<UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
+  output: __S(9411, __c294, 3) as any as S.Schema<DataIntegration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15362,11 +16029,11 @@ export const UpdateDataIntegrationsOrganizationControllerOrganizationDataInstall
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6912,
-    __c216,
+    7168,
+    __c224,
     0,
   ) as any as S.Schema<UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15389,11 +16056,11 @@ export const UpdateDataIntegrationsUserManagementControllerUserDataInstallation:
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6944,
-    __c217,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15415,8 +16082,8 @@ export const UpdateGroupMembershipsControllerMembers: API.OperationMethod<
   UpdateGroupMembershipsControllerMembersError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15438,14 +16105,37 @@ export const UpdateGroupsController: API.OperationMethod<
   UpdateGroupsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<UpdateGroupsControllerRequest>,
-  output: __S(11008, __c344, 0) as any as S.Schema<Group>,
+  input: __S(7296, __c228, 0) as any as S.Schema<UpdateGroupsControllerRequest>,
+  output: __S(11328, __c354, 0) as any as S.Schema<Group>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGroupsController",
+}));
+
+export type UpdateIssuerTrustsControllerError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | WorkosOpError;
+/** Update an issuer trust Enable or disable an issuer trust. ID-JAGs from a disabled issuer are rejected. `enabled` is the only field that can be changed, and an omitted field is left unchanged. */
+export const UpdateIssuerTrustsController: API.OperationMethod<
+  UpdateIssuerTrustsControllerRequest,
+  IssuerTrust,
+  UpdateIssuerTrustsControllerError,
+  WorkosOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(7328, __c229, 0) as any as S.Schema<UpdateIssuerTrustsControllerRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<IssuerTrust>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
+  protocol: WorkosProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssuerTrustsController",
 }));
 
 export type UpdateJumpWireWebDataVaultControllerError = BadRequest | Conflict | WorkosOpError;
@@ -15456,8 +16146,8 @@ export const UpdateJumpWireWebDataVaultController: API.OperationMethod<
   UpdateJumpWireWebDataVaultControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<UpdateJumpWireWebDataVaultControllerRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<ObjectWithoutValue>,
+  input: __S(7360, __c230, 0) as any as S.Schema<UpdateJumpWireWebDataVaultControllerRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<ObjectWithoutValue>,
   errors: [BadRequest, Conflict],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15474,8 +16164,8 @@ export const UpdateJwtTemplatesControllerJwtTemplate: API.OperationMethod<
   UpdateJwtTemplatesControllerJwtTemplateError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<UpdateJwtTemplatesControllerJwtTemplateRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<JwtTemplate>,
+  input: __S(7392, __c231, 0) as any as S.Schema<UpdateJwtTemplatesControllerJwtTemplateRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<JwtTemplate>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15498,8 +16188,8 @@ export const UpdateOrganizationsControllerOrganization: API.OperationMethod<
   UpdateOrganizationsControllerOrganizationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<UpdateOrganizationsControllerOrganizationRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
+  input: __S(7424, __c232, 0) as any as S.Schema<UpdateOrganizationsControllerOrganizationRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15520,13 +16210,13 @@ export const UpdateRadarStandaloneControllerRadarAttempt: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7136,
-    __c223,
+    7456,
+    __c233,
     0,
   ) as any as S.Schema<UpdateRadarStandaloneControllerRadarAttemptRequest>,
   output: __S(
-    6112,
-    __c191,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<UpdateRadarStandaloneControllerRadarAttemptResponse>,
   errors: [BadRequest, NotFound],
@@ -15549,11 +16239,11 @@ export const UpdateUserlandUserOrganizationMembershipsController: API.OperationM
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7168,
-    __c224,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<UpdateUserlandUserOrganizationMembershipsControllerRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15574,8 +16264,8 @@ export const UpdateWebhookEndpointsController: API.OperationMethod<
   UpdateWebhookEndpointsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<UpdateWebhookEndpointsControllerRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<WebhookEndpointJson>,
+  input: __S(7520, __c235, 0) as any as S.Schema<UpdateWebhookEndpointsControllerRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<WebhookEndpointJson>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15598,8 +16288,8 @@ export const UpsertDataIntegrationsControllerApiKey: API.OperationMethod<
   UpsertDataIntegrationsControllerApiKeyError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<UpsertDataIntegrationsControllerApiKeyRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  input: __S(7584, __c237, 0) as any as S.Schema<UpsertDataIntegrationsControllerApiKeyRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15623,11 +16313,11 @@ export const UpsertDataIntegrationsControllerClientCredentials: API.OperationMet
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7296,
-    __c228,
+    7616,
+    __c238,
     0,
   ) as any as S.Schema<UpsertDataIntegrationsControllerClientCredentialsRequest>,
-  output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
+  output: __S(9312, __c291, 0) as any as S.Schema<ConnectedAccount>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15649,13 +16339,13 @@ export const UserlandMagicAuthControllerSendMagicAuthCodeAndReturn: API.Operatio
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7328,
-    __c229,
+    7648,
+    __c239,
     0,
   ) as any as S.Schema<UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequest>,
   output: __S(
-    7329,
-    __c229,
+    7649,
+    __c239,
     1,
   ) as any as S.Schema<UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
@@ -15679,8 +16369,8 @@ export const UserlandSessionsControllerAuthenticate0: API.OperationMethod<
   UserlandSessionsControllerAuthenticate0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<UserlandSessionsControllerAuthenticate0Request>,
-  output: __S(7361, __c230, 1) as any as S.Schema<UserlandAuthenticateResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<UserlandSessionsControllerAuthenticate0Request>,
+  output: __S(7681, __c240, 1) as any as S.Schema<UserlandAuthenticateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15697,8 +16387,8 @@ export const UserlandSsoControllerDeviceAuthorization: API.OperationMethod<
   UserlandSsoControllerDeviceAuthorizationError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<UserlandSsoControllerDeviceAuthorizationRequest>,
-  output: __S(7393, __c231, 1) as any as S.Schema<DeviceAuthorizationResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<UserlandSsoControllerDeviceAuthorizationRequest>,
+  output: __S(7713, __c241, 1) as any as S.Schema<DeviceAuthorizationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15718,11 +16408,11 @@ export const UserlandUserAuthenticationFactorsControllerCreate0: API.OperationMe
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7424,
-    __c232,
+    7744,
+    __c242,
     0,
   ) as any as S.Schema<UserlandUserAuthenticationFactorsControllerCreate0Request>,
-  output: __S(7425, __c232, 1) as any as S.Schema<UserlandUserAuthenticationFactorEnrollResponse>,
+  output: __S(7745, __c242, 1) as any as S.Schema<UserlandUserAuthenticationFactorEnrollResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15742,11 +16432,11 @@ export const UserlandUserAuthenticationFactorsControllerList0: API.OperationMeth
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7456,
-    __c233,
+    7776,
+    __c243,
     0,
   ) as any as S.Schema<UserlandUserAuthenticationFactorsControllerList0Request>,
-  output: __S(7458, __c233, 2) as any as S.Schema<UserlandUserAuthenticationFactorList>,
+  output: __S(7778, __c243, 2) as any as S.Schema<UserlandUserAuthenticationFactorList>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15768,11 +16458,11 @@ export const UserlandUserOrganizationMembershipsControllerReactivate: API.Operat
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7488,
-    __c234,
+    7808,
+    __c244,
     0,
   ) as any as S.Schema<UserlandUserOrganizationMembershipsControllerReactivateRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15794,8 +16484,8 @@ export const UserlandUsersControllerCreate0: API.OperationMethod<
   UserlandUsersControllerCreate0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<UserlandUsersControllerCreate0Request>,
-  output: __S(7521, __c235, 1) as any as S.Schema<UserlandUsersControllerCreate0Response>,
+  input: __S(7840, __c245, 0) as any as S.Schema<UserlandUsersControllerCreate0Request>,
+  output: __S(7841, __c245, 1) as any as S.Schema<UserlandUsersControllerCreate0Response>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15817,11 +16507,11 @@ export const UserlandUsersControllerCreatePasswordResetToken: API.OperationMetho
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7552,
-    __c236,
+    7872,
+    __c246,
     0,
   ) as any as S.Schema<UserlandUsersControllerCreatePasswordResetTokenRequest>,
-  output: __S(7584, __c237, 0) as any as S.Schema<PasswordReset>,
+  output: __S(7904, __c247, 0) as any as S.Schema<PasswordReset>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15838,8 +16528,8 @@ export const UserlandUsersControllerDelete0: API.OperationMethod<
   UserlandUsersControllerDelete0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<UserlandUsersControllerDelete0Request>,
-  output: __S(6112, __c191, 0) as any as S.Schema<UserlandUsersControllerDelete0Response>,
+  input: __S(8000, __c250, 0) as any as S.Schema<UserlandUsersControllerDelete0Request>,
+  output: __S(6048, __c189, 0) as any as S.Schema<UserlandUsersControllerDelete0Response>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15860,8 +16550,8 @@ export const UserlandUsersControllerEmailVerification0: API.OperationMethod<
   UserlandUsersControllerEmailVerification0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<UserlandUsersControllerEmailVerification0Request>,
-  output: __S(5888, __c184, 0) as any as S.Schema<VerifyEmailResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<UserlandUsersControllerEmailVerification0Request>,
+  output: __S(6208, __c194, 0) as any as S.Schema<VerifyEmailResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15878,8 +16568,8 @@ export const UserlandUsersControllerGet0: API.OperationMethod<
   UserlandUsersControllerGet0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<UserlandUsersControllerGet0Request>,
-  output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
+  input: __S(8064, __c252, 0) as any as S.Schema<UserlandUsersControllerGet0Request>,
+  output: __S(10688, __c334, 0) as any as S.Schema<UserlandUser>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15896,8 +16586,8 @@ export const UserlandUsersControllerGetPasswordReset: API.OperationMethod<
   UserlandUsersControllerGetPasswordResetError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<UserlandUsersControllerGetPasswordResetRequest>,
-  output: __S(7584, __c237, 0) as any as S.Schema<PasswordReset>,
+  input: __S(8096, __c253, 0) as any as S.Schema<UserlandUsersControllerGetPasswordResetRequest>,
+  output: __S(7904, __c247, 0) as any as S.Schema<PasswordReset>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15914,8 +16604,8 @@ export const UserlandUsersControllerList0: API.OperationMethod<
   UserlandUsersControllerList0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<UserlandUsersControllerList0Request>,
-  output: __S(7778, __c243, 2) as any as S.Schema<UserlandUserList>,
+  input: __S(8128, __c254, 0) as any as S.Schema<UserlandUsersControllerList0Request>,
+  output: __S(8130, __c254, 2) as any as S.Schema<UserlandUserList>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15932,8 +16622,8 @@ export const UserlandUsersControllerUpdate0: API.OperationMethod<
   UserlandUsersControllerUpdate0Error,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<UserlandUsersControllerUpdate0Request>,
-  output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
+  input: __S(8160, __c255, 0) as any as S.Schema<UserlandUsersControllerUpdate0Request>,
+  output: __S(10688, __c334, 0) as any as S.Schema<UserlandUser>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15950,8 +16640,8 @@ export const ValidateAgentAdminControllerCredential: API.OperationMethod<
   ValidateAgentAdminControllerCredentialError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<ValidateAgentAdminControllerCredentialRequest>,
-  output: __S(7841, __c245, 1) as any as S.Schema<AgentCredentialValidation>,
+  input: __S(8192, __c256, 0) as any as S.Schema<ValidateAgentAdminControllerCredentialRequest>,
+  output: __S(8193, __c256, 1) as any as S.Schema<AgentCredentialValidation>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15972,11 +16662,11 @@ export const ValidateAgentBlueprintsTokenControllerToken: API.OperationMethod<
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7872,
-    __c246,
+    8224,
+    __c257,
     0,
   ) as any as S.Schema<ValidateAgentBlueprintsTokenControllerTokenRequest>,
-  output: __S(7873, __c246, 1) as any as S.Schema<AgentTokenValidation>,
+  output: __S(8225, __c257, 1) as any as S.Schema<AgentTokenValidation>,
   errors: [BadRequest, NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -15993,8 +16683,8 @@ export const ValidateApiKeysControllerApiKey: API.OperationMethod<
   ValidateApiKeysControllerApiKeyError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<ValidateApiKeysControllerApiKeyRequest>,
-  output: __S(7905, __c247, 1) as any as S.Schema<ApiKeyValidationResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<ValidateApiKeysControllerApiKeyRequest>,
+  output: __S(8257, __c258, 1) as any as S.Schema<ApiKeyValidationResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16015,8 +16705,8 @@ export const VerifyAuthenticationChallengesController: API.OperationMethod<
   VerifyAuthenticationChallengesControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<VerifyAuthenticationChallengesControllerRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<AuthenticationChallengeVerifyResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<VerifyAuthenticationChallengesControllerRequest>,
+  output: __S(8289, __c259, 1) as any as S.Schema<AuthenticationChallengeVerifyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16033,8 +16723,8 @@ export const VerifyOrganizationDomainsController: API.OperationMethod<
   VerifyOrganizationDomainsControllerError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<VerifyOrganizationDomainsControllerRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<OrganizationDomainStandAlone>,
+  input: __S(8480, __c265, 0) as any as S.Schema<VerifyOrganizationDomainsControllerRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<OrganizationDomainStandAlone>,
   errors: [BadRequest],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16051,8 +16741,8 @@ export const WaitlistEntriesControllerDeny: API.OperationMethod<
   WaitlistEntriesControllerDenyError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<WaitlistEntriesControllerDenyRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<WaitlistEntriesControllerDenyResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<WaitlistEntriesControllerDenyRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<WaitlistEntriesControllerDenyResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16069,8 +16759,8 @@ export const WaitlistsControllerFind: API.OperationMethod<
   WaitlistsControllerFindError,
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<WaitlistsControllerFindRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<Waitlist>,
+  input: __S(8544, __c267, 0) as any as S.Schema<WaitlistsControllerFindRequest>,
+  output: __S(5344, __c167, 0) as any as S.Schema<Waitlist>,
   errors: [NotFound],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16092,11 +16782,11 @@ export const WidgetsPublicControllerIssueWidgetSessionToken: API.OperationMethod
   WorkosOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8128,
-    __c254,
+    8576,
+    __c268,
     0,
   ) as any as S.Schema<WidgetsPublicControllerIssueWidgetSessionTokenRequest>,
-  output: __S(8129, __c254, 1) as any as S.Schema<WidgetSessionTokenResponse>,
+  output: __S(8577, __c268, 1) as any as S.Schema<WidgetSessionTokenResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
@@ -16221,7 +16911,7 @@ function __c6(j: number): any {
           agent_instance_id: S.String,
           new_instance: S.Boolean,
           agent_instance_session_id: S.String,
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
         }),
       ).annotate({ identifier: "AgentToken" });
   }
@@ -16231,12 +16921,57 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          connectionId: S.String.pipe(T.Label()),
+          certificateId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/connections/{connectionId}/saml_sp_signing_cert/{certificateId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSamlSpSigningCertificatesControllerRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/user_management/organization_memberships/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteUserlandUserOrganizationMembershipsControllerRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/user_management/waitlist_entries/{id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteWaitlistEntriesControllerRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/webhook_endpoints/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteWebhookEndpointsControllerRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16246,19 +16981,19 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DescribeJumpWireWebDataVaultControllerRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metadata: __S(9472, __c296, 0),
+          metadata: __S(9824, __c307, 0),
           name: S.String,
         }),
       ).annotate({ identifier: "ObjectWithoutValue" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16268,7 +17003,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DirectoriesControllerFindRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16280,7 +17015,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          users: __S(352, __c11, 0),
+          users: __S(448, __c14, 0),
           groups: S.Number,
         }),
       ).annotate({ identifier: "DirectoryMetadata" });
@@ -16295,24 +17030,27 @@ function __c11(j: number): any {
           state: S.optional(S.String),
           name: S.optional(S.String),
           domain: S.optional(S.String),
-          metadata: S.optional(__S(353, __c11, 1)),
+          metadata: S.optional(__S(449, __c14, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Directory" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/directory_groups/{id}", code: 200 })),
-      ).annotate({ identifier: "DirectoryGroupsControllerFindRequest" });
+          directoryId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/directories/{directoryId}/groups/{groupId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DirectoriesGroupsControllerFindRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16323,59 +17061,27 @@ function __c13(j: number): any {
           directory_id: S.optional(S.String),
           organization_id: S.optional(S.String),
           name: S.optional(S.String),
-          raw_attributes: S.optional(__S(3968, __c124, 0)),
+          raw_attributes: S.optional(__S(3872, __c121, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectoryGroup" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/directory_users/{id}", code: 200 })),
-      ).annotate({ identifier: "DirectoryUsersControllerFindRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(416, __c13, 0));
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          directory_id: S.optional(S.String),
-          organization_id: S.optional(S.String),
-          idp_id: S.optional(S.String),
-          email: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.NullOr(S.String)),
-          last_name: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          emails: S.optional(__S(545, __c17, 1)),
-          job_title: S.optional(S.NullOr(S.String)),
-          username: S.optional(S.NullOr(S.String)),
-          state: S.optional(S.String),
-          raw_attributes: S.optional(__S(3968, __c124, 0)),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
-          role: S.optional(__S(2464, __c77, 0)),
-          roles: S.optional(__S(10304, __c322, 0)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          groups: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "DirectoryUserWithGroups" });
-  }
-}
 function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directoryId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/directories/{directoryId}/users/{userId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DirectoriesUsersControllerFindRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16384,12 +17090,36 @@ function __c17(j: number): any {
           type: S.optional(S.String),
           value: S.optional(S.NullOr(S.String)),
         }),
-      ).annotate({ identifier: "DirectoryUserWithGroupsEmailsItem" });
+      ).annotate({ identifier: "DirectoryUserEmailsItem" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(576, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          directory_id: S.String,
+          organization_id: S.String,
+          idp_id: S.String,
+          email: S.NullOr(S.String),
+          first_name: S.optional(S.NullOr(S.String)),
+          last_name: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          emails: S.optional(__S(577, __c18, 1)),
+          job_title: S.optional(S.NullOr(S.String)),
+          username: S.optional(S.NullOr(S.String)),
+          state: S.String,
+          raw_attributes: __S(3872, __c121, 0),
+          custom_attributes: __S(3872, __c121, 0),
+          role: S.optional(__S(2368, __c74, 0)),
+          roles: S.optional(__S(10656, __c333, 0)),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "DirectoryUser" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16399,7 +17129,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DisableFeatureFlagsControllerFlagRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16409,8 +17139,8 @@ function __c19(j: number): any {
           slug: S.String,
           name: S.String,
           description: S.NullOr(S.String),
-          owner: S.NullOr(__S(640, __c20, 0)),
-          tags: __S(10048, __c314, 0),
+          owner: S.NullOr(__S(672, __c21, 0)),
+          tags: __S(10336, __c323, 0),
           enabled: S.Boolean,
           default_value: S.Boolean,
           created_at: S.String,
@@ -16419,7 +17149,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DisableFeatureFlagsControllerFlagResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16431,7 +17161,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DisableFeatureFlagsControllerFlagResponseOwner" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16441,7 +17171,37 @@ function __c21(j: number): any {
       ).annotate({ identifier: "EnableFeatureFlagsControllerFlagRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          expires_at: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/api_keys/{id}/expire", code: 200 })),
+      ).annotate({ identifier: "ApiKeysControllerExpireRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          owner: S.optional(S.Unknown),
+          name: S.optional(S.String),
+          obfuscated_value: S.optional(S.String),
+          last_used_at: S.optional(S.NullOr(S.String)),
+          expires_at: S.optional(S.NullOr(S.String)),
+          permissions: S.optional(__S(10336, __c323, 0)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApiKey" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16453,7 +17213,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ExportAuditLogExportsControllerRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16463,7 +17223,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FeatureFlagsControllerFindBySlugRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16473,8 +17233,8 @@ function __c24(j: number): any {
           slug: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          owner: S.optional(S.NullOr(__S(640, __c20, 0))),
-          tags: S.optional(__S(10048, __c314, 0)),
+          owner: S.optional(S.NullOr(__S(672, __c21, 0))),
+          tags: S.optional(__S(10336, __c323, 0)),
           enabled: S.optional(S.Boolean),
           default_value: S.optional(S.Boolean),
           created_at: S.optional(S.String),
@@ -16483,7 +17243,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Flag" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16493,7 +17253,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAgentAdminControllerRegistrationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16518,7 +17278,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          claim_completion: S.NullOr(__S(833, __c26, 1)),
+          claim_completion: S.NullOr(__S(929, __c29, 1)),
           created_at: S.String,
           updated_at: S.String,
           expires_at: S.String,
@@ -16528,49 +17288,19 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          agent_identity: __S(832, __c26, 0),
+          agent_identity: __S(928, __c29, 0),
           organization_id: S.String,
           status: S.String,
           revoked_at: S.NullOr(S.String),
           kind: S.String,
-          claim: S.NullOr(__S(834, __c26, 2)),
+          claim: S.NullOr(__S(930, __c29, 2)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "AgentRegistration" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          expires_at: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/api_keys/{id}/expire", code: 200 })),
-      ).annotate({ identifier: "ApiKeysControllerExpireRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          owner: S.optional(S.Unknown),
-          name: S.optional(S.String),
-          obfuscated_value: S.optional(S.String),
-          last_used_at: S.optional(S.NullOr(S.String)),
-          expires_at: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(10048, __c314, 0)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApiKey" });
-  }
-}
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16582,7 +17312,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetAgentBlueprintsControllerRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16592,7 +17322,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetAgentInstancesControllerRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16609,7 +17339,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "AgentInstance" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16621,7 +17351,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetAgentInstanceSessionsControllerRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16638,7 +17368,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AgentInstanceSession" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16648,7 +17378,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetAuthenticationFactorsControllerRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16664,15 +17394,15 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           user_id: S.optional(S.String),
-          sms: S.optional(__S(8480, __c265, 0)),
-          totp: S.optional(__S(1120, __c35, 0)),
+          sms: S.optional(__S(8768, __c274, 0)),
+          totp: S.optional(__S(1152, __c36, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthenticationFactor" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16689,7 +17419,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetAuthorizationGroupRoleAssignmentsControllerRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16706,7 +17436,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetAuthorizationOrganizationRolesControllerRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16726,7 +17456,50 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/connect/applications/{id}", code: 200 })),
+      ).annotate({ identifier: "ApplicationsControllerFindRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.String,
+          default: S.Boolean,
+        }),
+      ).annotate({ identifier: "ApplicationsControllerFindResponseRedirectUrisItem" });
+    case 1:
+      return S.Array(__S(1312, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          client_id: S.String,
+          description: S.NullOr(S.String),
+          name: S.String,
+          scopes: __S(10336, __c323, 0),
+          created_at: S.String,
+          updated_at: S.String,
+          application_type: S.optional(S.String),
+          redirect_uris: S.optional(__S(1313, __c41, 1)),
+          cors_origins: S.optional(__S(10336, __c323, 0)),
+          uses_pkce: S.optional(S.Boolean),
+          is_first_party: S.optional(S.Boolean),
+          was_dynamically_registered: S.optional(S.Boolean),
+          organization_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationsControllerFindResponse" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16736,7 +17509,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetAuthorizationRolesControllerRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16748,14 +17521,14 @@ function __c40(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
           resource_type_slug: S.optional(S.String),
-          permissions: S.optional(__S(10048, __c314, 0)),
+          permissions: S.optional(__S(10336, __c323, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Role" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16774,7 +17547,7 @@ function __c41(j: number): any {
       });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16784,50 +17557,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetDataIntegrationsManagementControllerDataIntegrationRequest" });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/connect/applications/{id}", code: 200 })),
-      ).annotate({ identifier: "ApplicationsControllerFindRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.String,
-          default: S.Boolean,
-        }),
-      ).annotate({ identifier: "ApplicationsControllerFindResponseRedirectUrisItem" });
-    case 1:
-      return S.Array(__S(1408, __c44, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          client_id: S.String,
-          description: S.NullOr(S.String),
-          name: S.String,
-          scopes: __S(10048, __c314, 0),
-          created_at: S.String,
-          updated_at: S.String,
-          application_type: S.optional(S.String),
-          redirect_uris: S.optional(__S(1409, __c44, 1)),
-          cors_origins: S.optional(__S(10048, __c314, 0)),
-          uses_pkce: S.optional(S.Boolean),
-          is_first_party: S.optional(S.Boolean),
-          was_dynamically_registered: S.optional(S.Boolean),
-          organization_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplicationsControllerFindResponse" });
-  }
-}
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16841,7 +17571,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16862,7 +17592,7 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16881,7 +17611,7 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16893,12 +17623,12 @@ function __c48(j: number): any {
           account_display_name: S.NullOr(S.String),
           user_id: S.NullOr(S.String),
           organization_id: S.NullOr(S.String),
-          scopes: __S(10048, __c314, 0),
+          scopes: __S(10336, __c323, 0),
           auth_method: S.optional(S.String),
           api_key_last_4: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret_last_4: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           state: S.String,
           established_by_user_id: S.optional(S.NullOr(S.String)),
           state_reason: S.optional(S.NullOr(S.String)),
@@ -16912,7 +17642,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "DataIntegrationsListResponseDataItemConnectedAccount" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16923,8 +17653,8 @@ function __c48(j: number): any {
           slug: S.String,
           integration_type: S.String,
           credentials_type: S.String,
-          scopes: S.NullOr(__S(10048, __c314, 0)),
-          auth_methods: S.optional(__S(8288, __c259, 0)),
+          scopes: S.NullOr(__S(10336, __c323, 0)),
+          auth_methods: S.optional(__S(8448, __c264, 0)),
           connection_owner: S.String,
           ownership: S.String,
           created_at: S.String,
@@ -16933,22 +17663,22 @@ function __c48(j: number): any {
           credentialsType: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          connected_account: S.NullOr(__S(1536, __c48, 0)),
-          connected_accounts: __S(1537, __c48, 1),
+          connected_account: S.NullOr(__S(1568, __c49, 0)),
+          connected_accounts: __S(1569, __c49, 1),
         }),
       ).annotate({ identifier: "DataIntegrationsListResponseDataItem" });
     case 3:
-      return S.Array(__S(1538, __c48, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(1539, __c48, 3)),
+          data: S.optional(__S(1571, __c49, 3)),
         }),
       ).annotate({ identifier: "DataIntegrationsListResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16970,7 +17700,7 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16990,7 +17720,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17007,7 +17737,64 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetGroupsControllerRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/organizations/{organization_id}/issuer_trusts/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIssuerTrustsControllerRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/user_management/waitlist_entries/{id}/approve",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ApproveWaitlistEntriesControllerRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          email: S.String,
+          state: S.String,
+          approved_at: S.NullOr(S.String),
+          additional_fields: S.optional(__S(1760, __c55, 0)),
+          waitlist_id: S.optional(S.NullOr(S.String)),
+          created_at: S.String,
+          updated_at: S.String,
+          object: S.String,
+        }),
+      ).annotate({ identifier: "ApproveWaitlistEntriesControllerResponse" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17017,7 +17804,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetJwtTemplatesControllerJwtTemplateRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17030,7 +17817,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "JwtTemplate" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17040,7 +17827,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetOrganizationDomainsControllerRequest" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17059,7 +17846,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "OrganizationDomainStandAlone" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17085,12 +17872,12 @@ function __c56(j: number): any {
           organization_id: S.optional(S.String),
           retention_period_in_days: S.optional(S.Number),
           state: S.optional(S.String),
-          log_stream: S.optional(__S(1793, __c56, 1)),
+          log_stream: S.optional(__S(1953, __c61, 1)),
         }),
       ).annotate({ identifier: "AuditLogConfiguration" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17102,47 +17889,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetOrganizationsControllerByExternalIdRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/user_management/waitlist_entries/{id}/approve",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ApproveWaitlistEntriesControllerRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          email: S.String,
-          state: S.String,
-          approved_at: S.NullOr(S.String),
-          additional_fields: S.optional(__S(1888, __c59, 0)),
-          waitlist_id: S.optional(S.NullOr(S.String)),
-          created_at: S.String,
-          updated_at: S.String,
-          object: S.String,
-        }),
-      ).annotate({ identifier: "ApproveWaitlistEntriesControllerResponse" });
-  }
-}
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17168,7 +17915,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RadarChallenge" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17184,7 +17931,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetSamlSpSigningCertificatesControllerRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17192,7 +17939,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetSsoControllerProfileRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17207,16 +17954,16 @@ function __c64(j: number): any {
           first_name: S.optional(S.NullOr(S.String)),
           last_name: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          role: S.optional(S.NullOr(__S(2464, __c77, 0))),
-          roles: S.optional(S.NullOr(__S(10304, __c322, 0))),
-          groups: S.optional(__S(10048, __c314, 0)),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
-          raw_attributes: S.optional(__S(3968, __c124, 0)),
+          role: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          roles: S.optional(S.NullOr(__S(10656, __c333, 0))),
+          groups: S.optional(__S(10336, __c323, 0)),
+          custom_attributes: S.optional(__S(3872, __c121, 0)),
+          raw_attributes: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "Profile" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17226,7 +17973,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetTeamsControllerTeamRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17236,7 +17983,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetUserlandMagicAuthControllerRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17253,7 +18000,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "MagicAuth" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17272,94 +18019,14 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "GetUserlandUserIdentitiesControllerResponseBodyItem" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(2241, __c70, 1));
     case 3:
-      return S.suspend(() => __S(2178, __c68, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2242, __c70, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUserlandUserIdentitiesControllerResponse",
       });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/user_management/invitations/{id}", code: 200 })),
-      ).annotate({ identifier: "GetUserlandUserInvitesControllerRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/user_management/invitations/by_token/{token}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUserlandUserInvitesControllerByTokenRequest" });
-  }
-}
 function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/user_management/organization_memberships/{id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUserlandUserOrganizationMembershipsControllerRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          user_id: S.optional(S.String),
-          organization_id: S.optional(S.String),
-          status: S.optional(S.String),
-          directory_managed: S.optional(S.Boolean),
-          organization_name: S.optional(S.String),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          role: S.optional(__S(2464, __c77, 0)),
-          roles: S.optional(__S(10304, __c322, 0)),
-          user: S.optional(__S(10336, __c323, 0)),
-        }),
-      ).annotate({ identifier: "UserlandUserOrganizationMembership" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          external_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/user_management/users/external_id/{external_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUserlandUsersControllerByExternalIdRequest" });
-  }
-}
-function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17379,14 +18046,14 @@ function __c74(j: number): any {
       ).annotate({ identifier: "AssignAuthorizationRoleAssignmentsControllerRoleRequest" });
   }
 }
-function __c75(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           group_role_assignment_id: S.NullOr(S.String),
-          group: S.NullOr(__S(11392, __c356, 0)),
+          group: S.NullOr(__S(11712, __c366, 0)),
         }),
       ).annotate({ identifier: "UserRoleAssignmentSource" });
     case 1:
@@ -17395,16 +18062,16 @@ function __c75(j: number): any {
           object: S.String,
           id: S.String,
           organization_membership_id: S.String,
-          role: __S(2464, __c77, 0),
-          resource: __S(2432, __c76, 0),
-          source: __S(2400, __c75, 0),
+          role: __S(2368, __c74, 0),
+          resource: __S(2336, __c73, 0),
+          source: __S(2304, __c72, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "UserRoleAssignment" });
   }
 }
-function __c76(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17416,7 +18083,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UserRoleAssignmentResource" });
   }
 }
-function __c77(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17426,7 +18093,104 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SlimRole" });
   }
 }
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String.pipe(T.Label()),
+          idp_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/user_management/users/identities/{provider}/{idp_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserlandUserIdentitiesControllerByIdentityRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/user_management/invitations/{id}", code: 200 })),
+      ).annotate({ identifier: "GetUserlandUserInvitesControllerRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/user_management/invitations/by_token/{token}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserlandUserInvitesControllerByTokenRequest" });
+  }
+}
 function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/user_management/organization_memberships/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserlandUserOrganizationMembershipsControllerRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          user_id: S.optional(S.String),
+          organization_id: S.optional(S.String),
+          status: S.optional(S.String),
+          directory_managed: S.optional(S.Boolean),
+          organization_name: S.optional(S.String),
+          custom_attributes: S.optional(__S(3872, __c121, 0)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          role: S.optional(__S(2368, __c74, 0)),
+          roles: S.optional(__S(10656, __c333, 0)),
+          user: S.optional(__S(10688, __c334, 0)),
+        }),
+      ).annotate({ identifier: "UserlandUserOrganizationMembership" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/user_management/users/external_id/{external_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserlandUsersControllerByExternalIdRequest" });
+  }
+}
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17438,14 +18202,24 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetUserlandUsersControllerEmailVerificationRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhook_endpoints/{id}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookEndpointsControllerRequest" });
+  }
+}
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           contact_id: S.String.pipe(T.Label()),
-          intents: __S(8288, __c259, 0),
+          intents: __S(8448, __c264, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17456,7 +18230,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "InviteItContactsControllerRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17478,17 +18252,17 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "ObjectSummary" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2562, __c80, 2),
-          list_metadata: __S(2592, __c81, 0),
+          data: __S(2690, __c84, 2),
+          list_metadata: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "ObjectListResponse" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17499,7 +18273,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ListMetadata" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17509,20 +18283,52 @@ function __c82(j: number): any {
       ).annotate({ identifier: "JumpWireWebDataVaultControllerShowByIdRequest" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metadata: __S(9472, __c296, 0),
+          metadata: __S(9824, __c307, 0),
           name: S.String,
           value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "Object" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.optional(S.String),
+          range_start: S.optional(S.String),
+          range_end: S.optional(S.String),
+          actions: S.optional(__S(10336, __c323, 0)),
+          actors: S.optional(__S(10336, __c323, 0)),
+          actor_names: S.optional(__S(10336, __c323, 0)),
+          actor_ids: S.optional(__S(10336, __c323, 0)),
+          targets: S.optional(__S(10336, __c323, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/audit_logs/exports", code: 200 })),
+      ).annotate({ identifier: "AuditLogExportsControllerExportsRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          state: S.optional(S.String),
+          url: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditLogExportJson" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17532,7 +18338,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "JumpWireWebDataVaultControllerShowByNameRequest" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17551,32 +18357,32 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ObjectVersion" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2722, __c85, 2),
-          list_metadata: __S(2592, __c81, 0),
+          data: __S(2914, __c91, 2),
+          list_metadata: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "VersionListResponse" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          context: __S(1888, __c59, 0),
+          context: __S(1760, __c55, 0),
         }).pipe(T.Http({ method: "POST", uri: "/vault/v1/keys/data-key", code: 200 })),
       ).annotate({ identifier: "JumpWireWebKeyControllerCreateDataKeyRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          context: __S(1888, __c59, 0),
+          context: __S(1760, __c55, 0),
           data_key: S.String,
           encrypted_keys: S.String,
           id: S.String,
@@ -17584,18 +18390,18 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateDataKeyResponse" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          context: __S(1888, __c59, 0),
+          context: __S(1760, __c55, 0),
           encrypted_keys: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/vault/v1/keys/rekey", code: 200 })),
       ).annotate({ identifier: "JumpWireWebKeyControllerRekeyRequest" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17607,18 +18413,18 @@ function __c89(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/agents/blueprints", code: 200 })),
       ).annotate({ identifier: "ListAgentBlueprintsControllerRequest" });
     case 1:
-      return S.Array(__S(8224, __c257, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(2849, __c89, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "ListAgentBlueprintsControllerResponse" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17632,50 +18438,18 @@ function __c90(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/agents/instances", code: 200 })),
       ).annotate({ identifier: "ListAgentInstancesControllerRequest" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(2881, __c90, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3073, __c96, 1)),
         }),
       ).annotate({ identifier: "ListAgentInstancesControllerResponse" });
   }
 }
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.optional(S.String),
-          range_start: S.optional(S.String),
-          range_end: S.optional(S.String),
-          actions: S.optional(__S(10048, __c314, 0)),
-          actors: S.optional(__S(10048, __c314, 0)),
-          actor_names: S.optional(__S(10048, __c314, 0)),
-          actor_ids: S.optional(__S(10048, __c314, 0)),
-          targets: S.optional(__S(10048, __c314, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/audit_logs/exports", code: 200 })),
-      ).annotate({ identifier: "AuditLogExportsControllerExportsRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          state: S.optional(S.String),
-          url: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogExportJson" });
-  }
-}
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17690,18 +18464,18 @@ function __c93(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/agents/sessions", code: 200 })),
       ).annotate({ identifier: "ListAgentInstanceSessionsControllerRequest" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(2977, __c93, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "ListAgentInstanceSessionsControllerResponse" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17723,14 +18497,14 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "ListApplicationCredentialsControllerResponseBodyItem" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
-      return S.suspend(() => __S(3010, __c94, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3138, __c98, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationCredentialsControllerResponse",
       });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17739,23 +18513,23 @@ function __c95(j: number): any {
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
-          registration_types: S.optional(__S(8288, __c259, 0).pipe(T.Query())),
+          registration_types: S.optional(__S(8448, __c264, 0).pipe(T.Query())),
           organization_id: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/connect/applications", code: 200 })),
       ).annotate({ identifier: "ListApplicationsControllerRequest" });
     case 1:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1314, __c41, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3041, __c95, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(3169, __c99, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "ConnectApplicationList" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17771,24 +18545,46 @@ function __c96(j: number): any {
         S.Struct({
           object: S.optional(S.String),
           name: S.optional(S.String),
-          schema: S.optional(__S(3939, __c123, 3)),
+          schema: S.optional(__S(3843, __c120, 3)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogActionJson" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(3074, __c96, 2)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3202, __c100, 2)),
         }),
       ).annotate({ identifier: "ListAuditLogValidatorsControllerResponse" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/organizations/{id}/audit_logs_retention", code: 200 }),
+        ),
+      ).annotate({ identifier: "AuditLogsRetentionControllerAuditLogsRetentionRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retention_period_in_days: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "AuditLogsRetentionJson" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17802,18 +18598,18 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthkitOauthResourcesControllerRequest" });
     case 1:
-      return S.Array(__S(8576, __c268, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(3105, __c97, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3297, __c103, 1)),
         }),
       ).annotate({ identifier: "ListAuthkitOauthResourcesControllerResponse" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17834,21 +18630,21 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListAuthorizationControllerEffectivePermissionsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4896, __c153, 0));
+      return S.Array(__S(4768, __c149, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3168, __c99, 0)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(3360, __c105, 0)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "AuthorizationPermissionList" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17872,7 +18668,7 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17896,21 +18692,21 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListAuthorizationControllerResourcesForMembershipRequest" });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5312, __c166, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3264, __c102, 0)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(3456, __c108, 0)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "AuthorizationResourceList" });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17930,21 +18726,21 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListAuthorizationGroupRoleAssignmentsControllerRequest" });
   }
 }
-function __c104(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8928, __c279, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(3328, __c104, 0),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(3520, __c110, 0),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "GroupRoleAssignmentList" });
   }
 }
-function __c105(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17960,42 +18756,20 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListAuthorizationOrganizationRolesControllerRequest" });
   }
 }
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3392, __c106, 0)),
+          data: S.optional(__S(3584, __c112, 0)),
         }),
       ).annotate({ identifier: "RoleList" });
   }
 }
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/organizations/{id}/audit_logs_retention", code: 200 }),
-        ),
-      ).annotate({ identifier: "AuditLogsRetentionControllerAuditLogsRetentionRequest" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          retention_period_in_days: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "AuditLogsRetentionJson" });
-  }
-}
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18008,7 +18782,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListAuthorizationPermissionsControllerRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18035,7 +18809,7 @@ function __c110(j: number): any {
       });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18047,25 +18821,25 @@ function __c111(j: number): any {
           status: S.String,
           directory_managed: S.Boolean,
           organization_name: S.optional(S.String),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
+          custom_attributes: S.optional(__S(3872, __c121, 0)),
           created_at: S.String,
           updated_at: S.String,
-          user: __S(10336, __c323, 0),
+          user: __S(10688, __c334, 0),
         }),
       ).annotate({ identifier: "UserlandUserOrganizationMembershipBaseWithUser" });
     case 1:
-      return S.Array(__S(3552, __c111, 0));
+      return S.Array(__S(3680, __c115, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(3553, __c111, 1),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(3681, __c115, 1),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "UserlandUserOrganizationMembershipBaseWithUserList" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18084,7 +18858,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListAuthorizationResourcesControllerRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18108,7 +18882,80 @@ function __c113(j: number): any {
       });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actionName: S.String.pipe(T.Label()),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/audit_logs/actions/{actionName}/schemas", code: 200 }),
+        ),
+      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasRequest" });
+    case 1:
+      return S.Array(__S(3843, __c120, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(3777, __c118, 1)),
+        }),
+      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasResponse" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          before: S.NullOr(S.String),
+          after: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasResponseListMetadata" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: __S(3872, __c121, 0),
+        }),
+      ).annotate({ identifier: "AuditLogSchemaJsonActor" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          metadata: S.optional(__S(3872, __c121, 0)),
+        }),
+      ).annotate({ identifier: "AuditLogSchemaJsonTargetsItem" });
+    case 2:
+      return S.Array(__S(3841, __c120, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          version: S.optional(S.Number),
+          actor: S.optional(__S(3840, __c120, 0)),
+          targets: S.optional(__S(3842, __c120, 2)),
+          metadata: S.optional(__S(3872, __c121, 0)),
+          created_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditLogSchemaJson" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18133,21 +18980,21 @@ function __c114(j: number): any {
       });
   }
 }
-function __c115(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(3680, __c115, 0),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(3936, __c123, 0),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "UserRoleAssignmentList" });
   }
 }
-function __c116(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18170,7 +19017,7 @@ function __c116(j: number): any {
       });
   }
 }
-function __c117(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18196,7 +19043,7 @@ function __c117(j: number): any {
       });
   }
 }
-function __c118(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18204,7 +19051,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListAuthorizationRolesControllerRequest" });
   }
 }
-function __c119(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18227,24 +19074,24 @@ function __c119(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          granted_scopes: __S(10048, __c314, 0),
+          granted_scopes: __S(10336, __c323, 0),
           oauth_resource: S.optional(S.String),
-          application: __S(1410, __c44, 2),
+          application: __S(1314, __c41, 2),
         }),
       ).annotate({ identifier: "AuthorizedConnectApplicationListDataItem" });
     case 2:
-      return S.Array(__S(3809, __c119, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3810, __c119, 2)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4066, __c127, 2)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "AuthorizedConnectApplicationList" });
   }
 }
-function __c120(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18257,94 +19104,22 @@ function __c120(j: number): any {
           domain: S.optional(S.String.pipe(T.Query())),
           organization_id: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/connections", code: 200 })),
       ).annotate({ identifier: "ListConnectionsControllerRequest" });
     case 1:
-      return S.Array(__S(8002, __c250, 2));
+      return S.Array(__S(7970, __c249, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(3841, __c120, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4097, __c128, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "ConnectionList" });
   }
 }
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actionName: S.String.pipe(T.Label()),
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/audit_logs/actions/{actionName}/schemas", code: 200 }),
-        ),
-      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasRequest" });
-    case 1:
-      return S.Array(__S(3939, __c123, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(3873, __c121, 1)),
-        }),
-      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasResponse" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          before: S.NullOr(S.String),
-          after: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogValidatorVersionsControllerSchemasResponseListMetadata" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: __S(3968, __c124, 0),
-        }),
-      ).annotate({ identifier: "AuditLogSchemaJsonActor" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          metadata: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "AuditLogSchemaJsonTargetsItem" });
-    case 2:
-      return S.Array(__S(3937, __c123, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          version: S.optional(S.Number),
-          actor: S.optional(__S(3936, __c123, 0)),
-          targets: S.optional(__S(3938, __c123, 2)),
-          metadata: S.optional(__S(3968, __c124, 0)),
-          created_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogSchemaJson" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18356,18 +19131,18 @@ function __c125(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user_management/cors_origins", code: 200 })),
       ).annotate({ identifier: "ListCorsOriginsControllerRequest" });
     case 1:
-      return S.Array(__S(8960, __c280, 0));
+      return S.Array(__S(9248, __c289, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(4001, __c125, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(4129, __c129, 1)),
         }),
       ).annotate({ identifier: "ListCorsOriginsControllerResponse" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18380,18 +19155,18 @@ function __c126(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/data-integrations", code: 200 })),
       ).annotate({ identifier: "ListDataIntegrationsManagementControllerDataIntegrationsRequest" });
     case 1:
-      return S.Array(__S(9123, __c285, 3));
+      return S.Array(__S(9411, __c294, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4033, __c126, 1),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(4161, __c130, 1),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "DataIntegrationList" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18406,75 +19181,104 @@ function __c127(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/directories", code: 200 })),
       ).annotate({ identifier: "ListDirectoriesControllerRequest" });
     case 1:
-      return S.Array(__S(354, __c11, 2));
+      return S.Array(__S(450, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4065, __c127, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4193, __c131, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "DirectoryList" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          directoryId: S.String.pipe(T.Label()),
           before: S.optional(S.String.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
-          directory: S.optional(S.String.pipe(T.Query())),
           user: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/directory_groups", code: 200 })),
-      ).annotate({ identifier: "ListDirectoryGroupsControllerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          data: S.optional(__S(480, __c15, 0)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-        }),
-      ).annotate({ identifier: "DirectoryGroupList" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          directory: S.optional(S.String.pipe(T.Query())),
-          group: S.optional(S.String.pipe(T.Query())),
-          idp_id: S.optional(S.String.pipe(T.Query())),
-          email: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/directory_users", code: 200 })),
-      ).annotate({ identifier: "ListDirectoryUsersControllerRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/directories/{directoryId}/groups", code: 200 })),
+      ).annotate({ identifier: "ListDirectoriesGroupsControllerRequest" });
     case 1:
       return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4129, __c129, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(4225, __c132, 1)),
         }),
-      ).annotate({ identifier: "DirectoryUserList" });
+      ).annotate({ identifier: "ListDirectoriesGroupsControllerResponse" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          sms_template: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/auth/factors/{id}/challenge", code: 200 })),
+      ).annotate({ identifier: "AuthenticationFactorsControllerChallengeRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          expires_at: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authentication_factor_id: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthenticationChallenge" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directoryId: S.String.pipe(T.Label()),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          idp_id: S.optional(S.String.pipe(T.Query())),
+          email: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/directories/{directoryId}/users", code: 200 })),
+      ).annotate({ identifier: "ListDirectoriesUsersControllerRequest" });
+    case 1:
+      return S.Array(__S(578, __c18, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(4321, __c135, 1)),
+        }),
+      ).annotate({ identifier: "ListDirectoriesUsersControllerResponse" });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          events: __S(10048, __c314, 0).pipe(T.Query()),
+          events: __S(10336, __c323, 0).pipe(T.Query()),
           range_start: S.optional(S.String.pipe(T.Query())),
           range_end: S.optional(S.String.pipe(T.Query())),
           organization_id: S.optional(S.String.pipe(T.Query())),
@@ -18507,20 +19311,12 @@ function __c130(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          message: S.String,
-          radar_detection_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EventSchemaDataError" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           organization_id: S.NullOr(S.String),
           connection_id: S.NullOr(S.String),
           session_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "EventSchemaDataSso" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
@@ -18535,48 +19331,25 @@ function __c130(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "EventSchemaDataDomainsItem" });
+    case 6:
+      return S.Array(__S(4357, __c136, 5));
     case 7:
-      return S.Array(__S(4166, __c130, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           organization_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventSchemaDataConnection" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           certificate_type: S.String,
           expiry_date: S.String,
           is_expired: S.Boolean,
+          previous_expiry_date: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventSchemaDataCertificate" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          directory_id: S.String,
-          organization_id: S.String,
-          idp_id: S.String,
-          email: S.NullOr(S.String),
-          first_name: S.optional(S.NullOr(S.String)),
-          last_name: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          emails: S.optional(__S(545, __c17, 1)),
-          job_title: S.optional(S.NullOr(S.String)),
-          username: S.optional(S.NullOr(S.String)),
-          state: S.String,
-          raw_attributes: __S(3968, __c124, 0),
-          custom_attributes: __S(3968, __c124, 0),
-          role: S.optional(__S(2464, __c77, 0)),
-          roles: S.optional(__S(10304, __c322, 0)),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "DirectoryUser" });
-    case 11:
+    case 9:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -18593,10 +19366,11 @@ function __c130(j: number): any {
             id: S.optional(S.String),
             name: S.optional(S.String),
             description: S.optional(S.NullOr(S.String)),
-            permissions: S.optional(__S(10048, __c314, 0)),
-            invocable_by: S.optional(__S(8193, __c256, 1)),
-            invocable_as: S.optional(__S(8194, __c256, 2)),
-            session_settings: S.optional(__S(8192, __c256, 0)),
+            permissions: S.optional(__S(10336, __c323, 0)),
+            scoped_permissions: S.optional(__S(8354, __c261, 2)),
+            invocable_by: S.optional(__S(8355, __c261, 3)),
+            invocable_as: S.optional(__S(8356, __c261, 4)),
+            session_settings: S.optional(__S(8353, __c261, 1)),
             created_at: S.optional(S.String),
             updated_at: S.optional(S.String),
             agent_blueprint_id: S.optional(S.String),
@@ -18604,14 +19378,14 @@ function __c130(j: number): any {
             agent_instance_id: S.optional(S.String),
             expires_at: S.optional(S.String),
             revoked_at: S.optional(S.NullOr(S.String)),
-            permission_slugs: S.optional(__S(10048, __c314, 0)),
+            permission_slugs: S.optional(__S(10336, __c323, 0)),
             agent_registration_id: S.optional(S.String),
             agent_registration_claim_id: S.optional(S.String),
             login_hint: S.optional(S.String),
             completed_by_attempt_id: S.optional(S.String),
-            claimed_by: S.optional(__S(4161, __c130, 1)),
+            claimed_by: S.optional(__S(4353, __c136, 1)),
             completed_at: S.optional(S.String),
-            agent_identity: S.optional(__S(4162, __c130, 2)),
+            agent_identity: S.optional(__S(4354, __c136, 2)),
             status: S.optional(S.String),
             kind: S.optional(S.String),
             method: S.optional(S.String),
@@ -18621,40 +19395,48 @@ function __c130(j: number): any {
             owner: S.optional(S.Unknown),
             obfuscated_value: S.optional(S.String),
             last_used_at: S.optional(S.NullOr(S.String)),
-            previous_attributes: S.optional(__S(4163, __c130, 3)),
-            error: S.optional(__S(4164, __c130, 4)),
+            previous_attributes: S.optional(__S(4355, __c136, 3)),
+            grant_type: S.optional(S.String),
+            client_id: S.optional(S.String),
+            issuer: S.optional(S.NullOr(S.String)),
+            unverified_email_domain: S.optional(S.NullOr(S.String)),
+            signature_verified: S.optional(S.Boolean),
+            error: S.optional(__S(5184, __c162, 0)),
+            connection_id: S.optional(S.NullOr(S.String)),
+            jti: S.optional(S.String),
             provider: S.optional(S.String),
             auth_method: S.optional(S.String),
             action: S.optional(S.String),
             control: S.optional(S.NullOr(S.String)),
             blocklist_type: S.optional(S.NullOr(S.String)),
             radar_detection_id: S.optional(S.String),
-            sso: S.optional(__S(4165, __c130, 5)),
+            sso: S.optional(__S(4356, __c136, 4)),
             state: S.optional(S.String),
             connection_type: S.optional(S.String),
             external_key: S.optional(S.String),
-            domains: S.optional(__S(4167, __c130, 7)),
-            connection: S.optional(__S(4168, __c130, 8)),
-            certificate: S.optional(__S(4169, __c130, 9)),
+            domains: S.optional(__S(4358, __c136, 6)),
+            connection: S.optional(__S(4359, __c136, 7)),
+            certificate: S.optional(__S(4360, __c136, 8)),
             days_until_expiry: S.optional(S.Number),
             renewed_at: S.optional(S.String),
+            replaced_at: S.optional(S.String),
             idp_id: S.optional(S.String),
             directory_id: S.optional(S.String),
-            raw_attributes: S.optional(__S(3968, __c124, 0)),
+            raw_attributes: S.optional(__S(3872, __c121, 0)),
             token_suffix: S.optional(S.String),
-            user: S.optional(__S(4170, __c130, 10)),
-            group: S.optional(__S(416, __c13, 0)),
+            user: S.optional(__S(578, __c18, 2)),
+            group: S.optional(__S(512, __c16, 0)),
             first_name: S.optional(S.NullOr(S.String)),
             last_name: S.optional(S.NullOr(S.String)),
-            emails: S.optional(__S(545, __c17, 1)),
+            emails: S.optional(__S(577, __c18, 1)),
             job_title: S.optional(S.NullOr(S.String)),
             username: S.optional(S.NullOr(S.String)),
-            custom_attributes: S.optional(__S(3968, __c124, 0)),
-            role: S.optional(__S(2464, __c77, 0)),
-            roles: S.optional(__S(10304, __c322, 0)),
+            custom_attributes: S.optional(__S(3872, __c121, 0)),
+            role: S.optional(__S(2368, __c74, 0)),
+            roles: S.optional(__S(10656, __c333, 0)),
             environment_id: S.optional(S.String),
             slug: S.optional(S.String),
-            tags: S.optional(__S(10048, __c314, 0)),
+            tags: S.optional(__S(10336, __c323, 0)),
             enabled: S.optional(S.Boolean),
             default_value: S.optional(S.Boolean),
             flag_id: S.optional(S.String),
@@ -18668,7 +19450,7 @@ function __c130(j: number): any {
             inviter_user_id: S.optional(S.NullOr(S.String)),
             accepted_user_id: S.optional(S.NullOr(S.String)),
             role_slug: S.optional(S.NullOr(S.String)),
-            metadata: S.optional(__S(1888, __c59, 0)),
+            metadata: S.optional(__S(1760, __c55, 0)),
             external_id: S.optional(S.NullOr(S.String)),
             stripe_customer_id: S.optional(S.String),
             domain: S.optional(S.String),
@@ -18676,7 +19458,7 @@ function __c130(j: number): any {
             verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             verification_strategy: S.optional(S.String),
             reason: S.optional(S.String),
-            organization_domain: S.optional(__S(9600, __c300, 0)),
+            organization_domain: S.optional(__S(9952, __c311, 0)),
             directory_managed: S.optional(S.Boolean),
             resource_type_slug: S.optional(S.String),
             system: S.optional(S.Boolean),
@@ -18689,13 +19471,13 @@ function __c130(j: number): any {
             provider_error_description: S.optional(S.NullOr(S.String)),
             connection_role: S.optional(S.String),
             account_display_name: S.optional(S.NullOr(S.String)),
-            scopes: S.optional(__S(10048, __c314, 0)),
+            scopes: S.optional(__S(10336, __c323, 0)),
             api_key_last_4: S.optional(S.NullOr(S.String)),
             established_by_user_id: S.optional(S.NullOr(S.String)),
             state_reason: S.optional(S.NullOr(S.String)),
             radar_challenge_id: S.optional(S.String),
             resource_type: S.optional(S.String),
-            impersonator: S.optional(__S(4192, __c131, 0)),
+            impersonator: S.optional(__S(4384, __c137, 0)),
             ended_at: S.optional(S.NullOr(S.String)),
             profile_picture_url: S.optional(S.NullOr(S.String)),
             email_verified: S.optional(S.Boolean),
@@ -18708,17 +19490,17 @@ function __c130(j: number): any {
             actor_name: S.optional(S.String),
             kv_name: S.optional(S.String),
             key_id: S.optional(S.String),
-            key_context: S.optional(__S(1888, __c59, 0)),
-            key_ids: S.optional(__S(10048, __c314, 0)),
+            key_context: S.optional(__S(1760, __c55, 0)),
+            key_ids: S.optional(__S(10336, __c323, 0)),
             key_name: S.optional(S.String),
             approved_at: S.optional(S.NullOr(S.String)),
-            additional_fields: S.optional(__S(1888, __c59, 0)),
+            additional_fields: S.optional(__S(1760, __c55, 0)),
             waitlist_id: S.optional(S.NullOr(S.String)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "EventSchemaData" });
-    case 12:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           containerId: S.String,
@@ -18726,9 +19508,9 @@ function __c130(j: number): any {
           sessionNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventSchemaContextGoogleAnalyticsSessionsItem" });
-    case 13:
-      return S.Array(__S(4172, __c130, 12));
-    case 14:
+    case 11:
+      return S.Array(__S(4362, __c136, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18736,19 +19518,19 @@ function __c130(j: number): any {
           name: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "EventContextActorDto" });
-    case 15:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Boolean),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(10048, __c314, 0)),
-          owner: S.optional(S.NullOr(__S(640, __c20, 0))),
+          tags: S.optional(__S(10336, __c323, 0)),
+          owner: S.optional(S.NullOr(__S(672, __c21, 0))),
           enabled: S.optional(S.Boolean),
           default_value: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EventSchemaContextPreviousAttributesData" });
-    case 16:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18757,78 +19539,78 @@ function __c130(j: number): any {
       ).annotate({
         identifier: "EventSchemaContextPreviousAttributesContextConfiguredTargetsUsersItem",
       });
-    case 17:
-      return S.Array(__S(4176, __c130, 16));
-    case 18:
+    case 15:
+      return S.Array(__S(4366, __c136, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          organizations: __S(11424, __c357, 0),
-          users: __S(4177, __c130, 17),
+          organizations: __S(11744, __c367, 0),
+          users: __S(4367, __c136, 15),
         }),
       ).annotate({ identifier: "EventSchemaContextPreviousAttributesContextConfiguredTargets" });
-    case 19:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           access_type: S.optional(S.String),
-          configured_targets: S.optional(__S(4178, __c130, 18)),
+          configured_targets: S.optional(__S(4368, __c136, 16)),
         }),
       ).annotate({ identifier: "EventSchemaContextPreviousAttributesContext" });
-    case 20:
+    case 18:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            data: S.optional(__S(4175, __c130, 15)),
-            context: S.optional(__S(4179, __c130, 19)),
+            data: S.optional(__S(4365, __c136, 13)),
+            context: S.optional(__S(4369, __c136, 17)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "EventSchemaContextPreviousAttributes" });
-    case 21:
+    case 19:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             google_analytics_client_id: S.optional(S.String),
-            google_analytics_sessions: S.optional(__S(4173, __c130, 13)),
+            google_analytics_sessions: S.optional(__S(4363, __c136, 11)),
             ajs_anonymous_id: S.optional(S.String),
             client_id: S.optional(S.String),
-            actor: S.optional(__S(4174, __c130, 14)),
-            previous_attributes: S.optional(__S(4180, __c130, 20)),
+            actor: S.optional(__S(4364, __c136, 12)),
+            previous_attributes: S.optional(__S(4370, __c136, 18)),
             access_type: S.optional(S.String),
-            configured_targets: S.optional(__S(4178, __c130, 18)),
+            configured_targets: S.optional(__S(4368, __c136, 16)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "EventSchemaContext" });
-    case 22:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
           event: S.String,
-          data: __S(4171, __c130, 11),
+          data: __S(4361, __c136, 9),
           created_at: S.String,
-          context: S.optional(__S(4181, __c130, 21)),
+          context: S.optional(__S(4371, __c136, 19)),
         }),
       ).annotate({ identifier: "EventSchema" });
-    case 23:
-      return S.Array(__S(4182, __c130, 22));
-    case 24:
+    case 21:
+      return S.Array(__S(4372, __c136, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           after: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "EventListListMetadata" });
-    case 25:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4183, __c130, 23)),
-          list_metadata: S.optional(__S(4184, __c130, 24)),
+          data: S.optional(__S(4373, __c136, 21)),
+          list_metadata: S.optional(__S(4374, __c136, 22)),
         }),
       ).annotate({ identifier: "EventList" });
   }
 }
-function __c131(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18839,7 +19621,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "EventSchemaDataImpersonator" });
   }
 }
-function __c132(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18852,21 +19634,21 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListFeatureFlagsControllerRequest" });
   }
 }
-function __c133(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(864, __c27, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4256, __c133, 0)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4448, __c139, 0)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "FlagList" });
   }
 }
-function __c134(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18895,24 +19677,24 @@ function __c134(j: number): any {
           status: S.String,
           directory_managed: S.Boolean,
           organization_name: S.optional(S.String),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
+          custom_attributes: S.optional(__S(3872, __c121, 0)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "UserlandUserOrganizationMembershipBaseListDataItem" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4290, __c134, 2)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4482, __c140, 2)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "UserlandUserOrganizationMembershipBaseList" });
   }
 }
-function __c135(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18929,21 +19711,47 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListGroupsControllerRequest" });
   }
 }
-function __c136(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11008, __c344, 0));
+      return S.Array(__S(11328, __c354, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4352, __c136, 0)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4544, __c142, 0)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "GroupList" });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/organizations/{organization_id}/issuer_trusts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListIssuerTrustsControllerRequest" });
+    case 1:
+      return S.Array(__S(9632, __c301, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          data: __S(4577, __c143, 1),
+          list_metadata: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "IssuerTrustList" });
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18954,45 +19762,18 @@ function __c137(j: number): any {
         ),
       ).annotate({ identifier: "ListItContactsControllerRequest" });
     case 1:
-      return S.Array(__S(9344, __c292, 0));
+      return S.Array(__S(9760, __c305, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4385, __c137, 1),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(4609, __c144, 1),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ItContactList" });
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          sms_template: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/auth/factors/{id}/challenge", code: 200 })),
-      ).annotate({ identifier: "AuthenticationFactorsControllerChallengeRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          expires_at: S.optional(S.String),
-          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authentication_factor_id: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthenticationChallenge" });
-  }
-}
-function __c140(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19011,29 +19792,29 @@ function __c140(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          owner: __S(9536, __c298, 0),
+          owner: __S(9888, __c309, 0),
           name: S.String,
           obfuscated_value: S.String,
           last_used_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "OrganizationApiKey" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4482, __c140, 2),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(4642, __c145, 2),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "OrganizationApiKeyList" });
   }
 }
-function __c141(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19056,25 +19837,25 @@ function __c141(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          granted_scopes: __S(10048, __c314, 0),
+          granted_scopes: __S(10336, __c323, 0),
           oauth_resource: S.optional(S.String),
-          application: __S(1410, __c44, 2),
+          application: __S(1314, __c41, 2),
           user_id: S.String,
         }),
       ).annotate({ identifier: "OrganizationAuthorizedConnectApplicationListDataItem" });
     case 2:
-      return S.Array(__S(4513, __c141, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4514, __c141, 2),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(4674, __c146, 2),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "OrganizationAuthorizedConnectApplicationList" });
   }
 }
-function __c142(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19094,7 +19875,35 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ListOrganizationFeatureFlagsControllerRequest" });
   }
 }
-function __c143(j: number): any {
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/authorization/permissions/{slug}", code: 200 })),
+      ).annotate({ identifier: "AuthorizationPermissionsControllerFindRequest" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          slug: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          system: S.optional(S.Boolean),
+          resource_type_slug: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizationPermission" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19114,7 +19923,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ListOrganizationMembershipGroupsControllerGroupsRequest" });
   }
 }
-function __c144(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19123,28 +19932,29 @@ function __c144(j: number): any {
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
-          domains: S.optional(__S(10048, __c314, 0).pipe(T.Query())),
+          domains: S.optional(__S(10336, __c323, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsControllerRequest" });
     case 1:
-      return S.Array(__S(9665, __c302, 1));
+      return S.Array(__S(10017, __c313, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(4609, __c144, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(4833, __c151, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "OrganizationList" });
   }
 }
-function __c145(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
+          ownership: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -19154,17 +19964,17 @@ function __c145(j: number): any {
         ),
       ).annotate({ identifier: "ListProviderControllerForOrganizationRequest" });
     case 1:
-      return S.Array(__S(4673, __c146, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4641, __c145, 1),
+          data: __S(4865, __c152, 1),
         }),
       ).annotate({ identifier: "DataIntegrationConfigurationListResponse" });
   }
 }
-function __c146(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19185,16 +19995,16 @@ function __c146(j: number): any {
           slug: S.String,
           name: S.String,
           enabled: S.Boolean,
-          scopes: S.NullOr(__S(10048, __c314, 0)),
-          config: __S(1888, __c59, 0),
+          scopes: S.NullOr(__S(10336, __c323, 0)),
+          config: __S(1760, __c55, 0),
           created_at: S.String,
           updated_at: S.String,
-          credentials: S.optional(__S(4672, __c146, 0)),
+          credentials: S.optional(__S(4896, __c153, 0)),
         }),
       ).annotate({ identifier: "DataIntegrationConfigurationResponse" });
   }
 }
-function __c147(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19206,18 +20016,18 @@ function __c147(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user_management/redirect_uris", code: 200 })),
       ).annotate({ identifier: "ListRedirectUrisControllerRequest" });
     case 1:
-      return S.Array(__S(9792, __c306, 0));
+      return S.Array(__S(10144, __c317, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(4705, __c147, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(4929, __c154, 1)),
         }),
       ).annotate({ identifier: "ListRedirectUrisControllerResponse" });
   }
 }
-function __c148(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19233,20 +20043,20 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ListSamlIdpSigningCertificatesControllerRequest" });
   }
 }
-function __c149(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9856, __c308, 0));
+      return S.Array(__S(10208, __c319, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4768, __c149, 0),
+          data: __S(4992, __c156, 0),
         }),
       ).annotate({ identifier: "SamlIdpSigningCertificateList" });
   }
 }
-function __c150(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19262,7 +20072,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ListSamlSpEncryptionCertificatesControllerRequest" });
   }
 }
-function __c151(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19282,57 +20092,29 @@ function __c151(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          owner: __S(10144, __c317, 0),
+          owner: __S(10496, __c328, 0),
           name: S.String,
           obfuscated_value: S.String,
           last_used_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "UserApiKey" });
     case 2:
-      return S.Array(__S(4833, __c151, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4834, __c151, 2),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(5058, __c158, 2),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "UserApiKeyList" });
   }
 }
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/authorization/permissions/{slug}", code: 200 })),
-      ).annotate({ identifier: "AuthorizationPermissionsControllerFindRequest" });
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          slug: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          system: S.optional(S.Boolean),
-          resource_type_slug: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizationPermission" });
-  }
-}
-function __c154(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19352,7 +20134,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ListUserlandUserFeatureFlagsControllerRequest" });
   }
 }
-function __c155(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19366,144 +20148,15 @@ function __c155(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user_management/invitations", code: 200 })),
       ).annotate({ identifier: "ListUserlandUserInvitesControllerRequest" });
     case 1:
-      return S.Array(__S(10208, __c319, 0));
+      return S.Array(__S(10560, __c330, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(4961, __c155, 1),
-          list_metadata: __S(3904, __c122, 0),
+          data: __S(5121, __c160, 1),
+          list_metadata: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "UserlandUserInviteList" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          statuses: S.optional(__S(8288, __c259, 0).pipe(T.Query())),
-          user_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/user_management/organization_memberships", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListUserlandUserOrganizationMembershipsControllerRequest" });
-    case 1:
-      return S.Array(__S(2304, __c72, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          data: __S(4993, __c156, 1),
-          list_metadata: __S(3904, __c122, 0),
-        }),
-      ).annotate({ identifier: "UserlandUserOrganizationMembershipList" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/user_management/users/{id}/sessions", code: 200 })),
-      ).annotate({ identifier: "ListUserlandUserSessionsControllerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          impersonator: S.optional(__S(4192, __c131, 0)),
-          ip_address: S.NullOr(S.String),
-          organization_id: S.optional(S.String),
-          user_agent: S.NullOr(S.String),
-          user_id: S.String,
-          auth_method: S.String,
-          status: S.String,
-          expires_at: S.String,
-          ended_at: S.NullOr(S.String),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "ListUserlandUserSessionsControllerResponseDataItem" });
-    case 2:
-      return S.Array(__S(5025, __c157, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(5026, __c157, 2)),
-        }),
-      ).annotate({ identifier: "ListUserlandUserSessionsControllerResponse" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user_management/waitlists", code: 200 })),
-      ).annotate({ identifier: "ListWaitlistsControllerRequest" });
-    case 1:
-      return S.Array(__S(5088, __c159, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          data: __S(5057, __c158, 1),
-          list_metadata: __S(3904, __c122, 0),
-        }),
-      ).annotate({ identifier: "ListWaitlistsControllerResponse" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "Waitlist" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-          email: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/user_management/waitlists/{id}/entries", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListWaitlistsControllerEntriesRequest" });
-    case 1:
-      return S.Array(__S(1920, __c60, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
-          data: S.optional(__S(5121, __c160, 1)),
-        }),
-      ).annotate({ identifier: "ListWaitlistsControllerEntriesResponse" });
   }
 }
 function __c161(j: number): any {
@@ -19515,18 +20168,23 @@ function __c161(j: number): any {
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/webhook_endpoints", code: 200 })),
-      ).annotate({ identifier: "ListWebhookEndpointsControllerRequest" });
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          statuses: S.optional(__S(8448, __c264, 0).pipe(T.Query())),
+          user_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/user_management/organization_memberships", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListUserlandUserOrganizationMembershipsControllerRequest" });
     case 1:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(2528, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(S.String),
-          data: S.optional(__S(5153, __c161, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          object: S.String,
+          data: __S(5153, __c161, 1),
+          list_metadata: __S(3808, __c119, 0),
         }),
-      ).annotate({ identifier: "WebhookEndpointList" });
+      ).annotate({ identifier: "UserlandUserOrganizationMembershipList" });
   }
 }
 function __c162(j: number): any {
@@ -19534,33 +20192,14 @@ function __c162(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "GET", uri: "/sso/logout", code: 200 })),
-      ).annotate({ identifier: "LogoutSsoControllerRequest" });
+          code: S.String,
+          message: S.String,
+          radar_detection_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventSchemaDataError" });
   }
 }
 function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          session_id: S.String.pipe(T.Query()),
-          return_to: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/user_management/sessions/logout", code: 200 })),
-      ).annotate({ identifier: "LogoutUserlandSessionsControllerRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}", code: 200 })),
-      ).annotate({ identifier: "OrganizationsControllerFindRequest" });
-  }
-}
-function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19572,7 +20211,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "AuthorizationResourcesControllerFindByIdRequest" });
   }
 }
-function __c166(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19591,14 +20230,169 @@ function __c166(j: number): any {
       ).annotate({ identifier: "AuthorizationResource" });
   }
 }
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/user_management/users/{id}/sessions", code: 200 })),
+      ).annotate({ identifier: "ListUserlandUserSessionsControllerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          impersonator: S.optional(__S(4384, __c137, 0)),
+          ip_address: S.NullOr(S.String),
+          organization_id: S.optional(S.String),
+          user_agent: S.NullOr(S.String),
+          user_id: S.String,
+          auth_method: S.String,
+          status: S.String,
+          expires_at: S.String,
+          ended_at: S.NullOr(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "ListUserlandUserSessionsControllerResponseDataItem" });
+    case 2:
+      return S.Array(__S(5281, __c165, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(5282, __c165, 2)),
+        }),
+      ).annotate({ identifier: "ListUserlandUserSessionsControllerResponse" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user_management/waitlists", code: 200 })),
+      ).annotate({ identifier: "ListWaitlistsControllerRequest" });
+    case 1:
+      return S.Array(__S(5344, __c167, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          data: __S(5313, __c166, 1),
+          list_metadata: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "ListWaitlistsControllerResponse" });
+  }
+}
 function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          object: S.String,
+          id: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "Waitlist" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          email: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/user_management/waitlists/{id}/entries", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListWaitlistsControllerEntriesRequest" });
+    case 1:
+      return S.Array(__S(1792, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+          data: S.optional(__S(5377, __c168, 1)),
+        }),
+      ).annotate({ identifier: "ListWaitlistsControllerEntriesResponse" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/webhook_endpoints", code: 200 })),
+      ).annotate({ identifier: "ListWebhookEndpointsControllerRequest" });
+    case 1:
+      return S.Array(__S(10784, __c337, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          data: S.optional(__S(5409, __c169, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "WebhookEndpointList" });
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "GET", uri: "/sso/logout", code: 200 })),
+      ).annotate({ identifier: "LogoutSsoControllerRequest" });
+  }
+}
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          session_id: S.String.pipe(T.Query()),
+          return_to: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/user_management/sessions/logout", code: 200 })),
+      ).annotate({ identifier: "LogoutUserlandSessionsControllerRequest" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}", code: 200 })),
+      ).annotate({ identifier: "OrganizationsControllerFindRequest" });
+  }
+}
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           group_id: S.String.pipe(T.Label()),
-          add: S.optional(__S(5377, __c168, 1)),
-          remove: S.optional(__S(5377, __c168, 1)),
+          add: S.optional(__S(5569, __c174, 1)),
+          remove: S.optional(__S(5569, __c174, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -19611,7 +20405,7 @@ function __c167(j: number): any {
       });
   }
 }
-function __c168(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19623,18 +20417,38 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "ReplaceGroupRoleAssignmentEntryDto" });
     case 1:
-      return S.Array(__S(5376, __c168, 0));
+      return S.Array(__S(5568, __c174, 0));
   }
 }
-function __c169(j: number): any {
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_membership_id: S.String.pipe(T.Label()),
+          add: S.optional(__S(5569, __c174, 1)),
+          remove: S.optional(__S(5569, __c174, 1)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/authorization/organization_memberships/{organization_membership_id}/role_assignments",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "PatchAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest",
+      });
+  }
+}
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          standard_attributes: S.optional(__S(8896, __c278, 0)),
-          custom_attributes: S.optional(__S(5408, __c169, 0)),
+          standard_attributes: S.optional(__S(9184, __c287, 0)),
+          custom_attributes: S.optional(__S(5632, __c176, 0)),
         }),
       ).annotate({ identifier: "PatchConnectionAttributeMapsDto" });
     case 2:
@@ -19667,25 +20481,55 @@ function __c169(j: number): any {
           name: S.optional(S.String),
           external_id: S.optional(S.NullOr(S.String)),
           connection_type: S.optional(S.String),
-          attribute_maps: S.optional(__S(5409, __c169, 1)),
-          saml_options: S.optional(__S(5410, __c169, 2)),
-          oidc_options: S.optional(__S(5411, __c169, 3)),
+          attribute_maps: S.optional(__S(5633, __c176, 1)),
+          saml_options: S.optional(__S(5634, __c176, 2)),
+          oidc_options: S.optional(__S(5635, __c176, 3)),
         }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}", code: 200 })),
       ).annotate({ identifier: "PatchConnectionsControllerRequest" });
   }
 }
-function __c170(j: number): any {
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider_scopes: S.optional(__S(10336, __c323, 0).pipe(T.Query())),
+          provider_query_params: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          client_id: S.String.pipe(T.Query()),
+          domain: S.optional(S.String.pipe(T.Query())),
+          provider: S.optional(S.String.pipe(T.Query())),
+          redirect_uri: S.String.pipe(T.Query()),
+          response_type: S.String.pipe(T.Query()),
+          state: S.optional(S.String.pipe(T.Query())),
+          connection: S.optional(S.String.pipe(T.Query())),
+          organization: S.optional(S.String.pipe(T.Query())),
+          domain_hint: S.optional(S.String.pipe(T.Query())),
+          login_hint: S.optional(S.String.pipe(T.Query())),
+          nonce: S.optional(S.String.pipe(T.Query())),
+          prompt: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sso/authorize", code: 200 })),
+      ).annotate({ identifier: "AuthorizeSsoControllerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SsoAuthorizeUrlResponse" });
+  }
+}
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           slug: S.String.pipe(T.Label()),
+          ownership: S.optional(S.String.pipe(T.Query())),
           enabled: S.optional(S.Boolean),
-          scopes: S.optional(S.NullOr(__S(10048, __c314, 0))),
+          scopes: S.optional(S.NullOr(__S(10336, __c323, 0))),
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19696,7 +20540,140 @@ function __c170(j: number): any {
       ).annotate({ identifier: "ProviderControllerConfigureRequest" });
   }
 }
-function __c171(j: number): any {
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/radar/detections/{id}", code: 200 })),
+      ).annotate({ identifier: "RadarDetectionsControllerFindRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          action: S.NullOr(S.String),
+          name: S.NullOr(S.String),
+          workos_managed: S.Boolean,
+        }),
+      ).annotate({ identifier: "RadarDetectionList" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          list_id: S.String,
+          list: S.NullOr(__S(5729, __c179, 1)),
+          entry: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RadarDetectionAllowedBy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          signal: S.String,
+          action: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RadarDetectionBotDetectionSignal" });
+    case 4:
+      return S.Array(__S(5731, __c179, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          window_minutes: S.Number,
+        }),
+      ).annotate({ identifier: "RadarDetectionIpSignUps" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          root_domain: S.String,
+          count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RadarDetectionDomainSignUps" });
+    case 7:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(5729, __c179, 1)));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          city: S.NullOr(S.String),
+          country: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "RadarDetectionPreviousAttemptLocation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          attempt_id: S.String,
+          ip_address: S.optional(S.String),
+          user_agent: S.optional(S.NullOr(S.String)),
+          location: __S(5736, __c179, 8),
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "RadarDetectionPreviousAttempt" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          signals: S.optional(__S(5732, __c179, 4)),
+          decided_by: S.optional(S.String),
+          ip_risk: S.optional(__S(8448, __c264, 0)),
+          email_pattern: S.optional(__S(8448, __c264, 0)),
+          browser_signals: S.optional(__S(8448, __c264, 0)),
+          ip_sign_ups: S.optional(__S(5733, __c179, 5)),
+          domain_sign_ups: S.optional(__S(5734, __c179, 6)),
+          attempts: S.optional(S.Number),
+          window_minutes: S.optional(S.Number),
+          matched_on: S.optional(S.String),
+          list_id: S.optional(S.String),
+          list: S.optional(S.NullOr(__S(5729, __c179, 1))),
+          also_matched_list_ids: S.optional(__S(10336, __c323, 0)),
+          also_matched_lists: S.optional(__S(5735, __c179, 7)),
+          matched_domain: S.optional(S.String),
+          previous: S.optional(__S(5737, __c179, 9)),
+          distance_km: S.optional(S.Number),
+          speed_km_per_s: S.optional(S.Number),
+          prior_sign_ups: S.optional(S.Number),
+          window_days: S.optional(S.Number),
+          matched_user_id: S.optional(S.String),
+          last_activity_at: S.optional(S.NullOr(S.String)),
+          previous_device: S.optional(S.NullOr(__S(5737, __c179, 9))),
+          type: S.optional(S.String),
+          entry: S.optional(S.String),
+          trigger: S.optional(S.String),
+          phone_country: S.optional(S.String),
+          line_type: S.optional(S.String),
+          masked_phone_number: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RadarDetectionEvidenceDetails" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          summary: S.String,
+          allowed_by: S.optional(__S(5730, __c179, 2)),
+          control: S.optional(S.String),
+          details: S.optional(__S(5738, __c179, 10)),
+        }),
+      ).annotate({ identifier: "RadarDetectionEvidence" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          attempt_id: S.String,
+          control: S.String,
+          verdict: S.String,
+          challenge_type: S.NullOr(S.String),
+          evidence: S.NullOr(__S(5739, __c179, 11)),
+          ip_address: S.String,
+          location: __S(5736, __c179, 8),
+          user_agent: S.String,
+          email: S.String,
+          user_id: S.NullOr(S.String),
+          action: S.NullOr(S.String),
+          auth_method: S.NullOr(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "RadarDetection" });
+  }
+}
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19721,7 +20698,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "RadarStandaloneResponse" });
   }
 }
-function __c172(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19733,7 +20710,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "RadarStandaloneControllerDeleteRadarListEntryRequest" });
   }
 }
-function __c173(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19751,7 +20728,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "RadarListEntryAlreadyPresentResponse" });
   }
 }
-function __c174(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19770,7 +20747,7 @@ function __c174(j: number): any {
       });
   }
 }
-function __c175(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19792,7 +20769,7 @@ function __c175(j: number): any {
       });
   }
 }
-function __c176(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19812,7 +20789,7 @@ function __c176(j: number): any {
       });
   }
 }
-function __c177(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19834,36 +20811,7 @@ function __c177(j: number): any {
       });
   }
 }
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider_scopes: S.optional(__S(10048, __c314, 0).pipe(T.Query())),
-          provider_query_params: S.optional(__S(1888, __c59, 0).pipe(T.Query())),
-          client_id: S.String.pipe(T.Query()),
-          domain: S.optional(S.String.pipe(T.Query())),
-          provider: S.optional(S.String.pipe(T.Query())),
-          redirect_uri: S.String.pipe(T.Query()),
-          response_type: S.String.pipe(T.Query()),
-          state: S.optional(S.String.pipe(T.Query())),
-          connection: S.optional(S.String.pipe(T.Query())),
-          organization: S.optional(S.String.pipe(T.Query())),
-          domain_hint: S.optional(S.String.pipe(T.Query())),
-          login_hint: S.optional(S.String.pipe(T.Query())),
-          nonce: S.optional(S.String.pipe(T.Query())),
-          prompt: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/sso/authorize", code: 200 })),
-      ).annotate({ identifier: "AuthorizeSsoControllerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SsoAuthorizeUrlResponse" });
-  }
-}
-function __c179(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19880,7 +20828,41 @@ function __c179(j: number): any {
       ).annotate({ identifier: "RemoveAuthorizationRoleAssignmentsControllerRoleByIdRequest" });
   }
 }
-function __c180(j: number): any {
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code_challenge_method: S.optional(S.String.pipe(T.Query())),
+          code_challenge: S.optional(S.String.pipe(T.Query())),
+          domain_hint: S.optional(S.String.pipe(T.Query())),
+          connection_id: S.optional(S.String.pipe(T.Query())),
+          provider_query_params: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          provider_scopes: S.optional(__S(10336, __c323, 0).pipe(T.Query())),
+          invitation_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          max_age: S.optional(S.Number.pipe(T.Query())),
+          screen_hint: S.optional(S.String.pipe(T.Query())),
+          login_hint: S.optional(S.String.pipe(T.Query())),
+          provider: S.optional(S.String.pipe(T.Query())),
+          prompt: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          organization_id: S.optional(S.String.pipe(T.Query())),
+          response_type: S.String.pipe(T.Query()),
+          redirect_uri: S.String.pipe(T.Query()),
+          client_id: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/user_management/authorize", code: 200 })),
+      ).annotate({ identifier: "AuthorizeUserlandSsoControllerRequest" });
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AuthorizeUserlandSsoControllerResponse",
+      });
+  }
+}
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19898,13 +20880,13 @@ function __c180(j: number): any {
       ).annotate({ identifier: "RemoveGroupMembershipsControllerMemberRequest" });
   }
 }
-function __c181(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           group_id: S.String.pipe(T.Label()),
-          role_assignments: __S(5377, __c168, 1),
+          role_assignments: __S(5569, __c174, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19917,7 +20899,7 @@ function __c181(j: number): any {
       });
   }
 }
-function __c182(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19930,7 +20912,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ResendUserlandUserInvitesControllerRequest" });
   }
 }
-function __c183(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19943,17 +20925,17 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ResetUserlandUsersControllerPassword0Request" });
   }
 }
-function __c184(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(10336, __c323, 0)),
+          user: S.optional(__S(10688, __c334, 0)),
         }),
       ).annotate({ identifier: "ResetPasswordResponse" });
   }
 }
-function __c185(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19963,7 +20945,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "RevokeAgentAdminControllerRegistrationRequest" });
   }
 }
-function __c186(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19979,7 +20961,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "RevokeAgentInstanceSessionsControllerRequest" });
   }
 }
-function __c187(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19996,7 +20978,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "RevokeItContactsControllerRequest" });
   }
 }
-function __c188(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20007,7 +20989,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "RevokePortalSessionsControllerLinkRequest" });
   }
 }
-function __c189(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20017,41 +20999,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "RevokeUserlandSessionsControllerSessionRequest" });
   }
 }
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code_challenge_method: S.optional(S.String.pipe(T.Query())),
-          code_challenge: S.optional(S.String.pipe(T.Query())),
-          domain_hint: S.optional(S.String.pipe(T.Query())),
-          connection_id: S.optional(S.String.pipe(T.Query())),
-          provider_query_params: S.optional(__S(1888, __c59, 0).pipe(T.Query())),
-          provider_scopes: S.optional(__S(10048, __c314, 0).pipe(T.Query())),
-          invitation_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
-          max_age: S.optional(S.Number.pipe(T.Query())),
-          screen_hint: S.optional(S.String.pipe(T.Query())),
-          login_hint: S.optional(S.String.pipe(T.Query())),
-          provider: S.optional(S.String.pipe(T.Query())),
-          prompt: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-          organization_id: S.optional(S.String.pipe(T.Query())),
-          response_type: S.String.pipe(T.Query()),
-          redirect_uri: S.String.pipe(T.Query()),
-          client_id: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/user_management/authorize", code: 200 })),
-      ).annotate({ identifier: "AuthorizeUserlandSsoControllerRequest" });
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AuthorizeUserlandSsoControllerResponse",
-      });
-  }
-}
-function __c192(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20063,205 +21011,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "RevokeUserlandUserInvitesControllerRequest" });
   }
 }
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String,
-          pending_authentication_token: S.String.pipe(T.SensitiveValue({})),
-          phone_number: S.String,
-          ip_address: S.optional(S.String),
-          user_agent: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/user_management/radar_challenges", code: 200 })),
-      ).annotate({ identifier: "SendPublicRadarChallengesControllerRadarSmsChallengeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          verification_id: S.String,
-          phone_number: S.String,
-        }),
-      ).annotate({ identifier: "SendRadarSmsChallengeResponse" });
-  }
-}
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          new_email: S.optional(S.String),
-          locale: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/user_management/users/{id}/email_change/send",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SendUserlandUsersControllerEmailChangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          user: S.optional(__S(10336, __c323, 0)),
-          new_email: S.optional(S.String),
-          expires_at: S.optional(S.String),
-          created_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EmailChange" });
-  }
-}
-function __c195(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          locale: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/user_management/users/{id}/email_verification/send",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SendUserlandUsersControllerVerificationEmail0Request" });
-  }
-}
-function __c196(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          slug: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(10048, __c314, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/authorization/organizations/{organizationId}/roles/{slug}/permissions",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequest",
-      });
-  }
-}
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(10048, __c314, 0)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/authorization/roles/{slug}/permissions", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetAuthorizationRolePermissionsControllerPermissionsRequest" });
-  }
-}
-function __c198(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/sso/jwks/{clientId}", code: 200 })),
-      ).annotate({ identifier: "SsoControllerJsonWebKeySetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          alg: S.String,
-          kty: S.String,
-          use: S.String,
-          x5c: __S(10048, __c314, 0),
-          n: S.String,
-          e: S.String,
-          kid: S.String,
-          x5t_S256: S.String.pipe(T.Body("x5t#S256")),
-        }),
-      ).annotate({ identifier: "JwksResponseKeysItem" });
-    case 2:
-      return S.Array(__S(6337, __c198, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          keys: S.optional(__S(6338, __c198, 2)),
-        }),
-      ).annotate({ identifier: "JwksResponse" });
-  }
-}
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sso/logout/authorize", code: 200 })),
-      ).annotate({ identifier: "SsoControllerLogoutAuthorizeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          logout_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          logout_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "SsoLogoutAuthorizeResponse" });
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String.pipe(T.Query()),
-          client_secret: S.String.pipe(T.Query(), T.SensitiveValue({})),
-          code: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
-          grant_type: S.String.pipe(T.Query()),
-          code_verifier: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          subject_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          subject_token_type: S.optional(S.String),
-          organization_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sso/token", code: 200 })),
-      ).annotate({ identifier: "SsoControllerTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token_type: S.optional(S.String),
-          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          expires_in: S.optional(S.Number),
-          profile: S.optional(__S(2048, __c64, 0)),
-          oauth_tokens: S.optional(__S(6432, __c201, 0)),
-        }),
-      ).annotate({ identifier: "SsoTokenResponse" });
-  }
-}
 function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          refresh_token: S.String.pipe(T.SensitiveValue({})),
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          expires_at: S.Number,
-          scopes: __S(10048, __c314, 0),
-        }),
-      ).annotate({ identifier: "SsoTokenResponseOauthTokens" });
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/directories/{id}/sync", code: 200 })),
-      ).annotate({ identifier: "SyncDirectoriesControllerDirectoryRequest" });
-  }
-}
-function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20287,9 +21037,209 @@ function __c203(j: number): any {
       ).annotate({ identifier: "AuthorizationCheck" });
   }
 }
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String,
+          pending_authentication_token: S.String.pipe(T.SensitiveValue({})),
+          phone_number: S.String,
+          ip_address: S.optional(S.String),
+          user_agent: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/user_management/radar_challenges", code: 200 })),
+      ).annotate({ identifier: "SendPublicRadarChallengesControllerRadarSmsChallengeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          verification_id: S.String,
+          phone_number: S.String,
+        }),
+      ).annotate({ identifier: "SendRadarSmsChallengeResponse" });
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          new_email: S.optional(S.String),
+          locale: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/user_management/users/{id}/email_change/send",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SendUserlandUsersControllerEmailChangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          user: S.optional(__S(10688, __c334, 0)),
+          new_email: S.optional(S.String),
+          expires_at: S.optional(S.String),
+          created_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailChange" });
+  }
+}
 function __c204(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          locale: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/user_management/users/{id}/email_verification/send",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SendUserlandUsersControllerVerificationEmail0Request" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          permissions: S.optional(__S(10336, __c323, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/authorization/organizations/{organizationId}/roles/{slug}/permissions",
+            code: 200,
+          }),
+        ),
+      ).annotate({
+        identifier: "SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequest",
+      });
+  }
+}
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+          permissions: S.optional(__S(10336, __c323, 0)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/authorization/roles/{slug}/permissions", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetAuthorizationRolePermissionsControllerPermissionsRequest" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sso/jwks/{clientId}", code: 200 })),
+      ).annotate({ identifier: "SsoControllerJsonWebKeySetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alg: S.String,
+          kty: S.String,
+          use: S.String,
+          x5c: __S(10336, __c323, 0),
+          n: S.String,
+          e: S.String,
+          kid: S.String,
+          x5t_S256: S.String.pipe(T.Body("x5t#S256")),
+        }),
+      ).annotate({ identifier: "JwksResponseKeysItem" });
+    case 2:
+      return S.Array(__S(6625, __c207, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(6626, __c207, 2)),
+        }),
+      ).annotate({ identifier: "JwksResponse" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sso/logout/authorize", code: 200 })),
+      ).annotate({ identifier: "SsoControllerLogoutAuthorizeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          logout_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          logout_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "SsoLogoutAuthorizeResponse" });
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String.pipe(T.Query()),
+          client_secret: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          code: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          grant_type: S.String.pipe(T.Query()),
+          code_verifier: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subject_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subject_token_type: S.optional(S.String),
+          organization_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sso/token", code: 200 })),
+      ).annotate({ identifier: "SsoControllerTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token_type: S.optional(S.String),
+          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          expires_in: S.optional(S.Number),
+          profile: S.optional(__S(2112, __c66, 0)),
+          oauth_tokens: S.optional(__S(6720, __c210, 0)),
+        }),
+      ).annotate({ identifier: "SsoTokenResponse" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          refresh_token: S.String.pipe(T.SensitiveValue({})),
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          expires_at: S.Number,
+          scopes: __S(10336, __c323, 0),
+        }),
+      ).annotate({ identifier: "SsoTokenResponseOauthTokens" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/directories/{id}/sync", code: 200 })),
+      ).annotate({ identifier: "SyncDirectoriesControllerDirectoryRequest" });
+  }
+}
+function __c212(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           max_age_seconds: S.optional(S.Number),
@@ -20297,23 +21247,40 @@ function __c204(j: number): any {
           refresh_token_ttl_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateAgentBlueprintsControllerRequestSessionSettings" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           agent_blueprint_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(__S(10048, __c314, 0)),
-          invocable_by: S.optional(__S(8256, __c258, 0)),
-          invocable_as: S.optional(__S(8257, __c258, 1)),
-          session_settings: S.optional(__S(6528, __c204, 0)),
+          permissions: S.optional(__S(6784, __c212, 0)),
+          invocable_by: S.optional(__S(8416, __c263, 0)),
+          invocable_as: S.optional(__S(8417, __c263, 1)),
+          session_settings: S.optional(__S(6785, __c212, 1)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/agents/blueprints/{agent_blueprint_id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateAgentBlueprintsControllerRequest" });
   }
 }
-function __c205(j: number): any {
+function __c213(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String,
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/client/token", code: 200 })),
+      ).annotate({ identifier: "ClientApiTokenControllerIssueClientApiTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "ClientApiTokenResponse" });
+  }
+}
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20323,21 +21290,21 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "RedirectUriDto" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6848, __c214, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(S.NullOr(__S(10048, __c314, 0))),
-          redirect_uris: S.optional(S.NullOr(__S(6561, __c205, 1))),
-          cors_origins: S.optional(S.NullOr(__S(10048, __c314, 0))),
+          scopes: S.optional(S.NullOr(__S(10336, __c323, 0))),
+          redirect_uris: S.optional(S.NullOr(__S(6849, __c214, 1))),
+          cors_origins: S.optional(S.NullOr(__S(10336, __c323, 0))),
         }).pipe(T.Http({ method: "PUT", uri: "/connect/applications/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateApplicationsControllerRequest" });
   }
 }
-function __c206(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20350,7 +21317,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "UpdateAuditLogsRetentionControllerAuditLogsRetentionRequest" });
   }
 }
-function __c207(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20369,7 +21336,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "UpdateAuthorizationOrganizationRolesControllerRequest" });
   }
 }
-function __c208(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20381,7 +21348,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UpdateAuthorizationPermissionsControllerRequest" });
   }
 }
-function __c209(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20406,7 +21373,7 @@ function __c209(j: number): any {
       });
   }
 }
-function __c210(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20423,7 +21390,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "UpdateAuthorizationResourcesControllerRequest" });
   }
 }
-function __c211(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20435,7 +21402,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "UpdateAuthorizationRolesControllerRequest" });
   }
 }
-function __c212(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20443,17 +21410,17 @@ function __c212(j: number): any {
           slug: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
-          scopes: S.optional(S.NullOr(__S(10048, __c314, 0))),
-          credentials: S.optional(__S(9152, __c286, 0)),
-          api_key: S.optional(__S(9153, __c286, 1)),
-          custom_provider: S.optional(__S(6816, __c213, 0)),
+          scopes: S.optional(S.NullOr(__S(10336, __c323, 0))),
+          credentials: S.optional(__S(9440, __c295, 0)),
+          api_key: S.optional(__S(9441, __c295, 1)),
+          custom_provider: S.optional(__S(7104, __c222, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/data-integrations/{slug}", code: 200 })),
       ).annotate({
         identifier: "UpdateDataIntegrationsManagementControllerDataIntegrationRequest",
       });
   }
 }
-function __c213(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20466,14 +21433,14 @@ function __c213(j: number): any {
           request_scope_separator: S.optional(S.String),
           scopes_required: S.optional(S.Boolean),
           client_secret_required: S.optional(S.Boolean),
-          additional_authorization_parameters: S.optional(__S(1888, __c59, 0)),
+          additional_authorization_parameters: S.optional(__S(1760, __c55, 0)),
           token_body_content_type: S.optional(S.String),
           authenticate_via: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateCustomProviderDefinitionDto" });
   }
 }
-function __c214(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20481,10 +21448,10 @@ function __c214(j: number): any {
           slug: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
-          scopes: S.optional(S.NullOr(__S(10048, __c314, 0))),
-          credentials: S.optional(__S(9152, __c286, 0)),
-          api_key: S.optional(__S(9153, __c286, 1)),
-          custom_provider: S.optional(__S(6816, __c213, 0)),
+          scopes: S.optional(S.NullOr(__S(10336, __c323, 0))),
+          credentials: S.optional(__S(9440, __c295, 0)),
+          api_key: S.optional(__S(9441, __c295, 1)),
+          custom_provider: S.optional(__S(7104, __c222, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/data-integrations/{slug}/organization", code: 200 }),
         ),
@@ -20493,24 +21460,7 @@ function __c214(j: number): any {
       });
   }
 }
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String,
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/client/token", code: 200 })),
-      ).annotate({ identifier: "ClientApiTokenControllerIssueClientApiTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "ClientApiTokenResponse" });
-  }
-}
-function __c216(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20522,11 +21472,11 @@ function __c216(j: number): any {
           connection_intent: S.optional(S.String.pipe(T.Query())),
           account_display_name: S.optional(S.NullOr(S.String)),
           account_identifier: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_at: S.optional(S.String),
-          scopes: S.optional(__S(10048, __c314, 0)),
+          scopes: S.optional(__S(10336, __c323, 0)),
           state: S.optional(S.String),
           user_id: S.String,
         }).pipe(
@@ -20542,7 +21492,56 @@ function __c216(j: number): any {
       });
   }
 }
-function __c217(j: number): any {
+function __c225(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          email: S.optional(S.String),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "UserObject" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserConsentOptionChoicesItem" });
+    case 2:
+      return S.Array(__S(7201, __c225, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          claim: S.optional(S.String),
+          type: S.optional(S.String),
+          label: S.optional(S.String),
+          choices: S.optional(__S(7202, __c225, 2)),
+        }),
+      ).annotate({ identifier: "UserConsentOption" });
+    case 4:
+      return S.Array(__S(7203, __c225, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          external_auth_id: S.optional(S.String),
+          user: S.optional(__S(7200, __c225, 0)),
+          user_consent_options: S.optional(__S(7204, __c225, 4)),
+        }).pipe(T.Http({ method: "POST", uri: "/authkit/oauth2/complete", code: 200 })),
+      ).annotate({ identifier: "CompleteExternalAuthControllerLoginRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          redirect_uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalAuthCompleteResponse" });
+  }
+}
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20555,11 +21554,11 @@ function __c217(j: number): any {
           connection_intent: S.optional(S.String.pipe(T.Query())),
           account_display_name: S.optional(S.NullOr(S.String)),
           account_identifier: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_at: S.optional(S.String),
-          scopes: S.optional(__S(10048, __c314, 0)),
+          scopes: S.optional(__S(10336, __c323, 0)),
           state: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -20573,15 +21572,15 @@ function __c217(j: number): any {
       });
   }
 }
-function __c218(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          add: S.optional(__S(10048, __c314, 0)),
-          remove: S.optional(__S(10048, __c314, 0)),
+          add: S.optional(__S(10336, __c323, 0)),
+          remove: S.optional(__S(10336, __c323, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -20592,7 +21591,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "UpdateGroupMembershipsControllerMembersRequest" });
   }
 }
-function __c219(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20611,7 +21610,25 @@ function __c219(j: number): any {
       ).annotate({ identifier: "UpdateGroupsControllerRequest" });
   }
 }
-function __c220(j: number): any {
+function __c229(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/organizations/{organization_id}/issuer_trusts/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIssuerTrustsControllerRequest" });
+  }
+}
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20623,7 +21640,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "UpdateJumpWireWebDataVaultControllerRequest" });
   }
 }
-function __c221(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20633,7 +21650,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "UpdateJwtTemplatesControllerJwtTemplateRequest" });
   }
 }
-function __c222(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20641,16 +21658,16 @@ function __c222(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           allow_profiles_outside_organization: S.optional(S.Boolean),
-          domains: S.optional(__S(10048, __c314, 0)),
-          domain_data: S.optional(__S(9697, __c303, 1)),
+          domains: S.optional(__S(10336, __c323, 0)),
+          domain_data: S.optional(__S(10049, __c314, 1)),
           stripe_customer_id: S.optional(S.String),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          metadata: S.optional(S.NullOr(__S(1760, __c55, 0))),
           external_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/organizations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOrganizationsControllerOrganizationRequest" });
   }
 }
-function __c223(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20662,7 +21679,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "UpdateRadarStandaloneControllerRadarAttemptRequest" });
   }
 }
-function __c224(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20679,7 +21696,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "UpdateUserlandUserOrganizationMembershipsControllerRequest" });
   }
 }
-function __c225(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20687,61 +21704,55 @@ function __c225(j: number): any {
           id: S.String.pipe(T.Label()),
           endpoint_url: S.optional(S.String),
           status: S.optional(S.String),
-          events: S.optional(__S(8288, __c259, 0)),
+          events: S.optional(__S(8448, __c264, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/webhook_endpoints/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookEndpointsControllerRequest" });
   }
 }
-function __c226(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          email: S.optional(S.String),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          name: S.optional(S.String),
-          metadata: S.optional(__S(1888, __c59, 0)),
-        }),
-      ).annotate({ identifier: "UserObject" });
+          id: S.String.pipe(T.Label()),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/user_management/users/{id}/email_change/confirm",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          label: S.optional(S.String),
+          object: S.String,
+          id: S.String,
+          first_name: S.NullOr(S.String),
+          last_name: S.NullOr(S.String),
+          name: S.optional(S.NullOr(S.String)),
+          profile_picture_url: S.NullOr(S.String),
+          email: S.String,
+          email_verified: S.Boolean,
+          external_id: S.NullOr(S.String),
+          metadata: S.optional(__S(1760, __c55, 0)),
+          last_sign_in_at: S.NullOr(S.String),
+          locale: S.optional(S.NullOr(S.String)),
+          created_at: S.String,
+          updated_at: S.String,
         }),
-      ).annotate({ identifier: "UserConsentOptionChoicesItem" });
+      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeResponseUser" });
     case 2:
-      return S.Array(__S(7233, __c226, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          claim: S.optional(S.String),
-          type: S.optional(S.String),
-          label: S.optional(S.String),
-          choices: S.optional(__S(7234, __c226, 2)),
+          object: S.String,
+          user: __S(7553, __c236, 1),
         }),
-      ).annotate({ identifier: "UserConsentOption" });
-    case 4:
-      return S.Array(__S(7235, __c226, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          external_auth_id: S.optional(S.String),
-          user: S.optional(__S(7232, __c226, 0)),
-          user_consent_options: S.optional(__S(7236, __c226, 4)),
-        }).pipe(T.Http({ method: "POST", uri: "/authkit/oauth2/complete", code: 200 })),
-      ).annotate({ identifier: "CompleteExternalAuthControllerLoginRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          redirect_uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalAuthCompleteResponse" });
+      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeResponse" });
   }
 }
-function __c227(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20759,7 +21770,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "UpsertDataIntegrationsControllerApiKeyRequest" });
   }
 }
-function __c228(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20772,7 +21783,7 @@ function __c228(j: number): any {
           connection_owner: S.optional(S.String),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           connection_intent: S.optional(S.String),
           connected_account_id: S.optional(S.String),
         }).pipe(
@@ -20781,7 +21792,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "UpsertDataIntegrationsControllerClientCredentialsRequest" });
   }
 }
-function __c229(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20811,7 +21822,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse" });
   }
 }
-function __c230(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20822,19 +21833,19 @@ function __c230(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(10336, __c323, 0)),
+          user: S.optional(__S(10688, __c334, 0)),
           organization_id: S.optional(S.String),
           authkit_authorization_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication_method: S.optional(S.String),
-          impersonator: S.optional(__S(4192, __c131, 0)),
-          oauth_tokens: S.optional(__S(6432, __c201, 0)),
+          impersonator: S.optional(__S(4384, __c137, 0)),
+          oauth_tokens: S.optional(__S(6720, __c210, 0)),
         }),
       ).annotate({ identifier: "UserlandAuthenticateResponse" });
   }
 }
-function __c231(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20855,7 +21866,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "DeviceAuthorizationResponse" });
   }
 }
-function __c232(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20876,13 +21887,13 @@ function __c232(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authentication_factor: S.optional(__S(8513, __c266, 1)),
-          authentication_challenge: S.optional(__S(4448, __c139, 0)),
+          authentication_factor: S.optional(__S(8801, __c275, 1)),
+          authentication_challenge: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "UserlandUserAuthenticationFactorEnrollResponse" });
   }
 }
-function __c233(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20901,18 +21912,18 @@ function __c233(j: number): any {
         ),
       ).annotate({ identifier: "UserlandUserAuthenticationFactorsControllerList0Request" });
     case 1:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1153, __c36, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(7457, __c233, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(7777, __c243, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "UserlandUserAuthenticationFactorList" });
   }
 }
-function __c234(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20928,7 +21939,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "UserlandUserOrganizationMembershipsControllerReactivateRequest" });
   }
 }
-function __c235(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20938,7 +21949,7 @@ function __c235(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           email_verified: S.optional(S.NullOr(S.Boolean)),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          metadata: S.optional(S.NullOr(__S(1760, __c55, 0))),
           external_id: S.optional(S.NullOr(S.String)),
           ip_address: S.optional(S.NullOr(S.String)),
           user_agent: S.optional(S.NullOr(S.String)),
@@ -20961,7 +21972,7 @@ function __c235(j: number): any {
           email: S.optional(S.String),
           email_verified: S.optional(S.Boolean),
           external_id: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(1760, __c55, 0)),
           last_sign_in_at: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
@@ -20971,7 +21982,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerCreate0Response" });
   }
 }
-function __c236(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20982,7 +21993,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerCreatePasswordResetTokenRequest" });
   }
 }
-function __c237(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20999,50 +22010,46 @@ function __c237(j: number): any {
       ).annotate({ identifier: "PasswordReset" });
   }
 }
-function __c238(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/user_management/users/{id}/email_change/confirm",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeRequest" });
-    case 1:
+        }).pipe(T.Http({ method: "GET", uri: "/connections/{id}", code: 200 })),
+      ).annotate({ identifier: "ConnectionsControllerFindRequest" });
+  }
+}
+function __c249(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.String,
           id: S.String,
-          first_name: S.NullOr(S.String),
-          last_name: S.NullOr(S.String),
-          name: S.optional(S.NullOr(S.String)),
-          profile_picture_url: S.NullOr(S.String),
-          email: S.String,
-          email_verified: S.Boolean,
-          external_id: S.NullOr(S.String),
-          metadata: S.optional(__S(1888, __c59, 0)),
-          last_sign_in_at: S.NullOr(S.String),
-          locale: S.optional(S.NullOr(S.String)),
-          created_at: S.String,
-          updated_at: S.String,
+          object: S.String,
+          domain: S.String,
         }),
-      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeResponseUser" });
+      ).annotate({ identifier: "ConnectionDomainsItem" });
+    case 1:
+      return S.Array(__S(7968, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          object: S.String,
-          user: __S(7617, __c238, 1),
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          organization_id: S.optional(S.String),
+          connection_type: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          status: S.optional(S.String),
+          domains: S.optional(__S(7969, __c249, 1)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConfirmUserlandUsersControllerEmailChangeResponse" });
+      ).annotate({ identifier: "Connection" });
   }
 }
-function __c239(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21052,7 +22059,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerDelete0Request" });
   }
 }
-function __c240(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21069,7 +22076,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerEmailVerification0Request" });
   }
 }
-function __c241(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21079,7 +22086,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerGet0Request" });
   }
 }
-function __c242(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21089,7 +22096,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerGetPasswordResetRequest" });
   }
 }
-function __c243(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21104,18 +22111,18 @@ function __c243(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user_management/users", code: 200 })),
       ).annotate({ identifier: "UserlandUsersControllerList0Request" });
     case 1:
-      return S.Array(__S(10336, __c323, 0));
+      return S.Array(__S(10688, __c334, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          data: S.optional(__S(7777, __c243, 1)),
-          list_metadata: S.optional(__S(3904, __c122, 0)),
+          data: S.optional(__S(8129, __c254, 1)),
+          list_metadata: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "UserlandUserList" });
   }
 }
-function __c244(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21126,7 +22133,7 @@ function __c244(j: number): any {
           last_name: S.optional(S.String),
           name: S.optional(S.String),
           email_verified: S.optional(S.Boolean),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          metadata: S.optional(S.NullOr(__S(1760, __c55, 0))),
           external_id: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -21137,7 +22144,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "UserlandUsersControllerUpdate0Request" });
   }
 }
-function __c245(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21155,7 +22162,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "AgentCredentialValidation" });
   }
 }
-function __c246(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21177,7 +22184,7 @@ function __c246(j: number): any {
           agent_instance_id: S.String,
           agent_instance_session_id: S.String,
           organization_id: S.String,
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           intent: S.NullOr(S.String),
           acting_user_id: S.NullOr(S.String),
           session_expires_at: S.String,
@@ -21185,7 +22192,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "AgentTokenValidation" });
   }
 }
-function __c247(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21196,13 +22203,13 @@ function __c247(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          api_key: S.optional(S.NullOr(__S(896, __c28, 0))),
+          api_key: S.optional(S.NullOr(__S(768, __c24, 0))),
           agent_registration_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiKeyValidationResponse" });
   }
 }
-function __c248(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21214,52 +22221,107 @@ function __c248(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          challenge: S.optional(__S(4448, __c139, 0)),
+          challenge: S.optional(__S(4288, __c134, 0)),
           valid: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuthenticationChallengeVerifyResponse" });
   }
 }
-function __c249(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/connections/{id}", code: 200 })),
-      ).annotate({ identifier: "ConnectionsControllerFindRequest" });
-  }
-}
-function __c250(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          object: S.String,
-          domain: S.String,
-        }),
-      ).annotate({ identifier: "ConnectionDomainsItem" });
+      return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(8000, __c250, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          organization_id: S.optional(S.String),
-          connection_type: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          status: S.optional(S.String),
-          domains: S.optional(__S(8001, __c250, 1)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Connection" });
+          name: S.String,
+          description: S.optional(S.String),
+          permissions: S.optional(__S(8320, __c260, 0)),
+          invocable_by: S.optional(__S(8416, __c263, 0)),
+          invocable_as: S.optional(__S(8417, __c263, 1)),
+          session_settings: S.optional(__S(8353, __c261, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/agents/blueprints", code: 200 })),
+      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequest" });
   }
 }
-function __c251(j: number): any {
+function __c261(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String,
+          instance_types: __S(8448, __c264, 0),
+        }),
+      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestPermissionsItemCase0" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          max_age_seconds: S.Number,
+          access_token_ttl_seconds: S.Number,
+          refresh_token_ttl_seconds: S.Number,
+        }),
+      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestSessionSettings" });
+    case 2:
+      return S.Array(__S(8352, __c261, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          role_slugs: __S(10336, __c323, 0),
+          organization_ids: __S(10336, __c323, 0),
+        }),
+      ).annotate({ identifier: "AgentBlueprintInvocableBy" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          instance_types: __S(8448, __c264, 0),
+        }),
+      ).annotate({ identifier: "AgentBlueprintInvocableAs" });
+  }
+}
+function __c262(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          permissions: __S(10336, __c323, 0),
+          scoped_permissions: __S(8354, __c261, 2),
+          invocable_by: __S(8355, __c261, 3),
+          invocable_as: __S(8356, __c261, 4),
+          session_settings: __S(8353, __c261, 1),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "AgentBlueprint" });
+  }
+}
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role_slugs: S.optional(__S(10336, __c323, 0)),
+          organization_ids: S.optional(__S(10336, __c323, 0)),
+        }),
+      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestInvocableBy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          instance_types: S.optional(__S(8448, __c264, 0)),
+        }),
+      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestInvocableAs" });
+  }
+}
+function __c264(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21269,7 +22331,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "VerifyOrganizationDomainsControllerRequest" });
   }
 }
-function __c252(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21281,7 +22343,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "WaitlistEntriesControllerDenyRequest" });
   }
 }
-function __c253(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21291,14 +22353,14 @@ function __c253(j: number): any {
       ).annotate({ identifier: "WaitlistsControllerFindRequest" });
   }
 }
-function __c254(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.String),
           user_id: S.optional(S.String),
-          scopes: S.optional(__S(8288, __c259, 0)),
+          scopes: S.optional(__S(8448, __c264, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/widgets/token", code: 200 })),
       ).annotate({ identifier: "WidgetsPublicControllerIssueWidgetSessionTokenRequest" });
     case 1:
@@ -21309,89 +22371,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "WidgetSessionTokenResponse" });
   }
 }
-function __c255(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          permissions: S.optional(__S(10048, __c314, 0)),
-          invocable_by: S.optional(__S(8256, __c258, 0)),
-          invocable_as: S.optional(__S(8257, __c258, 1)),
-          session_settings: S.optional(__S(8192, __c256, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/agents/blueprints", code: 200 })),
-      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequest" });
-  }
-}
-function __c256(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          max_age_seconds: S.Number,
-          access_token_ttl_seconds: S.Number,
-          refresh_token_ttl_seconds: S.Number,
-        }),
-      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestSessionSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          role_slugs: __S(10048, __c314, 0),
-          organization_ids: __S(10048, __c314, 0),
-        }),
-      ).annotate({ identifier: "AgentBlueprintInvocableBy" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          instance_types: __S(8288, __c259, 0),
-        }),
-      ).annotate({ identifier: "AgentBlueprintInvocableAs" });
-  }
-}
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          name: S.String,
-          description: S.NullOr(S.String),
-          permissions: __S(10048, __c314, 0),
-          invocable_by: __S(8193, __c256, 1),
-          invocable_as: __S(8194, __c256, 2),
-          session_settings: __S(8192, __c256, 0),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "AgentBlueprint" });
-  }
-}
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role_slugs: S.optional(__S(10048, __c314, 0)),
-          organization_ids: S.optional(__S(10048, __c314, 0)),
-        }),
-      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestInvocableBy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instance_types: S.optional(__S(8288, __c259, 0)),
-        }),
-      ).annotate({ identifier: "CreateAgentBlueprintsControllerRequestInvocableAs" });
-  }
-}
-function __c259(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c260(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21415,7 +22395,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "NewConnectApplicationSecret" });
   }
 }
-function __c261(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21425,7 +22405,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "CreateApplicationsControllerRequest" });
   }
 }
-function __c262(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21437,7 +22417,7 @@ function __c262(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogEventActorDto" });
     case 1:
-      return S.Array(__S(8384, __c262, 0));
+      return S.Array(__S(8672, __c271, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21450,9 +22430,9 @@ function __c262(j: number): any {
         S.Struct({
           action: S.optional(S.String),
           occurred_at: S.optional(S.String),
-          actor: S.optional(__S(8384, __c262, 0)),
-          targets: S.optional(__S(8385, __c262, 1)),
-          context: S.optional(__S(8386, __c262, 2)),
+          actor: S.optional(__S(8672, __c271, 0)),
+          targets: S.optional(__S(8673, __c271, 1)),
+          context: S.optional(__S(8674, __c271, 2)),
           metadata: S.optional(S.Unknown),
           version: S.optional(S.Number),
         }),
@@ -21461,7 +22441,7 @@ function __c262(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.String),
-          event: S.optional(__S(8387, __c262, 3)),
+          event: S.optional(__S(8675, __c271, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/audit_logs/events", code: 200 })),
       ).annotate({ identifier: "CreateAuditLogEventsControllerRequest" });
     case 5:
@@ -21472,7 +22452,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "AuditLogEventCreateResponse" });
   }
 }
-function __c263(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21488,13 +22468,13 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogSchemaTargetDto" });
     case 2:
-      return S.Array(__S(8417, __c263, 1));
+      return S.Array(__S(8705, __c272, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           actionName: S.String.pipe(T.Label()),
-          actor: S.optional(__S(8416, __c263, 0)),
-          targets: S.optional(__S(8418, __c263, 2)),
+          actor: S.optional(__S(8704, __c272, 0)),
+          targets: S.optional(__S(8706, __c272, 2)),
           metadata: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/audit_logs/actions/{actionName}/schemas", code: 200 }),
@@ -21502,7 +22482,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "CreateAuditLogValidatorVersionsControllerRequest" });
   }
 }
-function __c264(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21516,7 +22496,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateAuthenticationFactorsControllerRequest" });
   }
 }
-function __c265(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21526,7 +22506,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "AuthenticationFactorEnrolledSms" });
   }
 }
-function __c266(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21545,15 +22525,15 @@ function __c266(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           user_id: S.optional(S.String),
-          sms: S.optional(__S(8480, __c265, 0)),
-          totp: S.optional(__S(8512, __c266, 0)),
+          sms: S.optional(__S(8768, __c274, 0)),
+          totp: S.optional(__S(8800, __c275, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthenticationFactorEnrolled" });
   }
 }
-function __c267(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21566,7 +22546,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "CreateAuthkitOauthResourcesControllerRequest" });
   }
 }
-function __c268(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21581,7 +22561,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "AuthkitOauthResource" });
   }
 }
-function __c269(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21601,7 +22581,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationGroupRoleAssignmentsControllerRequest" });
   }
 }
-function __c270(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21609,15 +22589,15 @@ function __c270(j: number): any {
           object: S.String,
           id: S.String,
           group_id: S.String,
-          role: __S(2464, __c77, 0),
-          resource: __S(2432, __c76, 0),
+          role: __S(2368, __c74, 0),
+          resource: __S(2336, __c73, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "GroupRoleAssignment" });
   }
 }
-function __c271(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21637,7 +22617,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationOrganizationRolesControllerRequest" });
   }
 }
-function __c272(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21664,7 +22644,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationPermissionsControllerResponse" });
   }
 }
-function __c273(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21681,7 +22661,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationResourcesControllerRequest" });
   }
 }
-function __c274(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21700,7 +22680,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationResourcesControllerResponse" });
   }
 }
-function __c275(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21713,7 +22693,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationRolesControllerRequest" });
   }
 }
-function __c276(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21723,23 +22703,23 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "ErrorBodyWithConstraintsPropertyError" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(9120, __c285, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          errors: S.optional(__S(8833, __c276, 1)),
+          errors: S.optional(__S(9121, __c285, 1)),
         }),
       ).annotate({ identifier: "ErrorBodyWithConstraintsPropertyErrors" });
   }
 }
-function __c277(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          standard_attributes: S.optional(__S(8896, __c278, 0)),
-          custom_attributes: S.optional(__S(1888, __c59, 0)),
+          standard_attributes: S.optional(__S(9184, __c287, 0)),
+          custom_attributes: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "CreateConnectionAttributeMapsDto" });
     case 1:
@@ -21750,7 +22730,7 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "CreateConnectionKeyPairDto" });
     case 2:
-      return S.Array(__S(8865, __c277, 1));
+      return S.Array(__S(9153, __c286, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21759,9 +22739,9 @@ function __c277(j: number): any {
           sp_entity_id: S.optional(S.String),
           idp_entity_id: S.optional(S.String),
           idp_sso_url: S.optional(S.String),
-          idp_signing_certs: S.optional(__S(10048, __c314, 0)),
-          sp_signing_key_pair: S.optional(__S(8865, __c277, 1)),
-          sp_encryption_key_pairs: S.optional(__S(8866, __c277, 2)),
+          idp_signing_certs: S.optional(__S(10336, __c323, 0)),
+          sp_signing_key_pair: S.optional(__S(9153, __c286, 1)),
+          sp_encryption_key_pairs: S.optional(__S(9154, __c286, 2)),
         }),
       ).annotate({ identifier: "CreateConnectionSamlOptionsDto" });
     case 4:
@@ -21773,7 +22753,7 @@ function __c277(j: number): any {
           redirect_uri: S.optional(S.String),
           pkce: S.optional(S.Boolean),
           token_authentication_method: S.optional(S.String),
-          jwt_signing_key_pair: S.optional(__S(8865, __c277, 1)),
+          jwt_signing_key_pair: S.optional(__S(9153, __c286, 1)),
           id_token_signature_algorithm: S.optional(S.String),
           fetch_user_info: S.optional(S.Boolean),
         }),
@@ -21785,14 +22765,14 @@ function __c277(j: number): any {
           name: S.optional(S.String),
           external_id: S.optional(S.String),
           connection_type: S.optional(S.String),
-          attribute_maps: S.optional(__S(8864, __c277, 0)),
-          saml_options: S.optional(__S(8867, __c277, 3)),
-          oidc_options: S.optional(__S(8868, __c277, 4)),
+          attribute_maps: S.optional(__S(9152, __c286, 0)),
+          saml_options: S.optional(__S(9155, __c286, 3)),
+          oidc_options: S.optional(__S(9156, __c286, 4)),
         }).pipe(T.Http({ method: "POST", uri: "/connections", code: 200 })),
       ).annotate({ identifier: "CreateConnectionsControllerRequest" });
   }
 }
-function __c278(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21807,7 +22787,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "CreateConnectionStandardAttributesDto" });
   }
 }
-function __c279(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21817,7 +22797,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "CreateCorsOriginsControllerCorsOriginRequest" });
   }
 }
-function __c280(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21831,7 +22811,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "CorsOriginResponse" });
   }
 }
-function __c281(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21848,7 +22828,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CreateDataIntegrationsControllerApiKeyConnectionRequest" });
   }
 }
-function __c282(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21860,12 +22840,12 @@ function __c282(j: number): any {
           account_display_name: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.NullOr(S.String)),
           organization_id: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(__S(10048, __c314, 0)),
+          scopes: S.optional(__S(10336, __c323, 0)),
           auth_method: S.optional(S.String),
           api_key_last_4: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret_last_4: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           state: S.optional(S.String),
           established_by_user_id: S.optional(S.NullOr(S.String)),
           state_reason: S.optional(S.NullOr(S.String)),
@@ -21876,7 +22856,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "ConnectedAccount" });
   }
 }
-function __c283(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21889,7 +22869,7 @@ function __c283(j: number): any {
           connection_owner: S.optional(S.String),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           connection_intent: S.String,
         }).pipe(
           T.Http({
@@ -21903,7 +22883,7 @@ function __c283(j: number): any {
       });
   }
 }
-function __c284(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21916,7 +22896,7 @@ function __c284(j: number): any {
           request_scope_separator: S.optional(S.String),
           scopes_required: S.optional(S.Boolean),
           client_secret_required: S.optional(S.Boolean),
-          additional_authorization_parameters: S.optional(__S(1888, __c59, 0)),
+          additional_authorization_parameters: S.optional(__S(1760, __c55, 0)),
           token_body_content_type: S.optional(S.String),
           authenticate_via: S.optional(S.String),
         }),
@@ -21928,19 +22908,19 @@ function __c284(j: number): any {
           ownership: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
-          scopes: S.optional(S.NullOr(__S(10048, __c314, 0))),
-          auth_methods: S.optional(__S(8288, __c259, 0)),
-          config: S.optional(__S(1888, __c59, 0)),
-          credentials: S.optional(__S(9152, __c286, 0)),
-          api_key: S.optional(__S(9153, __c286, 1)),
-          custom_provider: S.optional(__S(9088, __c284, 0)),
+          scopes: S.optional(S.NullOr(__S(10336, __c323, 0))),
+          auth_methods: S.optional(__S(8448, __c264, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
+          credentials: S.optional(__S(9440, __c295, 0)),
+          api_key: S.optional(__S(9441, __c295, 1)),
+          custom_provider: S.optional(__S(9376, __c293, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/data-integrations", code: 200 })),
       ).annotate({
         identifier: "CreateDataIntegrationsManagementControllerDataIntegrationRequest",
       });
   }
 }
-function __c285(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21973,7 +22953,7 @@ function __c285(j: number): any {
           request_scope_separator: S.String,
           scopes_required: S.Boolean,
           client_secret_required: S.Boolean,
-          additional_authorization_parameters: __S(1888, __c59, 0),
+          additional_authorization_parameters: __S(1760, __c55, 0),
           token_body_content_type: S.String,
           authenticate_via: S.String,
         }),
@@ -21989,20 +22969,20 @@ function __c285(j: number): any {
           description: S.NullOr(S.String),
           enabled: S.Boolean,
           state: S.String,
-          scopes: S.NullOr(__S(10048, __c314, 0)),
+          scopes: S.NullOr(__S(10336, __c323, 0)),
           redirect_uri: S.String,
-          auth_methods: __S(8288, __c259, 0),
-          credentials: S.NullOr(__S(9120, __c285, 0)),
-          installation: S.NullOr(__S(9121, __c285, 1)),
-          config: __S(1888, __c59, 0),
-          custom_provider: S.NullOr(__S(9122, __c285, 2)),
+          auth_methods: __S(8448, __c264, 0),
+          credentials: S.NullOr(__S(9408, __c294, 0)),
+          installation: S.NullOr(__S(9409, __c294, 1)),
+          config: __S(1760, __c55, 0),
+          custom_provider: S.NullOr(__S(9410, __c294, 2)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "DataIntegration" });
   }
 }
-function __c286(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22022,7 +23002,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "ApiKeyInstallationDto" });
   }
 }
-function __c287(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22031,14 +23011,14 @@ function __c287(j: number): any {
           slug: S.String.pipe(T.Label()),
           account_display_name: S.optional(S.NullOr(S.String)),
           account_identifier: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_at: S.optional(S.String),
-          scopes: S.optional(__S(10048, __c314, 0)),
+          scopes: S.optional(__S(10336, __c323, 0)),
           state: S.optional(S.String),
           user_id: S.String,
-          metadata: S.optional(__S(3968, __c124, 0)),
+          metadata: S.optional(__S(3872, __c121, 0)),
           connection_intent: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -22053,7 +23033,7 @@ function __c287(j: number): any {
       });
   }
 }
-function __c288(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22063,13 +23043,13 @@ function __c288(j: number): any {
           organization_id: S.optional(S.String.pipe(T.Query())),
           account_display_name: S.optional(S.NullOr(S.String)),
           account_identifier: S.optional(S.NullOr(S.String)),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires_at: S.optional(S.String),
-          scopes: S.optional(__S(10048, __c314, 0)),
+          scopes: S.optional(__S(10336, __c323, 0)),
           state: S.optional(S.String),
-          metadata: S.optional(__S(3968, __c124, 0)),
+          metadata: S.optional(__S(3872, __c121, 0)),
           connection_intent: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -22083,7 +23063,7 @@ function __c288(j: number): any {
       });
   }
 }
-function __c289(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22096,7 +23076,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CreateFlagTargetsControllerTargetRequest" });
   }
 }
-function __c290(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22110,38 +23090,42 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreateGroupsControllerRequest" });
   }
 }
-function __c291(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
-          email: S.String,
+          type: S.String,
+          issuer: S.String,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/organizations/{organization_id}/it_contacts",
+            uri: "/organizations/{organization_id}/issuer_trusts",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateItContactsControllerRequest" });
+      ).annotate({ identifier: "CreateIssuerTrustsControllerRequest" });
   }
 }
-function __c292(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
-          email: S.String,
+          organization_id: S.String,
+          type: S.String,
+          issuer: S.String,
+          enabled: S.Boolean,
           created_at: S.String,
           updated_at: S.String,
         }),
-      ).annotate({ identifier: "ItContact" });
+      ).annotate({ identifier: "IssuerTrust" });
   }
 }
-function __c293(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22153,7 +23137,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "AcceptUserlandUserInvitesControllerRequest" });
   }
 }
-function __c294(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22177,42 +23161,73 @@ function __c294(j: number): any {
       ).annotate({ identifier: "AcceptUserlandUserInvitesControllerResponse" });
   }
 }
-function __c295(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key_context: __S(1888, __c59, 0),
+          organization_id: S.String.pipe(T.Label()),
+          email: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organizations/{organization_id}/it_contacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateItContactsControllerRequest" });
+  }
+}
+function __c305(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          email: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "ItContact" });
+  }
+}
+function __c306(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key_context: __S(1760, __c55, 0),
           name: S.String,
           value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/vault/v1/kv", code: 200 })),
       ).annotate({ identifier: "CreateJumpWireWebDataVaultControllerRequest" });
   }
 }
-function __c296(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          context: __S(1888, __c59, 0),
+          context: __S(1760, __c55, 0),
           environment_id: S.String,
           id: S.String,
           key_id: S.String,
           updated_at: S.String,
-          updated_by: __S(11392, __c356, 0),
+          updated_by: __S(11712, __c366, 0),
           version_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ObjectMetadata" });
   }
 }
-function __c297(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          permissions: S.optional(__S(10048, __c314, 0)),
+          permissions: S.optional(__S(10336, __c323, 0)),
           expires_at: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/organizations/{organizationId}/api_keys", code: 200 }),
@@ -22223,12 +23238,12 @@ function __c297(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          owner: __S(9536, __c298, 0),
+          owner: __S(9888, __c309, 0),
           name: S.String,
           obfuscated_value: S.String,
           last_used_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           created_at: S.String,
           updated_at: S.String,
           value: S.String.pipe(T.SensitiveValue({})),
@@ -22236,7 +23251,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "OrganizationApiKeyWithValue" });
   }
 }
-function __c298(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22247,7 +23262,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "ApiKeyOwnerCase0" });
   }
 }
-function __c299(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22258,7 +23273,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "CreateOrganizationDomainsControllerRequest" });
   }
 }
-function __c300(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22277,33 +23292,33 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CreateOrganizationDomainsControllerResponse" });
   }
 }
-function __c301(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           allow_profiles_outside_organization: S.optional(S.Boolean),
-          domains: S.optional(__S(10048, __c314, 0)),
-          domain_data: S.optional(__S(9697, __c303, 1)),
-          metadata: S.optional(S.NullOr(__S(1888, __c59, 0))),
+          domains: S.optional(__S(10336, __c323, 0)),
+          domain_data: S.optional(__S(10049, __c314, 1)),
+          metadata: S.optional(S.NullOr(__S(1760, __c55, 0))),
           external_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/organizations", code: 200 })),
       ).annotate({ identifier: "CreateOrganizationsControllerRequest" });
   }
 }
-function __c302(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9600, __c300, 0));
+      return S.Array(__S(9952, __c311, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          domains: S.optional(__S(9664, __c302, 0)),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          domains: S.optional(__S(10016, __c313, 0)),
+          metadata: S.optional(__S(1760, __c55, 0)),
           external_id: S.optional(S.NullOr(S.String)),
           stripe_customer_id: S.optional(S.String),
           created_at: S.optional(S.String),
@@ -22313,7 +23328,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c303(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22323,10 +23338,10 @@ function __c303(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationDomainDataDto" });
     case 1:
-      return S.Array(__S(9696, __c303, 0));
+      return S.Array(__S(10048, __c314, 0));
   }
 }
-function __c304(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22336,7 +23351,7 @@ function __c304(j: number): any {
           organization: S.optional(S.String),
           external_user_id: S.optional(S.String),
           intent: S.optional(S.String),
-          it_contact_emails: S.optional(__S(10048, __c314, 0)),
+          it_contact_emails: S.optional(__S(10336, __c323, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/portal/generate_link", code: 200 })),
       ).annotate({ identifier: "CreatePortalSessionsControllerRequest" });
     case 1:
@@ -22347,7 +23362,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "PortalLinkResponse" });
   }
 }
-function __c305(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22357,7 +23372,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateRedirectUrisControllerRequest" });
   }
 }
-function __c306(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22372,7 +23387,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "RedirectUri" });
   }
 }
-function __c307(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22389,7 +23404,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "CreateSamlIdpSigningCertificatesControllerRequest" });
   }
 }
-function __c308(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22404,7 +23419,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "SamlIdpSigningCertificate" });
   }
 }
-function __c309(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22420,7 +23435,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "CreateSamlSpEncryptionCertificatesControllerRequest" });
   }
 }
-function __c310(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22436,34 +23451,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "CreateSamlSpSigningCertificatesControllerRequest" });
   }
 }
-function __c311(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          admin_email: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/platform/teams", code: 200 })),
-      ).annotate({ identifier: "CreateTeamsControllerTeamRequest" });
-  }
-}
-function __c312(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          name: S.String,
-          production_state: S.String,
-          production_enabled_at: S.NullOr(S.String),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "Team" });
-  }
-}
-function __c313(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22482,13 +23470,13 @@ function __c313(j: number): any {
       });
   }
 }
-function __c314(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c315(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22500,7 +23488,7 @@ function __c315(j: number): any {
           description: S.NullOr(S.String),
           type: S.String,
           resource_type_slug: S.String,
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           created_at: S.String,
           updated_at: S.String,
         }),
@@ -22509,7 +23497,34 @@ function __c315(j: number): any {
       });
   }
 }
-function __c316(j: number): any {
+function __c325(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          admin_email: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/platform/teams", code: 200 })),
+      ).annotate({ identifier: "CreateTeamsControllerTeamRequest" });
+  }
+}
+function __c326(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          name: S.String,
+          production_state: S.String,
+          production_enabled_at: S.NullOr(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "Team" });
+  }
+}
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22517,7 +23532,7 @@ function __c316(j: number): any {
           userId: S.String.pipe(T.Label()),
           name: S.String,
           organization_id: S.String,
-          permissions: S.optional(__S(10048, __c314, 0)),
+          permissions: S.optional(__S(10336, __c323, 0)),
           expires_at: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/user_management/users/{userId}/api_keys", code: 200 }),
@@ -22528,12 +23543,12 @@ function __c316(j: number): any {
         S.Struct({
           object: S.String,
           id: S.String,
-          owner: __S(10144, __c317, 0),
+          owner: __S(10496, __c328, 0),
           name: S.String,
           obfuscated_value: S.String,
           last_used_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
-          permissions: __S(10048, __c314, 0),
+          permissions: __S(10336, __c323, 0),
           created_at: S.String,
           updated_at: S.String,
           value: S.String.pipe(T.SensitiveValue({})),
@@ -22541,7 +23556,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "UserApiKeyWithValue" });
   }
 }
-function __c317(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22553,7 +23568,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "ApiKeyOwnerCase1" });
   }
 }
-function __c318(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22568,7 +23583,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "CreateUserlandUserInvitesControllerRequest" });
   }
 }
-function __c319(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22592,7 +23607,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "UserlandUserInvite" });
   }
 }
-function __c320(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22600,14 +23615,14 @@ function __c320(j: number): any {
           user_id: S.String,
           organization_id: S.String,
           role_slug: S.optional(S.String),
-          role_slugs: S.optional(__S(10048, __c314, 0)),
+          role_slugs: S.optional(__S(10336, __c323, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/user_management/organization_memberships", code: 200 }),
         ),
       ).annotate({ identifier: "CreateUserlandUserOrganizationMembershipsControllerRequest" });
   }
 }
-function __c321(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22619,23 +23634,23 @@ function __c321(j: number): any {
           status: S.String,
           directory_managed: S.Boolean,
           organization_name: S.optional(S.String),
-          custom_attributes: S.optional(__S(3968, __c124, 0)),
+          custom_attributes: S.optional(__S(3872, __c121, 0)),
           created_at: S.String,
           updated_at: S.String,
-          role: __S(2464, __c77, 0),
-          roles: __S(10304, __c322, 0),
-          user: __S(10336, __c323, 0),
+          role: __S(2368, __c74, 0),
+          roles: __S(10656, __c333, 0),
+          user: __S(10688, __c334, 0),
         }),
       ).annotate({ identifier: "CreateUserlandUserOrganizationMembershipsControllerResponse" });
   }
 }
-function __c322(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(2368, __c74, 0));
   }
 }
-function __c323(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22649,7 +23664,7 @@ function __c323(j: number): any {
           email: S.optional(S.String),
           email_verified: S.optional(S.Boolean),
           external_id: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(1888, __c59, 0)),
+          metadata: S.optional(__S(1760, __c55, 0)),
           last_sign_in_at: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
@@ -22658,14 +23673,14 @@ function __c323(j: number): any {
       ).annotate({ identifier: "UserlandUser" });
   }
 }
-function __c324(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           email: S.String,
-          additional_fields: S.optional(__S(1888, __c59, 0)),
+          additional_fields: S.optional(__S(1760, __c55, 0)),
           send_confirmation_email: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/user_management/waitlists/{id}/entries", code: 200 }),
@@ -22673,18 +23688,18 @@ function __c324(j: number): any {
       ).annotate({ identifier: "CreateWaitlistsControllerEntryRequest" });
   }
 }
-function __c325(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint_url: S.optional(S.String),
-          events: S.optional(__S(8288, __c259, 0)),
+          events: S.optional(__S(8448, __c264, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/webhook_endpoints", code: 200 })),
       ).annotate({ identifier: "CreateWebhookEndpointsControllerRequest" });
   }
 }
-function __c326(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22694,14 +23709,14 @@ function __c326(j: number): any {
           endpoint_url: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           status: S.optional(S.String),
-          events: S.optional(__S(10048, __c314, 0)),
+          events: S.optional(__S(10336, __c323, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookEndpointJson" });
   }
 }
-function __c327(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22714,12 +23729,12 @@ function __c327(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connected_account: __S(9024, __c282, 0),
+          connected_account: __S(9312, __c291, 0),
         }),
       ).annotate({ identifier: "DataIntegrationFinishConnectionResponse" });
   }
 }
-function __c328(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22732,7 +23747,7 @@ function __c328(j: number): any {
           return_to: S.optional(S.String),
           code_challenge: S.optional(S.String),
           code_challenge_method: S.optional(S.String),
-          config: S.optional(__S(1888, __c59, 0)),
+          config: S.optional(__S(1760, __c55, 0)),
           connection_intent: S.optional(S.String),
           connected_account_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/data-integrations/{slug}/authorize", code: 200 })),
@@ -22747,7 +23762,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DataIntegrationAuthorizeUrlResponse" });
   }
 }
-function __c329(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22768,7 +23783,7 @@ function __c329(j: number): any {
       });
   }
 }
-function __c330(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22784,7 +23799,19 @@ function __c330(j: number): any {
       ).annotate({ identifier: "DeactivateUserlandUserOrganizationMembershipsControllerRequest" });
   }
 }
-function __c331(j: number): any {
+function __c342(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/authorization/roles/{slug}/permissions", code: 200 }),
+        ),
+      ).annotate({ identifier: "AddAuthorizationRolePermissionsControllerPermissionRequest" });
+  }
+}
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22801,19 +23828,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "DecryptResponse" });
   }
 }
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/authorization/roles/{slug}/permissions", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddAuthorizationRolePermissionsControllerPermissionRequest" });
-  }
-}
-function __c333(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22825,7 +23840,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "DeleteAgentBlueprintsControllerRequest" });
   }
 }
-function __c334(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22837,7 +23852,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeleteAgentInstancesControllerRequest" });
   }
 }
-function __c335(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22847,7 +23862,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeleteApiKeysControllerRequest" });
   }
 }
-function __c336(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22857,7 +23872,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "DeleteApplicationCredentialsControllerRequest" });
   }
 }
-function __c337(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22867,7 +23882,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "DeleteApplicationsControllerRequest" });
   }
 }
-function __c338(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22877,7 +23892,7 @@ function __c338(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationFactorsControllerRequest" });
   }
 }
-function __c339(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22893,7 +23908,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "DeleteAuthkitOauthResourcesControllerRequest" });
   }
 }
-function __c340(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22910,7 +23925,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationOrganizationRolesControllerRequest" });
   }
 }
-function __c341(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22920,7 +23935,41 @@ function __c341(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationPermissionsControllerRequest" });
   }
 }
-function __c342(j: number): any {
+function __c353(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          organization_membership_id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organizations/{organizationId}/groups/{groupId}/organization-memberships",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddGroupMembershipsControllerMemberRequest" });
+  }
+}
+function __c354(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          organization_id: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Group" });
+  }
+}
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22941,41 +23990,7 @@ function __c342(j: number): any {
       });
   }
 }
-function __c343(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-          organization_membership_id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/organizations/{organizationId}/groups/{groupId}/organization-memberships",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddGroupMembershipsControllerMemberRequest" });
-  }
-}
-function __c344(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          organization_id: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Group" });
-  }
-}
-function __c345(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22988,7 +24003,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationResourcesControllerRequest" });
   }
 }
-function __c346(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23005,7 +24020,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizedApplicationsControllerRequest" });
   }
 }
-function __c347(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23015,7 +24030,17 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeleteConnectionsControllerRequest" });
   }
 }
-function __c348(j: number): any {
+function __c359(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/user_management/cors_origins/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteCorsOriginsControllerRequest" });
+  }
+}
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23027,7 +24052,7 @@ function __c348(j: number): any {
       });
   }
 }
-function __c349(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23041,7 +24066,7 @@ function __c349(j: number): any {
       });
   }
 }
-function __c350(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23063,7 +24088,7 @@ function __c350(j: number): any {
       });
   }
 }
-function __c351(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23085,7 +24110,7 @@ function __c351(j: number): any {
       });
   }
 }
-function __c352(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23095,7 +24120,53 @@ function __c352(j: number): any {
       ).annotate({ identifier: "DeleteDirectoriesControllerDirectoryRequest" });
   }
 }
-function __c353(j: number): any {
+function __c365(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.String,
+          external_id: S.String,
+        }),
+      ).annotate({ identifier: "AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          claim_attempt_token: S.String.pipe(T.SensitiveValue({})),
+          user: __S(11680, __c365, 0),
+          organization_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/agents/claims/attempts", code: 200 })),
+      ).annotate({ identifier: "AgentAdminControllerLinkClaimAttemptToExternalUserRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          user_code: S.String.pipe(T.SensitiveValue({})),
+          organizations: __S(11744, __c367, 0),
+        }),
+      ).annotate({ identifier: "ClaimViewResponse" });
+  }
+}
+function __c366(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ClaimViewResponseOrganizationsItem" });
+  }
+}
+function __c367(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(11712, __c366, 0));
+  }
+}
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23112,7 +24183,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "DeleteFlagTargetsControllerTargetRequest" });
   }
 }
-function __c354(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23129,53 +24200,24 @@ function __c354(j: number): any {
       ).annotate({ identifier: "DeleteGroupsControllerRequest" });
   }
 }
-function __c355(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          email: S.String,
-          external_id: S.String,
-        }),
-      ).annotate({ identifier: "AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          claim_attempt_token: S.String.pipe(T.SensitiveValue({})),
-          user: __S(11360, __c355, 0),
-          organization_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/agents/claims/attempts", code: 200 })),
-      ).annotate({ identifier: "AgentAdminControllerLinkClaimAttemptToExternalUserRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          status: S.String,
-          user_code: S.String.pipe(T.SensitiveValue({})),
-          organizations: __S(11424, __c357, 0),
-        }),
-      ).annotate({ identifier: "ClaimViewResponse" });
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/organizations/{organization_id}/issuer_trusts/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteIssuerTrustsControllerRequest" });
   }
 }
-function __c356(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ClaimViewResponseOrganizationsItem" });
-  }
-}
-function __c357(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(11392, __c356, 0));
-  }
-}
-function __c358(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23192,7 +24234,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "DeleteItContactsControllerRequest" });
   }
 }
-function __c359(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23210,7 +24252,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DeleteObjectResponse" });
   }
 }
-function __c360(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23220,7 +24262,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationDomainsControllerRequest" });
   }
 }
-function __c361(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23230,7 +24272,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsControllerOrganizationRequest" });
   }
 }
-function __c362(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23242,7 +24284,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "DeleteRedirectUrisControllerRequest" });
   }
 }
-function __c363(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23259,7 +24301,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "DeleteSamlIdpSigningCertificatesControllerRequest" });
   }
 }
-function __c364(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23274,51 +24316,6 @@ function __c364(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteSamlSpEncryptionCertificatesControllerRequest" });
-  }
-}
-function __c365(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connectionId: S.String.pipe(T.Label()),
-          certificateId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/connections/{connectionId}/saml_sp_signing_cert/{certificateId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteSamlSpSigningCertificatesControllerRequest" });
-  }
-}
-function __c366(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/user_management/organization_memberships/{id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteUserlandUserOrganizationMembershipsControllerRequest" });
-  }
-}
-function __c367(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/user_management/waitlist_entries/{id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteWaitlistEntriesControllerRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

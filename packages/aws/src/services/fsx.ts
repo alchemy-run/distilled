@@ -131,6 +131,10 @@ export class BadRequest
   extends /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
+export class ClusterPeerNotFound
+  extends /*@__PURE__*/ S.TaggedError<ClusterPeerNotFound>()("ClusterPeerNotFound", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class DataRepositoryAssociationNotFound
   extends /*@__PURE__*/ S.TaggedError<DataRepositoryAssociationNotFound>()(
     "DataRepositoryAssociationNotFound",
@@ -278,8 +282,21 @@ export class ServiceLimitExceeded
     ),
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withThrottlingError) {}
+export class SnapmirrorPolicyNotFound
+  extends /*@__PURE__*/ S.TaggedError<SnapmirrorPolicyNotFound>()("SnapmirrorPolicyNotFound", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
+export class SnapmirrorRelationshipNotFound
+  extends /*@__PURE__*/ S.TaggedError<SnapmirrorRelationshipNotFound>()(
+    "SnapmirrorRelationshipNotFound",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
 export class SnapshotNotFound
   extends /*@__PURE__*/ S.TaggedError<SnapshotNotFound>()("SnapshotNotFound", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
+export class SnapshotPolicyNotFound
+  extends /*@__PURE__*/ S.TaggedError<SnapshotPolicyNotFound>()("SnapshotPolicyNotFound", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class SnapshotVolumeNotFound
@@ -308,6 +325,11 @@ export class SourceSnapshotNotFound
 export class StorageVirtualMachineNotFound
   extends /*@__PURE__*/ S.TaggedError<StorageVirtualMachineNotFound>()(
     "StorageVirtualMachineNotFound",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+  ) {}
+export class StorageVirtualMachinePeerNotFound
+  extends /*@__PURE__*/ S.TaggedError<StorageVirtualMachinePeerNotFound>()(
+    "StorageVirtualMachinePeerNotFound",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class TooManyAccessPoints
@@ -603,6 +625,7 @@ export type AdministrativeActionType =
   | "VOLUME_UPDATE_WITH_SNAPSHOT"
   | "VOLUME_INITIALIZE_WITH_SNAPSHOT"
   | "DOWNLOAD_DATA_FROM_BACKUP"
+  | "VOLUME_CLONE_SPLIT"
   | (string & {});
 export type RequestTime = Date;
 export type Status =
@@ -641,7 +664,7 @@ export interface TieringPolicy {
 }
 export type UUID = string;
 export type OntapVolumeType = "RW" | "DP" | "LS" | (string & {});
-export type SnapshotPolicy = string;
+export type SnapshotPolicyName = string;
 export type AutocommitPeriodType =
   | "MINUTES"
   | "HOURS"
@@ -694,6 +717,12 @@ export interface AggregateConfiguration {
   TotalConstituents?: number | undefined;
 }
 export type VolumeCapacityBytes = number;
+export type VolumeId = string;
+export type SnapshotId = string;
+export interface CloneConfiguration {
+  ParentVolumeId?: string | undefined;
+  SnapshotId?: string | undefined;
+}
 export interface OntapVolumeConfiguration {
   FlexCacheEndpointType?: FlexCacheEndpointType | undefined;
   JunctionPath?: string | undefined;
@@ -711,11 +740,17 @@ export interface OntapVolumeConfiguration {
   VolumeStyle?: VolumeStyle | undefined;
   AggregateConfiguration?: AggregateConfiguration | undefined;
   SizeInBytes?: number | undefined;
+  CloneConfiguration?: CloneConfiguration | undefined;
 }
-export type VolumeId = string;
 export type VolumeType = "ONTAP" | "OPENZFS" | (string & {});
+export type ErrorCode = string;
+export interface OntapError {
+  Message?: string | undefined;
+  Code?: string | undefined;
+}
 export interface LifecycleTransitionReason {
   Message?: string | undefined;
+  OntapError?: OntapError | undefined;
 }
 export type VolumePath = string;
 export type IntegerNoMax = number;
@@ -746,7 +781,6 @@ export interface OpenZFSUserOrGroupQuota {
   StorageCapacityQuotaGiB?: number | undefined;
 }
 export type OpenZFSUserAndGroupQuotas = OpenZFSUserOrGroupQuota[];
-export type SnapshotId = string;
 export interface OpenZFSVolumeConfiguration {
   ParentVolumeId?: string | undefined;
   VolumePath?: string | undefined;
@@ -782,7 +816,25 @@ export interface Volume {
   OpenZFSConfiguration?: OpenZFSVolumeConfiguration | undefined;
 }
 export type SnapshotName = string;
-export type SnapshotLifecycle = "PENDING" | "CREATING" | "DELETING" | "AVAILABLE" | (string & {});
+export type SnapshotLifecycle =
+  | "PENDING"
+  | "CREATING"
+  | "DELETING"
+  | "AVAILABLE"
+  | "FAILED"
+  | (string & {});
+export type SnapshotType = "ONTAP" | "OPENZFS" | (string & {});
+export type SnapshotSizeInMegabytes = number;
+export type SnapmirrorLabel = string;
+export type ExpiryTime = Date;
+export type SnaplockExpiryTime = Date;
+export interface OntapSnapshotConfiguration {
+  SizeInMegabytes?: number | undefined;
+  SnapmirrorLabel?: string | undefined;
+  ExpiryTime?: Date | undefined;
+  SnaplockExpiryTime?: Date | undefined;
+  UUID?: string | undefined;
+}
 export interface Snapshot {
   ResourceARN?: string | undefined;
   SnapshotId?: string | undefined;
@@ -790,9 +842,11 @@ export interface Snapshot {
   VolumeId?: string | undefined;
   CreationTime?: Date | undefined;
   Lifecycle?: SnapshotLifecycle | undefined;
+  SnapshotType?: SnapshotType | undefined;
   LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
   Tags?: Tag[] | undefined;
   AdministrativeActions?: AdministrativeAction[] | undefined;
+  OntapConfiguration?: OntapSnapshotConfiguration | undefined;
 }
 export type TotalTransferBytes = number;
 export type RemainingTransferBytes = number;
@@ -815,6 +869,8 @@ export type OntapDeploymentType =
   | "SINGLE_AZ_1"
   | "SINGLE_AZ_2"
   | "MULTI_AZ_2"
+  | "SINGLE_AZ_3"
+  | "MULTI_AZ_3"
   | (string & {});
 export type IpAddressRange = string;
 export type OntapEndpointIpAddresses = string[];
@@ -1310,6 +1366,48 @@ export interface CreateBackupResponse {
       })
     | undefined;
 }
+export type PeerAddresses = string[];
+export type PeerClusterName = string;
+export type AllowedSvmMode = "ALL" | "NONE" | "SPECIFIED" | (string & {});
+export type AllowedSvmIds = string[];
+export interface CreateClusterPeerRequest {
+  ClientRequestToken?: string | undefined;
+  FileSystemId?: string | undefined;
+  PeerAddresses?: string[] | undefined;
+  PassphraseSecretArn?: string | undefined;
+  PeerClusterName?: string | undefined;
+  AllowedSvmMode?: AllowedSvmMode | undefined;
+  AllowedSvmIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type ClusterPeerId = string;
+export type ClusterPeerLifecycle = "CREATING" | "CREATED" | "DELETING" | "FAILED" | (string & {});
+export type ClusterPeerStatus = string;
+export type ClusterPeerAuthenticationState = string;
+export type ClusterPeerAuthenticationInUse = string;
+export interface ClusterPeerAuthenticationStatus {
+  State?: string | undefined;
+  InUse?: string | undefined;
+}
+export interface ClusterPeer {
+  ResourceARN?: string | undefined;
+  ClusterPeerId?: string | undefined;
+  FileSystemId?: string | undefined;
+  Lifecycle?: ClusterPeerLifecycle | undefined;
+  LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
+  Tags?: Tag[] | undefined;
+  PeerAddresses?: string[] | undefined;
+  PeerClusterName?: string | undefined;
+  PassphraseSecretArn?: string | undefined;
+  AllowedSvmMode?: AllowedSvmMode | undefined;
+  AllowedSvmIds?: string[] | undefined;
+  Status?: string | undefined;
+  UUID?: string | undefined;
+  AuthenticationStatus?: ClusterPeerAuthenticationStatus | undefined;
+}
+export interface CreateClusterPeerResponse {
+  ClusterPeer?: (ClusterPeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] }) | undefined;
+}
 export type Namespace = string;
 export type BatchImportMetaDataOnCreate = boolean;
 export type EventType = "NEW" | "CHANGED" | "DELETED" | (string & {});
@@ -1770,11 +1868,166 @@ export interface CreateFileSystemFromBackupResponse {
       })
     | undefined;
 }
+export type SnapmirrorPolicyName = string;
+export type SnapmirrorPolicySnapshotCopyMode =
+  | "COPY_ALL_SOURCE_SNAPSHOTS"
+  | "COPY_LATEST_SOURCE_SNAPSHOT"
+  | "NO_CREATE_SNAPSHOT_ON_SOURCE"
+  | (string & {});
+export type SnapmirrorPolicyRetentionCount = number;
+export type SnapmirrorPolicyCreationScheduleName = string;
+export interface SnapmirrorPolicyRetentionRule {
+  Label?: string | undefined;
+  Count?: number | undefined;
+  CreationSchedule?: string | undefined;
+}
+export type SnapmirrorPolicyRetentionRules = SnapmirrorPolicyRetentionRule[];
+export type SnapmirrorTransferScheduleName = string;
+export type ThrottleInKbps = number;
+export interface CreateSnapmirrorPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  FileSystemId?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  Name?: string | undefined;
+  SnapshotCopyMode?: SnapmirrorPolicySnapshotCopyMode | undefined;
+  RetentionRules?: SnapmirrorPolicyRetentionRule[] | undefined;
+  TransferSchedule?: string | undefined;
+  NetworkCompressionEnabled?: boolean | undefined;
+  ThrottleInKbps?: number | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type SnapmirrorPolicyId = string;
+export type SnapmirrorPolicyScope = "FILESYSTEM" | "SVM" | (string & {});
+export type SnapmirrorPolicyLifecycle =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export interface SnapmirrorPolicy {
+  ResourceARN?: string | undefined;
+  SnapmirrorPolicyId?: string | undefined;
+  FileSystemId?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  Name?: string | undefined;
+  SnapshotCopyMode?: SnapmirrorPolicySnapshotCopyMode | undefined;
+  RetentionRules?: SnapmirrorPolicyRetentionRule[] | undefined;
+  TransferSchedule?: string | undefined;
+  NetworkCompressionEnabled?: boolean | undefined;
+  ThrottleInKbps?: number | undefined;
+  Scope?: SnapmirrorPolicyScope | undefined;
+  Lifecycle?: SnapmirrorPolicyLifecycle | undefined;
+  UUID?: string | undefined;
+  LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
+  Tags?: Tag[] | undefined;
+}
+export interface CreateSnapmirrorPolicyResponse {
+  SnapmirrorPolicy?:
+    | (SnapmirrorPolicy & {
+        RetentionRules: (SnapmirrorPolicyRetentionRule & {
+          Label: SnapmirrorLabel;
+          Count: SnapmirrorPolicyRetentionCount;
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+      })
+    | undefined;
+}
+export type SnapmirrorPath = string;
+export interface CreateSnapmirrorSource {
+  Path?: string | undefined;
+}
+export interface CreateSnapmirrorDestination {
+  VolumeId?: string | undefined;
+}
+export interface CreateSnapmirrorRelationshipRequest {
+  ClientRequestToken?: string | undefined;
+  Source?: CreateSnapmirrorSource | undefined;
+  Destination?: CreateSnapmirrorDestination | undefined;
+  PolicyId?: string | undefined;
+  TransferSchedule?: string | undefined;
+  ThrottleInKbps?: number | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type SnapmirrorRelationshipId = string;
+export type SnapmirrorRelationshipLifecycle =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export interface SnapmirrorSource {
+  Path?: string | undefined;
+}
+export interface SnapmirrorDestination {
+  Path?: string | undefined;
+  VolumeId?: string | undefined;
+}
+export interface SnapmirrorRelationshipPolicy {
+  PolicyId?: string | undefined;
+  PolicyName?: string | undefined;
+}
+export type SnapmirrorRelationshipState =
+  | "UNINITIALIZED"
+  | "TRANSFERRING"
+  | "SNAPMIRRORED"
+  | "PAUSED"
+  | "BROKEN_OFF"
+  | (string & {});
+export type SnapmirrorHealthy = boolean;
+export type SnapmirrorUnhealthyReason = string;
+export type LagTimeInMinutes = number;
+export type SnapmirrorExportedSnapshotName = string;
+export interface SnapmirrorExportedSnapshot {
+  SnapshotId?: string | undefined;
+  SnapshotName?: string | undefined;
+}
+export type SnapmirrorTransferStatus = string;
+export type SnapmirrorTransferType = string;
+export type SnapmirrorTransferBytes = number;
+export type SnapmirrorTransferDuration = string;
+export interface SnapmirrorTransferState {
+  State?: string | undefined;
+  Type?: string | undefined;
+  BytesTransferred?: number | undefined;
+  Duration?: string | undefined;
+  EndTime?: Date | undefined;
+}
+export interface SnapmirrorRelationship {
+  ResourceARN?: string | undefined;
+  SnapmirrorRelationshipId?: string | undefined;
+  FileSystemId?: string | undefined;
+  Lifecycle?: SnapmirrorRelationshipLifecycle | undefined;
+  LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
+  Tags?: Tag[] | undefined;
+  Source?: SnapmirrorSource | undefined;
+  Destination?: SnapmirrorDestination | undefined;
+  SnapmirrorPolicy?: SnapmirrorRelationshipPolicy | undefined;
+  TransferSchedule?: string | undefined;
+  ThrottleInKbps?: number | undefined;
+  State?: SnapmirrorRelationshipState | undefined;
+  Healthy?: boolean | undefined;
+  UnhealthyReason?: string | undefined;
+  LagTimeInMinutes?: number | undefined;
+  ExportedSnapshot?: SnapmirrorExportedSnapshot | undefined;
+  TransferState?: SnapmirrorTransferState | undefined;
+  UUID?: string | undefined;
+}
+export interface CreateSnapmirrorRelationshipResponse {
+  SnapmirrorRelationship?:
+    | (SnapmirrorRelationship & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
+    | undefined;
+}
+export interface CreateOntapSnapshotConfiguration {
+  SnapmirrorLabel?: string | undefined;
+  ExpiryTime?: Date | undefined;
+  SnaplockExpiryTime?: Date | undefined;
+}
 export interface CreateSnapshotRequest {
   ClientRequestToken?: string | undefined;
   Name?: string | undefined;
   VolumeId?: string | undefined;
   Tags?: Tag[] | undefined;
+  OntapConfiguration?: CreateOntapSnapshotConfiguration | undefined;
 }
 export interface CreateSnapshotResponse {
   Snapshot?:
@@ -1824,6 +2077,76 @@ export interface CreateSnapshotResponse {
             };
           };
         })[];
+      })
+    | undefined;
+}
+export type SnapshotPolicyScheduleName = string;
+export type SnapshotPolicyScheduleCount = number;
+export type SnapshotPolicySchedulePrefix = string;
+export type SnapshotPolicyRetentionPeriodType =
+  | "SECONDS"
+  | "MINUTES"
+  | "HOURS"
+  | "DAYS"
+  | "MONTHS"
+  | "YEARS"
+  | "INFINITE"
+  | (string & {});
+export type SnapshotPolicyRetentionPeriodValue = number;
+export interface SnapshotPolicyRetentionPeriod {
+  Type?: SnapshotPolicyRetentionPeriodType | undefined;
+  Value?: number | undefined;
+}
+export interface SnapshotPolicySchedule {
+  Name?: string | undefined;
+  Count?: number | undefined;
+  Prefix?: string | undefined;
+  SnapmirrorLabel?: string | undefined;
+  RetentionPeriod?: SnapshotPolicyRetentionPeriod | undefined;
+}
+export type SnapshotPolicyScheduleList = SnapshotPolicySchedule[];
+export interface CreateSnapshotPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  FileSystemId?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  Name?: string | undefined;
+  Enabled?: boolean | undefined;
+  Schedules?: SnapshotPolicySchedule[] | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type SnapshotPolicyId = string;
+export type SnapshotPolicyScope = "FILESYSTEM" | "SVM" | (string & {});
+export type SnapshotPolicyLifecycle =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export interface SnapshotPolicy {
+  ResourceARN?: string | undefined;
+  SnapshotPolicyId?: string | undefined;
+  FileSystemId?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  Name?: string | undefined;
+  Enabled?: boolean | undefined;
+  Schedules?: SnapshotPolicySchedule[] | undefined;
+  Scope?: SnapshotPolicyScope | undefined;
+  Lifecycle?: SnapshotPolicyLifecycle | undefined;
+  UUID?: string | undefined;
+  LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
+  Tags?: Tag[] | undefined;
+}
+export interface CreateSnapshotPolicyResponse {
+  SnapshotPolicy?:
+    | (SnapshotPolicy & {
+        Schedules: (SnapshotPolicySchedule & {
+          Name: SnapshotPolicyScheduleName;
+          Count: SnapshotPolicyScheduleCount;
+          RetentionPeriod: SnapshotPolicyRetentionPeriod & {
+            Type: SnapshotPolicyRetentionPeriodType;
+          };
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
       })
     | undefined;
 }
@@ -1896,6 +2219,59 @@ export interface CreateStorageVirtualMachineResponse {
     | (StorageVirtualMachine & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
     | undefined;
 }
+export type PeerSvmName = string;
+export type StorageVirtualMachinePeerApplication =
+  | "SNAPMIRROR"
+  | "FILE_COPY"
+  | "LUN_COPY"
+  | "FLEXCACHE"
+  | (string & {});
+export type StorageVirtualMachinePeerApplications = StorageVirtualMachinePeerApplication[];
+export type PeerSvmAlias = string;
+export interface CreateStorageVirtualMachinePeerRequest {
+  ClientRequestToken?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  PeerSvmName?: string | undefined;
+  PeerClusterName?: string | undefined;
+  Applications?: StorageVirtualMachinePeerApplication[] | undefined;
+  PeerSvmAlias?: string | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type StorageVirtualMachinePeerId = string;
+export type StorageVirtualMachinePeerLifecycle =
+  | "CREATING"
+  | "CREATED"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export type StorageVirtualMachinePeerState =
+  | "PEERED"
+  | "REJECTED"
+  | "SUSPENDED"
+  | "INITIATED"
+  | "PENDING"
+  | "INITIALIZING"
+  | (string & {});
+export interface StorageVirtualMachinePeer {
+  ResourceARN?: string | undefined;
+  StorageVirtualMachinePeerId?: string | undefined;
+  StorageVirtualMachineId?: string | undefined;
+  FileSystemId?: string | undefined;
+  Lifecycle?: StorageVirtualMachinePeerLifecycle | undefined;
+  LifecycleTransitionReason?: LifecycleTransitionReason | undefined;
+  Tags?: Tag[] | undefined;
+  PeerSvmName?: string | undefined;
+  PeerSvmAlias?: string | undefined;
+  PeerClusterName?: string | undefined;
+  Applications?: StorageVirtualMachinePeerApplication[] | undefined;
+  State?: StorageVirtualMachinePeerState | undefined;
+  UUID?: string | undefined;
+}
+export interface CreateStorageVirtualMachinePeerResponse {
+  StorageVirtualMachinePeer?:
+    | (StorageVirtualMachinePeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
+    | undefined;
+}
 export type InputOntapVolumeType = "RW" | "DP" | (string & {});
 export interface CreateSnaplockConfiguration {
   AuditLogVolume?: boolean | undefined;
@@ -1909,6 +2285,10 @@ export type AggregateListMultiplier = number;
 export interface CreateAggregateConfiguration {
   Aggregates?: string[] | undefined;
   ConstituentsPerAggregate?: number | undefined;
+}
+export interface CreateCloneConfiguration {
+  ParentVolumeId?: string | undefined;
+  SnapshotId?: string | undefined;
 }
 export interface CreateOntapVolumeConfiguration {
   JunctionPath?: string | undefined;
@@ -1924,6 +2304,7 @@ export interface CreateOntapVolumeConfiguration {
   VolumeStyle?: VolumeStyle | undefined;
   AggregateConfiguration?: CreateAggregateConfiguration | undefined;
   SizeInBytes?: number | undefined;
+  CloneConfiguration?: CreateCloneConfiguration | undefined;
 }
 export type IntegerNoMaxFromNegativeOne = number;
 export interface CreateOpenZFSOriginSnapshotConfiguration {
@@ -2063,6 +2444,14 @@ export interface DeleteBackupResponse {
   BackupId?: string | undefined;
   Lifecycle?: BackupLifecycle | undefined;
 }
+export interface DeleteClusterPeerRequest {
+  ClientRequestToken?: string | undefined;
+  ClusterPeerId?: string | undefined;
+}
+export interface DeleteClusterPeerResponse {
+  ClusterPeerId?: string | undefined;
+  Lifecycle?: ClusterPeerLifecycle | undefined;
+}
 export type DeleteDataInFileSystem = boolean;
 export interface DeleteDataRepositoryAssociationRequest {
   AssociationId?: string | undefined;
@@ -2135,6 +2524,22 @@ export interface DeleteFileSystemResponse {
       })
     | undefined;
 }
+export interface DeleteSnapmirrorPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  SnapmirrorPolicyId?: string | undefined;
+}
+export interface DeleteSnapmirrorPolicyResponse {
+  SnapmirrorPolicyId?: string | undefined;
+  Lifecycle?: SnapmirrorPolicyLifecycle | undefined;
+}
+export interface DeleteSnapmirrorRelationshipRequest {
+  ClientRequestToken?: string | undefined;
+  SnapmirrorRelationshipId?: string | undefined;
+}
+export interface DeleteSnapmirrorRelationshipResponse {
+  SnapmirrorRelationshipId?: string | undefined;
+  Lifecycle?: SnapmirrorRelationshipLifecycle | undefined;
+}
 export interface DeleteSnapshotRequest {
   ClientRequestToken?: string | undefined;
   SnapshotId?: string | undefined;
@@ -2143,6 +2548,14 @@ export interface DeleteSnapshotResponse {
   SnapshotId?: string | undefined;
   Lifecycle?: SnapshotLifecycle | undefined;
 }
+export interface DeleteSnapshotPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  SnapshotPolicyId?: string | undefined;
+}
+export interface DeleteSnapshotPolicyResponse {
+  SnapshotPolicyId?: string | undefined;
+  Lifecycle?: SnapshotPolicyLifecycle | undefined;
+}
 export interface DeleteStorageVirtualMachineRequest {
   ClientRequestToken?: string | undefined;
   StorageVirtualMachineId?: string | undefined;
@@ -2150,6 +2563,14 @@ export interface DeleteStorageVirtualMachineRequest {
 export interface DeleteStorageVirtualMachineResponse {
   StorageVirtualMachineId?: string | undefined;
   Lifecycle?: StorageVirtualMachineLifecycle | undefined;
+}
+export interface DeleteStorageVirtualMachinePeerRequest {
+  ClientRequestToken?: string | undefined;
+  StorageVirtualMachinePeerId?: string | undefined;
+}
+export interface DeleteStorageVirtualMachinePeerResponse {
+  StorageVirtualMachinePeerId?: string | undefined;
+  Lifecycle?: StorageVirtualMachinePeerLifecycle | undefined;
 }
 export interface DeleteVolumeOntapConfiguration {
   SkipFinalBackup?: boolean | undefined;
@@ -2304,6 +2725,26 @@ export interface DescribeBackupsResponse {
         };
       })[]
     | undefined;
+  NextToken?: string | undefined;
+}
+export type ClusterPeerIds = string[];
+export type ClusterPeerFilterName = "file-system-id" | (string & {});
+export type ClusterPeerFilterValue = string;
+export type ClusterPeerFilterValues = string[];
+export interface ClusterPeerFilter {
+  Name?: ClusterPeerFilterName | undefined;
+  Values?: string[] | undefined;
+}
+export type ClusterPeerFilters = ClusterPeerFilter[];
+export interface DescribeClusterPeersRequest {
+  ClusterPeerIds?: string[] | undefined;
+  Filters?: ClusterPeerFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type ClusterPeers = ClusterPeer[];
+export interface DescribeClusterPeersResponse {
+  ClusterPeers?: (ClusterPeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })[] | undefined;
   NextToken?: string | undefined;
 }
 export type LimitedMaxResults = number;
@@ -2507,6 +2948,96 @@ export type VerboseFlag = string;
 export interface DescribeSharedVpcConfigurationResponse {
   EnableFsxRouteTableUpdatesFromParticipantAccounts?: string | undefined;
 }
+export type SnapmirrorPolicyIds = string[];
+export type SnapmirrorPolicyFilterName =
+  | "file-system-id"
+  | "storage-virtual-machine-id"
+  | (string & {});
+export type SnapmirrorPolicyFilterValue = string;
+export type SnapmirrorPolicyFilterValues = string[];
+export interface SnapmirrorPolicyFilter {
+  Name?: SnapmirrorPolicyFilterName | undefined;
+  Values?: string[] | undefined;
+}
+export type SnapmirrorPolicyFilters = SnapmirrorPolicyFilter[];
+export interface DescribeSnapmirrorPoliciesRequest {
+  SnapmirrorPolicyIds?: string[] | undefined;
+  Filters?: SnapmirrorPolicyFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type SnapmirrorPolicies = SnapmirrorPolicy[];
+export interface DescribeSnapmirrorPoliciesResponse {
+  SnapmirrorPolicies?:
+    | (SnapmirrorPolicy & {
+        RetentionRules: (SnapmirrorPolicyRetentionRule & {
+          Label: SnapmirrorLabel;
+          Count: SnapmirrorPolicyRetentionCount;
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
+}
+export type SnapmirrorRelationshipIds = string[];
+export type SnapmirrorRelationshipFilterName =
+  | "file-system-id"
+  | "destination-volume-id"
+  | (string & {});
+export type SnapmirrorRelationshipFilterValue = string;
+export type SnapmirrorRelationshipFilterValues = string[];
+export interface SnapmirrorRelationshipFilter {
+  Name?: SnapmirrorRelationshipFilterName | undefined;
+  Values?: string[] | undefined;
+}
+export type SnapmirrorRelationshipFilters = SnapmirrorRelationshipFilter[];
+export interface DescribeSnapmirrorRelationshipsRequest {
+  SnapmirrorRelationshipIds?: string[] | undefined;
+  Filters?: SnapmirrorRelationshipFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type SnapmirrorRelationships = SnapmirrorRelationship[];
+export interface DescribeSnapmirrorRelationshipsResponse {
+  SnapmirrorRelationships?:
+    | (SnapmirrorRelationship & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })[]
+    | undefined;
+  NextToken?: string | undefined;
+}
+export type SnapshotPolicyIds = string[];
+export type SnapshotPolicyFilterName =
+  | "file-system-id"
+  | "storage-virtual-machine-id"
+  | (string & {});
+export type SnapshotPolicyFilterValue = string;
+export type SnapshotPolicyFilterValues = string[];
+export interface SnapshotPolicyFilter {
+  Name?: SnapshotPolicyFilterName | undefined;
+  Values?: string[] | undefined;
+}
+export type SnapshotPolicyFilters = SnapshotPolicyFilter[];
+export interface DescribeSnapshotPoliciesRequest {
+  SnapshotPolicyIds?: string[] | undefined;
+  Filters?: SnapshotPolicyFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type SnapshotPolicies = SnapshotPolicy[];
+export interface DescribeSnapshotPoliciesResponse {
+  SnapshotPolicies?:
+    | (SnapshotPolicy & {
+        Schedules: (SnapshotPolicySchedule & {
+          Name: SnapshotPolicyScheduleName;
+          Count: SnapshotPolicyScheduleCount;
+          RetentionPeriod: SnapshotPolicyRetentionPeriod & {
+            Type: SnapshotPolicyRetentionPeriodType;
+          };
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
+}
 export type SnapshotIds = string[];
 export type SnapshotFilterName = "file-system-id" | "volume-id" | (string & {});
 export type SnapshotFilterValue = string;
@@ -2574,6 +3105,31 @@ export interface DescribeSnapshotsResponse {
           };
         })[];
       })[]
+    | undefined;
+  NextToken?: string | undefined;
+}
+export type StorageVirtualMachinePeerIds = string[];
+export type StorageVirtualMachinePeerFilterName =
+  | "file-system-id"
+  | "storage-virtual-machine-id"
+  | (string & {});
+export type StorageVirtualMachinePeerFilterValue = string;
+export type StorageVirtualMachinePeerFilterValues = string[];
+export interface StorageVirtualMachinePeerFilter {
+  Name?: StorageVirtualMachinePeerFilterName | undefined;
+  Values?: string[] | undefined;
+}
+export type StorageVirtualMachinePeerFilters = StorageVirtualMachinePeerFilter[];
+export interface DescribeStorageVirtualMachinePeersRequest {
+  StorageVirtualMachinePeerIds?: string[] | undefined;
+  Filters?: StorageVirtualMachinePeerFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type StorageVirtualMachinePeers = StorageVirtualMachinePeer[];
+export interface DescribeStorageVirtualMachinePeersResponse {
+  StorageVirtualMachinePeers?:
+    | (StorageVirtualMachinePeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })[]
     | undefined;
   NextToken?: string | undefined;
 }
@@ -2869,6 +3425,15 @@ export interface UntagResourceRequest {
   TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
+export interface UpdateClusterPeerRequest {
+  ClientRequestToken?: string | undefined;
+  ClusterPeerId?: string | undefined;
+  PeerClusterName?: string | undefined;
+  PeerAddresses?: string[] | undefined;
+}
+export interface UpdateClusterPeerResponse {
+  ClusterPeer?: (ClusterPeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] }) | undefined;
+}
 export interface UpdateDataRepositoryAssociationRequest {
   AssociationId?: string | undefined;
   ClientRequestToken?: string | undefined;
@@ -3035,10 +3600,53 @@ export interface UpdateSharedVpcConfigurationRequest {
 export interface UpdateSharedVpcConfigurationResponse {
   EnableFsxRouteTableUpdatesFromParticipantAccounts?: string | undefined;
 }
+export interface UpdateSnapmirrorPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  SnapmirrorPolicyId?: string | undefined;
+  RetentionRules?: SnapmirrorPolicyRetentionRule[] | undefined;
+  TransferSchedule?: string | undefined;
+  NetworkCompressionEnabled?: boolean | undefined;
+  ThrottleInKbps?: number | undefined;
+}
+export interface UpdateSnapmirrorPolicyResponse {
+  SnapmirrorPolicy?:
+    | (SnapmirrorPolicy & {
+        RetentionRules: (SnapmirrorPolicyRetentionRule & {
+          Label: SnapmirrorLabel;
+          Count: SnapmirrorPolicyRetentionCount;
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+      })
+    | undefined;
+}
+export type UpdatableSnapmirrorRelationshipState =
+  | "SNAPMIRRORED"
+  | "PAUSED"
+  | "BROKEN_OFF"
+  | (string & {});
+export interface UpdateSnapmirrorRelationshipRequest {
+  ClientRequestToken?: string | undefined;
+  SnapmirrorRelationshipId?: string | undefined;
+  PolicyId?: string | undefined;
+  TransferSchedule?: string | undefined;
+  ThrottleInKbps?: number | undefined;
+  State?: UpdatableSnapmirrorRelationshipState | undefined;
+}
+export interface UpdateSnapmirrorRelationshipResponse {
+  SnapmirrorRelationship?:
+    | (SnapmirrorRelationship & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
+    | undefined;
+}
+export interface UpdateOntapSnapshotConfiguration {
+  SnapmirrorLabel?: string | undefined;
+  ExpiryTime?: Date | undefined;
+  SnaplockExpiryTime?: Date | undefined;
+}
 export interface UpdateSnapshotRequest {
   ClientRequestToken?: string | undefined;
   Name?: string | undefined;
   SnapshotId?: string | undefined;
+  OntapConfiguration?: UpdateOntapSnapshotConfiguration | undefined;
 }
 export interface UpdateSnapshotResponse {
   Snapshot?:
@@ -3091,6 +3699,25 @@ export interface UpdateSnapshotResponse {
       })
     | undefined;
 }
+export interface UpdateSnapshotPolicyRequest {
+  ClientRequestToken?: string | undefined;
+  SnapshotPolicyId?: string | undefined;
+  Enabled?: boolean | undefined;
+}
+export interface UpdateSnapshotPolicyResponse {
+  SnapshotPolicy?:
+    | (SnapshotPolicy & {
+        Schedules: (SnapshotPolicySchedule & {
+          Name: SnapshotPolicyScheduleName;
+          Count: SnapshotPolicyScheduleCount;
+          RetentionPeriod: SnapshotPolicyRetentionPeriod & {
+            Type: SnapshotPolicyRetentionPeriodType;
+          };
+        })[];
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+      })
+    | undefined;
+}
 export interface UpdateSvmActiveDirectoryConfiguration {
   SelfManagedActiveDirectoryConfiguration?:
     | SelfManagedActiveDirectoryConfigurationUpdates
@@ -3108,12 +3735,33 @@ export interface UpdateStorageVirtualMachineResponse {
     | (StorageVirtualMachine & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
     | undefined;
 }
+export type StorageVirtualMachinePeerUpdateState =
+  | "PEERED"
+  | "REJECTED"
+  | "SUSPENDED"
+  | (string & {});
+export interface UpdateStorageVirtualMachinePeerRequest {
+  ClientRequestToken?: string | undefined;
+  StorageVirtualMachinePeerId?: string | undefined;
+  Applications?: StorageVirtualMachinePeerApplication[] | undefined;
+  PeerSvmAlias?: string | undefined;
+  State?: StorageVirtualMachinePeerUpdateState | undefined;
+}
+export interface UpdateStorageVirtualMachinePeerResponse {
+  StorageVirtualMachinePeer?:
+    | (StorageVirtualMachinePeer & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] })
+    | undefined;
+}
 export interface UpdateSnaplockConfiguration {
   AuditLogVolume?: boolean | undefined;
   AutocommitPeriod?: AutocommitPeriod | undefined;
   PrivilegedDelete?: PrivilegedDelete | undefined;
   RetentionPeriod?: SnaplockRetentionPeriod | undefined;
   VolumeAppendModeEnabled?: boolean | undefined;
+}
+export type CloneSplitAction = "START" | (string & {});
+export interface UpdateCloneConfiguration {
+  SplitAction?: CloneSplitAction | undefined;
 }
 export interface UpdateOntapVolumeConfiguration {
   JunctionPath?: string | undefined;
@@ -3125,6 +3773,7 @@ export interface UpdateOntapVolumeConfiguration {
   CopyTagsToBackups?: boolean | undefined;
   SnaplockConfiguration?: UpdateSnaplockConfiguration | undefined;
   SizeInBytes?: number | undefined;
+  CloneConfiguration?: UpdateCloneConfiguration | undefined;
 }
 export interface UpdateOpenZFSVolumeConfiguration {
   StorageCapacityReservationGiB?: number | undefined;
@@ -3204,7 +3853,6 @@ export type ServiceLimit =
   | "TOTAL_SSD_IOPS"
   | "FILE_CACHE_COUNT"
   | (string & {});
-export type ErrorCode = string;
 export type ActiveDirectoryErrorType =
   | "DOMAIN_NOT_FOUND"
   | "INCOMPATIBLE_DOMAIN_MODE"
@@ -3237,8 +3885,8 @@ export const associateFileSystemAliases: API.OperationMethod<
   AssociateFileSystemAliasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AssociateFileSystemAliasesRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<AssociateFileSystemAliasesResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<AssociateFileSystemAliasesRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<AssociateFileSystemAliasesResponse>,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -3275,8 +3923,8 @@ export const cancelDataRepositoryTask: API.OperationMethod<
   CancelDataRepositoryTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CancelDataRepositoryTaskRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<CancelDataRepositoryTaskResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<CancelDataRepositoryTaskRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<CancelDataRepositoryTaskResponse>,
   errors: [
     BadRequest,
     DataRepositoryTaskEnded,
@@ -3338,8 +3986,8 @@ export const copyBackup: API.OperationMethod<
   CopyBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CopyBackupRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<CopyBackupResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CopyBackupRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<CopyBackupResponse>,
   errors: [
     BackupNotFound,
     BadRequest,
@@ -3378,8 +4026,8 @@ export const copySnapshotAndUpdateVolume: API.OperationMethod<
   CopySnapshotAndUpdateVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CopySnapshotAndUpdateVolumeRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<CopySnapshotAndUpdateVolumeResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CopySnapshotAndUpdateVolumeRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<CopySnapshotAndUpdateVolumeResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -3409,8 +4057,10 @@ export type CreateAndAttachS3AccessPointError =
 /**
  * Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the
  * volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information,
- * see Accessing your data using Amazon S3 access points.
- * in the Amazon FSx for OpenZFS User Guide.
+ * see Accessing your data using Amazon S3 access points
+ * in the Amazon FSx for OpenZFS User Guide. For FSx for ONTAP file systems, see
+ * Accessing data using Amazon S3 access points
+ * in the Amazon FSx for NetApp ONTAP User Guide.
  *
  * The requester requires the following permissions to perform these actions:
  *
@@ -3436,8 +4086,8 @@ export const createAndAttachS3AccessPoint: API.OperationMethod<
   CreateAndAttachS3AccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c16, 1) as any as S.Schema<CreateAndAttachS3AccessPointRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<CreateAndAttachS3AccessPointResponse>,
+  input: __S(1185, __c37, 1) as any as S.Schema<CreateAndAttachS3AccessPointRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<CreateAndAttachS3AccessPointResponse>,
   errors: [
     AccessPointAlreadyOwnedByYou,
     BadRequest,
@@ -3522,8 +4172,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<CreateBackupResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<CreateBackupResponse>,
   errors: [
     BackupInProgress,
     BadRequest,
@@ -3540,6 +4190,46 @@ export const createBackup: API.OperationMethod<
   operationName: "CreateBackup",
   telemetry: TELEMETRY,
   span: "CreateBackup",
+}));
+
+export type CreateClusterPeerError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | CommonErrors;
+/**
+ * Creates a cluster peer relationship between an Amazon FSx for NetApp ONTAP file system
+ * and another ONTAP cluster.
+ *
+ * The `CreateClusterPeer` operation returns while the cluster peer's
+ * lifecycle state is still `CREATING`. You can check the cluster peer creation
+ * status by calling the DescribeClusterPeers operation.
+ */
+export const createClusterPeer: API.OperationMethod<
+  CreateClusterPeerRequest & RegionInput,
+  CreateClusterPeerResponse,
+  CreateClusterPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateClusterPeerRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<CreateClusterPeerResponse>,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateClusterPeer",
+  telemetry: TELEMETRY,
+  span: "CreateClusterPeer",
 }));
 
 export type CreateDataRepositoryAssociationError =
@@ -3575,8 +4265,8 @@ export const createDataRepositoryAssociation: API.OperationMethod<
   CreateDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateDataRepositoryAssociationRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<CreateDataRepositoryAssociationResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateDataRepositoryAssociationRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<CreateDataRepositoryAssociationResponse>,
   errors: [
     BadRequest,
     FileSystemNotFound,
@@ -3628,8 +4318,8 @@ export const createDataRepositoryTask: API.OperationMethod<
   CreateDataRepositoryTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreateDataRepositoryTaskRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<CreateDataRepositoryTaskResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<CreateDataRepositoryTaskRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<CreateDataRepositoryTaskResponse>,
   errors: [
     BadRequest,
     DataRepositoryTaskExecuting,
@@ -3684,8 +4374,8 @@ export const createFileCache: API.OperationMethod<
   CreateFileCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(772, __c24, 4) as any as S.Schema<CreateFileCacheRequest>,
-  output: __S(774, __c24, 6) as any as S.Schema<CreateFileCacheResponse>,
+  input: __S(1540, __c48, 4) as any as S.Schema<CreateFileCacheRequest>,
+  output: __S(1542, __c48, 6) as any as S.Schema<CreateFileCacheResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -3760,8 +4450,8 @@ export const createFileSystem: API.OperationMethod<
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(833, __c26, 1) as any as S.Schema<CreateFileSystemRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<CreateFileSystemResponse>,
+  input: __S(1601, __c50, 1) as any as S.Schema<CreateFileSystemRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<CreateFileSystemResponse>,
   errors: [
     ActiveDirectoryError,
     BadRequest,
@@ -3832,8 +4522,8 @@ export const createFileSystemFromBackup: API.OperationMethod<
   CreateFileSystemFromBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateFileSystemFromBackupRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<CreateFileSystemFromBackupResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<CreateFileSystemFromBackupRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<CreateFileSystemFromBackupResponse>,
   errors: [
     ActiveDirectoryError,
     BackupNotFound,
@@ -3853,17 +4543,102 @@ export const createFileSystemFromBackup: API.OperationMethod<
   span: "CreateFileSystemFromBackup",
 }));
 
+export type CreateSnapmirrorPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | StorageVirtualMachineNotFound
+  | CommonErrors;
+/**
+ * Creates a SnapMirror policy for an Amazon FSx for NetApp ONTAP file system or storage
+ * virtual machine (SVM). A SnapMirror policy defines how the SnapMirror relationships that
+ * use the policy replicate data, including which snapshots to transfer, the maximum
+ * number of snapshots to retain on the destination volume, and when to transfer
+ * data.
+ *
+ * The `CreateSnapmirrorPolicy` operation returns while the SnapMirror policy's
+ * lifecycle state is still `CREATING`. You can check the SnapMirror policy
+ * creation status by calling the DescribeSnapmirrorPolicies operation.
+ */
+export const createSnapmirrorPolicy: API.OperationMethod<
+  CreateSnapmirrorPolicyRequest & RegionInput,
+  CreateSnapmirrorPolicyResponse,
+  CreateSnapmirrorPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateSnapmirrorPolicyRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CreateSnapmirrorPolicyResponse>,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    StorageVirtualMachineNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSnapmirrorPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateSnapmirrorPolicy",
+}));
+
+export type CreateSnapmirrorRelationshipError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | UnsupportedOperation
+  | VolumeNotFound
+  | CommonErrors;
+/**
+ * Creates a SnapMirror relationship that replicates data from a source volume to a
+ * destination volume on an Amazon FSx for NetApp ONTAP file system.
+ *
+ * The `CreateSnapmirrorRelationship` operation returns while the SnapMirror
+ * relationship's lifecycle state is still `CREATING`. You can check the SnapMirror
+ * relationship creation status by calling the DescribeSnapmirrorRelationships
+ * operation.
+ */
+export const createSnapmirrorRelationship: API.OperationMethod<
+  CreateSnapmirrorRelationshipRequest & RegionInput,
+  CreateSnapmirrorRelationshipResponse,
+  CreateSnapmirrorRelationshipError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1857, __c58, 1) as any as S.Schema<CreateSnapmirrorRelationshipRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<CreateSnapmirrorRelationshipResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    UnsupportedOperation,
+    VolumeNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSnapmirrorRelationship",
+  telemetry: TELEMETRY,
+  span: "CreateSnapmirrorRelationship",
+}));
+
 export type CreateSnapshotError =
   | BadRequest
+  | IncompatibleParameterError
   | InternalServerError
   | ServiceLimitExceeded
   | VolumeNotFound
   | SnapshotVolumeNotFound
   | CommonErrors;
 /**
- * Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With
- * snapshots, you can easily undo file changes and compare file versions by restoring the
- * volume to a previous version.
+ * Creates a snapshot of an existing Amazon FSx for OpenZFS or
+ * Amazon FSx for NetApp ONTAP volume. With snapshots, you can easily undo file changes
+ * and compare file versions by restoring the volume to a previous version.
  *
  * If a snapshot with the specified client request token exists, and the parameters
  * match, this operation returns the description of the existing snapshot. If a snapshot
@@ -3872,7 +4647,7 @@ export type CreateSnapshotError =
  * specified client request token doesn't exist, `CreateSnapshot` does the
  * following:
  *
- * - Creates a new OpenZFS snapshot with an assigned ID, and an initial lifecycle
+ * - Creates a new snapshot with an assigned ID, and an initial lifecycle
  * state of `CREATING`.
  *
  * - Returns the description of the snapshot.
@@ -3895,10 +4670,11 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateSnapshotRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<CreateSnapshotResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<CreateSnapshotResponse>,
   errors: [
     BadRequest,
+    IncompatibleParameterError,
     InternalServerError,
     ServiceLimitExceeded,
     VolumeNotFound,
@@ -3910,6 +4686,48 @@ export const createSnapshot: API.OperationMethod<
   operationName: "CreateSnapshot",
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
+}));
+
+export type CreateSnapshotPolicyError =
+  | BadRequest
+  | FileSystemNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | StorageVirtualMachineNotFound
+  | CommonErrors;
+/**
+ * Creates a snapshot policy for an Amazon FSx for NetApp ONTAP file system or storage
+ * virtual machine (SVM). A snapshot policy defines the schedules on which ONTAP
+ * automatically creates snapshots of the volumes that use the policy, and the maximum
+ * number of snapshots to retain for each schedule.
+ *
+ * The `CreateSnapshotPolicy` operation returns while the snapshot policy's
+ * lifecycle state is still `CREATING`. You can check the snapshot policy
+ * creation status by calling the DescribeSnapshotPolicies operation.
+ */
+export const createSnapshotPolicy: API.OperationMethod<
+  CreateSnapshotPolicyRequest & RegionInput,
+  CreateSnapshotPolicyResponse,
+  CreateSnapshotPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateSnapshotPolicyRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<CreateSnapshotPolicyResponse>,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    StorageVirtualMachineNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSnapshotPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshotPolicy",
 }));
 
 export type CreateStorageVirtualMachineError =
@@ -3930,8 +4748,8 @@ export const createStorageVirtualMachine: API.OperationMethod<
   CreateStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<CreateStorageVirtualMachineRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<CreateStorageVirtualMachineResponse>,
+  input: __S(2113, __c66, 1) as any as S.Schema<CreateStorageVirtualMachineRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<CreateStorageVirtualMachineResponse>,
   errors: [
     ActiveDirectoryError,
     BadRequest,
@@ -3949,6 +4767,46 @@ export const createStorageVirtualMachine: API.OperationMethod<
   span: "CreateStorageVirtualMachine",
 }));
 
+export type CreateStorageVirtualMachinePeerError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | ServiceLimitExceeded
+  | StorageVirtualMachineNotFound
+  | UnsupportedOperation
+  | CommonErrors;
+/**
+ * Creates a storage virtual machine (SVM) peer relationship between an SVM on an
+ * Amazon FSx for NetApp ONTAP file system and another SVM.
+ *
+ * The `CreateStorageVirtualMachinePeer` operation returns while the SVM peer's
+ * lifecycle state is still `CREATING`. You can check the SVM peer creation
+ * status by calling the DescribeStorageVirtualMachinePeers operation.
+ */
+export const createStorageVirtualMachinePeer: API.OperationMethod<
+  CreateStorageVirtualMachinePeerRequest & RegionInput,
+  CreateStorageVirtualMachinePeerResponse,
+  CreateStorageVirtualMachinePeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateStorageVirtualMachinePeerRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CreateStorageVirtualMachinePeerResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    ServiceLimitExceeded,
+    StorageVirtualMachineNotFound,
+    UnsupportedOperation,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateStorageVirtualMachinePeer",
+  telemetry: TELEMETRY,
+  span: "CreateStorageVirtualMachinePeer",
+}));
+
 export type CreateVolumeError =
   | BadRequest
   | FileSystemNotFound
@@ -3958,6 +4816,7 @@ export type CreateVolumeError =
   | ServiceLimitExceeded
   | StorageVirtualMachineNotFound
   | UnsupportedOperation
+  | VolumeNotFound
   | CommonErrors;
 /**
  * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
@@ -3968,8 +4827,8 @@ export const createVolume: API.OperationMethod<
   CreateVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c36, 1) as any as S.Schema<CreateVolumeRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<CreateVolumeResponse>,
+  input: __S(2305, __c72, 1) as any as S.Schema<CreateVolumeRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<CreateVolumeResponse>,
   errors: [
     BadRequest,
     FileSystemNotFound,
@@ -3979,6 +4838,7 @@ export const createVolume: API.OperationMethod<
     ServiceLimitExceeded,
     StorageVirtualMachineNotFound,
     UnsupportedOperation,
+    VolumeNotFound,
   ],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4008,8 +4868,8 @@ export const createVolumeFromBackup: API.OperationMethod<
   CreateVolumeFromBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateVolumeFromBackupRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<CreateVolumeFromBackupResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<CreateVolumeFromBackupRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<CreateVolumeFromBackupResponse>,
   errors: [
     BackupNotFound,
     BadRequest,
@@ -4053,8 +4913,8 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteBackupRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<DeleteBackupResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeleteBackupRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<DeleteBackupResponse>,
   errors: [
     BackupBeingCopied,
     BackupInProgress,
@@ -4070,6 +4930,32 @@ export const deleteBackup: API.OperationMethod<
   operationName: "DeleteBackup",
   telemetry: TELEMETRY,
   span: "DeleteBackup",
+}));
+
+export type DeleteClusterPeerError =
+  | BadRequest
+  | ClusterPeerNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | CommonErrors;
+/**
+ * Deletes an Amazon FSx for NetApp ONTAP cluster peer relationship.
+ */
+export const deleteClusterPeer: API.OperationMethod<
+  DeleteClusterPeerRequest & RegionInput,
+  DeleteClusterPeerResponse,
+  DeleteClusterPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2464, __c77, 0) as any as S.Schema<DeleteClusterPeerRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<DeleteClusterPeerResponse>,
+  errors: [BadRequest, ClusterPeerNotFound, IncompatibleParameterError, InternalServerError],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteClusterPeer",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterPeer",
 }));
 
 export type DeleteDataRepositoryAssociationError =
@@ -4094,8 +4980,8 @@ export const deleteDataRepositoryAssociation: API.OperationMethod<
   DeleteDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteDataRepositoryAssociationRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<DeleteDataRepositoryAssociationResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteDataRepositoryAssociationRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<DeleteDataRepositoryAssociationResponse>,
   errors: [
     BadRequest,
     DataRepositoryAssociationNotFound,
@@ -4138,8 +5024,8 @@ export const deleteFileCache: API.OperationMethod<
   DeleteFileCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteFileCacheRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<DeleteFileCacheResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteFileCacheRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<DeleteFileCacheResponse>,
   errors: [
     BadRequest,
     FileCacheNotFound,
@@ -4216,8 +5102,8 @@ export const deleteFileSystem: API.OperationMethod<
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1378, __c43, 2) as any as S.Schema<DeleteFileSystemRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<DeleteFileSystemResponse>,
+  input: __S(2562, __c80, 2) as any as S.Schema<DeleteFileSystemRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<DeleteFileSystemResponse>,
   errors: [
     BadRequest,
     FileSystemNotFound,
@@ -4233,15 +5119,73 @@ export const deleteFileSystem: API.OperationMethod<
   span: "DeleteFileSystem",
 }));
 
+export type DeleteSnapmirrorPolicyError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapmirrorPolicyNotFound
+  | CommonErrors;
+/**
+ * Deletes an Amazon FSx for NetApp ONTAP SnapMirror policy.
+ */
+export const deleteSnapmirrorPolicy: API.OperationMethod<
+  DeleteSnapmirrorPolicyRequest & RegionInput,
+  DeleteSnapmirrorPolicyResponse,
+  DeleteSnapmirrorPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteSnapmirrorPolicyRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<DeleteSnapmirrorPolicyResponse>,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError, SnapmirrorPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSnapmirrorPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapmirrorPolicy",
+}));
+
+export type DeleteSnapmirrorRelationshipError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapmirrorRelationshipNotFound
+  | CommonErrors;
+/**
+ * Deletes an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+ */
+export const deleteSnapmirrorRelationship: API.OperationMethod<
+  DeleteSnapmirrorRelationshipRequest & RegionInput,
+  DeleteSnapmirrorRelationshipResponse,
+  DeleteSnapmirrorRelationshipError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2656, __c83, 0) as any as S.Schema<DeleteSnapmirrorRelationshipRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<DeleteSnapmirrorRelationshipResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    SnapmirrorRelationshipNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSnapmirrorRelationship",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapmirrorRelationship",
+}));
+
 export type DeleteSnapshotError =
   | BadRequest
+  | IncompatibleParameterError
   | InternalServerError
   | SnapshotNotFound
   | CommonErrors;
 /**
- * Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer
- * exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a
- * file system backup.
+ * Deletes an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP snapshot. After
+ * deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot
+ * doesn't affect snapshots stored in a file system backup.
  *
  * The `DeleteSnapshot` operation returns instantly. The snapshot appears with
  * the lifecycle status of `DELETING` until the deletion is complete.
@@ -4252,15 +5196,41 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteSnapshotRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<DeleteSnapshotResponse>,
-  errors: [BadRequest, InternalServerError, SnapshotNotFound],
+  input: __S(2688, __c84, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<DeleteSnapshotResponse>,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError, SnapshotNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
+}));
+
+export type DeleteSnapshotPolicyError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapshotPolicyNotFound
+  | CommonErrors;
+/**
+ * Deletes an Amazon FSx for NetApp ONTAP snapshot policy.
+ */
+export const deleteSnapshotPolicy: API.OperationMethod<
+  DeleteSnapshotPolicyRequest & RegionInput,
+  DeleteSnapshotPolicyResponse,
+  DeleteSnapshotPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteSnapshotPolicyRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<DeleteSnapshotPolicyResponse>,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError, SnapshotPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSnapshotPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshotPolicy",
 }));
 
 export type DeleteStorageVirtualMachineError =
@@ -4279,8 +5249,8 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
   DeleteStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteStorageVirtualMachineRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<DeleteStorageVirtualMachineResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<DeleteStorageVirtualMachineRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<DeleteStorageVirtualMachineResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -4293,6 +5263,38 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
   operationName: "DeleteStorageVirtualMachine",
   telemetry: TELEMETRY,
   span: "DeleteStorageVirtualMachine",
+}));
+
+export type DeleteStorageVirtualMachinePeerError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachinePeerNotFound
+  | CommonErrors;
+/**
+ * Deletes an Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peer
+ * relationship.
+ */
+export const deleteStorageVirtualMachinePeer: API.OperationMethod<
+  DeleteStorageVirtualMachinePeerRequest & RegionInput,
+  DeleteStorageVirtualMachinePeerResponse,
+  DeleteStorageVirtualMachinePeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2784, __c87, 0) as any as S.Schema<DeleteStorageVirtualMachinePeerRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<DeleteStorageVirtualMachinePeerResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    StorageVirtualMachinePeerNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteStorageVirtualMachinePeer",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageVirtualMachinePeer",
 }));
 
 export type DeleteVolumeError =
@@ -4312,8 +5314,8 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1506, __c47, 2) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(1507, __c47, 3) as any as S.Schema<DeleteVolumeResponse>,
+  input: __S(2818, __c88, 2) as any as S.Schema<DeleteVolumeRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<DeleteVolumeResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -4370,8 +5372,8 @@ export const describeBackups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DescribeBackupsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<DescribeBackupsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<DescribeBackupsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<DescribeBackupsResponse>,
   errors: [BackupNotFound, BadRequest, FileSystemNotFound, InternalServerError, VolumeNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4384,6 +5386,49 @@ export const describeBackups: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "DescribeBackups",
+})) as any;
+
+export type DescribeClusterPeersError =
+  | BadRequest
+  | ClusterPeerNotFound
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors;
+/**
+ * Returns the description of specific Amazon FSx for NetApp ONTAP cluster peers, if a
+ * `ClusterPeerIds` value is provided. Otherwise, this operation returns all
+ * cluster peers owned by your Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
+ *
+ * When retrieving all cluster peers, you can optionally specify the
+ * `MaxResults` parameter to limit the number of cluster peers in a response.
+ * If more cluster peers remain, Amazon FSx returns a `NextToken` value
+ * in the response. In this case, send a later request with the `NextToken`
+ * request parameter set to the value of `NextToken` from the last
+ * response.
+ */
+export const describeClusterPeers: API.PaginatedOperationMethod<
+  DescribeClusterPeersRequest & RegionInput,
+  DescribeClusterPeersResponse,
+  DescribeClusterPeersError,
+  Credentials | HttpClient.HttpClient,
+  ClusterPeer
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2912, __c91, 0) as any as S.Schema<DescribeClusterPeersRequest>,
+  output: __S(2914, __c91, 2) as any as S.Schema<DescribeClusterPeersResponse>,
+  errors: [BadRequest, ClusterPeerNotFound, FileSystemNotFound, InternalServerError],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeClusterPeers",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ClusterPeers",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterPeers",
 })) as any;
 
 export type DescribeDataRepositoryAssociationsError =
@@ -4423,8 +5468,8 @@ export const describeDataRepositoryAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DescribeDataRepositoryAssociationsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<DescribeDataRepositoryAssociationsResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DescribeDataRepositoryAssociationsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<DescribeDataRepositoryAssociationsResponse>,
   errors: [
     BadRequest,
     DataRepositoryAssociationNotFound,
@@ -4471,8 +5516,8 @@ export const describeDataRepositoryTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DescribeDataRepositoryTasksRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<DescribeDataRepositoryTasksResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DescribeDataRepositoryTasksRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<DescribeDataRepositoryTasksResponse>,
   errors: [BadRequest, DataRepositoryTaskNotFound, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4528,8 +5573,8 @@ export const describeFileCaches: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DescribeFileCachesRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<DescribeFileCachesResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DescribeFileCachesRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<DescribeFileCachesResponse>,
   errors: [BadRequest, FileCacheNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4561,8 +5606,8 @@ export const describeFileSystemAliases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DescribeFileSystemAliasesRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<DescribeFileSystemAliasesResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DescribeFileSystemAliasesRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<DescribeFileSystemAliasesResponse>,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4618,8 +5663,8 @@ export const describeFileSystems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DescribeFileSystemsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<DescribeFileSystemsResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DescribeFileSystemsRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<DescribeFileSystemsResponse>,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4654,8 +5699,8 @@ export const describeS3AccessPointAttachments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   S3AccessPointAttachment
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DescribeS3AccessPointAttachmentsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<DescribeS3AccessPointAttachmentsResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DescribeS3AccessPointAttachmentsRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<DescribeS3AccessPointAttachmentsResponse>,
   errors: [BadRequest, InternalServerError, S3AccessPointAttachmentNotFound, UnsupportedOperation],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4682,8 +5727,8 @@ export const describeSharedVpcConfiguration: API.OperationMethod<
   DescribeSharedVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DescribeSharedVpcConfigurationRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DescribeSharedVpcConfigurationResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DescribeSharedVpcConfigurationRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<DescribeSharedVpcConfigurationResponse>,
   errors: [BadRequest, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4693,19 +5738,147 @@ export const describeSharedVpcConfiguration: API.OperationMethod<
   span: "DescribeSharedVpcConfiguration",
 }));
 
+export type DescribeSnapmirrorPoliciesError =
+  | BadRequest
+  | InternalServerError
+  | SnapmirrorPolicyNotFound
+  | CommonErrors;
+/**
+ * Returns the description of specific Amazon FSx for NetApp ONTAP SnapMirror policies,
+ * if a `SnapmirrorPolicyIds` value is provided. Otherwise, this operation
+ * returns all SnapMirror policies owned by your Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
+ *
+ * When retrieving all SnapMirror policies, you can optionally specify the
+ * `MaxResults` parameter to limit the number of SnapMirror policies in a
+ * response. If more SnapMirror policies remain, Amazon FSx returns a
+ * `NextToken` value in the response. In this case, send a later request with
+ * the `NextToken` request parameter set to the value of `NextToken`
+ * from the last response.
+ */
+export const describeSnapmirrorPolicies: API.PaginatedOperationMethod<
+  DescribeSnapmirrorPoliciesRequest & RegionInput,
+  DescribeSnapmirrorPoliciesResponse,
+  DescribeSnapmirrorPoliciesError,
+  Credentials | HttpClient.HttpClient,
+  SnapmirrorPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3232, __c101, 0) as any as S.Schema<DescribeSnapmirrorPoliciesRequest>,
+  output: __S(3234, __c101, 2) as any as S.Schema<DescribeSnapmirrorPoliciesResponse>,
+  errors: [BadRequest, InternalServerError, SnapmirrorPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSnapmirrorPolicies",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapmirrorPolicies",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapmirrorPolicies",
+})) as any;
+
+export type DescribeSnapmirrorRelationshipsError =
+  | BadRequest
+  | InternalServerError
+  | SnapmirrorRelationshipNotFound
+  | VolumeNotFound
+  | CommonErrors;
+/**
+ * Returns the description of specific Amazon FSx for NetApp ONTAP SnapMirror
+ * relationships, if a `SnapmirrorRelationshipIds` value is provided. Otherwise,
+ * this operation returns all SnapMirror relationships owned by your
+ * Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're
+ * calling.
+ *
+ * When retrieving all SnapMirror relationships, you can optionally specify the
+ * `MaxResults` parameter to limit the number of SnapMirror relationships in a
+ * response. If more SnapMirror relationships remain, Amazon FSx returns a
+ * `NextToken` value in the response. In this case, send a later request with the
+ * `NextToken` request parameter set to the value of `NextToken` from
+ * the last response.
+ */
+export const describeSnapmirrorRelationships: API.PaginatedOperationMethod<
+  DescribeSnapmirrorRelationshipsRequest & RegionInput,
+  DescribeSnapmirrorRelationshipsResponse,
+  DescribeSnapmirrorRelationshipsError,
+  Credentials | HttpClient.HttpClient,
+  SnapmirrorRelationship
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3264, __c102, 0) as any as S.Schema<DescribeSnapmirrorRelationshipsRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<DescribeSnapmirrorRelationshipsResponse>,
+  errors: [BadRequest, InternalServerError, SnapmirrorRelationshipNotFound, VolumeNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSnapmirrorRelationships",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapmirrorRelationships",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapmirrorRelationships",
+})) as any;
+
+export type DescribeSnapshotPoliciesError =
+  | BadRequest
+  | InternalServerError
+  | SnapshotPolicyNotFound
+  | CommonErrors;
+/**
+ * Returns the description of specific Amazon FSx for NetApp ONTAP snapshot policies, if
+ * a `SnapshotPolicyIds` value is provided. Otherwise, this operation returns
+ * all snapshot policies owned by your Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
+ *
+ * When retrieving all snapshot policies, you can optionally specify the
+ * `MaxResults` parameter to limit the number of snapshot policies in a
+ * response. If more snapshot policies remain, Amazon FSx returns a
+ * `NextToken` value in the response. In this case, send a later request with
+ * the `NextToken` request parameter set to the value of `NextToken`
+ * from the last response.
+ */
+export const describeSnapshotPolicies: API.PaginatedOperationMethod<
+  DescribeSnapshotPoliciesRequest & RegionInput,
+  DescribeSnapshotPoliciesResponse,
+  DescribeSnapshotPoliciesError,
+  Credentials | HttpClient.HttpClient,
+  SnapshotPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3296, __c103, 0) as any as S.Schema<DescribeSnapshotPoliciesRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<DescribeSnapshotPoliciesResponse>,
+  errors: [BadRequest, InternalServerError, SnapshotPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSnapshotPolicies",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapshotPolicies",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshotPolicies",
+})) as any;
+
 export type DescribeSnapshotsError =
   | BadRequest
   | InternalServerError
   | SnapshotNotFound
   | CommonErrors;
 /**
- * Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
- * `SnapshotIds` value is provided. Otherwise, this operation returns all
+ * Returns the description of specific Amazon FSx for OpenZFS and Amazon FSx for NetApp ONTAP
+ * snapshots, if a `SnapshotIds` value is provided. Otherwise, this operation returns all
  * snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of
  * the endpoint that you're calling.
  *
  * When retrieving all snapshots, you can optionally specify the `MaxResults`
- * parameter to limit the number of snapshots in a response. If more backups remain,
+ * parameter to limit the number of snapshots in a response. If more snapshots remain,
  * Amazon FSx returns a `NextToken` value in the response. In this
  * case, send a later request with the `NextToken` request parameter set to the
  * value of `NextToken` from the last response.
@@ -4723,7 +5896,7 @@ export type DescribeSnapshotsError =
  * value.
  *
  * - The order of snapshots returned in the response of one
- * `DescribeSnapshots` call and the order of backups returned across
+ * `DescribeSnapshots` call and the order of snapshots returned across
  * the responses of a multi-call iteration is unspecified.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
@@ -4733,8 +5906,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Snapshot
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DescribeSnapshotsRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<DescribeSnapshotsResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DescribeSnapshotsRequest>,
+  output: __S(3330, __c104, 2) as any as S.Schema<DescribeSnapshotsResponse>,
   errors: [BadRequest, InternalServerError, SnapshotNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4748,6 +5921,55 @@ export const describeSnapshots: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
+})) as any;
+
+export type DescribeStorageVirtualMachinePeersError =
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | StorageVirtualMachinePeerNotFound
+  | CommonErrors;
+/**
+ * Returns the description of specific Amazon FSx for NetApp ONTAP storage virtual machine
+ * (SVM) peers, if a `StorageVirtualMachinePeerIds` value is provided. Otherwise,
+ * this operation returns all SVM peers owned by your Amazon Web Services account in the
+ * Amazon Web Services Region of the endpoint that you're calling.
+ *
+ * When retrieving all SVM peers, you can optionally specify the `MaxResults`
+ * parameter to limit the number of SVM peers in a response. If more SVM peers remain,
+ * Amazon FSx returns a `NextToken` value in the response. In this case,
+ * send a later request with the `NextToken` request parameter set to the value
+ * of `NextToken` from the last response.
+ */
+export const describeStorageVirtualMachinePeers: API.PaginatedOperationMethod<
+  DescribeStorageVirtualMachinePeersRequest & RegionInput,
+  DescribeStorageVirtualMachinePeersResponse,
+  DescribeStorageVirtualMachinePeersError,
+  Credentials | HttpClient.HttpClient,
+  StorageVirtualMachinePeer
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3360, __c105, 0) as any as S.Schema<DescribeStorageVirtualMachinePeersRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<DescribeStorageVirtualMachinePeersResponse>,
+  errors: [
+    BadRequest,
+    FileSystemNotFound,
+    InternalServerError,
+    StorageVirtualMachineNotFound,
+    StorageVirtualMachinePeerNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeStorageVirtualMachinePeers",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "StorageVirtualMachinePeers",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStorageVirtualMachinePeers",
 })) as any;
 
 export type DescribeStorageVirtualMachinesError =
@@ -4765,8 +5987,8 @@ export const describeStorageVirtualMachines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StorageVirtualMachine
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DescribeStorageVirtualMachinesRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<DescribeStorageVirtualMachinesResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DescribeStorageVirtualMachinesRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<DescribeStorageVirtualMachinesResponse>,
   errors: [BadRequest, InternalServerError, StorageVirtualMachineNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4794,8 +6016,8 @@ export const describeVolumes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Volume
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DescribeVolumesRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<DescribeVolumesResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DescribeVolumesRequest>,
+  output: __S(3426, __c107, 2) as any as S.Schema<DescribeVolumesResponse>,
   errors: [BadRequest, InternalServerError, VolumeNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4833,8 +6055,8 @@ export const detachAndDeleteS3AccessPoint: API.OperationMethod<
   DetachAndDeleteS3AccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DetachAndDeleteS3AccessPointRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<DetachAndDeleteS3AccessPointResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DetachAndDeleteS3AccessPointRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<DetachAndDeleteS3AccessPointResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -4873,8 +6095,8 @@ export const disassociateFileSystemAliases: API.OperationMethod<
   DisassociateFileSystemAliasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DisassociateFileSystemAliasesRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<DisassociateFileSystemAliasesResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DisassociateFileSystemAliasesRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<DisassociateFileSystemAliasesResponse>,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -4923,8 +6145,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequest,
     InternalServerError,
@@ -4962,8 +6184,8 @@ export const releaseFileSystemNfsV3Locks: API.OperationMethod<
   ReleaseFileSystemNfsV3LocksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ReleaseFileSystemNfsV3LocksRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<ReleaseFileSystemNfsV3LocksResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ReleaseFileSystemNfsV3LocksRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<ReleaseFileSystemNfsV3LocksResponse>,
   errors: [
     BadRequest,
     FileSystemNotFound,
@@ -4995,8 +6217,8 @@ export const restoreVolumeFromSnapshot: API.OperationMethod<
   RestoreVolumeFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<RestoreVolumeFromSnapshotRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<RestoreVolumeFromSnapshotResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<RestoreVolumeFromSnapshotRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<RestoreVolumeFromSnapshotResponse>,
   errors: [BadRequest, InternalServerError, VolumeNotFound, RestoreSnapshotNotFound],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5021,8 +6243,8 @@ export const startMisconfiguredStateRecovery: API.OperationMethod<
   StartMisconfiguredStateRecoveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<StartMisconfiguredStateRecoveryRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<StartMisconfiguredStateRecoveryResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<StartMisconfiguredStateRecoveryRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<StartMisconfiguredStateRecoveryResponse>,
   errors: [BadRequest, FileSystemNotFound, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5048,8 +6270,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequest,
     InternalServerError,
@@ -5081,8 +6303,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequest,
     InternalServerError,
@@ -5096,6 +6318,32 @@ export const untagResource: API.OperationMethod<
   operationName: "UntagResource",
   telemetry: TELEMETRY,
   span: "UntagResource",
+}));
+
+export type UpdateClusterPeerError =
+  | BadRequest
+  | ClusterPeerNotFound
+  | IncompatibleParameterError
+  | InternalServerError
+  | CommonErrors;
+/**
+ * Updates an Amazon FSx for NetApp ONTAP cluster peer relationship.
+ */
+export const updateClusterPeer: API.OperationMethod<
+  UpdateClusterPeerRequest & RegionInput,
+  UpdateClusterPeerResponse,
+  UpdateClusterPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<UpdateClusterPeerRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<UpdateClusterPeerResponse>,
+  errors: [BadRequest, ClusterPeerNotFound, IncompatibleParameterError, InternalServerError],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateClusterPeer",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterPeer",
 }));
 
 export type UpdateDataRepositoryAssociationError =
@@ -5117,8 +6365,8 @@ export const updateDataRepositoryAssociation: API.OperationMethod<
   UpdateDataRepositoryAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<UpdateDataRepositoryAssociationRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<UpdateDataRepositoryAssociationResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<UpdateDataRepositoryAssociationRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<UpdateDataRepositoryAssociationResponse>,
   errors: [
     BadRequest,
     DataRepositoryAssociationNotFound,
@@ -5153,8 +6401,8 @@ export const updateFileCache: API.OperationMethod<
   UpdateFileCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<UpdateFileCacheRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<UpdateFileCacheResponse>,
+  input: __S(257, __c8, 1) as any as S.Schema<UpdateFileCacheRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<UpdateFileCacheResponse>,
   errors: [
     BadRequest,
     FileCacheNotFound,
@@ -5296,8 +6544,8 @@ export const updateFileSystem: API.OperationMethod<
   UpdateFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2340, __c73, 4) as any as S.Schema<UpdateFileSystemRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<UpdateFileSystemResponse>,
+  input: __S(292, __c9, 4) as any as S.Schema<UpdateFileSystemRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<UpdateFileSystemResponse>,
   errors: [
     BadRequest,
     FileSystemNotFound,
@@ -5338,8 +6586,8 @@ export const updateSharedVpcConfiguration: API.OperationMethod<
   UpdateSharedVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<UpdateSharedVpcConfigurationRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<UpdateSharedVpcConfigurationResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<UpdateSharedVpcConfigurationRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<UpdateSharedVpcConfigurationResponse>,
   errors: [BadRequest, IncompatibleParameterError, InternalServerError],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
@@ -5349,14 +6597,76 @@ export const updateSharedVpcConfiguration: API.OperationMethod<
   span: "UpdateSharedVpcConfiguration",
 }));
 
+export type UpdateSnapmirrorPolicyError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapmirrorPolicyNotFound
+  | CommonErrors;
+/**
+ * Updates an Amazon FSx for NetApp ONTAP SnapMirror policy.
+ */
+export const updateSnapmirrorPolicy: API.OperationMethod<
+  UpdateSnapmirrorPolicyRequest & RegionInput,
+  UpdateSnapmirrorPolicyResponse,
+  UpdateSnapmirrorPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateSnapmirrorPolicyRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<UpdateSnapmirrorPolicyResponse>,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError, SnapmirrorPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateSnapmirrorPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapmirrorPolicy",
+}));
+
+export type UpdateSnapmirrorRelationshipError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapmirrorRelationshipNotFound
+  | CommonErrors;
+/**
+ * Updates an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+ */
+export const updateSnapmirrorRelationship: API.OperationMethod<
+  UpdateSnapmirrorRelationshipRequest & RegionInput,
+  UpdateSnapmirrorRelationshipResponse,
+  UpdateSnapmirrorRelationshipError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateSnapmirrorRelationshipRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<UpdateSnapmirrorRelationshipResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    SnapmirrorRelationshipNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateSnapmirrorRelationship",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapmirrorRelationship",
+}));
+
 export type UpdateSnapshotError =
   | BadRequest
+  | IncompatibleParameterError
   | InternalServerError
   | SnapshotNotFound
   | UpdateSnapshotNotFound
   | CommonErrors;
 /**
- * Updates the name of an Amazon FSx for OpenZFS snapshot.
+ * Updates an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP snapshot.
+ *
+ * For Amazon FSx for OpenZFS snapshots, you can update only the name. For
+ * Amazon FSx for NetApp ONTAP snapshots, you can update the name and the properties in
+ * `OntapConfiguration`.
  */
 export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotRequest & RegionInput,
@@ -5364,15 +6674,48 @@ export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<UpdateSnapshotRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<UpdateSnapshotResponse>,
-  errors: [BadRequest, InternalServerError, SnapshotNotFound, UpdateSnapshotNotFound],
+  input: __S(448, __c14, 0) as any as S.Schema<UpdateSnapshotRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<UpdateSnapshotResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    SnapshotNotFound,
+    UpdateSnapshotNotFound,
+  ],
   serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshot",
   telemetry: TELEMETRY,
   span: "UpdateSnapshot",
+}));
+
+export type UpdateSnapshotPolicyError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | SnapshotPolicyNotFound
+  | CommonErrors;
+/**
+ * Updates an Amazon FSx for NetApp ONTAP snapshot policy. You can enable or disable
+ * the snapshot policy.
+ */
+export const updateSnapshotPolicy: API.OperationMethod<
+  UpdateSnapshotPolicyRequest & RegionInput,
+  UpdateSnapshotPolicyResponse,
+  UpdateSnapshotPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<UpdateSnapshotPolicyRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<UpdateSnapshotPolicyResponse>,
+  errors: [BadRequest, IncompatibleParameterError, InternalServerError, SnapshotPolicyNotFound],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateSnapshotPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshotPolicy",
 }));
 
 export type UpdateStorageVirtualMachineError =
@@ -5391,8 +6734,8 @@ export const updateStorageVirtualMachine: API.OperationMethod<
   UpdateStorageVirtualMachineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<UpdateStorageVirtualMachineRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UpdateStorageVirtualMachineResponse>,
+  input: __S(513, __c16, 1) as any as S.Schema<UpdateStorageVirtualMachineRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<UpdateStorageVirtualMachineResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -5406,6 +6749,37 @@ export const updateStorageVirtualMachine: API.OperationMethod<
   operationName: "UpdateStorageVirtualMachine",
   telemetry: TELEMETRY,
   span: "UpdateStorageVirtualMachine",
+}));
+
+export type UpdateStorageVirtualMachinePeerError =
+  | BadRequest
+  | IncompatibleParameterError
+  | InternalServerError
+  | StorageVirtualMachinePeerNotFound
+  | CommonErrors;
+/**
+ * Updates an Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peer relationship.
+ */
+export const updateStorageVirtualMachinePeer: API.OperationMethod<
+  UpdateStorageVirtualMachinePeerRequest & RegionInput,
+  UpdateStorageVirtualMachinePeerResponse,
+  UpdateStorageVirtualMachinePeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c17, 0) as any as S.Schema<UpdateStorageVirtualMachinePeerRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<UpdateStorageVirtualMachinePeerResponse>,
+  errors: [
+    BadRequest,
+    IncompatibleParameterError,
+    InternalServerError,
+    StorageVirtualMachinePeerNotFound,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateStorageVirtualMachinePeer",
+  telemetry: TELEMETRY,
+  span: "UpdateStorageVirtualMachinePeer",
 }));
 
 export type UpdateVolumeError =
@@ -5424,8 +6798,8 @@ export const updateVolume: API.OperationMethod<
   UpdateVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2499, __c78, 3) as any as S.Schema<UpdateVolumeRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<UpdateVolumeResponse>,
+  input: __S(580, __c18, 4) as any as S.Schema<UpdateVolumeRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<UpdateVolumeResponse>,
   errors: [
     BadRequest,
     IncompatibleParameterError,
@@ -5447,38 +6821,397 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           FileSystemId: S.optional(S.String),
-          Aliases: S.optional(__S(32, __c1, 0)),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "AssociateFileSystemAliasesRequest" });
+      ).annotate({ identifier: "ReleaseFileSystemNfsV3LocksRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          VolumeId: S.optional(S.String),
+          SnapshotId: S.optional(S.String),
+          Options: S.optional(__S(896, __c28, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RestoreVolumeFromSnapshotRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Lifecycle: S.optional(S.String) }),
-      ).annotate({ identifier: "Alias" });
-    case 1:
-      return S.Array(__S(64, __c2, 0));
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FileSystemId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMisconfiguredStateRecoveryRequest" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Aliases: S.optional(__S(65, __c2, 1)) })).annotate({
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(__S(833, __c26, 1)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          TagKeys: S.optional(__S(640, __c20, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ClusterPeerId: S.optional(S.String),
+          PeerClusterName: S.optional(S.String),
+          PeerAddresses: S.optional(__S(640, __c20, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateClusterPeerRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AssociationId: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ImportedFileChunkSize: S.optional(S.Number),
+          S3: S.optional(__S(1441, __c45, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateDataRepositoryAssociationRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ WeeklyMaintenanceStartTime: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateFileCacheLustreConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileCacheId: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          LustreConfiguration: S.optional(__S(256, __c8, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFileCacheRequest" });
+    case 2:
+      return S.suspend(() => S.Struct({ FileCache: S.optional(__S(3040, __c95, 0)) })).annotate({
+        identifier: "UpdateFileCacheResponse",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WeeklyMaintenanceStartTime: S.optional(S.String),
+          DailyAutomaticBackupStartTime: S.optional(S.String),
+          AutomaticBackupRetentionDays: S.optional(S.Number),
+          ThroughputCapacity: S.optional(S.Number),
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(320, __c10, 0)),
+          AuditLogConfiguration: S.optional(__S(1024, __c32, 0)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
+          FsrmConfiguration: S.optional(__S(1026, __c32, 2)),
+        }),
+      ).annotate({ identifier: "UpdateFileSystemWindowsConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WeeklyMaintenanceStartTime: S.optional(S.String),
+          DailyAutomaticBackupStartTime: S.optional(S.String),
+          AutomaticBackupRetentionDays: S.optional(S.Number),
+          AutoImportPolicy: S.optional(S.String),
+          DataCompressionType: S.optional(S.String),
+          LogConfiguration: S.optional(__S(928, __c29, 0)),
+          RootSquashConfiguration: S.optional(__S(1029, __c32, 5)),
+          PerUnitStorageThroughput: S.optional(S.Number),
+          MetadataConfiguration: S.optional(__S(1030, __c32, 6)),
+          ThroughputCapacity: S.optional(S.Number),
+          DataReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
+        }),
+      ).annotate({ identifier: "UpdateFileSystemLustreConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AutomaticBackupRetentionDays: S.optional(S.Number),
+          DailyAutomaticBackupStartTime: S.optional(S.String),
+          FsxAdminPassword: S.optional(SensitiveString),
+          WeeklyMaintenanceStartTime: S.optional(S.String),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
+          ThroughputCapacity: S.optional(S.Number),
+          AddRouteTableIds: S.optional(__S(640, __c20, 0)),
+          RemoveRouteTableIds: S.optional(__S(640, __c20, 0)),
+          ThroughputCapacityPerHAPair: S.optional(S.Number),
+          HAPairs: S.optional(S.Number),
+          EndpointIpv6AddressRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFileSystemOntapConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AutomaticBackupRetentionDays: S.optional(S.Number),
+          CopyTagsToBackups: S.optional(S.Boolean),
+          CopyTagsToVolumes: S.optional(S.Boolean),
+          DailyAutomaticBackupStartTime: S.optional(S.String),
+          ThroughputCapacity: S.optional(S.Number),
+          WeeklyMaintenanceStartTime: S.optional(S.String),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
+          AddRouteTableIds: S.optional(__S(640, __c20, 0)),
+          RemoveRouteTableIds: S.optional(__S(640, __c20, 0)),
+          ReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
+          EndpointIpv6AddressRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateFileSystemOpenZFSConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemId: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          StorageCapacity: S.optional(S.Number),
+          WindowsConfiguration: S.optional(__S(288, __c9, 0)),
+          LustreConfiguration: S.optional(__S(289, __c9, 1)),
+          OntapConfiguration: S.optional(__S(290, __c9, 2)),
+          OpenZFSConfiguration: S.optional(__S(291, __c9, 3)),
+          StorageType: S.optional(S.String),
+          FileSystemTypeVersion: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFileSystemRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserName: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          DnsIps: S.optional(__S(640, __c20, 0)),
+          DomainName: S.optional(S.String),
+          OrganizationalUnitDistinguishedName: S.optional(S.String),
+          FileSystemAdministratorsGroup: S.optional(S.String),
+          DomainJoinServiceAccountSecret: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SelfManagedActiveDirectoryConfigurationUpdates" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSharedVpcConfigurationRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapmirrorPolicyId: S.optional(S.String),
+          RetentionRules: S.optional(__S(1825, __c57, 1)),
+          TransferSchedule: S.optional(S.String),
+          NetworkCompressionEnabled: S.optional(S.Boolean),
+          ThrottleInKbps: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSnapmirrorPolicyRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapmirrorRelationshipId: S.optional(S.String),
+          PolicyId: S.optional(S.String),
+          TransferSchedule: S.optional(S.String),
+          ThrottleInKbps: S.optional(S.Number),
+          State: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSnapmirrorRelationshipRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Name: S.optional(S.String),
+          SnapshotId: S.optional(S.String),
+          OntapConfiguration: S.optional(__S(1984, __c62, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSnapshotRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapshotPolicyId: S.optional(S.String),
+          Enabled: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSnapshotPolicyRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(320, __c10, 0)),
+          NetBiosName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateSvmActiveDirectoryConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ActiveDirectoryConfiguration: S.optional(__S(512, __c16, 0)),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          StorageVirtualMachineId: S.optional(S.String),
+          SvmAdminPassword: S.optional(SensitiveString),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateStorageVirtualMachineRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          StorageVirtualMachinePeerId: S.optional(S.String),
+          Applications: S.optional(__S(896, __c28, 0)),
+          PeerSvmAlias: S.optional(S.String),
+          State: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateStorageVirtualMachinePeerRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AuditLogVolume: S.optional(S.Boolean),
+          AutocommitPeriod: S.optional(__S(960, __c30, 0)),
+          PrivilegedDelete: S.optional(S.String),
+          RetentionPeriod: S.optional(__S(1034, __c32, 10)),
+          VolumeAppendModeEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateSnaplockConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ SplitAction: S.optional(S.String) })).annotate({
+        identifier: "UpdateCloneConfiguration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          JunctionPath: S.optional(S.String),
+          SecurityStyle: S.optional(S.String),
+          SizeInMegabytes: S.optional(S.Number),
+          StorageEfficiencyEnabled: S.optional(S.Boolean),
+          TieringPolicy: S.optional(__S(1033, __c32, 9)),
+          SnapshotPolicy: S.optional(S.String),
+          CopyTagsToBackups: S.optional(S.Boolean),
+          SnaplockConfiguration: S.optional(__S(576, __c18, 0)),
+          SizeInBytes: S.optional(S.Number),
+          CloneConfiguration: S.optional(__S(577, __c18, 1)),
+        }),
+      ).annotate({ identifier: "UpdateOntapVolumeConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          StorageCapacityReservationGiB: S.optional(S.Number),
+          StorageCapacityQuotaGiB: S.optional(S.Number),
+          RecordSizeKiB: S.optional(S.Number),
+          DataCompressionType: S.optional(S.String),
+          NfsExports: S.optional(__S(1043, __c32, 19)),
+          UserAndGroupQuotas: S.optional(__S(1045, __c32, 21)),
+          ReadOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UpdateOpenZFSVolumeConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          VolumeId: S.optional(S.String),
+          OntapConfiguration: S.optional(__S(578, __c18, 2)),
+          Name: S.optional(S.String),
+          OpenZFSConfiguration: S.optional(__S(579, __c18, 3)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateVolumeRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FileSystemId: S.optional(S.String),
+          Aliases: S.optional(__S(640, __c20, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateFileSystemAliasesRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Lifecycle: S.optional(S.String) }),
+      ).annotate({ identifier: "Alias" });
+    case 1:
+      return S.Array(__S(672, __c21, 0));
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Aliases: S.optional(__S(673, __c21, 1)) })).annotate({
         identifier: "AssociateFileSystemAliasesResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,7 +7225,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CancelDataRepositoryTaskResponse" });
   }
 }
-function __c5(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5502,12 +7235,34 @@ function __c5(j: number): any {
           SourceRegion: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
           CopyTags: S.optional(S.Boolean),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CopyBackupRequest" });
   }
 }
-function __c6(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Message: S.optional(S.String), Code: S.optional(S.String) }),
+      ).annotate({ identifier: "OntapError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Message: S.optional(S.String), OntapError: S.optional(__S(800, __c25, 0)) }),
+      ).annotate({ identifier: "LifecycleTransitionReason" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(832, __c26, 0));
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Message: S.optional(S.String) })).annotate({
@@ -5515,23 +7270,13 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-      ).annotate({ identifier: "Tag" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-  }
-}
-function __c8(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c9(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5539,7 +7284,15 @@ function __c9(j: number): any {
       ).annotate({ identifier: "LustreLogConfiguration" });
   }
 }
-function __c10(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), Value: S.optional(S.Number) }),
+      ).annotate({ identifier: "AutocommitPeriod" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5548,7 +7301,7 @@ function __c10(j: number): any {
           OrganizationalUnitDistinguishedName: S.optional(S.String),
           FileSystemAdministratorsGroup: S.optional(S.String),
           UserName: S.optional(S.String),
-          DnsIps: S.optional(__S(32, __c1, 0)),
+          DnsIps: S.optional(__S(640, __c20, 0)),
           DomainJoinServiceAccountSecret: S.optional(S.String),
         }),
       ).annotate({ identifier: "SelfManagedActiveDirectoryAttributes" });
@@ -5556,13 +7309,13 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DNSName: S.optional(S.String),
-          IpAddresses: S.optional(__S(32, __c1, 0)),
-          Ipv6Addresses: S.optional(__S(32, __c1, 0)),
+          IpAddresses: S.optional(__S(640, __c20, 0)),
+          Ipv6Addresses: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "FileSystemEndpoint" });
   }
 }
-function __c11(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5587,22 +7340,22 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ActiveDirectoryId: S.optional(S.String),
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(320, __c10, 0)),
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(992, __c31, 0)),
           DeploymentType: S.optional(S.String),
           RemoteAdministrationEndpoint: S.optional(S.String),
           PreferredSubnetId: S.optional(S.String),
           PreferredFileServerIp: S.optional(S.String),
           ThroughputCapacity: S.optional(S.Number),
-          MaintenanceOperationsInProgress: S.optional(__S(256, __c8, 0)),
+          MaintenanceOperationsInProgress: S.optional(__S(896, __c28, 0)),
           WeeklyMaintenanceStartTime: S.optional(S.String),
           DailyAutomaticBackupStartTime: S.optional(S.String),
           AutomaticBackupRetentionDays: S.optional(S.Number),
           CopyTagsToBackups: S.optional(S.Boolean),
-          Aliases: S.optional(__S(65, __c2, 1)),
-          AuditLogConfiguration: S.optional(__S(352, __c11, 0)),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
+          Aliases: S.optional(__S(673, __c21, 1)),
+          AuditLogConfiguration: S.optional(__S(1024, __c32, 0)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
           PreferredFileServerIpv6: S.optional(S.String),
-          FsrmConfiguration: S.optional(__S(354, __c11, 2)),
+          FsrmConfiguration: S.optional(__S(1026, __c32, 2)),
         }),
       ).annotate({ identifier: "WindowsFileSystemConfiguration" });
     case 4:
@@ -5613,12 +7366,15 @@ function __c11(j: number): any {
           ExportPath: S.optional(S.String),
           ImportedFileChunkSize: S.optional(S.Number),
           AutoImportPolicy: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "DataRepositoryConfiguration" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ RootSquash: S.optional(S.String), NoSquashNids: S.optional(__S(32, __c1, 0)) }),
+        S.Struct({
+          RootSquash: S.optional(S.String),
+          NoSquashNids: S.optional(__S(640, __c20, 0)),
+        }),
       ).annotate({ identifier: "LustreRootSquashConfiguration" });
     case 6:
       return S.suspend(() =>
@@ -5632,7 +7388,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           WeeklyMaintenanceStartTime: S.optional(S.String),
-          DataRepositoryConfiguration: S.optional(__S(356, __c11, 4)),
+          DataRepositoryConfiguration: S.optional(__S(1028, __c32, 4)),
           DeploymentType: S.optional(S.String),
           PerUnitStorageThroughput: S.optional(S.Number),
           MountName: S.optional(S.String),
@@ -5641,12 +7397,12 @@ function __c11(j: number): any {
           CopyTagsToBackups: S.optional(S.Boolean),
           DriveCacheType: S.optional(S.String),
           DataCompressionType: S.optional(S.String),
-          LogConfiguration: S.optional(__S(288, __c9, 0)),
-          RootSquashConfiguration: S.optional(__S(357, __c11, 5)),
-          MetadataConfiguration: S.optional(__S(358, __c11, 6)),
+          LogConfiguration: S.optional(__S(928, __c29, 0)),
+          RootSquashConfiguration: S.optional(__S(1029, __c32, 5)),
+          MetadataConfiguration: S.optional(__S(1030, __c32, 6)),
           EfaEnabled: S.optional(S.Boolean),
           ThroughputCapacity: S.optional(S.Number),
-          DataReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
+          DataReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
         }),
       ).annotate({ identifier: "LustreFileSystemConfiguration" });
     case 9:
@@ -5655,34 +7411,34 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TieringPolicy" });
     case 10:
       return S.suspend(() =>
-        S.Struct({ Type: S.optional(S.String), Value: S.optional(S.Number) }),
-      ).annotate({ identifier: "AutocommitPeriod" });
+        S.Struct({
+          DefaultRetention: S.optional(__S(960, __c30, 0)),
+          MinimumRetention: S.optional(__S(960, __c30, 0)),
+          MaximumRetention: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "SnaplockRetentionPeriod" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          DefaultRetention: S.optional(__S(362, __c11, 10)),
-          MinimumRetention: S.optional(__S(362, __c11, 10)),
-          MaximumRetention: S.optional(__S(362, __c11, 10)),
-        }),
-      ).annotate({ identifier: "SnaplockRetentionPeriod" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
           AuditLogVolume: S.optional(S.Boolean),
-          AutocommitPeriod: S.optional(__S(362, __c11, 10)),
+          AutocommitPeriod: S.optional(__S(960, __c30, 0)),
           PrivilegedDelete: S.optional(S.String),
-          RetentionPeriod: S.optional(__S(363, __c11, 11)),
+          RetentionPeriod: S.optional(__S(1034, __c32, 10)),
           SnaplockType: S.optional(S.String),
           VolumeAppendModeEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SnaplockConfiguration" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          Aggregates: S.optional(__S(32, __c1, 0)),
+          Aggregates: S.optional(__S(640, __c20, 0)),
           TotalConstituents: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AggregateConfiguration" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ ParentVolumeId: S.optional(S.String), SnapshotId: S.optional(S.String) }),
+      ).annotate({ identifier: "CloneConfiguration" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -5693,15 +7449,16 @@ function __c11(j: number): any {
           StorageEfficiencyEnabled: S.optional(S.Boolean),
           StorageVirtualMachineId: S.optional(S.String),
           StorageVirtualMachineRoot: S.optional(S.Boolean),
-          TieringPolicy: S.optional(__S(361, __c11, 9)),
+          TieringPolicy: S.optional(__S(1033, __c32, 9)),
           UUID: S.optional(S.String),
           OntapVolumeType: S.optional(S.String),
           SnapshotPolicy: S.optional(S.String),
           CopyTagsToBackups: S.optional(S.Boolean),
-          SnaplockConfiguration: S.optional(__S(364, __c11, 12)),
+          SnaplockConfiguration: S.optional(__S(1035, __c32, 11)),
           VolumeStyle: S.optional(S.String),
-          AggregateConfiguration: S.optional(__S(365, __c11, 13)),
+          AggregateConfiguration: S.optional(__S(1036, __c32, 12)),
           SizeInBytes: S.optional(S.Number),
+          CloneConfiguration: S.optional(__S(1037, __c32, 13)),
         }),
       ).annotate({ identifier: "OntapVolumeConfiguration" });
     case 15:
@@ -5710,16 +7467,16 @@ function __c11(j: number): any {
       ).annotate({ identifier: "OpenZFSOriginSnapshotConfiguration" });
     case 16:
       return S.suspend(() =>
-        S.Struct({ Clients: S.optional(S.String), Options: S.optional(__S(32, __c1, 0)) }),
+        S.Struct({ Clients: S.optional(S.String), Options: S.optional(__S(640, __c20, 0)) }),
       ).annotate({ identifier: "OpenZFSClientConfiguration" });
     case 17:
-      return S.Array(__S(368, __c11, 16));
+      return S.Array(__S(1040, __c32, 16));
     case 18:
       return S.suspend(() =>
-        S.Struct({ ClientConfigurations: S.optional(__S(369, __c11, 17)) }),
+        S.Struct({ ClientConfigurations: S.optional(__S(1041, __c32, 17)) }),
       ).annotate({ identifier: "OpenZFSNfsExport" });
     case 19:
-      return S.Array(__S(370, __c11, 18));
+      return S.Array(__S(1042, __c32, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -5729,7 +7486,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "OpenZFSUserOrGroupQuota" });
     case 21:
-      return S.Array(__S(372, __c11, 20));
+      return S.Array(__S(1044, __c32, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -5740,10 +7497,10 @@ function __c11(j: number): any {
           RecordSizeKiB: S.optional(S.Number),
           DataCompressionType: S.optional(S.String),
           CopyTagsToSnapshots: S.optional(S.Boolean),
-          OriginSnapshot: S.optional(__S(367, __c11, 15)),
+          OriginSnapshot: S.optional(__S(1039, __c32, 15)),
           ReadOnly: S.optional(S.Boolean),
-          NfsExports: S.optional(__S(371, __c11, 19)),
-          UserAndGroupQuotas: S.optional(__S(373, __c11, 21)),
+          NfsExports: S.optional(__S(1043, __c32, 19)),
+          UserAndGroupQuotas: S.optional(__S(1045, __c32, 21)),
           RestoreToSnapshot: S.optional(S.String),
           DeleteIntermediateSnaphots: S.optional(S.Boolean),
           DeleteClonedVolumes: S.optional(S.Boolean),
@@ -5760,19 +7517,29 @@ function __c11(j: number): any {
           FileSystemId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
           Name: S.optional(S.String),
-          OntapConfiguration: S.optional(__S(366, __c11, 14)),
+          OntapConfiguration: S.optional(__S(1038, __c32, 14)),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           VolumeId: S.optional(S.String),
           VolumeType: S.optional(S.String),
-          LifecycleTransitionReason: S.optional(__S(192, __c6, 0)),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
           AdministrativeActions: S.optional(
-            S.suspend(() => __S(378, __c11, 26)).annotate({ identifier: "AdministrativeActions" }),
+            S.suspend(() => __S(1051, __c32, 27)).annotate({ identifier: "AdministrativeActions" }),
           ),
-          OpenZFSConfiguration: S.optional(__S(374, __c11, 22)),
+          OpenZFSConfiguration: S.optional(__S(1046, __c32, 22)),
         }),
       ).annotate({ identifier: "Volume" });
     case 24:
+      return S.suspend(() =>
+        S.Struct({
+          SizeInMegabytes: S.optional(S.Number),
+          SnapmirrorLabel: S.optional(S.String),
+          ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SnaplockExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UUID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OntapSnapshotConfiguration" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
           ResourceARN: S.optional(S.String),
@@ -5781,14 +7548,16 @@ function __c11(j: number): any {
           VolumeId: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Lifecycle: S.optional(S.String),
-          LifecycleTransitionReason: S.optional(__S(192, __c6, 0)),
-          Tags: S.optional(__S(225, __c7, 1)),
+          SnapshotType: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           AdministrativeActions: S.optional(
-            S.suspend(() => __S(378, __c11, 26)).annotate({ identifier: "AdministrativeActions" }),
+            S.suspend(() => __S(1051, __c32, 27)).annotate({ identifier: "AdministrativeActions" }),
           ),
+          OntapConfiguration: S.optional(__S(1048, __c32, 24)),
         }),
       ).annotate({ identifier: "Snapshot" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           AdministrativeActionType: S.optional(S.String),
@@ -5796,18 +7565,18 @@ function __c11(j: number): any {
           RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
           TargetFileSystemValues: S.optional(
-            S.suspend((): S.Schema<FileSystem> => __S(382, __c11, 30)).annotate({
+            S.suspend((): S.Schema<FileSystem> => __S(1055, __c32, 31)).annotate({
               identifier: "FileSystem",
             }),
           ),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           TargetVolumeValues: S.optional(
-            S.suspend((): S.Schema<Volume> => __S(375, __c11, 23)).annotate({
+            S.suspend((): S.Schema<Volume> => __S(1047, __c32, 23)).annotate({
               identifier: "Volume",
             }),
           ),
           TargetSnapshotValues: S.optional(
-            S.suspend((): S.Schema<Snapshot> => __S(376, __c11, 24)).annotate({
+            S.suspend((): S.Schema<Snapshot> => __S(1049, __c32, 25)).annotate({
               identifier: "Snapshot",
             }),
           ),
@@ -5816,30 +7585,30 @@ function __c11(j: number): any {
           Message: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdministrativeAction" });
-    case 26:
-      return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<AdministrativeAction> => __S(377, __c11, 25)).annotate(
-          { identifier: "AdministrativeAction" },
-        ),
-      );
     case 27:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<AdministrativeAction> =>
+          __S(1050, __c32, 26),
+        ).annotate({ identifier: "AdministrativeAction" }),
+      );
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          Intercluster: S.optional(__S(321, __c10, 1)),
-          Management: S.optional(__S(321, __c10, 1)),
+          Intercluster: S.optional(__S(993, __c31, 1)),
+          Management: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "FileSystemEndpoints" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           AutomaticBackupRetentionDays: S.optional(S.Number),
           DailyAutomaticBackupStartTime: S.optional(S.String),
           DeploymentType: S.optional(S.String),
           EndpointIpAddressRange: S.optional(S.String),
-          Endpoints: S.optional(__S(379, __c11, 27)),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
+          Endpoints: S.optional(__S(1052, __c32, 28)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
           PreferredSubnetId: S.optional(S.String),
-          RouteTableIds: S.optional(__S(32, __c1, 0)),
+          RouteTableIds: S.optional(__S(640, __c20, 0)),
           ThroughputCapacity: S.optional(S.Number),
           WeeklyMaintenanceStartTime: S.optional(S.String),
           FsxAdminPassword: S.optional(SensitiveString),
@@ -5848,7 +7617,7 @@ function __c11(j: number): any {
           EndpointIpv6AddressRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "OntapFileSystemConfiguration" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           AutomaticBackupRetentionDays: S.optional(S.Number),
@@ -5858,18 +7627,18 @@ function __c11(j: number): any {
           DeploymentType: S.optional(S.String),
           ThroughputCapacity: S.optional(S.Number),
           WeeklyMaintenanceStartTime: S.optional(S.String),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
           RootVolumeId: S.optional(S.String),
           PreferredSubnetId: S.optional(S.String),
           EndpointIpAddressRange: S.optional(S.String),
           EndpointIpv6AddressRange: S.optional(S.String),
-          RouteTableIds: S.optional(__S(32, __c1, 0)),
+          RouteTableIds: S.optional(__S(640, __c20, 0)),
           EndpointIpAddress: S.optional(S.String),
           EndpointIpv6Address: S.optional(S.String),
-          ReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
+          ReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
         }),
       ).annotate({ identifier: "OpenZFSFileSystemConfiguration" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           OwnerId: S.optional(S.String),
@@ -5877,38 +7646,38 @@ function __c11(j: number): any {
           FileSystemId: S.optional(S.String),
           FileSystemType: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           StorageCapacity: S.optional(S.Number),
           StorageType: S.optional(S.String),
           VpcId: S.optional(S.String),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          NetworkInterfaceIds: S.optional(__S(32, __c1, 0)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          NetworkInterfaceIds: S.optional(__S(640, __c20, 0)),
           DNSName: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
-          WindowsConfiguration: S.optional(__S(355, __c11, 3)),
-          LustreConfiguration: S.optional(__S(360, __c11, 8)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          WindowsConfiguration: S.optional(__S(1027, __c32, 3)),
+          LustreConfiguration: S.optional(__S(1032, __c32, 8)),
           AdministrativeActions: S.optional(
-            S.suspend(() => __S(378, __c11, 26)).annotate({ identifier: "AdministrativeActions" }),
+            S.suspend(() => __S(1051, __c32, 27)).annotate({ identifier: "AdministrativeActions" }),
           ),
-          OntapConfiguration: S.optional(__S(380, __c11, 28)),
+          OntapConfiguration: S.optional(__S(1053, __c32, 29)),
           FileSystemTypeVersion: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(381, __c11, 29)),
+          OpenZFSConfiguration: S.optional(__S(1054, __c32, 30)),
           NetworkType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileSystem" });
   }
 }
-function __c12(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Backup: S.optional(__S(417, __c13, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Backup: S.optional(__S(1089, __c34, 1)) })).annotate({
         identifier: "CopyBackupResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5923,26 +7692,26 @@ function __c13(j: number): any {
         S.Struct({
           BackupId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           Type: S.optional(S.String),
           ProgressPercent: S.optional(S.Number),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           KmsKeyId: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
-          FileSystem: S.optional(__S(382, __c11, 30)),
-          DirectoryInformation: S.optional(__S(416, __c13, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          FileSystem: S.optional(__S(1055, __c32, 31)),
+          DirectoryInformation: S.optional(__S(1088, __c34, 0)),
           OwnerId: S.optional(S.String),
           SourceBackupId: S.optional(S.String),
           SourceBackupRegion: S.optional(S.String),
           ResourceType: S.optional(S.String),
-          Volume: S.optional(__S(375, __c11, 23)),
+          Volume: S.optional(__S(1047, __c32, 23)),
           SizeInBytes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Backup" });
   }
 }
-function __c14(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5951,29 +7720,29 @@ function __c14(j: number): any {
           VolumeId: S.optional(S.String),
           SourceSnapshotARN: S.optional(S.String),
           CopyStrategy: S.optional(S.String),
-          Options: S.optional(__S(256, __c8, 0)),
+          Options: S.optional(__S(896, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CopySnapshotAndUpdateVolumeRequest" });
   }
 }
-function __c15(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           VolumeId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          AdministrativeActions: S.optional(__S(378, __c11, 26)),
+          AdministrativeActions: S.optional(__S(1051, __c32, 27)),
         }),
       ).annotate({ identifier: "CopySnapshotAndUpdateVolumeResponse" });
   }
 }
-function __c16(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VpcConfiguration: S.optional(__S(551, __c17, 7)),
+          VpcConfiguration: S.optional(__S(1223, __c38, 7)),
           Policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateAndAttachS3AccessPointS3Configuration" });
@@ -5983,18 +7752,18 @@ function __c16(j: number): any {
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.optional(S.String),
           Type: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(547, __c17, 3)),
-          OntapConfiguration: S.optional(__S(550, __c17, 6)),
-          S3AccessPoint: S.optional(__S(512, __c16, 0)),
+          OpenZFSConfiguration: S.optional(__S(1219, __c38, 3)),
+          OntapConfiguration: S.optional(__S(1222, __c38, 6)),
+          S3AccessPoint: S.optional(__S(1184, __c37, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAndAttachS3AccessPointRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ S3AccessPointAttachment: S.optional(__S(553, __c17, 9)) }),
+        S.Struct({ S3AccessPointAttachment: S.optional(__S(1225, __c38, 9)) }),
       ).annotate({ identifier: "CreateAndAttachS3AccessPointResponse" });
   }
 }
-function __c17(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -6003,18 +7772,18 @@ function __c17(j: number): any {
         S.Struct({
           Uid: S.optional(S.Number),
           Gid: S.optional(S.Number),
-          SecondaryGids: S.optional(__S(544, __c17, 0)),
+          SecondaryGids: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "OpenZFSPosixFileSystemUser" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Type: S.optional(S.String), PosixUser: S.optional(__S(545, __c17, 1)) }),
+        S.Struct({ Type: S.optional(S.String), PosixUser: S.optional(__S(1217, __c38, 1)) }),
       ).annotate({ identifier: "OpenZFSFileSystemIdentity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           VolumeId: S.optional(S.String),
-          FileSystemIdentity: S.optional(__S(546, __c17, 2)),
+          FileSystemIdentity: S.optional(__S(1218, __c38, 2)),
         }),
       ).annotate({ identifier: "CreateAndAttachS3AccessPointOpenZFSConfiguration" });
     case 4:
@@ -6025,15 +7794,15 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          UnixUser: S.optional(__S(548, __c17, 4)),
-          WindowsUser: S.optional(__S(548, __c17, 4)),
+          UnixUser: S.optional(__S(1220, __c38, 4)),
+          WindowsUser: S.optional(__S(1220, __c38, 4)),
         }),
       ).annotate({ identifier: "OntapFileSystemIdentity" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           VolumeId: S.optional(S.String),
-          FileSystemIdentity: S.optional(__S(549, __c17, 5)),
+          FileSystemIdentity: S.optional(__S(1221, __c38, 5)),
         }),
       ).annotate({ identifier: "CreateAndAttachS3AccessPointOntapConfiguration" });
     case 7:
@@ -6045,38 +7814,90 @@ function __c17(j: number): any {
         S.Struct({
           ResourceARN: S.optional(S.String),
           Alias: S.optional(S.String),
-          VpcConfiguration: S.optional(__S(551, __c17, 7)),
+          VpcConfiguration: S.optional(__S(1223, __c38, 7)),
         }),
       ).annotate({ identifier: "S3AccessPoint" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           Lifecycle: S.optional(S.String),
-          LifecycleTransitionReason: S.optional(__S(192, __c6, 0)),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Name: S.optional(S.String),
           Type: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(547, __c17, 3)),
-          OntapConfiguration: S.optional(__S(550, __c17, 6)),
-          S3AccessPoint: S.optional(__S(552, __c17, 8)),
+          OpenZFSConfiguration: S.optional(__S(1219, __c38, 3)),
+          OntapConfiguration: S.optional(__S(1222, __c38, 6)),
+          S3AccessPoint: S.optional(__S(1224, __c38, 8)),
         }),
       ).annotate({ identifier: "S3AccessPointAttachment" });
   }
 }
-function __c18(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FileSystemId: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           VolumeId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c19(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FileSystemId: S.optional(S.String),
+          PeerAddresses: S.optional(__S(640, __c20, 0)),
+          PassphraseSecretArn: S.optional(S.String),
+          PeerClusterName: S.optional(S.String),
+          AllowedSvmMode: S.optional(S.String),
+          AllowedSvmIds: S.optional(__S(640, __c20, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateClusterPeerRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ClusterPeer: S.optional(__S(1345, __c42, 1)) })).annotate({
+        identifier: "CreateClusterPeerResponse",
+      });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ State: S.optional(S.String), InUse: S.optional(S.String) }),
+      ).annotate({ identifier: "ClusterPeerAuthenticationStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          ClusterPeerId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          PeerAddresses: S.optional(__S(640, __c20, 0)),
+          PeerClusterName: S.optional(S.String),
+          PassphraseSecretArn: S.optional(S.String),
+          AllowedSvmMode: S.optional(S.String),
+          AllowedSvmIds: S.optional(__S(640, __c20, 0)),
+          Status: S.optional(S.String),
+          UUID: S.optional(S.String),
+          AuthenticationStatus: S.optional(__S(1344, __c42, 0)),
+        }),
+      ).annotate({ identifier: "ClusterPeer" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6086,32 +7907,40 @@ function __c19(j: number): any {
           DataRepositoryPath: S.optional(S.String),
           BatchImportMetaDataOnCreate: S.optional(S.Boolean),
           ImportedFileChunkSize: S.optional(S.Number),
-          S3: S.optional(__S(641, __c20, 1)),
+          S3: S.optional(__S(1441, __c45, 1)),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDataRepositoryAssociationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Events: S.optional(__S(256, __c8, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Association: S.optional(__S(1443, __c45, 3)) })).annotate({
+        identifier: "CreateDataRepositoryAssociationResponse",
+      });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Events: S.optional(__S(896, __c28, 0)) })).annotate({
         identifier: "AutoImportPolicy",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AutoImportPolicy: S.optional(__S(640, __c20, 0)),
-          AutoExportPolicy: S.optional(__S(640, __c20, 0)),
+          AutoImportPolicy: S.optional(__S(1440, __c45, 0)),
+          AutoExportPolicy: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "S3DataRepositoryConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.String),
-          DnsIps: S.optional(__S(32, __c1, 0)),
-          AutoExportPolicy: S.optional(__S(640, __c20, 0)),
+          DnsIps: S.optional(__S(640, __c20, 0)),
+          AutoExportPolicy: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "NFSDataRepositoryConfiguration" });
     case 3:
@@ -6121,52 +7950,44 @@ function __c20(j: number): any {
           ResourceARN: S.optional(S.String),
           FileSystemId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           FileSystemPath: S.optional(S.String),
           DataRepositoryPath: S.optional(S.String),
           BatchImportMetaDataOnCreate: S.optional(S.Boolean),
           ImportedFileChunkSize: S.optional(S.Number),
-          S3: S.optional(__S(641, __c20, 1)),
-          Tags: S.optional(__S(225, __c7, 1)),
+          S3: S.optional(__S(1441, __c45, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           FileCacheId: S.optional(S.String),
           FileCachePath: S.optional(S.String),
-          DataRepositorySubdirectories: S.optional(__S(32, __c1, 0)),
-          NFS: S.optional(__S(642, __c20, 2)),
+          DataRepositorySubdirectories: S.optional(__S(640, __c20, 0)),
+          NFS: S.optional(__S(1442, __c45, 2)),
         }),
       ).annotate({ identifier: "DataRepositoryAssociation" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ Association: S.optional(__S(643, __c20, 3)) })).annotate({
-        identifier: "CreateDataRepositoryAssociationResponse",
-      });
-  }
-}
-function __c22(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          Paths: S.optional(__S(32, __c1, 0)),
+          Paths: S.optional(__S(640, __c20, 0)),
           FileSystemId: S.optional(S.String),
-          Report: S.optional(__S(736, __c23, 0)),
+          Report: S.optional(__S(1504, __c47, 0)),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           CapacityToRelease: S.optional(S.Number),
-          ReleaseConfiguration: S.optional(__S(738, __c23, 2)),
+          ReleaseConfiguration: S.optional(__S(1506, __c47, 2)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDataRepositoryTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DataRepositoryTask: S.optional(__S(740, __c23, 4)) }),
+        S.Struct({ DataRepositoryTask: S.optional(__S(1508, __c47, 4)) }),
       ).annotate({ identifier: "CreateDataRepositoryTaskResponse" });
   }
 }
-function __c23(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6183,7 +8004,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DurationSinceLastAccess" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ DurationSinceLastAccess: S.optional(__S(737, __c23, 1)) }),
+        S.Struct({ DurationSinceLastAccess: S.optional(__S(1505, __c47, 1)) }),
       ).annotate({ identifier: "ReleaseConfiguration" });
     case 3:
       return S.suspend(() =>
@@ -6205,20 +8026,20 @@ function __c23(j: number): any {
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           FileSystemId: S.optional(S.String),
-          Paths: S.optional(__S(32, __c1, 0)),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
-          Status: S.optional(__S(739, __c23, 3)),
-          Report: S.optional(__S(736, __c23, 0)),
+          Paths: S.optional(__S(640, __c20, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
+          Status: S.optional(__S(1507, __c47, 3)),
+          Report: S.optional(__S(1504, __c47, 0)),
           CapacityToRelease: S.optional(S.Number),
           FileCacheId: S.optional(S.String),
-          ReleaseConfiguration: S.optional(__S(738, __c23, 2)),
+          ReleaseConfiguration: S.optional(__S(1506, __c47, 2)),
         }),
       ).annotate({ identifier: "DataRepositoryTask" });
   }
 }
-function __c24(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6226,24 +8047,24 @@ function __c24(j: number): any {
           PerUnitStorageThroughput: S.optional(S.Number),
           DeploymentType: S.optional(S.String),
           WeeklyMaintenanceStartTime: S.optional(S.String),
-          MetadataConfiguration: S.optional(__S(800, __c25, 0)),
+          MetadataConfiguration: S.optional(__S(1568, __c49, 0)),
         }),
       ).annotate({ identifier: "CreateFileCacheLustreConfiguration" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Version: S.optional(S.String), DnsIps: S.optional(__S(32, __c1, 0)) }),
+        S.Struct({ Version: S.optional(S.String), DnsIps: S.optional(__S(640, __c20, 0)) }),
       ).annotate({ identifier: "FileCacheNFSConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           FileCachePath: S.optional(S.String),
           DataRepositoryPath: S.optional(S.String),
-          DataRepositorySubdirectories: S.optional(__S(32, __c1, 0)),
-          NFS: S.optional(__S(769, __c24, 1)),
+          DataRepositorySubdirectories: S.optional(__S(640, __c20, 0)),
+          NFS: S.optional(__S(1537, __c48, 1)),
         }),
       ).annotate({ identifier: "FileCacheDataRepositoryAssociation" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(1538, __c48, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6251,13 +8072,13 @@ function __c24(j: number): any {
           FileCacheType: S.optional(S.String),
           FileCacheTypeVersion: S.optional(S.String),
           StorageCapacity: S.optional(S.Number),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          SecurityGroupIds: S.optional(__S(32, __c1, 0)),
-          Tags: S.optional(__S(225, __c7, 1)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          SecurityGroupIds: S.optional(__S(640, __c20, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
           CopyTagsToDataRepositoryAssociations: S.optional(S.Boolean),
           KmsKeyId: S.optional(S.String),
-          LustreConfiguration: S.optional(__S(768, __c24, 0)),
-          DataRepositoryAssociations: S.optional(__S(771, __c24, 3)),
+          LustreConfiguration: S.optional(__S(1536, __c48, 0)),
+          DataRepositoryAssociations: S.optional(__S(1539, __c48, 3)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFileCacheRequest" });
     case 5:
@@ -6269,27 +8090,27 @@ function __c24(j: number): any {
           FileCacheType: S.optional(S.String),
           FileCacheTypeVersion: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           StorageCapacity: S.optional(S.Number),
           VpcId: S.optional(S.String),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          NetworkInterfaceIds: S.optional(__S(32, __c1, 0)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          NetworkInterfaceIds: S.optional(__S(640, __c20, 0)),
           DNSName: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           CopyTagsToDataRepositoryAssociations: S.optional(S.Boolean),
-          LustreConfiguration: S.optional(__S(801, __c25, 1)),
-          DataRepositoryAssociationIds: S.optional(__S(32, __c1, 0)),
+          LustreConfiguration: S.optional(__S(1569, __c49, 1)),
+          DataRepositoryAssociationIds: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "FileCacheCreating" });
     case 6:
-      return S.suspend(() => S.Struct({ FileCache: S.optional(__S(773, __c24, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ FileCache: S.optional(__S(1541, __c48, 5)) })).annotate({
         identifier: "CreateFileCacheResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ StorageCapacity: S.optional(S.Number) })).annotate({
@@ -6302,13 +8123,13 @@ function __c25(j: number): any {
           DeploymentType: S.optional(S.String),
           MountName: S.optional(S.String),
           WeeklyMaintenanceStartTime: S.optional(S.String),
-          MetadataConfiguration: S.optional(__S(800, __c25, 0)),
-          LogConfiguration: S.optional(__S(288, __c9, 0)),
+          MetadataConfiguration: S.optional(__S(1568, __c49, 0)),
+          LogConfiguration: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "FileCacheLustreConfiguration" });
   }
 }
-function __c26(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6318,9 +8139,9 @@ function __c26(j: number): any {
           DeploymentType: S.optional(S.String),
           EndpointIpAddressRange: S.optional(S.String),
           FsxAdminPassword: S.optional(SensitiveString),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
           PreferredSubnetId: S.optional(S.String),
-          RouteTableIds: S.optional(__S(32, __c1, 0)),
+          RouteTableIds: S.optional(__S(640, __c20, 0)),
           ThroughputCapacity: S.optional(S.Number),
           WeeklyMaintenanceStartTime: S.optional(S.String),
           HAPairs: S.optional(S.Number),
@@ -6335,27 +8156,27 @@ function __c26(j: number): any {
           FileSystemType: S.optional(S.String),
           StorageCapacity: S.optional(S.Number),
           StorageType: S.optional(S.String),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          SecurityGroupIds: S.optional(__S(32, __c1, 0)),
-          Tags: S.optional(__S(225, __c7, 1)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          SecurityGroupIds: S.optional(__S(640, __c20, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
           KmsKeyId: S.optional(S.String),
-          WindowsConfiguration: S.optional(__S(864, __c27, 0)),
-          LustreConfiguration: S.optional(__S(865, __c27, 1)),
-          OntapConfiguration: S.optional(__S(832, __c26, 0)),
+          WindowsConfiguration: S.optional(__S(1632, __c51, 0)),
+          LustreConfiguration: S.optional(__S(1633, __c51, 1)),
+          OntapConfiguration: S.optional(__S(1600, __c50, 0)),
           FileSystemTypeVersion: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(867, __c27, 3)),
+          OpenZFSConfiguration: S.optional(__S(1635, __c51, 3)),
           NetworkType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFileSystemRequest" });
   }
 }
-function __c27(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ActiveDirectoryId: S.optional(S.String),
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(896, __c28, 0)),
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(1696, __c53, 0)),
           DeploymentType: S.optional(S.String),
           PreferredSubnetId: S.optional(S.String),
           ThroughputCapacity: S.optional(S.Number),
@@ -6363,10 +8184,10 @@ function __c27(j: number): any {
           DailyAutomaticBackupStartTime: S.optional(S.String),
           AutomaticBackupRetentionDays: S.optional(S.Number),
           CopyTagsToBackups: S.optional(S.Boolean),
-          Aliases: S.optional(__S(32, __c1, 0)),
-          AuditLogConfiguration: S.optional(__S(352, __c11, 0)),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
-          FsrmConfiguration: S.optional(__S(354, __c11, 2)),
+          Aliases: S.optional(__S(640, __c20, 0)),
+          AuditLogConfiguration: S.optional(__S(1024, __c32, 0)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
+          FsrmConfiguration: S.optional(__S(1026, __c32, 2)),
         }),
       ).annotate({ identifier: "CreateFileSystemWindowsConfiguration" });
     case 1:
@@ -6385,11 +8206,11 @@ function __c27(j: number): any {
           DriveCacheType: S.optional(S.String),
           DataCompressionType: S.optional(S.String),
           EfaEnabled: S.optional(S.Boolean),
-          LogConfiguration: S.optional(__S(288, __c9, 0)),
-          RootSquashConfiguration: S.optional(__S(357, __c11, 5)),
-          MetadataConfiguration: S.optional(__S(358, __c11, 6)),
+          LogConfiguration: S.optional(__S(928, __c29, 0)),
+          RootSquashConfiguration: S.optional(__S(1029, __c32, 5)),
+          MetadataConfiguration: S.optional(__S(1030, __c32, 6)),
           ThroughputCapacity: S.optional(S.Number),
-          DataReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
+          DataReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
         }),
       ).annotate({ identifier: "CreateFileSystemLustreConfiguration" });
     case 2:
@@ -6397,8 +8218,8 @@ function __c27(j: number): any {
         S.Struct({
           RecordSizeKiB: S.optional(S.Number),
           DataCompressionType: S.optional(S.String),
-          NfsExports: S.optional(__S(371, __c11, 19)),
-          UserAndGroupQuotas: S.optional(__S(373, __c11, 21)),
+          NfsExports: S.optional(__S(1043, __c32, 19)),
+          UserAndGroupQuotas: S.optional(__S(1045, __c32, 21)),
           CopyTagsToSnapshots: S.optional(S.Boolean),
           ReadOnly: S.optional(S.Boolean),
         }),
@@ -6413,18 +8234,26 @@ function __c27(j: number): any {
           DeploymentType: S.optional(S.String),
           ThroughputCapacity: S.optional(S.Number),
           WeeklyMaintenanceStartTime: S.optional(S.String),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
-          RootVolumeConfiguration: S.optional(__S(866, __c27, 2)),
+          DiskIopsConfiguration: S.optional(__S(1025, __c32, 1)),
+          RootVolumeConfiguration: S.optional(__S(1634, __c51, 2)),
           PreferredSubnetId: S.optional(S.String),
           EndpointIpAddressRange: S.optional(S.String),
           EndpointIpv6AddressRange: S.optional(S.String),
-          RouteTableIds: S.optional(__S(32, __c1, 0)),
-          ReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
+          RouteTableIds: S.optional(__S(640, __c20, 0)),
+          ReadCacheConfiguration: S.optional(__S(1031, __c32, 7)),
         }),
       ).annotate({ identifier: "CreateFileSystemOpenZFSConfiguration" });
   }
 }
-function __c28(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FileSystem: S.optional(__S(1055, __c32, 31)) })).annotate({
+        identifier: "CreateFileSystemResponse",
+      });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6434,43 +8263,177 @@ function __c28(j: number): any {
           FileSystemAdministratorsGroup: S.optional(S.String),
           UserName: S.optional(S.String),
           Password: S.optional(SensitiveString),
-          DnsIps: S.optional(__S(32, __c1, 0)),
+          DnsIps: S.optional(__S(640, __c20, 0)),
           DomainJoinServiceAccountSecret: S.optional(S.String),
         }),
       ).annotate({ identifier: "SelfManagedActiveDirectoryConfiguration" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ FileSystem: S.optional(__S(382, __c11, 30)) })).annotate({
-        identifier: "CreateFileSystemResponse",
-      });
-  }
-}
-function __c30(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           BackupId: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          SecurityGroupIds: S.optional(__S(32, __c1, 0)),
-          Tags: S.optional(__S(225, __c7, 1)),
-          WindowsConfiguration: S.optional(__S(864, __c27, 0)),
-          LustreConfiguration: S.optional(__S(865, __c27, 1)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          SecurityGroupIds: S.optional(__S(640, __c20, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          WindowsConfiguration: S.optional(__S(1632, __c51, 0)),
+          LustreConfiguration: S.optional(__S(1633, __c51, 1)),
           StorageType: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
           FileSystemTypeVersion: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(867, __c27, 3)),
+          OpenZFSConfiguration: S.optional(__S(1635, __c51, 3)),
           StorageCapacity: S.optional(S.Number),
           NetworkType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFileSystemFromBackupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FileSystemId: S.optional(S.String),
+          StorageVirtualMachineId: S.optional(S.String),
+          Name: S.optional(S.String),
+          SnapshotCopyMode: S.optional(S.String),
+          RetentionRules: S.optional(__S(1825, __c57, 1)),
+          TransferSchedule: S.optional(S.String),
+          NetworkCompressionEnabled: S.optional(S.Boolean),
+          ThrottleInKbps: S.optional(S.Number),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapmirrorPolicyRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapmirrorPolicy: S.optional(__S(1826, __c57, 2)) }),
+      ).annotate({ identifier: "CreateSnapmirrorPolicyResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Label: S.optional(S.String),
+          Count: S.optional(S.Number),
+          CreationSchedule: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SnapmirrorPolicyRetentionRule" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          SnapmirrorPolicyId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          StorageVirtualMachineId: S.optional(S.String),
+          Name: S.optional(S.String),
+          SnapshotCopyMode: S.optional(S.String),
+          RetentionRules: S.optional(__S(1825, __c57, 1)),
+          TransferSchedule: S.optional(S.String),
+          NetworkCompressionEnabled: S.optional(S.Boolean),
+          ThrottleInKbps: S.optional(S.Number),
+          Scope: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          UUID: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }),
+      ).annotate({ identifier: "SnapmirrorPolicy" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ VolumeId: S.optional(S.String) })).annotate({
+        identifier: "CreateSnapmirrorDestination",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Source: S.optional(__S(1920, __c60, 0)),
+          Destination: S.optional(__S(1856, __c58, 0)),
+          PolicyId: S.optional(S.String),
+          TransferSchedule: S.optional(S.String),
+          ThrottleInKbps: S.optional(S.Number),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapmirrorRelationshipRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapmirrorRelationship: S.optional(__S(1925, __c60, 5)) }),
+      ).annotate({ identifier: "CreateSnapmirrorRelationshipResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Path: S.optional(S.String) })).annotate({
+        identifier: "CreateSnapmirrorSource",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Path: S.optional(S.String), VolumeId: S.optional(S.String) }),
+      ).annotate({ identifier: "SnapmirrorDestination" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ PolicyId: S.optional(S.String), PolicyName: S.optional(S.String) }),
+      ).annotate({ identifier: "SnapmirrorRelationshipPolicy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ SnapshotId: S.optional(S.String), SnapshotName: S.optional(S.String) }),
+      ).annotate({ identifier: "SnapmirrorExportedSnapshot" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          State: S.optional(S.String),
+          Type: S.optional(S.String),
+          BytesTransferred: S.optional(S.Number),
+          Duration: S.optional(S.String),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "SnapmirrorTransferState" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          SnapmirrorRelationshipId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          Source: S.optional(__S(1920, __c60, 0)),
+          Destination: S.optional(__S(1921, __c60, 1)),
+          SnapmirrorPolicy: S.optional(__S(1922, __c60, 2)),
+          TransferSchedule: S.optional(S.String),
+          ThrottleInKbps: S.optional(S.Number),
+          State: S.optional(S.String),
+          Healthy: S.optional(S.Boolean),
+          UnhealthyReason: S.optional(S.String),
+          LagTimeInMinutes: S.optional(S.Number),
+          ExportedSnapshot: S.optional(__S(1923, __c60, 3)),
+          TransferState: S.optional(__S(1924, __c60, 4)),
+          UUID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SnapmirrorRelationship" });
+  }
+}
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6478,66 +8441,140 @@ function __c31(j: number): any {
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.optional(S.String),
           VolumeId: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          OntapConfiguration: S.optional(__S(1984, __c62, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateSnapshotRequest" });
   }
 }
-function __c32(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Snapshot: S.optional(__S(376, __c11, 24)) })).annotate({
+      return S.suspend(() =>
+        S.Struct({
+          SnapmirrorLabel: S.optional(S.String),
+          ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SnaplockExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CreateOntapSnapshotConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ Snapshot: S.optional(__S(1049, __c32, 25)) })).annotate({
         identifier: "CreateSnapshotResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FileSystemId: S.optional(S.String),
+          StorageVirtualMachineId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Enabled: S.optional(S.Boolean),
+          Schedules: S.optional(__S(2081, __c65, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotPolicyRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapshotPolicy: S.optional(__S(2082, __c65, 2)) }),
+      ).annotate({ identifier: "CreateSnapshotPolicyResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Count: S.optional(S.Number),
+          Prefix: S.optional(S.String),
+          SnapmirrorLabel: S.optional(S.String),
+          RetentionPeriod: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "SnapshotPolicySchedule" });
+    case 1:
+      return S.Array(__S(2080, __c65, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          SnapshotPolicyId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          StorageVirtualMachineId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Enabled: S.optional(S.Boolean),
+          Schedules: S.optional(__S(2081, __c65, 1)),
+          Scope: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          UUID: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }),
+      ).annotate({ identifier: "SnapshotPolicy" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NetBiosName: S.optional(S.String),
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(896, __c28, 0)),
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "CreateSvmActiveDirectoryConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ActiveDirectoryConfiguration: S.optional(__S(1056, __c33, 0)),
+          ActiveDirectoryConfiguration: S.optional(__S(2112, __c66, 0)),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           FileSystemId: S.optional(S.String),
           Name: S.optional(S.String),
           SvmAdminPassword: S.optional(SensitiveString),
-          Tags: S.optional(__S(225, __c7, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
           RootVolumeSecurityStyle: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStorageVirtualMachineRequest" });
   }
 }
-function __c34(j: number): any {
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ StorageVirtualMachine: S.optional(__S(2178, __c68, 2)) }),
+      ).annotate({ identifier: "CreateStorageVirtualMachineResponse" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NetBiosName: S.optional(S.String),
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(320, __c10, 0)),
+          SelfManagedActiveDirectoryConfiguration: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "SvmActiveDirectoryConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Iscsi: S.optional(__S(321, __c10, 1)),
-          Management: S.optional(__S(321, __c10, 1)),
-          Nfs: S.optional(__S(321, __c10, 1)),
-          Smb: S.optional(__S(321, __c10, 1)),
+          Iscsi: S.optional(__S(993, __c31, 1)),
+          Management: S.optional(__S(993, __c31, 1)),
+          Nfs: S.optional(__S(993, __c31, 1)),
+          Smb: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "SvmEndpoints" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ActiveDirectoryConfiguration: S.optional(__S(1088, __c34, 0)),
+          ActiveDirectoryConfiguration: S.optional(__S(2176, __c68, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Endpoints: S.optional(__S(1089, __c34, 1)),
+          Endpoints: S.optional(__S(2177, __c68, 1)),
           FileSystemId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
           Name: S.optional(S.String),
@@ -6545,22 +8582,60 @@ function __c34(j: number): any {
           StorageVirtualMachineId: S.optional(S.String),
           Subtype: S.optional(S.String),
           UUID: S.optional(S.String),
-          Tags: S.optional(__S(225, __c7, 1)),
-          LifecycleTransitionReason: S.optional(__S(192, __c6, 0)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
           RootVolumeSecurityStyle: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageVirtualMachine" });
   }
 }
-function __c35(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ StorageVirtualMachine: S.optional(__S(1090, __c34, 2)) }),
-      ).annotate({ identifier: "CreateStorageVirtualMachineResponse" });
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          StorageVirtualMachineId: S.optional(S.String),
+          PeerSvmName: S.optional(S.String),
+          PeerClusterName: S.optional(S.String),
+          Applications: S.optional(__S(896, __c28, 0)),
+          PeerSvmAlias: S.optional(S.String),
+          Tags: S.optional(__S(833, __c26, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateStorageVirtualMachinePeerRequest" });
   }
 }
-function __c36(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ StorageVirtualMachinePeer: S.optional(__S(2272, __c71, 0)) }),
+      ).annotate({ identifier: "CreateStorageVirtualMachinePeerResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          StorageVirtualMachinePeerId: S.optional(S.String),
+          StorageVirtualMachineId: S.optional(S.String),
+          FileSystemId: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          LifecycleTransitionReason: S.optional(__S(801, __c25, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          PeerSvmName: S.optional(S.String),
+          PeerSvmAlias: S.optional(S.String),
+          PeerClusterName: S.optional(S.String),
+          Applications: S.optional(__S(896, __c28, 0)),
+          State: S.optional(S.String),
+          UUID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorageVirtualMachinePeer" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6571,10 +8646,10 @@ function __c36(j: number): any {
           RecordSizeKiB: S.optional(S.Number),
           DataCompressionType: S.optional(S.String),
           CopyTagsToSnapshots: S.optional(S.Boolean),
-          OriginSnapshot: S.optional(__S(367, __c11, 15)),
+          OriginSnapshot: S.optional(__S(1039, __c32, 15)),
           ReadOnly: S.optional(S.Boolean),
-          NfsExports: S.optional(__S(371, __c11, 19)),
-          UserAndGroupQuotas: S.optional(__S(373, __c11, 21)),
+          NfsExports: S.optional(__S(1043, __c32, 19)),
+          UserAndGroupQuotas: S.optional(__S(1045, __c32, 21)),
         }),
       ).annotate({ identifier: "CreateOpenZFSVolumeConfiguration" });
     case 1:
@@ -6583,19 +8658,19 @@ function __c36(j: number): any {
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           VolumeType: S.optional(S.String),
           Name: S.optional(S.String),
-          OntapConfiguration: S.optional(__S(1185, __c37, 1)),
-          Tags: S.optional(__S(225, __c7, 1)),
-          OpenZFSConfiguration: S.optional(__S(1152, __c36, 0)),
+          OntapConfiguration: S.optional(__S(2337, __c73, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
+          OpenZFSConfiguration: S.optional(__S(2304, __c72, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateVolumeRequest" });
   }
 }
-function __c37(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Aggregates: S.optional(__S(32, __c1, 0)),
+          Aggregates: S.optional(__S(640, __c20, 0)),
           ConstituentsPerAggregate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateAggregateConfiguration" });
@@ -6607,27 +8682,28 @@ function __c37(j: number): any {
           SizeInMegabytes: S.optional(S.Number),
           StorageEfficiencyEnabled: S.optional(S.Boolean),
           StorageVirtualMachineId: S.optional(S.String),
-          TieringPolicy: S.optional(__S(361, __c11, 9)),
+          TieringPolicy: S.optional(__S(1033, __c32, 9)),
           OntapVolumeType: S.optional(S.String),
           SnapshotPolicy: S.optional(S.String),
           CopyTagsToBackups: S.optional(S.Boolean),
-          SnaplockConfiguration: S.optional(__S(364, __c11, 12)),
+          SnaplockConfiguration: S.optional(__S(1035, __c32, 11)),
           VolumeStyle: S.optional(S.String),
-          AggregateConfiguration: S.optional(__S(1184, __c37, 0)),
+          AggregateConfiguration: S.optional(__S(2336, __c73, 0)),
           SizeInBytes: S.optional(S.Number),
+          CloneConfiguration: S.optional(__S(1037, __c32, 13)),
         }),
       ).annotate({ identifier: "CreateOntapVolumeConfiguration" });
   }
 }
-function __c38(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Volume: S.optional(__S(375, __c11, 23)) })).annotate({
+      return S.suspend(() => S.Struct({ Volume: S.optional(__S(1047, __c32, 23)) })).annotate({
         identifier: "CreateVolumeResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6635,13 +8711,13 @@ function __c39(j: number): any {
           BackupId: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.optional(S.String),
-          OntapConfiguration: S.optional(__S(1185, __c37, 1)),
-          Tags: S.optional(__S(225, __c7, 1)),
+          OntapConfiguration: S.optional(__S(2337, __c73, 1)),
+          Tags: S.optional(__S(833, __c26, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateVolumeFromBackupRequest" });
   }
 }
-function __c40(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6656,7 +8732,22 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteBackupResponse" });
   }
 }
-function __c41(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ClusterPeerId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteClusterPeerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ClusterPeerId: S.optional(S.String), Lifecycle: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteClusterPeerResponse" });
+  }
+}
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6676,7 +8767,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteDataRepositoryAssociationResponse" });
   }
 }
-function __c42(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6691,21 +8782,21 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteFileCacheResponse" });
   }
 }
-function __c43(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SkipFinalBackup: S.optional(S.Boolean),
-          FinalBackupTags: S.optional(__S(225, __c7, 1)),
+          FinalBackupTags: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "DeleteFileSystemWindowsConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           SkipFinalBackup: S.optional(S.Boolean),
-          FinalBackupTags: S.optional(__S(225, __c7, 1)),
-          Options: S.optional(__S(256, __c8, 0)),
+          FinalBackupTags: S.optional(__S(833, __c26, 1)),
+          Options: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "DeleteFileSystemOpenZFSConfiguration" });
     case 2:
@@ -6713,9 +8804,9 @@ function __c43(j: number): any {
         S.Struct({
           FileSystemId: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          WindowsConfiguration: S.optional(__S(1376, __c43, 0)),
-          LustreConfiguration: S.optional(__S(1376, __c43, 0)),
-          OpenZFSConfiguration: S.optional(__S(1377, __c43, 1)),
+          WindowsConfiguration: S.optional(__S(2560, __c80, 0)),
+          LustreConfiguration: S.optional(__S(2560, __c80, 0)),
+          OpenZFSConfiguration: S.optional(__S(2561, __c80, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteFileSystemRequest" });
     case 3:
@@ -6723,25 +8814,58 @@ function __c43(j: number): any {
         S.Struct({
           FileSystemId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          WindowsResponse: S.optional(__S(1408, __c44, 0)),
-          LustreResponse: S.optional(__S(1408, __c44, 0)),
-          OpenZFSResponse: S.optional(__S(1408, __c44, 0)),
+          WindowsResponse: S.optional(__S(2592, __c81, 0)),
+          LustreResponse: S.optional(__S(2592, __c81, 0)),
+          OpenZFSResponse: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "DeleteFileSystemResponse" });
   }
 }
-function __c44(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FinalBackupId: S.optional(S.String),
-          FinalBackupTags: S.optional(__S(225, __c7, 1)),
+          FinalBackupTags: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "DeleteFileSystemWindowsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapmirrorPolicyId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSnapmirrorPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ SnapmirrorPolicyId: S.optional(S.String), Lifecycle: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteSnapmirrorPolicyResponse" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapmirrorRelationshipId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSnapmirrorRelationshipRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapmirrorRelationshipId: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteSnapmirrorRelationshipResponse" });
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6756,7 +8880,22 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotResponse" });
   }
 }
-function __c46(j: number): any {
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          SnapshotPolicyId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSnapshotPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ SnapshotPolicyId: S.optional(S.String), Lifecycle: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteSnapshotPolicyResponse" });
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6774,18 +8913,36 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteStorageVirtualMachineResponse" });
   }
 }
-function __c47(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          StorageVirtualMachinePeerId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteStorageVirtualMachinePeerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StorageVirtualMachinePeerId: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteStorageVirtualMachinePeerResponse" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SkipFinalBackup: S.optional(S.Boolean),
-          FinalBackupTags: S.optional(__S(225, __c7, 1)),
+          FinalBackupTags: S.optional(__S(833, __c26, 1)),
           BypassSnaplockEnterpriseRetention: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeleteVolumeOntapConfiguration" });
     case 1:
-      return S.suspend(() => S.Struct({ Options: S.optional(__S(256, __c8, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Options: S.optional(__S(896, __c28, 0)) })).annotate({
         identifier: "DeleteVolumeOpenZFSConfiguration",
       });
     case 2:
@@ -6793,8 +8950,8 @@ function __c47(j: number): any {
         S.Struct({
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           VolumeId: S.optional(S.String),
-          OntapConfiguration: S.optional(__S(1504, __c47, 0)),
-          OpenZFSConfiguration: S.optional(__S(1505, __c47, 1)),
+          OntapConfiguration: S.optional(__S(2816, __c88, 0)),
+          OpenZFSConfiguration: S.optional(__S(2817, __c88, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteVolumeRequest" });
     case 3:
@@ -6802,103 +8959,125 @@ function __c47(j: number): any {
         S.Struct({
           VolumeId: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          OntapResponse: S.optional(__S(1408, __c44, 0)),
+          OntapResponse: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "DeleteVolumeResponse" });
   }
 }
-function __c48(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BackupIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          BackupIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeBackupsRequest" });
     case 1:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Backups: S.optional(__S(1537, __c48, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Backups: S.optional(__S(2849, __c89, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeBackupsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(32, __c1, 0)) }),
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(640, __c20, 0)) }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(2880, __c90, 0));
   }
 }
-function __c50(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AssociationIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          ClusterPeerIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeClusterPeersRequest" });
+    case 1:
+      return S.Array(__S(1345, __c42, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterPeers: S.optional(__S(2913, __c91, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeClusterPeersResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AssociationIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDataRepositoryAssociationsRequest" });
     case 1:
-      return S.Array(__S(643, __c20, 3));
+      return S.Array(__S(1443, __c45, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Associations: S.optional(__S(1601, __c50, 1)),
+          Associations: S.optional(__S(2945, __c92, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataRepositoryAssociationsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TaskIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          TaskIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDataRepositoryTasksRequest" });
     case 1:
-      return S.Array(__S(740, __c23, 4));
+      return S.Array(__S(1508, __c47, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DataRepositoryTasks: S.optional(__S(1633, __c51, 1)),
+          DataRepositoryTasks: S.optional(__S(2977, __c93, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataRepositoryTasksResponse" });
   }
 }
-function __c52(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FileCacheIds: S.optional(__S(32, __c1, 0)),
+          FileCacheIds: S.optional(__S(640, __c20, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeFileCachesRequest" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(3040, __c95, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ FileCaches: S.optional(__S(1665, __c52, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ FileCaches: S.optional(__S(3009, __c94, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeFileCachesResponse" });
   }
 }
-function __c53(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6909,21 +9088,21 @@ function __c53(j: number): any {
           FileCacheType: S.optional(S.String),
           FileCacheTypeVersion: S.optional(S.String),
           Lifecycle: S.optional(S.String),
-          FailureDetails: S.optional(__S(192, __c6, 0)),
+          FailureDetails: S.optional(__S(864, __c27, 0)),
           StorageCapacity: S.optional(S.Number),
           VpcId: S.optional(S.String),
-          SubnetIds: S.optional(__S(32, __c1, 0)),
-          NetworkInterfaceIds: S.optional(__S(32, __c1, 0)),
+          SubnetIds: S.optional(__S(640, __c20, 0)),
+          NetworkInterfaceIds: S.optional(__S(640, __c20, 0)),
           DNSName: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
           ResourceARN: S.optional(S.String),
-          LustreConfiguration: S.optional(__S(801, __c25, 1)),
-          DataRepositoryAssociationIds: S.optional(__S(32, __c1, 0)),
+          LustreConfiguration: S.optional(__S(1569, __c49, 1)),
+          DataRepositoryAssociationIds: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "FileCache" });
   }
 }
-function __c54(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6936,55 +9115,55 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DescribeFileSystemAliasesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Aliases: S.optional(__S(65, __c2, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Aliases: S.optional(__S(673, __c21, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeFileSystemAliasesResponse" });
   }
 }
-function __c55(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FileSystemIds: S.optional(__S(32, __c1, 0)),
+          FileSystemIds: S.optional(__S(640, __c20, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeFileSystemsRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<FileSystem> => __S(382, __c11, 30)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<FileSystem> => __S(1055, __c32, 31)).annotate({
           identifier: "FileSystem",
         }),
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ FileSystems: S.optional(__S(1761, __c55, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ FileSystems: S.optional(__S(3105, __c97, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeFileSystemsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Names: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          Names: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeS3AccessPointAttachmentsRequest" });
     case 1:
-      return S.Array(__S(553, __c17, 9));
+      return S.Array(__S(1225, __c38, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          S3AccessPointAttachments: S.optional(__S(1793, __c56, 1)),
+          S3AccessPointAttachments: S.optional(__S(3137, __c98, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeS3AccessPointAttachmentsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6994,7 +9173,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DescribeSharedVpcConfigurationRequest" });
   }
 }
-function __c58(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7002,13 +9181,79 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DescribeSharedVpcConfigurationResponse" });
   }
 }
-function __c59(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SnapshotIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          SnapmirrorPolicyIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSnapmirrorPoliciesRequest" });
+    case 1:
+      return S.Array(__S(1826, __c57, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SnapmirrorPolicies: S.optional(__S(3233, __c101, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSnapmirrorPoliciesResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapmirrorRelationshipIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSnapmirrorRelationshipsRequest" });
+    case 1:
+      return S.Array(__S(1925, __c60, 5));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SnapmirrorRelationships: S.optional(__S(3265, __c102, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSnapmirrorRelationshipsResponse" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotPolicyIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSnapshotPoliciesRequest" });
+    case 1:
+      return S.Array(__S(2082, __c65, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotPolicies: S.optional(__S(3297, __c103, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSnapshotPoliciesResponse" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
           IncludeShared: S.optional(S.Boolean),
@@ -7016,62 +9261,84 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DescribeSnapshotsRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Snapshot> => __S(376, __c11, 24)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Snapshot> => __S(1049, __c32, 25)).annotate({
           identifier: "Snapshot",
         }),
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ Snapshots: S.optional(__S(1889, __c59, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Snapshots: S.optional(__S(3329, __c104, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeSnapshotsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StorageVirtualMachineIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          StorageVirtualMachinePeerIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeStorageVirtualMachinePeersRequest" });
+    case 1:
+      return S.Array(__S(2272, __c71, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          StorageVirtualMachinePeers: S.optional(__S(3361, __c105, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeStorageVirtualMachinePeersResponse" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StorageVirtualMachineIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeStorageVirtualMachinesRequest" });
     case 1:
-      return S.Array(__S(1090, __c34, 2));
+      return S.Array(__S(2178, __c68, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          StorageVirtualMachines: S.optional(__S(1921, __c60, 1)),
+          StorageVirtualMachines: S.optional(__S(3393, __c106, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStorageVirtualMachinesResponse" });
   }
 }
-function __c61(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VolumeIds: S.optional(__S(32, __c1, 0)),
-          Filters: S.optional(__S(1569, __c49, 1)),
+          VolumeIds: S.optional(__S(640, __c20, 0)),
+          Filters: S.optional(__S(2881, __c90, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeVolumesRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Volume> => __S(375, __c11, 23)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Volume> => __S(1047, __c32, 23)).annotate({
           identifier: "Volume",
         }),
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ Volumes: S.optional(__S(1953, __c61, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Volumes: S.optional(__S(3425, __c107, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeVolumesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7086,19 +9353,19 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DetachAndDeleteS3AccessPointResponse" });
   }
 }
-function __c63(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           FileSystemId: S.optional(S.String),
-          Aliases: S.optional(__S(32, __c1, 0)),
+          Aliases: S.optional(__S(640, __c20, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DisassociateFileSystemAliasesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7110,291 +9377,8 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Tags: S.optional(__S(225, __c7, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Tags: S.optional(__S(833, __c26, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ReleaseFileSystemNfsV3LocksRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          VolumeId: S.optional(S.String),
-          SnapshotId: S.optional(S.String),
-          Options: S.optional(__S(256, __c8, 0)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "RestoreVolumeFromSnapshotRequest" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          FileSystemId: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "StartMisconfiguredStateRecoveryRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(__S(225, __c7, 1)) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ ResourceARN: S.optional(S.String), TagKeys: S.optional(__S(32, __c1, 0)) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AssociationId: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          ImportedFileChunkSize: S.optional(S.Number),
-          S3: S.optional(__S(641, __c20, 1)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateDataRepositoryAssociationRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ WeeklyMaintenanceStartTime: S.optional(S.String) }),
-      ).annotate({ identifier: "UpdateFileCacheLustreConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          FileCacheId: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          LustreConfiguration: S.optional(__S(2304, __c72, 0)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateFileCacheRequest" });
-    case 2:
-      return S.suspend(() => S.Struct({ FileCache: S.optional(__S(1696, __c53, 0)) })).annotate({
-        identifier: "UpdateFileCacheResponse",
-      });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WeeklyMaintenanceStartTime: S.optional(S.String),
-          DailyAutomaticBackupStartTime: S.optional(S.String),
-          AutomaticBackupRetentionDays: S.optional(S.Number),
-          ThroughputCapacity: S.optional(S.Number),
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(2368, __c74, 0)),
-          AuditLogConfiguration: S.optional(__S(352, __c11, 0)),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
-          FsrmConfiguration: S.optional(__S(354, __c11, 2)),
-        }),
-      ).annotate({ identifier: "UpdateFileSystemWindowsConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          WeeklyMaintenanceStartTime: S.optional(S.String),
-          DailyAutomaticBackupStartTime: S.optional(S.String),
-          AutomaticBackupRetentionDays: S.optional(S.Number),
-          AutoImportPolicy: S.optional(S.String),
-          DataCompressionType: S.optional(S.String),
-          LogConfiguration: S.optional(__S(288, __c9, 0)),
-          RootSquashConfiguration: S.optional(__S(357, __c11, 5)),
-          PerUnitStorageThroughput: S.optional(S.Number),
-          MetadataConfiguration: S.optional(__S(358, __c11, 6)),
-          ThroughputCapacity: S.optional(S.Number),
-          DataReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
-        }),
-      ).annotate({ identifier: "UpdateFileSystemLustreConfiguration" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          AutomaticBackupRetentionDays: S.optional(S.Number),
-          DailyAutomaticBackupStartTime: S.optional(S.String),
-          FsxAdminPassword: S.optional(SensitiveString),
-          WeeklyMaintenanceStartTime: S.optional(S.String),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
-          ThroughputCapacity: S.optional(S.Number),
-          AddRouteTableIds: S.optional(__S(32, __c1, 0)),
-          RemoveRouteTableIds: S.optional(__S(32, __c1, 0)),
-          ThroughputCapacityPerHAPair: S.optional(S.Number),
-          HAPairs: S.optional(S.Number),
-          EndpointIpv6AddressRange: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateFileSystemOntapConfiguration" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          AutomaticBackupRetentionDays: S.optional(S.Number),
-          CopyTagsToBackups: S.optional(S.Boolean),
-          CopyTagsToVolumes: S.optional(S.Boolean),
-          DailyAutomaticBackupStartTime: S.optional(S.String),
-          ThroughputCapacity: S.optional(S.Number),
-          WeeklyMaintenanceStartTime: S.optional(S.String),
-          DiskIopsConfiguration: S.optional(__S(353, __c11, 1)),
-          AddRouteTableIds: S.optional(__S(32, __c1, 0)),
-          RemoveRouteTableIds: S.optional(__S(32, __c1, 0)),
-          ReadCacheConfiguration: S.optional(__S(359, __c11, 7)),
-          EndpointIpv6AddressRange: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateFileSystemOpenZFSConfiguration" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          FileSystemId: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          StorageCapacity: S.optional(S.Number),
-          WindowsConfiguration: S.optional(__S(2336, __c73, 0)),
-          LustreConfiguration: S.optional(__S(2337, __c73, 1)),
-          OntapConfiguration: S.optional(__S(2338, __c73, 2)),
-          OpenZFSConfiguration: S.optional(__S(2339, __c73, 3)),
-          StorageType: S.optional(S.String),
-          FileSystemTypeVersion: S.optional(S.String),
-          NetworkType: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateFileSystemRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          UserName: S.optional(S.String),
-          Password: S.optional(SensitiveString),
-          DnsIps: S.optional(__S(32, __c1, 0)),
-          DomainName: S.optional(S.String),
-          OrganizationalUnitDistinguishedName: S.optional(S.String),
-          FileSystemAdministratorsGroup: S.optional(S.String),
-          DomainJoinServiceAccountSecret: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SelfManagedActiveDirectoryConfigurationUpdates" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateSharedVpcConfigurationRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          Name: S.optional(S.String),
-          SnapshotId: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateSnapshotRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SelfManagedActiveDirectoryConfiguration: S.optional(__S(2368, __c74, 0)),
-          NetBiosName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateSvmActiveDirectoryConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ActiveDirectoryConfiguration: S.optional(__S(2464, __c77, 0)),
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          StorageVirtualMachineId: S.optional(S.String),
-          SvmAdminPassword: S.optional(SensitiveString),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateStorageVirtualMachineRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AuditLogVolume: S.optional(S.Boolean),
-          AutocommitPeriod: S.optional(__S(362, __c11, 10)),
-          PrivilegedDelete: S.optional(S.String),
-          RetentionPeriod: S.optional(__S(363, __c11, 11)),
-          VolumeAppendModeEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpdateSnaplockConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          JunctionPath: S.optional(S.String),
-          SecurityStyle: S.optional(S.String),
-          SizeInMegabytes: S.optional(S.Number),
-          StorageEfficiencyEnabled: S.optional(S.Boolean),
-          TieringPolicy: S.optional(__S(361, __c11, 9)),
-          SnapshotPolicy: S.optional(S.String),
-          CopyTagsToBackups: S.optional(S.Boolean),
-          SnaplockConfiguration: S.optional(__S(2496, __c78, 0)),
-          SizeInBytes: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "UpdateOntapVolumeConfiguration" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          StorageCapacityReservationGiB: S.optional(S.Number),
-          StorageCapacityQuotaGiB: S.optional(S.Number),
-          RecordSizeKiB: S.optional(S.Number),
-          DataCompressionType: S.optional(S.String),
-          NfsExports: S.optional(__S(371, __c11, 19)),
-          UserAndGroupQuotas: S.optional(__S(373, __c11, 21)),
-          ReadOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpdateOpenZFSVolumeConfiguration" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          VolumeId: S.optional(S.String),
-          OntapConfiguration: S.optional(__S(2497, __c78, 1)),
-          Name: S.optional(S.String),
-          OpenZFSConfiguration: S.optional(__S(2498, __c78, 2)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "UpdateVolumeRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

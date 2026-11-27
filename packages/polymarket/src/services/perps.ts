@@ -369,16 +369,11 @@ export interface AccountRewardInstrument {
   reward_amount: string;
 }
 export type AccountRewardBreakdownList = Array<AccountRewardInstrument>;
-export interface AccountRewardOi {
-  account_oi: string;
-  reward_amount: string;
-}
 export interface AccountReward {
   date: string;
   maker_share_7d: string;
   reward_distributed: boolean;
   breakdown: AccountRewardBreakdownList;
-  oi_rewards?: AccountRewardOi | undefined;
 }
 export type AccountRewardsDataList = Array<AccountReward>;
 export interface AccountRewards {
@@ -1952,7 +1947,7 @@ export const getAccountReferral: API.OperationMethod<
 }));
 
 export type GetAccountRewardsError = PolymarketOpError;
-/** Get Account Rewards Get per-instrument daily liquidity reward shares for the authenticated account. Reward periods run from 12:00 UTC to 12:00 UTC and are labeled by their UTC end date. OI rewards pay 6% APR on the account's full daily average gross OI across all instruments when the combined daily average gross OI of its rewards entity is at least $5M. Accounts without an entity mapping qualify independently. The first reward period starts at 2026-07-06 12:00 UTC. If no date range is provided, the latest computed reward period is returned. */
+/** Get Account Rewards Get per-instrument daily liquidity reward shares for the authenticated account. Reward periods run from 12:00 UTC to 12:00 UTC and are labeled by their UTC end date. The first reward period starts at 2026-07-06 12:00 UTC. If no date range is provided, the latest computed reward period is returned. */
 export const getAccountRewards: API.OperationMethod<
   GetAccountRewardsRequest,
   AccountRewards,
@@ -1960,7 +1955,7 @@ export const getAccountRewards: API.OperationMethod<
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetAccountRewardsRequest>,
-  output: __S(182, __c11, 6) as any as S.Schema<AccountRewards>,
+  output: __S(181, __c11, 5) as any as S.Schema<AccountRewards>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: PerpsProtocol,
@@ -3287,26 +3282,18 @@ function __c11(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          account_oi: S.String,
-          reward_amount: S.String,
-        }),
-      ).annotate({ identifier: "AccountRewardOi" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           date: S.String,
           maker_share_7d: S.String,
           reward_distributed: S.Boolean,
           breakdown: __S(178, __c11, 2),
-          oi_rewards: S.optional(__S(179, __c11, 3)),
         }),
       ).annotate({ identifier: "AccountReward" });
+    case 4:
+      return S.Array(__S(179, __c11, 3));
     case 5:
-      return S.Array(__S(180, __c11, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(181, __c11, 5),
+          data: __S(180, __c11, 4),
           more: S.Boolean,
         }),
       ).annotate({ identifier: "AccountRewards" });

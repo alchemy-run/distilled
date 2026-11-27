@@ -116,10 +116,10 @@ export interface SequencedRecord {
   /** Timestamp for this record. */
   timestamp: number;
 }
-/** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`). */
+/** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, `until`, or `wait`). */
 export type ReadBatchRecordsList = Array<SequencedRecord>;
 export interface ReadBatch {
-  /** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, or `until`). */
+  /** Records that are durably sequenced on the stream, retrieved based on the requested criteria. This can only be empty in response to a unary read (i.e. not SSE), if the request cannot be satisfied without violating an explicit bound (`count`, `bytes`, `until`, or `wait`). */
   records: ReadBatchRecordsList;
   tail?: StreamPosition | null | undefined;
 }
@@ -156,7 +156,7 @@ export const checkTail: API.OperationMethod<
 }));
 
 export type ReadError = S2OpError;
-/** Read records. */
+/** Read records. Starts at the tail when `seq_num`, `timestamp`, and `tail_offset` are all omitted. */
 export const read: API.OperationMethod<ReadRequest, ReadBatch, ReadError, S2OpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(16, __c4, 0) as any as S.Schema<ReadRequest>,

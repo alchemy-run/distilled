@@ -78,7 +78,6 @@ export interface CreateRoleRequest {
   /** Grant to creating role (read only) */
   grantToCreatingRole: boolean;
 }
-/** Principal type */
 export type PrincipalType = "User" | "Role" | "Group";
 /** Principal (read only) */
 export interface Principal {

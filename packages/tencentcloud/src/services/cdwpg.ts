@@ -376,16 +376,17 @@ export interface DescribeInstanceStateRequest {
   region?: string | undefined;
 }
 export interface InstanceStateItem {
+  BackupOpenStatus?: number | undefined;
+  BackupStatus?: number | undefined;
+  FlowCreateTime?: string | undefined;
+  FlowMsg?: string | undefined;
+  FlowName?: string | undefined;
+  FlowProgress?: number | undefined;
   InstanceId?: string | undefined;
   InstanceState?: string | undefined;
   InstanceStateDesc?: string | undefined;
-  BackupStatus?: number | undefined;
-  BackupOpenStatus?: number | undefined;
-  FlowCreateTime?: string | undefined;
-  FlowName?: string | undefined;
-  FlowProgress?: number | undefined;
-  FlowMsg?: string | undefined;
   ProcessName?: string | undefined;
+  RecoveryState?: string | undefined;
 }
 export type InstanceStateItemList = Array<InstanceStateItem>;
 export interface DescribeInstanceStateResponse {
@@ -397,8 +398,9 @@ export interface DescribeInstanceStateResponse {
   FlowProgress?: number | undefined;
   InstanceState?: string | undefined;
   InstanceStateDesc?: string | undefined;
-  ProcessName?: string | undefined;
   InstanceStates?: InstanceStateItemList | undefined;
+  ProcessName?: string | undefined;
+  RecoveryState?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeSimpleInstancesRequest {
@@ -1181,16 +1183,17 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          BackupOpenStatus: S.optional(S.Number),
+          BackupStatus: S.optional(S.Number),
+          FlowCreateTime: S.optional(S.String),
+          FlowMsg: S.optional(S.String),
+          FlowName: S.optional(S.String),
+          FlowProgress: S.optional(S.Number),
           InstanceId: S.optional(S.String),
           InstanceState: S.optional(S.String),
           InstanceStateDesc: S.optional(S.String),
-          BackupStatus: S.optional(S.Number),
-          BackupOpenStatus: S.optional(S.Number),
-          FlowCreateTime: S.optional(S.String),
-          FlowName: S.optional(S.String),
-          FlowProgress: S.optional(S.Number),
-          FlowMsg: S.optional(S.String),
           ProcessName: S.optional(S.String),
+          RecoveryState: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceStateItem" });
     case 2:
@@ -1206,8 +1209,9 @@ function __c6(j: number): any {
           FlowProgress: S.optional(S.Number),
           InstanceState: S.optional(S.String),
           InstanceStateDesc: S.optional(S.String),
-          ProcessName: S.optional(S.String),
           InstanceStates: S.optional(__S(50, __c6, 2)),
+          ProcessName: S.optional(S.String),
+          RecoveryState: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceStateResponse" });

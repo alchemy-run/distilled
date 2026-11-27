@@ -86,7 +86,6 @@ export interface CreateVolumeBackupRequest {
   volumeName: string;
   prefix: string;
   serviceType?: CreateVolumeBackupRequestServiceType | (string & {}) | undefined;
-  appName?: string | undefined;
   serviceName?: string | null | undefined;
   turnOff?: boolean | undefined;
   cronExpression: string;
@@ -144,7 +143,6 @@ export interface UpdateVolumeBackupRequest {
   volumeName: string;
   prefix: string;
   serviceType?: UpdateVolumeBackupRequestServiceType | (string & {}) | undefined;
-  appName?: string | undefined;
   serviceName?: string | null | undefined;
   turnOff?: boolean | undefined;
   cronExpression: string;
@@ -333,7 +331,6 @@ function __c1(j: number): any {
           volumeName: S.String,
           prefix: S.String,
           serviceType: S.optional(S.String),
-          appName: S.optional(S.String),
           serviceName: S.optional(S.NullOr(S.String)),
           turnOff: S.optional(S.Boolean),
           cronExpression: S.String,
@@ -411,7 +408,6 @@ function __c7(j: number): any {
           volumeName: S.String,
           prefix: S.String,
           serviceType: S.optional(S.String),
-          appName: S.optional(S.String),
           serviceName: S.optional(S.NullOr(S.String)),
           turnOff: S.optional(S.Boolean),
           cronExpression: S.String,

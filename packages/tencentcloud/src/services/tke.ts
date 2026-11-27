@@ -3930,6 +3930,7 @@ export interface ClusterExternalConfig {
   SubnetId: string;
   ClusterCIDR?: string | null | undefined;
   Enabled?: boolean | undefined;
+  ProxyCLBMode?: string | undefined;
 }
 export interface EnableExternalNodeSupportRequest {
   ClusterId: string;
@@ -4613,6 +4614,11 @@ export interface RollbackClusterReleaseResponse {
   RequestId?: string | undefined;
 }
 export interface RotateClusterTokenRequest {
+  ClusterId: string;
+  ClusterType?: string | undefined;
+  Operation?: string | undefined;
+  ClusterToken?: string | Redacted.Redacted<string> | undefined;
+  Force?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -13743,6 +13749,7 @@ function __c152(j: number): any {
           SubnetId: S.String,
           ClusterCIDR: S.optional(S.NullOr(S.String)),
           Enabled: S.optional(S.Boolean),
+          ProxyCLBMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterExternalConfig" });
     case 1:
@@ -15053,6 +15060,11 @@ function __c208(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ClusterId: S.String,
+          ClusterType: S.optional(S.String),
+          Operation: S.optional(S.String),
+          ClusterToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          Force: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "tke", version: "2018-05-25", action: "RotateClusterToken" })),
       ).annotate({ identifier: "RotateClusterTokenRequest" });

@@ -59,6 +59,8 @@ export class NotFound
 
 /** * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
 export type CustomerTaskStatusEnum = "open" | "in_progress" | "completed" | "canceled";
+/** Tag names for the task, up to 100. */
+export type CreateCustomerTaskRequestTagsList = Array<string>;
 export interface CreateCustomerTaskRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -74,6 +76,8 @@ export interface CreateCustomerTaskRequest {
   due_at?: string | null | undefined;
   /** Initial task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
   status?: CustomerTaskStatusEnum | (string & {}) | undefined;
+  /** Tag names for the task, up to 100. */
+  tags?: CreateCustomerTaskRequestTagsList | undefined;
 }
 export interface CustomerTaskAccount {
   /** UUID of the linked account. */
@@ -91,6 +95,8 @@ export interface CustomerTaskUser {
   /** Last name of the user. */
   last_name: string;
 }
+/** Tag names on the task, sorted alphabetically. */
+export type CustomerTaskTagsList = Array<string>;
 export interface CustomerTask {
   /** UUID of the task. */
   id: string;
@@ -122,6 +128,8 @@ export interface CustomerTask {
   can_edit: boolean;
   /** Whether the current user can restore this task. */
   can_restore: boolean;
+  /** Tag names on the task, sorted alphabetically. */
+  tags: CustomerTaskTagsList;
 }
 export interface CustomerTasksArchiveCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -130,6 +138,10 @@ export interface CustomerTasksArchiveCreateRequest {
 }
 /** UUIDs of up to 100 tasks to update together. */
 export type CustomerTasksBulkUpdateCreateRequestTaskIdsList = Array<string>;
+/** Replacement tag names, up to 100. An empty list removes every tag. */
+export type CustomerTaskBulkPatchTagsList = Array<string>;
+/** * `add` - add * `remove` - remove * `set` - set */
+export type BulkUpdateTagsActionEnum = "add" | "remove" | "set";
 export interface CustomerTaskBulkPatch {
   /** UUID of a visible account, or null to remove the account link. */
   account_id?: string | null | undefined;
@@ -139,8 +151,12 @@ export interface CustomerTaskBulkPatch {
   due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
   status?: CustomerTaskStatusEnum | (string & {}) | undefined;
+  /** Replacement tag names, up to 100. An empty list removes every tag. */
+  tags?: CustomerTaskBulkPatchTagsList | undefined;
   /** Archive tasks when true, or restore them when false. */
   archived?: boolean | undefined;
+  /** How to apply tags to each task: add merges them (the default), remove deletes them, set replaces all tags. * `add` - add * `remove` - remove * `set` - set */
+  tags_mode?: BulkUpdateTagsActionEnum | (string & {}) | undefined;
 }
 export interface CustomerTasksBulkUpdateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -205,6 +221,8 @@ export interface ListCustomerTasksRequest {
   search?: string | undefined;
   /** Comma-separated task statuses. */
   statuses?: string | undefined;
+  /** JSON-encoded list of tag names, such as ["renewal", "urgent"]. Returns tasks with any of the tags. */
+  tags?: string | undefined;
 }
 /** Tasks in this page. */
 export type CustomerTaskPageResultsList = Array<CustomerTask>;
@@ -229,10 +247,22 @@ export interface ListCustomerTasksActivitiesRequest {
 }
 /** * `created` - Created * `updated` - Updated * `archived` - Archived * `restored` - Restored */
 export type CustomerTaskActivityTypeEnum = "created" | "updated" | "archived" | "restored";
+export type CustomerTaskChangeBeforeCase4List = Array<string>;
 /** Value before the change. */
-export type CustomerTaskChangeBefore = string | number | boolean | unknown;
+export type CustomerTaskChangeBefore =
+  | string
+  | number
+  | boolean
+  | unknown
+  | CustomerTaskChangeBeforeCase4List;
+export type CustomerTaskChangeAfterCase4List = Array<string>;
 /** Value after the change. */
-export type CustomerTaskChangeAfter = string | number | boolean | unknown;
+export type CustomerTaskChangeAfter =
+  | string
+  | number
+  | boolean
+  | unknown
+  | CustomerTaskChangeAfterCase4List;
 export interface CustomerTaskChange {
   /** Semantic task field that changed. */
   field: string;
@@ -267,6 +297,8 @@ export interface CustomerTaskActivityPage {
   /** Activities in this page. */
   results: CustomerTaskActivityPageResultsList;
 }
+/** Replacement tag names, up to 100. An empty list removes every tag. */
+export type UpdateCustomerTaskRequestTagsList = Array<string>;
 export interface UpdateCustomerTaskRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -279,11 +311,15 @@ export interface UpdateCustomerTaskRequest {
   due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
   status?: CustomerTaskStatusEnum | (string & {}) | undefined;
+  /** Replacement tag names, up to 100. An empty list removes every tag. */
+  tags?: UpdateCustomerTaskRequestTagsList | undefined;
   /** Replacement task name. */
   name: string;
   /** Replacement description, or null to clear it. */
   description?: string | null | undefined;
 }
+/** Replacement tag names, up to 100. An empty list removes every tag. */
+export type UpdateCustomerTasksPartialRequestTagsList = Array<string>;
 export interface UpdateCustomerTasksPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -296,6 +332,8 @@ export interface UpdateCustomerTasksPartialRequest {
   due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
   status?: CustomerTaskStatusEnum | (string & {}) | undefined;
+  /** Replacement tag names, up to 100. An empty list removes every tag. */
+  tags?: UpdateCustomerTasksPartialRequestTagsList | undefined;
   /** Replacement task name. */
   name?: string | undefined;
   /** Replacement description, or null to clear it. */
@@ -313,7 +351,7 @@ export const createCustomerTask: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateCustomerTaskRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -329,8 +367,8 @@ export const customerTasksArchiveCreate: API.OperationMethod<
   CustomerTasksArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CustomerTasksArchiveCreateRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  input: __S(48, __c6, 0) as any as S.Schema<CustomerTasksArchiveCreateRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -347,8 +385,8 @@ export const customerTasksBulkUpdateCreate: API.OperationMethod<
   CustomerTasksBulkUpdateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c6, 2) as any as S.Schema<CustomerTasksBulkUpdateCreateRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<CustomerTaskBulkUpdateResult>,
+  input: __S(57, __c7, 1) as any as S.Schema<CustomerTasksBulkUpdateCreateRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<CustomerTaskBulkUpdateResult>,
   errors: [NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -364,8 +402,8 @@ export const customerTasksRestoreCreate: API.OperationMethod<
   CustomerTasksRestoreCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CustomerTasksRestoreCreateRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  input: __S(64, __c8, 0) as any as S.Schema<CustomerTasksRestoreCreateRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -381,8 +419,8 @@ export const getCustomerTask: API.OperationMethod<
   GetCustomerTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetCustomerTaskRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCustomerTaskRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -398,8 +436,8 @@ export const listCustomerTasks: API.OperationMethod<
   ListCustomerTasksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListCustomerTasksRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<CustomerTaskPage>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListCustomerTasksRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<CustomerTaskPage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -415,8 +453,8 @@ export const listCustomerTasksActivities: API.OperationMethod<
   ListCustomerTasksActivitiesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListCustomerTasksActivitiesRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<CustomerTaskActivityPage>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListCustomerTasksActivitiesRequest>,
+  output: __S(93, __c11, 5) as any as S.Schema<CustomerTaskActivityPage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -432,8 +470,8 @@ export const updateCustomerTask: API.OperationMethod<
   UpdateCustomerTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UpdateCustomerTaskRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateCustomerTaskRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -450,7 +488,7 @@ export const updateCustomerTasksPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<UpdateCustomerTasksPartialRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
+  output: __S(41, __c5, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -481,6 +519,7 @@ function __c1(j: number): any {
           assigned_to_id: S.optional(S.NullOr(S.Number)),
           due_at: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
+          tags: S.optional(__S(24, __c3, 0)),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -505,6 +544,7 @@ function __c2(j: number): any {
           assigned_to_id: S.optional(S.NullOr(S.Number)),
           due_at: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
+          tags: S.optional(__S(24, __c3, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/customer_tasks/", code: 200 }),
         ),
@@ -512,6 +552,12 @@ function __c2(j: number): any {
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -524,7 +570,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CustomerTaskUser" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -537,25 +583,26 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          account: S.NullOr(__S(32, __c4, 0)),
+          account: S.NullOr(__S(40, __c5, 0)),
           name: S.String,
           description: S.NullOr(S.String),
           status: S.String,
-          assigned_to: S.NullOr(__S(24, __c3, 0)),
+          assigned_to: S.NullOr(__S(32, __c4, 0)),
           due_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
-          completed_by: S.NullOr(__S(24, __c3, 0)),
-          created_by: S.NullOr(__S(24, __c3, 0)),
+          completed_by: S.NullOr(__S(32, __c4, 0)),
+          created_by: S.NullOr(__S(32, __c4, 0)),
           archived_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
           can_edit: S.Boolean,
           can_restore: S.Boolean,
+          tags: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "CustomerTask" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -572,26 +619,26 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CustomerTasksArchiveCreateRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.NullOr(S.String)),
           assigned_to_id: S.optional(S.NullOr(S.Number)),
           due_at: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
+          tags: S.optional(__S(24, __c3, 0)),
           archived: S.optional(S.Boolean),
+          tags_mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerTaskBulkPatch" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          task_ids: __S(48, __c6, 0),
-          updates: __S(49, __c6, 1),
+          task_ids: __S(24, __c3, 0),
+          updates: __S(56, __c7, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -600,7 +647,7 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CustomerTasksBulkUpdateCreateRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           updated_count: S.Number,
@@ -608,7 +655,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CustomerTaskBulkUpdateResult" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -625,7 +672,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CustomerTasksRestoreCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -642,7 +689,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetCustomerTaskRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -659,24 +706,25 @@ function __c9(j: number): any {
           ordering: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           statuses: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/customer_tasks/", code: 200 }),
         ),
       ).annotate({ identifier: "ListCustomerTasksRequest" });
     case 1:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(73, __c9, 1),
+          results: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "CustomerTaskPage" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -702,31 +750,31 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTaskChange" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           activity_type: S.String,
-          changes: __S(82, __c10, 2),
-          actor: S.NullOr(__S(24, __c3, 0)),
+          changes: __S(90, __c11, 2),
+          actor: S.NullOr(__S(32, __c4, 0)),
           created_at: S.String,
         }),
       ).annotate({ identifier: "CustomerTaskActivity" });
     case 4:
-      return S.Array(__S(83, __c10, 3));
+      return S.Array(__S(91, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(84, __c10, 4),
+          results: __S(92, __c11, 4),
         }),
       ).annotate({ identifier: "CustomerTaskActivityPage" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -737,6 +785,7 @@ function __c11(j: number): any {
           assigned_to_id: S.optional(S.NullOr(S.Number)),
           due_at: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
+          tags: S.optional(__S(24, __c3, 0)),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
         }).pipe(

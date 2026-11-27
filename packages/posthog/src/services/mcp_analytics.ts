@@ -246,8 +246,44 @@ export interface MCPIntentCluster {
   /** Errored call immediately retried with the same tool. Top 5 by count. */
   self_retries: MCPIntentClusterSelfRetriesList;
 }
-/** All clusters in the snapshot. */
+/** Clusters that met the minimum member count, by call volume desc. */
 export type MCPIntentClusterSnapshotClustersList = Array<MCPIntentCluster>;
+/** Up to ten long-tail intent strings, by call volume desc. Empty when intent text is redacted. */
+export type MCPIntentClusterLongTailSampleIntentsList = Array<string>;
+export interface MCPIntentClusterLongTail {
+  /** Number of intents whose clusters fell below the minimum cluster size. */
+  intent_count: number;
+  /** Sessions represented by the long-tail intents. */
+  session_count: number;
+  /** Tool calls across all long-tail intents. */
+  call_count: number;
+  /** Error responses across all long-tail intents. */
+  error_count: number;
+  /** Error rate across long-tail tool calls, from 0 to 100. */
+  error_rate_pct: number;
+  /** Up to ten long-tail intent strings, by call volume desc. Empty when intent text is redacted. */
+  sample_intents: MCPIntentClusterLongTailSampleIntentsList;
+}
+/** Up to five merged wordings, most common first. Empty when nothing was merged or intent text is redacted. */
+export type MCPRecurringIntentSampleVariantsList = Array<string>;
+export interface MCPRecurringIntent {
+  /** The most common wording of this automation step. Empty when intent text is redacted. */
+  intent_text: string;
+  /** Sessions in the window that opened with this intent. */
+  session_count: number;
+  /** Tool calls across those sessions. */
+  call_count: number;
+  /** Error responses across those sessions. */
+  error_count: number;
+  /** Error rate across those sessions' tool calls, from 0 to 100. */
+  error_rate_pct: number;
+  /** How many different wordings of this automation step were merged into the entry. 1 when none were. */
+  variant_count: number;
+  /** Up to five merged wordings, most common first. Empty when nothing was merged or intent text is redacted. */
+  sample_variants: MCPRecurringIntentSampleVariantsList;
+}
+/** Intent texts that open three or more sessions verbatim, which is automated traffic such as scheduled agents and cron runs. Kept out of the clusters and ranked by session count desc. Empty on older snapshots and on tool-scoped responses. */
+export type MCPIntentClusterSnapshotRecurringList = Array<MCPRecurringIntent>;
 export interface MCPToolPivotCompetitor {
   /** The other tool with the largest share of this cluster's calls. */
   tool: string;
@@ -357,8 +393,14 @@ export interface MCPIntentClusterSnapshot {
   last_computed_at: string | null;
   /** Email of the user who triggered the latest recompute, empty for system-triggered runs. */
   last_computed_by_email: string;
-  /** All clusters in the snapshot. */
+  /** Clusters that met the minimum member count, by call volume desc. */
   clusters: MCPIntentClusterSnapshotClustersList;
+  /** Aggregate of intents whose clusters fell below the minimum member count. Null when every cluster met it, on older snapshots, and on tool-scoped responses. */
+  long_tail: MCPIntentClusterLongTail | null;
+  /** Intent texts that open three or more sessions verbatim, which is automated traffic such as scheduled agents and cron runs. Kept out of the clusters and ranked by session count desc. Empty on older snapshots and on tool-scoped responses. */
+  recurring: MCPIntentClusterSnapshotRecurringList;
+  /** True when property access control hides $mcp_intent from the requesting user. Every intent string in the response is then empty. */
+  intent_text_redacted: boolean;
   /** Tool-centric pivot of the clusters: per tool, the intents it serves, capture per cluster, contested score, discovery rate, and description fit. Empty on snapshots computed before the per-call pipeline; recompute to populate. */
   tools: MCPIntentClusterSnapshotToolsList;
   /** Tool pairs competing for the same intent clusters, by contested call volume desc, capped at 50. */
@@ -493,7 +535,7 @@ export interface MCPActivityStats {
   calls_with_intent: number;
   /** Tool calls flagged as errors ($mcp_is_error) in the window. */
   error_calls: number;
-  /** $mcp_missing_capability events captured in the window. */
+  /** Missing-capability reports captured in the window: $mcp_missing_capability events and $mcp_feedback events of type missing_capability. */
   missing_capability_reports: number;
 }
 export interface MCPActivityToolRow {
@@ -577,6 +619,8 @@ export interface McpAnalyticsSessionsToolCallsRequest {
   id: string;
   /** Absolute ISO timestamp lower bound for the event scan -- pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted or unparseable. */
   date_from?: string | undefined;
+  /** Absolute ISO timestamp upper bound for the event scan. Pass the session's end so the scan stops there instead of reading up to now. Unbounded when omitted or unparseable. */
+  date_to?: string | undefined;
   /** Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`. */
   filter_test_accounts?: boolean | undefined;
   /** Maximum tool calls to return per page (1-500). Defaults to 500 -- the whole page -- so a session's calls come back in one request; pass a smaller value for a lighter response. Values above the cap are rejected. */
@@ -757,7 +801,7 @@ export const getMcpAnalyticsIntentCluster: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetMcpAnalyticsIntentClusterRequest>,
-  output: __S(503, __c15, 23) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
+  output: __S(506, __c15, 26) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1207,6 +1251,7 @@ function __c9(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
           filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -1451,11 +1496,36 @@ function __c15(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
+          intent_count: S.Number,
+          session_count: S.Number,
+          call_count: S.Number,
+          error_count: S.Number,
+          error_rate_pct: S.Number,
+          sample_intents: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "MCPIntentClusterLongTail" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          intent_text: S.String,
+          session_count: S.Number,
+          call_count: S.Number,
+          error_count: S.Number,
+          error_rate_pct: S.Number,
+          variant_count: S.Number,
+          sample_variants: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "MCPRecurringIntent" });
+    case 15:
+      return S.Array(__S(494, __c15, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
           tool: S.String,
           pct: S.Number,
         }),
       ).annotate({ identifier: "MCPToolPivotCompetitor" });
-    case 14:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           cluster_id: S.Number,
@@ -1463,12 +1533,12 @@ function __c15(j: number): any {
           capture_pct: S.Number,
           rank: S.Number,
           description_fit: S.NullOr(S.Number),
-          top_competitor: S.NullOr(__S(493, __c15, 13)),
+          top_competitor: S.NullOr(__S(496, __c15, 16)),
         }),
       ).annotate({ identifier: "MCPToolPivotClusterEntry" });
-    case 15:
-      return S.Array(__S(494, __c15, 14));
-    case 16:
+    case 18:
+      return S.Array(__S(497, __c15, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           tool: S.String,
@@ -1481,12 +1551,12 @@ function __c15(j: number): any {
           discovery_rate_pct: S.NullOr(S.Number),
           description: S.NullOr(S.String),
           n_clusters_served: S.Number,
-          clusters: __S(495, __c15, 15),
+          clusters: __S(498, __c15, 18),
         }),
       ).annotate({ identifier: "MCPToolPivot" });
-    case 17:
-      return S.Array(__S(496, __c15, 16));
-    case 18:
+    case 20:
+      return S.Array(__S(499, __c15, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           tool_a: S.String,
@@ -1497,9 +1567,9 @@ function __c15(j: number): any {
           top_cluster_id: S.Number,
         }),
       ).annotate({ identifier: "MCPToolOverlap" });
-    case 19:
-      return S.Array(__S(498, __c15, 18));
-    case 20:
+    case 22:
+      return S.Array(__S(501, __c15, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           distance_threshold: S.Number,
@@ -1521,7 +1591,7 @@ function __c15(j: number): any {
           description_coverage_pct: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "MCPIntentClusterSnapshotMeta" });
-    case 21:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
@@ -1529,15 +1599,18 @@ function __c15(j: number): any {
           last_computed_at: S.NullOr(S.String),
           last_computed_by_email: S.String,
           clusters: __S(492, __c15, 12),
-          tools: __S(497, __c15, 17),
-          tool_overlaps: __S(499, __c15, 19),
-          computed_with: S.NullOr(__S(500, __c15, 20)),
+          long_tail: S.NullOr(__S(493, __c15, 13)),
+          recurring: __S(495, __c15, 15),
+          intent_text_redacted: S.Boolean,
+          tools: __S(500, __c15, 20),
+          tool_overlaps: __S(502, __c15, 22),
+          computed_with: S.NullOr(__S(503, __c15, 23)),
         }),
       ).annotate({ identifier: "MCPIntentClusterSnapshot" });
-    case 22:
-      return S.Array(__S(501, __c15, 21));
-    case 23:
-      return S.suspend(() => __S(502, __c15, 22).pipe(T.RawResponseRoot())).annotate({
+    case 25:
+      return S.Array(__S(504, __c15, 24));
+    case 26:
+      return S.suspend(() => __S(505, __c15, 25).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMcpAnalyticsIntentClusterResponse",
       });
   }

@@ -137,6 +137,8 @@ export interface Template {
   /** Identifier of the last successful build for given template */
   buildID: string;
   cpuCount: number;
+  /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
+  maxCpuCount?: number | undefined;
   memoryMB: number;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
@@ -360,6 +362,7 @@ function __c4(j: number): any {
           templateID: S.String,
           buildID: S.String,
           cpuCount: S.Number,
+          maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
           diskSizeMB: S.Number,
           public: S.Boolean,

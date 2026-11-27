@@ -565,9 +565,9 @@ export interface AppFunctionStatsGroup {
 }
 export interface AppRequestCounts {
   total: string;
-  ok2xx: string;
-  /** All non-2xx responses, including status zero. */
-  other: string;
+  ok: string;
+  /** All non-1xx, non-2xx, and non-3xx responses, including status zero. */
+  failed: string;
 }
 export interface AppServerCounts {
   requests?: AppRequestCounts | undefined;
@@ -1317,8 +1317,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total: S.String,
-          ok2xx: S.String,
-          other: S.String,
+          ok: S.String,
+          failed: S.String,
         }),
       ).annotate({ identifier: "AppRequestCounts" });
     case 8:

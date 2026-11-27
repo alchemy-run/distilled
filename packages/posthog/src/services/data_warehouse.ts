@@ -887,6 +887,8 @@ export interface WarehouseTrinoStatus {
   state: WarehouseTrinoStatusStateEnum;
   /** When Trino became ready for the organization */
   ready_at: string | null;
+  /** Whether the organization's Trino catalog is backed by hoglake. Hoglake credentials reach nothing otherwise. */
+  hoglake: boolean;
   /** Trino connection target. Null until Trino is ready and reachable. */
   connection: WarehouseTrinoConnection | null;
 }
@@ -2426,6 +2428,7 @@ function __c31(j: number): any {
         S.Struct({
           state: S.String,
           ready_at: S.NullOr(S.String),
+          hoglake: S.Boolean,
           connection: S.NullOr(__S(498, __c31, 2)),
         }),
       ).annotate({ identifier: "WarehouseTrinoStatus" });

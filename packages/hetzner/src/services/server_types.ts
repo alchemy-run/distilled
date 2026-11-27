@@ -120,6 +120,14 @@ export interface GetServerTypeResponseServerType {
 export interface GetServerTypeResponse {
   server_type: GetServerTypeResponseServerType;
 }
+export type ListServerTypesRequestSortItem =
+  | "id"
+  | "id:asc"
+  | "id:desc"
+  | "name"
+  | "name:asc"
+  | "name:desc";
+export type ListServerTypesRequestSortList = Array<ListServerTypesRequestSortItem | (string & {})>;
 export interface ListServerTypesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
   name?: string | undefined;
@@ -127,6 +135,8 @@ export interface ListServerTypesRequest {
   page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
   per_page?: number | undefined;
+  /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
+  sort?: ListServerTypesRequestSortList | undefined;
 }
 /** Hourly price in this [Location](#tag/locations). */
 export type ListServerTypesResponseServerTypesItemPricesItemPriceHourly =
@@ -240,8 +250,8 @@ export const listServerTypes: API.PaginatedOperationMethod<
   ListServerTypesResponseServerTypesItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListServerTypesRequest>,
-    output: __S(20, __c2, 4) as any as S.Schema<ListServerTypesResponse>,
+    input: __S(17, __c2, 1) as any as S.Schema<ListServerTypesRequest>,
+    output: __S(21, __c2, 5) as any as S.Schema<ListServerTypesResponse>,
     errors: [],
     serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
@@ -339,16 +349,19 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
+          sort: S.optional(__S(16, __c2, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/server_types", code: 200 })),
       ).annotate({ identifier: "ListServerTypesRequest" });
-    case 1:
-      return S.Array(__S(14, __c1, 6));
     case 2:
+      return S.Array(__S(14, __c1, 6));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.Number,
@@ -359,17 +372,17 @@ function __c2(j: number): any {
           total_entries: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ListServerTypesResponseMetaPagination" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pagination: __S(18, __c2, 2),
-        }),
-      ).annotate({ identifier: "ListServerTypesResponseMeta" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          server_types: __S(17, __c2, 1),
-          meta: __S(19, __c2, 3),
+          pagination: __S(19, __c2, 3),
+        }),
+      ).annotate({ identifier: "ListServerTypesResponseMeta" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          server_types: __S(18, __c2, 2),
+          meta: __S(20, __c2, 4),
         }),
       ).annotate({ identifier: "ListServerTypesResponse" });
   }

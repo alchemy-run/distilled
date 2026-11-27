@@ -57,7 +57,7 @@ export interface CreateOrganizationBudgetRequest {
   org: string;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
   budget_amount?: number | undefined;
-  /** Whether to prevent additional spending once the budget is exceeded. For `user` and `multi_user_customer` scopes, this must be `true`. */
+  /** Whether to prevent additional spending once the budget is exceeded. Set to `false` for an alerting-only budget, including user-level scopes. */
   prevent_further_usage?: boolean | undefined;
   budget_alerting?: CreateOrganizationBudgetRequestBudgetAlerting | undefined;
   /** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. `user` and `multi_user_customer` scopes are only supported when `budget_product_sku` is `ai_credits` or `premium_requests`. */
@@ -103,6 +103,10 @@ export interface CreateBudgetBudget {
   budget_scope?: CreateBudgetBudgetBudgetScope | undefined;
   /** The name of the entity to apply the budget to */
   budget_entity_name?: string | undefined;
+  /** The user login when the budget is scoped to a single user (`user` scope). */
+  user?: string | undefined;
+  /** The consumed amount for the specified user within the budget. Only included for `user`-scoped budgets. */
+  consumed_amount?: number | undefined;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
   budget_amount?: number | undefined;
   /** Whether to prevent additional spending once the budget is exceeded */
@@ -598,7 +602,7 @@ export interface UpdateBudgetOrgRequest {
   budget_id: string;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
   budget_amount?: number | undefined;
-  /** Whether to prevent additional spending once the budget is exceeded. For budgets with `user` or `multi_user_customer` scope, this must remain `true`. */
+  /** Whether to prevent additional spending once the budget is exceeded. Set to `false` for an alerting-only budget, including user-level scopes. */
   prevent_further_usage?: boolean | undefined;
   budget_alerting?: UpdateBudgetOrgRequestBudgetAlerting | undefined;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for existing user-scoped budgets. */
@@ -933,6 +937,8 @@ function __c0(j: number): any {
           id: S.optional(S.String),
           budget_scope: S.optional(S.String),
           budget_entity_name: S.optional(S.String),
+          user: S.optional(S.String),
+          consumed_amount: S.optional(S.Number),
           budget_amount: S.optional(S.Number),
           prevent_further_usage: S.optional(S.Boolean),
           budget_product_sku: S.optional(S.String),

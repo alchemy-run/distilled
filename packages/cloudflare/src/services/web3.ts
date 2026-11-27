@@ -390,7 +390,7 @@ export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
   type?: HostnamesIpfsUniversalPathsContentListsEntriesUpdateResponseType | null | undefined;
 }
 export type CreateHostnameError = Web3HostnameNotEntitled | Forbidden | CloudflareOpError;
-/** Create Web3 Hostname */
+/** Creates a new Web3 hostname for serving decentralized web content. */
 export const createHostname: API.OperationMethod<
   CreateHostnameRequest,
   CreateHostnameResponse,
@@ -408,7 +408,7 @@ export const createHostname: API.OperationMethod<
 }));
 
 export type CreateHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
-/** Create IPFS Universal Path Gateway Content List Entry */
+/** Creates a new entry in an IPFS Universal Path Gateway content list. */
 export const createHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   CreateHostnameIpfsUniversalPathContentListEntryRequest,
   CreateHostnameIpfsUniversalPathContentListEntryResponse,
@@ -434,7 +434,7 @@ export const createHostnameIpfsUniversalPathContentListEntry: API.OperationMetho
 }));
 
 export type DeleteHostnameError = Web3HostnameNotFound | Forbidden | CloudflareOpError;
-/** Delete Web3 Hostname */
+/** Deletes a Web3 hostname and its configuration from the zone. */
 export const deleteHostname: API.OperationMethod<
   DeleteHostnameRequest,
   DeleteHostnameResponse,
@@ -452,7 +452,7 @@ export const deleteHostname: API.OperationMethod<
 }));
 
 export type DeleteHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
-/** Delete IPFS Universal Path Gateway Content List Entry */
+/** Deletes an entry from an IPFS Universal Path Gateway content list. */
 export const deleteHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   DeleteHostnameIpfsUniversalPathContentListEntryRequest,
   DeleteHostnameIpfsUniversalPathContentListEntryResponse,
@@ -478,7 +478,7 @@ export const deleteHostnameIpfsUniversalPathContentListEntry: API.OperationMetho
 }));
 
 export type GetHostnameError = Web3HostnameNotFound | Forbidden | CloudflareOpError;
-/** Web3 Hostname Details */
+/** Retrieves details for a specific Web3 hostname, including its target gateway and DNSLink settings. */
 export const getHostname: API.OperationMethod<
   GetHostnameRequest,
   GetHostnameResponse,
@@ -500,7 +500,7 @@ export type GetHostnameIpfsUniversalPathContentListError =
   | InvalidWeb3HostnameTarget
   | Forbidden
   | CloudflareOpError;
-/** IPFS Universal Path Gateway Content List Details */
+/** Retrieves the IPFS Universal Path Gateway content list configuration for a Web3 hostname. */
 export const getHostnameIpfsUniversalPathContentList: API.OperationMethod<
   GetHostnameIpfsUniversalPathContentListRequest,
   GetHostnameIpfsUniversalPathContentListResponse,
@@ -518,7 +518,7 @@ export const getHostnameIpfsUniversalPathContentList: API.OperationMethod<
 }));
 
 export type GetHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
-/** IPFS Universal Path Gateway Content List Entry Details */
+/** Retrieves details for a specific IPFS Universal Path Gateway content list entry. */
 export const getHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   GetHostnameIpfsUniversalPathContentListEntryRequest,
   GetHostnameIpfsUniversalPathContentListEntryResponse,
@@ -540,7 +540,7 @@ export type ListHostnameIpfsUniversalPathContentListEntriesError =
   | InvalidWeb3HostnameTarget
   | Forbidden
   | CloudflareOpError;
-/** List IPFS Universal Path Gateway Content List Entries */
+/** Lists entries in an IPFS Universal Path Gateway content list. */
 export const listHostnameIpfsUniversalPathContentListEntries: API.OperationMethod<
   ListHostnameIpfsUniversalPathContentListEntriesRequest,
   ListHostnameIpfsUniversalPathContentListEntriesResponse,
@@ -562,7 +562,7 @@ export const listHostnameIpfsUniversalPathContentListEntries: API.OperationMetho
 }));
 
 export type ListHostnamesError = Forbidden | CloudflareOpError;
-/** List Web3 Hostnames */
+/** Lists all Web3 hostnames configured for the zone. */
 export const listHostnames: API.PaginatedOperationMethod<
   ListHostnamesRequest,
   ListHostnamesResponse,
@@ -585,7 +585,7 @@ export const listHostnames: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchHostnameError = Web3HostnameNotFound | Forbidden | CloudflareOpError;
-/** Edit Web3 Hostname */
+/** Updates a Web3 hostname configuration. */
 export const patchHostname: API.OperationMethod<
   PatchHostnameRequest,
   PatchHostnameResponse,
@@ -607,7 +607,7 @@ export type PutHostnameIpfsUniversalPathContentListError =
   | InvalidWeb3HostnameTarget
   | Forbidden
   | CloudflareOpError;
-/** Update IPFS Universal Path Gateway Content List */
+/** Updates the IPFS Universal Path Gateway content list for a Web3 hostname. */
 export const putHostnameIpfsUniversalPathContentList: API.OperationMethod<
   PutHostnameIpfsUniversalPathContentListRequest,
   PutHostnameIpfsUniversalPathContentListResponse,
@@ -625,7 +625,7 @@ export const putHostnameIpfsUniversalPathContentList: API.OperationMethod<
 }));
 
 export type UpdateHostnameIpfsUniversalPathContentListEntryError = CloudflareOpError;
-/** Edit IPFS Universal Path Gateway Content List Entry */
+/** Updates an IPFS Universal Path Gateway content list entry. */
 export const updateHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   UpdateHostnameIpfsUniversalPathContentListEntryRequest,
   UpdateHostnameIpfsUniversalPathContentListEntryResponse,

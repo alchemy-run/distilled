@@ -175,10 +175,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.hog_flows#HogFlowInput/members/actions/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.hog_flows#AppMetricsResponse/members/labels/traits"
     },
     {

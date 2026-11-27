@@ -59,6 +59,14 @@ export interface GetIsoResponse {
 }
 /** CPU architecture of the Resource. */
 export type ListIsosRequestArchitecture = "x86" | "arm";
+export type ListIsosRequestSortItem =
+  | "id"
+  | "id:asc"
+  | "id:desc"
+  | "name"
+  | "name:asc"
+  | "name:desc";
+export type ListIsosRequestSortList = Array<ListIsosRequestSortItem | (string & {})>;
 export interface ListIsosRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
   name?: string | undefined;
@@ -70,6 +78,8 @@ export interface ListIsosRequest {
   page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
   per_page?: number | undefined;
+  /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
+  sort?: ListIsosRequestSortList | undefined;
 }
 /** Type of the ISO. */
 export type ListIsosResponseIsosItemType = "public" | "private";
@@ -143,8 +153,8 @@ export const listIsos: API.PaginatedOperationMethod<
   ListIsosResponseIsosItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListIsosRequest>,
-    output: __S(20, __c2, 4) as any as S.Schema<ListIsosResponse>,
+    input: __S(17, __c2, 1) as any as S.Schema<ListIsosRequest>,
+    output: __S(21, __c2, 5) as any as S.Schema<ListIsosResponse>,
     errors: [],
     serviceErrors: HetznerServiceErrors,
     protocol: HetznerProtocol,
@@ -204,6 +214,8 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String.pipe(T.Query())),
@@ -211,11 +223,12 @@ function __c2(j: number): any {
           include_architecture_wildcard: S.optional(S.Boolean.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
+          sort: S.optional(__S(16, __c2, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/isos", code: 200 })),
       ).annotate({ identifier: "ListIsosRequest" });
-    case 1:
-      return S.Array(__S(9, __c1, 1));
     case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.Number,
@@ -226,17 +239,17 @@ function __c2(j: number): any {
           total_entries: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ListIsosResponseMetaPagination" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pagination: __S(18, __c2, 2),
-        }),
-      ).annotate({ identifier: "ListIsosResponseMeta" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          isos: __S(17, __c2, 1),
-          meta: __S(19, __c2, 3),
+          pagination: __S(19, __c2, 3),
+        }),
+      ).annotate({ identifier: "ListIsosResponseMeta" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          isos: __S(18, __c2, 2),
+          meta: __S(20, __c2, 4),
         }),
       ).annotate({ identifier: "ListIsosResponse" });
   }

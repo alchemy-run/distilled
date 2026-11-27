@@ -252,6 +252,14 @@ export interface DataQualityCheck {
   created_at: string;
   updated_at: string | null;
 }
+export interface GetDataQualityChecksFailingCountRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface DataQualityFailingCheckCount {
+  /** Enabled checks whose last run reported a failure. */
+  count: number;
+}
 export type GetDataQualityChecksOutputSchemaRequestSubjectType =
   | "metric"
   | "posthog_table"
@@ -678,7 +686,7 @@ export const createDataQualityCheck: API.OperationMethod<
 }));
 
 export type CreateDataQualityChecksRunError = PosthogOpError;
-/** Run this check now. Returns the suite run to poll for the report. */
+/** Run this check now. Returns the suite run to poll for the report. Each caller can send 20 run requests a minute and 60 an hour, and each project 180 an hour, counted across this endpoint and POST data_quality_runs, whatever the response. To run every check on a subject, call POST data_quality_runs with subject_type and subject_uuid. That counts as one request. */
 export const createDataQualityChecksRun: API.OperationMethod<
   CreateDataQualityChecksRunRequest,
   DataQualitySuiteRun,
@@ -703,8 +711,8 @@ export const dataQualityChecksDestroy: API.OperationMethod<
   DataQualityChecksDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DataQualityChecksDestroyRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<DataQualityChecksDestroyResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DataQualityChecksDestroyRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<DataQualityChecksDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -721,14 +729,32 @@ export const getDataQualityCheck: API.OperationMethod<
   GetDataQualityCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetDataQualityCheckRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DataQualityCheck>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetDataQualityCheckRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DataQualityCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataQualityCheck",
+}));
+
+export type GetDataQualityChecksFailingCountError = PosthogOpError;
+/** How many enabled checks you can see last reported a failure, across the project. */
+export const getDataQualityChecksFailingCount: API.OperationMethod<
+  GetDataQualityChecksFailingCountRequest,
+  DataQualityFailingCheckCount,
+  GetDataQualityChecksFailingCountError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetDataQualityChecksFailingCountRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<DataQualityFailingCheckCount>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataQualityChecksFailingCount",
 }));
 
 export type GetDataQualityChecksOutputSchemaError = PosthogOpError;
@@ -739,8 +765,8 @@ export const getDataQualityChecksOutputSchema: API.OperationMethod<
   GetDataQualityChecksOutputSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetDataQualityChecksOutputSchemaRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<DataQualityOutputSchema>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetDataQualityChecksOutputSchemaRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<DataQualityOutputSchema>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -757,8 +783,8 @@ export const getDataQualityChecksSchedule: API.OperationMethod<
   GetDataQualityChecksScheduleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetDataQualityChecksScheduleRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DataQualityCheckSchedule>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetDataQualityChecksScheduleRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DataQualityCheckSchedule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -775,8 +801,8 @@ export const listDataQualityChecks: API.OperationMethod<
   ListDataQualityChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListDataQualityChecksRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<PaginatedDataQualityOverviewCheckList>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListDataQualityChecksRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<PaginatedDataQualityOverviewCheckList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -793,8 +819,8 @@ export const listDataQualityChecksCheckTypes: API.OperationMethod<
   ListDataQualityChecksCheckTypesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListDataQualityChecksCheckTypesRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<ListDataQualityChecksCheckTypesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListDataQualityChecksCheckTypesRequest>,
+  output: __S(155, __c19, 3) as any as S.Schema<ListDataQualityChecksCheckTypesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -811,8 +837,8 @@ export const listDataQualityChecksHealth: API.OperationMethod<
   ListDataQualityChecksHealthError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListDataQualityChecksHealthRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<ListDataQualityChecksHealthResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListDataQualityChecksHealthRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<ListDataQualityChecksHealthResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -829,8 +855,8 @@ export const listDataQualityChecksMetricSubjects: API.OperationMethod<
   ListDataQualityChecksMetricSubjectsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListDataQualityChecksMetricSubjectsRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<ListDataQualityChecksMetricSubjectsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListDataQualityChecksMetricSubjectsRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<ListDataQualityChecksMetricSubjectsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -847,8 +873,8 @@ export const listDataQualityChecksRuns: API.OperationMethod<
   ListDataQualityChecksRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListDataQualityChecksRunsRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<ListDataQualityChecksRunsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListDataQualityChecksRunsRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<ListDataQualityChecksRunsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -865,8 +891,8 @@ export const listDataQualityChecksSchedules: API.OperationMethod<
   ListDataQualityChecksSchedulesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListDataQualityChecksSchedulesRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<ListDataQualityChecksSchedulesResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListDataQualityChecksSchedulesRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<ListDataQualityChecksSchedulesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -883,8 +909,8 @@ export const listDataQualityChecksSubjects: API.OperationMethod<
   ListDataQualityChecksSubjectsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListDataQualityChecksSubjectsRequest>,
-  output: __S(52, __c6, 4) as any as S.Schema<ListDataQualityChecksSubjectsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListDataQualityChecksSubjectsRequest>,
+  output: __S(60, __c7, 4) as any as S.Schema<ListDataQualityChecksSubjectsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -901,8 +927,8 @@ export const updateDataQualityCheck: API.OperationMethod<
   UpdateDataQualityCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateDataQualityCheckRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DataQualityCheck>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateDataQualityCheckRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DataQualityCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -919,8 +945,8 @@ export const updateDataQualityChecksPartial: API.OperationMethod<
   UpdateDataQualityChecksPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdateDataQualityChecksPartialRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DataQualityCheck>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdateDataQualityChecksPartialRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DataQualityCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -937,8 +963,8 @@ export const updateDataQualityChecksSchedulePartial: API.OperationMethod<
   UpdateDataQualityChecksSchedulePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateDataQualityChecksSchedulePartialRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DataQualityCheckSchedule>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateDataQualityChecksSchedulePartialRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DataQualityCheckSchedule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1077,6 +1103,36 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_quality_checks/metric_subjects/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListDataQualityChecksMetricSubjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          display_name: S.String,
+        }),
+      ).annotate({ identifier: "DataQualityMetricSubject" });
+    case 2:
+      return S.Array(__S(33, __c4, 1));
+    case 3:
+      return S.suspend(() => __S(34, __c4, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDataQualityChecksMetricSubjectsResponse",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1113,14 +1169,14 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DataQualityCheckRun" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
-      return S.suspend(() => __S(34, __c4, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDataQualityChecksRunsResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1148,14 +1204,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DataQualitySubjectSchedule" });
     case 2:
-      return S.Array(__S(41, __c5, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
-      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDataQualityChecksSchedulesResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1184,19 +1240,19 @@ function __c6(j: number): any {
           name: S.String,
           display_name: S.String,
           time_column: S.String,
-          columns: __S(49, __c6, 1),
+          columns: __S(57, __c7, 1),
           editable: S.Boolean,
         }),
       ).annotate({ identifier: "DataQualitySubject" });
     case 3:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(58, __c7, 2));
     case 4:
-      return S.suspend(() => __S(51, __c6, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(59, __c7, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDataQualityChecksSubjectsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1225,7 +1281,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateDataQualityCheckRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1254,7 +1310,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateDataQualityChecksPartialRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1274,7 +1330,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateDataQualityChecksSchedulePartialRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1295,7 +1351,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1312,7 +1368,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDataQualityCheckRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1347,7 +1403,29 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DataQualityCheck" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/data_quality_checks/failing_count/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDataQualityChecksFailingCountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "DataQualityFailingCheckCount" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1371,16 +1449,16 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "DataQualityOutputColumn" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          columns: __S(106, __c13, 2),
+          columns: __S(122, __c15, 2),
         }),
       ).annotate({ identifier: "DataQualityOutputSchema" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1398,7 +1476,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetDataQualityChecksScheduleRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1413,7 +1491,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DataQualityCheckSchedule" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1468,19 +1546,19 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "DataQualityOverviewCheck" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(130, __c16, 2),
+          results: __S(146, __c18, 2),
         }),
       ).annotate({ identifier: "PaginatedDataQualityOverviewCheckList" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1505,14 +1583,14 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "DataQualityCheckType" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
-      return S.suspend(() => __S(138, __c17, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(154, __c19, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDataQualityChecksCheckTypesResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1539,40 +1617,10 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "DataQualitySubjectHealth" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
-      return S.suspend(() => __S(146, __c18, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(162, __c20, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDataQualityChecksHealthResponse",
-      });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/data_quality_checks/metric_subjects/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListDataQualityChecksMetricSubjectsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          display_name: S.String,
-        }),
-      ).annotate({ identifier: "DataQualityMetricSubject" });
-    case 2:
-      return S.Array(__S(153, __c19, 1));
-    case 3:
-      return S.suspend(() => __S(154, __c19, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDataQualityChecksMetricSubjectsResponse",
       });
   }
 }

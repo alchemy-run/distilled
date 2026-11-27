@@ -201,24 +201,46 @@ export class WindowsSandboxesUnavailable
     [{ status: 403, message: { includes: "Windows sandboxes are not available" } }],
   ) {}
 
+export interface GangNodeResources {
+  /** CPU cores for the appended node. */
+  cpu: number;
+  /** Memory in GB for the appended node. */
+  memory: number;
+  /** Disk in GB for the appended node. */
+  disk: number;
+}
+/** One resource specification per appended rank. */
+export type AddSandboxNodesRequestNodesList = Array<GangNodeResources>;
+export interface AddSandboxNodesRequest {
+  sandboxIdOrName: string;
+  /** Use with JWT to specify the organization ID */
+  xDaytonaOrganizationID?: string | undefined;
+  /** Current sandbox topology generation. */
+  expectedGeneration: number;
+  /** One resource specification per appended rank. */
+  nodes: AddSandboxNodesRequestNodesList;
+}
+export type GangMembershipOperationType = "ADD" | "REMOVE" | "REPLACE";
+export type GangMembershipOperationStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED";
+export interface GangMembershipOperation {
+  id: string;
+  sandboxId: string;
+  type: GangMembershipOperationType;
+  status: GangMembershipOperationStatus;
+  phase: string;
+  expectedGeneration: number;
+  targetGeneration: number;
+  policyRevision: number;
+  errorReason?: string | undefined;
+  createdAt: string;
+  updatedAt: string;
+  completedAt?: string | undefined;
+}
 export interface ArchiveSandboxRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string | undefined;
 }
-/** Environment variables for the sandbox */
-export type SandboxEnvMap = { [key: string]: string | undefined };
-/** Labels for the sandbox */
-export type SandboxLabelsMap = { [key: string]: string | undefined };
-export type GpuType =
-  | "H100"
-  | "H200"
-  | "B200"
-  | "B300"
-  | "RTX-PRO-6000"
-  | "RTX-4090"
-  | "RTX-5090"
-  | "MI355X";
 export type SandboxState =
   | "creating"
   | "restoring"
@@ -242,6 +264,59 @@ export type SandboxState =
   | "pausing"
   | "paused"
   | "resuming";
+export type GangNodeFailureFencingStatus = "PENDING" | "FENCED" | "FAILED";
+export interface GangNodeFailure {
+  rank: number;
+  memberId: string;
+  incarnation: number;
+  reason: string;
+  reportedState: SandboxState;
+  failedAt: string;
+  fencingStatus: GangNodeFailureFencingStatus;
+  fencingError?: string | undefined;
+}
+export interface SandboxNode {
+  rank: number;
+  id: string;
+  /** Current state of this logical rank. */
+  state: SandboxState;
+  /** Physical incarnation of this logical rank. */
+  incarnation: number;
+  /** Failure details for this rank while the multi-node GPU sandbox is degraded. */
+  failure?: GangNodeFailure | undefined;
+  /** CPU cores allocated to this node. */
+  cpu: number;
+  /** GPU units allocated to this node. */
+  gpu: number;
+  /** Memory allocated to this node in GB. */
+  memory: number;
+  /** Disk allocated to this node in GB. */
+  disk: number;
+  /** Rail-0 address assigned to this member. */
+  fabricAddress?: string | undefined;
+  /** Prefix length of the member rail-0 address. */
+  fabricPrefixLength?: number | undefined;
+  /** Latest fabric health reported by the assigned runner. */
+  fabricHealthy?: boolean | undefined;
+  /** Start of the current sustained unhealthy interval. */
+  fabricUnhealthySince?: string | undefined;
+}
+/** Nodes of the multi-node GPU sandbox in rank order. Rank 0 is this sandbox. Absent for single-node sandboxes. */
+export type SandboxNodesList = Array<SandboxNode>;
+/** Environment variables for the sandbox */
+export type SandboxEnvMap = { [key: string]: string | undefined };
+/** Labels for the sandbox */
+export type SandboxLabelsMap = { [key: string]: string | undefined };
+export type GpuType =
+  | "H100"
+  | "H200"
+  | "B200"
+  | "B300"
+  | "L40S"
+  | "RTX-PRO-6000"
+  | "RTX-4090"
+  | "RTX-5090"
+  | "MI355X";
 /** The desired state of the sandbox */
 export type SandboxDesiredState =
   | "destroyed"
@@ -279,6 +354,20 @@ export interface BuildInfo {
 /** The class of the sandbox */
 export type SandboxSandboxClass = "linux-vm" | "container" | "windows";
 export interface Sandbox2 {
+  /** Nodes of the multi-node GPU sandbox in rank order. Rank 0 is this sandbox. Absent for single-node sandboxes. */
+  nodes?: SandboxNodesList | undefined;
+  /** Committed logical topology generation. */
+  topologyGeneration?: number | undefined;
+  /** Physical incarnation for an internal node row. */
+  incarnation?: number | undefined;
+  /** Derived number of physical nodes in this sandbox. */
+  nodeCount?: number | undefined;
+  /** Rank within the multi-node GPU sandbox; present only on internal node rows. */
+  nodeRank?: number | undefined;
+  /** ID of the multi-node GPU sandbox (rank 0); present only on internal node rows. */
+  headSandboxId?: string | undefined;
+  /** The multi-node GPU sandbox remains usable but one or more fabric checks are degraded. */
+  degraded?: boolean | undefined;
   /** The ID of the sandbox */
   id: string;
   /** The organization ID of the sandbox */
@@ -309,9 +398,9 @@ export interface Sandbox2 {
   otelEndpointOverride?: string | undefined;
   /** The target environment for the sandbox */
   target: string;
-  /** The CPU quota for the sandbox */
+  /** The CPU quota for the sandbox; for a multi-node sandbox, this is the job total. */
   cpu: number;
-  /** The GPU quota for the sandbox */
+  /** The GPU quota for the sandbox; for a multi-node sandbox, this is the job total. */
   gpu: number;
   /** Whether this is a spot GPU sandbox. Spot sandboxes may be instantly terminated to free capacity for on-demand GPU sandboxes. Absent on APIs that predate this field; treat as false. */
   spot?: boolean | undefined;
@@ -321,9 +410,9 @@ export interface Sandbox2 {
   queueTimedOutAt?: string | undefined;
   /** The GPU type assigned to the sandbox */
   gpuType?: GpuType | undefined;
-  /** The memory quota for the sandbox */
+  /** The memory quota for the sandbox; for a multi-node sandbox, this is the job total. */
   memory: number;
-  /** The disk quota for the sandbox */
+  /** The disk quota for the sandbox; for a multi-node sandbox, this is the job total. */
   disk: number;
   /** The state of the sandbox */
   state?: SandboxState | undefined;
@@ -378,8 +467,14 @@ export interface Sandbox2 {
 export type CreateSandboxRequestEnvMap = { [key: string]: string | undefined };
 /** Labels for the sandbox */
 export type CreateSandboxRequestLabelsMap = { [key: string]: string | undefined };
+/** CPU cores for each node in rank order. Specify either cpu or cpuPerNode. */
+export type CreateSandboxRequestCpuPerNodeList = Array<number>;
 /** Preferred GPU type for the sandbox. Accepts a single value or an ordered preference list -- the scheduler tries each in order and pins the sandbox to the first that has capacity. */
 export type CreateSandboxRequestGpuTypeList = Array<GpuType | (string & {})>;
+/** Memory in GB for each node in rank order. Specify either memory or memoryPerNode. */
+export type CreateSandboxRequestMemoryPerNodeList = Array<number>;
+/** Disk space in GB for each node in rank order. Specify either disk or diskPerNode. */
+export type CreateSandboxRequestDiskPerNodeList = Array<number>;
 /** Array of volumes to attach to the sandbox */
 export type CreateSandboxRequestVolumesList = Array<SandboxVolume>;
 /** The context hashes used for the build */
@@ -422,18 +517,24 @@ export interface CreateSandboxRequest {
   otelEndpointOverride?: string | undefined;
   /** The target (region) where the sandbox will be created */
   target?: string | undefined;
-  /** CPU cores allocated to the sandbox */
+  /** CPU cores allocated to the sandbox. On a multi-node sandbox this scalar applies to every node. */
   cpu?: number | undefined;
+  /** CPU cores for each node in rank order. Specify either cpu or cpuPerNode. */
+  cpuPerNode?: CreateSandboxRequestCpuPerNodeList | null | undefined;
   /** GPU units allocated to the sandbox */
   gpu?: number | undefined;
   /** Preferred GPU type for the sandbox. Accepts a single value or an ordered preference list -- the scheduler tries each in order and pins the sandbox to the first that has capacity. */
   gpuType?: CreateSandboxRequestGpuTypeList | undefined;
   /** GPU-only. When true, the sandbox may be instantly terminated without notice to free GPU capacity for an on-demand (non-spot) GPU sandbox. Ignored / rejected when the sandbox requests no GPUs. */
   spot?: boolean | undefined;
-  /** Memory allocated to the sandbox in GB */
+  /** Memory in GB allocated to the sandbox. On a multi-node sandbox this scalar applies to every node. */
   memory?: number | undefined;
-  /** Disk space allocated to the sandbox in GB */
+  /** Memory in GB for each node in rank order. Specify either memory or memoryPerNode. */
+  memoryPerNode?: CreateSandboxRequestMemoryPerNodeList | null | undefined;
+  /** Disk space in GB allocated to the sandbox. On a multi-node sandbox this scalar applies to every node. */
   disk?: number | undefined;
+  /** Disk space in GB for each node in rank order. Specify either disk or diskPerNode. */
+  diskPerNode?: CreateSandboxRequestDiskPerNodeList | null | undefined;
   /** Auto-stop interval in minutes (0 means disabled) */
   autoStopInterval?: number | undefined;
   /** Auto-pause interval in minutes (0 means disabled). Only supported for sandbox classes that support pausing. Not allowed for ephemeral sandboxes. At most one of autoStopInterval and autoPauseInterval may be non-zero. For non-ephemeral sandbox classes that support pausing, defaults to 60 minutes (with auto-stop disabled) when neither interval is provided. */
@@ -522,6 +623,12 @@ export interface Url {
   /** URL response */
   url: string;
 }
+export interface GetGangMembershipOperationRequest {
+  sandboxIdOrName: string;
+  operationId: string;
+  /** Use with JWT to specify the organization ID */
+  xDaytonaOrganizationID?: string | undefined;
+}
 export interface GetOrganizationBySandboxIdRequest {
   /** ID of the sandbox */
   sandboxId: string;
@@ -581,6 +688,8 @@ export interface Organization {
   sandboxLimitedNetworkEgress: boolean;
   /** Whether the proxy shows the preview URL warning page for this organization */
   previewWarningEnabled: boolean;
+  /** Whether zero data retention is enabled for this organization. Set by Daytona; read-only through the API. */
+  zeroDataRetention: boolean;
   /** Whether this organization may configure SSO identity providers */
   ssoEnabled: boolean;
   /** Whether this organization may use SCIM directory sync */
@@ -657,6 +766,8 @@ export interface RegionQuota {
   maxDiskPerGpu: number | null;
   /** Maximum sandbox lifespan in minutes, measured from sandbox creation to its auto-destroy deadline. If null or 0, lifespan is unrestricted. When set, sandboxes created without a TTL default to this lifespan and TTL cannot be disabled. */
   maxSandboxLifespan: number | null;
+  /** Maximum derived GPU node count; zero disables multi-node sandboxes. */
+  maxNodesPerSandbox?: number | undefined;
 }
 export interface GetSandboxRequest {
   /** ID or name of the sandbox */
@@ -1073,6 +1184,15 @@ export interface RecoverSandboxRequest {
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string | undefined;
 }
+export interface RemoveSandboxNodesRequest {
+  sandboxIdOrName: string;
+  /** Use with JWT to specify the organization ID */
+  xDaytonaOrganizationID?: string | undefined;
+  /** Current sandbox topology generation. */
+  expectedGeneration: number;
+  /** Number of highest ranks to remove. */
+  count: number;
+}
 /** Key-value pairs of labels */
 export type ReplaceLabelsRequestLabelsMap = { [key: string]: string | undefined };
 export interface ReplaceLabelsRequest {
@@ -1088,6 +1208,14 @@ export type SandboxLabelsLabelsMap = { [key: string]: string | undefined };
 export interface SandboxLabels {
   /** Key-value pairs of labels */
   labels: SandboxLabelsLabelsMap;
+}
+export interface ReplaceSandboxNodeRequest {
+  sandboxIdOrName: string;
+  rank: string;
+  /** Use with JWT to specify the organization ID */
+  xDaytonaOrganizationID?: string | undefined;
+  /** Current sandbox topology generation. */
+  expectedGeneration: number;
 }
 export interface ResizeSandboxRequest {
   /** ID or name of the sandbox */
@@ -1166,7 +1294,7 @@ export interface SetAutostopIntervalRequest {
 export interface SetTtlRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
-  /** Maximum time to live in minutes, re-anchored from the current time (0 to disable). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived */
+  /** Maximum time to live in minutes, re-anchored from the current time (0 to disable). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived. On a multi-node head, expiry destroys every member and all ephemeral local data */
   ttlMinutes: number;
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string | undefined;
@@ -1261,6 +1389,10 @@ export interface UpdateSandboxStateRequest {
   errorReason?: string | undefined;
   /** Whether the sandbox is recoverable */
   recoverable?: boolean | undefined;
+  /** Physical node incarnation producing this report. */
+  incarnation?: number | undefined;
+  /** The runner has restored an idle-closed fabric state for this failed member. */
+  fabricFenced?: boolean | undefined;
 }
 export interface UpdateSandboxStateResponse {}
 export interface ValidateSshAccessRequest {
@@ -1275,6 +1407,24 @@ export interface SshAccessValidationDto {
   /** ID of the sandbox this SSH access is for */
   sandboxId: string;
 }
+export type AddSandboxNodesError = DaytonaOpError;
+/** Append nodes to a multi-node sandbox */
+export const addSandboxNodes: API.OperationMethod<
+  AddSandboxNodesRequest,
+  GangMembershipOperation,
+  AddSandboxNodesError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2, __c0, 2) as any as S.Schema<AddSandboxNodesRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GangMembershipOperation>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSandboxNodes",
+}));
+
 export type ArchiveSandboxError = SandboxNotFound | DaytonaOpError;
 /** Archive sandbox */
 export const archiveSandbox: API.OperationMethod<
@@ -1283,8 +1433,8 @@ export const archiveSandbox: API.OperationMethod<
   ArchiveSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ArchiveSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(16, __c2, 0) as any as S.Schema<ArchiveSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1309,8 +1459,8 @@ export const createSandbox: API.OperationMethod<
   CreateSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<CreateSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(50, __c6, 2) as any as S.Schema<CreateSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [
     SandboxAlreadyExists,
     NetworkAccessRestricted,
@@ -1335,8 +1485,8 @@ export const createSandboxSnapshot: API.OperationMethod<
   CreateSandboxSnapshotError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1353,8 +1503,8 @@ export const createSshAccess: API.OperationMethod<
   CreateSshAccessError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateSshAccessRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<SshAccessDto>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateSshAccessRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<SshAccessDto>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1371,8 +1521,8 @@ export const deleteSandbox: API.OperationMethod<
   DeleteSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1389,8 +1539,8 @@ export const expireSignedPortPreviewUrl: API.OperationMethod<
   ExpireSignedPortPreviewUrlError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ExpireSignedPortPreviewUrlRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<ExpireSignedPortPreviewUrlResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ExpireSignedPortPreviewUrlRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<ExpireSignedPortPreviewUrlResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1407,8 +1557,8 @@ export const forkSandbox: API.OperationMethod<
   ForkSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(112, __c14, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound, ForkNotSupported],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1425,14 +1575,32 @@ export const getBuildLogsUrl: API.OperationMethod<
   GetBuildLogsUrlError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetBuildLogsUrlRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<Url>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetBuildLogsUrlRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<Url>,
   errors: [SandboxNotFound, SandboxHasNoBuildInfo],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBuildLogsUrl",
+}));
+
+export type GetGangMembershipOperationError = DaytonaOpError;
+/** Get a membership operation of a multi-node GPU sandbox */
+export const getGangMembershipOperation: API.OperationMethod<
+  GetGangMembershipOperationRequest,
+  GangMembershipOperation,
+  GetGangMembershipOperationError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetGangMembershipOperationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GangMembershipOperation>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGangMembershipOperation",
 }));
 
 export type GetOrganizationBySandboxIdError = SandboxNotFound | DaytonaOpError;
@@ -1443,8 +1611,8 @@ export const getOrganizationBySandboxId: API.OperationMethod<
   GetOrganizationBySandboxIdError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetOrganizationBySandboxIdRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<Organization>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetOrganizationBySandboxIdRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Organization>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1461,8 +1629,8 @@ export const getPortPreviewUrl: API.OperationMethod<
   GetPortPreviewUrlError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetPortPreviewUrlRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<PortPreviewUrl>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetPortPreviewUrlRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<PortPreviewUrl>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1482,8 +1650,8 @@ export const getRegionQuotaBySandboxId: API.OperationMethod<
   GetRegionQuotaBySandboxIdError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetRegionQuotaBySandboxIdRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<RegionQuota>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetRegionQuotaBySandboxIdRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<RegionQuota>,
   errors: [SandboxNotFound, RegionQuotaRunnerOnly],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1500,8 +1668,8 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1518,8 +1686,8 @@ export const getSandboxAncestors: API.OperationMethod<
   GetSandboxAncestorsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetSandboxAncestorsRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<GetSandboxAncestorsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetSandboxAncestorsRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<GetSandboxAncestorsResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1536,8 +1704,8 @@ export const getSandboxesForRunner: API.OperationMethod<
   GetSandboxesForRunnerError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetSandboxesForRunnerRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<GetSandboxesForRunnerResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetSandboxesForRunnerRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<GetSandboxesForRunnerResponse>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1554,8 +1722,8 @@ export const getSandboxForks: API.OperationMethod<
   GetSandboxForksError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetSandboxForksRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<GetSandboxForksResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetSandboxForksRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<GetSandboxForksResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1574,8 +1742,8 @@ export const getSandboxLogs: API.PaginatedOperationMethod<
   LogEntry
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(184, __c23, 0) as any as S.Schema<GetSandboxLogsRequest>,
-    output: __S(187, __c23, 3) as any as S.Schema<PaginatedLogs>,
+    input: __S(208, __c26, 0) as any as S.Schema<GetSandboxLogsRequest>,
+    output: __S(211, __c26, 3) as any as S.Schema<PaginatedLogs>,
     errors: [SandboxNotFound, TelemetryEndpointsDisabled],
     serviceErrors: DaytonaServiceErrors,
     protocol: DaytonaProtocol,
@@ -1601,8 +1769,8 @@ export const getSandboxMetrics: API.OperationMethod<
   GetSandboxMetricsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetSandboxMetricsRequest>,
-  output: __S(197, __c24, 5) as any as S.Schema<MetricsResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetSandboxMetricsRequest>,
+  output: __S(221, __c27, 5) as any as S.Schema<MetricsResponse>,
   errors: [SandboxNotFound, TelemetryEndpointsDisabled],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1619,8 +1787,8 @@ export const getSandboxParent: API.OperationMethod<
   GetSandboxParentError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetSandboxParentRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetSandboxParentRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1637,8 +1805,8 @@ export const getSandboxSigningKey: API.OperationMethod<
   GetSandboxSigningKeyError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetSandboxSigningKeyRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<GetSandboxSigningKeyResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetSandboxSigningKeyRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<GetSandboxSigningKeyResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1657,8 +1825,8 @@ export const getSandboxTraces: API.PaginatedOperationMethod<
   TraceSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c28, 0) as any as S.Schema<GetSandboxTracesRequest>,
-    output: __S(227, __c28, 3) as any as S.Schema<PaginatedTraces>,
+    input: __S(248, __c31, 0) as any as S.Schema<GetSandboxTracesRequest>,
+    output: __S(251, __c31, 3) as any as S.Schema<PaginatedTraces>,
     errors: [SandboxNotFound, TelemetryEndpointsDisabled],
     serviceErrors: DaytonaServiceErrors,
     protocol: DaytonaProtocol,
@@ -1687,8 +1855,8 @@ export const getSandboxTraceSpans: API.OperationMethod<
   GetSandboxTraceSpansError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetSandboxTraceSpansRequest>,
-  output: __S(235, __c29, 3) as any as S.Schema<GetSandboxTraceSpansResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetSandboxTraceSpansRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<GetSandboxTraceSpansResponse>,
   errors: [SandboxNotFound, TelemetryEndpointsDisabled],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1705,8 +1873,8 @@ export const getSignedPortPreviewUrl: API.OperationMethod<
   GetSignedPortPreviewUrlError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetSignedPortPreviewUrlRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<SignedPortPreviewUrl>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetSignedPortPreviewUrlRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<SignedPortPreviewUrl>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1723,8 +1891,8 @@ export const getToolboxProxyUrl: API.OperationMethod<
   GetToolboxProxyUrlError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetToolboxProxyUrlRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ToolboxProxyUrl>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetToolboxProxyUrlRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<ToolboxProxyUrl>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1743,8 +1911,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
   SandboxListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c32, 0) as any as S.Schema<ListSandboxesRequest>,
-    output: __S(259, __c32, 3) as any as S.Schema<ListSandboxesResponse>,
+    input: __S(280, __c35, 0) as any as S.Schema<ListSandboxesRequest>,
+    output: __S(283, __c35, 3) as any as S.Schema<ListSandboxesResponse>,
     errors: [],
     serviceErrors: DaytonaServiceErrors,
     protocol: DaytonaProtocol,
@@ -1770,8 +1938,8 @@ export const pauseSandbox: API.OperationMethod<
   PauseSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<PauseSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(288, __c36, 0) as any as S.Schema<PauseSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound, PauseNotSupported],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1788,14 +1956,32 @@ export const recoverSandbox: API.OperationMethod<
   RecoverSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<RecoverSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(296, __c37, 0) as any as S.Schema<RecoverSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecoverSandbox",
+}));
+
+export type RemoveSandboxNodesError = DaytonaOpError;
+/** Remove the highest ranks from a multi-node sandbox */
+export const removeSandboxNodes: API.OperationMethod<
+  RemoveSandboxNodesRequest,
+  GangMembershipOperation,
+  RemoveSandboxNodesError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(304, __c38, 0) as any as S.Schema<RemoveSandboxNodesRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GangMembershipOperation>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSandboxNodes",
 }));
 
 export type ReplaceLabelsError = SandboxNotFound | DaytonaOpError;
@@ -1806,14 +1992,32 @@ export const replaceLabels: API.OperationMethod<
   ReplaceLabelsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ReplaceLabelsRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<SandboxLabels>,
+  input: __S(312, __c39, 0) as any as S.Schema<ReplaceLabelsRequest>,
+  output: __S(313, __c39, 1) as any as S.Schema<SandboxLabels>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceLabels",
+}));
+
+export type ReplaceSandboxNodeError = DaytonaOpError;
+/** Replace a failed multi-node sandbox rank */
+export const replaceSandboxNode: API.OperationMethod<
+  ReplaceSandboxNodeRequest,
+  GangMembershipOperation,
+  ReplaceSandboxNodeError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c40, 0) as any as S.Schema<ReplaceSandboxNodeRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GangMembershipOperation>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSandboxNode",
 }));
 
 export type ResizeSandboxError = SandboxNotFound | SandboxResizeUnavailable | DaytonaOpError;
@@ -1824,8 +2028,8 @@ export const resizeSandbox: API.OperationMethod<
   ResizeSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ResizeSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(328, __c41, 0) as any as S.Schema<ResizeSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound, SandboxResizeUnavailable],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1842,8 +2046,8 @@ export const resolveSandboxSecrets: API.OperationMethod<
   ResolveSandboxSecretsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ResolveSandboxSecretsRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ResolveSandboxSecretsResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ResolveSandboxSecretsRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<ResolveSandboxSecretsResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1860,8 +2064,8 @@ export const revokeSshAccess: API.OperationMethod<
   RevokeSshAccessError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<RevokeSshAccessRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(344, __c43, 0) as any as S.Schema<RevokeSshAccessRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1878,8 +2082,8 @@ export const rotateSigningKey: API.OperationMethod<
   RotateSigningKeyError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<RotateSigningKeyRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<RotateSigningKeyResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<RotateSigningKeyRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<RotateSigningKeyResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1896,8 +2100,8 @@ export const setAutoArchiveInterval: API.OperationMethod<
   SetAutoArchiveIntervalError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<SetAutoArchiveIntervalRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(360, __c45, 0) as any as S.Schema<SetAutoArchiveIntervalRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1914,8 +2118,8 @@ export const setAutoDeleteInterval: API.OperationMethod<
   SetAutoDeleteIntervalError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<SetAutoDeleteIntervalRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(368, __c46, 0) as any as S.Schema<SetAutoDeleteIntervalRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1932,8 +2136,8 @@ export const setAutoPauseInterval: API.OperationMethod<
   SetAutoPauseIntervalError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<SetAutoPauseIntervalRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(376, __c47, 0) as any as S.Schema<SetAutoPauseIntervalRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound, AutoPauseNotSupported],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1950,8 +2154,8 @@ export const setAutostopInterval: API.OperationMethod<
   SetAutostopIntervalError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<SetAutostopIntervalRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(384, __c48, 0) as any as S.Schema<SetAutostopIntervalRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1964,8 +2168,8 @@ export type SetTtlError = SandboxNotFound | DaytonaOpError;
 /** Set sandbox TTL */
 export const setTtl: API.OperationMethod<SetTtlRequest, Sandbox2, SetTtlError, DaytonaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(352, __c44, 0) as any as S.Schema<SetTtlRequest>,
-    output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+    input: __S(392, __c49, 0) as any as S.Schema<SetTtlRequest>,
+    output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
     errors: [SandboxNotFound],
     serviceErrors: DaytonaServiceErrors,
     protocol: DaytonaProtocol,
@@ -1982,8 +2186,8 @@ export const startSandbox: API.OperationMethod<
   StartSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<StartSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(400, __c50, 0) as any as S.Schema<StartSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -1993,15 +2197,15 @@ export const startSandbox: API.OperationMethod<
 }));
 
 export type StopSandboxError = SandboxNotFound | DaytonaOpError;
-/** Stop sandbox */
+/** Stop sandbox Stops a single-node sandbox. For a multi-node GPU sandbox, stop is irreversible and destroys every node, including all ephemeral local data. */
 export const stopSandbox: API.OperationMethod<
   StopSandboxRequest,
   Sandbox2,
   StopSandboxError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(408, __c51, 0) as any as S.Schema<StopSandboxRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2018,8 +2222,8 @@ export const updateLastActivity: API.OperationMethod<
   UpdateLastActivityError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UpdateLastActivityRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<UpdateLastActivityResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<UpdateLastActivityRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UpdateLastActivityResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2036,8 +2240,8 @@ export const updateNetworkSettings: API.OperationMethod<
   UpdateNetworkSettingsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UpdateNetworkSettingsRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(424, __c53, 0) as any as S.Schema<UpdateNetworkSettingsRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound, NetworkAccessRestricted],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2054,8 +2258,8 @@ export const updatePublicStatus: API.OperationMethod<
   UpdatePublicStatusError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<UpdatePublicStatusRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(432, __c54, 0) as any as S.Schema<UpdatePublicStatusRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2072,8 +2276,8 @@ export const updateSandboxSecrets: API.OperationMethod<
   UpdateSandboxSecretsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<UpdateSandboxSecretsRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Sandbox2>,
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateSandboxSecretsRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<Sandbox2>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2090,8 +2294,8 @@ export const updateSandboxState: API.OperationMethod<
   UpdateSandboxStateError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<UpdateSandboxStateRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<UpdateSandboxStateResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateSandboxStateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UpdateSandboxStateResponse>,
   errors: [SandboxNotFound],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2108,8 +2312,8 @@ export const validateSshAccess: API.OperationMethod<
   ValidateSshAccessError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ValidateSshAccessRequest>,
-  output: __S(417, __c52, 1) as any as S.Schema<SshAccessValidationDto>,
+  input: __S(456, __c57, 0) as any as S.Schema<ValidateSshAccessRequest>,
+  output: __S(457, __c57, 1) as any as S.Schema<SshAccessValidationDto>,
   errors: [],
   serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
@@ -2124,27 +2328,104 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          cpu: S.Number,
+          memory: S.Number,
+          disk: S.Number,
+        }),
+      ).annotate({ identifier: "GangNodeResources" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxIdOrName: S.String.pipe(T.Label()),
+          xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
+          expectedGeneration: S.Number,
+          nodes: __S(1, __c0, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/nodes", code: 200 })),
+      ).annotate({ identifier: "AddSandboxNodesRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sandboxId: S.String,
+          type: S.String,
+          status: S.String,
+          phase: S.String,
+          expectedGeneration: S.Number,
+          targetGeneration: S.Number,
+          policyRevision: S.Number,
+          errorReason: S.optional(S.String),
+          createdAt: S.String,
+          updatedAt: S.String,
+          completedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GangMembershipOperation" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           sandboxIdOrName: S.String.pipe(T.Label()),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/archive", code: 200 })),
       ).annotate({ identifier: "ArchiveSandboxRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rank: S.Number,
+          memberId: S.String,
+          incarnation: S.Number,
+          reason: S.String,
+          reportedState: S.String,
+          failedAt: S.String,
+          fencingStatus: S.String,
+          fencingError: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GangNodeFailure" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          rank: S.Number,
+          id: S.String,
+          state: S.String,
+          incarnation: S.Number,
+          failure: S.optional(__S(40, __c5, 0)),
+          cpu: S.Number,
+          gpu: S.Number,
+          memory: S.Number,
+          disk: S.Number,
+          fabricAddress: S.optional(S.String),
+          fabricPrefixLength: S.optional(S.Number),
+          fabricHealthy: S.optional(S.Boolean),
+          fabricUnhealthySince: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SandboxNode" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           volumeId: S.String,
@@ -2152,28 +2433,35 @@ function __c3(j: number): any {
           subpath: S.optional(S.String),
         }),
       ).annotate({ identifier: "SandboxVolume" });
-    case 1:
-      return S.Array(__S(24, __c3, 0));
-    case 2:
+    case 4:
+      return S.Array(__S(43, __c5, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           dockerfileContent: S.optional(S.String),
-          contextHashes: S.optional(__S(16, __c2, 0)),
+          contextHashes: S.optional(__S(32, __c4, 0)),
           createdAt: S.String,
           updatedAt: S.String,
           snapshotRef: S.String,
         }),
       ).annotate({ identifier: "BuildInfo" });
-    case 3:
+    case 6:
       return S.suspend(() =>
         S.Struct({
+          nodes: S.optional(__S(42, __c5, 2)),
+          topologyGeneration: S.optional(S.Number),
+          incarnation: S.optional(S.Number),
+          nodeCount: S.optional(S.Number),
+          nodeRank: S.optional(S.Number),
+          headSandboxId: S.optional(S.String),
+          degraded: S.optional(S.Boolean),
           id: S.String,
           organizationId: S.String,
           name: S.String,
           snapshot: S.optional(S.String),
           user: S.String,
-          env: __S(8, __c1, 0),
-          labels: __S(8, __c1, 0),
+          env: __S(24, __c3, 0),
+          labels: __S(24, __c3, 0),
           public: S.Boolean,
           networkBlockAll: S.Boolean,
           kvm: S.Boolean,
@@ -2204,8 +2492,8 @@ function __c3(j: number): any {
           autoDeleteInterval: S.optional(S.Number),
           autoDestroyAt: S.optional(S.String),
           queueTimeout: S.optional(S.NullOr(S.Number)),
-          volumes: S.optional(__S(25, __c3, 1)),
-          buildInfo: S.optional(__S(26, __c3, 2)),
+          volumes: S.optional(__S(44, __c5, 4)),
+          buildInfo: S.optional(__S(45, __c5, 5)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
           lastActivityAt: S.optional(S.String),
@@ -2218,24 +2506,26 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Sandbox2" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Number);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           dockerfileContent: S.String,
-          contextHashes: S.optional(__S(16, __c2, 0)),
+          contextHashes: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "CreateBuildInfo" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
           name: S.optional(S.String),
           snapshot: S.optional(S.String),
           user: S.optional(S.String),
-          env: S.optional(__S(8, __c1, 0)),
-          labels: S.optional(__S(8, __c1, 0)),
+          env: S.optional(__S(24, __c3, 0)),
+          labels: S.optional(__S(24, __c3, 0)),
           public: S.optional(S.Boolean),
           networkBlockAll: S.optional(S.Boolean),
           kvm: S.optional(S.Boolean),
@@ -2245,38 +2535,41 @@ function __c4(j: number): any {
           otelEndpointOverride: S.optional(S.String),
           target: S.optional(S.String),
           cpu: S.optional(S.Number),
+          cpuPerNode: S.optional(S.NullOr(__S(48, __c6, 0))),
           gpu: S.optional(S.Number),
-          gpuType: S.optional(__S(40, __c5, 0)),
+          gpuType: S.optional(__S(56, __c7, 0)),
           spot: S.optional(S.Boolean),
           memory: S.optional(S.Number),
+          memoryPerNode: S.optional(S.NullOr(__S(48, __c6, 0))),
           disk: S.optional(S.Number),
+          diskPerNode: S.optional(S.NullOr(__S(48, __c6, 0))),
           autoStopInterval: S.optional(S.Number),
           autoPauseInterval: S.optional(S.Number),
           autoArchiveInterval: S.optional(S.Number),
           autoDeleteInterval: S.optional(S.Number),
           ttlMinutes: S.optional(S.Number),
           queueTimeout: S.optional(S.Number),
-          volumes: S.optional(__S(25, __c3, 1)),
-          buildInfo: S.optional(__S(32, __c4, 0)),
+          volumes: S.optional(__S(44, __c5, 4)),
+          buildInfo: S.optional(__S(49, __c6, 1)),
           linkedSandbox: S.optional(S.String),
-          secrets: S.optional(__S(48, __c6, 0)),
+          secrets: S.optional(__S(64, __c8, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox", code: 200 })),
       ).annotate({ identifier: "CreateSandboxRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(24, __c3, 0));
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2289,7 +2582,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateSandboxSnapshotRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2315,7 +2608,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SshAccessDto" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2326,7 +2619,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteSandboxRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2345,7 +2638,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ExpireSignedPortPreviewUrlRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2353,7 +2646,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2365,7 +2658,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ForkSandboxRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2378,7 +2671,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetBuildLogsUrlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2388,7 +2681,25 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Url" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxIdOrName: S.String.pipe(T.Label()),
+          operationId: S.String.pipe(T.Label()),
+          xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/sandbox/{sandboxIdOrName}/membership-operations/{operationId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetGangMembershipOperationRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2401,7 +2712,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: S.optional(S.NullOr(__S(8, __c1, 0))),
+          headers: S.optional(S.NullOr(__S(24, __c3, 0))),
           organizationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OtelConfig" });
@@ -2428,6 +2739,7 @@ function __c15(j: number): any {
           defaultQueueTimeout: S.NullOr(S.Number),
           sandboxLimitedNetworkEgress: S.Boolean,
           previewWarningEnabled: S.Boolean,
+          zeroDataRetention: S.Boolean,
           ssoEnabled: S.Boolean,
           scimEnabled: S.Boolean,
           defaultRegionId: S.optional(S.String),
@@ -2439,7 +2751,7 @@ function __c15(j: number): any {
           sandboxCreateRateLimit: S.NullOr(S.Number),
           sandboxLifecycleRateLimit: S.NullOr(S.Number),
           experimentalConfig: S.Unknown,
-          otelConfig: S.NullOr(__S(121, __c15, 1)),
+          otelConfig: S.NullOr(__S(145, __c18, 1)),
           authenticatedRateLimitTtlSeconds: S.NullOr(S.Number),
           sandboxCreateRateLimitTtlSeconds: S.NullOr(S.Number),
           sandboxLifecycleRateLimitTtlSeconds: S.NullOr(S.Number),
@@ -2447,7 +2759,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2473,7 +2785,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PortPreviewUrl" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2492,7 +2804,7 @@ function __c17(j: number): any {
           totalMemoryQuota: S.Number,
           totalDiskQuota: S.Number,
           totalGpuQuota: S.Number,
-          allowedGpuTypes: S.optional(__S(40, __c5, 0)),
+          allowedGpuTypes: S.optional(__S(56, __c7, 0)),
           maxCpuPerSandbox: S.NullOr(S.Number),
           maxMemoryPerSandbox: S.NullOr(S.Number),
           maxDiskPerSandbox: S.NullOr(S.Number),
@@ -2501,11 +2813,12 @@ function __c17(j: number): any {
           maxMemoryPerGpu: S.NullOr(S.Number),
           maxDiskPerGpu: S.NullOr(S.Number),
           maxSandboxLifespan: S.NullOr(S.Number),
+          maxNodesPerSandbox: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RegionQuota" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2517,7 +2830,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2528,17 +2841,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetSandboxAncestorsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(46, __c5, 6));
     case 1:
-      return S.suspend(() => __S(160, __c20, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(184, __c23, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSandboxAncestorsResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2550,7 +2863,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetSandboxesForRunnerRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2562,7 +2875,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetSandboxForksRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2572,7 +2885,7 @@ function __c23(j: number): any {
           to: S.String.pipe(T.Query()),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          severities: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          severities: S.optional(__S(32, __c4, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
         }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/logs", code: 200 })),
@@ -2585,18 +2898,18 @@ function __c23(j: number): any {
           severityText: S.String,
           severityNumber: S.optional(S.Number),
           serviceName: S.String,
-          resourceAttributes: __S(8, __c1, 0),
-          logAttributes: __S(8, __c1, 0),
+          resourceAttributes: __S(24, __c3, 0),
+          logAttributes: __S(24, __c3, 0),
           traceId: S.optional(S.String),
           spanId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogEntry" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(209, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(186, __c23, 2),
+          items: __S(210, __c26, 2),
           total: S.Number,
           page: S.Number,
           totalPages: S.Number,
@@ -2604,7 +2917,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PaginatedLogs" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2612,7 +2925,7 @@ function __c24(j: number): any {
           sandboxId: S.String.pipe(T.Label()),
           from: S.String.pipe(T.Query()),
           to: S.String.pipe(T.Query()),
-          metricNames: S.optional(__S(16, __c2, 0).pipe(T.Query())),
+          metricNames: S.optional(__S(32, __c4, 0).pipe(T.Query())),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/metrics", code: 200 }),
@@ -2626,25 +2939,25 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "MetricDataPoint" });
     case 2:
-      return S.Array(__S(193, __c24, 1));
+      return S.Array(__S(217, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           metricName: S.String,
-          dataPoints: __S(194, __c24, 2),
+          dataPoints: __S(218, __c27, 2),
         }),
       ).annotate({ identifier: "MetricSeries" });
     case 4:
-      return S.Array(__S(195, __c24, 3));
+      return S.Array(__S(219, __c27, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          series: __S(196, __c24, 4),
+          series: __S(220, __c27, 4),
         }),
       ).annotate({ identifier: "MetricsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2655,7 +2968,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetSandboxParentRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2666,7 +2979,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetSandboxSigningKeyRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -2674,7 +2987,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2700,11 +3013,11 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "TraceSummary" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(226, __c28, 2),
+          items: __S(250, __c31, 2),
           total: S.Number,
           page: S.Number,
           totalPages: S.Number,
@@ -2712,7 +3025,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PaginatedTraces" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2737,20 +3050,20 @@ function __c29(j: number): any {
           spanName: S.String,
           timestamp: S.String,
           durationNs: S.Number,
-          spanAttributes: __S(8, __c1, 0),
+          spanAttributes: __S(24, __c3, 0),
           statusCode: S.optional(S.String),
           statusMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "TraceSpan" });
     case 2:
-      return S.Array(__S(233, __c29, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
-      return S.suspend(() => __S(234, __c29, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(258, __c32, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSandboxTraceSpansResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2778,7 +3091,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SignedPortPreviewUrl" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2791,7 +3104,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetToolboxProxyUrlRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2803,10 +3116,10 @@ function __c32(j: number): any {
           labels: S.optional(S.String.pipe(T.Query())),
           includeErroredDeleted: S.optional(S.Boolean.pipe(T.Query())),
           includeWarm: S.optional(S.Boolean.pipe(T.Query())),
-          states: S.optional(__S(40, __c5, 0).pipe(T.Query())),
-          snapshots: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          regionIds: S.optional(__S(16, __c2, 0).pipe(T.Query())),
-          sandboxClasses: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          states: S.optional(__S(56, __c7, 0).pipe(T.Query())),
+          snapshots: S.optional(__S(32, __c4, 0).pipe(T.Query())),
+          regionIds: S.optional(__S(32, __c4, 0).pipe(T.Query())),
+          sandboxClasses: S.optional(__S(56, __c7, 0).pipe(T.Query())),
           minCpu: S.optional(S.Number.pipe(T.Query())),
           maxCpu: S.optional(S.Number.pipe(T.Query())),
           minMemoryGiB: S.optional(S.Number.pipe(T.Query())),
@@ -2855,7 +3168,7 @@ function __c32(j: number): any {
           gpuType: S.optional(S.String),
           memory: S.Number,
           disk: S.Number,
-          labels: __S(8, __c1, 0),
+          labels: __S(24, __c3, 0),
           backupState: S.optional(S.String),
           autoStopInterval: S.optional(S.Number),
           autoPauseInterval: S.optional(S.Number),
@@ -2872,17 +3185,17 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "SandboxListItem" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(281, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(258, __c32, 2),
+          items: __S(282, __c35, 2),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListSandboxesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2893,7 +3206,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "PauseSandboxRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2905,25 +3218,59 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RecoverSandboxRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxIdOrName: S.String.pipe(T.Label()),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-          labels: __S(8, __c1, 0),
+          expectedGeneration: S.Number,
+          count: S.Number,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/nodes/remove", code: 200 }),
+        ),
+      ).annotate({ identifier: "RemoveSandboxNodesRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxIdOrName: S.String.pipe(T.Label()),
+          xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
+          labels: __S(24, __c3, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/sandbox/{sandboxIdOrName}/labels", code: 200 })),
       ).annotate({ identifier: "ReplaceLabelsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(8, __c1, 0),
+          labels: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "SandboxLabels" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxIdOrName: S.String.pipe(T.Label()),
+          rank: S.String.pipe(T.Label()),
+          xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
+          expectedGeneration: S.Number,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/sandbox/{sandboxIdOrName}/nodes/{rank}/replace",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceSandboxNodeRequest" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2937,7 +3284,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ResizeSandboxRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2952,18 +3299,18 @@ function __c37(j: number): any {
           env: S.optional(S.String),
           placeholder: S.optional(S.String),
           value: S.optional(S.String),
-          hosts: S.optional(__S(16, __c2, 0)),
+          hosts: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "ResolveSandboxSecrets200ResponseInner" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
-      return S.suspend(() => __S(298, __c37, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(338, __c42, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ResolveSandboxSecretsResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2977,7 +3324,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "RevokeSshAccessRequest" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2990,7 +3337,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RotateSigningKeyRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3008,7 +3355,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetAutoArchiveIntervalRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3026,7 +3373,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SetAutoDeleteIntervalRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3044,7 +3391,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SetAutoPauseIntervalRequest" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3062,7 +3409,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SetAutostopIntervalRequest" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3076,7 +3423,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SetTtlRequest" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3087,7 +3434,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "StartSandboxRequest" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3099,7 +3446,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "StopSandboxRequest" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3111,7 +3458,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateLastActivityRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3127,7 +3474,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateNetworkSettingsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3145,19 +3492,19 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdatePublicStatusRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxIdOrName: S.String.pipe(T.Label()),
           xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-          secrets: __S(48, __c6, 0),
+          secrets: __S(64, __c8, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/sandbox/{sandboxIdOrName}/secrets", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxSecretsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3167,11 +3514,13 @@ function __c51(j: number): any {
           state: S.String,
           errorReason: S.optional(S.String),
           recoverable: S.optional(S.Boolean),
+          incarnation: S.optional(S.Number),
+          fabricFenced: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/sandbox/{sandboxId}/state", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxStateRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

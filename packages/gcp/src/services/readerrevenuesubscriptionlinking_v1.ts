@@ -84,10 +84,10 @@ export class NotFound
   ) {}
 
 export interface DeletePublicationsReadersRequest {
-  /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
-  name: string;
   /** If set to true, any entitlements under the reader will also be purged. */
   force?: boolean | undefined;
+  /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
+  name: string;
 }
 /** Response to deleting a reader of a publication. */
 export interface DeleteReaderResponse {}
@@ -97,14 +97,14 @@ export interface GetEntitlementsPublicationsReadersRequest {
 }
 /** A single entitlement for a publication reader */
 export interface Entitlement {
-  /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
-  subscriptionToken?: string | undefined;
+  /** Optional. Expiration time of the entitlement. If unset, the entitlement does not expire (indefinite entitlement). We need to support indefinite entitlements for platform publishers. dd: go/rrm-sl-notedotcom Entitlements that have expired over 30 days will be purged. */
+  expireTime?: string | undefined;
   /** Required. The publication's product ID that the user has access to. This is the same product ID as can be found in Schema.org markup (http://schema.org/productID). E.g. "dailybugle.com:basic" */
   productId?: string | undefined;
   /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
   detail?: string | undefined;
-  /** Optional. Expiration time of the entitlement. If unset, the entitlement does not expire (indefinite entitlement). We need to support indefinite entitlements for platform publishers. dd: go/rrm-sl-notedotcom Entitlements that have expired over 30 days will be purged. */
-  expireTime?: string | undefined;
+  /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
+  subscriptionToken?: string | undefined;
 }
 export type EntitlementList = Array<Entitlement>;
 /** A singleton containing all of a reader's entitlements for a publication. */
@@ -120,12 +120,12 @@ export interface GetPublicationsReadersRequest {
 }
 /** A reader of a publication. */
 export interface Reader {
-  /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
-  name?: string | undefined;
   /** Output only. Time the publication reader was created and associated with a Google user. */
   createTime?: string | undefined;
   /** Output only. The SwG publication id that the reader has linked their subscription to. */
   publicationId?: string | undefined;
+  /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
+  name?: string | undefined;
   /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
   originatingPublicationId?: string | undefined;
   /** Output only. The publisher provided id of the reader. */
@@ -135,10 +135,10 @@ export interface UpdateEntitlementsPublicationsReadersRequest extends Omit<
   ReaderEntitlements,
   "name"
 > {
-  /** Output only. The resource name of the singleton. */
-  name: string;
   /** Optional. The list of fields to update. Defaults to all fields. */
   updateMask?: string | undefined;
+  /** Output only. The resource name of the singleton. */
+  name: string;
 }
 export type DeletePublicationsReadersError =
   | NotFound
@@ -228,8 +228,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -263,10 +263,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscriptionToken: S.optional(S.String),
+          expireTime: S.optional(S.String),
           productId: S.optional(S.String),
           detail: S.optional(S.String),
-          expireTime: S.optional(S.String),
+          subscriptionToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entitlement" });
     case 1:
@@ -297,9 +297,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
           publicationId: S.optional(S.String),
+          name: S.optional(S.String),
           originatingPublicationId: S.optional(S.String),
           ppid: S.optional(S.String),
         }),
@@ -313,8 +313,8 @@ function __c4(j: number): any {
         S.Extend(
           __S(10, __c2, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({

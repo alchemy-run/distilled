@@ -322,6 +322,7 @@ export interface CreateIntegrationStoreDirectResponseStoreBillingPlan {
   description: string;
   details?: CreateIntegrationStoreDirectResponseStoreBillingPlanDetailsList | undefined;
   disabled?: boolean | undefined;
+  disabledReason?: string | undefined;
   effectiveDate?: string | undefined;
   highlightedDetails?:
     | CreateIntegrationStoreDirectResponseStoreBillingPlanHighlightedDetailsList
@@ -1993,6 +1994,7 @@ export interface GetBillingPlansResponsePlansItem {
   description: string;
   details?: GetBillingPlansResponsePlansItemDetailsList | undefined;
   disabled?: boolean | undefined;
+  disabledReason?: string | undefined;
   effectiveDate?: string | undefined;
   highlightedDetails?: GetBillingPlansResponsePlansItemHighlightedDetailsList | undefined;
   id: string;
@@ -2193,91 +2195,9 @@ export interface GetConfigurationResponseBodyCase1 {
   /** The ID of the user that created the configuration. */
   userId: string;
 }
-export type GetConfigurationResponseBodyCase2DisabledReason =
-  | "account-plan-downgrade"
-  | "disabled-by-admin"
-  | "disabled-by-owner"
-  | "feature-not-available"
-  | "original-owner-left-the-team"
-  | "original-owner-role-downgraded";
-/** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-export type GetConfigurationResponseBodyCase2InstallationType = "external" | "marketplace";
-/** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-export type GetConfigurationResponseBodyCase2ProjectsList = Array<string>;
-/** The resources that are allowed to be accessed by the configuration. */
-export type GetConfigurationResponseBodyCase2ScopesList = Array<string>;
-/** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-export type GetConfigurationResponseBodyCase2Source =
-  | "backoffice"
-  | "cli"
-  | "deploy-button"
-  | "external"
-  | "import-recommended-integrations"
-  | "marketplace"
-  | "oauth"
-  | "organization"
-  | "project-overview-recommended-integrations"
-  | "resource-claims"
-  | "v0";
-/** The configuration status. Optional. If not defined, assume 'ready'. */
-export type GetConfigurationResponseBodyCase2Status =
-  | "error"
-  | "onboarding"
-  | "pending"
-  | "ready"
-  | "resumed"
-  | "suspended"
-  | "uninstalled";
-export type GetConfigurationResponseBodyCase2Type = "integration-configuration";
-/** A configuration represents information about a single installation of an integration within an individual or team account */
-export interface GetConfigurationResponseBodyCase2 {
-  /** Historical parent installation from which acceptedPolicies were inherited. This is immutable provenance, not current authorization or relationship truth. */
-  acceptedPoliciesInheritedFromInstallationId?: string | undefined;
-  /** A timestamp that tells you when the configuration was installed successfully */
-  completedAt?: number | undefined;
-  /** A timestamp that tells you when the configuration was created */
-  createdAt?: number | undefined;
-  /** Record when the customer initited deletion, independent of whether `deleteRequestedAt` gets set. */
-  customerDeleteRequestedAt?: number | null | undefined;
-  /** A timestamp that tells you when the configuration was deleted. */
-  deletedAt?: number | null | undefined;
-  /** A timestamp that tells you when the configuration deletion has been started for cases when the deletion needs to be settled/approved by partners, such as when marketplace invoices have been paid. */
-  deleteRequestedAt?: number | null | undefined;
-  /** A timestamp that tells you when the configuration was disabled. Note: Configurations can be disabled when the associated user loses access to a team. They do not function during this time until the configuration is 'transferred', meaning the associated user is changed to one with access to the team. */
-  disabledAt?: number | undefined;
-  disabledReason?: GetConfigurationResponseBodyCase2DisabledReason | undefined;
-  /** An external identifier defined by the integration vendor. */
-  externalId?: string | undefined;
-  /** The unique identifier of the configuration */
-  id?: string | undefined;
-  /** Defines the installation type. - 'external' integrations are installed via the existing integrations flow - 'marketplace' integrations are natively installed: - when accepting the TOS of a partner during the store creation process - if undefined, assume 'external' */
-  installationType?: GetConfigurationResponseBodyCase2InstallationType | undefined;
-  /** The unique identifier of the app the configuration was created for */
-  integrationId?: string | undefined;
-  /** The user or team ID that owns the configuration */
-  ownerId?: string | undefined;
-  /** When a configuration is limited to access certain projects, this will contain each of the project ID it is allowed to access. If it is not defined, the configuration has full access. */
-  projects?: GetConfigurationResponseBodyCase2ProjectsList | undefined;
-  /** The resources that are allowed to be accessed by the configuration. */
-  scopes?: GetConfigurationResponseBodyCase2ScopesList | undefined;
-  /** The slug of the integration the configuration is created for. */
-  slug?: string | undefined;
-  /** Source defines where the configuration was installed from. It is used to analyze user engagement for integration installations in product metrics. */
-  source?: GetConfigurationResponseBodyCase2Source | undefined;
-  /** The configuration status. Optional. If not defined, assume 'ready'. */
-  status?: GetConfigurationResponseBodyCase2Status | undefined;
-  /** When the configuration was created for a team, this will show the ID of the team. */
-  teamId?: string | null | undefined;
-  type?: GetConfigurationResponseBodyCase2Type | undefined;
-  /** A timestamp that tells you when the configuration was updated. */
-  updatedAt?: number | undefined;
-  /** The ID of the user that created the configuration. */
-  userId?: string | undefined;
-}
 export type GetConfigurationResponseBody =
   | GetConfigurationResponseBodyCase0
-  | GetConfigurationResponseBodyCase1
-  | GetConfigurationResponseBodyCase2;
+  | GetConfigurationResponseBodyCase1;
 export type GetConfigurationResponse = GetConfigurationResponseBody;
 export interface GetConfigurationProductsRequest {
   /** ID of the integration configuration */
@@ -4782,6 +4702,7 @@ function __c9(j: number): any {
           description: S.String,
           details: S.optional(__S(289, __c9, 1)),
           disabled: S.optional(S.Boolean),
+          disabledReason: S.optional(S.String),
           effectiveDate: S.optional(S.String),
           highlightedDetails: S.optional(__S(289, __c9, 1)),
           id: S.String,

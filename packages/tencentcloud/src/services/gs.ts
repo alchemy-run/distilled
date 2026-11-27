@@ -558,6 +558,8 @@ export interface AndroidInstance {
   AndroidInstanceImageId?: string | undefined;
   Width?: number | undefined;
   Height?: number | undefined;
+  DPI?: number | undefined;
+  FPS?: number | undefined;
   HostSerialNumber?: string | undefined;
   AndroidInstanceGroupId?: string | undefined;
   AndroidInstanceLabels?: AndroidInstanceLabelList | undefined;
@@ -3518,6 +3520,8 @@ function __c38(j: number): any {
           AndroidInstanceImageId: S.optional(S.String),
           Width: S.optional(S.Number),
           Height: S.optional(S.Number),
+          DPI: S.optional(S.Number),
+          FPS: S.optional(S.Number),
           HostSerialNumber: S.optional(S.String),
           AndroidInstanceGroupId: S.optional(S.String),
           AndroidInstanceLabels: S.optional(__S(80, __c10, 0)),

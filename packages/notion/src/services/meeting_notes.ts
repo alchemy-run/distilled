@@ -21,6 +21,7 @@ const TELEMETRY = {
   ],
   prefix: "Notion",
   service: "MeetingNotes",
+  labels: "notion",
   propagate: "w3c",
 } as const;
 
@@ -201,6 +202,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -440,6 +443,129 @@ export type CreateMeetingNoteResponseBody =
   | CreateMeetingNoteResponseBodyCase0
   | CreateMeetingNoteResponseBodyCase1;
 export type CreateMeetingNoteResponse = CreateMeetingNoteResponseBody;
+export interface CreateMeetingNotePageRequestParentCase0 {
+  /** Always `page_id` */
+  type: string;
+  /** ID of the parent page. */
+  page_id: string;
+}
+export interface CreateMeetingNotePageRequestParentCase1 {
+  /** Always `data_source_id` */
+  type: string;
+  /** ID of the parent data source. */
+  data_source_id: string;
+}
+/** Page or data source to create the meeting note in. Defaults to the user's meeting notes database, which is created if they don't have one. Not accepted with calendar_event. */
+export type CreateMeetingNotePageRequestParent =
+  | CreateMeetingNotePageRequestParentCase0
+  | CreateMeetingNotePageRequestParentCase1;
+/** The calendar the event belongs to. */
+export interface CreateMeetingNotePageRequestCalendarEventCalendar {
+  /** ID of the calendar account. */
+  account_id: string;
+  /** ID of the calendar. */
+  calendar_id: string;
+}
+/** Calendar event to get or create the meeting note for. The meeting note is filed and titled like the event's other meeting notes. Add content to it afterwards. */
+export interface CreateMeetingNotePageRequestCalendarEvent {
+  /** The calendar the event belongs to. */
+  calendar: CreateMeetingNotePageRequestCalendarEventCalendar;
+  /** ID of the event, as returned in eventId by Notion MCP's notion-calendar-list-events. */
+  event_id: string;
+}
+/** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
+export type CreateMeetingNotePageRequestMarkdownVersion = "v1" | "v2";
+export interface CreateMeetingNotePageRequest {
+  /** Page or data source to create the meeting note in. Defaults to the user's meeting notes database, which is created if they don't have one. Not accepted with calendar_event. */
+  parent?: CreateMeetingNotePageRequestParent | undefined;
+  /** Title for the meeting note. Not accepted with calendar_event. */
+  title?: string | undefined;
+  /** Content for the meeting note's Notes tab, as Markdown. Not accepted with calendar_event. */
+  markdown?: string | undefined;
+  /** Calendar event to get or create the meeting note for. The meeting note is filed and titled like the event's other meeting notes. Add content to it afterwards. */
+  calendar_event?: CreateMeetingNotePageRequestCalendarEvent | undefined;
+  /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
+  markdown_version?: CreateMeetingNotePageRequestMarkdownVersion | (string & {}) | undefined;
+}
+/** Title of the meeting note as rich text. */
+export type CreateMeetingNotePageResponseMeetingNoteMeetingNotesTitleList =
+  Array<RichTextItemResponse>;
+/** Current processing status of the meeting note transcription. */
+export type CreateMeetingNotePageResponseMeetingNoteMeetingNotesStatus =
+  | "transcription_not_started"
+  | "transcription_paused"
+  | "transcription_in_progress"
+  | "transcription_failed"
+  | "summary_in_progress"
+  | "notes_ready";
+/** Block IDs for each tab (summary, notes, transcript). */
+export type CreateMeetingNotePageResponseMeetingNoteMeetingNotesChildren =
+  CreateMeetingNoteResponseBodyCase1MeetingNotesChildren;
+/** List of attendee user IDs. */
+export type CreateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEventAttendeesList =
+  Array<string>;
+/** Calendar event metadata associated with this meeting note. */
+export interface CreateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEvent {
+  /** ISO-8601 start time of the calendar event. */
+  start_time: string;
+  /** ISO-8601 end time of the calendar event. */
+  end_time: string;
+  /** ID of the calendar event, as returned by the calendar tools. */
+  event_id?: string | undefined;
+  /** List of attendee user IDs. */
+  attendees?:
+    | CreateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEventAttendeesList
+    | undefined;
+}
+/** Start and end times of the actual recording. */
+export type CreateMeetingNotePageResponseMeetingNoteMeetingNotesRecording =
+  CreateMeetingNoteResponseBodyCase1MeetingNotesRecording;
+/** Meeting note content fields. */
+export interface CreateMeetingNotePageResponseMeetingNoteMeetingNotes {
+  /** Whether this is a full-page meeting note. */
+  is_full_page: boolean;
+  /** Title of the meeting note as rich text. */
+  title?: CreateMeetingNotePageResponseMeetingNoteMeetingNotesTitleList | undefined;
+  /** Current processing status of the meeting note transcription. */
+  status?: CreateMeetingNotePageResponseMeetingNoteMeetingNotesStatus | undefined;
+  /** Block IDs for each tab (summary, notes, transcript). */
+  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren | undefined;
+  /** Calendar event metadata associated with this meeting note. */
+  calendar_event?: CreateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEvent | undefined;
+  /** Start and end times of the actual recording. */
+  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording | undefined;
+}
+/** The full-page meeting note, as a meeting_notes block. */
+export interface CreateMeetingNotePageResponseMeetingNote {
+  /** Always "block". */
+  object: string;
+  /** The ID of the meeting note block. */
+  id: string;
+  /** Always "meeting_notes". */
+  type: string;
+  /** Meeting note content fields. */
+  meeting_notes: CreateMeetingNotePageResponseMeetingNoteMeetingNotes;
+  /** ISO-8601 timestamp when this meeting note was created. */
+  created_time: string;
+  /** ISO-8601 timestamp when this meeting note was last edited. */
+  last_edited_time: string;
+  /** User who created this meeting note. */
+  created_by: PartialUserObjectResponse;
+  /** User who last edited this meeting note. */
+  last_edited_by: PartialUserObjectResponse;
+  /** Whether this block has child blocks. */
+  has_children: boolean;
+  /** Whether this meeting note is in the trash. */
+  in_trash: boolean;
+}
+export interface CreateMeetingNotePageResponse {
+  /** Always "meeting_note_page_result". */
+  object: string;
+  /** The full-page meeting note, as a meeting_notes block. */
+  meeting_note: CreateMeetingNotePageResponseMeetingNote;
+  /** Whether the meeting note was created, rather than an existing meeting note for the event returned. */
+  created: boolean;
+}
 /** Operator for combinator filters. */
 export type QueryMeetingNotesRequestFilterOperator = "and" | "or";
 /** Which meeting-note property to filter on. Prefer the short names; the schema URI form is accepted for compatibility. */
@@ -787,6 +913,99 @@ export interface QueryMeetingNotesResponse {
   /** Whether additional results exist beyond the returned limit. */
   has_more: boolean;
 }
+/** The calendar the event belongs to. */
+export type UpdateMeetingNotePageRequestCalendarEventCalendar =
+  CreateMeetingNotePageRequestCalendarEventCalendar;
+/** Calendar event to link the meeting note to. Replaces any event it is already linked to. */
+export type UpdateMeetingNotePageRequestCalendarEvent = CreateMeetingNotePageRequestCalendarEvent;
+export interface UpdateMeetingNotePageRequest {
+  meeting_note_id: string;
+  /** Calendar event to link the meeting note to. Replaces any event it is already linked to. */
+  calendar_event: CreateMeetingNotePageRequestCalendarEvent;
+  /** Link even when other meeting notes are linked to the same event. Defaults to false, which returns a 409 listing them instead. */
+  allow_other_meeting_notes?: boolean | undefined;
+}
+/** Title of the meeting note as rich text. */
+export type UpdateMeetingNotePageResponseMeetingNoteMeetingNotesTitleList =
+  Array<RichTextItemResponse>;
+/** Current processing status of the meeting note transcription. */
+export type UpdateMeetingNotePageResponseMeetingNoteMeetingNotesStatus =
+  | "transcription_not_started"
+  | "transcription_paused"
+  | "transcription_in_progress"
+  | "transcription_failed"
+  | "summary_in_progress"
+  | "notes_ready";
+/** Block IDs for each tab (summary, notes, transcript). */
+export type UpdateMeetingNotePageResponseMeetingNoteMeetingNotesChildren =
+  CreateMeetingNoteResponseBodyCase1MeetingNotesChildren;
+/** List of attendee user IDs. */
+export type UpdateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEventAttendeesList =
+  Array<string>;
+/** Calendar event metadata associated with this meeting note. */
+export interface UpdateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEvent {
+  /** ISO-8601 start time of the calendar event. */
+  start_time: string;
+  /** ISO-8601 end time of the calendar event. */
+  end_time: string;
+  /** ID of the calendar event, as returned by the calendar tools. */
+  event_id?: string | undefined;
+  /** List of attendee user IDs. */
+  attendees?:
+    | UpdateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEventAttendeesList
+    | undefined;
+}
+/** Start and end times of the actual recording. */
+export type UpdateMeetingNotePageResponseMeetingNoteMeetingNotesRecording =
+  CreateMeetingNoteResponseBodyCase1MeetingNotesRecording;
+/** Meeting note content fields. */
+export interface UpdateMeetingNotePageResponseMeetingNoteMeetingNotes {
+  /** Whether this is a full-page meeting note. */
+  is_full_page: boolean;
+  /** Title of the meeting note as rich text. */
+  title?: UpdateMeetingNotePageResponseMeetingNoteMeetingNotesTitleList | undefined;
+  /** Current processing status of the meeting note transcription. */
+  status?: UpdateMeetingNotePageResponseMeetingNoteMeetingNotesStatus | undefined;
+  /** Block IDs for each tab (summary, notes, transcript). */
+  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren | undefined;
+  /** Calendar event metadata associated with this meeting note. */
+  calendar_event?: UpdateMeetingNotePageResponseMeetingNoteMeetingNotesCalendarEvent | undefined;
+  /** Start and end times of the actual recording. */
+  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording | undefined;
+}
+/** The full-page meeting note, as a meeting_notes block. */
+export interface UpdateMeetingNotePageResponseMeetingNote {
+  /** Always "block". */
+  object: string;
+  /** The ID of the meeting note block. */
+  id: string;
+  /** Always "meeting_notes". */
+  type: string;
+  /** Meeting note content fields. */
+  meeting_notes: UpdateMeetingNotePageResponseMeetingNoteMeetingNotes;
+  /** ISO-8601 timestamp when this meeting note was created. */
+  created_time: string;
+  /** ISO-8601 timestamp when this meeting note was last edited. */
+  last_edited_time: string;
+  /** User who created this meeting note. */
+  created_by: PartialUserObjectResponse;
+  /** User who last edited this meeting note. */
+  last_edited_by: PartialUserObjectResponse;
+  /** Whether this block has child blocks. */
+  has_children: boolean;
+  /** Whether this meeting note is in the trash. */
+  in_trash: boolean;
+}
+/** IDs of other meeting notes you can read that are linked to the same event. For a meeting note inside a page, this is the page's ID. Only the first 50 meeting notes found are checked. */
+export type UpdateMeetingNotePageResponseOtherMeetingNoteIdsList = Array<string>;
+export interface UpdateMeetingNotePageResponse {
+  /** Always "meeting_note_page_result". */
+  object: string;
+  /** The full-page meeting note, as a meeting_notes block. */
+  meeting_note: UpdateMeetingNotePageResponseMeetingNote;
+  /** IDs of other meeting notes you can read that are linked to the same event. For a meeting note inside a page, this is the page's ID. Only the first 50 meeting notes found are checked. */
+  other_meeting_note_ids: UpdateMeetingNotePageResponseOtherMeetingNoteIdsList;
+}
 export type CreateMeetingNoteError = NotionOpError;
 /** Create a meeting note */
 export const createMeetingNote: API.OperationMethod<
@@ -805,6 +1024,24 @@ export const createMeetingNote: API.OperationMethod<
   span: "CreateMeetingNote",
 }));
 
+export type CreateMeetingNotePageError = NotionOpError;
+/** Create a full-page meeting note */
+export const createMeetingNotePage: API.OperationMethod<
+  CreateMeetingNotePageRequest,
+  CreateMeetingNotePageResponse,
+  CreateMeetingNotePageError,
+  NotionOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<CreateMeetingNotePageRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<CreateMeetingNotePageResponse>,
+  errors: [],
+  serviceErrors: NotionServiceErrors,
+  protocol: NotionProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMeetingNotePage",
+}));
+
 export type QueryMeetingNotesError = NotionOpError;
 /** Query meeting notes */
 export const queryMeetingNotes: API.OperationMethod<
@@ -813,14 +1050,32 @@ export const queryMeetingNotes: API.OperationMethod<
   QueryMeetingNotesError,
   NotionOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c1, 17) as any as S.Schema<QueryMeetingNotesRequest>,
-  output: __S(51, __c1, 19) as any as S.Schema<QueryMeetingNotesResponse>,
+  input: __S(68, __c4, 4) as any as S.Schema<QueryMeetingNotesRequest>,
+  output: __S(70, __c4, 6) as any as S.Schema<QueryMeetingNotesResponse>,
   errors: [],
   serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryMeetingNotes",
+}));
+
+export type UpdateMeetingNotePageError = NotionOpError;
+/** Link a full-page meeting note to a calendar event */
+export const updateMeetingNotePage: API.OperationMethod<
+  UpdateMeetingNotePageRequest,
+  UpdateMeetingNotePageResponse,
+  UpdateMeetingNotePageError,
+  NotionOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<UpdateMeetingNotePageRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<UpdateMeetingNotePageResponse>,
+  errors: [],
+  serviceErrors: NotionServiceErrors,
+  protocol: NotionProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMeetingNotePage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -868,6 +1123,28 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.optional(S.Unknown),
+          title: S.optional(S.String),
+          markdown: S.optional(S.String),
+          calendar_event: S.optional(__S(49, __c3, 1)),
+          markdown_version: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/meeting_notes", code: 200 })),
+      ).annotate({ identifier: "CreateMeetingNotePageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          meeting_note: __S(44, __c2, 12),
+          created: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateMeetingNotePageResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           bold: S.Boolean,
           italic: S.Boolean,
           strikethrough: S.Boolean,
@@ -886,7 +1163,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.String,
-          link: S.NullOr(__S(33, __c1, 1)),
+          link: S.NullOr(__S(33, __c2, 1)),
         }),
       ).annotate({ identifier: "RichTextItemResponseText" });
     case 3:
@@ -907,15 +1184,15 @@ function __c1(j: number): any {
         S.Struct({
           plain_text: S.String.pipe(T.SensitiveValue({})),
           href: S.NullOr(S.String),
-          annotations: __S(32, __c1, 0),
+          annotations: __S(32, __c2, 0),
           type: S.optional(S.String),
-          text: S.optional(__S(34, __c1, 2)),
+          text: S.optional(__S(34, __c2, 2)),
           mention: S.optional(S.Unknown),
-          equation: S.optional(__S(36, __c1, 4)),
+          equation: S.optional(__S(36, __c2, 4)),
         }),
       ).annotate({ identifier: "RichTextItemResponse" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
+      return S.Array(__S(37, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -932,7 +1209,7 @@ function __c1(j: number): any {
           start_time: S.String,
           end_time: S.String,
           event_id: S.optional(S.String),
-          attendees: S.optional(__S(40, __c1, 8)),
+          attendees: S.optional(__S(40, __c2, 8)),
         }),
       ).annotate({ identifier: "CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent" });
     case 10:
@@ -946,11 +1223,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           is_full_page: S.Boolean,
-          title: S.optional(__S(38, __c1, 6)),
+          title: S.optional(__S(38, __c2, 6)),
           status: S.optional(S.String),
-          children: S.optional(__S(39, __c1, 7)),
-          calendar_event: S.optional(__S(41, __c1, 9)),
-          recording: S.optional(__S(42, __c1, 10)),
+          children: S.optional(__S(39, __c2, 7)),
+          calendar_event: S.optional(__S(41, __c2, 9)),
+          recording: S.optional(__S(42, __c2, 10)),
         }),
       ).annotate({ identifier: "CreateMeetingNoteResponseBodyCase1MeetingNotes" });
     case 12:
@@ -959,50 +1236,92 @@ function __c1(j: number): any {
           object: S.String,
           id: S.String,
           type: S.String,
-          meeting_notes: __S(43, __c1, 11),
+          meeting_notes: __S(43, __c2, 11),
           created_time: S.String,
           last_edited_time: S.String,
-          created_by: __S(35, __c1, 3),
-          last_edited_by: __S(35, __c1, 3),
+          created_by: __S(35, __c2, 3),
+          last_edited_by: __S(35, __c2, 3),
           has_children: S.Boolean,
           in_trash: S.Boolean,
         }),
       ).annotate({ identifier: "CreateMeetingNoteResponseBodyCase1" });
-    case 13:
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.String,
+          calendar_id: S.String,
+        }),
+      ).annotate({ identifier: "CreateMeetingNotePageRequestCalendarEventCalendar" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          calendar: __S(48, __c3, 0),
+          event_id: S.String,
+        }),
+      ).annotate({ identifier: "CreateMeetingNotePageRequestCalendarEvent" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.Unknown);
-    case 14:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           operator: S.String,
-          filters: S.optional(__S(45, __c1, 13)),
+          filters: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "QueryMeetingNotesRequestFilter" });
-    case 15:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           property: S.String,
           direction: S.String,
         }),
       ).annotate({ identifier: "QueryMeetingNotesRequestSortItem" });
-    case 16:
-      return S.Array(__S(47, __c1, 15));
-    case 17:
+    case 3:
+      return S.Array(__S(66, __c4, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(46, __c1, 14)),
-          sort: S.optional(__S(48, __c1, 16)),
+          filter: S.optional(__S(65, __c4, 1)),
+          sort: S.optional(__S(67, __c4, 3)),
           limit: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/blocks/meeting_notes/query", code: 200 })),
       ).annotate({ identifier: "QueryMeetingNotesRequest" });
-    case 18:
-      return S.Array(__S(44, __c1, 12));
-    case 19:
+    case 5:
+      return S.Array(__S(44, __c2, 12));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(50, __c1, 18),
+          results: __S(69, __c4, 5),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "QueryMeetingNotesResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          meeting_note_id: S.String.pipe(T.Label()),
+          calendar_event: __S(49, __c3, 1),
+          allow_other_meeting_notes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/meeting_notes/{meeting_note_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateMeetingNotePageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          meeting_note: __S(44, __c2, 12),
+          other_meeting_note_ids: __S(40, __c2, 8),
+        }),
+      ).annotate({ identifier: "UpdateMeetingNotePageResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -81,6 +81,20 @@ export interface CreateBackupManuallyResponse {
   TaskId?: number | undefined;
   RequestId?: string | undefined;
 }
+export interface CreateInstanceAccountRequest {
+  InstanceId: string;
+  AccountName: string;
+  AccountPassword: string | Redacted.Redacted<string>;
+  ReadonlyPolicy: StringList;
+  Privilege: string;
+  Remark?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreateInstanceAccountResponse {
+  TaskId?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface NodeInfo {
   NodeType: number;
   NodeId?: number | undefined;
@@ -124,6 +138,16 @@ export interface CreateInstancesRequest {
 export interface CreateInstancesResponse {
   InstanceIds?: StringList | undefined;
   DealName?: string | undefined;
+  RequestId?: string | undefined;
+}
+export interface DeleteInstanceAccountRequest {
+  InstanceId: string;
+  AccountName: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DeleteInstanceAccountResponse {
+  TaskId?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeAutoBackupConfigRequest {
@@ -184,6 +208,27 @@ export interface DescribeDBSecurityGroupsResponse {
   Groups?: SecurityGroupList | undefined;
   VIP?: string | undefined;
   VPort?: string | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribeInstanceAccountRequest {
+  InstanceId: string;
+  Limit: number;
+  Offset: number;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface Account {
+  InstanceId?: string | undefined;
+  AccountName?: string | undefined;
+  Remark?: string | undefined;
+  Privilege?: string | undefined;
+  ReadonlyPolicy?: StringList | undefined;
+  Status?: number | undefined;
+}
+export type AccountList = Array<Account>;
+export interface DescribeInstanceAccountResponse {
+  Accounts?: AccountList | undefined;
+  TotalCount?: number | undefined;
   RequestId?: string | undefined;
 }
 export type LongList = Array<number>;
@@ -703,6 +748,20 @@ export interface ModifyInstanceRequest {
 export interface ModifyInstanceResponse {
   RequestId?: string | undefined;
 }
+export interface ModifyInstanceAccountRequest {
+  InstanceId: string;
+  AccountName: string;
+  AccountPassword?: string | Redacted.Redacted<string> | undefined;
+  Remark?: string | undefined;
+  ReadonlyPolicy?: StringList | undefined;
+  Privilege?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyInstanceAccountResponse {
+  TaskId?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface InstanceParam {
   Key: string;
   Value: string;
@@ -834,7 +893,7 @@ export const cleanUpInstance: API.OperationMethod<
   CleanUpInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CleanUpInstanceRequest>,
+  input: __S(136, __c17, 0) as any as S.Schema<CleanUpInstanceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<CleanUpInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -851,7 +910,7 @@ export const clearInstance: API.OperationMethod<
   ClearInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ClearInstanceRequest>,
+  input: __S(232, __c29, 0) as any as S.Schema<ClearInstanceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<ClearInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -868,7 +927,7 @@ export const createBackupManually: API.OperationMethod<
   CreateBackupManuallyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateBackupManuallyRequest>,
+  input: __S(320, __c40, 0) as any as S.Schema<CreateBackupManuallyRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<CreateBackupManuallyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -878,6 +937,23 @@ export const createBackupManually: API.OperationMethod<
   span: "CreateBackupManually",
 }));
 
+export type CreateInstanceAccountError = TencentCloudOpError;
+export const createInstanceAccount: API.OperationMethod<
+  CreateInstanceAccountRequest,
+  CreateInstanceAccountResponse,
+  CreateInstanceAccountError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(344, __c43, 0) as any as S.Schema<CreateInstanceAccountRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<CreateInstanceAccountResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstanceAccount",
+}));
+
 export type CreateInstancesError = TencentCloudOpError;
 export const createInstances: API.OperationMethod<
   CreateInstancesRequest,
@@ -885,14 +961,31 @@ export const createInstances: API.OperationMethod<
   CreateInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(298, __c37, 2) as any as S.Schema<CreateInstancesRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<CreateInstancesResponse>,
+  input: __S(354, __c44, 2) as any as S.Schema<CreateInstancesRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<CreateInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInstances",
+}));
+
+export type DeleteInstanceAccountError = TencentCloudOpError;
+export const deleteInstanceAccount: API.OperationMethod<
+  DeleteInstanceAccountRequest,
+  DeleteInstanceAccountResponse,
+  DeleteInstanceAccountError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c46, 0) as any as S.Schema<DeleteInstanceAccountRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<DeleteInstanceAccountResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceAccount",
 }));
 
 export type DescribeAutoBackupConfigError = TencentCloudOpError;
@@ -902,8 +995,8 @@ export const describeAutoBackupConfig: API.OperationMethod<
   DescribeAutoBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DescribeAutoBackupConfigRequest>,
-  output: __S(313, __c39, 1) as any as S.Schema<DescribeAutoBackupConfigResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<DescribeAutoBackupConfigRequest>,
+  output: __S(377, __c47, 1) as any as S.Schema<DescribeAutoBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -919,8 +1012,8 @@ export const describeConnectionConfig: API.OperationMethod<
   DescribeConnectionConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DescribeConnectionConfigRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<DescribeConnectionConfigResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<DescribeConnectionConfigRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<DescribeConnectionConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -936,14 +1029,31 @@ export const describeDBSecurityGroups: API.OperationMethod<
   DescribeDBSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeDBSecurityGroups",
+}));
+
+export type DescribeInstanceAccountError = TencentCloudOpError;
+export const describeInstanceAccount: API.OperationMethod<
+  DescribeInstanceAccountRequest,
+  DescribeInstanceAccountResponse,
+  DescribeInstanceAccountError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<DescribeInstanceAccountRequest>,
+  output: __S(59, __c7, 3) as any as S.Schema<DescribeInstanceAccountResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceAccount",
 }));
 
 export type DescribeInstanceBackupsError = TencentCloudOpError;
@@ -953,8 +1063,8 @@ export const describeInstanceBackups: API.OperationMethod<
   DescribeInstanceBackupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DescribeInstanceBackupsRequest>,
-  output: __S(347, __c43, 3) as any as S.Schema<DescribeInstanceBackupsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DescribeInstanceBackupsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<DescribeInstanceBackupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -970,8 +1080,8 @@ export const describeInstanceBinlogs: API.OperationMethod<
   DescribeInstanceBinlogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DescribeInstanceBinlogsRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<DescribeInstanceBinlogsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DescribeInstanceBinlogsRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<DescribeInstanceBinlogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -987,8 +1097,8 @@ export const describeInstanceDealDetail: API.OperationMethod<
   DescribeInstanceDealDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DescribeInstanceDealDetailRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<DescribeInstanceDealDetailResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DescribeInstanceDealDetailRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<DescribeInstanceDealDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1004,8 +1114,8 @@ export const describeInstanceNodeInfo: API.OperationMethod<
   DescribeInstanceNodeInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DescribeInstanceNodeInfoRequest>,
-  output: __S(63, __c7, 7) as any as S.Schema<DescribeInstanceNodeInfoResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DescribeInstanceNodeInfoRequest>,
+  output: __S(103, __c12, 7) as any as S.Schema<DescribeInstanceNodeInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1021,8 +1131,8 @@ export const describeInstanceParamRecords: API.OperationMethod<
   DescribeInstanceParamRecordsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DescribeInstanceParamRecordsRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<DescribeInstanceParamRecordsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DescribeInstanceParamRecordsRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<DescribeInstanceParamRecordsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1038,8 +1148,8 @@ export const describeInstanceParams: API.OperationMethod<
   DescribeInstanceParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<DescribeInstanceParamsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
+  output: __S(119, __c14, 7) as any as S.Schema<DescribeInstanceParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1055,8 +1165,8 @@ export const describeInstanceReplicas: API.OperationMethod<
   DescribeInstanceReplicasError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DescribeInstanceReplicasRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<DescribeInstanceReplicasResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DescribeInstanceReplicasRequest>,
+  output: __S(125, __c15, 5) as any as S.Schema<DescribeInstanceReplicasResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1072,8 +1182,8 @@ export const describeInstances: API.OperationMethod<
   DescribeInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(90, __c11, 2) as any as S.Schema<DescribeInstancesRequest>,
-  output: __S(93, __c11, 5) as any as S.Schema<DescribeInstancesResponse>,
+  input: __S(130, __c16, 2) as any as S.Schema<DescribeInstancesRequest>,
+  output: __S(133, __c16, 5) as any as S.Schema<DescribeInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1089,8 +1199,8 @@ export const describeMaintenanceWindow: API.OperationMethod<
   DescribeMaintenanceWindowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DescribeMaintenanceWindowRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<DescribeMaintenanceWindowResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DescribeMaintenanceWindowRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<DescribeMaintenanceWindowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1106,8 +1216,8 @@ export const describeProductInfo: API.OperationMethod<
   DescribeProductInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DescribeProductInfoRequest>,
-  output: __S(111, __c13, 7) as any as S.Schema<DescribeProductInfoResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<DescribeProductInfoRequest>,
+  output: __S(159, __c19, 7) as any as S.Schema<DescribeProductInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1123,8 +1233,8 @@ export const describeProjectSecurityGroups: API.OperationMethod<
   DescribeProjectSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1140,8 +1250,8 @@ export const describeProxySlowLog: API.OperationMethod<
   DescribeProxySlowLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DescribeProxySlowLogRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<DescribeProxySlowLogResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<DescribeProxySlowLogRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<DescribeProxySlowLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1157,8 +1267,8 @@ export const describeTaskInfo: API.OperationMethod<
   DescribeTaskInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DescribeTaskInfoRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<DescribeTaskInfoResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<DescribeTaskInfoRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<DescribeTaskInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1174,8 +1284,8 @@ export const describeTaskList: API.OperationMethod<
   DescribeTaskListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DescribeTaskListRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<DescribeTaskListResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<DescribeTaskListRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<DescribeTaskListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1191,8 +1301,8 @@ export const describeTendisSlowLog: API.OperationMethod<
   DescribeTendisSlowLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DescribeTendisSlowLogRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<DescribeTendisSlowLogResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<DescribeTendisSlowLogRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<DescribeTendisSlowLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1208,7 +1318,7 @@ export const destroyPostpaidInstance: API.OperationMethod<
   DestroyPostpaidInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DestroyPostpaidInstanceRequest>,
+  input: __S(200, __c25, 0) as any as S.Schema<DestroyPostpaidInstanceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DestroyPostpaidInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1225,8 +1335,8 @@ export const destroyPrepaidInstance: API.OperationMethod<
   DestroyPrepaidInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DestroyPrepaidInstanceRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<DestroyPrepaidInstanceResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<DestroyPrepaidInstanceRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<DestroyPrepaidInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1242,7 +1352,7 @@ export const disassociateSecurityGroups: API.OperationMethod<
   DisassociateSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
+  input: __S(224, __c28, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1259,8 +1369,8 @@ export const modifyAutoBackupConfig: API.OperationMethod<
   ModifyAutoBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ModifyAutoBackupConfigRequest>,
-  output: __S(193, __c24, 1) as any as S.Schema<ModifyAutoBackupConfigResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<ModifyAutoBackupConfigRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<ModifyAutoBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1276,7 +1386,7 @@ export const modifyConnectionConfig: API.OperationMethod<
   ModifyConnectionConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ModifyConnectionConfigRequest>,
+  input: __S(248, __c31, 0) as any as S.Schema<ModifyConnectionConfigRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<ModifyConnectionConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1293,7 +1403,7 @@ export const modifyDBInstanceSecurityGroups: API.OperationMethod<
   ModifyDBInstanceSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
+  input: __S(256, __c32, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1310,7 +1420,7 @@ export const modifyInstance: API.OperationMethod<
   ModifyInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ModifyInstanceRequest>,
+  input: __S(264, __c33, 0) as any as S.Schema<ModifyInstanceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ModifyInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1320,6 +1430,23 @@ export const modifyInstance: API.OperationMethod<
   span: "ModifyInstance",
 }));
 
+export type ModifyInstanceAccountError = TencentCloudOpError;
+export const modifyInstanceAccount: API.OperationMethod<
+  ModifyInstanceAccountRequest,
+  ModifyInstanceAccountResponse,
+  ModifyInstanceAccountError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c34, 0) as any as S.Schema<ModifyInstanceAccountRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<ModifyInstanceAccountResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceAccount",
+}));
+
 export type ModifyInstanceParamsError = TencentCloudOpError;
 export const modifyInstanceParams: API.OperationMethod<
   ModifyInstanceParamsRequest,
@@ -1327,8 +1454,8 @@ export const modifyInstanceParams: API.OperationMethod<
   ModifyInstanceParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(234, __c29, 2) as any as S.Schema<ModifyInstanceParamsRequest>,
-  output: __S(235, __c29, 3) as any as S.Schema<ModifyInstanceParamsResponse>,
+  input: __S(282, __c35, 2) as any as S.Schema<ModifyInstanceParamsRequest>,
+  output: __S(283, __c35, 3) as any as S.Schema<ModifyInstanceParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1344,8 +1471,8 @@ export const modifyMaintenanceWindow: API.OperationMethod<
   ModifyMaintenanceWindowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ModifyMaintenanceWindowRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<ModifyMaintenanceWindowResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<ModifyMaintenanceWindowRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<ModifyMaintenanceWindowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1361,8 +1488,8 @@ export const modifyNetworkConfig: API.OperationMethod<
   ModifyNetworkConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ModifyNetworkConfigRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<ModifyNetworkConfigResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<ModifyNetworkConfigRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<ModifyNetworkConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1378,8 +1505,8 @@ export const renewInstance: API.OperationMethod<
   RenewInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<RenewInstanceRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<RenewInstanceResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<RenewInstanceRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<RenewInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1395,7 +1522,7 @@ export const resetPassword: API.OperationMethod<
   ResetPasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ResetPasswordRequest>,
+  input: __S(312, __c39, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<ResetPasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1412,7 +1539,7 @@ export const startUpInstance: API.OperationMethod<
   StartUpInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<StartUpInstanceRequest>,
+  input: __S(328, __c41, 0) as any as S.Schema<StartUpInstanceRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<StartUpInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1429,8 +1556,8 @@ export const upgradeInstance: API.OperationMethod<
   UpgradeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpgradeInstanceRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<UpgradeInstanceResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<UpgradeInstanceRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<UpgradeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1506,6 +1633,155 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Product: S.String,
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "keewidb",
+            version: "2022-03-08",
+            action: "DescribeDBSecurityGroups",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeDBSecurityGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Groups: S.optional(__S(51, __c6, 3)),
+          VIP: S.optional(S.String),
+          VPort: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeDBSecurityGroupsResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          AddressModule: S.optional(S.String),
+          CidrIp: S.optional(S.String),
+          Desc: S.optional(S.String),
+          IpProtocol: S.optional(S.String),
+          PortRange: S.optional(S.String),
+          ServiceModule: S.optional(S.String),
+          Id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Outbound" });
+    case 1:
+      return S.Array(__S(48, __c6, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CreateTime: S.optional(S.String),
+          ProjectId: S.optional(S.Number),
+          SecurityGroupId: S.optional(S.String),
+          SecurityGroupName: S.optional(S.String),
+          SecurityGroupRemark: S.optional(S.String),
+          Outbound: S.optional(__S(49, __c6, 1)),
+          Inbound: S.optional(__S(49, __c6, 1)),
+        }),
+      ).annotate({ identifier: "SecurityGroup" });
+    case 3:
+      return S.Array(__S(50, __c6, 2));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Limit: S.Number,
+          Offset: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "keewidb",
+            version: "2022-03-08",
+            action: "DescribeInstanceAccount",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeInstanceAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.optional(S.String),
+          AccountName: S.optional(S.String),
+          Remark: S.optional(S.String),
+          Privilege: S.optional(S.String),
+          ReadonlyPolicy: S.optional(__S(16, __c2, 0)),
+          Status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Account" });
+    case 2:
+      return S.Array(__S(57, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Accounts: S.optional(__S(58, __c7, 2)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeInstanceAccountResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          BeginTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          Status: S.optional(__S(72, __c9, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "keewidb",
+            version: "2022-03-08",
+            action: "DescribeInstanceBackups",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeInstanceBackupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.optional(S.String),
+          BackupId: S.optional(S.String),
+          BackupType: S.optional(S.String),
+          Remark: S.optional(S.String),
+          Status: S.optional(S.Number),
+          Locked: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BackupInfo" });
+    case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          BackupRecord: S.optional(__S(66, __c8, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeInstanceBackupsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           InstanceId: S.String,
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
@@ -1531,18 +1807,18 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "BinlogInfo" });
     case 2:
-      return S.Array(__S(41, __c5, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BackupSet: S.optional(__S(42, __c5, 2)),
+          BackupSet: S.optional(__S(82, __c10, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceBinlogsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1575,17 +1851,17 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "TradeDealDetail" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DealDetails: S.optional(__S(50, __c6, 2)),
+          DealDetails: S.optional(__S(90, __c11, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceDealDetailResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1610,7 +1886,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ProxyNodeInfo" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1621,7 +1897,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "RedisNodeInfo" });
     case 4:
-      return S.Array(__S(59, __c7, 3));
+      return S.Array(__S(99, __c12, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1631,24 +1907,24 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "InstanceNodeInfo" });
     case 6:
-      return S.Array(__S(61, __c7, 5));
+      return S.Array(__S(101, __c12, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           ProxyCount: S.optional(S.Number),
-          Proxy: S.optional(__S(58, __c7, 2)),
+          Proxy: S.optional(__S(98, __c12, 2)),
           RedisCount: S.optional(S.Number),
-          Redis: S.optional(__S(60, __c7, 4)),
+          Redis: S.optional(__S(100, __c12, 4)),
           TendisCount: S.optional(S.Number),
-          Tendis: S.optional(__S(62, __c7, 6)),
+          Tendis: S.optional(__S(102, __c12, 6)),
           KeeWiDBCount: S.optional(S.Number),
-          KeeWiDB: S.optional(__S(62, __c7, 6)),
+          KeeWiDB: S.optional(__S(102, __c12, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceNodeInfoResponse" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1676,18 +1952,18 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "InstanceParamHistory" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceParamHistory: S.optional(__S(66, __c8, 2)),
+          InstanceParamHistory: S.optional(__S(106, __c13, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceParamRecordsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1712,7 +1988,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "InstanceEnumParam" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1729,7 +2005,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "InstanceIntegerParam" });
     case 4:
-      return S.Array(__S(75, __c9, 3));
+      return S.Array(__S(115, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1744,21 +2020,21 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "InstanceTextParam" });
     case 6:
-      return S.Array(__S(77, __c9, 5));
+      return S.Array(__S(117, __c14, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceEnumParam: S.optional(__S(74, __c9, 2)),
-          InstanceIntegerParam: S.optional(__S(76, __c9, 4)),
-          InstanceTextParam: S.optional(__S(78, __c9, 6)),
-          InstanceMultiParam: S.optional(__S(74, __c9, 2)),
+          InstanceEnumParam: S.optional(__S(114, __c14, 2)),
+          InstanceIntegerParam: S.optional(__S(116, __c14, 4)),
+          InstanceTextParam: S.optional(__S(118, __c14, 6)),
+          InstanceMultiParam: S.optional(__S(114, __c14, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceParamsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1782,7 +2058,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "KeeWiDBNode" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1790,22 +2066,22 @@ function __c10(j: number): any {
           GroupName: S.optional(S.String),
           ZoneId: S.optional(S.String),
           Role: S.optional(S.String),
-          KeeWiDBNodes: S.optional(__S(82, __c10, 2)),
+          KeeWiDBNodes: S.optional(__S(122, __c15, 2)),
         }),
       ).annotate({ identifier: "ReplicaGroup" });
     case 4:
-      return S.Array(__S(83, __c10, 3));
+      return S.Array(__S(123, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ReplicaGroups: S.optional(__S(84, __c10, 4)),
+          ReplicaGroups: S.optional(__S(124, __c15, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceReplicasResponse" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1815,7 +2091,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "InstanceTagInfo" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1826,20 +2102,20 @@ function __c11(j: number): any {
           OrderType: S.optional(S.Number),
           VpcIds: S.optional(__S(16, __c2, 0)),
           SubnetIds: S.optional(__S(16, __c2, 0)),
-          ProjectIds: S.optional(__S(352, __c44, 0)),
+          ProjectIds: S.optional(__S(72, __c9, 0)),
           SearchKey: S.optional(S.String),
           InstanceName: S.optional(S.String),
           UniqVpcIds: S.optional(__S(16, __c2, 0)),
           UniqSubnetIds: S.optional(__S(16, __c2, 0)),
-          Status: S.optional(__S(352, __c44, 0)),
-          AutoRenew: S.optional(__S(352, __c44, 0)),
+          Status: S.optional(__S(72, __c9, 0)),
+          AutoRenew: S.optional(__S(72, __c9, 0)),
           BillingMode: S.optional(S.String),
           Type: S.optional(S.Number),
           SearchKeys: S.optional(__S(16, __c2, 0)),
-          TypeList: S.optional(__S(352, __c44, 0)),
+          TypeList: S.optional(__S(72, __c9, 0)),
           MonitorVersion: S.optional(S.String),
           TagKeys: S.optional(__S(16, __c2, 0)),
-          TagList: S.optional(__S(89, __c11, 1)),
+          TagList: S.optional(__S(129, __c16, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "keewidb", version: "2022-03-08", action: "DescribeInstances" }),
@@ -1879,7 +2155,7 @@ function __c11(j: number): any {
           PriceId: S.optional(S.Number),
           CloseTime: S.optional(S.String),
           SlaveReadWeight: S.optional(S.Number),
-          InstanceTags: S.optional(__S(89, __c11, 1)),
+          InstanceTags: S.optional(__S(129, __c16, 1)),
           ProjectName: S.optional(S.String),
           NoAuth: S.optional(S.Boolean),
           ClientLimit: S.optional(S.Number),
@@ -1893,7 +2169,7 @@ function __c11(j: number): any {
           MonitorVersion: S.optional(S.String),
           ClientLimitMin: S.optional(S.Number),
           ClientLimitMax: S.optional(S.Number),
-          NodeSet: S.optional(__S(305, __c38, 1)),
+          NodeSet: S.optional(__S(361, __c45, 1)),
           Region: S.optional(S.String),
           MachineMemory: S.optional(S.Number),
           DiskShardSize: S.optional(S.Number),
@@ -1903,18 +2179,29 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "InstanceInfo" });
     case 4:
-      return S.Array(__S(91, __c11, 3));
+      return S.Array(__S(131, __c16, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceSet: S.optional(__S(92, __c11, 4)),
+          InstanceSet: S.optional(__S(132, __c16, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstancesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "CleanUpInstance" })),
+      ).annotate({ identifier: "CleanUpInstanceRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1939,7 +2226,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DescribeMaintenanceWindowResponse" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1964,7 +2251,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ProductConf" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1973,12 +2260,12 @@ function __c13(j: number): any {
           IsSaleout: S.optional(S.Boolean),
           IsDefault: S.optional(S.Boolean),
           NetWorkType: S.optional(__S(16, __c2, 0)),
-          ProductSet: S.optional(__S(106, __c13, 2)),
+          ProductSet: S.optional(__S(154, __c19, 2)),
           OldZoneId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ZoneCapacityConf" });
     case 4:
-      return S.Array(__S(107, __c13, 3));
+      return S.Array(__S(155, __c19, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1986,21 +2273,21 @@ function __c13(j: number): any {
           RegionName: S.optional(S.String),
           RegionShortName: S.optional(S.String),
           Area: S.optional(S.String),
-          ZoneSet: S.optional(__S(108, __c13, 4)),
+          ZoneSet: S.optional(__S(156, __c19, 4)),
         }),
       ).annotate({ identifier: "RegionConf" });
     case 6:
-      return S.Array(__S(109, __c13, 5));
+      return S.Array(__S(157, __c19, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          RegionSet: S.optional(__S(110, __c13, 6)),
+          RegionSet: S.optional(__S(158, __c19, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProductInfoResponse" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2022,25 +2309,14 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(339, __c42, 3)),
+          Groups: S.optional(__S(51, __c6, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProjectSecurityGroupsResponse" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "CleanUpInstance" })),
-      ).annotate({ identifier: "CleanUpInstanceRequest" });
-  }
-}
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2067,18 +2343,18 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "InstanceProxySlowlogDetail" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceProxySlowLogDetail: S.optional(__S(130, __c16, 2)),
+          InstanceProxySlowLogDetail: S.optional(__S(170, __c21, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxySlowLogResponse" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2102,7 +2378,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DescribeTaskInfoResponse" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2111,11 +2387,11 @@ function __c18(j: number): any {
           InstanceName: S.optional(S.String),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          ProjectIds: S.optional(__S(352, __c44, 0)),
+          ProjectIds: S.optional(__S(72, __c9, 0)),
           TaskTypes: S.optional(__S(16, __c2, 0)),
           BeginTime: S.optional(S.String),
           EndTime: S.optional(S.String),
-          TaskStatus: S.optional(__S(352, __c44, 0)),
+          TaskStatus: S.optional(__S(72, __c9, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "keewidb", version: "2022-03-08", action: "DescribeTaskList" }),
@@ -2137,18 +2413,18 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "TaskInfoDetail" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Tasks: S.optional(__S(146, __c18, 2)),
+          Tasks: S.optional(__S(186, __c23, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskListResponse" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2175,18 +2451,18 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "TendisSlowLogDetail" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TendisSlowLogDetail: S.optional(__S(154, __c19, 2)),
+          TendisSlowLogDetail: S.optional(__S(194, __c24, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTendisSlowLogResponse" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2203,7 +2479,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DestroyPostpaidInstanceRequest" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2216,7 +2492,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DestroyPrepaidInstanceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2227,7 +2503,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DestroyPrepaidInstanceResponse" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2246,7 +2522,19 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DisassociateSecurityGroupsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "ClearInstance" })),
+      ).annotate({ identifier: "ClearInstanceRequest" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2271,7 +2559,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ModifyAutoBackupConfigResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2285,7 +2573,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ModifyConnectionConfigRequest" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,19 +2592,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ModifyDBInstanceSecurityGroupsRequest" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "ClearInstance" })),
-      ).annotate({ identifier: "ClearInstanceRequest" });
-  }
-}
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2325,13 +2601,31 @@ function __c28(j: number): any {
           InstanceIds: S.optional(__S(16, __c2, 0)),
           InstanceNames: S.optional(__S(16, __c2, 0)),
           ProjectId: S.optional(S.Number),
-          AutoRenews: S.optional(__S(352, __c44, 0)),
+          AutoRenews: S.optional(__S(72, __c9, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "ModifyInstance" })),
       ).annotate({ identifier: "ModifyInstanceRequest" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          AccountName: S.String,
+          AccountPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          Remark: S.optional(S.String),
+          ReadonlyPolicy: S.optional(__S(16, __c2, 0)),
+          Privilege: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "keewidb", version: "2022-03-08", action: "ModifyInstanceAccount" }),
+        ),
+      ).annotate({ identifier: "ModifyInstanceAccountRequest" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2341,12 +2635,12 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "InstanceParam" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(280, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          InstanceParams: __S(233, __c29, 1),
+          InstanceParams: __S(281, __c35, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "keewidb", version: "2022-03-08", action: "ModifyInstanceParams" }),
@@ -2362,7 +2656,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ModifyInstanceParamsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2388,7 +2682,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ModifyMaintenanceWindowResponse" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2417,7 +2711,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ModifyNetworkConfigResponse" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2429,7 +2723,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RenewInstanceRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2442,36 +2736,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ResetPasswordRequest" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "StartUpInstance" })),
-      ).annotate({ identifier: "StartUpInstanceRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          MemSize: S.optional(S.Number),
-          MachineCpu: S.optional(S.Number),
-          MachineMemory: S.optional(S.Number),
-          ShardNum: S.optional(S.Number),
-          DiskSize: S.optional(S.Number),
-          ReplicasNum: S.optional(S.Number),
-          NodeSet: S.optional(__S(305, __c38, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "UpgradeInstance" })),
-      ).annotate({ identifier: "UpgradeInstanceRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2486,7 +2751,54 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateBackupManuallyRequest" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "StartUpInstance" })),
+      ).annotate({ identifier: "StartUpInstanceRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          MemSize: S.optional(S.Number),
+          MachineCpu: S.optional(S.Number),
+          MachineMemory: S.optional(S.Number),
+          ShardNum: S.optional(S.Number),
+          DiskSize: S.optional(S.Number),
+          ReplicasNum: S.optional(S.Number),
+          NodeSet: S.optional(__S(361, __c45, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "keewidb", version: "2022-03-08", action: "UpgradeInstance" })),
+      ).annotate({ identifier: "UpgradeInstanceRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          AccountName: S.String,
+          AccountPassword: S.String.pipe(T.SensitiveValue({})),
+          ReadonlyPolicy: __S(16, __c2, 0),
+          Privilege: S.String,
+          Remark: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "keewidb", version: "2022-03-08", action: "CreateInstanceAccount" }),
+        ),
+      ).annotate({ identifier: "CreateInstanceAccountRequest" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2496,7 +2808,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "ResourceTag" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(352, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2517,8 +2829,8 @@ function __c37(j: number): any {
           VPort: S.optional(S.Number),
           AutoRenew: S.optional(S.Number),
           SecurityGroupIdList: S.optional(__S(16, __c2, 0)),
-          NodeSet: S.optional(__S(305, __c38, 1)),
-          ResourceTags: S.optional(__S(297, __c37, 1)),
+          NodeSet: S.optional(__S(361, __c45, 1)),
+          ResourceTags: S.optional(__S(353, __c44, 1)),
           MemSize: S.optional(S.Number),
           DiskSize: S.optional(S.Number),
           MachineCpu: S.optional(S.Number),
@@ -2537,7 +2849,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateInstancesResponse" });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2549,10 +2861,24 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "NodeInfo" });
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(360, __c45, 0));
   }
 }
-function __c39(j: number): any {
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          AccountName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "keewidb", version: "2022-03-08", action: "DeleteInstanceAccount" }),
+        ),
+      ).annotate({ identifier: "DeleteInstanceAccountRequest" });
+  }
+}
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2579,7 +2905,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DescribeAutoBackupConfigResponse" });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2605,115 +2931,6 @@ function __c40(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConnectionConfigResponse" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Product: S.String,
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "keewidb",
-            version: "2022-03-08",
-            action: "DescribeDBSecurityGroups",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeDBSecurityGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Groups: S.optional(__S(339, __c42, 3)),
-          VIP: S.optional(S.String),
-          VPort: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeDBSecurityGroupsResponse" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Action: S.optional(S.String),
-          AddressModule: S.optional(S.String),
-          CidrIp: S.optional(S.String),
-          Desc: S.optional(S.String),
-          IpProtocol: S.optional(S.String),
-          PortRange: S.optional(S.String),
-          ServiceModule: S.optional(S.String),
-          Id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Outbound" });
-    case 1:
-      return S.Array(__S(336, __c42, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          CreateTime: S.optional(S.String),
-          ProjectId: S.optional(S.Number),
-          SecurityGroupId: S.optional(S.String),
-          SecurityGroupName: S.optional(S.String),
-          SecurityGroupRemark: S.optional(S.String),
-          Outbound: S.optional(__S(337, __c42, 1)),
-          Inbound: S.optional(__S(337, __c42, 1)),
-        }),
-      ).annotate({ identifier: "SecurityGroup" });
-    case 3:
-      return S.Array(__S(338, __c42, 2));
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Limit: S.optional(S.Number),
-          Offset: S.optional(S.Number),
-          BeginTime: S.optional(S.String),
-          EndTime: S.optional(S.String),
-          Status: S.optional(__S(352, __c44, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "keewidb",
-            version: "2022-03-08",
-            action: "DescribeInstanceBackups",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeInstanceBackupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          StartTime: S.optional(S.String),
-          BackupId: S.optional(S.String),
-          BackupType: S.optional(S.String),
-          Remark: S.optional(S.String),
-          Status: S.optional(S.Number),
-          Locked: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BackupInfo" });
-    case 2:
-      return S.Array(__S(345, __c43, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          BackupRecord: S.optional(__S(346, __c43, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeInstanceBackupsResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

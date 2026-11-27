@@ -58,8 +58,19 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
-/** * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
-export type AggregationEnum =
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
+/** * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile * `count_rate` - count_rate * `count_increase` - count_increase */
+export type MetricAnomalyAggregationEnum =
   | "sum"
   | "avg"
   | "count"
@@ -68,7 +79,9 @@ export type AggregationEnum =
   | "p95"
   | "rate"
   | "increase"
-  | "histogram_quantile";
+  | "histogram_quantile"
+  | "count_rate"
+  | "count_increase";
 /** * `eq` - eq * `neq` - neq * `regex` - regex * `not_regex` - not_regex */
 export type OpEnum = "eq" | "neq" | "regex" | "not_regex";
 /** * `resource` - resource * `attribute` - attribute * `auto` - auto */
@@ -98,8 +111,8 @@ export interface MetricAnomalyBody {
   baselineFrom?: string | undefined;
   /** End of the healthy comparison window. Defaults to anomalyFrom. Must not extend past anomalyFrom. */
   baselineTo?: string | undefined;
-  /** Aggregation to characterize. Omit to auto-pick from the metric's OTel type (counter -> rate, gauge -> avg, histogram -> histogram_quantile 0.95). * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
-  aggregation?: AggregationEnum | (string & {}) | null | undefined;
+  /** Aggregation to characterize. Omit to auto-pick from the metric's OTel type (counter -> rate, gauge -> avg, histogram -> histogram_quantile 0.95). * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile * `count_rate` - count_rate * `count_increase` - count_increase */
+  aggregation?: MetricAnomalyAggregationEnum | (string & {}) | null | undefined;
   /** Quantile for histogram_quantile. Defaults to 0.95. */
   quantile?: number | null | undefined;
   /** Label predicates narrowing which series are characterized. */
@@ -137,15 +150,27 @@ export interface MetricQueryPoint {
   /** Aggregated value for the bucket. Null when the aggregate isn't representable (e.g. float overflow) -- render as a gap. */
   value: number | null;
 }
-/** Time-bucketed points, ordered by time ascending. */
+/** Time-bucketed points, ordered by time ascending. Absent for instant queries and the summary output. */
 export type MetricSeriesPointsList = Array<MetricQueryPoint>;
 /** Bucket upper edges a histogram_quantile series was estimated from. The true quantile can be anywhere between two edges. Null for other aggregations. */
 export type MetricSeriesHistogramBoundsList = Array<number>;
 export interface MetricSeries {
   /** Label values identifying this series. Empty for an ungrouped query. */
   labels: MetricSeriesLabelsMap;
-  /** Time-bucketed points, ordered by time ascending. */
-  points: MetricSeriesPointsList;
+  /** Time-bucketed points, ordered by time ascending. Absent for instant queries and the summary output. */
+  points?: MetricSeriesPointsList | undefined;
+  /** Instant queries only: the series' value at 'time'. */
+  value?: number | null | undefined;
+  /** Instant queries: the time of 'value' (for the builder, the start of the bucket). Summary output: the time of 'last'. */
+  time?: string | null | undefined;
+  /** Summary output only: the last non-null value. */
+  last?: number | null | undefined;
+  /** Summary output only: the smallest non-null value. */
+  min?: number | null | undefined;
+  /** Summary output only: the largest non-null value. */
+  max?: number | null | undefined;
+  /** Summary output only: the mean of the non-null values. */
+  avg?: number | null | undefined;
   /** Metric the series was computed from. Null for formula results. */
   metric_name?: string | null | undefined;
   /** Name of the query clause that produced this series. */
@@ -154,6 +179,8 @@ export interface MetricSeries {
   unit?: string | null | undefined;
   /** Bucket upper edges a histogram_quantile series was estimated from. The true quantile can be anywhere between two edges. Null for other aggregations. */
   histogram_bounds?: MetricSeriesHistogramBoundsList | null | undefined;
+  /** Most distinct bucket layouts merged into one point of a histogram_quantile series. Above 1, series with different buckets were merged by bucket width. Null for other aggregations. */
+  histogram_layout_count?: number | null | undefined;
 }
 export interface MetricAnomalyReport {
   /** Metric that was characterized. */
@@ -184,6 +211,8 @@ export interface MetricAnomalyReport {
   direction: MetricAnomalyDirectionEnum;
   /** First bucket clearly outside the baseline range (3 stddevs or 50% relative change), or null if no clear onset. */
   onset_time: string | null;
+  /** Start of the last bucket when it ends after anomalyTo or now, so it holds only part of its samples. It stays in series but is left out of every statistic, the onset and the movers. Null when every bucket is complete. */
+  partial_bucket_time?: string | null | undefined;
   /** Label values whose behavior changed the most between windows, largest change first. Empty when nothing moved or the metric has no labels. */
   top_movers: MetricAnomalyReportTopMoversList;
   /** The metric across baseline + anomaly windows on one grid, for plotting or further inspection. */
@@ -219,6 +248,30 @@ export interface DashboardImportPanelProgress {
 }
 /** Where each panel is, while the import runs. */
 export type DashboardImportPanelProgressList = Array<DashboardImportPanelProgress>;
+/** * `searching_metrics` - Searching Metrics * `reading_labels` - Reading Labels * `reading_label_values` - Reading Label Values * `running_query` - Running Query * `checking_panels` - Checking Panels * `exploring_logs` - Exploring Logs * `exploring_traces` - Exploring Traces * `reading_dashboard` - Reading Dashboard * `thinking` - Thinking * `working` - Working */
+export type AgentActivityKindEnum =
+  | "searching_metrics"
+  | "reading_labels"
+  | "reading_label_values"
+  | "running_query"
+  | "checking_panels"
+  | "exploring_logs"
+  | "exploring_traces"
+  | "reading_dashboard"
+  | "thinking"
+  | "working";
+export interface DashboardImportAgentActivity {
+  /** What the agent does now, from its latest tool call. 'thinking' is the time between tool calls. * `searching_metrics` - Searching Metrics * `reading_labels` - Reading Labels * `reading_label_values` - Reading Label Values * `running_query` - Running Query * `checking_panels` - Checking Panels * `exploring_logs` - Exploring Logs * `exploring_traces` - Exploring Traces * `reading_dashboard` - Reading Dashboard * `thinking` - Thinking * `working` - Working */
+  kind: AgentActivityKindEnum;
+  /** Seconds since the action started. */
+  seconds: number;
+  /** Seconds since the agent's last logged activity. A high value can mean that the agent is stuck. */
+  idle_seconds: number;
+  /** The search term, metric name or attribute key that the action works on, when it has one. */
+  subject: string | null;
+  /** Number of panels that a 'checking_panels' action checks. */
+  panel_count: number | null;
+}
 export interface DashboardImportSummary {
   /** Number of panels in the input. */
   total: number;
@@ -258,6 +311,8 @@ export interface DashboardImport {
   phase: DashboardImportPhaseEnum | null;
   /** Where each panel is, while the import runs. */
   panel_progress: DashboardImportPanelProgressList;
+  /** The agent's latest action, while the phase is 'matching'. Null otherwise. */
+  agent_activity: DashboardImportAgentActivity | null;
   /** How many pictures of the dashboard the import compares with the screenshot, at most. Null when the import does not check the layout. */
   layout_rounds: number | null;
   /** The comparison that runs, from 1, while the phase is 'checking_layout'. */
@@ -271,6 +326,12 @@ export interface DashboardImport {
   /** The outcome for each panel, when the import ended. */
   panels: DashboardImportPanelsList;
 }
+export interface CreateMetricsDashboardImportsDismissRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export interface CreateMetricsDashboardImportsDismissResponse {}
 /** * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
 export type OtelMetricTypeEnum =
   | "gauge"
@@ -278,7 +339,7 @@ export type OtelMetricTypeEnum =
   | "histogram"
   | "exponential_histogram"
   | "summary";
-/** * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+/** * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile * `count_rate` - count_rate * `count_increase` - count_increase */
 export type MetricQueryAggregationEnum =
   | "none"
   | "sum"
@@ -289,7 +350,9 @@ export type MetricQueryAggregationEnum =
   | "p95"
   | "rate"
   | "increase"
-  | "histogram_quantile";
+  | "histogram_quantile"
+  | "count_rate"
+  | "count_increase";
 /** * `rate` - rate * `increase` - increase */
 export type MetricRangeFunctionEnum = "rate" | "increase";
 /** Label predicates ANDed together. Rows must satisfy every filter. */
@@ -325,12 +388,14 @@ export interface MetricClause {
   metricName: string;
   /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
   metricType?: OtelMetricTypeEnum | (string & {}) | null | undefined;
-  /** Aggregation applied per time bucket; same semantics as the top-level aggregation. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  /** Aggregation applied per time bucket; same semantics as the top-level aggregation. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile * `count_rate` - count_rate * `count_increase` - count_increase */
   aggregation?: MetricQueryAggregationEnum | (string & {}) | undefined;
   /** Counter-aware transform applied to each series before the aggregation: 'rate' (per-second) or 'increase'. Combine with 'none' to get one rate line per series. Do not combine with the 'rate' or 'increase' aggregations. * `rate` - rate * `increase` - increase */
   rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null | undefined;
   /** Quantile in (0, 1) for 'histogram_quantile'. */
   quantile?: number | null | undefined;
+  /** Apdex threshold T in milliseconds for 'posthog.derived.spans.apdex': a request is satisfied at or under T and tolerating up to 4T. Defaults to 500. Ignored for other metrics. */
+  apdexThresholdMs?: number | null | undefined;
   /** Label predicates ANDed together for this clause. */
   filters?: MetricClauseFiltersList | undefined;
   /** Labels to split this clause into separate series by. */
@@ -338,17 +403,21 @@ export interface MetricClause {
 }
 /** Full multi-clause form: each clause is an independent metric selection sharing the request's time grid (maximum 10). Mutually exclusive with 'metricName'. */
 export type MetricQueryBodyClausesList = Array<MetricClause>;
+/** * `points` - points * `summary` - summary */
+export type MetricQueryOutputEnum = "points" | "summary";
 export interface MetricQueryBody {
   /** Exact metric name to query (e.g. 'http.server.duration'). Single-clause shorthand -- mutually exclusive with 'clauses'. */
   metricName?: string | undefined;
   /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
   metricType?: OtelMetricTypeEnum | (string & {}) | null | undefined;
-  /** Defaults to 'sum'. Aggregation applied per time bucket, always across series rather than across raw samples. 'sum', 'avg', 'min', 'max' and 'p95' reduce each series to its last sample in the bucket and then combine those, so the result does not scale with the scrape rate; 'count' is the number of series that reported. 'rate' (per-second) and 'increase' are counter-aware: per-series deltas with Prometheus counter-reset handling, temporality-aware (delta-temporality samples count as-is). 'histogram_quantile' interpolates from OTel histogram buckets and requires 'quantile'. 'none' skips the aggregation and returns one series per label set, at most 100, using each series' last sample per bucket; it cannot be combined with 'groupBy'. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
+  /** Defaults to 'sum'. Aggregation applied per time bucket, always across series rather than across raw samples. 'sum', 'avg', 'min', 'max' and 'p95' reduce each series to its last sample in the bucket and then combine those, so the result does not scale with the scrape rate; 'count' is the number of series that reported. 'rate' (per-second) and 'increase' are counter-aware: per-series deltas with Prometheus counter-reset handling, temporality-aware (delta-temporality samples count as-is). 'histogram_quantile' interpolates from OTel histogram buckets and requires 'quantile'. 'count_rate' (per-second) and 'count_increase' are 'rate' and 'increase' over a histogram's or summary's observation count instead of its running sum, so they chart requests per second from a latency histogram; they take no 'rangeFunction'. 'none' skips the aggregation and returns one series per label set, at most 100, using each series' last sample per bucket; it cannot be combined with 'groupBy'. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile * `count_rate` - count_rate * `count_increase` - count_increase */
   aggregation?: MetricQueryAggregationEnum | (string & {}) | undefined;
   /** Counter-aware transform applied to each series before the aggregation: 'rate' (per-second) or 'increase'. Combine with 'none' to get one rate line per series. Do not combine with the 'rate' or 'increase' aggregations. * `rate` - rate * `increase` - increase */
   rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null | undefined;
   /** Quantile in (0, 1) for 'histogram_quantile' (e.g. 0.95). Ignored for other aggregations. */
   quantile?: number | null | undefined;
+  /** Apdex threshold T in milliseconds for 'posthog.derived.spans.apdex': a request is satisfied at or under T and tolerating up to 4T. Defaults to 500. Ignored for other metrics. */
+  apdexThresholdMs?: number | null | undefined;
   /** Label predicates ANDed together. Rows must satisfy every filter. */
   filters?: MetricQueryBodyFiltersList | undefined;
   /** Labels to split the result into separate series by. Series share one time grid and are capped at the 100 largest. */
@@ -361,10 +430,20 @@ export interface MetricQueryBody {
   formula?: string | null | undefined;
   /** PromQL expression, run as a range query over the request's time grid, e.g. 'sum by (job) (rate(http_requests_total[5m]))'. Use it to run an alert or runbook expression as written. Mutually exclusive with 'metricName' and 'clauses'; put label selectors and grouping in the expression instead of 'filters' and 'groupBy'. In PromQL, service.name is service_name and other label names with dots need quotes. A bucket that a series did not report is null, not zero. */
   promql?: string | null | undefined;
-  /** Lower bound (inclusive) for the query range. ISO 8601, or a relative offset back from now such as '-1h', '-7d', '-2w', '-1m' (months). Defaults to 24 hours before dateTo. */
+  /** Lower bound (inclusive) for the query range. ISO 8601, or a relative offset back from now such as '-30M' (minutes), '-1h', '-7d', '-2w' or '-1m' (months; lowercase m is months, capital M is minutes). Defaults to 24 hours before dateTo. */
   dateFrom?: string | undefined;
   /** Upper bound (exclusive) for the query range. ISO 8601 or a relative offset like dateFrom. Defaults to now if omitted. */
   dateTo?: string | undefined;
+  /** Leave out series whose every point is zero or null, and count them in 'omitted_empty_series'. Defaults to true for MCP clients and false otherwise. */
+  dropEmptySeries?: boolean | null | undefined;
+  /** Return at most this many series, the ones with the largest summed absolute value, and count the rest in 'omitted_by_limit'. Applies after dropEmptySeries. */
+  limit?: number | null | undefined;
+  /** Return one value per series instead of a time series. PromQL runs as an instant query at 'time'. The builder returns the last complete bucket before 'time', 5 minutes wide unless 'interval' says otherwise. Each series then has 'value' and 'time' instead of 'points'. Cannot be combined with 'dateFrom', 'dateTo' or 'output'. */
+  instant?: boolean | undefined;
+  /** Evaluation time of an instant query: ISO 8601 or a relative offset like dateFrom. Defaults to now. Setting it makes the query instant. */
+  time?: string | undefined;
+  /** 'points' (default) returns every point. 'summary' runs the same range query but returns per series only 'last' (the last non-null value), its 'time', and 'min', 'max' and 'avg' over the non-null points. * `points` - points * `summary` - summary */
+  output?: MetricQueryOutputEnum | (string & {}) | undefined;
 }
 export interface CreateMetricsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -377,8 +456,48 @@ export type MetricQueryResponseResultsList = Array<MetricSeries>;
 export interface MetricQueryResponse {
   /** One series per (clause, label-set). A single ungrouped query returns exactly one series with empty labels. */
   results: MetricQueryResponseResultsList;
-  /** Set only when the query returned no points: what to check before querying again. */
+  /** Set when the query returned no points, with what to check before querying again, or when a histogram_quantile merged different bucket layouts, with how to read the result. */
   hint?: string | undefined;
+  /** Number of series left out because every point was zero or null. Set only when dropEmptySeries left some out. */
+  omitted_empty_series?: number | undefined;
+  /** Number of series left out by 'limit'. Set only when it left some out. */
+  omitted_by_limit?: number | undefined;
+  /** Search params that open this query in the metrics viewer, e.g. /metrics?<url_params>. For a builder query the viewer cannot show (a 'resource' or 'attribute' scope, an unusual quantile), they open the viewer without it. */
+  url_params?: string | undefined;
+}
+export interface CreateMetricsRecordingRuleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The metric the rule writes, in the level:metric:operations form, for example job:http_errors:rate5m. It must contain a colon and cannot change after create. */
+  metric_name: string;
+  /** A PromQL expression over this project's metrics that returns an instant vector or a scalar. Each series it returns is written as one series of `metric_name`, with the same labels. */
+  query: string;
+  /** What the recorded metric means. */
+  description?: string | undefined;
+  /** When false, the rule is kept but not evaluated. */
+  enabled?: boolean | undefined;
+}
+export interface MetricsRecordingRule {
+  /** Recording rule id. */
+  id: string;
+  /** The metric the rule writes, in the level:metric:operations form, for example job:http_errors:rate5m. It must contain a colon and cannot change after create. */
+  metric_name: string;
+  /** A PromQL expression over this project's metrics that returns an instant vector or a scalar. Each series it returns is written as one series of `metric_name`, with the same labels. */
+  query: string;
+  /** What the recorded metric means. */
+  description?: string | undefined;
+  /** When false, the rule is kept but not evaluated. */
+  enabled?: boolean | undefined;
+  /** When the rule was created. */
+  created_at: string;
+  /** When the rule was last changed. */
+  updated_at: string;
+  /** The minute the rule last wrote a result. Null until it first writes. */
+  last_evaluated_at: string | null;
+  /** How many series the last result had. */
+  last_series_count: number | null;
+  /** Why the last evaluation wrote nothing. Null when the last evaluation wrote a result. */
+  last_error: string | null;
 }
 /** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
 export type MetricSamplesBodyFiltersList = Array<MetricFilter>;
@@ -453,6 +572,12 @@ export interface MetricsCreatedDashboard {
   /** The id of the dashboard. */
   dashboard_id: number;
 }
+export interface CreateMetricsSuggestedDashboardsDismissRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export interface CreateMetricsSuggestedDashboardsDismissResponse {}
 /** Exact metric names to load as a batch. Overrides value and limit. */
 export type CreateMetricsValueRequestNamesList = Array<string>;
 export interface CreateMetricsValueRequest {
@@ -469,6 +594,16 @@ export interface CreateMetricsValueRequest {
 }
 /** A small downsampled series of the metric's recent shape, for a sparkline. */
 export type MetricNameSparklineList = Array<number>;
+export interface MetricClassicHistogram {
+  /** The histogram's name without a suffix. */
+  base_name: string;
+  /** The `_bucket` name, with the `le` label. PromQL reads this one. */
+  bucket: string;
+  /** The `_sum` name: the total of the observed values. */
+  sum: string;
+  /** The `_count` name: the number of observations. */
+  count: string;
+}
 export interface MetricName {
   /** Metric name as it appears in the team's data. */
   name: string;
@@ -480,6 +615,14 @@ export interface MetricName {
   last_seen?: string | null | undefined;
   /** A small downsampled series of the metric's recent shape, for a sparkline. */
   sparkline?: MetricNameSparklineList | undefined;
+  /** Start of the earliest hour this metric arrived in, within retention, ISO 8601. Only present when `first_seen` was requested. */
+  first_seen?: string | null | undefined;
+  /** Approximate number of distinct series (label sets) in the last 24 hours. Only present when `series_stats` was requested. */
+  series_count?: number | undefined;
+  /** Number of distinct datapoint attribute keys in the last 24 hours. Only present when `series_stats` was requested. */
+  tag_key_count?: number | undefined;
+  /** Set when this entry folds a Prometheus classic histogram's three names. Absent otherwise. */
+  classic_histogram?: MetricClassicHistogram | undefined;
 }
 /** Distinct metric names ordered by recent activity. */
 export type MetricNamesResponseResultsList = Array<MetricName>;
@@ -542,12 +685,20 @@ export interface GetMetricsAttributeRequest {
   metricName?: string | undefined;
   /** Substring filter (case-insensitive) applied to attribute keys. */
   search?: string | undefined;
+  /** Also list keys whose values contain the search term, on searches of 4 or more characters. Value matches come after key matches and carry matchedOn='value' with the matching matchedValue. */
+  search_values?: boolean | undefined;
 }
+/** * `key` - key * `value` - value */
+export type MatchedOnEnum = "key" | "value";
 export interface MetricAttributeKey {
   /** Attribute key as it appears on the team's metrics (e.g. 'env', 'k8s.pod.name'). */
   name: string;
   /** Number of distinct values for this attribute in recent data. */
   value_count: number;
+  /** Set to 'value' when the key matched through one of its values. Absent when its name matched. * `key` - key * `value` - value */
+  matchedOn?: MatchedOnEnum | undefined;
+  /** One value that matched the search; only set when matchedOn is 'value'. */
+  matchedValue?: string | null | undefined;
 }
 /** Distinct attribute keys (datapoint and resource attributes merged), ordered by distinct value count descending. */
 export type MetricAttributeKeysResponseResultsList = Array<MetricAttributeKey>;
@@ -592,6 +743,23 @@ export interface GetMetricsDashboardImportRequest {
   project_id: string;
   id: string;
 }
+export interface GetMetricsDashboardImportsInputRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export interface DashboardImportInput {
+  /** What the failed import read. * `grafana` - Grafana * `screenshot` - Screenshot */
+  source: DashboardImportSourceEnum;
+  /** The dashboard name the user gave. Null when the user gave none. */
+  name: string | null;
+  /** The Grafana dashboard JSON model, when the source is 'grafana'. */
+  grafana_json: string | null;
+  /** The screenshot as base64, without a data URL prefix, when the source is 'screenshot'. */
+  image_base64: string | null;
+  /** Media type of `image_base64`, for example 'image/png'. Null without a screenshot. */
+  image_content_type: string | null;
+}
 export interface GetMetricsErrorSpikeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -621,6 +789,10 @@ export interface GetMetricsHasMetricsRequest {
 export interface HasMetricsResponse {
   /** Whether the team has ingested any metrics. */
   hasMetrics: boolean;
+  /** Whether the team sent spans or logs in the last day, so series could be derived from them. */
+  hasDerivedSources: boolean;
+  /** Whether series derived from the team's spans and logs are available to chart. */
+  hasDerivedMetrics: boolean;
 }
 export interface GetMetricsNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -694,14 +866,30 @@ export interface MetricQueryCountsResponse {
   /** Metrics that queries read in the window, the most queried first. */
   results: MetricQueryCountsResponseResultsList;
 }
+export interface GetMetricsRecordingRuleRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export type GetMetricsValueRequestMatch = "substring" | "prefix" | "regex";
 export interface GetMetricsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Add `first_seen`: the earliest hour each name arrived in, within retention. */
+  first_seen?: boolean | undefined;
+  /** Fold a Prometheus classic histogram's `<name>_bucket`, `<name>_sum` and `<name>_count` into one `<name>_bucket` entry with `classic_histogram` set. Only folds when all three are in the page. */
+  fold_histograms?: boolean | undefined;
   /** Max number of names to return. Defaults to 100; maximum 1000. */
   limit?: number | undefined;
+  /** How `value` matches a name. `substring` (default) and `prefix` are case-insensitive. `regex` is an RE2 pattern run with ClickHouse match(): case-sensitive and unanchored, so use `^` and `$` to anchor and `(?i)` to ignore case. * `substring` - substring * `prefix` - prefix * `regex` - regex */
+  match?: GetMetricsValueRequestMatch | (string & {}) | undefined;
+  /** Add `series_count` and `tag_key_count` for each name, over the last 24 hours. */
+  series_stats?: boolean | undefined;
   /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
   service?: string | undefined;
-  /** Substring filter (case-insensitive) applied to metric names. */
+  /** Attach a 24-point sparkline of the last 6 hours to each name. Turn off for a smaller, faster response. */
+  sparklines?: boolean | undefined;
+  /** Filter applied to metric names; `match` decides how. Empty lists every name, ordered by how many services report it. */
   value?: string | undefined;
 }
 export interface ListMetricsDashboardImportsRequest {
@@ -710,6 +898,12 @@ export interface ListMetricsDashboardImportsRequest {
 }
 export type ListMetricsDashboardImportsResponseBodyList = Array<DashboardImport>;
 export type ListMetricsDashboardImportsResponse = ListMetricsDashboardImportsResponseBodyList;
+export interface ListMetricsRecordingRulesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListMetricsRecordingRulesResponseBodyList = Array<MetricsRecordingRule>;
+export type ListMetricsRecordingRulesResponse = ListMetricsRecordingRulesResponseBodyList;
 export interface ListMetricsSuggestedDashboardsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -827,6 +1021,23 @@ export interface PanelQueryCheckResponse {
   /** One result for each checked panel. */
   results: PanelQueryCheckResponseResultsList;
 }
+export interface MetricsRecordingRulesDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export interface MetricsRecordingRulesDestroyResponse {}
+export interface UpdateMetricsRecordingRulesPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** A new PromQL expression for the rule. */
+  query?: string | undefined;
+  /** What the recorded metric means. */
+  description?: string | undefined;
+  /** When false, the rule is kept but not evaluated. */
+  enabled?: boolean | undefined;
+}
 export type CreateMetricsCharacterizeError = PosthogOpError;
 /** Characterize a metric anomaly: compare an anomaly window against a baseline, find the onset, and rank which label values moved. */
 export const createMetricsCharacterize: API.OperationMethod<
@@ -835,8 +1046,8 @@ export const createMetricsCharacterize: API.OperationMethod<
   CreateMetricsCharacterizeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<CreateMetricsCharacterizeRequest>,
-  output: __S(196, __c12, 4) as any as S.Schema<MetricAnomalyReport>,
+  input: __S(353, __c22, 1) as any as S.Schema<CreateMetricsCharacterizeRequest>,
+  output: __S(356, __c22, 4) as any as S.Schema<MetricAnomalyReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -853,14 +1064,32 @@ export const createMetricsDashboardImport: API.OperationMethod<
   CreateMetricsDashboardImportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateMetricsDashboardImportRequest>,
-  output: __S(293, __c18, 5) as any as S.Schema<DashboardImport>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateMetricsDashboardImportRequest>,
+  output: __S(454, __c28, 6) as any as S.Schema<DashboardImport>,
   errors: [Forbidden, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMetricsDashboardImport",
+}));
+
+export type CreateMetricsDashboardImportsDismissError = NotFound | Conflict | PosthogOpError;
+/** Hide one of the user's ended imports from the recent imports and delete what it read. */
+export const createMetricsDashboardImportsDismiss: API.OperationMethod<
+  CreateMetricsDashboardImportsDismissRequest,
+  CreateMetricsDashboardImportsDismissResponse,
+  CreateMetricsDashboardImportsDismissError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<CreateMetricsDashboardImportsDismissRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<CreateMetricsDashboardImportsDismissResponse>,
+  errors: [NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsDashboardImportsDismiss",
 }));
 
 export type CreateMetricsQueryError = PosthogOpError;
@@ -870,14 +1099,32 @@ export const createMetricsQuery: API.OperationMethod<
   CreateMetricsQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(309, __c19, 5) as any as S.Schema<CreateMetricsQueryRequest>,
-  output: __S(311, __c19, 7) as any as S.Schema<MetricQueryResponse>,
+  input: __S(501, __c31, 5) as any as S.Schema<CreateMetricsQueryRequest>,
+  output: __S(503, __c31, 7) as any as S.Schema<MetricQueryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMetricsQuery",
+}));
+
+export type CreateMetricsRecordingRuleError = BadRequest | PosthogOpError;
+/** Create a recording rule. It writes its first result within about a minute. */
+export const createMetricsRecordingRule: API.OperationMethod<
+  CreateMetricsRecordingRuleRequest,
+  MetricsRecordingRule,
+  CreateMetricsRecordingRuleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c32, 0) as any as S.Schema<CreateMetricsRecordingRuleRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<MetricsRecordingRule>,
+  errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsRecordingRule",
 }));
 
 export type CreateMetricsSampleError = PosthogOpError;
@@ -888,8 +1135,8 @@ export const createMetricsSample: API.OperationMethod<
   CreateMetricsSampleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c20, 1) as any as S.Schema<CreateMetricsSampleRequest>,
-  output: __S(324, __c20, 4) as any as S.Schema<MetricSamplesResponse>,
+  input: __S(545, __c34, 1) as any as S.Schema<CreateMetricsSampleRequest>,
+  output: __S(548, __c34, 4) as any as S.Schema<MetricSamplesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -906,14 +1153,32 @@ export const createMetricsSuggestedDashboardsDashboard: API.OperationMethod<
   CreateMetricsSuggestedDashboardsDashboardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateMetricsSuggestedDashboardsDashboardRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<MetricsCreatedDashboard>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateMetricsSuggestedDashboardsDashboardRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<MetricsCreatedDashboard>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMetricsSuggestedDashboardsDashboard",
+}));
+
+export type CreateMetricsSuggestedDashboardsDismissError = NotFound | PosthogOpError;
+/** Remove the suggestion from this project's suggested dashboards, for every user of the project. The suggestion does not come back. A dashboard that was created from it stays. A second call does nothing. */
+export const createMetricsSuggestedDashboardsDismiss: API.OperationMethod<
+  CreateMetricsSuggestedDashboardsDismissRequest,
+  CreateMetricsSuggestedDashboardsDismissResponse,
+  CreateMetricsSuggestedDashboardsDismissError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<CreateMetricsSuggestedDashboardsDismissRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<CreateMetricsSuggestedDashboardsDismissResponse>,
+  errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsSuggestedDashboardsDismiss",
 }));
 
 export type CreateMetricsValueError = PosthogOpError;
@@ -924,8 +1189,8 @@ export const createMetricsValue: API.OperationMethod<
   CreateMetricsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<CreateMetricsValueRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<MetricNamesResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateMetricsValueRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<MetricNamesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -942,8 +1207,8 @@ export const createMetricsVariableOption: API.OperationMethod<
   CreateMetricsVariableOptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(386, __c24, 2) as any as S.Schema<CreateMetricsVariableOptionRequest>,
-  output: __S(387, __c24, 3) as any as S.Schema<MetricVariableOptionsResponse>,
+  input: __S(66, __c4, 2) as any as S.Schema<CreateMetricsVariableOptionRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<MetricVariableOptionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -960,8 +1225,8 @@ export const getMetricsAttribute: API.OperationMethod<
   GetMetricsAttributeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetMetricsAttributeRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<MetricAttributeKeysResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetMetricsAttributeRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<MetricAttributeKeysResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -978,8 +1243,8 @@ export const getMetricsAttributeValue: API.OperationMethod<
   GetMetricsAttributeValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetMetricsAttributeValueRequest>,
-  output: __S(19, __c1, 3) as any as S.Schema<MetricAttributeValuesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetMetricsAttributeValueRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<MetricAttributeValuesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -996,14 +1261,32 @@ export const getMetricsDashboardImport: API.OperationMethod<
   GetMetricsDashboardImportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetMetricsDashboardImportRequest>,
-  output: __S(293, __c18, 5) as any as S.Schema<DashboardImport>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetMetricsDashboardImportRequest>,
+  output: __S(454, __c28, 6) as any as S.Schema<DashboardImport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMetricsDashboardImport",
+}));
+
+export type GetMetricsDashboardImportsInputError = NotFound | PosthogOpError;
+/** What one of the user's failed imports read, so that a retry can start from it. Kept for 30 days. */
+export const getMetricsDashboardImportsInput: API.OperationMethod<
+  GetMetricsDashboardImportsInputRequest,
+  DashboardImportInput,
+  GetMetricsDashboardImportsInputError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<GetMetricsDashboardImportsInputRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<DashboardImportInput>,
+  errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsDashboardImportsInput",
 }));
 
 export type GetMetricsErrorSpikeError = PosthogOpError;
@@ -1014,8 +1297,8 @@ export const getMetricsErrorSpike: API.OperationMethod<
   GetMetricsErrorSpikeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetMetricsErrorSpikeRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<MetricErrorSpikesResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetMetricsErrorSpikeRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<MetricErrorSpikesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1031,8 +1314,8 @@ export const getMetricsHasMetrics: API.OperationMethod<
   GetMetricsHasMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetMetricsHasMetricsRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<HasMetricsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetMetricsHasMetricsRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<HasMetricsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1049,8 +1332,8 @@ export const getMetricsName: API.OperationMethod<
   GetMetricsNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetMetricsNameRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<MetricPickerNamesResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetMetricsNameRequest>,
+  output: __S(179, __c11, 3) as any as S.Schema<MetricPickerNamesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1067,8 +1350,8 @@ export const getMetricsOverview: API.OperationMethod<
   GetMetricsOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetMetricsOverviewRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<MetricsOverviewResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetMetricsOverviewRequest>,
+  output: __S(195, __c12, 3) as any as S.Schema<MetricsOverviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1085,14 +1368,32 @@ export const getMetricsQueryCount: API.OperationMethod<
   GetMetricsQueryCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetMetricsQueryCountRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<MetricQueryCountsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetMetricsQueryCountRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<MetricQueryCountsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMetricsQueryCount",
+}));
+
+export type GetMetricsRecordingRuleError = PosthogOpError;
+/** Recording rules evaluate a PromQL query every minute and write its result into this project's metrics under a new metric name, so dashboards and alerts can read the stored result instead of the query. */
+export const getMetricsRecordingRule: API.OperationMethod<
+  GetMetricsRecordingRuleRequest,
+  MetricsRecordingRule,
+  GetMetricsRecordingRuleError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<GetMetricsRecordingRuleRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<MetricsRecordingRule>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsRecordingRule",
 }));
 
 export type GetMetricsValueError = PosthogOpError;
@@ -1103,8 +1404,8 @@ export const getMetricsValue: API.OperationMethod<
   GetMetricsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetMetricsValueRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<MetricNamesResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetMetricsValueRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<MetricNamesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1121,14 +1422,32 @@ export const listMetricsDashboardImports: API.OperationMethod<
   ListMetricsDashboardImportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListMetricsDashboardImportsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<ListMetricsDashboardImportsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListMetricsDashboardImportsRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListMetricsDashboardImportsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMetricsDashboardImports",
+}));
+
+export type ListMetricsRecordingRulesError = PosthogOpError;
+/** The project's recording rules, by metric name. */
+export const listMetricsRecordingRules: API.OperationMethod<
+  ListMetricsRecordingRulesRequest,
+  ListMetricsRecordingRulesResponse,
+  ListMetricsRecordingRulesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<ListMetricsRecordingRulesRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ListMetricsRecordingRulesResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricsRecordingRules",
 }));
 
 export type ListMetricsSuggestedDashboardsError = PosthogOpError;
@@ -1139,8 +1458,8 @@ export const listMetricsSuggestedDashboards: API.OperationMethod<
   ListMetricsSuggestedDashboardsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListMetricsSuggestedDashboardsRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<ListMetricsSuggestedDashboardsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListMetricsSuggestedDashboardsRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<ListMetricsSuggestedDashboardsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1157,8 +1476,8 @@ export const metricsDashboardImportsValidateCreate: API.OperationMethod<
   MetricsDashboardImportsValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(183, __c11, 7) as any as S.Schema<MetricsDashboardImportsValidateCreateRequest>,
-  output: __S(186, __c11, 10) as any as S.Schema<PanelQueryCheckResponse>,
+  input: __S(311, __c19, 7) as any as S.Schema<MetricsDashboardImportsValidateCreateRequest>,
+  output: __S(314, __c19, 10) as any as S.Schema<PanelQueryCheckResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1167,8 +1486,175 @@ export const metricsDashboardImportsValidateCreate: API.OperationMethod<
   span: "MetricsDashboardImportsValidateCreate",
 }));
 
+export type MetricsRecordingRulesDestroyError = PosthogOpError;
+/** Delete a rule. The series it already wrote stay until the project's metrics retention removes them. */
+export const metricsRecordingRulesDestroy: API.OperationMethod<
+  MetricsRecordingRulesDestroyRequest,
+  MetricsRecordingRulesDestroyResponse,
+  MetricsRecordingRulesDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<MetricsRecordingRulesDestroyRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MetricsRecordingRulesDestroyResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsRecordingRulesDestroy",
+}));
+
+export type UpdateMetricsRecordingRulesPartialError = BadRequest | PosthogOpError;
+/** Change a rule's query, description or enabled state. The metric name cannot change. */
+export const updateMetricsRecordingRulesPartial: API.OperationMethod<
+  UpdateMetricsRecordingRulesPartialRequest,
+  MetricsRecordingRule,
+  UpdateMetricsRecordingRulesPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<UpdateMetricsRecordingRulesPartialRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<MetricsRecordingRule>,
+  errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetricsRecordingRulesPartial",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/metrics/suggested_dashboards/{id}/dashboard/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMetricsSuggestedDashboardsDashboardRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dashboard_id: S.Number,
+        }),
+      ).annotate({ identifier: "MetricsCreatedDashboard" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/metrics/suggested_dashboards/{id}/dismiss/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMetricsSuggestedDashboardsDismissRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          value: S.optional(S.String),
+          limit: S.optional(S.Number),
+          service: S.optional(S.String),
+          names: __S(368, __c23, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/values/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateMetricsValueRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          base_name: S.String,
+          bucket: S.String,
+          sum: S.String,
+          count: S.String,
+        }),
+      ).annotate({ identifier: "MetricClassicHistogram" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          metric_type: S.String,
+          unit: S.optional(S.String),
+          last_seen: S.optional(S.NullOr(S.String)),
+          sparkline: S.optional(__S(400, __c25, 0)),
+          first_seen: S.optional(S.NullOr(S.String)),
+          series_count: S.optional(S.Number),
+          tag_key_count: S.optional(S.Number),
+          classic_histogram: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "MetricName" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(50, __c3, 2),
+        }),
+      ).annotate({ identifier: "MetricNamesResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          values: __S(368, __c23, 0),
+          all: S.optional(S.Boolean),
+          allValue: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MetricVariableSelection" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          source: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          customValues: S.optional(S.NullOr(__S(368, __c23, 0))),
+          regex: S.optional(S.NullOr(S.String)),
+          variables: S.optional(__S(65, __c4, 1)),
+          dateFrom: S.optional(S.NullOr(S.String)),
+          dateTo: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/metrics/variable_options/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMetricsVariableOptionRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(368, __c23, 0),
+        }),
+      ).annotate({ identifier: "MetricVariableOptionsResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1179,6 +1665,7 @@ function __c0(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           metricName: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          search_values: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1192,20 +1679,22 @@ function __c0(j: number): any {
         S.Struct({
           name: S.String,
           value_count: S.Number,
+          matchedOn: S.optional(S.String),
+          matchedValue: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MetricAttributeKey" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2, __c0, 2),
+          results: __S(82, __c5, 2),
           count: S.Number,
         }),
       ).annotate({ identifier: "MetricAttributeKeysResponse" });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1234,16 +1723,16 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "MetricAttributeValue" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(18, __c1, 2),
+          results: __S(98, __c6, 2),
         }),
       ).annotate({ identifier: "MetricAttributeValuesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1260,7 +1749,34 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetMetricsDashboardImportRequest" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/metrics/dashboard_imports/{id}/input/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMetricsDashboardImportsInputRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          name: S.NullOr(S.String),
+          grafana_json: S.NullOr(S.String),
+          image_base64: S.NullOr(S.String),
+          image_content_type: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "DashboardImportInput" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1285,16 +1801,16 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "MetricErrorSpike" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(50, __c3, 2),
+          results: __S(146, __c9, 2),
         }),
       ).annotate({ identifier: "MetricErrorSpikesResponse" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1312,11 +1828,13 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hasMetrics: S.Boolean,
+          hasDerivedSources: S.Boolean,
+          hasDerivedMetrics: S.Boolean,
         }),
       ).annotate({ identifier: "HasMetricsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1337,16 +1855,16 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "MetricPickerName" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(82, __c5, 2),
+          results: __S(178, __c11, 2),
         }),
       ).annotate({ identifier: "MetricPickerNamesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1366,7 +1884,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "MetricsOverviewService" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(193, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1374,12 +1892,12 @@ function __c6(j: number): any {
           metric_names: S.Number,
           series: S.Number,
           lookback_seconds: S.Number,
-          services: __S(98, __c6, 2),
+          services: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "MetricsOverviewResponse" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1404,23 +1922,45 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MetricQueryCount" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(114, __c7, 2),
+          results: __S(210, __c13, 2),
         }),
       ).annotate({ identifier: "MetricQueryCountsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/metrics/recording_rules/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMetricsRecordingRuleRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          first_seen: S.optional(S.Boolean.pipe(T.Query())),
+          fold_histograms: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          match: S.optional(S.String.pipe(T.Query())),
+          series_stats: S.optional(S.Boolean.pipe(T.Query())),
           service: S.optional(S.String.pipe(T.Query())),
+          sparklines: S.optional(S.Boolean.pipe(T.Query())),
           value: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/values/", code: 200 }),
@@ -1428,7 +1968,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetMetricsValueRequest" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1443,14 +1983,36 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListMetricsDashboardImportsRequest" });
     case 1:
-      return S.Array(__S(293, __c18, 5));
+      return S.Array(__S(454, __c28, 6));
     case 2:
-      return S.suspend(() => __S(145, __c9, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(257, __c16, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMetricsDashboardImportsResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/metrics/recording_rules/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListMetricsRecordingRulesRequest" });
+    case 1:
+      return S.Array(__S(528, __c33, 0));
+    case 2:
+      return S.suspend(() => __S(273, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMetricsRecordingRulesResponse",
+      });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1479,14 +2041,14 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "MetricsSuggestedDashboard" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
-      return S.suspend(() => __S(162, __c10, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(290, __c18, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMetricsSuggestedDashboardsResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1497,7 +2059,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "PanelFilter" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1505,16 +2067,16 @@ function __c11(j: number): any {
           metric_name: S.String,
           aggregation: S.String,
           quantile: S.optional(S.NullOr(S.Number)),
-          filters: S.optional(__S(177, __c11, 1)),
-          group_by: S.optional(__S(256, __c16, 0)),
+          filters: S.optional(__S(305, __c19, 1)),
+          group_by: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "PanelBuilderClause" });
     case 3:
-      return S.Array(__S(178, __c11, 2));
+      return S.Array(__S(306, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clauses: __S(179, __c11, 3),
+          clauses: __S(307, __c19, 3),
           formula: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PanelBuilderQuery" });
@@ -1525,18 +2087,18 @@ function __c11(j: number): any {
           title: S.optional(S.String),
           language: S.String,
           promql: S.optional(S.NullOr(S.String)),
-          builder: S.optional(S.NullOr(__S(180, __c11, 4))),
+          builder: S.optional(S.NullOr(__S(308, __c19, 4))),
           histogram_metric: S.optional(S.NullOr(S.String)),
           hogql: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PanelQueryCheck" });
     case 6:
-      return S.Array(__S(181, __c11, 5));
+      return S.Array(__S(309, __c19, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          panels: __S(182, __c11, 6),
+          panels: __S(310, __c19, 6),
           import_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -1552,20 +2114,57 @@ function __c11(j: number): any {
           key: S.String,
           valid: S.Boolean,
           error: S.NullOr(S.String),
-          notes: __S(256, __c16, 0),
+          notes: __S(368, __c23, 0),
         }),
       ).annotate({ identifier: "PanelQueryCheckResult" });
     case 9:
-      return S.Array(__S(184, __c11, 8));
+      return S.Array(__S(312, __c19, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          results: __S(185, __c11, 9),
+          results: __S(313, __c19, 9),
         }),
       ).annotate({ identifier: "PanelQueryCheckResponse" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/metrics/recording_rules/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MetricsRecordingRulesDestroyRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          query: S.optional(S.String),
+          description: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/metrics/recording_rules/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateMetricsRecordingRulesPartialRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,15 +2176,15 @@ function __c12(j: number): any {
           baselineTo: S.optional(S.String),
           aggregation: S.optional(S.NullOr(S.String)),
           quantile: S.optional(S.NullOr(S.Number)),
-          filters: S.optional(__S(225, __c14, 1)),
-          candidateKeys: S.optional(__S(256, __c16, 0)),
+          filters: S.optional(__S(417, __c26, 1)),
+          candidateKeys: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "MetricAnomalyBody" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(192, __c12, 0),
+          query: __S(352, __c22, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1605,7 +2204,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "MetricAnomalyDimension" });
     case 3:
-      return S.Array(__S(194, __c12, 2));
+      return S.Array(__S(354, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1623,13 +2222,20 @@ function __c12(j: number): any {
           change_ratio: S.Number,
           direction: S.String,
           onset_time: S.NullOr(S.String),
-          top_movers: __S(195, __c12, 3),
-          series: __S(210, __c13, 2),
+          partial_bucket_time: S.optional(S.NullOr(S.String)),
+          top_movers: __S(355, __c22, 3),
+          series: __S(386, __c24, 2),
         }),
       ).annotate({ identifier: "MetricAnomalyReport" });
   }
 }
-function __c13(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1639,21 +2245,34 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "MetricQueryPoint" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(226, __c14, 2),
-          points: __S(209, __c13, 1),
+          labels: __S(418, __c26, 2),
+          points: S.optional(__S(385, __c24, 1)),
+          value: S.optional(S.NullOr(S.Number)),
+          time: S.optional(S.NullOr(S.String)),
+          last: S.optional(S.NullOr(S.Number)),
+          min: S.optional(S.NullOr(S.Number)),
+          max: S.optional(S.NullOr(S.Number)),
+          avg: S.optional(S.NullOr(S.Number)),
           metric_name: S.optional(S.NullOr(S.String)),
           clause: S.optional(S.NullOr(S.String)),
           unit: S.optional(S.NullOr(S.String)),
-          histogram_bounds: S.optional(S.NullOr(__S(240, __c15, 0))),
+          histogram_bounds: S.optional(S.NullOr(__S(400, __c25, 0))),
+          histogram_layout_count: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "MetricSeries" });
   }
 }
-function __c14(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1665,24 +2284,12 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "MetricFilter" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.Record(S.String, S.String);
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c17(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,7 +2309,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateMetricsDashboardImportRequest" });
   }
 }
-function __c18(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1713,8 +2320,18 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "DashboardImportPanelProgress" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          seconds: S.Number,
+          idle_seconds: S.Number,
+          subject: S.NullOr(S.String),
+          panel_count: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "DashboardImportAgentActivity" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -1724,7 +2341,7 @@ function __c18(j: number): any {
           skipped: S.Number,
         }),
       ).annotate({ identifier: "DashboardImportSummary" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -1733,9 +2350,9 @@ function __c18(j: number): any {
           reason: S.String,
         }),
       ).annotate({ identifier: "DashboardImportPanel" });
-    case 4:
-      return S.Array(__S(291, __c18, 3));
     case 5:
+      return S.Array(__S(452, __c28, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.NullOr(S.String),
@@ -1743,18 +2360,44 @@ function __c18(j: number): any {
           status: S.String,
           dashboard_name: S.String,
           phase: S.NullOr(S.String),
-          panel_progress: __S(289, __c18, 1),
+          panel_progress: __S(449, __c28, 1),
+          agent_activity: S.NullOr(__S(450, __c28, 2)),
           layout_rounds: S.NullOr(S.Number),
           layout_round: S.NullOr(S.Number),
           dashboard_id: S.NullOr(S.Number),
           error: S.NullOr(S.String),
-          summary: S.NullOr(__S(290, __c18, 2)),
-          panels: __S(292, __c18, 4),
+          summary: S.NullOr(__S(451, __c28, 3)),
+          panels: __S(453, __c28, 5),
         }),
       ).annotate({ identifier: "DashboardImport" });
   }
 }
-function __c19(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/metrics/dashboard_imports/{id}/dismiss/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMetricsDashboardImportsDismissRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateMetricsDashboardImportsDismissResponse",
+      });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1764,7 +2407,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "MetricGroupBy" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1774,12 +2417,13 @@ function __c19(j: number): any {
           aggregation: S.optional(S.String),
           rangeFunction: S.optional(S.NullOr(S.String)),
           quantile: S.optional(S.NullOr(S.Number)),
-          filters: S.optional(__S(225, __c14, 1)),
-          groupBy: S.optional(__S(305, __c19, 1)),
+          apdexThresholdMs: S.optional(S.NullOr(S.Number)),
+          filters: S.optional(__S(417, __c26, 1)),
+          groupBy: S.optional(__S(497, __c31, 1)),
         }),
       ).annotate({ identifier: "MetricClause" });
     case 3:
-      return S.Array(__S(306, __c19, 2));
+      return S.Array(__S(498, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1788,37 +2432,85 @@ function __c19(j: number): any {
           aggregation: S.optional(S.String),
           rangeFunction: S.optional(S.NullOr(S.String)),
           quantile: S.optional(S.NullOr(S.Number)),
-          filters: S.optional(__S(225, __c14, 1)),
-          groupBy: S.optional(__S(305, __c19, 1)),
+          apdexThresholdMs: S.optional(S.NullOr(S.Number)),
+          filters: S.optional(__S(417, __c26, 1)),
+          groupBy: S.optional(__S(497, __c31, 1)),
           interval: S.optional(S.NullOr(S.String)),
-          clauses: S.optional(__S(307, __c19, 3)),
+          clauses: S.optional(__S(499, __c31, 3)),
           formula: S.optional(S.NullOr(S.String)),
           promql: S.optional(S.NullOr(S.String)),
           dateFrom: S.optional(S.String),
           dateTo: S.optional(S.String),
+          dropEmptySeries: S.optional(S.NullOr(S.Boolean)),
+          limit: S.optional(S.NullOr(S.Number)),
+          instant: S.optional(S.Boolean),
+          time: S.optional(S.String),
+          output: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricQueryBody" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(308, __c19, 4),
+          query: __S(500, __c31, 4),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/query/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateMetricsQueryRequest" });
     case 6:
-      return S.Array(__S(210, __c13, 2));
+      return S.Array(__S(386, __c24, 2));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          results: __S(310, __c19, 6),
+          results: __S(502, __c31, 6),
           hint: S.optional(S.String),
+          omitted_empty_series: S.optional(S.Number),
+          omitted_by_limit: S.optional(S.Number),
+          url_params: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricQueryResponse" });
   }
 }
-function __c20(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          metric_name: S.String,
+          query: S.String,
+          description: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/metrics/recording_rules/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMetricsRecordingRuleRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          metric_name: S.String,
+          query: S.String,
+          description: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          created_at: S.String,
+          updated_at: S.String,
+          last_evaluated_at: S.NullOr(S.String),
+          last_series_count: S.NullOr(S.Number),
+          last_error: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "MetricsRecordingRule" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1829,7 +2521,7 @@ function __c20(j: number): any {
           traceId: S.optional(S.String),
           spanId: S.optional(S.String),
           metricType: S.optional(S.NullOr(S.String)),
-          filters: S.optional(__S(225, __c14, 1)),
+          filters: S.optional(__S(417, __c26, 1)),
           limit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricSamplesBody" });
@@ -1837,7 +2529,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          query: __S(320, __c20, 0),
+          query: __S(544, __c34, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/samples/", code: 200 }),
         ),
@@ -1856,119 +2548,18 @@ function __c20(j: number): any {
           service_name: S.String,
           trace_id: S.String,
           span_id: S.String,
-          attributes: __S(226, __c14, 2),
-          resource_attributes: __S(226, __c14, 2),
+          attributes: __S(418, __c26, 2),
+          resource_attributes: __S(418, __c26, 2),
         }),
       ).annotate({ identifier: "MetricEventSample" });
     case 3:
-      return S.Array(__S(322, __c20, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(323, __c20, 3),
+          results: __S(547, __c34, 3),
         }),
       ).annotate({ identifier: "MetricSamplesResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/metrics/suggested_dashboards/{id}/dashboard/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateMetricsSuggestedDashboardsDashboardRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          dashboard_id: S.Number,
-        }),
-      ).annotate({ identifier: "MetricsCreatedDashboard" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
-          limit: S.optional(S.Number),
-          service: S.optional(S.String),
-          names: __S(256, __c16, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/values/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateMetricsValueRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          metric_type: S.String,
-          unit: S.optional(S.String),
-          last_seen: S.optional(S.NullOr(S.String)),
-          sparkline: S.optional(__S(240, __c15, 0)),
-        }),
-      ).annotate({ identifier: "MetricName" });
-    case 1:
-      return S.Array(__S(368, __c23, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(369, __c23, 1),
-        }),
-      ).annotate({ identifier: "MetricNamesResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          values: __S(256, __c16, 0),
-          all: S.optional(S.Boolean),
-          allValue: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "MetricVariableSelection" });
-    case 1:
-      return S.Array(__S(384, __c24, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          source: S.String,
-          query: S.optional(S.NullOr(S.String)),
-          customValues: S.optional(S.NullOr(__S(256, __c16, 0))),
-          regex: S.optional(S.NullOr(S.String)),
-          variables: S.optional(__S(385, __c24, 1)),
-          dateFrom: S.optional(S.NullOr(S.String)),
-          dateTo: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/metrics/variable_options/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateMetricsVariableOptionRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(256, __c16, 0),
-        }),
-      ).annotate({ identifier: "MetricVariableOptionsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

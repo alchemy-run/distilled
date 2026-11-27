@@ -185,6 +185,13 @@ export interface User {
   /** The SRN of the user. */
   srn?: string | undefined;
 }
+export interface DeleteCertificateRequest {
+  /** Region to target. If none is passed will use default region from the config. */
+  region?: string | undefined;
+  deployment_id: string;
+  certificate_id: string;
+}
+export interface DeleteCertificateResponse {}
 export interface DeleteDeploymentRequest {
   /** Region to target. If none is passed will use default region from the config. */
   region?: string | undefined;
@@ -227,11 +234,36 @@ export interface DownloadDeploymentCertificateAuthorityRawResponse {
   /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
   contentType?: string | undefined;
 }
+export interface GetCertificateRequest {
+  /** Region to target. If none is passed will use default region from the config. */
+  region?: string | undefined;
+  deployment_id: string;
+  certificate_id: string;
+}
 export interface GetDeploymentRequest {
   /** Region to target. If none is passed will use default region from the config. */
   region?: string | undefined;
   /** ID of the deployment. */
   deployment_id: string;
+}
+export type ListCertificatesRequestOrderBy =
+  | "name_asc"
+  | "name_desc"
+  | "created_at_asc"
+  | "created_at_desc";
+export interface ListCertificatesRequest {
+  /** Region to target. If none is passed will use default region from the config. */
+  region?: string | undefined;
+  deployment_id: string;
+  name?: string | undefined;
+  order_by?: ListCertificatesRequestOrderBy | (string & {}) | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
+}
+export type ListCertificatesResponseCertificatesList = Array<Certificate>;
+export interface ListCertificatesResponse {
+  certificates: ListCertificatesResponseCertificatesList;
+  total_count?: number | undefined;
 }
 export type ListDeploymentsRequestOrderBy =
   | "created_at_asc"
@@ -417,7 +449,7 @@ export const createCertificate: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateCertificateRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<Certificate>,
+  output: __S(8, __c1, 0) as any as S.Schema<Certificate>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -434,8 +466,8 @@ export const createDeployment: API.OperationMethod<
   CreateDeploymentError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<CreateDeploymentRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<Deployment>,
+  input: __S(17, __c2, 1) as any as S.Schema<CreateDeploymentRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<Deployment>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -452,8 +484,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<Endpoint>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<Endpoint>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -470,14 +502,32 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<User>,
+  input: __S(136, __c17, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<User>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUser",
+}));
+
+export type DeleteCertificateError = ScalewayOpError;
+/** Derived from scaleway-sdk-js (`API.deleteCertificate`): Scaleway publishes no OpenAPI document for this route. */
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateRequest,
+  DeleteCertificateResponse,
+  DeleteCertificateError,
+  ScalewayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<DeleteCertificateResponse>,
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
+  protocol: ScalewayProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteDeploymentError = ScalewayOpError;
@@ -488,8 +538,8 @@ export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<Deployment>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<Deployment>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -506,8 +556,8 @@ export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteEndpointRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<DeleteEndpointResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteEndpointRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<DeleteEndpointResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -524,8 +574,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -542,8 +592,8 @@ export const downloadDeploymentCertificateAuthority: API.OperationMethod<
   DownloadDeploymentCertificateAuthorityError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DownloadDeploymentCertificateAuthorityRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<ScalewayStdFile>,
+  input: __S(192, __c24, 0) as any as S.Schema<DownloadDeploymentCertificateAuthorityRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<ScalewayStdFile>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -560,14 +610,32 @@ export const downloadDeploymentCertificateAuthorityRaw: API.OperationMethod<
   DownloadDeploymentCertificateAuthorityRawError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DownloadDeploymentCertificateAuthorityRawRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<DownloadDeploymentCertificateAuthorityRawResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DownloadDeploymentCertificateAuthorityRawRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<DownloadDeploymentCertificateAuthorityRawResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadDeploymentCertificateAuthorityRaw",
+}));
+
+export type GetCertificateError = ScalewayOpError;
+/** Derived from scaleway-sdk-js (`API.getCertificate`): Scaleway publishes no OpenAPI document for this route. */
+export const getCertificate: API.OperationMethod<
+  GetCertificateRequest,
+  Certificate,
+  GetCertificateError,
+  ScalewayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<GetCertificateRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<Certificate>,
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
+  protocol: ScalewayProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetDeploymentError = ScalewayOpError;
@@ -578,8 +646,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<Deployment>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<Deployment>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -587,6 +655,35 @@ export const getDeployment: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
+
+export type ListCertificatesError = ScalewayOpError;
+/** Derived from scaleway-sdk-js (`API.listCertificates`): Scaleway publishes no OpenAPI document for this route. */
+export const listCertificates: API.PaginatedOperationMethod<
+  ListCertificatesRequest,
+  ListCertificatesResponse,
+  ListCertificatesError,
+  ScalewayOpContext,
+  Certificate
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(64, __c8, 0) as any as S.Schema<ListCertificatesRequest>,
+    output: __S(66, __c8, 2) as any as S.Schema<ListCertificatesResponse>,
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
+    protocol: ScalewayProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCertificates",
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "total_count",
+      items: "certificates",
+      pageSize: "page_size",
+    } as const,
+  }),
+  paginateByTotalCount,
+) as any;
 
 export type ListDeploymentsError = ScalewayOpError;
 /** Retrieve a list of DataViz deployments. Derived from scaleway-sdk-js (`API.listDeployments`): Scaleway publishes no OpenAPI document for this route. */
@@ -598,8 +695,8 @@ export const listDeployments: API.PaginatedOperationMethod<
   Deployment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListDeploymentsRequest>,
-    output: __S(42, __c5, 2) as any as S.Schema<ListDeploymentsResponse>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListDeploymentsRequest>,
+    output: __S(74, __c9, 2) as any as S.Schema<ListDeploymentsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -627,8 +724,8 @@ export const listNodeTypes: API.PaginatedOperationMethod<
   NodeType
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c6, 0) as any as S.Schema<ListNodeTypesRequest>,
-    output: __S(53, __c6, 5) as any as S.Schema<ListNodeTypesResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListNodeTypesRequest>,
+    output: __S(85, __c10, 5) as any as S.Schema<ListNodeTypesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -656,8 +753,8 @@ export const listUsers: API.PaginatedOperationMethod<
   User
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(58, __c7, 2) as any as S.Schema<ListUsersResponse>,
+    input: __S(88, __c11, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(90, __c11, 2) as any as S.Schema<ListUsersResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -685,8 +782,8 @@ export const listVersions: API.PaginatedOperationMethod<
   Version
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListVersionsRequest>,
-    output: __S(67, __c8, 3) as any as S.Schema<ListVersionsResponse>,
+    input: __S(96, __c12, 0) as any as S.Schema<ListVersionsRequest>,
+    output: __S(99, __c12, 3) as any as S.Schema<ListVersionsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -712,8 +809,8 @@ export const updateDeployment: API.OperationMethod<
   UpdateDeploymentError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateDeploymentRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<Deployment>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateDeploymentRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<Deployment>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -730,8 +827,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<User>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<User>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -748,8 +845,8 @@ export const upgradeDeployment: API.OperationMethod<
   UpgradeDeploymentError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UpgradeDeploymentRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<Deployment>,
+  input: __S(120, __c15, 0) as any as S.Schema<UpgradeDeploymentRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<Deployment>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -777,7 +874,11 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateCertificateRequest" });
-    case 1:
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -791,23 +892,23 @@ function __c0(j: number): any {
       ).annotate({ identifier: "Certificate" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           region: S.optional(S.String.pipe(T.Label())),
           project_id: S.optional(S.String),
           name: S.String,
-          tags: S.optional(__S(32, __c4, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           node_count: S.Number,
           node_type: S.String,
           user_name: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          volume: S.optional(__S(33, __c4, 1)),
-          endpoints: S.optional(__S(8, __c1, 0)),
+          volume: S.optional(__S(41, __c5, 1)),
+          endpoints: S.optional(__S(16, __c2, 0)),
           version: S.String,
         }).pipe(
           T.Http({
@@ -820,18 +921,18 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateDeploymentRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           public: S.optional(S.Unknown),
-          private_network: S.optional(__S(24, __c3, 0)),
+          private_network: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "EndpointSpec" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -848,21 +949,21 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "EndpointService" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(33, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          services: S.optional(__S(26, __c3, 2)),
+          services: S.optional(__S(34, __c4, 2)),
           region: S.optional(S.String),
           srn: S.optional(S.String),
           public: S.optional(S.Unknown),
-          private_network: S.optional(__S(24, __c3, 0)),
+          private_network: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "Endpoint" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -874,7 +975,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "Volume" });
     case 2:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(35, __c4, 3));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -883,11 +984,11 @@ function __c4(j: number): any {
           organization_id: S.optional(S.String),
           project_id: S.optional(S.String),
           status: S.optional(S.String),
-          tags: S.optional(__S(32, __c4, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
           node_count: S.optional(S.Number),
           node_type: S.optional(S.String),
-          volume: S.optional(__S(33, __c4, 1)),
-          endpoints: S.optional(__S(34, __c4, 2)),
+          volume: S.optional(__S(41, __c5, 1)),
+          endpoints: S.optional(__S(42, __c5, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           version: S.optional(S.String),
@@ -897,7 +998,75 @@ function __c4(j: number): any {
       ).annotate({ identifier: "Deployment" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          deployment_id: S.String.pipe(T.Label()),
+          certificate_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/dataviz/v1alpha1/regions/{region}/deployments/{deployment_id}/certificates/{certificate_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "GetCertificateRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          deployment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/dataviz/v1alpha1/regions/{region}/deployments/{deployment_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "GetDeploymentRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          deployment_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
+          order_by: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/dataviz/v1alpha1/regions/{region}/deployments/{deployment_id}/certificates",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "ListCertificatesRequest" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          certificates: __S(65, __c8, 1),
+          total_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListCertificatesResponse" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -909,7 +1078,7 @@ function __c5(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           page_size: S.optional(S.Number.pipe(T.Query())),
           project_id: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(32, __c4, 0).pipe(T.Query())),
+          tags: S.optional(__S(40, __c5, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -920,17 +1089,17 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.Array(__S(35, __c4, 3));
+      return S.Array(__S(43, __c5, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deployments: __S(41, __c5, 1),
+          deployments: __S(73, __c9, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListDeploymentsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -959,7 +1128,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "NodeTypeVolumeType" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -971,23 +1140,23 @@ function __c6(j: number): any {
           disabled: S.optional(S.Boolean),
           beta: S.optional(S.Boolean),
           instance_range: S.optional(S.String),
-          available_volume_types: S.optional(__S(50, __c6, 2)),
+          available_volume_types: S.optional(__S(82, __c10, 2)),
           region: S.optional(S.String),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeType" });
     case 4:
-      return S.Array(__S(51, __c6, 3));
+      return S.Array(__S(83, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          node_types: __S(52, __c6, 4),
+          node_types: __S(84, __c10, 4),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListNodeTypesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1008,17 +1177,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: __S(57, __c7, 1),
+          users: __S(89, __c11, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1049,17 +1218,17 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "Version" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(66, __c8, 2),
+          versions: __S(98, __c12, 2),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1067,7 +1236,7 @@ function __c9(j: number): any {
           region: S.optional(S.String.pipe(T.Label())),
           deployment_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          tags: S.optional(__S(32, __c4, 0)),
+          tags: S.optional(__S(40, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1079,7 +1248,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1099,7 +1268,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1119,14 +1288,14 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpgradeDeploymentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           region: S.optional(S.String.pipe(T.Label())),
           deployment_id: S.String,
-          endpoint_spec: S.optional(__S(16, __c2, 0)),
+          endpoint_spec: S.optional(__S(24, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1138,7 +1307,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateEndpointRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1158,7 +1327,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,7 +1340,32 @@ function __c14(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Label())),
+          deployment_id: S.String.pipe(T.Label()),
+          certificate_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/dataviz/v1alpha1/regions/{region}/deployments/{deployment_id}/certificates/{certificate_id}",
+            code: 200,
+            baseUrl: "https://api.scaleway.com",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteCertificateRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteCertificateResponse" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1189,7 +1383,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1207,13 +1401,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteEndpointRequest" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteEndpointResponse" });
-  }
-}
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1232,7 +1420,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1258,7 +1446,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ScalewayStdFile" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1282,24 +1470,6 @@ function __c20(j: number): any {
           contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
         }),
       ).annotate({ identifier: "DownloadDeploymentCertificateAuthorityRawResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.optional(S.String.pipe(T.Label())),
-          deployment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/dataviz/v1alpha1/regions/{region}/deployments/{deployment_id}",
-            code: 200,
-            baseUrl: "https://api.scaleway.com",
-          }),
-        ),
-      ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

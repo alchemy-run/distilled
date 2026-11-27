@@ -704,7 +704,7 @@ export interface PlatformDNSTarget {
   automation_disposition?: PlatformDNSTargetAutomationDisposition | undefined;
   required: boolean;
 }
-/** DNS records to configure before completion. */
+/** DNS records to configure before completion. For a pending intent with an issued DMARC TXT record, the create response includes the automation_disposition at creation time. Retrying with the same Idempotency-Key can replay that response. Before every automated DMARC write, fetch the pending intent by ID for a fresh decision. Create only on safe_to_create and never replace an existing policy. List responses omit the decision. An absent decision does not authorize a write. */
 export type PlatformDomainIntentResponseRecordsList = Array<PlatformDNSTarget>;
 /** Represents the intent to create a domain. Can later be completed into a real application domain. */
 export interface PlatformDomainIntentResponse {
@@ -717,7 +717,7 @@ export interface PlatformDomainIntentResponse {
   domain_id?: string | undefined;
   /** The intended domain name. */
   domain_name?: string | undefined;
-  /** DNS records to configure before completion. */
+  /** DNS records to configure before completion. For a pending intent with an issued DMARC TXT record, the create response includes the automation_disposition at creation time. Retrying with the same Idempotency-Key can replay that response. Before every automated DMARC write, fetch the pending intent by ID for a fresh decision. Create only on safe_to_create and never replace an existing policy. List responses omit the decision. An absent decision does not authorize a write. */
   records: PlatformDomainIntentResponseRecordsList;
 }
 export interface ClaimAccountlessApplicationRequest {
@@ -1706,8 +1706,8 @@ export interface ListInstanceLogGroupEventsRequest {
   event_time_before?: number | undefined;
   limit?: number | undefined;
   starting_after?: string | undefined;
-  /** Unix timestamp in milliseconds. */
-  started_at: number;
+  /** The group's started_at, as a Unix timestamp in milliseconds. Optional; when omitted, it is looked up from the group ID, and a group that can't be found or is past the retention window returns a 404. */
+  started_at?: number | undefined;
 }
 /** String representing the object's type. Always "log". */
 export type LogObject = "log";
@@ -1784,13 +1784,13 @@ export interface Log {
   id: string;
   /** The timestamp when the event occurred (Unix timestamp in milliseconds). */
   event_time: number;
-  /** The actor that performed the action (e.g., user ID). */
+  /** The ID of whoever triggered the event. `actor_type` says what kind of principal it is: an end user, a Clerk Dashboard user, an instance key, an API key, an integration, or Clerk itself. In an impersonated session, it is the impersonated user and `impersonator` holds whoever started the impersonation. */
   actor: string;
   /** The kind of principal the `actor` identifies, classified when the event was recorded: `user` (an end user of your application), `dashboard_user` (a member of your Clerk Dashboard workspace), `instance_key`, `api_key`, `integration`, or `clerk_system`. */
   actor_type?: string | undefined;
   /** The impersonator that performed the action. */
   impersonator?: LogImpersonator | null | undefined;
-  /** The subject of the event (e.g., user ID, resource ID). */
+  /** The ID of the resource the event is about, such as a user or an organization. A change to a child record, such as an email address or a membership, uses the ID of its parent user or organization. Events that affect several resources use their lowest common parent, and side effects use the primary resource's subject. The instance ID is used when nothing more specific applies. Events in the same flow can have different subjects; use `group_id` to follow a flow. */
   subject: string;
   /** The type of the log event. */
   type: string;
@@ -1843,11 +1843,11 @@ export interface GroupEventList {
   cursor: LogCursor;
 }
 export type ListInstanceLogsRequestFilterMatch = "all" | "any";
-export type ListInstanceLogsRequestGroupTypeItem = "sign_in" | "sign_up";
+export type ListInstanceLogsRequestGroupTypeItem = "sign_in" | "sign_up" | "sms" | "email";
 export type ListInstanceLogsRequestGroupTypeList = Array<
   ListInstanceLogsRequestGroupTypeItem | (string & {})
 >;
-export type ListInstanceLogsRequestStatusItem = "completed" | "failed";
+export type ListInstanceLogsRequestStatusItem = "completed" | "failed" | "abandoned";
 export type ListInstanceLogsRequestStatusList = Array<
   ListInstanceLogsRequestStatusItem | (string & {})
 >;
@@ -1892,7 +1892,7 @@ export interface LogGroup {
   event_count: number;
   /** How many of the group's events matched the request's event filters. Present only when event filters were applied. */
   matched_event_count?: number | undefined;
-  /** How the flow ended, `completed` or `failed`. Null while the flow has not concluded: no status is recorded for a flow that is still going or was given up. */
+  /** How the flow ended: `completed`, `failed`, or `abandoned` when nothing concluded it and its abandon deadline has passed (a sign-in or sign-up nobody finished). A flow that concluded keeps that status, even if it concluded after the deadline. Null while the flow is still going, and for a flow with no conclusion and no deadline. */
   status: string | null;
   /** A display label for `status`. Null when `status` is. */
   status_label: string | null;
@@ -2168,6 +2168,19 @@ export interface PutConfigRequest {
   /** Config version for optimistic concurrency control. */
   ifMatch?: string | undefined;
   body: PlatformConfigPatchRequest;
+}
+export interface RevokeInstanceClientRequest {
+  applicationID: string;
+  /** Development, production, or an instance ID. */
+  envOrInsID: string;
+  clientID: string;
+}
+export type RevokeInstanceClientResponseObject = "client";
+export interface RevokeInstanceClientResponse {
+  object: RevokeInstanceClientResponseObject;
+  id: string;
+  /** Revocation time in Unix milliseconds. */
+  revoked_at: number;
 }
 export interface RotateInstanceSecretKeysRequest {
   /** Application ID. */
@@ -2451,8 +2464,8 @@ export const cancelApplicationTransfer: API.OperationMethod<
   CancelApplicationTransferError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<CancelApplicationTransferRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CancelApplicationTransferRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
   errors: [Forbidden, NotFound, Conflict, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -2474,8 +2487,8 @@ export const cancelDomainIntent: API.OperationMethod<
   CancelDomainIntentError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CancelDomainIntentRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<PlatformDomainIntentResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CancelDomainIntentRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<PlatformDomainIntentResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -2584,7 +2597,7 @@ export const createApplicationTransfer: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateApplicationTransferRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
+  output: __S(3072, __c96, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -2602,7 +2615,7 @@ export const createDomainIntent: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateDomainIntentRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<PlatformDomainIntentResponse>,
+  output: __S(3168, __c99, 0) as any as S.Schema<PlatformDomainIntentResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3037,7 +3050,7 @@ export const getApplicationTransfer: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetApplicationTransferRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
+  output: __S(3072, __c96, 0) as any as S.Schema<PlatformApplicationTransferResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3114,7 +3127,7 @@ export const getDomainIntent: API.OperationMethod<
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetDomainIntentRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<PlatformDomainIntentResponse>,
+  output: __S(3168, __c99, 0) as any as S.Schema<PlatformDomainIntentResponse>,
   errors: [Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3399,7 +3412,7 @@ export type ListInstanceLogGroupEventsError =
   | UnprocessableEntity
   | ResourceNotFound
   | ClerkOpError;
-/** List events in an application log group Returns matching events oldest first. Pass the group started_at and events_cursor as starting_after, retaining the original event filters. List cursors cannot be used here. Time bounds select groups by their start in the grouped list; group expansion reads events across the flow lifetime, subject to retention. Only forward pagination is supported. Requires `application_logs:read`. Payload fields, payload filtering, and full event payloads are not supported. `user_id` and `identifier` cannot be combined with each other or with `actor` or `subject`. */
+/** List events in an application log group Returns matching events oldest first. Pass the group's events_cursor as starting_after (and optionally its started_at), retaining the original event filters. List cursors cannot be used here. Time bounds select groups by their start in the grouped list; group expansion reads events across the flow lifetime, subject to retention. Only forward pagination is supported. Requires `application_logs:read`. Payload fields, payload filtering, and full event payloads are not supported. `user_id` and `identifier` cannot be combined with each other or with `actor` or `subject`. */
 export const listInstanceLogGroupEvents: API.OperationMethod<
   ListInstanceLogGroupEventsRequest,
   GroupEventList,
@@ -3423,7 +3436,7 @@ export type ListInstanceLogsError =
   | UnprocessableEntity
   | ResourceNotFound
   | ClerkOpError;
-/** List grouped application logs Returns groups and standalone events, newest first. Groups sort by their start time. Event filters retain groups and restrict their event previews; first_event can be outside those filters. Status is null until the flow concludes. An empty page with next_page_status=unknown can be continued using cursor.starting_after. Group filters exclude standalone events. Only forward pagination is supported. Requires `application_logs:read`. Payload fields, payload filtering, and full event payloads are not supported. `user_id` and `identifier` cannot be combined with each other or with `actor` or `subject`. */
+/** List grouped application logs Returns groups and standalone events, newest first. Groups sort by their start time. Event filters retain groups and restrict their event previews; first_event can be outside those filters. Status is null until the flow concludes or, for a sign-in or sign-up, its abandon deadline passes. An empty page with next_page_status=unknown can be continued using cursor.starting_after. Group filters exclude standalone events. Only forward pagination is supported. Requires `application_logs:read`. Payload fields, payload filtering, and full event payloads are not supported. `user_id` and `identifier` cannot be combined with each other or with `actor` or `subject`. */
 export const listInstanceLogs: API.OperationMethod<
   ListInstanceLogsRequest,
   GroupedLogList,
@@ -3698,6 +3711,24 @@ export const putConfig: API.OperationMethod<
   span: "PutConfig",
 }));
 
+export type RevokeInstanceClientError = Forbidden | NotFound | ClerkOpError;
+/** Revoke an instance client Permanently revoke one client's credentials and active or pending sessions, including linked development browser tokens. Works with development and production instances and leaves other clients unaffected. Repeating the request is safe. Previously issued session JWTs remain valid until expiration. Requires the users:manage scope and access to the application. The response contains no browser tokens or session credentials. */
+export const revokeInstanceClient: API.OperationMethod<
+  RevokeInstanceClientRequest,
+  RevokeInstanceClientResponse,
+  RevokeInstanceClientError,
+  ClerkPlatformOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2336, __c73, 0) as any as S.Schema<RevokeInstanceClientRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<RevokeInstanceClientResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
+  protocol: ClerkPlatformProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInstanceClient",
+}));
+
 export type RotateInstanceSecretKeysError =
   | BadRequest
   | Forbidden
@@ -3711,8 +3742,8 @@ export const rotateInstanceSecretKeys: API.OperationMethod<
   RotateInstanceSecretKeysError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<RotateInstanceSecretKeysRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<RotateInstanceSecretKeysRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3734,8 +3765,8 @@ export const rotateSecretKeys: API.OperationMethod<
   RotateSecretKeysError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<RotateSecretKeysRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<RotateSecretKeysRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<PlatformRotateSecretKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3757,7 +3788,7 @@ export const setUserProfileImage: API.OperationMethod<
   SetUserProfileImageError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<SetUserProfileImageRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<SetUserProfileImageRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3781,8 +3812,8 @@ export const triggerDNSCheck: API.OperationMethod<
   TriggerDNSCheckError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<TriggerDNSCheckRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<TriggerDNSCheckResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<TriggerDNSCheckRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<TriggerDNSCheckResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
   protocol: ClerkPlatformProtocol,
@@ -3799,7 +3830,7 @@ export const unbanUser: API.OperationMethod<
   UnbanUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UnbanUserRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UnbanUserRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3823,7 +3854,7 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateApplicationRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3847,7 +3878,7 @@ export const updateApplicationDomain: API.OperationMethod<
   UpdateApplicationDomainError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<UpdateApplicationDomainRequest>,
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateApplicationDomainRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<PlatformDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3871,7 +3902,7 @@ export const updateInstanceUser: API.OperationMethod<
   UpdateInstanceUserError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<UpdateInstanceUserRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<UpdateInstanceUserRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3895,7 +3926,7 @@ export const updateJWTTemplate: API.OperationMethod<
   UpdateJWTTemplateError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<JWTTemplate>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3919,7 +3950,7 @@ export const updateNativeSettings: API.OperationMethod<
   UpdateNativeSettingsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<UpdateNativeSettingsRequest>,
+  input: __S(2848, __c89, 0) as any as S.Schema<UpdateNativeSettingsRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<PlatformNativeSettings>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3943,7 +3974,7 @@ export const updateOAuthApplicationSettings: API.OperationMethod<
   UpdateOAuthApplicationSettingsError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<UpdateOAuthApplicationSettingsRequest>,
+  input: __S(2880, __c90, 0) as any as S.Schema<UpdateOAuthApplicationSettingsRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<PlatformOAuthApplicationSettings>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3967,7 +3998,7 @@ export const updateOAuthResource: API.OperationMethod<
   UpdateOAuthResourceError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<UpdateOAuthResourceRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateOAuthResourceRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<PlatformOAuthResource>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -3991,7 +4022,7 @@ export const updateUserMetadata: API.OperationMethod<
   UpdateUserMetadataError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<UpdateUserMetadataRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<UpdateUserMetadataRequest>,
   output: __S(2710, __c84, 22) as any as S.Schema<User>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -4015,7 +4046,7 @@ export const uploadApplicationFavicon: API.OperationMethod<
   UploadApplicationFaviconError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UploadApplicationFaviconRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<UploadApplicationFaviconRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -4039,7 +4070,7 @@ export const uploadApplicationLogo: API.OperationMethod<
   UploadApplicationLogoError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<UploadApplicationLogoRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<UploadApplicationLogoRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<PlatformApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, ResourceNotFound],
   serviceErrors: ClerkServiceErrors,
@@ -4235,7 +4266,7 @@ function __c8(j: number): any {
           accounts_portal_url: S.optional(S.String),
           proxy_url: S.optional(S.String),
           cname_targets: S.optional(__S(225, __c7, 1)),
-          dns_targets: S.optional(__S(3105, __c97, 1)),
+          dns_targets: S.optional(__S(3137, __c98, 1)),
           created_at: S.String,
           updated_at: S.String,
           application: S.optional(__S(226, __c7, 2)),
@@ -4917,7 +4948,7 @@ function __c41(j: number): any {
           accounts_portal_url: S.optional(S.String),
           proxy_url: S.optional(S.String),
           cname_targets: S.optional(__S(225, __c7, 1)),
-          dns_targets: S.optional(__S(3105, __c97, 1)),
+          dns_targets: S.optional(__S(3137, __c98, 1)),
           created_at: S.String,
           updated_at: S.String,
           application: __S(226, __c7, 2),
@@ -5212,7 +5243,7 @@ function __c55(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/platform/application_transfers", code: 200 })),
       ).annotate({ identifier: "ListApplicationTransfersRequest" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(3072, __c96, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5235,7 +5266,7 @@ function __c56(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/platform/domain_intents", code: 200 })),
       ).annotate({ identifier: "ListDomainIntentsRequest" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5291,7 +5322,7 @@ function __c58(j: number): any {
           event_time_before: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
-          started_at: S.Number.pipe(T.Query()),
+          started_at: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5755,6 +5786,32 @@ function __c73(j: number): any {
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
           envOrInsID: S.String.pipe(T.Label()),
+          clientID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/platform/applications/{applicationID}/instances/{envOrInsID}/clients/{clientID}/revoke",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeInstanceClientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          revoked_at: S.Number,
+        }),
+      ).annotate({ identifier: "RevokeInstanceClientResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationID: S.String.pipe(T.Label()),
+          envOrInsID: S.String.pipe(T.Label()),
           clerkRecipientPublicKey: S.optional(
             S.String.pipe(T.Header("Clerk-Recipient-Public-Key")),
           ),
@@ -5770,7 +5827,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "RotateInstanceSecretKeysRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5782,18 +5839,18 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "PlatformRotateSecretKeysInstance" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String,
           name: S.String,
-          instances: __S(2369, __c74, 1),
+          instances: __S(2401, __c75, 1),
         }),
       ).annotate({ identifier: "PlatformRotateSecretKeysResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5814,7 +5871,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RotateSecretKeysRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5834,7 +5891,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SetUserProfileImageRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5864,7 +5921,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "TriggerDNSCheckResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5880,19 +5937,6 @@ function __c78(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UnbanUserRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          applicationID: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/platform/applications/{applicationID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
 function __c80(j: number): any {
@@ -6225,6 +6269,19 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationID: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/platform/applications/{applicationID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateApplicationRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationID: S.String.pipe(T.Label()),
           name: S.String,
           proxy_path: S.optional(S.String),
         }).pipe(
@@ -6237,7 +6294,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdateApplicationDomainRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6262,7 +6319,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateInstanceUserRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6287,7 +6344,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "UpdateJWTTemplateRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6305,7 +6362,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UpdateNativeSettingsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6337,7 +6394,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateOAuthApplicationSettingsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6358,7 +6415,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateOAuthResourceRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6382,7 +6439,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateUserMetadataRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6400,7 +6457,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UploadApplicationFaviconRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6418,7 +6475,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UploadApplicationLogoRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6435,7 +6492,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CancelApplicationTransferRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6453,7 +6510,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "PlatformApplicationTransferResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6465,7 +6522,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CancelDomainIntentRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6478,10 +6535,10 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "PlatformDNSTarget" });
     case 1:
-      return S.Array(__S(3104, __c97, 0));
+      return S.Array(__S(3136, __c98, 0));
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6491,7 +6548,7 @@ function __c98(j: number): any {
           status: S.String,
           domain_id: S.optional(S.String),
           domain_name: S.optional(S.String),
-          records: __S(3105, __c97, 1),
+          records: __S(3137, __c98, 1),
         }),
       ).annotate({ identifier: "PlatformDomainIntentResponse" });
   }

@@ -481,6 +481,14 @@ export interface GetZoneCertificateResponse {
 export interface ListHostnameCertificatesRequest {
   /** Identifier. */
   zoneId: string;
+  /** Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000. */
+  limit?: number | undefined;
+  /** Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0. */
+  offset?: number | undefined;
+  /** Page number, starting at 1. Defaults to 1. Ignored when offset is provided. */
+  page?: number | undefined;
+  /** Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000. */
+  perPage?: number | undefined;
 }
 export type HostnameCertificatesListResultItemStatus =
   | "initializing"
@@ -518,6 +526,14 @@ export interface ListHostnameCertificatesResponse {
 export interface ListOriginTlsClientAuthsRequest {
   /** Identifier. */
   zoneId: string;
+  /** Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000. */
+  limit?: number | undefined;
+  /** Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0. */
+  offset?: number | undefined;
+  /** Page number, starting at 1. Defaults to 1. Ignored when offset is provided. */
+  page?: number | undefined;
+  /** Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000. */
+  perPage?: number | undefined;
 }
 export interface ListResultItem {
   /** Certificate identifier tag. */
@@ -544,6 +560,14 @@ export interface ListOriginTlsClientAuthsResponse {
 export interface ListZoneCertificatesRequest {
   /** Identifier. */
   zoneId: string;
+  /** Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000. */
+  limit?: number | undefined;
+  /** Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0. */
+  offset?: number | undefined;
+  /** Page number, starting at 1. Defaults to 1. Ignored when offset is provided. */
+  page?: number | undefined;
+  /** Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000. */
+  perPage?: number | undefined;
 }
 export interface ListZoneCertificatesResultItem {
   /** Certificate identifier tag. */
@@ -1262,6 +1286,10 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(
             T.Http({
@@ -1302,6 +1330,10 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }),
@@ -1339,6 +1371,10 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/zones/{zone_id}/origin_tls_client_auth", code: 200 }),

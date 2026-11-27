@@ -285,6 +285,111 @@ export interface AbortSuperSlurperJobRequest {
   jobId: string;
 }
 export type AbortSuperSlurperJobResponse = string;
+export type BucketsDomainsCustomCreateLegacyRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
+export interface BucketsDomainsCustomCreateLegacyRequest {
+  /** Cloudflare account ID that owns the R2 resource. */
+  accountId: string;
+  /** Name of the bucket. */
+  bucketName: string;
+  cfR2Jurisdiction?:
+    | BucketsDomainsCustomCreateLegacyRequestCfR2Jurisdiction
+    | (string & {})
+    | undefined;
+  /** Name of the custom domain to be added. */
+  domain: string;
+  /** Zone ID of the custom domain. */
+  zoneId: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface BucketsDomainsCustomCreateLegacyResponse {
+  /** Name of the custom domain. */
+  domain: string;
+}
+export type BucketsDomainsCustomDeleteLegacyRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
+export interface BucketsDomainsCustomDeleteLegacyRequest {
+  /** Cloudflare account ID that owns the R2 resource. */
+  accountId: string;
+  /** Name of the bucket. */
+  bucketName: string;
+  /** Name of the custom domain. */
+  domain: string;
+  cfR2Jurisdiction?:
+    | BucketsDomainsCustomDeleteLegacyRequestCfR2Jurisdiction
+    | (string & {})
+    | undefined;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface BucketsDomainsCustomDeleteLegacyResponse {
+  /** Name of the custom domain. */
+  domain: string;
+}
+export type BucketsDomainsCustomListLegacyRequestCfR2Jurisdiction =
+  | "default"
+  | "eu"
+  | "us"
+  | "fedramp"
+  | "fedramp-high";
+export interface BucketsDomainsCustomListLegacyRequest {
+  /** Cloudflare account ID that owns the R2 resource. */
+  accountId: string;
+  /** Name of the bucket. */
+  bucketName: string;
+  cfR2Jurisdiction?:
+    | BucketsDomainsCustomListLegacyRequestCfR2Jurisdiction
+    | (string & {})
+    | undefined;
+}
+export type BucketsDomainsCustomListLegacyResponseDomainsItemStatusOwnership =
+  | "pending"
+  | "active"
+  | "deactivated"
+  | "blocked"
+  | "error"
+  | "unknown";
+export type BucketsDomainsCustomListLegacyResponseDomainsItemStatusSsl =
+  | "initializing"
+  | "pending"
+  | "active"
+  | "deactivated"
+  | "error"
+  | "unknown";
+export interface BucketsDomainsCustomListLegacyResponseDomainsItemStatus {
+  /** Ownership status of the domain. */
+  ownership: BucketsDomainsCustomListLegacyResponseDomainsItemStatusOwnership;
+  /** SSL certificate status. */
+  ssl: BucketsDomainsCustomListLegacyResponseDomainsItemStatusSsl;
+}
+export type BucketsDomainsCustomListLegacyResponseDomainsItemCiphersList = Array<string>;
+export type BucketsDomainsCustomListLegacyResponseDomainsItemMinTLS = "1.0" | "1.1" | "1.2" | "1.3";
+export interface BucketsDomainsCustomListLegacyResponseDomainsItem {
+  /** Domain name of the custom domain. */
+  domain: string;
+  status: BucketsDomainsCustomListLegacyResponseDomainsItemStatus;
+  /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
+  ciphers?: BucketsDomainsCustomListLegacyResponseDomainsItemCiphersList | null | undefined;
+  /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
+  minTLS?: BucketsDomainsCustomListLegacyResponseDomainsItemMinTLS | null | undefined;
+  /** Zone ID of the custom domain. */
+  zoneId?: string | null | undefined;
+  /** Zone that the custom domain resides in. */
+  zoneName?: string | null | undefined;
+}
+export type BucketsDomainsCustomListLegacyResponseDomainsList =
+  Array<BucketsDomainsCustomListLegacyResponseDomainsItem>;
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface BucketsDomainsCustomListLegacyResponse {
+  domains: BucketsDomainsCustomListLegacyResponseDomainsList;
+}
 export type BucketsCreateRequestLocationHint = "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
 export type BucketsCreateRequestStorageClass = "Standard" | "InfrequentAccess";
 export type BucketsCreateRequestCfR2Jurisdiction =
@@ -542,12 +647,34 @@ export interface CreateSuperSlurperJobRequest {
 export interface CreateSuperSlurperJobResponse {
   id?: string | null | undefined;
 }
+export type TemporaryCredentialsCreateRequestActionsItem =
+  | "HeadBucket"
+  | "HeadObject"
+  | "GetObject"
+  | "GetBucketLocation"
+  | "ListObjectsV1"
+  | "ListObjectsV2"
+  | "ListMultipartUploads"
+  | "ListParts"
+  | "PutObject"
+  | "DeleteObject"
+  | "DeleteObjects"
+  | "DeleteObjectsByPrefix"
+  | "CopyObject"
+  | "CreateMultipartUpload"
+  | "UploadPart"
+  | "UploadPartCopy"
+  | "AbortMultipartUpload"
+  | "CompleteMultipartUpload";
+export type TemporaryCredentialsCreateRequestActionsList = Array<
+  TemporaryCredentialsCreateRequestActionsItem | (string & {})
+>;
+export type TemporaryCredentialsCreateRequestObjectsList = Array<string>;
 export type TemporaryCredentialsCreateRequestPermission =
   | "admin-read-write"
   | "admin-read-only"
   | "object-read-write"
   | "object-read-only";
-export type TemporaryCredentialsCreateRequestObjectsList = Array<string>;
 export type TemporaryCredentialsCreateRequestPrefixesList = Array<string>;
 export interface CreateTemporaryCredentialRequest {
   /** Cloudflare account ID that owns the R2 resource. */
@@ -556,12 +683,14 @@ export interface CreateTemporaryCredentialRequest {
   bucket: string;
   /** Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions. */
   parentAccessKeyId: string;
-  /** Permissions allowed on the credentials. */
-  permission: TemporaryCredentialsCreateRequestPermission | (string & {});
   /** Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days). */
   ttlSeconds: number;
+  /** S3 actions allowed on the credentials; requests for any other action are denied. For example, `["GetObject", "HeadObject"]` allows reading objects without listing them. Exactly one of `permission` or `actions` must be provided. The parent token must have Object Read &amp; Write permission if any action writes, and Object Read otherwise. */
+  actions?: TemporaryCredentialsCreateRequestActionsList | undefined;
   /** Optional object paths to scope the credentials to. */
   objects?: TemporaryCredentialsCreateRequestObjectsList | undefined;
+  /** Permissions allowed on the credentials. Exactly one of `permission` or `actions` must be provided. */
+  permission?: TemporaryCredentialsCreateRequestPermission | (string & {}) | undefined;
   /** Optional prefix paths to scope the credentials to. */
   prefixes?: TemporaryCredentialsCreateRequestPrefixesList | undefined;
 }
@@ -2360,6 +2489,69 @@ export const abortSuperSlurperJob: API.OperationMethod<
   span: "AbortSuperSlurperJob",
 }));
 
+export type BucketsDomainsCustomCreateLegacyError = CloudflareOpError;
+/** Registers a new custom domain for an existing R2 bucket. This endpoint does not change whether the domain is enabled; enable it with [Configure Custom Domain Settings](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/update/). A domain that was enabled on this bucket and then removed with the deprecated remove endpoint is enabled again as soon as it is attached. Deprecated: use [Attach Custom Domain To Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/create/) (`POST /accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`) instead. This endpoint will be removed. */
+export const bucketsDomainsCustomCreateLegacy: API.OperationMethod<
+  BucketsDomainsCustomCreateLegacyRequest,
+  BucketsDomainsCustomCreateLegacyResponse,
+  BucketsDomainsCustomCreateLegacyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c3, 0) as any as S.Schema<BucketsDomainsCustomCreateLegacyRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<BucketsDomainsCustomCreateLegacyResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BucketsDomainsCustomCreateLegacy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
+}));
+
+export type BucketsDomainsCustomDeleteLegacyError = CloudflareOpError;
+/** Disconnects a custom domain from an R2 bucket and removes its configuration. Unlike the replacement endpoint, it does not reset whether the domain is enabled, so attaching the same domain to this bucket again restores its previous state: a domain that was enabled before removal is enabled again immediately. It succeeds when the account has no such domain, and fails with 409 when the domain is attached to a different bucket. Deprecated: use [Remove Custom Domain From Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/delete/) (`DELETE /accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}`) instead. This endpoint will be removed. */
+export const bucketsDomainsCustomDeleteLegacy: API.OperationMethod<
+  BucketsDomainsCustomDeleteLegacyRequest,
+  BucketsDomainsCustomDeleteLegacyResponse,
+  BucketsDomainsCustomDeleteLegacyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<BucketsDomainsCustomDeleteLegacyRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<BucketsDomainsCustomDeleteLegacyResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BucketsDomainsCustomDeleteLegacy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
+}));
+
+export type BucketsDomainsCustomListLegacyError = CloudflareOpError;
+/** Gets a list of all custom domains registered with an existing R2 bucket. Unlike the replacement endpoint, the response does not say whether each domain is enabled. Deprecated: use [List Custom Domains of Bucket](https://developers.cloudflare.com/api/resources/r2/subresources/buckets/subresources/domains/subresources/custom/methods/list/) (`GET /accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom`) instead. This endpoint will be removed. */
+export const bucketsDomainsCustomListLegacy: API.OperationMethod<
+  BucketsDomainsCustomListLegacyRequest,
+  BucketsDomainsCustomListLegacyResponse,
+  BucketsDomainsCustomListLegacyError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<BucketsDomainsCustomListLegacyRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<BucketsDomainsCustomListLegacyResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "BucketsDomainsCustomListLegacy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
+}));
+
 export type CreateBucketError =
   | InvalidBucketName
   | BucketAlreadyExists
@@ -2372,8 +2564,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateBucketResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateBucketResponse>,
   errors: [InvalidBucketName, BucketAlreadyExists, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2394,8 +2586,8 @@ export const createBucketDomainCustom: API.OperationMethod<
   CreateBucketDomainCustomError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateBucketDomainCustomRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<CreateBucketDomainCustomResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateBucketDomainCustomRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<CreateBucketDomainCustomResponse>,
   errors: [NoSuchBucket, InvalidBucketName, CustomDomainInUse],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2415,8 +2607,8 @@ export const createBucketsJob: API.OperationMethod<
   CreateBucketsJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateBucketsJobRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<CreateBucketsJobResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateBucketsJobRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<CreateBucketsJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2436,8 +2628,8 @@ export const createSuperSlurperJob: API.OperationMethod<
   CreateSuperSlurperJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(130, __c8, 2) as any as S.Schema<CreateSuperSlurperJobRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<CreateSuperSlurperJobResponse>,
+  input: __S(210, __c13, 2) as any as S.Schema<CreateSuperSlurperJobRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<CreateSuperSlurperJobResponse>,
   errors: [SuperSlurperPreconnectivityFailed],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2447,15 +2639,15 @@ export const createSuperSlurperJob: API.OperationMethod<
 }));
 
 export type CreateTemporaryCredentialError = CloudflareOpError;
-/** Creates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. */
+/** Creates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. The credentials grant either a permission level or an explicit list of S3 actions. */
 export const createTemporaryCredential: API.OperationMethod<
   CreateTemporaryCredentialRequest,
   CreateTemporaryCredentialResponse,
   CreateTemporaryCredentialError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreateTemporaryCredentialRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<CreateTemporaryCredentialResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateTemporaryCredentialRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<CreateTemporaryCredentialResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2477,8 +2669,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [NoSuchBucket, BucketNotEmpty, InvalidRoute, NoRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2498,8 +2690,8 @@ export const deleteBucketCors: API.OperationMethod<
   DeleteBucketCorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteBucketCorsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteBucketCorsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteBucketCorsRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteBucketCorsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2519,8 +2711,8 @@ export const deleteBucketDomainCustom: API.OperationMethod<
   DeleteBucketDomainCustomError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DeleteBucketDomainCustomRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<DeleteBucketDomainCustomResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteBucketDomainCustomRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<DeleteBucketDomainCustomResponse>,
   errors: [DomainNotFound, NoSuchBucket],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2545,8 +2737,8 @@ export const deleteBucketEventNotification: API.OperationMethod<
   DeleteBucketEventNotificationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteBucketEventNotificationRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteBucketEventNotificationResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteBucketEventNotificationRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteBucketEventNotificationResponse>,
   errors: [BucketNotFound, EventNotificationConfigNotFound, QueueNotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2566,8 +2758,8 @@ export const deleteBucketObject: API.OperationMethod<
   DeleteBucketObjectError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteBucketObjectRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<DeleteBucketObjectResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteBucketObjectRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<DeleteBucketObjectResponse>,
   errors: [NoSuchBucket, NoSuchKey],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2590,8 +2782,8 @@ export const deleteBucketSippy: API.OperationMethod<
   DeleteBucketSippyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteBucketSippyRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<DeleteBucketSippyResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteBucketSippyRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<DeleteBucketSippyResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2610,8 +2802,8 @@ export const deleteObjects: API.OperationMethod<
   DeleteObjectsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteObjectsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteObjectsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteObjectsRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeleteObjectsResponse>,
   errors: [NoSuchBucket, InvalidRoute, NoRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2631,8 +2823,8 @@ export const getBucket: API.OperationMethod<
   GetBucketError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetBucketRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<GetBucketResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetBucketRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetBucketResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2656,8 +2848,8 @@ export const getBucketCors: API.OperationMethod<
   GetBucketCorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetBucketCorsRequest>,
-  output: __S(340, __c21, 4) as any as S.Schema<GetBucketCorsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetBucketCorsRequest>,
+  output: __S(436, __c27, 4) as any as S.Schema<GetBucketCorsResponse>,
   errors: [NoSuchBucket, InvalidRoute, NoCorsConfiguration],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2681,8 +2873,8 @@ export const getBucketDomainCustom: API.OperationMethod<
   GetBucketDomainCustomError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetBucketDomainCustomRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetBucketDomainCustomResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetBucketDomainCustomRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<GetBucketDomainCustomResponse>,
   errors: [DomainNotFound, NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2709,8 +2901,8 @@ export const getBucketEventNotification: API.OperationMethod<
   GetBucketEventNotificationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetBucketEventNotificationRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<GetBucketEventNotificationResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetBucketEventNotificationRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<GetBucketEventNotificationResponse>,
   errors: [
     BucketNotFound,
     NoEventNotificationConfig,
@@ -2737,8 +2929,8 @@ export const getBucketLifecycle: API.OperationMethod<
   GetBucketLifecycleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetBucketLifecycleRequest>,
-  output: __S(441, __c27, 9) as any as S.Schema<GetBucketLifecycleResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetBucketLifecycleRequest>,
+  output: __S(505, __c31, 9) as any as S.Schema<GetBucketLifecycleResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2758,8 +2950,8 @@ export const getBucketLocalUploads: API.OperationMethod<
   GetBucketLocalUploadsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetBucketLocalUploadsRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<GetBucketLocalUploadsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetBucketLocalUploadsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetBucketLocalUploadsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2779,8 +2971,8 @@ export const getBucketLock: API.OperationMethod<
   GetBucketLockError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetBucketLockRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<GetBucketLockResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetBucketLockRequest>,
+  output: __S(548, __c34, 4) as any as S.Schema<GetBucketLockResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2800,8 +2992,8 @@ export const getBucketObject: API.OperationMethod<
   GetBucketObjectError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetBucketObjectRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<GetBucketObjectResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetBucketObjectRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<GetBucketObjectResponse>,
   errors: [NoSuchBucket, InvalidRoute, NoSuchKey],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2824,8 +3016,8 @@ export const getBucketSippy: API.OperationMethod<
   GetBucketSippyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetBucketSippyRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<GetBucketSippyResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetBucketSippyRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<GetBucketSippyResponse>,
   errors: [NoSuchBucket, InvalidRoute, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2845,8 +3037,8 @@ export const getBucketsJob: API.OperationMethod<
   GetBucketsJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetBucketsJobRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<GetBucketsJobResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetBucketsJobRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<GetBucketsJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2866,8 +3058,8 @@ export const getSuperSlurperJob: API.OperationMethod<
   GetSuperSlurperJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetSuperSlurperJobRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<GetSuperSlurperJobResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetSuperSlurperJobRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<GetSuperSlurperJobResponse>,
   errors: [SuperSlurperJobOperationFailed],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2884,8 +3076,8 @@ export const listBucketDomainCustoms: API.OperationMethod<
   ListBucketDomainCustomsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListBucketDomainCustomsRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ListBucketDomainCustomsResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListBucketDomainCustomsRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ListBucketDomainCustomsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2905,8 +3097,8 @@ export const listBucketDomainManageds: API.OperationMethod<
   ListBucketDomainManagedsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListBucketDomainManagedsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<ListBucketDomainManagedsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListBucketDomainManagedsRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<ListBucketDomainManagedsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2931,8 +3123,8 @@ export const listBucketEventNotifications: API.OperationMethod<
   ListBucketEventNotificationsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListBucketEventNotificationsRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<ListBucketEventNotificationsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListBucketEventNotificationsRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<ListBucketEventNotificationsResponse>,
   errors: [NoSuchBucket, InvalidRoute, NoEventNotificationConfig, BucketNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2952,8 +3144,8 @@ export const listBucketMetrics: API.OperationMethod<
   ListBucketMetricsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListBucketMetricsRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<ListBucketMetricsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListBucketMetricsRequest>,
+  output: __S(723, __c45, 3) as any as S.Schema<ListBucketMetricsResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -2972,8 +3164,8 @@ export const listBucketObjects: API.PaginatedOperationMethod<
   BucketsObjectsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c42, 0) as any as S.Schema<ListBucketObjectsRequest>,
-    output: __S(677, __c42, 5) as any as S.Schema<ListBucketObjectsResponse>,
+    input: __S(736, __c46, 0) as any as S.Schema<ListBucketObjectsRequest>,
+    output: __S(741, __c46, 5) as any as S.Schema<ListBucketObjectsResponse>,
     errors: [NoSuchBucket],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3002,8 +3194,8 @@ export const listBuckets: API.OperationMethod<
   ListBucketsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListBucketsRequest>,
-  output: __S(691, __c43, 3) as any as S.Schema<ListBucketsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListBucketsRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<ListBucketsResponse>,
   errors: [InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3020,8 +3212,8 @@ export const listBucketsJobs: API.OperationMethod<
   ListBucketsJobsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListBucketsJobsRequest>,
-  output: __S(707, __c44, 3) as any as S.Schema<ListBucketsJobsResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListBucketsJobsRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<ListBucketsJobsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3043,8 +3235,8 @@ export const listSuperSlurperJobLogs: API.PaginatedOperationMethod<
   SuperSlurperJobsLogsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(720, __c45, 0) as any as S.Schema<ListSuperSlurperJobLogsRequest>,
-    output: __S(723, __c45, 3) as any as S.Schema<ListSuperSlurperJobLogsResponse>,
+    input: __S(784, __c49, 0) as any as S.Schema<ListSuperSlurperJobLogsRequest>,
+    output: __S(787, __c49, 3) as any as S.Schema<ListSuperSlurperJobLogsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3066,8 +3258,8 @@ export const listSuperSlurperJobs: API.PaginatedOperationMethod<
   SuperSlurperJobsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(736, __c46, 0) as any as S.Schema<ListSuperSlurperJobsRequest>,
-    output: __S(740, __c46, 4) as any as S.Schema<ListSuperSlurperJobsResponse>,
+    input: __S(800, __c50, 0) as any as S.Schema<ListSuperSlurperJobsRequest>,
+    output: __S(804, __c50, 4) as any as S.Schema<ListSuperSlurperJobsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -3087,8 +3279,8 @@ export const patchBucket: API.OperationMethod<
   PatchBucketError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<PatchBucketRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<PatchBucketResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<PatchBucketRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<PatchBucketResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3108,7 +3300,7 @@ export const pauseSuperSlurperJob: API.OperationMethod<
   PauseSuperSlurperJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<PauseSuperSlurperJobRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<PauseSuperSlurperJobRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PauseSuperSlurperJobResponse>,
   errors: [SuperSlurperJobOperationFailed],
   serviceErrors: CloudflareServiceErrors,
@@ -3126,8 +3318,8 @@ export const progressSuperSlurperJob: API.OperationMethod<
   ProgressSuperSlurperJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ProgressSuperSlurperJobRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<ProgressSuperSlurperJobResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ProgressSuperSlurperJobRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<ProgressSuperSlurperJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3144,8 +3336,8 @@ export const putBucketCors: API.OperationMethod<
   PutBucketCorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(803, __c50, 3) as any as S.Schema<PutBucketCorsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutBucketCorsResponse>,
+  input: __S(867, __c54, 3) as any as S.Schema<PutBucketCorsRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<PutBucketCorsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3165,8 +3357,8 @@ export const putBucketDomainManaged: API.OperationMethod<
   PutBucketDomainManagedError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<PutBucketDomainManagedRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<PutBucketDomainManagedResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<PutBucketDomainManagedRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<PutBucketDomainManagedResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3192,8 +3384,8 @@ export const putBucketEventNotification: API.OperationMethod<
   PutBucketEventNotificationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(834, __c52, 2) as any as S.Schema<PutBucketEventNotificationRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutBucketEventNotificationResponse>,
+  input: __S(898, __c56, 2) as any as S.Schema<PutBucketEventNotificationRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<PutBucketEventNotificationResponse>,
   errors: [
     BucketNotFound,
     InvalidEventNotificationConfig,
@@ -3219,8 +3411,8 @@ export const putBucketLifecycle: API.OperationMethod<
   PutBucketLifecycleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c53, 8) as any as S.Schema<PutBucketLifecycleRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutBucketLifecycleResponse>,
+  input: __S(920, __c57, 8) as any as S.Schema<PutBucketLifecycleRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<PutBucketLifecycleResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3240,8 +3432,8 @@ export const putBucketLocalUploads: API.OperationMethod<
   PutBucketLocalUploadsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<PutBucketLocalUploadsRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<PutBucketLocalUploadsResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<PutBucketLocalUploadsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<PutBucketLocalUploadsResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3261,8 +3453,8 @@ export const putBucketLock: API.OperationMethod<
   PutBucketLockError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(883, __c55, 3) as any as S.Schema<PutBucketLockRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutBucketLockResponse>,
+  input: __S(947, __c59, 3) as any as S.Schema<PutBucketLockRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<PutBucketLockResponse>,
   errors: [NoSuchBucket, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3282,8 +3474,8 @@ export const putBucketSippy: API.OperationMethod<
   PutBucketSippyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(898, __c56, 2) as any as S.Schema<PutBucketSippyRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<PutBucketSippyResponse>,
+  input: __S(962, __c60, 2) as any as S.Schema<PutBucketSippyRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<PutBucketSippyResponse>,
   errors: [InvalidUpstreamCredentials, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3303,7 +3495,7 @@ export const resumeSuperSlurperJob: API.OperationMethod<
   ResumeSuperSlurperJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ResumeSuperSlurperJobRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<ResumeSuperSlurperJobRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResumeSuperSlurperJobResponse>,
   errors: [SuperSlurperJobOperationFailed],
   serviceErrors: CloudflareServiceErrors,
@@ -3321,8 +3513,8 @@ export const sourceSuperSlurperConnectivityPrecheck: API.OperationMethod<
   SourceSuperSlurperConnectivityPrecheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<SourceSuperSlurperConnectivityPrecheckRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<SourceSuperSlurperConnectivityPrecheckResponse>,
+  input: __S(993, __c62, 1) as any as S.Schema<SourceSuperSlurperConnectivityPrecheckRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<SourceSuperSlurperConnectivityPrecheckResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3339,8 +3531,8 @@ export const targetSuperSlurperConnectivityPrecheck: API.OperationMethod<
   TargetSuperSlurperConnectivityPrecheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<TargetSuperSlurperConnectivityPrecheckRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<TargetSuperSlurperConnectivityPrecheckResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<TargetSuperSlurperConnectivityPrecheckRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<TargetSuperSlurperConnectivityPrecheckResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3357,8 +3549,8 @@ export const updateBucketDomainCustom: API.OperationMethod<
   UpdateBucketDomainCustomError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UpdateBucketDomainCustomRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<UpdateBucketDomainCustomResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UpdateBucketDomainCustomRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<UpdateBucketDomainCustomResponse>,
   errors: [NoSuchBucket],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3378,8 +3570,8 @@ export const uploadBucketObject: API.OperationMethod<
   UploadBucketObjectError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<UploadBucketObjectRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<UploadBucketObjectResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UploadBucketObjectRequest>,
+  output: __S(1057, __c66, 1) as any as S.Schema<UploadBucketObjectResponse>,
   errors: [NoSuchBucket],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -3470,6 +3662,118 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
+          bucketName: S.String.pipe(T.Label("bucket_name")),
+          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+          domain: S.String,
+          zoneId: S.String,
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/r2/buckets/{bucket_name}/custom_domains",
+              code: 200,
+            }),
+          )
+          .pipe(T.Jurisdiction())
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "BucketsDomainsCustomCreateLegacyRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "BucketsDomainsCustomCreateLegacyResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          bucketName: S.String.pipe(T.Label("bucket_name")),
+          domain: S.String.pipe(T.Label()),
+          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/r2/buckets/{bucket_name}/custom_domains/{domain}",
+              code: 200,
+            }),
+          )
+          .pipe(T.Jurisdiction())
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "BucketsDomainsCustomDeleteLegacyRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          bucketName: S.String.pipe(T.Label("bucket_name")),
+          cfR2Jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/r2/buckets/{bucket_name}/custom_domains",
+              code: 200,
+            }),
+          )
+          .pipe(T.Jurisdiction())
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "BucketsDomainsCustomListLegacyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          status: __S(128, __c8, 0),
+          ciphers: S.optional(S.NullOr(__S(112, __c7, 0))),
+          minTLS: S.optional(S.NullOr(S.String)),
+          zoneId: S.optional(S.NullOr(S.String)),
+          zoneName: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BucketsDomainsCustomListLegacyResponseDomainsItem" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          domains: __S(98, __c6, 2),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "BucketsDomainsCustomListLegacyResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownership: S.String,
+          ssl: S.String,
+        }),
+      ).annotate({ identifier: "BucketsDomainsCustomListLegacyResponseDomainsItemStatus" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           locationHint: S.optional(S.String),
           storageClass: S.optional(S.String),
@@ -3481,7 +3785,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateBucketRequest" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3495,7 +3799,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateBucketResponse" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3505,7 +3809,7 @@ function __c5(j: number): any {
           domain: S.String,
           enabled: S.Boolean,
           zoneId: S.String,
-          ciphers: S.optional(__S(96, __c6, 0)),
+          ciphers: S.optional(__S(112, __c7, 0)),
           minTLS: S.optional(S.String),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
@@ -3525,19 +3829,13 @@ function __c5(j: number): any {
           domain: S.String,
           enabled: S.Boolean,
           zoneId: S.String,
-          ciphers: S.optional(S.NullOr(__S(96, __c6, 0))),
+          ciphers: S.optional(S.NullOr(__S(112, __c7, 0))),
           minTLS: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketDomainCustomResponse" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3573,11 +3871,11 @@ function __c7(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(113, __c7, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(193, __c12, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateBucketsJobResponse" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -3594,7 +3892,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String,
-          secret: __S(144, __c9, 0),
+          secret: __S(224, __c14, 0),
           vendor: S.String,
           jurisdiction: S.optional(S.String),
         }),
@@ -3604,8 +3902,8 @@ function __c8(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           overwrite: S.optional(S.Boolean),
-          source: S.optional(__S(128, __c8, 0)),
-          target: S.optional(__S(129, __c8, 1)),
+          source: S.optional(__S(208, __c13, 0)),
+          target: S.optional(__S(209, __c13, 1)),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/slurper/jobs", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -3618,7 +3916,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateSuperSlurperJobResponse" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3631,7 +3929,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3639,10 +3937,11 @@ function __c10(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucket: S.String,
           parentAccessKeyId: S.String,
-          permission: S.String,
           ttlSeconds: S.Number,
-          objects: S.optional(__S(96, __c6, 0)),
-          prefixes: S.optional(__S(96, __c6, 0)),
+          actions: S.optional(__S(256, __c16, 0)),
+          objects: S.optional(__S(112, __c7, 0)),
+          permission: S.optional(S.String),
+          prefixes: S.optional(__S(112, __c7, 0)),
         })
           .pipe(
             T.Http({
@@ -3663,7 +3962,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateTemporaryCredentialResponse" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3684,7 +3989,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3692,7 +3997,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteBucketResponse" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3713,7 +4018,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteBucketCorsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3733,15 +4038,9 @@ function __c14(j: number): any {
           .pipe(T.Jurisdiction())
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteBucketDomainCustomRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String,
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteBucketDomainCustomResponse" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3763,7 +4062,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteBucketEventNotificationRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3791,7 +4090,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteBucketObjectResponse" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3812,7 +4111,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteBucketSippyRequest" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3822,7 +4121,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteBucketSippyResponse" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3830,7 +4129,7 @@ function __c19(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           prefix: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(112, __c7, 0).pipe(T.HttpBody())),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -3845,7 +4144,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteObjectsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3866,7 +4165,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetBucketRequest" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3888,37 +4187,31 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          methods: __S(352, __c22, 0),
-          origins: __S(96, __c6, 0),
-          headers: S.optional(S.NullOr(__S(96, __c6, 0))),
+          methods: __S(256, __c16, 0),
+          origins: __S(112, __c7, 0),
+          headers: S.optional(S.NullOr(__S(112, __c7, 0))),
         }),
       ).annotate({ identifier: "BucketsCorsGetResponseRulesItemAllowed" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowed: __S(337, __c21, 1),
+          allowed: __S(433, __c27, 1),
           id: S.optional(S.NullOr(S.String)),
-          exposeHeaders: S.optional(S.NullOr(__S(96, __c6, 0))),
+          exposeHeaders: S.optional(S.NullOr(__S(112, __c7, 0))),
           maxAgeSeconds: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "BucketsCorsGetResponseRulesItem" });
     case 3:
-      return S.Array(__S(338, __c21, 2));
+      return S.Array(__S(434, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(339, __c21, 3))),
+          rules: S.optional(S.NullOr(__S(435, __c27, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketCorsResponse" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3943,8 +4236,8 @@ function __c23(j: number): any {
         S.Struct({
           domain: S.String,
           enabled: S.Boolean,
-          status: __S(384, __c24, 0),
-          ciphers: S.optional(S.NullOr(__S(96, __c6, 0))),
+          status: __S(128, __c8, 0),
+          ciphers: S.optional(S.NullOr(__S(112, __c7, 0))),
           minTLS: S.optional(S.NullOr(S.String)),
           zoneId: S.optional(S.NullOr(S.String)),
           zoneName: S.optional(S.NullOr(S.String)),
@@ -3952,18 +4245,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetBucketDomainCustomResponse" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownership: S.String,
-          ssl: S.String,
-        }),
-      ).annotate({ identifier: "BucketsDomainsCustomGetResponseStatus" });
-  }
-}
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3988,17 +4270,17 @@ function __c25(j: number): any {
         S.Struct({
           queueId: S.optional(S.NullOr(S.String)),
           queueName: S.optional(S.NullOr(S.String)),
-          rules: S.optional(S.NullOr(__S(417, __c26, 1))),
+          rules: S.optional(S.NullOr(__S(481, __c30, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketEventNotificationResponse" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(352, __c22, 0),
+          actions: __S(256, __c16, 0),
           createdAt: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           prefix: S.optional(S.NullOr(S.String)),
@@ -4007,10 +4289,10 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "BucketsEventNotificationsGetResponseRulesItem" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(480, __c30, 0));
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4032,7 +4314,7 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(S.NullOr(__S(449, __c28, 1))),
+          condition: S.optional(S.NullOr(__S(513, __c32, 1))),
         }),
       ).annotate({
         identifier: "BucketsLifecycleGetResponseRulesItemAbortMultipartUploadsTransition",
@@ -4050,7 +4332,7 @@ function __c27(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(S.NullOr(__S(434, __c27, 2))),
+          condition: S.optional(S.NullOr(__S(498, __c31, 2))),
         }),
       ).annotate({ identifier: "BucketsLifecycleGetResponseRulesItemDeleteObjectsTransition" });
     case 4:
@@ -4066,34 +4348,34 @@ function __c27(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: __S(436, __c27, 4),
+          condition: __S(500, __c31, 4),
           storageClass: S.String,
         }),
       ).annotate({ identifier: "BucketsLifecycleGetResponseRulesItemStorageClassTransitionsItem" });
     case 6:
-      return S.Array(__S(437, __c27, 5));
+      return S.Array(__S(501, __c31, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(448, __c28, 0),
+          conditions: __S(512, __c32, 0),
           enabled: S.Boolean,
-          abortMultipartUploadsTransition: S.optional(S.NullOr(__S(433, __c27, 1))),
-          deleteObjectsTransition: S.optional(S.NullOr(__S(435, __c27, 3))),
-          storageClassTransitions: S.optional(S.NullOr(__S(438, __c27, 6))),
+          abortMultipartUploadsTransition: S.optional(S.NullOr(__S(497, __c31, 1))),
+          deleteObjectsTransition: S.optional(S.NullOr(__S(499, __c31, 3))),
+          storageClassTransitions: S.optional(S.NullOr(__S(502, __c31, 6))),
         }),
       ).annotate({ identifier: "BucketsLifecycleGetResponseRulesItem" });
     case 8:
-      return S.Array(__S(439, __c27, 7));
+      return S.Array(__S(503, __c31, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(440, __c27, 8))),
+          rules: S.optional(S.NullOr(__S(504, __c31, 8))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLifecycleResponse" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4112,7 +4394,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4137,7 +4419,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetBucketLocalUploadsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4167,22 +4449,22 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          condition: __S(481, __c30, 1),
+          condition: __S(545, __c34, 1),
           enabled: S.Boolean,
           prefix: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BucketsLocksGetResponseRulesItem" });
     case 3:
-      return S.Array(__S(482, __c30, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(S.NullOr(__S(483, __c30, 3))),
+          rules: S.optional(S.NullOr(__S(547, __c34, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketLockResponse" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4221,7 +4503,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetBucketObjectResponse" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4242,7 +4524,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetBucketSippyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4266,14 +4548,14 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(S.NullOr(__S(528, __c33, 0))),
+          destination: S.optional(S.NullOr(__S(592, __c37, 0))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          source: S.optional(S.NullOr(__S(529, __c33, 1))),
+          source: S.optional(S.NullOr(__S(593, __c37, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketSippyResponse" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4305,11 +4587,11 @@ function __c34(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(545, __c34, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(609, __c38, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetBucketsJobResponse" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4344,14 +4626,14 @@ function __c35(j: number): any {
           createdAt: S.optional(S.NullOr(S.String)),
           finishedAt: S.optional(S.NullOr(S.String)),
           overwrite: S.optional(S.NullOr(S.Boolean)),
-          source: S.optional(S.NullOr(__S(561, __c35, 1))),
+          source: S.optional(S.NullOr(__S(625, __c39, 1))),
           status: S.optional(S.NullOr(S.String)),
-          target: S.optional(S.NullOr(__S(576, __c36, 0))),
+          target: S.optional(S.NullOr(__S(640, __c40, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSuperSlurperJobResponse" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4363,7 +4645,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SuperSlurperJobsGetResponseTarget" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4387,24 +4669,24 @@ function __c37(j: number): any {
         S.Struct({
           domain: S.String,
           enabled: S.Boolean,
-          status: __S(384, __c24, 0),
-          ciphers: S.optional(S.NullOr(__S(96, __c6, 0))),
+          status: __S(128, __c8, 0),
+          ciphers: S.optional(S.NullOr(__S(112, __c7, 0))),
           minTLS: S.optional(S.NullOr(S.String)),
           zoneId: S.optional(S.NullOr(S.String)),
           zoneName: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BucketsDomainsCustomListResponseDomainsItem" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(657, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(594, __c37, 2),
+          domains: __S(658, __c41, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketDomainCustomsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4425,7 +4707,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListBucketDomainManagedsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4437,7 +4719,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListBucketDomainManagedsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4461,21 +4743,21 @@ function __c40(j: number): any {
         S.Struct({
           queueId: S.optional(S.NullOr(S.String)),
           queueName: S.optional(S.NullOr(S.String)),
-          rules: S.optional(S.NullOr(__S(417, __c26, 1))),
+          rules: S.optional(S.NullOr(__S(481, __c30, 1))),
         }),
       ).annotate({ identifier: "BucketsEventNotificationsListResponseQueuesItem" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(705, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           bucketName: S.optional(S.NullOr(S.String)),
-          queues: S.optional(S.NullOr(__S(642, __c40, 2))),
+          queues: S.optional(S.NullOr(__S(706, __c44, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketEventNotificationsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4496,20 +4778,20 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          published: S.optional(S.NullOr(__S(657, __c41, 1))),
-          uploaded: S.optional(S.NullOr(__S(657, __c41, 1))),
+          published: S.optional(S.NullOr(__S(721, __c45, 1))),
+          uploaded: S.optional(S.NullOr(__S(721, __c45, 1))),
         }),
       ).annotate({ identifier: "BucketsMetricsListResponseInfrequentAccess" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          infrequentAccess: S.optional(S.NullOr(__S(658, __c41, 2))),
-          standard: S.optional(S.NullOr(__S(658, __c41, 2))),
+          infrequentAccess: S.optional(S.NullOr(__S(722, __c45, 2))),
+          standard: S.optional(S.NullOr(__S(722, __c45, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketMetricsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4549,9 +4831,9 @@ function __c42(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          customMetadata: S.optional(S.NullOr(__S(673, __c42, 1)).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(S.NullOr(__S(737, __c46, 1)).pipe(T.Body("custom_metadata"))),
           etag: S.optional(S.NullOr(S.String)),
-          httpMetadata: S.optional(S.NullOr(__S(674, __c42, 2)).pipe(T.Body("http_metadata"))),
+          httpMetadata: S.optional(S.NullOr(__S(738, __c46, 2)).pipe(T.Body("http_metadata"))),
           key: S.optional(S.NullOr(S.String)),
           lastModified: S.optional(S.NullOr(S.String).pipe(T.Body("last_modified"))),
           size: S.optional(S.NullOr(S.Number)),
@@ -4560,17 +4842,17 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "BucketsObjectsListResultItem" });
     case 4:
-      return S.Array(__S(675, __c42, 3));
+      return S.Array(__S(739, __c46, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(676, __c42, 4).pipe(T.EnvelopePayload()),
+          result: __S(740, __c46, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketObjectsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4599,16 +4881,16 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "BucketsListResponseBucketsItem" });
     case 2:
-      return S.Array(__S(689, __c43, 1));
+      return S.Array(__S(753, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(690, __c43, 2),
+          buckets: __S(754, __c47, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4642,17 +4924,17 @@ function __c44(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(705, __c44, 1));
+      return S.Array(__S(769, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          jobs: __S(706, __c44, 2),
+          jobs: __S(770, __c48, 2),
           nextContinuationToken: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListBucketsJobsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4682,17 +4964,17 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "SuperSlurperJobsLogsListResultItem" });
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(785, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(722, __c45, 2).pipe(T.EnvelopePayload()),
+          result: __S(786, __c49, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSuperSlurperJobLogsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4722,23 +5004,23 @@ function __c46(j: number): any {
           createdAt: S.optional(S.NullOr(S.String)),
           finishedAt: S.optional(S.NullOr(S.String)),
           overwrite: S.optional(S.NullOr(S.Boolean)),
-          source: S.optional(S.NullOr(__S(737, __c46, 1))),
+          source: S.optional(S.NullOr(__S(801, __c50, 1))),
           status: S.optional(S.NullOr(S.String)),
-          target: S.optional(S.NullOr(__S(576, __c36, 0))),
+          target: S.optional(S.NullOr(__S(640, __c40, 0))),
         }),
       ).annotate({ identifier: "SuperSlurperJobsListResultItem" });
     case 3:
-      return S.Array(__S(738, __c46, 2));
+      return S.Array(__S(802, __c50, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(739, __c46, 3).pipe(T.EnvelopePayload()),
+          result: __S(803, __c50, 3).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSuperSlurperJobsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4760,7 +5042,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PatchBucketRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4779,7 +5061,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PauseSuperSlurperJobRequest" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4810,33 +5092,33 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ProgressSuperSlurperJobResponse" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          methods: __S(352, __c22, 0),
-          origins: __S(96, __c6, 0),
-          headers: S.optional(__S(96, __c6, 0)),
+          methods: __S(256, __c16, 0),
+          origins: __S(112, __c7, 0),
+          headers: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "BucketsCorsUpdateRequestRulesItemAllowed" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowed: __S(800, __c50, 0),
+          allowed: __S(864, __c54, 0),
           id: S.optional(S.String),
-          exposeHeaders: S.optional(__S(96, __c6, 0)),
+          exposeHeaders: S.optional(__S(112, __c7, 0)),
           maxAgeSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BucketsCorsUpdateRequestRulesItem" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          rules: S.optional(__S(802, __c50, 2)),
+          rules: S.optional(__S(866, __c54, 2)),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -4851,7 +5133,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PutBucketCorsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4873,26 +5155,26 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PutBucketDomainManagedRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(352, __c22, 0),
+          actions: __S(256, __c16, 0),
           description: S.optional(S.String),
           prefix: S.optional(S.String),
           suffix: S.optional(S.String),
         }),
       ).annotate({ identifier: "BucketsEventNotificationsUpdateRequestRulesItem" });
     case 1:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(896, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           queueId: S.String.pipe(T.Label("queue_id")),
-          rules: __S(833, __c52, 1),
+          rules: __S(897, __c56, 1),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -4907,12 +5189,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PutBucketEventNotificationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(449, __c28, 1)),
+          condition: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({
         identifier: "BucketsLifecycleUpdateRequestRulesItemAbortMultipartUploadsTransition",
@@ -4930,7 +5212,7 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(849, __c53, 1)),
+          condition: S.optional(__S(913, __c57, 1)),
         }),
       ).annotate({ identifier: "BucketsLifecycleUpdateRequestRulesItemDeleteObjectsTransition" });
     case 3:
@@ -4946,33 +5228,33 @@ function __c53(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: __S(851, __c53, 3),
+          condition: __S(915, __c57, 3),
           storageClass: S.String,
         }),
       ).annotate({
         identifier: "BucketsLifecycleUpdateRequestRulesItemStorageClassTransitionsItem",
       });
     case 5:
-      return S.Array(__S(852, __c53, 4));
+      return S.Array(__S(916, __c57, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          conditions: __S(448, __c28, 0),
+          conditions: __S(512, __c32, 0),
           enabled: S.Boolean,
-          abortMultipartUploadsTransition: S.optional(__S(848, __c53, 0)),
-          deleteObjectsTransition: S.optional(__S(850, __c53, 2)),
-          storageClassTransitions: S.optional(__S(853, __c53, 5)),
+          abortMultipartUploadsTransition: S.optional(__S(912, __c57, 0)),
+          deleteObjectsTransition: S.optional(__S(914, __c57, 2)),
+          storageClassTransitions: S.optional(__S(917, __c57, 5)),
         }),
       ).annotate({ identifier: "BucketsLifecycleUpdateRequestRulesItem" });
     case 7:
-      return S.Array(__S(854, __c53, 6));
+      return S.Array(__S(918, __c57, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          rules: S.optional(__S(855, __c53, 7)),
+          rules: S.optional(__S(919, __c57, 7)),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -4987,7 +5269,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "PutBucketLifecycleRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5007,7 +5289,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PutBucketLocalUploadsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -5020,19 +5302,19 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          condition: __S(880, __c55, 0),
+          condition: __S(944, __c59, 0),
           enabled: S.Boolean,
           prefix: S.optional(S.String),
         }),
       ).annotate({ identifier: "BucketsLocksUpdateRequestRulesItem" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(945, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          rules: S.optional(__S(882, __c55, 2)),
+          rules: S.optional(__S(946, __c59, 2)),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -5047,7 +5329,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "PutBucketLockRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5074,8 +5356,8 @@ function __c56(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
-          destination: S.optional(__S(896, __c56, 0)),
-          source: S.optional(__S(897, __c56, 1)),
+          destination: S.optional(__S(960, __c60, 0)),
+          source: S.optional(__S(961, __c60, 1)),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
         })
           .pipe(
@@ -5090,7 +5372,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PutBucketSippyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5109,7 +5391,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ResumeSuperSlurperJobRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -5123,10 +5405,10 @@ function __c58(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucket: S.String,
-          secret: __S(928, __c58, 0),
+          secret: __S(992, __c62, 0),
           vendor: S.String,
           endpoint: S.optional(S.String),
-          keys: S.optional(__S(96, __c6, 0)),
+          keys: S.optional(__S(112, __c7, 0)),
           pathPrefix: S.optional(S.String),
           region: S.optional(S.String),
           jurisdiction: S.optional(S.String),
@@ -5142,7 +5424,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SourceSuperSlurperConnectivityPrecheckRequest" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5152,14 +5434,14 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SourceSuperSlurperConnectivityPrecheckResponse" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucket: S.String,
-          secret: __S(144, __c9, 0),
+          secret: __S(224, __c14, 0),
           vendor: S.String,
           jurisdiction: S.optional(S.String),
         })
@@ -5174,7 +5456,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "TargetSuperSlurperConnectivityPrecheckRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5182,7 +5464,7 @@ function __c61(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
           domain: S.String.pipe(T.Label()),
-          ciphers: S.optional(__S(96, __c6, 0)),
+          ciphers: S.optional(__S(112, __c7, 0)),
           enabled: S.optional(S.Boolean),
           minTLS: S.optional(S.String),
           jurisdiction: S.optional(S.String.pipe(T.Header("cf-r2-jurisdiction"))),
@@ -5201,14 +5483,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.String,
-          ciphers: S.optional(S.NullOr(__S(96, __c6, 0))),
+          ciphers: S.optional(S.NullOr(__S(112, __c7, 0))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           minTLS: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateBucketDomainCustomResponse" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

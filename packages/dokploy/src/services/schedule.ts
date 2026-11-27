@@ -83,7 +83,6 @@ export interface CreateScheduleRequest {
   name: string;
   description?: string | null | undefined;
   cronExpression: string;
-  appName?: string | undefined;
   serviceName?: string | null | undefined;
   shellType?: CreateScheduleRequestShellType | (string & {}) | undefined;
   scheduleType?: CreateScheduleRequestScheduleType | (string & {}) | undefined;
@@ -92,7 +91,6 @@ export interface CreateScheduleRequest {
   applicationId?: string | null | undefined;
   composeId?: string | null | undefined;
   serverId?: string | null | undefined;
-  organizationId?: string | null | undefined;
   enabled?: boolean | undefined;
   timezone?: string | null | undefined;
   createdAt?: string | undefined;
@@ -131,7 +129,6 @@ export interface UpdateScheduleRequest {
   name: string;
   description?: string | null | undefined;
   cronExpression: string;
-  appName?: string | undefined;
   serviceName?: string | null | undefined;
   shellType?: UpdateScheduleRequestShellType | (string & {}) | undefined;
   scheduleType?: UpdateScheduleRequestScheduleType | (string & {}) | undefined;
@@ -140,7 +137,6 @@ export interface UpdateScheduleRequest {
   applicationId?: string | null | undefined;
   composeId?: string | null | undefined;
   serverId?: string | null | undefined;
-  organizationId?: string | null | undefined;
   enabled?: boolean | undefined;
   timezone?: string | null | undefined;
   createdAt?: string | undefined;
@@ -316,7 +312,6 @@ function __c1(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           cronExpression: S.String,
-          appName: S.optional(S.String),
           serviceName: S.optional(S.NullOr(S.String)),
           shellType: S.optional(S.String),
           scheduleType: S.optional(S.String),
@@ -325,7 +320,6 @@ function __c1(j: number): any {
           applicationId: S.optional(S.NullOr(S.String)),
           composeId: S.optional(S.NullOr(S.String)),
           serverId: S.optional(S.NullOr(S.String)),
-          organizationId: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           timezone: S.optional(S.NullOr(S.String)),
           createdAt: S.optional(S.String),
@@ -391,7 +385,6 @@ function __c7(j: number): any {
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           cronExpression: S.String,
-          appName: S.optional(S.String),
           serviceName: S.optional(S.NullOr(S.String)),
           shellType: S.optional(S.String),
           scheduleType: S.optional(S.String),
@@ -400,7 +393,6 @@ function __c7(j: number): any {
           applicationId: S.optional(S.NullOr(S.String)),
           composeId: S.optional(S.NullOr(S.String)),
           serverId: S.optional(S.NullOr(S.String)),
-          organizationId: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           timezone: S.optional(S.NullOr(S.String)),
           createdAt: S.optional(S.String),

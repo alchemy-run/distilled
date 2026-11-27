@@ -10995,8 +10995,8 @@ export interface GetPhasForAccountRequest {
   /** The phase of the ruleset. */
   rulesetPhase: string;
 }
-export type PhasesGetResultKind = "managed" | "custom" | "root" | "zone";
-export type PhasesGetResultPhase =
+export type PhasesGetResponseKind = "managed" | "custom" | "root" | "zone";
+export type PhasesGetResponsePhase =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -11022,19 +11022,19 @@ export type PhasesGetResultPhase =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type PhasesGetResultRulesItemBlockRuleAction = "block";
-export type PhasesGetResultRulesItemBlockRuleActionParametersResponse =
+export type PhasesGetResponseRulesItemBlockRuleAction = "block";
+export type PhasesGetResponseRulesItemBlockRuleActionParametersResponse =
   RulesCreateResultRulesetRulesItemBlockRuleActionParametersResponse;
-export type PhasesGetResultRulesItemBlockRuleActionParameters =
+export type PhasesGetResponseRulesItemBlockRuleActionParameters =
   RulesCreateResultRulesetRulesItemBlockRuleActionParameters;
-export type PhasesGetResultRulesItemBlockRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemBlockRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemBlockRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemBlockRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemBlockRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemBlockRuleRatelimit {
+export type PhasesGetResponseRulesItemBlockRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
+export type PhasesGetResponseRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemBlockRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemBlockRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemBlockRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11050,7 +11050,7 @@ export interface PhasesGetResultRulesItemBlockRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemBlockRule {
+export interface PhasesGetResponseRulesItemBlockRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11058,11 +11058,11 @@ export interface PhasesGetResultRulesItemBlockRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemBlockRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemBlockRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemBlockRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemBlockRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemBlockRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11077,20 +11077,20 @@ export interface PhasesGetResultRulesItemBlockRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemBlockRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemBlockRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemChallengeRuleAction = "challenge";
-export type PhasesGetResultRulesItemChallengeRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemChallengeRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemChallengeRuleAction = "challenge";
+export type PhasesGetResponseRulesItemChallengeRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemChallengeRuleLogging =
+export type PhasesGetResponseRulesItemChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemChallengeRuleRatelimit {
+export type PhasesGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11106,11 +11106,11 @@ export interface PhasesGetResultRulesItemChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemChallengeRule {
+export interface PhasesGetResponseRulesItemChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesGetResultRulesItemChallengeRuleAction;
+  action: PhasesGetResponseRulesItemChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -11124,7 +11124,7 @@ export interface PhasesGetResultRulesItemChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemChallengeRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -11135,37 +11135,37 @@ export interface PhasesGetResultRulesItemChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemChallengeRuleRatelimit | null | undefined;
 }
-export type PhasesGetResultRulesItemResponseCompressionRuleAction = "compress_response";
-export type PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
+export type PhasesGetResponseRulesItemResponseCompressionRuleAction = "compress_response";
+export type PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
   | "none"
   | "auto"
   | "default"
   | "gzip"
   | "brotli"
   | "zstd";
-export interface PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
+export interface PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
   /** Name of the compression algorithm to enable. */
   name?:
-    | PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
+    | PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
-  Array<PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
-export interface PhasesGetResultRulesItemResponseCompressionRuleActionParameters {
+export type PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
+  Array<PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
+export interface PhasesGetResponseRulesItemResponseCompressionRuleActionParameters {
   /** Custom order for compression algorithms. */
-  algorithms: PhasesGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
+  algorithms: PhasesGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
 }
-export type PhasesGetResultRulesItemResponseCompressionRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemResponseCompressionRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemResponseCompressionRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemResponseCompressionRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemResponseCompressionRuleRatelimit {
+export interface PhasesGetResponseRulesItemResponseCompressionRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11181,7 +11181,7 @@ export interface PhasesGetResultRulesItemResponseCompressionRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemResponseCompressionRule {
+export interface PhasesGetResponseRulesItemResponseCompressionRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11189,14 +11189,14 @@ export interface PhasesGetResultRulesItemResponseCompressionRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemResponseCompressionRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemResponseCompressionRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesGetResultRulesItemResponseCompressionRuleActionParameters
+    | PhasesGetResponseRulesItemResponseCompressionRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemResponseCompressionRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemResponseCompressionRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11211,18 +11211,18 @@ export interface PhasesGetResultRulesItemResponseCompressionRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemResponseCompressionRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemResponseCompressionRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
-export type PhasesGetResultRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemDDoSDynamicRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
+export type PhasesGetResponseRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemDDoSDynamicRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemDDoSDynamicRuleRatelimit {
+export type PhasesGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemDDoSDynamicRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11238,7 +11238,7 @@ export interface PhasesGetResultRulesItemDDoSDynamicRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemDDoSDynamicRule {
+export interface PhasesGetResponseRulesItemDDoSDynamicRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11246,11 +11246,11 @@ export interface PhasesGetResultRulesItemDDoSDynamicRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemDDoSDynamicRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemDDoSDynamicRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11265,19 +11265,19 @@ export interface PhasesGetResultRulesItemDDoSDynamicRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemDDoSDynamicRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemDDoSDynamicRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemExecuteRuleAction = "execute";
-export type PhasesGetResultRulesItemExecuteRuleActionParametersMatchedData =
+export type PhasesGetResponseRulesItemExecuteRuleAction = "execute";
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersMatchedData =
   RulesCreateResultRulesetRulesItemExecuteRuleActionParametersMatchedData;
-export type PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
+export interface PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
   /** The name of the category to override. */
   category: string;
   /** The action to override rules in the category with. */
@@ -11286,18 +11286,18 @@ export interface PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCat
   enabled?: boolean | null | undefined;
   /** The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
+    | PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList =
-  Array<PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
-export type PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList =
+  Array<PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem {
+export interface PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem {
   /** The ID of the rule to override. */
   id: string;
   /** The action to override the rule with. */
@@ -11308,36 +11308,39 @@ export interface PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRul
   scoreThreshold?: number | null | undefined;
   /** The sensitivity level to use for the rule. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
+    | PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesList =
-  Array<PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem>;
-export type PhasesGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList =
+  Array<PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem>;
+export type PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesGetResultRulesItemExecuteRuleActionParametersOverrides {
+export interface PhasesGetResponseRulesItemExecuteRuleActionParametersOverrides {
   /** An action to override all rules with. This option has lower precedence than rule and category overrides. */
   action?: string | null | undefined;
   /** A list of category-level overrides. This option has the second-highest precedence after rule-level overrides. */
   categories?:
-    | PhasesGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList
+    | PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList
     | null
     | undefined;
   /** Whether to enable execution of all rules. This option has lower precedence than rule and category overrides. */
   enabled?: boolean | null | undefined;
   /** A list of rule-level overrides. This option has the highest precedence. */
-  rules?: PhasesGetResultRulesItemExecuteRuleActionParametersOverridesRulesList | null | undefined;
+  rules?:
+    | PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList
+    | null
+    | undefined;
   /** A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
+    | PhasesGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
     | null
     | undefined;
 }
-export interface PhasesGetResultRulesItemExecuteRuleActionParameters {
+export interface PhasesGetResponseRulesItemExecuteRuleActionParameters {
   /** The ID of the ruleset to execute. */
   id: string;
   /** The configuration to use for matched data logging. */
@@ -11346,15 +11349,15 @@ export interface PhasesGetResultRulesItemExecuteRuleActionParameters {
     | null
     | undefined;
   /** A set of overrides to apply to the target ruleset. */
-  overrides?: PhasesGetResultRulesItemExecuteRuleActionParametersOverrides | null | undefined;
+  overrides?: PhasesGetResponseRulesItemExecuteRuleActionParametersOverrides | null | undefined;
 }
-export type PhasesGetResultRulesItemExecuteRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemExecuteRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemExecuteRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemExecuteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemExecuteRuleRatelimit {
+export type PhasesGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemExecuteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemExecuteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11370,7 +11373,7 @@ export interface PhasesGetResultRulesItemExecuteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemExecuteRule {
+export interface PhasesGetResponseRulesItemExecuteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11378,11 +11381,11 @@ export interface PhasesGetResultRulesItemExecuteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemExecuteRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemExecuteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemExecuteRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemExecuteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemExecuteRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemExecuteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11397,19 +11400,19 @@ export interface PhasesGetResultRulesItemExecuteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemExecuteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemExecuteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemForceConnectionCloseRuleAction = "force_connection_close";
-export type PhasesGetResultRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemForceConnectionCloseRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemForceConnectionCloseRuleAction = "force_connection_close";
+export type PhasesGetResponseRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemForceConnectionCloseRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemForceConnectionCloseRuleRatelimit {
+export interface PhasesGetResponseRulesItemForceConnectionCloseRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11425,7 +11428,7 @@ export interface PhasesGetResultRulesItemForceConnectionCloseRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemForceConnectionCloseRule {
+export interface PhasesGetResponseRulesItemForceConnectionCloseRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11433,11 +11436,11 @@ export interface PhasesGetResultRulesItemForceConnectionCloseRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemForceConnectionCloseRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemForceConnectionCloseRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemForceConnectionCloseRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemForceConnectionCloseRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11452,21 +11455,21 @@ export interface PhasesGetResultRulesItemForceConnectionCloseRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemJavaScriptChallengeRuleAction = "js_challenge";
-export type PhasesGetResultRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemJavaScriptChallengeRuleAction = "js_challenge";
+export type PhasesGetResponseRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemJavaScriptChallengeRuleLogging =
+export type PhasesGetResponseRulesItemJavaScriptChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemJavaScriptChallengeRuleRatelimit {
+export interface PhasesGetResponseRulesItemJavaScriptChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11482,11 +11485,11 @@ export interface PhasesGetResultRulesItemJavaScriptChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemJavaScriptChallengeRule {
+export interface PhasesGetResponseRulesItemJavaScriptChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesGetResultRulesItemJavaScriptChallengeRuleAction;
+  action: PhasesGetResponseRulesItemJavaScriptChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -11500,7 +11503,7 @@ export interface PhasesGetResultRulesItemJavaScriptChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -11511,16 +11514,16 @@ export interface PhasesGetResultRulesItemJavaScriptChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
 }
-export type PhasesGetResultRulesItemLogRuleAction = "log";
-export type PhasesGetResultRulesItemLogRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemLogRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemLogRuleAction = "log";
+export type PhasesGetResponseRulesItemLogRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemLogRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemLogRuleRatelimit {
+export type PhasesGetResponseRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemLogRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemLogRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemLogRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11536,7 +11539,7 @@ export interface PhasesGetResultRulesItemLogRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemLogRule {
+export interface PhasesGetResponseRulesItemLogRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11544,11 +11547,11 @@ export interface PhasesGetResultRulesItemLogRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemLogRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemLogRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemLogRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemLogRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11563,65 +11566,66 @@ export interface PhasesGetResultRulesItemLogRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemLogRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemLogRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemLogCustomFieldRuleAction = "log_custom_field";
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleAction = "log_custom_field";
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem>;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type PhasesGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export interface PhasesGetResultRulesItemLogCustomFieldRuleActionParameters {
+export interface PhasesGetResponseRulesItemLogCustomFieldRuleActionParameters {
   /** The cookie fields to log. */
   cookieFields?:
-    | PhasesGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
     | null
     | undefined;
   /** The raw response fields to log. */
   rawResponseFields?:
-    | PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
     | null
     | undefined;
   /** The raw request fields to log. */
   requestFields?:
-    | PhasesGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
     | null
     | undefined;
   /** The transformed response fields to log. */
   responseFields?:
-    | PhasesGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
     | null
     | undefined;
   /** The transformed request fields to log. */
   transformedRequestFields?:
-    | PhasesGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemLogCustomFieldRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemLogCustomFieldRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemLogCustomFieldRuleRatelimit {
+export type PhasesGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesGetResponseRulesItemLogCustomFieldRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11637,7 +11641,7 @@ export interface PhasesGetResultRulesItemLogCustomFieldRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemLogCustomFieldRule {
+export interface PhasesGetResponseRulesItemLogCustomFieldRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11645,11 +11649,14 @@ export interface PhasesGetResultRulesItemLogCustomFieldRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemLogCustomFieldRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemLogCustomFieldRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemLogCustomFieldRuleActionParameters | null | undefined;
+  actionParameters?:
+    | PhasesGetResponseRulesItemLogCustomFieldRuleActionParameters
+    | null
+    | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11664,19 +11671,19 @@ export interface PhasesGetResultRulesItemLogCustomFieldRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemLogCustomFieldRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemLogCustomFieldRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemManagedChallengeRuleAction = "managed_challenge";
-export type PhasesGetResultRulesItemManagedChallengeRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemManagedChallengeRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemManagedChallengeRuleAction = "managed_challenge";
+export type PhasesGetResponseRulesItemManagedChallengeRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemManagedChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemManagedChallengeRuleRatelimit {
+export interface PhasesGetResponseRulesItemManagedChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11692,7 +11699,7 @@ export interface PhasesGetResultRulesItemManagedChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemManagedChallengeRule {
+export interface PhasesGetResponseRulesItemManagedChallengeRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11700,11 +11707,11 @@ export interface PhasesGetResultRulesItemManagedChallengeRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemManagedChallengeRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemManagedChallengeRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemManagedChallengeRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemManagedChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11719,48 +11726,48 @@ export interface PhasesGetResultRulesItemManagedChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemManagedChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemManagedChallengeRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemRedirectRuleAction = "redirect";
-export type PhasesGetResultRulesItemRedirectRuleActionParametersFromList =
+export type PhasesGetResponseRulesItemRedirectRuleAction = "redirect";
+export type PhasesGetResponseRulesItemRedirectRuleActionParametersFromList =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList;
-export type PhasesGetResultRulesItemRedirectRuleActionParametersFromValueTargetUrl =
+export type PhasesGetResponseRulesItemRedirectRuleActionParametersFromValueTargetUrl =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
-export type PhasesGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode =
+export type PhasesGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode =
   | 301
   | 302
   | 303
   | 307
   | 308;
-export interface PhasesGetResultRulesItemRedirectRuleActionParametersFromValue {
+export interface PhasesGetResponseRulesItemRedirectRuleActionParametersFromValue {
   /** A URL to redirect the request to. */
   targetUrl: RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
   /** Whether to keep the query string of the original request. */
   preserveQueryString?: boolean | null | undefined;
   /** The status code to use for the redirect. */
   statusCode?:
-    | PhasesGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode
+    | PhasesGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode
     | null
     | undefined;
 }
-export interface PhasesGetResultRulesItemRedirectRuleActionParameters {
+export interface PhasesGetResponseRulesItemRedirectRuleActionParameters {
   /** A redirect based on a bulk list lookup. */
   fromList?:
     | RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList
     | null
     | undefined;
   /** A redirect based on the request properties. */
-  fromValue?: PhasesGetResultRulesItemRedirectRuleActionParametersFromValue | null | undefined;
+  fromValue?: PhasesGetResponseRulesItemRedirectRuleActionParametersFromValue | null | undefined;
 }
-export type PhasesGetResultRulesItemRedirectRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemRedirectRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemRedirectRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemRedirectRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemRedirectRuleRatelimit {
+export type PhasesGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemRedirectRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemRedirectRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11776,7 +11783,7 @@ export interface PhasesGetResultRulesItemRedirectRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemRedirectRule {
+export interface PhasesGetResponseRulesItemRedirectRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11784,11 +11791,11 @@ export interface PhasesGetResultRulesItemRedirectRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemRedirectRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemRedirectRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemRedirectRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemRedirectRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemRedirectRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemRedirectRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11803,82 +11810,82 @@ export interface PhasesGetResultRulesItemRedirectRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemRedirectRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemRedirectRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemRewriteRuleAction = "rewrite";
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleAction = "rewrite";
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export interface PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export interface PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export interface PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export interface PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export interface PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
+  operation: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValue =
-  | PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
-  | PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
-  | PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
-  | PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
-  | PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
-export type PhasesGetResultRulesItemRewriteRuleActionParametersHeadersMap = {
-  [key: string]: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
 };
-export type PhasesGetResultRulesItemRewriteRuleActionParametersUriURIPathPath =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
-export type PhasesGetResultRulesItemRewriteRuleActionParametersUriURIPath =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersUriURIPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath;
-export type PhasesGetResultRulesItemRewriteRuleActionParametersUriURIQueryQuery =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersUriURIQueryQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQueryQuery;
-export type PhasesGetResultRulesItemRewriteRuleActionParametersUriURIQuery =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersUriURIQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export type PhasesGetResultRulesItemRewriteRuleActionParametersUri =
+export type PhasesGetResponseRulesItemRewriteRuleActionParametersUri =
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export interface PhasesGetResultRulesItemRewriteRuleActionParameters {
+export interface PhasesGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: PhasesGetResultRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
+  headers?: PhasesGetResponseRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
   /** A URI path rewrite. */
-  uri?: PhasesGetResultRulesItemRewriteRuleActionParametersUri | null | undefined;
+  uri?: PhasesGetResponseRulesItemRewriteRuleActionParametersUri | null | undefined;
 }
-export type PhasesGetResultRulesItemRewriteRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemRewriteRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemRewriteRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemRewriteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemRewriteRuleRatelimit {
+export type PhasesGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemRewriteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemRewriteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11894,7 +11901,7 @@ export interface PhasesGetResultRulesItemRewriteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemRewriteRule {
+export interface PhasesGetResponseRulesItemRewriteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11902,11 +11909,11 @@ export interface PhasesGetResultRulesItemRewriteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemRewriteRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemRewriteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemRewriteRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemRewriteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemRewriteRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemRewriteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11921,24 +11928,24 @@ export interface PhasesGetResultRulesItemRewriteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemRewriteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemRewriteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemRouteRuleAction = "route";
-export type PhasesGetResultRulesItemRouteRuleActionParametersOrigin =
+export type PhasesGetResponseRulesItemRouteRuleAction = "route";
+export type PhasesGetResponseRulesItemRouteRuleActionParametersOrigin =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersOrigin;
-export type PhasesGetResultRulesItemRouteRuleActionParametersSni =
+export type PhasesGetResponseRulesItemRouteRuleActionParametersSni =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersSni;
-export type PhasesGetResultRulesItemRouteRuleActionParameters =
+export type PhasesGetResponseRulesItemRouteRuleActionParameters =
   RulesCreateResultRulesetRulesItemRouteRuleActionParameters;
-export type PhasesGetResultRulesItemRouteRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemRouteRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemRouteRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemRouteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemRouteRuleRatelimit {
+export type PhasesGetResponseRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemRouteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemRouteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemRouteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -11954,7 +11961,7 @@ export interface PhasesGetResultRulesItemRouteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemRouteRule {
+export interface PhasesGetResponseRulesItemRouteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -11962,11 +11969,11 @@ export interface PhasesGetResultRulesItemRouteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemRouteRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemRouteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemRouteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemRouteRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemRouteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -11981,20 +11988,20 @@ export interface PhasesGetResultRulesItemRouteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemRouteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemRouteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemScoreRuleAction = "score";
-export type PhasesGetResultRulesItemScoreRuleActionParameters =
+export type PhasesGetResponseRulesItemScoreRuleAction = "score";
+export type PhasesGetResponseRulesItemScoreRuleActionParameters =
   RulesCreateResultRulesetRulesItemScoreRuleActionParameters;
-export type PhasesGetResultRulesItemScoreRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemScoreRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemScoreRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemScoreRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemScoreRuleRatelimit {
+export type PhasesGetResponseRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemScoreRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemScoreRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemScoreRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -12010,7 +12017,7 @@ export interface PhasesGetResultRulesItemScoreRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemScoreRule {
+export interface PhasesGetResponseRulesItemScoreRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -12018,11 +12025,11 @@ export interface PhasesGetResultRulesItemScoreRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemScoreRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemScoreRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemScoreRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemScoreRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemScoreRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -12036,53 +12043,53 @@ export interface PhasesGetResultRulesItemScoreRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemScoreRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemScoreRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemServeErrorRuleAction = "serve_error";
-export type PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
+export type PhasesGetResponseRulesItemServeErrorRuleAction = "serve_error";
+export type PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersContent {
+export interface PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent {
   /** The response content. */
   content: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType
+    | PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
+export type PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset {
+export interface PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset {
   /** The name of a custom asset to serve as the error response. */
   assetName: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
+    | PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type PhasesGetResultRulesItemServeErrorRuleActionParameters =
-  | PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersContent
-  | PhasesGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset;
-export type PhasesGetResultRulesItemServeErrorRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemServeErrorRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemServeErrorRuleActionParameters =
+  | PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent
+  | PhasesGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset;
+export type PhasesGetResponseRulesItemServeErrorRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemServeErrorRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemServeErrorRuleRatelimit {
+export type PhasesGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemServeErrorRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -12098,7 +12105,7 @@ export interface PhasesGetResultRulesItemServeErrorRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemServeErrorRule {
+export interface PhasesGetResponseRulesItemServeErrorRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -12106,11 +12113,11 @@ export interface PhasesGetResultRulesItemServeErrorRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemServeErrorRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemServeErrorRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemServeErrorRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemServeErrorRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemServeErrorRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemServeErrorRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -12124,364 +12131,365 @@ export interface PhasesGetResultRulesItemServeErrorRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemServeErrorRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemServeErrorRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleAction = "set_cache_control";
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleAction = "set_cache_control";
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutable =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutable =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAge =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
   | "set"
   | "remove";
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCache =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCache =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStore =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStore =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransform =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
   | "set"
   | "remove";
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivate =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivate =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublic =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublic =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxage =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
+  operation: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
-  | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
-export interface PhasesGetResultRulesItemSetCacheControlRuleActionParameters {
+export type PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
+  | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
+export interface PhasesGetResponseRulesItemSetCacheControlRuleActionParameters {
   /** A cache-control directive configuration. */
   immutable?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersImmutable
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersImmutable
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  maxAge?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
+  maxAge?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
   /** A cache-control directive configuration. */
   mustRevalidate?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   mustUnderstand?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  noCache?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoCache | null | undefined;
+  noCache?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoCache | null | undefined;
   /** A cache-control directive configuration. */
-  noStore?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoStore | null | undefined;
+  noStore?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoStore | null | undefined;
   /** A cache-control directive configuration. */
   noTransform?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersNoTransform
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  private?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPrivate | null | undefined;
+  private?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPrivate | null | undefined;
   /** A cache-control directive configuration. */
   proxyRevalidate?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
-  public?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
+  public?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  sMaxage?: PhasesGetResultRulesItemSetCacheControlRuleActionParametersSMaxage | null | undefined;
+  sMaxage?: PhasesGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleIfError?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleWhileRevalidate?:
-    | PhasesGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheControlRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemSetCacheControlRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemSetCacheControlRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemSetCacheControlRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemSetCacheControlRuleLogging =
+export type PhasesGetResponseRulesItemSetCacheControlRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemSetCacheControlRuleRatelimit {
+export type PhasesGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesGetResponseRulesItemSetCacheControlRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -12497,11 +12505,11 @@ export interface PhasesGetResultRulesItemSetCacheControlRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheControlRule {
+export interface PhasesGetResponseRulesItemSetCacheControlRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesGetResultRulesItemSetCacheControlRuleAction;
+  action: PhasesGetResponseRulesItemSetCacheControlRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -12512,9 +12520,12 @@ export interface PhasesGetResultRulesItemSetCacheControlRule {
   /** The version of the rule. */
   version: string;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemSetCacheControlRuleActionParameters | null | undefined;
+  actionParameters?:
+    | PhasesGetResponseRulesItemSetCacheControlRuleActionParameters
+    | null
+    | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemSetCacheControlRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemSetCacheControlRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -12525,116 +12536,116 @@ export interface PhasesGetResultRulesItemSetCacheControlRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemSetCacheControlRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemSetCacheControlRuleRatelimit | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
   Array<number>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin"
   | "bypass";
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
   /** The browser TTL mode. */
-  mode: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
+  mode: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
   /** The browser TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
   Array<string>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
   /** A list of cookies to check for the presence of. The presence of these cookies is included in the cache key. */
   checkPresence?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
     | null
     | undefined;
   /** A list of cookies to include in the cache key. */
   include?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
   Array<string>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
   Array<string>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
   {
     [key: string]:
-      | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
+      | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
       | undefined;
   };
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
   /** A list of headers to check for the presence of. The presence of these headers is included in the cache key. */
   checkPresence?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
     | null
     | undefined;
   /** A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key. */
   contains?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
     | null
     | undefined;
   /** Whether to exclude the origin header in the cache key. */
   excludeOrigin?: boolean | null | undefined;
   /** A list of headers to include in the cache key. */
   include?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
   /** Whether to exclude all query string parameters from the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to exclude from the cache key. */
   list?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
   /** Whether to include all query string parameters in the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to include in the cache key. */
   list?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
     | null
     | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
   /** Which query string parameters to exclude from the cache key. */
   exclude?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
     | null
     | undefined;
   /** Which query string parameters to include in the cache key. */
   include?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
   /** Which cookies to include in the cache key. */
   cookie?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
     | null
     | undefined;
   /** Which headers to include in the cache key. */
   header?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
     | null
     | undefined;
   /** How to use the host in the cache key. */
@@ -12644,7 +12655,7 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCac
     | undefined;
   /** Which query string parameters to include in or exclude from the cache key. */
   queryString?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
     | null
     | undefined;
   /** How to use characteristics of the request user agent in the cache key. */
@@ -12653,117 +12664,117 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCac
     | null
     | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey {
   /** Whether to separate cached content based on the visitor's device type. */
   cacheByDeviceType?: boolean | null | undefined;
   /** Whether to protect from web cache deception attacks, while allowing static assets to be cached. */
   cacheDeceptionArmor?: boolean | null | undefined;
   /** Which components of the request are included or excluded from the cache key. */
   customKey?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
     | null
     | undefined;
   /** Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in. */
   ignoreQueryStringsOrder?: boolean | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheReserve;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin";
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
   Array<RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
   /** The edge TTL mode. */
-  mode: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
+  mode: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
   /** The edge TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
   /** A list of TTLs to apply to specific status codes or status code ranges. */
   statusCodeTtl?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
   | "on"
   | "off"
   | "default";
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
   /** Whether to use range requests. `default` is the behaviour the zone gets without this rule. */
-  mode: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
+  mode: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersServeStale =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersServeStale =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersServeStale;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersSharedDictionary;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
   /** How the header value is treated when building the cache key. */
-  action: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
+  action: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
   Array<string>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
   /** How the header value is treated when building the cache key. */
-  action: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
+  action: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
   /** The set of languages to normalize against. Only valid for the `accept-language` header. */
   languages?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
     | null
     | undefined;
   /** The set of media types to normalize against. Only valid for the `accept` header. */
   mediaTypes?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
   [key: string]:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
     | undefined;
 };
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVary {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVary {
   /** Controls how response Vary headers without a per-header override contribute to the cache key. */
   default?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault
     | null
     | undefined;
   /** A mapping of lowercase request header names to their vary configuration. */
   headers?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
     | null
     | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParameters {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleActionParameters {
   /** A list of additional ports that caching should be enabled on. */
   additionalCacheablePorts?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
     | null
     | undefined;
   /** How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content. */
   browserTtl?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
     | null
     | undefined;
   /** Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations. */
   cache?: boolean | null | undefined;
   /** Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache. */
   cacheKey?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey
     | null
     | undefined;
   /** Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan). */
@@ -12772,14 +12783,17 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParameters {
     | null
     | undefined;
   /** How long the Cloudflare edge network should cache the response. */
-  edgeTtl?: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl | null | undefined;
+  edgeTtl?:
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl
+    | null
+    | undefined;
   /** Whether Cloudflare will aim to strictly adhere to RFC 7234. */
   originCacheControl?: boolean | null | undefined;
   /** Whether to generate Cloudflare error pages for issues from the origin server. */
   originErrorPagePassthru?: boolean | null | undefined;
   /** Controls whether Cloudflare fetches a large asset from the origin as a series of range requests instead of one whole-body request. */
   originRangeRequests?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
     | null
     | undefined;
   /** A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value. */
@@ -12803,16 +12817,16 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRuleActionParameters {
   /** Whether to strip Set-Cookie headers from the origin response before caching. */
   stripSetCookie?: boolean | null | undefined;
   /** Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override. */
-  vary?: PhasesGetResultRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
+  vary?: PhasesGetResponseRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheSettingsRuleRatelimit {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -12828,7 +12842,7 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheSettingsRule {
+export interface PhasesGetResponseRulesItemSetCacheSettingsRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -12836,14 +12850,14 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemSetCacheSettingsRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemSetCacheSettingsRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesGetResultRulesItemSetCacheSettingsRuleActionParameters
+    | PhasesGetResponseRulesItemSetCacheSettingsRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -12857,93 +12871,93 @@ export interface PhasesGetResultRulesItemSetCacheSettingsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleAction = "set_cache_tags";
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleAction = "set_cache_tags";
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
+  values: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
+  values: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
+  values: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
+  operation: PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
 }
-export type PhasesGetResultRulesItemSetCacheTagsRuleActionParameters =
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
-  | PhasesGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
-export type PhasesGetResultRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemSetCacheTagsRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleActionParameters =
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
+  | PhasesGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
+export type PhasesGetResponseRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemSetCacheTagsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemSetCacheTagsRuleLogging =
+export type PhasesGetResponseRulesItemSetCacheTagsRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemSetCacheTagsRuleRatelimit {
+export type PhasesGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemSetCacheTagsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -12959,11 +12973,11 @@ export interface PhasesGetResultRulesItemSetCacheTagsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemSetCacheTagsRule {
+export interface PhasesGetResponseRulesItemSetCacheTagsRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesGetResultRulesItemSetCacheTagsRuleAction;
+  action: PhasesGetResponseRulesItemSetCacheTagsRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -12974,9 +12988,9 @@ export interface PhasesGetResultRulesItemSetCacheTagsRule {
   /** The version of the rule. */
   version: string;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemSetCacheTagsRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemSetCacheTagsRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -12987,39 +13001,39 @@ export interface PhasesGetResultRulesItemSetCacheTagsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemSetCacheTagsRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemSetCacheTagsRuleRatelimit | null | undefined;
 }
-export type PhasesGetResultRulesItemSetConfigurationRuleAction = "set_config";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersAutominify =
+export type PhasesGetResponseRulesItemSetConfigurationRuleAction = "set_config";
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersAutominify =
   RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersAutominify;
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersPolish =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersPolish =
   | "off"
   | "lossless"
   | "lossy"
   | "webp";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
   | "none"
   | "standard"
   | "full";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
   | "none"
   | "standard";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersSsl =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "off"
   | "flexible"
   | "full"
   | "strict"
   | "origin_pull";
-export type PhasesGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+export type PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetConfigurationRuleActionParameters {
+export interface PhasesGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null | undefined;
   /** Which file extensions to minify automatically. */
@@ -13050,48 +13064,48 @@ export interface PhasesGetResultRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Opportunistic Encryption. */
   opportunisticEncryption?: boolean | null | undefined;
   /** The Polish level to configure. */
-  polish?: PhasesGetResultRulesItemSetConfigurationRuleActionParametersPolish | null | undefined;
+  polish?: PhasesGetResponseRulesItemSetConfigurationRuleActionParametersPolish | null | undefined;
   /** Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response. */
   redirectsForAiTraining?: boolean | null | undefined;
   /** The request body buffering mode. */
   requestBodyBuffering?:
-    | PhasesGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
+    | PhasesGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
     | null
     | undefined;
   /** The response body buffering mode. */
   responseBodyBuffering?:
-    | PhasesGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
+    | PhasesGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
     | null
     | undefined;
   /** Whether to enable Rocket Loader. */
   rocketLoader?: boolean | null | undefined;
   /** The Security Level to configure. */
   securityLevel?:
-    | PhasesGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel
+    | PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel
     | null
     | undefined;
   /** Whether to enable Server-Side Excludes. */
   serverSideExcludes?: boolean | null | undefined;
   /** The SSL level to configure. */
-  ssl?: PhasesGetResultRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
+  ssl?: PhasesGetResponseRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null | undefined;
   /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
   webmcpEnabled?: boolean | null | undefined;
   /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. */
   webmcpPacks?:
-    | PhasesGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
+    | PhasesGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
     | null
     | undefined;
 }
-export type PhasesGetResultRulesItemSetConfigurationRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemSetConfigurationRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemSetConfigurationRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemSetConfigurationRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemSetConfigurationRuleRatelimit {
+export interface PhasesGetResponseRulesItemSetConfigurationRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13107,7 +13121,7 @@ export interface PhasesGetResultRulesItemSetConfigurationRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemSetConfigurationRule {
+export interface PhasesGetResponseRulesItemSetConfigurationRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13115,14 +13129,14 @@ export interface PhasesGetResultRulesItemSetConfigurationRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemSetConfigurationRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemSetConfigurationRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesGetResultRulesItemSetConfigurationRuleActionParameters
+    | PhasesGetResponseRulesItemSetConfigurationRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemSetConfigurationRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemSetConfigurationRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -13136,13 +13150,13 @@ export interface PhasesGetResultRulesItemSetConfigurationRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemSetConfigurationRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemSetConfigurationRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemSkipRuleAction = "skip";
-export type PhasesGetResultRulesItemSkipRuleActionParametersPhase = "current";
-export type PhasesGetResultRulesItemSkipRuleActionParametersPhasesItem =
+export type PhasesGetResponseRulesItemSkipRuleAction = "skip";
+export type PhasesGetResponseRulesItemSkipRuleActionParametersPhase = "current";
+export type PhasesGetResponseRulesItemSkipRuleActionParametersPhasesItem =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -13168,9 +13182,9 @@ export type PhasesGetResultRulesItemSkipRuleActionParametersPhasesItem =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type PhasesGetResultRulesItemSkipRuleActionParametersPhasesList =
-  Array<PhasesGetResultRulesItemSkipRuleActionParametersPhasesItem>;
-export type PhasesGetResultRulesItemSkipRuleActionParametersProductsItem =
+export type PhasesGetResponseRulesItemSkipRuleActionParametersPhasesList =
+  Array<PhasesGetResponseRulesItemSkipRuleActionParametersPhasesItem>;
+export type PhasesGetResponseRulesItemSkipRuleActionParametersProductsItem =
   | "bic"
   | "hot"
   | "rateLimit"
@@ -13178,35 +13192,35 @@ export type PhasesGetResultRulesItemSkipRuleActionParametersProductsItem =
   | "uaBlock"
   | "waf"
   | "zoneLockdown";
-export type PhasesGetResultRulesItemSkipRuleActionParametersProductsList =
-  Array<PhasesGetResultRulesItemSkipRuleActionParametersProductsItem>;
-export type PhasesGetResultRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
-export type PhasesGetResultRulesItemSkipRuleActionParametersRulesMap = {
-  [key: string]: PhasesGetResultRulesItemSkipRuleActionParametersRulesValueList | undefined;
+export type PhasesGetResponseRulesItemSkipRuleActionParametersProductsList =
+  Array<PhasesGetResponseRulesItemSkipRuleActionParametersProductsItem>;
+export type PhasesGetResponseRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
+export type PhasesGetResponseRulesItemSkipRuleActionParametersRulesMap = {
+  [key: string]: PhasesGetResponseRulesItemSkipRuleActionParametersRulesValueList | undefined;
 };
-export type PhasesGetResultRulesItemSkipRuleActionParametersRuleset = "current";
-export type PhasesGetResultRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
-export interface PhasesGetResultRulesItemSkipRuleActionParameters {
+export type PhasesGetResponseRulesItemSkipRuleActionParametersRuleset = "current";
+export type PhasesGetResponseRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
+export interface PhasesGetResponseRulesItemSkipRuleActionParameters {
   /** A phase to skip the execution of. This option is only compatible with the products option. */
-  phase?: PhasesGetResultRulesItemSkipRuleActionParametersPhase | null | undefined;
+  phase?: PhasesGetResponseRulesItemSkipRuleActionParametersPhase | null | undefined;
   /** A list of phases to skip the execution of. This option is incompatible with the rulesets option. */
-  phases?: PhasesGetResultRulesItemSkipRuleActionParametersPhasesList | null | undefined;
+  phases?: PhasesGetResponseRulesItemSkipRuleActionParametersPhasesList | null | undefined;
   /** A list of legacy security products to skip the execution of. */
-  products?: PhasesGetResultRulesItemSkipRuleActionParametersProductsList | null | undefined;
+  products?: PhasesGetResponseRulesItemSkipRuleActionParametersProductsList | null | undefined;
   /** A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option. */
-  rules?: PhasesGetResultRulesItemSkipRuleActionParametersRulesMap | null | undefined;
+  rules?: PhasesGetResponseRulesItemSkipRuleActionParametersRulesMap | null | undefined;
   /** A ruleset to skip the execution of. This option is incompatible with the rulesets option. */
-  ruleset?: PhasesGetResultRulesItemSkipRuleActionParametersRuleset | null | undefined;
+  ruleset?: PhasesGetResponseRulesItemSkipRuleActionParametersRuleset | null | undefined;
   /** A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options. */
-  rulesets?: PhasesGetResultRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
+  rulesets?: PhasesGetResponseRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
 }
-export type PhasesGetResultRulesItemSkipRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemSkipRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemSkipRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemSkipRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesGetResultRulesItemSkipRuleRatelimit {
+export type PhasesGetResponseRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesGetResponseRulesItemSkipRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemSkipRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemSkipRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13222,7 +13236,7 @@ export interface PhasesGetResultRulesItemSkipRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemSkipRule {
+export interface PhasesGetResponseRulesItemSkipRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13230,11 +13244,11 @@ export interface PhasesGetResultRulesItemSkipRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesGetResultRulesItemSkipRuleAction | null | undefined;
+  action?: PhasesGetResponseRulesItemSkipRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesGetResultRulesItemSkipRuleActionParameters | null | undefined;
+  actionParameters?: PhasesGetResponseRulesItemSkipRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemSkipRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemSkipRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -13248,23 +13262,23 @@ export interface PhasesGetResultRulesItemSkipRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemSkipRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemSkipRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleActionParameters =
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleActionParameters =
   RulesCreateRequestBodyTransformResponseHTMLRuleActionParameters;
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleLogging =
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
+export type PhasesGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesGetResultRulesItemTransformResponseHTMLRuleRatelimit {
+export interface PhasesGetResponseRulesItemTransformResponseHTMLRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
+  characteristics: PhasesGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13280,11 +13294,11 @@ export interface PhasesGetResultRulesItemTransformResponseHTMLRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesGetResultRulesItemTransformResponseHTMLRule {
+export interface PhasesGetResponseRulesItemTransformResponseHTMLRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesGetResultRulesItemTransformResponseHTMLRuleAction;
+  action: PhasesGetResponseRulesItemTransformResponseHTMLRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -13300,7 +13314,7 @@ export interface PhasesGetResultRulesItemTransformResponseHTMLRule {
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesGetResultRulesItemTransformResponseHTMLRuleCategoriesList | null | undefined;
+  categories?: PhasesGetResponseRulesItemTransformResponseHTMLRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -13311,50 +13325,50 @@ export interface PhasesGetResultRulesItemTransformResponseHTMLRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesGetResultRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
+  ratelimit?: PhasesGetResponseRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
 }
-export type PhasesGetResultRulesItem =
-  | PhasesGetResultRulesItemBlockRule
-  | PhasesGetResultRulesItemChallengeRule
-  | PhasesGetResultRulesItemResponseCompressionRule
-  | PhasesGetResultRulesItemDDoSDynamicRule
-  | PhasesGetResultRulesItemExecuteRule
-  | PhasesGetResultRulesItemForceConnectionCloseRule
-  | PhasesGetResultRulesItemJavaScriptChallengeRule
-  | PhasesGetResultRulesItemLogRule
-  | PhasesGetResultRulesItemLogCustomFieldRule
-  | PhasesGetResultRulesItemManagedChallengeRule
-  | PhasesGetResultRulesItemRedirectRule
-  | PhasesGetResultRulesItemRewriteRule
-  | PhasesGetResultRulesItemRouteRule
-  | PhasesGetResultRulesItemScoreRule
-  | PhasesGetResultRulesItemServeErrorRule
-  | PhasesGetResultRulesItemSetCacheControlRule
-  | PhasesGetResultRulesItemSetCacheSettingsRule
-  | PhasesGetResultRulesItemSetCacheTagsRule
-  | PhasesGetResultRulesItemSetConfigurationRule
-  | PhasesGetResultRulesItemSkipRule
-  | PhasesGetResultRulesItemTransformResponseHTMLRule;
-export type PhasesGetResultRulesList = Array<PhasesGetResultRulesItem>;
-export interface PhasesGetResult {
+export type PhasesGetResponseRulesItem =
+  | PhasesGetResponseRulesItemBlockRule
+  | PhasesGetResponseRulesItemChallengeRule
+  | PhasesGetResponseRulesItemResponseCompressionRule
+  | PhasesGetResponseRulesItemDDoSDynamicRule
+  | PhasesGetResponseRulesItemExecuteRule
+  | PhasesGetResponseRulesItemForceConnectionCloseRule
+  | PhasesGetResponseRulesItemJavaScriptChallengeRule
+  | PhasesGetResponseRulesItemLogRule
+  | PhasesGetResponseRulesItemLogCustomFieldRule
+  | PhasesGetResponseRulesItemManagedChallengeRule
+  | PhasesGetResponseRulesItemRedirectRule
+  | PhasesGetResponseRulesItemRewriteRule
+  | PhasesGetResponseRulesItemRouteRule
+  | PhasesGetResponseRulesItemScoreRule
+  | PhasesGetResponseRulesItemServeErrorRule
+  | PhasesGetResponseRulesItemSetCacheControlRule
+  | PhasesGetResponseRulesItemSetCacheSettingsRule
+  | PhasesGetResponseRulesItemSetCacheTagsRule
+  | PhasesGetResponseRulesItemSetConfigurationRule
+  | PhasesGetResponseRulesItemSkipRule
+  | PhasesGetResponseRulesItemTransformResponseHTMLRule;
+export type PhasesGetResponseRulesList = Array<PhasesGetResponseRulesItem>;
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
-  /** An informative description of the ruleset. */
-  description?: string | null | undefined;
   /** The kind of the ruleset. */
-  kind: PhasesGetResultKind;
+  kind: PhasesGetResponseKind;
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
   name: string;
   /** The phase of the ruleset. */
-  phase: PhasesGetResultPhase;
+  phase: PhasesGetResponsePhase;
   /** The list of rules in the ruleset. */
-  rules: PhasesGetResultRulesList;
+  rules: PhasesGetResponseRulesList;
   /** The version of the ruleset. */
   version: string;
+  /** An informative description of the ruleset. */
+  description?: string | null | undefined;
 }
-export type GetPhasResponse = PhasesGetResult;
 export interface GetPhasForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
@@ -13369,8 +13383,8 @@ export interface GetPhasVersionForAccountRequest {
   /** The version of the ruleset. */
   rulesetVersion: string;
 }
-export type PhasesVersionsGetResultKind = "managed" | "custom" | "root" | "zone";
-export type PhasesVersionsGetResultPhase =
+export type PhasesVersionsGetResponseKind = "managed" | "custom" | "root" | "zone";
+export type PhasesVersionsGetResponsePhase =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -13396,20 +13410,20 @@ export type PhasesVersionsGetResultPhase =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type PhasesVersionsGetResultRulesItemBlockRuleAction = "block";
-export type PhasesVersionsGetResultRulesItemBlockRuleActionParametersResponse =
+export type PhasesVersionsGetResponseRulesItemBlockRuleAction = "block";
+export type PhasesVersionsGetResponseRulesItemBlockRuleActionParametersResponse =
   RulesCreateResultRulesetRulesItemBlockRuleActionParametersResponse;
-export type PhasesVersionsGetResultRulesItemBlockRuleActionParameters =
+export type PhasesVersionsGetResponseRulesItemBlockRuleActionParameters =
   RulesCreateResultRulesetRulesItemBlockRuleActionParameters;
-export type PhasesVersionsGetResultRulesItemBlockRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemBlockRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemBlockRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemBlockRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemBlockRuleLogging =
+export type PhasesVersionsGetResponseRulesItemBlockRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemBlockRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemBlockRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemBlockRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemBlockRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13425,7 +13439,7 @@ export interface PhasesVersionsGetResultRulesItemBlockRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemBlockRule {
+export interface PhasesVersionsGetResponseRulesItemBlockRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13433,11 +13447,11 @@ export interface PhasesVersionsGetResultRulesItemBlockRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemBlockRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemBlockRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemBlockRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemBlockRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemBlockRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -13452,21 +13466,21 @@ export interface PhasesVersionsGetResultRulesItemBlockRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemBlockRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemBlockRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemChallengeRuleAction = "challenge";
-export type PhasesVersionsGetResultRulesItemChallengeRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemChallengeRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemChallengeRuleAction = "challenge";
+export type PhasesVersionsGetResponseRulesItemChallengeRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemChallengeRuleLogging =
+export type PhasesVersionsGetResponseRulesItemChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemChallengeRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemChallengeRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13482,11 +13496,11 @@ export interface PhasesVersionsGetResultRulesItemChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemChallengeRule {
+export interface PhasesVersionsGetResponseRulesItemChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesVersionsGetResultRulesItemChallengeRuleAction;
+  action: PhasesVersionsGetResponseRulesItemChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -13500,7 +13514,7 @@ export interface PhasesVersionsGetResultRulesItemChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemChallengeRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -13511,37 +13525,37 @@ export interface PhasesVersionsGetResultRulesItemChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemChallengeRuleRatelimit | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleAction = "compress_response";
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleAction = "compress_response";
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
   | "none"
   | "auto"
   | "default"
   | "gzip"
   | "brotli"
   | "zstd";
-export interface PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
+export interface PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
   /** Name of the compression algorithm to enable. */
   name?:
-    | PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
+    | PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
-  Array<PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
-export interface PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParameters {
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
+  Array<PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
+export interface PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParameters {
   /** Custom order for compression algorithms. */
-  algorithms: PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
+  algorithms: PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
 }
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemResponseCompressionRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemResponseCompressionRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13557,7 +13571,7 @@ export interface PhasesVersionsGetResultRulesItemResponseCompressionRuleRatelimi
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemResponseCompressionRule {
+export interface PhasesVersionsGetResponseRulesItemResponseCompressionRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13565,15 +13579,15 @@ export interface PhasesVersionsGetResultRulesItemResponseCompressionRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemResponseCompressionRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemResponseCompressionRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemResponseCompressionRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemResponseCompressionRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemResponseCompressionRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemResponseCompressionRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -13590,19 +13604,19 @@ export interface PhasesVersionsGetResultRulesItemResponseCompressionRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemResponseCompressionRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemResponseCompressionRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
-export type PhasesVersionsGetResultRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemDDoSDynamicRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
+export type PhasesVersionsGetResponseRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemDDoSDynamicRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemDDoSDynamicRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemDDoSDynamicRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13618,7 +13632,7 @@ export interface PhasesVersionsGetResultRulesItemDDoSDynamicRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemDDoSDynamicRule {
+export interface PhasesVersionsGetResponseRulesItemDDoSDynamicRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13626,11 +13640,11 @@ export interface PhasesVersionsGetResultRulesItemDDoSDynamicRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemDDoSDynamicRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemDDoSDynamicRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -13645,19 +13659,19 @@ export interface PhasesVersionsGetResultRulesItemDDoSDynamicRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemDDoSDynamicRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemDDoSDynamicRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemExecuteRuleAction = "execute";
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersMatchedData =
+export type PhasesVersionsGetResponseRulesItemExecuteRuleAction = "execute";
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersMatchedData =
   RulesCreateResultRulesetRulesItemExecuteRuleActionParametersMatchedData;
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
+export interface PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
   /** The name of the category to override. */
   category: string;
   /** The action to override rules in the category with. */
@@ -13666,18 +13680,18 @@ export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOver
   enabled?: boolean | null | undefined;
   /** The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList =
-  Array<PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList =
+  Array<PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem {
+export interface PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem {
   /** The ID of the rule to override. */
   id: string;
   /** The action to override the rule with. */
@@ -13688,39 +13702,39 @@ export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOver
   scoreThreshold?: number | null | undefined;
   /** The sensitivity level to use for the rule. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesList =
-  Array<PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem>;
-export type PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList =
+  Array<PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem>;
+export type PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverrides {
+export interface PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverrides {
   /** An action to override all rules with. This option has lower precedence than rule and category overrides. */
   action?: string | null | undefined;
   /** A list of category-level overrides. This option has the second-highest precedence after rule-level overrides. */
   categories?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList
     | null
     | undefined;
   /** Whether to enable execution of all rules. This option has lower precedence than rule and category overrides. */
   enabled?: boolean | null | undefined;
   /** A list of rule-level overrides. This option has the highest precedence. */
   rules?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesList
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList
     | null
     | undefined;
   /** A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
     | null
     | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemExecuteRuleActionParameters {
   /** The ID of the ruleset to execute. */
   id: string;
   /** The configuration to use for matched data logging. */
@@ -13730,17 +13744,18 @@ export interface PhasesVersionsGetResultRulesItemExecuteRuleActionParameters {
     | undefined;
   /** A set of overrides to apply to the target ruleset. */
   overrides?:
-    | PhasesVersionsGetResultRulesItemExecuteRuleActionParametersOverrides
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParametersOverrides
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemExecuteRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemExecuteRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemExecuteRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemExecuteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemExecuteRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesVersionsGetResponseRulesItemExecuteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemExecuteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13756,7 +13771,7 @@ export interface PhasesVersionsGetResultRulesItemExecuteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemExecuteRule {
+export interface PhasesVersionsGetResponseRulesItemExecuteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13764,11 +13779,14 @@ export interface PhasesVersionsGetResultRulesItemExecuteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemExecuteRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemExecuteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesVersionsGetResultRulesItemExecuteRuleActionParameters | null | undefined;
+  actionParameters?:
+    | PhasesVersionsGetResponseRulesItemExecuteRuleActionParameters
+    | null
+    | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemExecuteRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemExecuteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -13783,20 +13801,21 @@ export interface PhasesVersionsGetResultRulesItemExecuteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemExecuteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemExecuteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemForceConnectionCloseRuleAction =
+export type PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleAction =
   "force_connection_close";
-export type PhasesVersionsGetResultRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemForceConnectionCloseRuleExposedCredentialCheck =
-  RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleCategoriesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemForceConnectionCloseRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleExposedCredentialCheck =
+  RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
+export type PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13812,7 +13831,7 @@ export interface PhasesVersionsGetResultRulesItemForceConnectionCloseRuleRatelim
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemForceConnectionCloseRule {
+export interface PhasesVersionsGetResponseRulesItemForceConnectionCloseRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13820,12 +13839,12 @@ export interface PhasesVersionsGetResultRulesItemForceConnectionCloseRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemForceConnectionCloseRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemForceConnectionCloseRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -13842,21 +13861,24 @@ export interface PhasesVersionsGetResultRulesItemForceConnectionCloseRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
+  ratelimit?:
+    | PhasesVersionsGetResponseRulesItemForceConnectionCloseRuleRatelimit
+    | null
+    | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleAction = "js_challenge";
-export type PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleAction = "js_challenge";
+export type PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleLogging =
+export type PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13872,11 +13894,11 @@ export interface PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleRatelimi
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemJavaScriptChallengeRule {
+export interface PhasesVersionsGetResponseRulesItemJavaScriptChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleAction;
+  action: PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -13891,7 +13913,7 @@ export interface PhasesVersionsGetResultRulesItemJavaScriptChallengeRule {
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -13904,16 +13926,16 @@ export interface PhasesVersionsGetResultRulesItemJavaScriptChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemLogRuleAction = "log";
-export type PhasesVersionsGetResultRulesItemLogRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemLogRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemLogRuleAction = "log";
+export type PhasesVersionsGetResponseRulesItemLogRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemLogRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemLogRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemLogRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemLogRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemLogRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -13929,7 +13951,7 @@ export interface PhasesVersionsGetResultRulesItemLogRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemLogRule {
+export interface PhasesVersionsGetResponseRulesItemLogRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -13937,11 +13959,11 @@ export interface PhasesVersionsGetResultRulesItemLogRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemLogRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemLogRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemLogRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemLogRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -13956,66 +13978,66 @@ export interface PhasesVersionsGetResultRulesItemLogRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemLogRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemLogRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleAction = "log_custom_field";
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleAction = "log_custom_field";
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem>;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export interface PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParameters {
   /** The cookie fields to log. */
   cookieFields?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
     | null
     | undefined;
   /** The raw response fields to log. */
   rawResponseFields?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
     | null
     | undefined;
   /** The raw request fields to log. */
   requestFields?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
     | null
     | undefined;
   /** The transformed response fields to log. */
   responseFields?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
     | null
     | undefined;
   /** The transformed request fields to log. */
   transformedRequestFields?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemLogCustomFieldRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemLogCustomFieldRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14031,7 +14053,7 @@ export interface PhasesVersionsGetResultRulesItemLogCustomFieldRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemLogCustomFieldRule {
+export interface PhasesVersionsGetResponseRulesItemLogCustomFieldRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14039,14 +14061,17 @@ export interface PhasesVersionsGetResultRulesItemLogCustomFieldRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemLogCustomFieldRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemLogCustomFieldRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemLogCustomFieldRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
+  categories?:
+    | PhasesVersionsGetResponseRulesItemLogCustomFieldRuleCategoriesList
+    | null
+    | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -14061,19 +14086,19 @@ export interface PhasesVersionsGetResultRulesItemLogCustomFieldRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemLogCustomFieldRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemLogCustomFieldRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemManagedChallengeRuleAction = "managed_challenge";
-export type PhasesVersionsGetResultRulesItemManagedChallengeRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemManagedChallengeRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemManagedChallengeRuleAction = "managed_challenge";
+export type PhasesVersionsGetResponseRulesItemManagedChallengeRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemManagedChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemManagedChallengeRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemManagedChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14089,7 +14114,7 @@ export interface PhasesVersionsGetResultRulesItemManagedChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemManagedChallengeRule {
+export interface PhasesVersionsGetResponseRulesItemManagedChallengeRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14097,12 +14122,12 @@ export interface PhasesVersionsGetResultRulesItemManagedChallengeRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemManagedChallengeRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemManagedChallengeRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemManagedChallengeRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemManagedChallengeRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -14119,33 +14144,33 @@ export interface PhasesVersionsGetResultRulesItemManagedChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemManagedChallengeRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemManagedChallengeRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemRedirectRuleAction = "redirect";
-export type PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromList =
+export type PhasesVersionsGetResponseRulesItemRedirectRuleAction = "redirect";
+export type PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromList =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList;
-export type PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromValueTargetUrl =
+export type PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromValueTargetUrl =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
-export type PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode =
+export type PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode =
   | 301
   | 302
   | 303
   | 307
   | 308;
-export interface PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromValue {
+export interface PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromValue {
   /** A URL to redirect the request to. */
   targetUrl: RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
   /** Whether to keep the query string of the original request. */
   preserveQueryString?: boolean | null | undefined;
   /** The status code to use for the redirect. */
   statusCode?:
-    | PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode
+    | PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode
     | null
     | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemRedirectRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemRedirectRuleActionParameters {
   /** A redirect based on a bulk list lookup. */
   fromList?:
     | RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList
@@ -14153,18 +14178,18 @@ export interface PhasesVersionsGetResultRulesItemRedirectRuleActionParameters {
     | undefined;
   /** A redirect based on the request properties. */
   fromValue?:
-    | PhasesVersionsGetResultRulesItemRedirectRuleActionParametersFromValue
+    | PhasesVersionsGetResponseRulesItemRedirectRuleActionParametersFromValue
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemRedirectRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemRedirectRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemRedirectRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemRedirectRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemRedirectRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemRedirectRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemRedirectRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemRedirectRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14180,7 +14205,7 @@ export interface PhasesVersionsGetResultRulesItemRedirectRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemRedirectRule {
+export interface PhasesVersionsGetResponseRulesItemRedirectRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14188,14 +14213,14 @@ export interface PhasesVersionsGetResultRulesItemRedirectRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemRedirectRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemRedirectRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemRedirectRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemRedirectRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemRedirectRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemRedirectRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -14210,87 +14235,88 @@ export interface PhasesVersionsGetResultRulesItemRedirectRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemRedirectRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemRedirectRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleAction = "rewrite";
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleAction = "rewrite";
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
+  operation: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValue =
-  | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
-  | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
-  | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
-  | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
-  | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersMap = {
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
   [key: string]:
-    | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersValue
+    | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue
     | undefined;
 };
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUriURIPathPath =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUriURIPath =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath;
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUriURIQueryQuery =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUriURIQueryQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQueryQuery;
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUriURIQuery =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUriURIQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export type PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUri =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUri =
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export interface PhasesVersionsGetResultRulesItemRewriteRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
   headers?:
-    | PhasesVersionsGetResultRulesItemRewriteRuleActionParametersHeadersMap
+    | PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap
     | null
     | undefined;
   /** A URI path rewrite. */
-  uri?: PhasesVersionsGetResultRulesItemRewriteRuleActionParametersUri | null | undefined;
+  uri?: PhasesVersionsGetResponseRulesItemRewriteRuleActionParametersUri | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemRewriteRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemRewriteRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemRewriteRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemRewriteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemRewriteRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesVersionsGetResponseRulesItemRewriteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemRewriteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14306,7 +14332,7 @@ export interface PhasesVersionsGetResultRulesItemRewriteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemRewriteRule {
+export interface PhasesVersionsGetResponseRulesItemRewriteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14314,11 +14340,14 @@ export interface PhasesVersionsGetResultRulesItemRewriteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemRewriteRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemRewriteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesVersionsGetResultRulesItemRewriteRuleActionParameters | null | undefined;
+  actionParameters?:
+    | PhasesVersionsGetResponseRulesItemRewriteRuleActionParameters
+    | null
+    | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemRewriteRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemRewriteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -14333,24 +14362,24 @@ export interface PhasesVersionsGetResultRulesItemRewriteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemRewriteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemRewriteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemRouteRuleAction = "route";
-export type PhasesVersionsGetResultRulesItemRouteRuleActionParametersOrigin =
+export type PhasesVersionsGetResponseRulesItemRouteRuleAction = "route";
+export type PhasesVersionsGetResponseRulesItemRouteRuleActionParametersOrigin =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersOrigin;
-export type PhasesVersionsGetResultRulesItemRouteRuleActionParametersSni =
+export type PhasesVersionsGetResponseRulesItemRouteRuleActionParametersSni =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersSni;
-export type PhasesVersionsGetResultRulesItemRouteRuleActionParameters =
+export type PhasesVersionsGetResponseRulesItemRouteRuleActionParameters =
   RulesCreateResultRulesetRulesItemRouteRuleActionParameters;
-export type PhasesVersionsGetResultRulesItemRouteRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemRouteRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemRouteRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemRouteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemRouteRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemRouteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemRouteRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemRouteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14366,7 +14395,7 @@ export interface PhasesVersionsGetResultRulesItemRouteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemRouteRule {
+export interface PhasesVersionsGetResponseRulesItemRouteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14374,11 +14403,11 @@ export interface PhasesVersionsGetResultRulesItemRouteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemRouteRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemRouteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemRouteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemRouteRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemRouteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -14393,20 +14422,20 @@ export interface PhasesVersionsGetResultRulesItemRouteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemRouteRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemRouteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemScoreRuleAction = "score";
-export type PhasesVersionsGetResultRulesItemScoreRuleActionParameters =
+export type PhasesVersionsGetResponseRulesItemScoreRuleAction = "score";
+export type PhasesVersionsGetResponseRulesItemScoreRuleActionParameters =
   RulesCreateResultRulesetRulesItemScoreRuleActionParameters;
-export type PhasesVersionsGetResultRulesItemScoreRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemScoreRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemScoreRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemScoreRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemScoreRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemScoreRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemScoreRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemScoreRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14422,7 +14451,7 @@ export interface PhasesVersionsGetResultRulesItemScoreRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemScoreRule {
+export interface PhasesVersionsGetResponseRulesItemScoreRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14430,11 +14459,11 @@ export interface PhasesVersionsGetResultRulesItemScoreRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemScoreRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemScoreRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemScoreRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemScoreRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemScoreRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -14448,54 +14477,54 @@ export interface PhasesVersionsGetResultRulesItemScoreRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemScoreRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemScoreRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemServeErrorRuleAction = "serve_error";
-export type PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleAction = "serve_error";
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContent {
+export interface PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent {
   /** The response content. */
   content: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType
+    | PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset {
+export interface PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset {
   /** The name of a custom asset to serve as the error response. */
   assetName: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
+    | PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemServeErrorRuleActionParameters =
-  | PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContent
-  | PhasesVersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset;
-export type PhasesVersionsGetResultRulesItemServeErrorRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemServeErrorRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleActionParameters =
+  | PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent
+  | PhasesVersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset;
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemServeErrorRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemServeErrorRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14511,7 +14540,7 @@ export interface PhasesVersionsGetResultRulesItemServeErrorRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemServeErrorRule {
+export interface PhasesVersionsGetResponseRulesItemServeErrorRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -14519,14 +14548,14 @@ export interface PhasesVersionsGetResultRulesItemServeErrorRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemServeErrorRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemServeErrorRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemServeErrorRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemServeErrorRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemServeErrorRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemServeErrorRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -14540,383 +14569,383 @@ export interface PhasesVersionsGetResultRulesItemServeErrorRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemServeErrorRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemServeErrorRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleAction = "set_cache_control";
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleAction = "set_cache_control";
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutable =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutable =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAge =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
   | "set"
   | "remove";
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCache =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCache =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStore =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStore =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransform =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
   | "set"
   | "remove";
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivate =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivate =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublic =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublic =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxage =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
-  | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParameters {
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParameters {
   /** A cache-control directive configuration. */
   immutable?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutable
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutable
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   maxAge?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAge
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge
     | null
     | undefined;
   /** A cache-control directive configuration. */
   mustRevalidate?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   mustUnderstand?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
   noCache?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCache
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCache
     | null
     | undefined;
   /** A cache-control directive configuration. */
   noStore?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStore
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStore
     | null
     | undefined;
   /** A cache-control directive configuration. */
   noTransform?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransform
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
   private?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivate
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   proxyRevalidate?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   public?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersPublic
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublic
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   sMaxage?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxage
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleIfError?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleWhileRevalidate?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleLogging =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -14932,11 +14961,11 @@ export interface PhasesVersionsGetResultRulesItemSetCacheControlRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheControlRule {
+export interface PhasesVersionsGetResponseRulesItemSetCacheControlRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesVersionsGetResultRulesItemSetCacheControlRuleAction;
+  action: PhasesVersionsGetResponseRulesItemSetCacheControlRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -14948,11 +14977,14 @@ export interface PhasesVersionsGetResultRulesItemSetCacheControlRule {
   version: string;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemSetCacheControlRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemSetCacheControlRuleCategoriesList | null | undefined;
+  categories?:
+    | PhasesVersionsGetResponseRulesItemSetCacheControlRuleCategoriesList
+    | null
+    | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -14963,116 +14995,116 @@ export interface PhasesVersionsGetResultRulesItemSetCacheControlRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemSetCacheControlRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemSetCacheControlRuleRatelimit | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
   Array<number>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin"
   | "bypass";
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
   /** The browser TTL mode. */
-  mode: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
+  mode: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
   /** The browser TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
   Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
   /** A list of cookies to check for the presence of. The presence of these cookies is included in the cache key. */
   checkPresence?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
     | null
     | undefined;
   /** A list of cookies to include in the cache key. */
   include?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
   Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
   Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
   {
     [key: string]:
-      | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
+      | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
       | undefined;
   };
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
   /** A list of headers to check for the presence of. The presence of these headers is included in the cache key. */
   checkPresence?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
     | null
     | undefined;
   /** A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key. */
   contains?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
     | null
     | undefined;
   /** Whether to exclude the origin header in the cache key. */
   excludeOrigin?: boolean | null | undefined;
   /** A list of headers to include in the cache key. */
   include?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
   /** Whether to exclude all query string parameters from the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to exclude from the cache key. */
   list?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
   /** Whether to include all query string parameters in the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to include in the cache key. */
   list?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
     | null
     | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
   /** Which query string parameters to exclude from the cache key. */
   exclude?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
     | null
     | undefined;
   /** Which query string parameters to include in the cache key. */
   include?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
   /** Which cookies to include in the cache key. */
   cookie?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
     | null
     | undefined;
   /** Which headers to include in the cache key. */
   header?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
     | null
     | undefined;
   /** How to use the host in the cache key. */
@@ -15082,7 +15114,7 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParam
     | undefined;
   /** Which query string parameters to include in or exclude from the cache key. */
   queryString?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
     | null
     | undefined;
   /** How to use characteristics of the request user agent in the cache key. */
@@ -15091,117 +15123,117 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParam
     | null
     | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey {
   /** Whether to separate cached content based on the visitor's device type. */
   cacheByDeviceType?: boolean | null | undefined;
   /** Whether to protect from web cache deception attacks, while allowing static assets to be cached. */
   cacheDeceptionArmor?: boolean | null | undefined;
   /** Which components of the request are included or excluded from the cache key. */
   customKey?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
     | null
     | undefined;
   /** Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in. */
   ignoreQueryStringsOrder?: boolean | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheReserve;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin";
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
   Array<RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
   /** The edge TTL mode. */
-  mode: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
+  mode: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
   /** The edge TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
   /** A list of TTLs to apply to specific status codes or status code ranges. */
   statusCodeTtl?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
   | "on"
   | "off"
   | "default";
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
   /** Whether to use range requests. `default` is the behaviour the zone gets without this rule. */
-  mode: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
+  mode: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersServeStale =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersServeStale =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersServeStale;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersSharedDictionary;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
   /** How the header value is treated when building the cache key. */
-  action: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
+  action: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
   Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
   /** How the header value is treated when building the cache key. */
-  action: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
+  action: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
   /** The set of languages to normalize against. Only valid for the `accept-language` header. */
   languages?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
     | null
     | undefined;
   /** The set of media types to normalize against. Only valid for the `accept` header. */
   mediaTypes?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
   [key: string]:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
     | undefined;
 };
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVary {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVary {
   /** Controls how response Vary headers without a per-header override contribute to the cache key. */
   default?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault
     | null
     | undefined;
   /** A mapping of lowercase request header names to their vary configuration. */
   headers?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
     | null
     | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParameters {
   /** A list of additional ports that caching should be enabled on. */
   additionalCacheablePorts?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
     | null
     | undefined;
   /** How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content. */
   browserTtl?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
     | null
     | undefined;
   /** Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations. */
   cache?: boolean | null | undefined;
   /** Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache. */
   cacheKey?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey
     | null
     | undefined;
   /** Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan). */
@@ -15211,7 +15243,7 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParam
     | undefined;
   /** How long the Cloudflare edge network should cache the response. */
   edgeTtl?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl
     | null
     | undefined;
   /** Whether Cloudflare will aim to strictly adhere to RFC 7234. */
@@ -15220,7 +15252,7 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParam
   originErrorPagePassthru?: boolean | null | undefined;
   /** Controls whether Cloudflare fetches a large asset from the origin as a series of range requests instead of one whole-body request. */
   originRangeRequests?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
     | null
     | undefined;
   /** A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value. */
@@ -15245,18 +15277,18 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParam
   stripSetCookie?: boolean | null | undefined;
   /** Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override. */
   vary?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVary
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVary
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15272,7 +15304,7 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRule {
+export interface PhasesVersionsGetResponseRulesItemSetCacheSettingsRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -15280,15 +15312,15 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemSetCacheSettingsRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -15304,94 +15336,94 @@ export interface PhasesVersionsGetResultRulesItemSetCacheSettingsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleAction = "set_cache_tags";
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleAction = "set_cache_tags";
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
+  values: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
+  values: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
+  values: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
+  operation: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
 }
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParameters =
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParameters =
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleLogging =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15407,11 +15439,11 @@ export interface PhasesVersionsGetResultRulesItemSetCacheTagsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetCacheTagsRule {
+export interface PhasesVersionsGetResponseRulesItemSetCacheTagsRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesVersionsGetResultRulesItemSetCacheTagsRuleAction;
+  action: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -15423,11 +15455,11 @@ export interface PhasesVersionsGetResultRulesItemSetCacheTagsRule {
   version: string;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemSetCacheTagsRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemSetCacheTagsRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -15438,39 +15470,39 @@ export interface PhasesVersionsGetResultRulesItemSetCacheTagsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemSetCacheTagsRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemSetCacheTagsRuleRatelimit | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleAction = "set_config";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersAutominify =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleAction = "set_config";
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersAutominify =
   RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersAutominify;
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersPolish =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersPolish =
   | "off"
   | "lossless"
   | "lossy"
   | "webp";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
   | "none"
   | "standard"
   | "full";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
   | "none"
   | "standard";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersSsl =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "off"
   | "flexible"
   | "full"
   | "strict"
   | "origin_pull";
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParameters {
+export interface PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null | undefined;
   /** Which file extensions to minify automatically. */
@@ -15502,50 +15534,53 @@ export interface PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParam
   opportunisticEncryption?: boolean | null | undefined;
   /** The Polish level to configure. */
   polish?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersPolish
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersPolish
     | null
     | undefined;
   /** Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response. */
   redirectsForAiTraining?: boolean | null | undefined;
   /** The request body buffering mode. */
   requestBodyBuffering?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
     | null
     | undefined;
   /** The response body buffering mode. */
   responseBodyBuffering?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
     | null
     | undefined;
   /** Whether to enable Rocket Loader. */
   rocketLoader?: boolean | null | undefined;
   /** The Security Level to configure. */
   securityLevel?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel
     | null
     | undefined;
   /** Whether to enable Server-Side Excludes. */
   serverSideExcludes?: boolean | null | undefined;
   /** The SSL level to configure. */
-  ssl?: PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
+  ssl?:
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl
+    | null
+    | undefined;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null | undefined;
   /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
   webmcpEnabled?: boolean | null | undefined;
   /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. */
   webmcpPacks?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemSetConfigurationRuleRatelimit {
+export interface PhasesVersionsGetResponseRulesItemSetConfigurationRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15561,7 +15596,7 @@ export interface PhasesVersionsGetResultRulesItemSetConfigurationRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSetConfigurationRule {
+export interface PhasesVersionsGetResponseRulesItemSetConfigurationRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -15569,15 +15604,15 @@ export interface PhasesVersionsGetResultRulesItemSetConfigurationRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemSetConfigurationRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemSetConfigurationRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleActionParameters
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemSetConfigurationRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemSetConfigurationRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -15593,13 +15628,13 @@ export interface PhasesVersionsGetResultRulesItemSetConfigurationRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemSetConfigurationRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemSetConfigurationRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSkipRuleAction = "skip";
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhase = "current";
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhasesItem =
+export type PhasesVersionsGetResponseRulesItemSkipRuleAction = "skip";
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhase = "current";
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhasesItem =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -15625,9 +15660,9 @@ export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhasesItem =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhasesList =
-  Array<PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhasesItem>;
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersProductsItem =
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhasesList =
+  Array<PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhasesItem>;
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersProductsItem =
   | "bic"
   | "hot"
   | "rateLimit"
@@ -15635,41 +15670,44 @@ export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersProductsItem
   | "uaBlock"
   | "waf"
   | "zoneLockdown";
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersProductsList =
-  Array<PhasesVersionsGetResultRulesItemSkipRuleActionParametersProductsItem>;
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesMap = {
-  [key: string]: PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesValueList | undefined;
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersProductsList =
+  Array<PhasesVersionsGetResponseRulesItemSkipRuleActionParametersProductsItem>;
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesValueList =
+  Array<string>;
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesMap = {
+  [key: string]:
+    | PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesValueList
+    | undefined;
 };
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersRuleset = "current";
-export type PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemSkipRuleActionParameters {
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRuleset = "current";
+export type PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemSkipRuleActionParameters {
   /** A phase to skip the execution of. This option is only compatible with the products option. */
-  phase?: PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhase | null | undefined;
+  phase?: PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhase | null | undefined;
   /** A list of phases to skip the execution of. This option is incompatible with the rulesets option. */
-  phases?: PhasesVersionsGetResultRulesItemSkipRuleActionParametersPhasesList | null | undefined;
+  phases?: PhasesVersionsGetResponseRulesItemSkipRuleActionParametersPhasesList | null | undefined;
   /** A list of legacy security products to skip the execution of. */
   products?:
-    | PhasesVersionsGetResultRulesItemSkipRuleActionParametersProductsList
+    | PhasesVersionsGetResponseRulesItemSkipRuleActionParametersProductsList
     | null
     | undefined;
   /** A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option. */
-  rules?: PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesMap | null | undefined;
+  rules?: PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesMap | null | undefined;
   /** A ruleset to skip the execution of. This option is incompatible with the rulesets option. */
-  ruleset?: PhasesVersionsGetResultRulesItemSkipRuleActionParametersRuleset | null | undefined;
+  ruleset?: PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRuleset | null | undefined;
   /** A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options. */
   rulesets?:
-    | PhasesVersionsGetResultRulesItemSkipRuleActionParametersRulesetsList
+    | PhasesVersionsGetResponseRulesItemSkipRuleActionParametersRulesetsList
     | null
     | undefined;
 }
-export type PhasesVersionsGetResultRulesItemSkipRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemSkipRuleExposedCredentialCheck =
+export type PhasesVersionsGetResponseRulesItemSkipRuleCategoriesList = Array<string>;
+export type PhasesVersionsGetResponseRulesItemSkipRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
-export interface PhasesVersionsGetResultRulesItemSkipRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
+export interface PhasesVersionsGetResponseRulesItemSkipRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemSkipRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemSkipRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15685,7 +15723,7 @@ export interface PhasesVersionsGetResultRulesItemSkipRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemSkipRule {
+export interface PhasesVersionsGetResponseRulesItemSkipRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -15693,11 +15731,11 @@ export interface PhasesVersionsGetResultRulesItemSkipRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: PhasesVersionsGetResultRulesItemSkipRuleAction | null | undefined;
+  action?: PhasesVersionsGetResponseRulesItemSkipRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: PhasesVersionsGetResultRulesItemSkipRuleActionParameters | null | undefined;
+  actionParameters?: PhasesVersionsGetResponseRulesItemSkipRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: PhasesVersionsGetResultRulesItemSkipRuleCategoriesList | null | undefined;
+  categories?: PhasesVersionsGetResponseRulesItemSkipRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -15711,24 +15749,25 @@ export interface PhasesVersionsGetResultRulesItemSkipRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemSkipRuleRatelimit | null | undefined;
+  ratelimit?: PhasesVersionsGetResponseRulesItemSkipRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleAction =
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleAction =
   "transform_response_html";
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleActionParameters =
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleActionParameters =
   RulesCreateRequestBodyTransformResponseHTMLRuleActionParameters;
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
-  RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleLogging =
-  RulesCreateRequestBodyChallengeRuleLogging;
-export type PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleCategoriesList =
   Array<string>;
-export interface PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleRatelimit {
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
+  RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleLogging =
+  RulesCreateRequestBodyChallengeRuleLogging;
+export type PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
+  characteristics: PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15744,11 +15783,11 @@ export interface PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleRateli
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface PhasesVersionsGetResultRulesItemTransformResponseHTMLRule {
+export interface PhasesVersionsGetResponseRulesItemTransformResponseHTMLRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleAction;
+  action: PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -15765,7 +15804,7 @@ export interface PhasesVersionsGetResultRulesItemTransformResponseHTMLRule {
     | undefined;
   /** The categories of the rule. */
   categories?:
-    | PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleCategoriesList
+    | PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleCategoriesList
     | null
     | undefined;
   /** An informative description of the rule. */
@@ -15778,50 +15817,53 @@ export interface PhasesVersionsGetResultRulesItemTransformResponseHTMLRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: PhasesVersionsGetResultRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
+  ratelimit?:
+    | PhasesVersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimit
+    | null
+    | undefined;
 }
-export type PhasesVersionsGetResultRulesItem =
-  | PhasesVersionsGetResultRulesItemBlockRule
-  | PhasesVersionsGetResultRulesItemChallengeRule
-  | PhasesVersionsGetResultRulesItemResponseCompressionRule
-  | PhasesVersionsGetResultRulesItemDDoSDynamicRule
-  | PhasesVersionsGetResultRulesItemExecuteRule
-  | PhasesVersionsGetResultRulesItemForceConnectionCloseRule
-  | PhasesVersionsGetResultRulesItemJavaScriptChallengeRule
-  | PhasesVersionsGetResultRulesItemLogRule
-  | PhasesVersionsGetResultRulesItemLogCustomFieldRule
-  | PhasesVersionsGetResultRulesItemManagedChallengeRule
-  | PhasesVersionsGetResultRulesItemRedirectRule
-  | PhasesVersionsGetResultRulesItemRewriteRule
-  | PhasesVersionsGetResultRulesItemRouteRule
-  | PhasesVersionsGetResultRulesItemScoreRule
-  | PhasesVersionsGetResultRulesItemServeErrorRule
-  | PhasesVersionsGetResultRulesItemSetCacheControlRule
-  | PhasesVersionsGetResultRulesItemSetCacheSettingsRule
-  | PhasesVersionsGetResultRulesItemSetCacheTagsRule
-  | PhasesVersionsGetResultRulesItemSetConfigurationRule
-  | PhasesVersionsGetResultRulesItemSkipRule
-  | PhasesVersionsGetResultRulesItemTransformResponseHTMLRule;
-export type PhasesVersionsGetResultRulesList = Array<PhasesVersionsGetResultRulesItem>;
-export interface PhasesVersionsGetResult {
+export type PhasesVersionsGetResponseRulesItem =
+  | PhasesVersionsGetResponseRulesItemBlockRule
+  | PhasesVersionsGetResponseRulesItemChallengeRule
+  | PhasesVersionsGetResponseRulesItemResponseCompressionRule
+  | PhasesVersionsGetResponseRulesItemDDoSDynamicRule
+  | PhasesVersionsGetResponseRulesItemExecuteRule
+  | PhasesVersionsGetResponseRulesItemForceConnectionCloseRule
+  | PhasesVersionsGetResponseRulesItemJavaScriptChallengeRule
+  | PhasesVersionsGetResponseRulesItemLogRule
+  | PhasesVersionsGetResponseRulesItemLogCustomFieldRule
+  | PhasesVersionsGetResponseRulesItemManagedChallengeRule
+  | PhasesVersionsGetResponseRulesItemRedirectRule
+  | PhasesVersionsGetResponseRulesItemRewriteRule
+  | PhasesVersionsGetResponseRulesItemRouteRule
+  | PhasesVersionsGetResponseRulesItemScoreRule
+  | PhasesVersionsGetResponseRulesItemServeErrorRule
+  | PhasesVersionsGetResponseRulesItemSetCacheControlRule
+  | PhasesVersionsGetResponseRulesItemSetCacheSettingsRule
+  | PhasesVersionsGetResponseRulesItemSetCacheTagsRule
+  | PhasesVersionsGetResponseRulesItemSetConfigurationRule
+  | PhasesVersionsGetResponseRulesItemSkipRule
+  | PhasesVersionsGetResponseRulesItemTransformResponseHTMLRule;
+export type PhasesVersionsGetResponseRulesList = Array<PhasesVersionsGetResponseRulesItem>;
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetPhasVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
-  /** An informative description of the ruleset. */
-  description?: string | null | undefined;
   /** The kind of the ruleset. */
-  kind: PhasesVersionsGetResultKind;
+  kind: PhasesVersionsGetResponseKind;
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
   name: string;
   /** The phase of the ruleset. */
-  phase: PhasesVersionsGetResultPhase;
+  phase: PhasesVersionsGetResponsePhase;
   /** The list of rules in the ruleset. */
-  rules: PhasesVersionsGetResultRulesList;
+  rules: PhasesVersionsGetResponseRulesList;
   /** The version of the ruleset. */
   version: string;
+  /** An informative description of the ruleset. */
+  description?: string | null | undefined;
 }
-export type GetPhasVersionResponse = PhasesVersionsGetResult;
 export interface GetPhasVersionForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
@@ -15836,8 +15878,8 @@ export interface GetRulesetForAccountRequest {
   /** The unique ID of the ruleset. */
   rulesetId: string;
 }
-export type GetResultKind = "managed" | "custom" | "root" | "zone";
-export type GetResultPhase =
+export type GetResponseKind = "managed" | "custom" | "root" | "zone";
+export type GetResponsePhase =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -15863,19 +15905,19 @@ export type GetResultPhase =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type GetResultRulesItemBlockRuleAction = "block";
-export type GetResultRulesItemBlockRuleActionParametersResponse =
+export type GetResponseRulesItemBlockRuleAction = "block";
+export type GetResponseRulesItemBlockRuleActionParametersResponse =
   RulesCreateResultRulesetRulesItemBlockRuleActionParametersResponse;
-export type GetResultRulesItemBlockRuleActionParameters =
+export type GetResponseRulesItemBlockRuleActionParameters =
   RulesCreateResultRulesetRulesItemBlockRuleActionParameters;
-export type GetResultRulesItemBlockRuleCategoriesList = Array<string>;
-export type GetResultRulesItemBlockRuleExposedCredentialCheck =
+export type GetResponseRulesItemBlockRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemBlockRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemBlockRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemBlockRuleRatelimit {
+export type GetResponseRulesItemBlockRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
+export type GetResponseRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemBlockRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemBlockRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemBlockRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15891,7 +15933,7 @@ export interface GetResultRulesItemBlockRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemBlockRule {
+export interface GetResponseRulesItemBlockRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -15899,11 +15941,11 @@ export interface GetResultRulesItemBlockRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemBlockRuleAction | null | undefined;
+  action?: GetResponseRulesItemBlockRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemBlockRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemBlockRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemBlockRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -15918,19 +15960,19 @@ export interface GetResultRulesItemBlockRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemBlockRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemBlockRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemChallengeRuleAction = "challenge";
-export type GetResultRulesItemChallengeRuleCategoriesList = Array<string>;
-export type GetResultRulesItemChallengeRuleExposedCredentialCheck =
+export type GetResponseRulesItemChallengeRuleAction = "challenge";
+export type GetResponseRulesItemChallengeRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemChallengeRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemChallengeRuleRatelimit {
+export type GetResponseRulesItemChallengeRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
+export type GetResponseRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemChallengeRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -15946,11 +15988,11 @@ export interface GetResultRulesItemChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemChallengeRule {
+export interface GetResponseRulesItemChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: GetResultRulesItemChallengeRuleAction;
+  action: GetResponseRulesItemChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -15964,7 +16006,7 @@ export interface GetResultRulesItemChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemChallengeRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -15975,36 +16017,36 @@ export interface GetResultRulesItemChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemChallengeRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemChallengeRuleRatelimit | null | undefined;
 }
-export type GetResultRulesItemResponseCompressionRuleAction = "compress_response";
-export type GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
+export type GetResponseRulesItemResponseCompressionRuleAction = "compress_response";
+export type GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
   | "none"
   | "auto"
   | "default"
   | "gzip"
   | "brotli"
   | "zstd";
-export interface GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
+export interface GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
   /** Name of the compression algorithm to enable. */
   name?:
-    | GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
+    | GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
     | null
     | undefined;
 }
-export type GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
-  Array<GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
-export interface GetResultRulesItemResponseCompressionRuleActionParameters {
+export type GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
+  Array<GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
+export interface GetResponseRulesItemResponseCompressionRuleActionParameters {
   /** Custom order for compression algorithms. */
-  algorithms: GetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
+  algorithms: GetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
 }
-export type GetResultRulesItemResponseCompressionRuleCategoriesList = Array<string>;
-export type GetResultRulesItemResponseCompressionRuleExposedCredentialCheck =
+export type GetResponseRulesItemResponseCompressionRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemResponseCompressionRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemResponseCompressionRuleRatelimit {
+export type GetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemResponseCompressionRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16020,7 +16062,7 @@ export interface GetResultRulesItemResponseCompressionRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemResponseCompressionRule {
+export interface GetResponseRulesItemResponseCompressionRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16028,11 +16070,11 @@ export interface GetResultRulesItemResponseCompressionRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemResponseCompressionRuleAction | null | undefined;
+  action?: GetResponseRulesItemResponseCompressionRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemResponseCompressionRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemResponseCompressionRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemResponseCompressionRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemResponseCompressionRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16047,18 +16089,18 @@ export interface GetResultRulesItemResponseCompressionRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemResponseCompressionRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemResponseCompressionRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
-export type GetResultRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
-export type GetResultRulesItemDDoSDynamicRuleExposedCredentialCheck =
+export type GetResponseRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
+export type GetResponseRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemDDoSDynamicRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemDDoSDynamicRuleRatelimit {
+export type GetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemDDoSDynamicRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16074,7 +16116,7 @@ export interface GetResultRulesItemDDoSDynamicRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemDDoSDynamicRule {
+export interface GetResponseRulesItemDDoSDynamicRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16082,11 +16124,11 @@ export interface GetResultRulesItemDDoSDynamicRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemDDoSDynamicRuleAction | null | undefined;
+  action?: GetResponseRulesItemDDoSDynamicRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16101,19 +16143,19 @@ export interface GetResultRulesItemDDoSDynamicRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemDDoSDynamicRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemDDoSDynamicRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemExecuteRuleAction = "execute";
-export type GetResultRulesItemExecuteRuleActionParametersMatchedData =
+export type GetResponseRulesItemExecuteRuleAction = "execute";
+export type GetResponseRulesItemExecuteRuleActionParametersMatchedData =
   RulesCreateResultRulesetRulesItemExecuteRuleActionParametersMatchedData;
-export type GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
+export type GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
+export interface GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
   /** The name of the category to override. */
   category: string;
   /** The action to override rules in the category with. */
@@ -16122,18 +16164,18 @@ export interface GetResultRulesItemExecuteRuleActionParametersOverridesCategorie
   enabled?: boolean | null | undefined;
   /** The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
+    | GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
     | null
     | undefined;
 }
-export type GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList =
-  Array<GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
-export type GetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
+export type GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList =
+  Array<GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
+export type GetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface GetResultRulesItemExecuteRuleActionParametersOverridesRulesItem {
+export interface GetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem {
   /** The ID of the rule to override. */
   id: string;
   /** The action to override the rule with. */
@@ -16144,36 +16186,36 @@ export interface GetResultRulesItemExecuteRuleActionParametersOverridesRulesItem
   scoreThreshold?: number | null | undefined;
   /** The sensitivity level to use for the rule. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | GetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
+    | GetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
     | null
     | undefined;
 }
-export type GetResultRulesItemExecuteRuleActionParametersOverridesRulesList =
-  Array<GetResultRulesItemExecuteRuleActionParametersOverridesRulesItem>;
-export type GetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
+export type GetResponseRulesItemExecuteRuleActionParametersOverridesRulesList =
+  Array<GetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem>;
+export type GetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface GetResultRulesItemExecuteRuleActionParametersOverrides {
+export interface GetResponseRulesItemExecuteRuleActionParametersOverrides {
   /** An action to override all rules with. This option has lower precedence than rule and category overrides. */
   action?: string | null | undefined;
   /** A list of category-level overrides. This option has the second-highest precedence after rule-level overrides. */
   categories?:
-    | GetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList
+    | GetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList
     | null
     | undefined;
   /** Whether to enable execution of all rules. This option has lower precedence than rule and category overrides. */
   enabled?: boolean | null | undefined;
   /** A list of rule-level overrides. This option has the highest precedence. */
-  rules?: GetResultRulesItemExecuteRuleActionParametersOverridesRulesList | null | undefined;
+  rules?: GetResponseRulesItemExecuteRuleActionParametersOverridesRulesList | null | undefined;
   /** A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | GetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
+    | GetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
     | null
     | undefined;
 }
-export interface GetResultRulesItemExecuteRuleActionParameters {
+export interface GetResponseRulesItemExecuteRuleActionParameters {
   /** The ID of the ruleset to execute. */
   id: string;
   /** The configuration to use for matched data logging. */
@@ -16182,15 +16224,15 @@ export interface GetResultRulesItemExecuteRuleActionParameters {
     | null
     | undefined;
   /** A set of overrides to apply to the target ruleset. */
-  overrides?: GetResultRulesItemExecuteRuleActionParametersOverrides | null | undefined;
+  overrides?: GetResponseRulesItemExecuteRuleActionParametersOverrides | null | undefined;
 }
-export type GetResultRulesItemExecuteRuleCategoriesList = Array<string>;
-export type GetResultRulesItemExecuteRuleExposedCredentialCheck =
+export type GetResponseRulesItemExecuteRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemExecuteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemExecuteRuleRatelimit {
+export type GetResponseRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemExecuteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemExecuteRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemExecuteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16206,7 +16248,7 @@ export interface GetResultRulesItemExecuteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemExecuteRule {
+export interface GetResponseRulesItemExecuteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16214,11 +16256,11 @@ export interface GetResultRulesItemExecuteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemExecuteRuleAction | null | undefined;
+  action?: GetResponseRulesItemExecuteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemExecuteRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemExecuteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemExecuteRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemExecuteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16233,18 +16275,19 @@ export interface GetResultRulesItemExecuteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemExecuteRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemExecuteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemForceConnectionCloseRuleAction = "force_connection_close";
-export type GetResultRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
-export type GetResultRulesItemForceConnectionCloseRuleExposedCredentialCheck =
+export type GetResponseRulesItemForceConnectionCloseRuleAction = "force_connection_close";
+export type GetResponseRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemForceConnectionCloseRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemForceConnectionCloseRuleRatelimit {
+export type GetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface GetResponseRulesItemForceConnectionCloseRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16260,7 +16303,7 @@ export interface GetResultRulesItemForceConnectionCloseRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemForceConnectionCloseRule {
+export interface GetResponseRulesItemForceConnectionCloseRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16268,11 +16311,11 @@ export interface GetResultRulesItemForceConnectionCloseRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemForceConnectionCloseRuleAction | null | undefined;
+  action?: GetResponseRulesItemForceConnectionCloseRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemForceConnectionCloseRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemForceConnectionCloseRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16287,20 +16330,20 @@ export interface GetResultRulesItemForceConnectionCloseRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemJavaScriptChallengeRuleAction = "js_challenge";
-export type GetResultRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
-export type GetResultRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
+export type GetResponseRulesItemJavaScriptChallengeRuleAction = "js_challenge";
+export type GetResponseRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemJavaScriptChallengeRuleLogging =
+export type GetResponseRulesItemJavaScriptChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemJavaScriptChallengeRuleRatelimit {
+export type GetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemJavaScriptChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16316,11 +16359,11 @@ export interface GetResultRulesItemJavaScriptChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemJavaScriptChallengeRule {
+export interface GetResponseRulesItemJavaScriptChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: GetResultRulesItemJavaScriptChallengeRuleAction;
+  action: GetResponseRulesItemJavaScriptChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -16334,7 +16377,7 @@ export interface GetResultRulesItemJavaScriptChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -16345,16 +16388,16 @@ export interface GetResultRulesItemJavaScriptChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
 }
-export type GetResultRulesItemLogRuleAction = "log";
-export type GetResultRulesItemLogRuleCategoriesList = Array<string>;
-export type GetResultRulesItemLogRuleExposedCredentialCheck =
+export type GetResponseRulesItemLogRuleAction = "log";
+export type GetResponseRulesItemLogRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemLogRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemLogRuleRatelimit {
+export type GetResponseRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemLogRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemLogRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemLogRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16370,7 +16413,7 @@ export interface GetResultRulesItemLogRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemLogRule {
+export interface GetResponseRulesItemLogRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16378,11 +16421,11 @@ export interface GetResultRulesItemLogRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemLogRuleAction | null | undefined;
+  action?: GetResponseRulesItemLogRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemLogRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemLogRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16397,65 +16440,65 @@ export interface GetResultRulesItemLogRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemLogRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemLogRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemLogCustomFieldRuleAction = "log_custom_field";
-export type GetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
+export type GetResponseRulesItemLogCustomFieldRuleAction = "log_custom_field";
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem>;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type GetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
+export type GetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export interface GetResultRulesItemLogCustomFieldRuleActionParameters {
+export interface GetResponseRulesItemLogCustomFieldRuleActionParameters {
   /** The cookie fields to log. */
   cookieFields?:
-    | GetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
+    | GetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
     | null
     | undefined;
   /** The raw response fields to log. */
   rawResponseFields?:
-    | GetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
+    | GetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
     | null
     | undefined;
   /** The raw request fields to log. */
   requestFields?:
-    | GetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
+    | GetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
     | null
     | undefined;
   /** The transformed response fields to log. */
   responseFields?:
-    | GetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
+    | GetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
     | null
     | undefined;
   /** The transformed request fields to log. */
   transformedRequestFields?:
-    | GetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
+    | GetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
     | null
     | undefined;
 }
-export type GetResultRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
-export type GetResultRulesItemLogCustomFieldRuleExposedCredentialCheck =
+export type GetResponseRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemLogCustomFieldRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemLogCustomFieldRuleRatelimit {
+export type GetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemLogCustomFieldRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16471,7 +16514,7 @@ export interface GetResultRulesItemLogCustomFieldRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemLogCustomFieldRule {
+export interface GetResponseRulesItemLogCustomFieldRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16479,11 +16522,11 @@ export interface GetResultRulesItemLogCustomFieldRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemLogCustomFieldRuleAction | null | undefined;
+  action?: GetResponseRulesItemLogCustomFieldRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemLogCustomFieldRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemLogCustomFieldRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16498,18 +16541,18 @@ export interface GetResultRulesItemLogCustomFieldRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemLogCustomFieldRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemLogCustomFieldRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemManagedChallengeRuleAction = "managed_challenge";
-export type GetResultRulesItemManagedChallengeRuleCategoriesList = Array<string>;
-export type GetResultRulesItemManagedChallengeRuleExposedCredentialCheck =
+export type GetResponseRulesItemManagedChallengeRuleAction = "managed_challenge";
+export type GetResponseRulesItemManagedChallengeRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemManagedChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemManagedChallengeRuleRatelimit {
+export type GetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemManagedChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16525,7 +16568,7 @@ export interface GetResultRulesItemManagedChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemManagedChallengeRule {
+export interface GetResponseRulesItemManagedChallengeRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16533,11 +16576,11 @@ export interface GetResultRulesItemManagedChallengeRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemManagedChallengeRuleAction | null | undefined;
+  action?: GetResponseRulesItemManagedChallengeRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemManagedChallengeRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemManagedChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16552,45 +16595,48 @@ export interface GetResultRulesItemManagedChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemManagedChallengeRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemManagedChallengeRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemRedirectRuleAction = "redirect";
-export type GetResultRulesItemRedirectRuleActionParametersFromList =
+export type GetResponseRulesItemRedirectRuleAction = "redirect";
+export type GetResponseRulesItemRedirectRuleActionParametersFromList =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList;
-export type GetResultRulesItemRedirectRuleActionParametersFromValueTargetUrl =
+export type GetResponseRulesItemRedirectRuleActionParametersFromValueTargetUrl =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
-export type GetResultRulesItemRedirectRuleActionParametersFromValueStatusCode =
+export type GetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode =
   | 301
   | 302
   | 303
   | 307
   | 308;
-export interface GetResultRulesItemRedirectRuleActionParametersFromValue {
+export interface GetResponseRulesItemRedirectRuleActionParametersFromValue {
   /** A URL to redirect the request to. */
   targetUrl: RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
   /** Whether to keep the query string of the original request. */
   preserveQueryString?: boolean | null | undefined;
   /** The status code to use for the redirect. */
-  statusCode?: GetResultRulesItemRedirectRuleActionParametersFromValueStatusCode | null | undefined;
+  statusCode?:
+    | GetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode
+    | null
+    | undefined;
 }
-export interface GetResultRulesItemRedirectRuleActionParameters {
+export interface GetResponseRulesItemRedirectRuleActionParameters {
   /** A redirect based on a bulk list lookup. */
   fromList?:
     | RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList
     | null
     | undefined;
   /** A redirect based on the request properties. */
-  fromValue?: GetResultRulesItemRedirectRuleActionParametersFromValue | null | undefined;
+  fromValue?: GetResponseRulesItemRedirectRuleActionParametersFromValue | null | undefined;
 }
-export type GetResultRulesItemRedirectRuleCategoriesList = Array<string>;
-export type GetResultRulesItemRedirectRuleExposedCredentialCheck =
+export type GetResponseRulesItemRedirectRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemRedirectRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemRedirectRuleRatelimit {
+export type GetResponseRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemRedirectRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemRedirectRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemRedirectRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16606,7 +16652,7 @@ export interface GetResultRulesItemRedirectRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemRedirectRule {
+export interface GetResponseRulesItemRedirectRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16614,11 +16660,11 @@ export interface GetResultRulesItemRedirectRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemRedirectRuleAction | null | undefined;
+  action?: GetResponseRulesItemRedirectRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemRedirectRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemRedirectRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemRedirectRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemRedirectRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16633,82 +16679,82 @@ export interface GetResultRulesItemRedirectRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemRedirectRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemRedirectRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemRewriteRuleAction = "rewrite";
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
+export type GetResponseRulesItemRewriteRuleAction = "rewrite";
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export interface GetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: GetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export interface GetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: GetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export interface GetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: GetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export interface GetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: GetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export interface GetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
+export interface GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: GetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
+  operation: GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export type GetResultRulesItemRewriteRuleActionParametersHeadersValue =
-  | GetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
-  | GetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
-  | GetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
-  | GetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
-  | GetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
-export type GetResultRulesItemRewriteRuleActionParametersHeadersMap = {
-  [key: string]: GetResultRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | GetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export type GetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: GetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
 };
-export type GetResultRulesItemRewriteRuleActionParametersUriURIPathPath =
+export type GetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
-export type GetResultRulesItemRewriteRuleActionParametersUriURIPath =
+export type GetResponseRulesItemRewriteRuleActionParametersUriURIPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath;
-export type GetResultRulesItemRewriteRuleActionParametersUriURIQueryQuery =
+export type GetResponseRulesItemRewriteRuleActionParametersUriURIQueryQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQueryQuery;
-export type GetResultRulesItemRewriteRuleActionParametersUriURIQuery =
+export type GetResponseRulesItemRewriteRuleActionParametersUriURIQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export type GetResultRulesItemRewriteRuleActionParametersUri =
+export type GetResponseRulesItemRewriteRuleActionParametersUri =
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export interface GetResultRulesItemRewriteRuleActionParameters {
+export interface GetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: GetResultRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
+  headers?: GetResponseRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
   /** A URI path rewrite. */
-  uri?: GetResultRulesItemRewriteRuleActionParametersUri | null | undefined;
+  uri?: GetResponseRulesItemRewriteRuleActionParametersUri | null | undefined;
 }
-export type GetResultRulesItemRewriteRuleCategoriesList = Array<string>;
-export type GetResultRulesItemRewriteRuleExposedCredentialCheck =
+export type GetResponseRulesItemRewriteRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemRewriteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemRewriteRuleRatelimit {
+export type GetResponseRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemRewriteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemRewriteRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemRewriteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16724,7 +16770,7 @@ export interface GetResultRulesItemRewriteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemRewriteRule {
+export interface GetResponseRulesItemRewriteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16732,11 +16778,11 @@ export interface GetResultRulesItemRewriteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemRewriteRuleAction | null | undefined;
+  action?: GetResponseRulesItemRewriteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemRewriteRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemRewriteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemRewriteRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemRewriteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16751,24 +16797,24 @@ export interface GetResultRulesItemRewriteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemRewriteRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemRewriteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemRouteRuleAction = "route";
-export type GetResultRulesItemRouteRuleActionParametersOrigin =
+export type GetResponseRulesItemRouteRuleAction = "route";
+export type GetResponseRulesItemRouteRuleActionParametersOrigin =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersOrigin;
-export type GetResultRulesItemRouteRuleActionParametersSni =
+export type GetResponseRulesItemRouteRuleActionParametersSni =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersSni;
-export type GetResultRulesItemRouteRuleActionParameters =
+export type GetResponseRulesItemRouteRuleActionParameters =
   RulesCreateResultRulesetRulesItemRouteRuleActionParameters;
-export type GetResultRulesItemRouteRuleCategoriesList = Array<string>;
-export type GetResultRulesItemRouteRuleExposedCredentialCheck =
+export type GetResponseRulesItemRouteRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemRouteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemRouteRuleRatelimit {
+export type GetResponseRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemRouteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemRouteRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemRouteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16784,7 +16830,7 @@ export interface GetResultRulesItemRouteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemRouteRule {
+export interface GetResponseRulesItemRouteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16792,11 +16838,11 @@ export interface GetResultRulesItemRouteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemRouteRuleAction | null | undefined;
+  action?: GetResponseRulesItemRouteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemRouteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemRouteRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemRouteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -16811,20 +16857,20 @@ export interface GetResultRulesItemRouteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemRouteRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemRouteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemScoreRuleAction = "score";
-export type GetResultRulesItemScoreRuleActionParameters =
+export type GetResponseRulesItemScoreRuleAction = "score";
+export type GetResponseRulesItemScoreRuleActionParameters =
   RulesCreateResultRulesetRulesItemScoreRuleActionParameters;
-export type GetResultRulesItemScoreRuleCategoriesList = Array<string>;
-export type GetResultRulesItemScoreRuleExposedCredentialCheck =
+export type GetResponseRulesItemScoreRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemScoreRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemScoreRuleRatelimit {
+export type GetResponseRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemScoreRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemScoreRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemScoreRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16840,7 +16886,7 @@ export interface GetResultRulesItemScoreRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemScoreRule {
+export interface GetResponseRulesItemScoreRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16848,11 +16894,11 @@ export interface GetResultRulesItemScoreRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemScoreRuleAction | null | undefined;
+  action?: GetResponseRulesItemScoreRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemScoreRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemScoreRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemScoreRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -16866,53 +16912,53 @@ export interface GetResultRulesItemScoreRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemScoreRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemScoreRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemServeErrorRuleAction = "serve_error";
-export type GetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
+export type GetResponseRulesItemServeErrorRuleAction = "serve_error";
+export type GetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface GetResultRulesItemServeErrorRuleActionParametersActionParametersContent {
+export interface GetResponseRulesItemServeErrorRuleActionParametersActionParametersContent {
   /** The response content. */
   content: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | GetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType
+    | GetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type GetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
+export type GetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface GetResultRulesItemServeErrorRuleActionParametersActionParametersAsset {
+export interface GetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset {
   /** The name of a custom asset to serve as the error response. */
   assetName: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | GetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
+    | GetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type GetResultRulesItemServeErrorRuleActionParameters =
-  | GetResultRulesItemServeErrorRuleActionParametersActionParametersContent
-  | GetResultRulesItemServeErrorRuleActionParametersActionParametersAsset;
-export type GetResultRulesItemServeErrorRuleCategoriesList = Array<string>;
-export type GetResultRulesItemServeErrorRuleExposedCredentialCheck =
+export type GetResponseRulesItemServeErrorRuleActionParameters =
+  | GetResponseRulesItemServeErrorRuleActionParametersActionParametersContent
+  | GetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset;
+export type GetResponseRulesItemServeErrorRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemServeErrorRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemServeErrorRuleRatelimit {
+export type GetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemServeErrorRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemServeErrorRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -16928,7 +16974,7 @@ export interface GetResultRulesItemServeErrorRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemServeErrorRule {
+export interface GetResponseRulesItemServeErrorRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -16936,11 +16982,11 @@ export interface GetResultRulesItemServeErrorRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemServeErrorRuleAction | null | undefined;
+  action?: GetResponseRulesItemServeErrorRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemServeErrorRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemServeErrorRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemServeErrorRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemServeErrorRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -16954,358 +17000,361 @@ export interface GetResultRulesItemServeErrorRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemServeErrorRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemServeErrorRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleAction = "set_cache_control";
-export type GetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleAction = "set_cache_control";
+export type GetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersImmutable =
-  | GetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersImmutable =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMaxAge =
-  | GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMaxAge =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate =
-  | GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand =
-  | GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
   | "set"
   | "remove";
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
   Array<string>;
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
+    | GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoCache =
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoCache =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoStore =
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoStore =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersNoTransform =
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersNoTransform =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
   | "set"
   | "remove";
-export type GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
   Array<string>;
-export interface GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
+    | GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersPrivate =
-  | GetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPrivate =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
-  | GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersPublic =
-  | GetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersPublic =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersSMaxage =
-  | GetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersSMaxage =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleIfError =
-  | GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
+export interface GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
+  operation: GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
-  | GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
-  | GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
-export interface GetResultRulesItemSetCacheControlRuleActionParameters {
+export type GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
+  | GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
+  | GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
+export interface GetResponseRulesItemSetCacheControlRuleActionParameters {
   /** A cache-control directive configuration. */
-  immutable?: GetResultRulesItemSetCacheControlRuleActionParametersImmutable | null | undefined;
+  immutable?: GetResponseRulesItemSetCacheControlRuleActionParametersImmutable | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  maxAge?: GetResultRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
+  maxAge?: GetResponseRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
   /** A cache-control directive configuration. */
   mustRevalidate?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate
+    | GetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   mustUnderstand?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand
+    | GetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  noCache?: GetResultRulesItemSetCacheControlRuleActionParametersNoCache | null | undefined;
+  noCache?: GetResponseRulesItemSetCacheControlRuleActionParametersNoCache | null | undefined;
   /** A cache-control directive configuration. */
-  noStore?: GetResultRulesItemSetCacheControlRuleActionParametersNoStore | null | undefined;
+  noStore?: GetResponseRulesItemSetCacheControlRuleActionParametersNoStore | null | undefined;
   /** A cache-control directive configuration. */
-  noTransform?: GetResultRulesItemSetCacheControlRuleActionParametersNoTransform | null | undefined;
+  noTransform?:
+    | GetResponseRulesItemSetCacheControlRuleActionParametersNoTransform
+    | null
+    | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  private?: GetResultRulesItemSetCacheControlRuleActionParametersPrivate | null | undefined;
+  private?: GetResponseRulesItemSetCacheControlRuleActionParametersPrivate | null | undefined;
   /** A cache-control directive configuration. */
   proxyRevalidate?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate
+    | GetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
-  public?: GetResultRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
+  public?: GetResponseRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  sMaxage?: GetResultRulesItemSetCacheControlRuleActionParametersSMaxage | null | undefined;
+  sMaxage?: GetResponseRulesItemSetCacheControlRuleActionParametersSMaxage | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleIfError?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersStaleIfError
+    | GetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleWhileRevalidate?:
-    | GetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
+    | GetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheControlRuleCategoriesList = Array<string>;
-export type GetResultRulesItemSetCacheControlRuleExposedCredentialCheck =
+export type GetResponseRulesItemSetCacheControlRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemSetCacheControlRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemSetCacheControlRuleLogging =
+export type GetResponseRulesItemSetCacheControlRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemSetCacheControlRuleRatelimit {
+export type GetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemSetCacheControlRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -17321,11 +17370,11 @@ export interface GetResultRulesItemSetCacheControlRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemSetCacheControlRule {
+export interface GetResponseRulesItemSetCacheControlRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: GetResultRulesItemSetCacheControlRuleAction;
+  action: GetResponseRulesItemSetCacheControlRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -17336,9 +17385,9 @@ export interface GetResultRulesItemSetCacheControlRule {
   /** The version of the rule. */
   version: string;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemSetCacheControlRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemSetCacheControlRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemSetCacheControlRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemSetCacheControlRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -17349,116 +17398,116 @@ export interface GetResultRulesItemSetCacheControlRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemSetCacheControlRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemSetCacheControlRuleRatelimit | null | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
+export type GetResponseRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
   Array<number>;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin"
   | "bypass";
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
   /** The browser TTL mode. */
-  mode: GetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
+  mode: GetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
   /** The browser TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
   Array<string>;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
   Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
   /** A list of cookies to check for the presence of. The presence of these cookies is included in the cache key. */
   checkPresence?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
     | null
     | undefined;
   /** A list of cookies to include in the cache key. */
   include?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
   Array<string>;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
   Array<string>;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
   {
     [key: string]:
-      | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
+      | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
       | undefined;
   };
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
   Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
   /** A list of headers to check for the presence of. The presence of these headers is included in the cache key. */
   checkPresence?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
     | null
     | undefined;
   /** A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key. */
   contains?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
     | null
     | undefined;
   /** Whether to exclude the origin header in the cache key. */
   excludeOrigin?: boolean | null | undefined;
   /** A list of headers to include in the cache key. */
   include?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
   Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
   /** Whether to exclude all query string parameters from the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to exclude from the cache key. */
   list?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
   Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
   /** Whether to include all query string parameters in the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to include in the cache key. */
   list?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
     | null
     | undefined;
 }
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
   /** Which query string parameters to exclude from the cache key. */
   exclude?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
     | null
     | undefined;
   /** Which query string parameters to include in the cache key. */
   include?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
   /** Which cookies to include in the cache key. */
   cookie?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
     | null
     | undefined;
   /** Which headers to include in the cache key. */
   header?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
     | null
     | undefined;
   /** How to use the host in the cache key. */
@@ -17468,7 +17517,7 @@ export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyC
     | undefined;
   /** Which query string parameters to include in or exclude from the cache key. */
   queryString?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
     | null
     | undefined;
   /** How to use characteristics of the request user agent in the cache key. */
@@ -17477,119 +17526,127 @@ export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyC
     | null
     | undefined;
 }
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey {
   /** Whether to separate cached content based on the visitor's device type. */
   cacheByDeviceType?: boolean | null | undefined;
   /** Whether to protect from web cache deception attacks, while allowing static assets to be cached. */
   cacheDeceptionArmor?: boolean | null | undefined;
   /** Which components of the request are included or excluded from the cache key. */
   customKey?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
     | null
     | undefined;
   /** Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in. */
   ignoreQueryStringsOrder?: boolean | null | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheReserve;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin";
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
   Array<RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
   /** The edge TTL mode. */
-  mode: GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
+  mode: GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
   /** The edge TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
   /** A list of TTLs to apply to specific status codes or status code ranges. */
   statusCodeTtl?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
   | "on"
   | "off"
   | "default";
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
   /** Whether to use range requests. `default` is the behaviour the zone gets without this rule. */
-  mode: GetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
+  mode: GetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersServeStale =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersServeStale =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersServeStale;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersSharedDictionary;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
   /** How the header value is treated when building the cache key. */
-  action: GetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
+  action: GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
   Array<string>;
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
   Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
   /** How the header value is treated when building the cache key. */
-  action: GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
+  action: GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
   /** The set of languages to normalize against. Only valid for the `accept-language` header. */
   languages?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
     | null
     | undefined;
   /** The set of media types to normalize against. Only valid for the `accept` header. */
   mediaTypes?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
-  [key: string]: GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue | undefined;
+export type GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
+  [key: string]:
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
+    | undefined;
 };
-export interface GetResultRulesItemSetCacheSettingsRuleActionParametersVary {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParametersVary {
   /** Controls how response Vary headers without a per-header override contribute to the cache key. */
-  default?: GetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault | null | undefined;
+  default?: GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault | null | undefined;
   /** A mapping of lowercase request header names to their vary configuration. */
-  headers?: GetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap | null | undefined;
+  headers?:
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
+    | null
+    | undefined;
 }
-export interface GetResultRulesItemSetCacheSettingsRuleActionParameters {
+export interface GetResponseRulesItemSetCacheSettingsRuleActionParameters {
   /** A list of additional ports that caching should be enabled on. */
   additionalCacheablePorts?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
     | null
     | undefined;
   /** How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content. */
-  browserTtl?: GetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl | null | undefined;
+  browserTtl?:
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
+    | null
+    | undefined;
   /** Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations. */
   cache?: boolean | null | undefined;
   /** Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache. */
-  cacheKey?: GetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey | null | undefined;
+  cacheKey?: GetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey | null | undefined;
   /** Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan). */
   cacheReserve?:
     | RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheReserve
     | null
     | undefined;
   /** How long the Cloudflare edge network should cache the response. */
-  edgeTtl?: GetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl | null | undefined;
+  edgeTtl?: GetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl | null | undefined;
   /** Whether Cloudflare will aim to strictly adhere to RFC 7234. */
   originCacheControl?: boolean | null | undefined;
   /** Whether to generate Cloudflare error pages for issues from the origin server. */
   originErrorPagePassthru?: boolean | null | undefined;
   /** Controls whether Cloudflare fetches a large asset from the origin as a series of range requests instead of one whole-body request. */
   originRangeRequests?:
-    | GetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
+    | GetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
     | null
     | undefined;
   /** A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value. */
@@ -17613,15 +17670,15 @@ export interface GetResultRulesItemSetCacheSettingsRuleActionParameters {
   /** Whether to strip Set-Cookie headers from the origin response before caching. */
   stripSetCookie?: boolean | null | undefined;
   /** Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override. */
-  vary?: GetResultRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
+  vary?: GetResponseRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
 }
-export type GetResultRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
-export type GetResultRulesItemSetCacheSettingsRuleExposedCredentialCheck =
+export type GetResponseRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemSetCacheSettingsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemSetCacheSettingsRuleRatelimit {
+export type GetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemSetCacheSettingsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -17637,7 +17694,7 @@ export interface GetResultRulesItemSetCacheSettingsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemSetCacheSettingsRule {
+export interface GetResponseRulesItemSetCacheSettingsRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -17645,11 +17702,11 @@ export interface GetResultRulesItemSetCacheSettingsRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemSetCacheSettingsRuleAction | null | undefined;
+  action?: GetResponseRulesItemSetCacheSettingsRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemSetCacheSettingsRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemSetCacheSettingsRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -17663,92 +17720,93 @@ export interface GetResultRulesItemSetCacheSettingsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemSetCacheTagsRuleAction = "set_cache_tags";
-export type GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
+export type GetResponseRulesItemSetCacheTagsRuleAction = "set_cache_tags";
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
   Array<string>;
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
+  values: GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
   Array<string>;
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
+  values: GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
   Array<string>;
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
+  values: GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
+export type GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
+export interface GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
+  operation: GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
 }
-export type GetResultRulesItemSetCacheTagsRuleActionParameters =
-  | GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
-  | GetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
-  | GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
-  | GetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
-  | GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
-  | GetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
-export type GetResultRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
-export type GetResultRulesItemSetCacheTagsRuleExposedCredentialCheck =
+export type GetResponseRulesItemSetCacheTagsRuleActionParameters =
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
+  | GetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
+export type GetResponseRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemSetCacheTagsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemSetCacheTagsRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemSetCacheTagsRuleRatelimit {
+export type GetResponseRulesItemSetCacheTagsRuleLogging =
+  RulesCreateRequestBodyChallengeRuleLogging;
+export type GetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemSetCacheTagsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -17764,11 +17822,11 @@ export interface GetResultRulesItemSetCacheTagsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemSetCacheTagsRule {
+export interface GetResponseRulesItemSetCacheTagsRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: GetResultRulesItemSetCacheTagsRuleAction;
+  action: GetResponseRulesItemSetCacheTagsRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -17779,9 +17837,9 @@ export interface GetResultRulesItemSetCacheTagsRule {
   /** The version of the rule. */
   version: string;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemSetCacheTagsRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemSetCacheTagsRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -17792,38 +17850,38 @@ export interface GetResultRulesItemSetCacheTagsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemSetCacheTagsRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemSetCacheTagsRuleRatelimit | null | undefined;
 }
-export type GetResultRulesItemSetConfigurationRuleAction = "set_config";
-export type GetResultRulesItemSetConfigurationRuleActionParametersAutominify =
+export type GetResponseRulesItemSetConfigurationRuleAction = "set_config";
+export type GetResponseRulesItemSetConfigurationRuleActionParametersAutominify =
   RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersAutominify;
-export type GetResultRulesItemSetConfigurationRuleActionParametersPolish =
+export type GetResponseRulesItemSetConfigurationRuleActionParametersPolish =
   | "off"
   | "lossless"
   | "lossy"
   | "webp";
-export type GetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
+export type GetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
   | "none"
   | "standard"
   | "full";
-export type GetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
+export type GetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
   | "none"
   | "standard";
-export type GetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel =
+export type GetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export type GetResultRulesItemSetConfigurationRuleActionParametersSsl =
+export type GetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "off"
   | "flexible"
   | "full"
   | "strict"
   | "origin_pull";
-export type GetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList = Array<string>;
-export interface GetResultRulesItemSetConfigurationRuleActionParameters {
+export type GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList = Array<string>;
+export interface GetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null | undefined;
   /** Which file extensions to minify automatically. */
@@ -17854,47 +17912,47 @@ export interface GetResultRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Opportunistic Encryption. */
   opportunisticEncryption?: boolean | null | undefined;
   /** The Polish level to configure. */
-  polish?: GetResultRulesItemSetConfigurationRuleActionParametersPolish | null | undefined;
+  polish?: GetResponseRulesItemSetConfigurationRuleActionParametersPolish | null | undefined;
   /** Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response. */
   redirectsForAiTraining?: boolean | null | undefined;
   /** The request body buffering mode. */
   requestBodyBuffering?:
-    | GetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
+    | GetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
     | null
     | undefined;
   /** The response body buffering mode. */
   responseBodyBuffering?:
-    | GetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
+    | GetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
     | null
     | undefined;
   /** Whether to enable Rocket Loader. */
   rocketLoader?: boolean | null | undefined;
   /** The Security Level to configure. */
   securityLevel?:
-    | GetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel
+    | GetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel
     | null
     | undefined;
   /** Whether to enable Server-Side Excludes. */
   serverSideExcludes?: boolean | null | undefined;
   /** The SSL level to configure. */
-  ssl?: GetResultRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
+  ssl?: GetResponseRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null | undefined;
   /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
   webmcpEnabled?: boolean | null | undefined;
   /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. */
   webmcpPacks?:
-    | GetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
+    | GetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
     | null
     | undefined;
 }
-export type GetResultRulesItemSetConfigurationRuleCategoriesList = Array<string>;
-export type GetResultRulesItemSetConfigurationRuleExposedCredentialCheck =
+export type GetResponseRulesItemSetConfigurationRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemSetConfigurationRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemSetConfigurationRuleRatelimit {
+export type GetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemSetConfigurationRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -17910,7 +17968,7 @@ export interface GetResultRulesItemSetConfigurationRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemSetConfigurationRule {
+export interface GetResponseRulesItemSetConfigurationRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -17918,11 +17976,11 @@ export interface GetResultRulesItemSetConfigurationRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemSetConfigurationRuleAction | null | undefined;
+  action?: GetResponseRulesItemSetConfigurationRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemSetConfigurationRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemSetConfigurationRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemSetConfigurationRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemSetConfigurationRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -17936,13 +17994,13 @@ export interface GetResultRulesItemSetConfigurationRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemSetConfigurationRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemSetConfigurationRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemSkipRuleAction = "skip";
-export type GetResultRulesItemSkipRuleActionParametersPhase = "current";
-export type GetResultRulesItemSkipRuleActionParametersPhasesItem =
+export type GetResponseRulesItemSkipRuleAction = "skip";
+export type GetResponseRulesItemSkipRuleActionParametersPhase = "current";
+export type GetResponseRulesItemSkipRuleActionParametersPhasesItem =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -17968,9 +18026,9 @@ export type GetResultRulesItemSkipRuleActionParametersPhasesItem =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type GetResultRulesItemSkipRuleActionParametersPhasesList =
-  Array<GetResultRulesItemSkipRuleActionParametersPhasesItem>;
-export type GetResultRulesItemSkipRuleActionParametersProductsItem =
+export type GetResponseRulesItemSkipRuleActionParametersPhasesList =
+  Array<GetResponseRulesItemSkipRuleActionParametersPhasesItem>;
+export type GetResponseRulesItemSkipRuleActionParametersProductsItem =
   | "bic"
   | "hot"
   | "rateLimit"
@@ -17978,35 +18036,35 @@ export type GetResultRulesItemSkipRuleActionParametersProductsItem =
   | "uaBlock"
   | "waf"
   | "zoneLockdown";
-export type GetResultRulesItemSkipRuleActionParametersProductsList =
-  Array<GetResultRulesItemSkipRuleActionParametersProductsItem>;
-export type GetResultRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
-export type GetResultRulesItemSkipRuleActionParametersRulesMap = {
-  [key: string]: GetResultRulesItemSkipRuleActionParametersRulesValueList | undefined;
+export type GetResponseRulesItemSkipRuleActionParametersProductsList =
+  Array<GetResponseRulesItemSkipRuleActionParametersProductsItem>;
+export type GetResponseRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
+export type GetResponseRulesItemSkipRuleActionParametersRulesMap = {
+  [key: string]: GetResponseRulesItemSkipRuleActionParametersRulesValueList | undefined;
 };
-export type GetResultRulesItemSkipRuleActionParametersRuleset = "current";
-export type GetResultRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
-export interface GetResultRulesItemSkipRuleActionParameters {
+export type GetResponseRulesItemSkipRuleActionParametersRuleset = "current";
+export type GetResponseRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
+export interface GetResponseRulesItemSkipRuleActionParameters {
   /** A phase to skip the execution of. This option is only compatible with the products option. */
-  phase?: GetResultRulesItemSkipRuleActionParametersPhase | null | undefined;
+  phase?: GetResponseRulesItemSkipRuleActionParametersPhase | null | undefined;
   /** A list of phases to skip the execution of. This option is incompatible with the rulesets option. */
-  phases?: GetResultRulesItemSkipRuleActionParametersPhasesList | null | undefined;
+  phases?: GetResponseRulesItemSkipRuleActionParametersPhasesList | null | undefined;
   /** A list of legacy security products to skip the execution of. */
-  products?: GetResultRulesItemSkipRuleActionParametersProductsList | null | undefined;
+  products?: GetResponseRulesItemSkipRuleActionParametersProductsList | null | undefined;
   /** A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option. */
-  rules?: GetResultRulesItemSkipRuleActionParametersRulesMap | null | undefined;
+  rules?: GetResponseRulesItemSkipRuleActionParametersRulesMap | null | undefined;
   /** A ruleset to skip the execution of. This option is incompatible with the rulesets option. */
-  ruleset?: GetResultRulesItemSkipRuleActionParametersRuleset | null | undefined;
+  ruleset?: GetResponseRulesItemSkipRuleActionParametersRuleset | null | undefined;
   /** A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options. */
-  rulesets?: GetResultRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
+  rulesets?: GetResponseRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
 }
-export type GetResultRulesItemSkipRuleCategoriesList = Array<string>;
-export type GetResultRulesItemSkipRuleExposedCredentialCheck =
+export type GetResponseRulesItemSkipRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemSkipRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemSkipRuleRatelimit {
+export type GetResponseRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
+export interface GetResponseRulesItemSkipRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemSkipRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemSkipRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18022,7 +18080,7 @@ export interface GetResultRulesItemSkipRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemSkipRule {
+export interface GetResponseRulesItemSkipRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18030,11 +18088,11 @@ export interface GetResultRulesItemSkipRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: GetResultRulesItemSkipRuleAction | null | undefined;
+  action?: GetResponseRulesItemSkipRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: GetResultRulesItemSkipRuleActionParameters | null | undefined;
+  actionParameters?: GetResponseRulesItemSkipRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemSkipRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemSkipRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -18048,22 +18106,23 @@ export interface GetResultRulesItemSkipRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemSkipRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemSkipRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type GetResultRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
-export type GetResultRulesItemTransformResponseHTMLRuleActionParameters =
+export type GetResponseRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
+export type GetResponseRulesItemTransformResponseHTMLRuleActionParameters =
   RulesCreateRequestBodyTransformResponseHTMLRuleActionParameters;
-export type GetResultRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
-export type GetResultRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
+export type GetResponseRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
+export type GetResponseRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type GetResultRulesItemTransformResponseHTMLRuleLogging =
+export type GetResponseRulesItemTransformResponseHTMLRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type GetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList = Array<string>;
-export interface GetResultRulesItemTransformResponseHTMLRuleRatelimit {
+export type GetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface GetResponseRulesItemTransformResponseHTMLRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: GetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
+  characteristics: GetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18079,11 +18138,11 @@ export interface GetResultRulesItemTransformResponseHTMLRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface GetResultRulesItemTransformResponseHTMLRule {
+export interface GetResponseRulesItemTransformResponseHTMLRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: GetResultRulesItemTransformResponseHTMLRuleAction;
+  action: GetResponseRulesItemTransformResponseHTMLRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -18099,7 +18158,7 @@ export interface GetResultRulesItemTransformResponseHTMLRule {
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: GetResultRulesItemTransformResponseHTMLRuleCategoriesList | null | undefined;
+  categories?: GetResponseRulesItemTransformResponseHTMLRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -18110,50 +18169,50 @@ export interface GetResultRulesItemTransformResponseHTMLRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: GetResultRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
+  ratelimit?: GetResponseRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
 }
-export type GetResultRulesItem =
-  | GetResultRulesItemBlockRule
-  | GetResultRulesItemChallengeRule
-  | GetResultRulesItemResponseCompressionRule
-  | GetResultRulesItemDDoSDynamicRule
-  | GetResultRulesItemExecuteRule
-  | GetResultRulesItemForceConnectionCloseRule
-  | GetResultRulesItemJavaScriptChallengeRule
-  | GetResultRulesItemLogRule
-  | GetResultRulesItemLogCustomFieldRule
-  | GetResultRulesItemManagedChallengeRule
-  | GetResultRulesItemRedirectRule
-  | GetResultRulesItemRewriteRule
-  | GetResultRulesItemRouteRule
-  | GetResultRulesItemScoreRule
-  | GetResultRulesItemServeErrorRule
-  | GetResultRulesItemSetCacheControlRule
-  | GetResultRulesItemSetCacheSettingsRule
-  | GetResultRulesItemSetCacheTagsRule
-  | GetResultRulesItemSetConfigurationRule
-  | GetResultRulesItemSkipRule
-  | GetResultRulesItemTransformResponseHTMLRule;
-export type GetResultRulesList = Array<GetResultRulesItem>;
-export interface GetResult {
+export type GetResponseRulesItem =
+  | GetResponseRulesItemBlockRule
+  | GetResponseRulesItemChallengeRule
+  | GetResponseRulesItemResponseCompressionRule
+  | GetResponseRulesItemDDoSDynamicRule
+  | GetResponseRulesItemExecuteRule
+  | GetResponseRulesItemForceConnectionCloseRule
+  | GetResponseRulesItemJavaScriptChallengeRule
+  | GetResponseRulesItemLogRule
+  | GetResponseRulesItemLogCustomFieldRule
+  | GetResponseRulesItemManagedChallengeRule
+  | GetResponseRulesItemRedirectRule
+  | GetResponseRulesItemRewriteRule
+  | GetResponseRulesItemRouteRule
+  | GetResponseRulesItemScoreRule
+  | GetResponseRulesItemServeErrorRule
+  | GetResponseRulesItemSetCacheControlRule
+  | GetResponseRulesItemSetCacheSettingsRule
+  | GetResponseRulesItemSetCacheTagsRule
+  | GetResponseRulesItemSetConfigurationRule
+  | GetResponseRulesItemSkipRule
+  | GetResponseRulesItemTransformResponseHTMLRule;
+export type GetResponseRulesList = Array<GetResponseRulesItem>;
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
-  /** An informative description of the ruleset. */
-  description?: string | null | undefined;
   /** The kind of the ruleset. */
-  kind: GetResultKind;
+  kind: GetResponseKind;
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
   name: string;
   /** The phase of the ruleset. */
-  phase: GetResultPhase;
+  phase: GetResponsePhase;
   /** The list of rules in the ruleset. */
-  rules: GetResultRulesList;
+  rules: GetResponseRulesList;
   /** The version of the ruleset. */
   version: string;
+  /** An informative description of the ruleset. */
+  description?: string | null | undefined;
 }
-export type GetRulesetResponse = GetResult;
 export interface GetRulesetForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
@@ -18168,8 +18227,8 @@ export interface GetVersionForAccountRequest {
   /** The version of the ruleset. */
   rulesetVersion: string;
 }
-export type VersionsGetResultKind = "managed" | "custom" | "root" | "zone";
-export type VersionsGetResultPhase =
+export type VersionsGetResponseKind = "managed" | "custom" | "root" | "zone";
+export type VersionsGetResponsePhase =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -18195,19 +18254,20 @@ export type VersionsGetResultPhase =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type VersionsGetResultRulesItemBlockRuleAction = "block";
-export type VersionsGetResultRulesItemBlockRuleActionParametersResponse =
+export type VersionsGetResponseRulesItemBlockRuleAction = "block";
+export type VersionsGetResponseRulesItemBlockRuleActionParametersResponse =
   RulesCreateResultRulesetRulesItemBlockRuleActionParametersResponse;
-export type VersionsGetResultRulesItemBlockRuleActionParameters =
+export type VersionsGetResponseRulesItemBlockRuleActionParameters =
   RulesCreateResultRulesetRulesItemBlockRuleActionParameters;
-export type VersionsGetResultRulesItemBlockRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemBlockRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemBlockRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemBlockRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemBlockRuleLogging = RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemBlockRuleRatelimit {
+export type VersionsGetResponseRulesItemBlockRuleLogging =
+  RulesCreateRequestBodyChallengeRuleLogging;
+export type VersionsGetResponseRulesItemBlockRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemBlockRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemBlockRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemBlockRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18223,7 +18283,7 @@ export interface VersionsGetResultRulesItemBlockRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemBlockRule {
+export interface VersionsGetResponseRulesItemBlockRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18231,11 +18291,11 @@ export interface VersionsGetResultRulesItemBlockRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemBlockRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemBlockRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemBlockRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemBlockRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemBlockRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18250,20 +18310,20 @@ export interface VersionsGetResultRulesItemBlockRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemBlockRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemBlockRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemChallengeRuleAction = "challenge";
-export type VersionsGetResultRulesItemChallengeRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemChallengeRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemChallengeRuleAction = "challenge";
+export type VersionsGetResponseRulesItemChallengeRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemChallengeRuleLogging =
+export type VersionsGetResponseRulesItemChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemChallengeRuleRatelimit {
+export type VersionsGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemChallengeRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18279,11 +18339,11 @@ export interface VersionsGetResultRulesItemChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemChallengeRule {
+export interface VersionsGetResponseRulesItemChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: VersionsGetResultRulesItemChallengeRuleAction;
+  action: VersionsGetResponseRulesItemChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -18297,7 +18357,7 @@ export interface VersionsGetResultRulesItemChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemChallengeRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -18308,37 +18368,37 @@ export interface VersionsGetResultRulesItemChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemChallengeRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemChallengeRuleRatelimit | null | undefined;
 }
-export type VersionsGetResultRulesItemResponseCompressionRuleAction = "compress_response";
-export type VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
+export type VersionsGetResponseRulesItemResponseCompressionRuleAction = "compress_response";
+export type VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName =
   | "none"
   | "auto"
   | "default"
   | "gzip"
   | "brotli"
   | "zstd";
-export interface VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
+export interface VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem {
   /** Name of the compression algorithm to enable. */
   name?:
-    | VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
+    | VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItemName
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
-  Array<VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
-export interface VersionsGetResultRulesItemResponseCompressionRuleActionParameters {
+export type VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList =
+  Array<VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsItem>;
+export interface VersionsGetResponseRulesItemResponseCompressionRuleActionParameters {
   /** Custom order for compression algorithms. */
-  algorithms: VersionsGetResultRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
+  algorithms: VersionsGetResponseRulesItemResponseCompressionRuleActionParametersAlgorithmsList;
 }
-export type VersionsGetResultRulesItemResponseCompressionRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemResponseCompressionRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemResponseCompressionRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemResponseCompressionRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemResponseCompressionRuleRatelimit {
+export interface VersionsGetResponseRulesItemResponseCompressionRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemResponseCompressionRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18354,7 +18414,7 @@ export interface VersionsGetResultRulesItemResponseCompressionRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemResponseCompressionRule {
+export interface VersionsGetResponseRulesItemResponseCompressionRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18362,14 +18422,14 @@ export interface VersionsGetResultRulesItemResponseCompressionRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemResponseCompressionRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemResponseCompressionRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | VersionsGetResultRulesItemResponseCompressionRuleActionParameters
+    | VersionsGetResponseRulesItemResponseCompressionRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemResponseCompressionRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemResponseCompressionRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18384,18 +18444,18 @@ export interface VersionsGetResultRulesItemResponseCompressionRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemResponseCompressionRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemResponseCompressionRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
-export type VersionsGetResultRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemDDoSDynamicRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemDDoSDynamicRuleAction = "ddos_dynamic";
+export type VersionsGetResponseRulesItemDDoSDynamicRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemDDoSDynamicRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemDDoSDynamicRuleRatelimit {
+export type VersionsGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemDDoSDynamicRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemDDoSDynamicRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18411,7 +18471,7 @@ export interface VersionsGetResultRulesItemDDoSDynamicRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemDDoSDynamicRule {
+export interface VersionsGetResponseRulesItemDDoSDynamicRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18419,11 +18479,11 @@ export interface VersionsGetResultRulesItemDDoSDynamicRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemDDoSDynamicRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemDDoSDynamicRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemDDoSDynamicRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18438,19 +18498,19 @@ export interface VersionsGetResultRulesItemDDoSDynamicRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemDDoSDynamicRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemDDoSDynamicRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemExecuteRuleAction = "execute";
-export type VersionsGetResultRulesItemExecuteRuleActionParametersMatchedData =
+export type VersionsGetResponseRulesItemExecuteRuleAction = "execute";
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersMatchedData =
   RulesCreateResultRulesetRulesItemExecuteRuleActionParametersMatchedData;
-export type VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
+export interface VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem {
   /** The name of the category to override. */
   category: string;
   /** The action to override rules in the category with. */
@@ -18459,18 +18519,18 @@ export interface VersionsGetResultRulesItemExecuteRuleActionParametersOverridesC
   enabled?: boolean | null | undefined;
   /** The sensitivity level to use for rules in the category. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
+    | VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItemSensitivityLevel
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList =
-  Array<VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
-export type VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList =
+  Array<VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesItem>;
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem {
+export interface VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem {
   /** The ID of the rule to override. */
   id: string;
   /** The action to override the rule with. */
@@ -18481,39 +18541,39 @@ export interface VersionsGetResultRulesItemExecuteRuleActionParametersOverridesR
   scoreThreshold?: number | null | undefined;
   /** The sensitivity level to use for the rule. This option is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
+    | VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItemSensitivityLevel
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesList =
-  Array<VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesItem>;
-export type VersionsGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList =
+  Array<VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesItem>;
+export type VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel =
   | "default"
   | "medium"
   | "low"
   | "eoff";
-export interface VersionsGetResultRulesItemExecuteRuleActionParametersOverrides {
+export interface VersionsGetResponseRulesItemExecuteRuleActionParametersOverrides {
   /** An action to override all rules with. This option has lower precedence than rule and category overrides. */
   action?: string | null | undefined;
   /** A list of category-level overrides. This option has the second-highest precedence after rule-level overrides. */
   categories?:
-    | VersionsGetResultRulesItemExecuteRuleActionParametersOverridesCategoriesList
+    | VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesCategoriesList
     | null
     | undefined;
   /** Whether to enable execution of all rules. This option has lower precedence than rule and category overrides. */
   enabled?: boolean | null | undefined;
   /** A list of rule-level overrides. This option has the highest precedence. */
   rules?:
-    | VersionsGetResultRulesItemExecuteRuleActionParametersOverridesRulesList
+    | VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesRulesList
     | null
     | undefined;
   /** A sensitivity level to set for all rules. This option has lower precedence than rule and category overrides and is only applicable for DDoS phases. */
   sensitivityLevel?:
-    | VersionsGetResultRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
+    | VersionsGetResponseRulesItemExecuteRuleActionParametersOverridesSensitivityLevel
     | null
     | undefined;
 }
-export interface VersionsGetResultRulesItemExecuteRuleActionParameters {
+export interface VersionsGetResponseRulesItemExecuteRuleActionParameters {
   /** The ID of the ruleset to execute. */
   id: string;
   /** The configuration to use for matched data logging. */
@@ -18522,15 +18582,15 @@ export interface VersionsGetResultRulesItemExecuteRuleActionParameters {
     | null
     | undefined;
   /** A set of overrides to apply to the target ruleset. */
-  overrides?: VersionsGetResultRulesItemExecuteRuleActionParametersOverrides | null | undefined;
+  overrides?: VersionsGetResponseRulesItemExecuteRuleActionParametersOverrides | null | undefined;
 }
-export type VersionsGetResultRulesItemExecuteRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemExecuteRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemExecuteRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemExecuteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemExecuteRuleRatelimit {
+export type VersionsGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemExecuteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemExecuteRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemExecuteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18546,7 +18606,7 @@ export interface VersionsGetResultRulesItemExecuteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemExecuteRule {
+export interface VersionsGetResponseRulesItemExecuteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18554,11 +18614,11 @@ export interface VersionsGetResultRulesItemExecuteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemExecuteRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemExecuteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemExecuteRuleActionParameters | null | undefined;
+  actionParameters?: VersionsGetResponseRulesItemExecuteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemExecuteRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemExecuteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18573,19 +18633,19 @@ export interface VersionsGetResultRulesItemExecuteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemExecuteRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemExecuteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemForceConnectionCloseRuleAction = "force_connection_close";
-export type VersionsGetResultRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemForceConnectionCloseRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemForceConnectionCloseRuleAction = "force_connection_close";
+export type VersionsGetResponseRulesItemForceConnectionCloseRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemForceConnectionCloseRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemForceConnectionCloseRuleRatelimit {
+export interface VersionsGetResponseRulesItemForceConnectionCloseRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemForceConnectionCloseRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18601,7 +18661,7 @@ export interface VersionsGetResultRulesItemForceConnectionCloseRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemForceConnectionCloseRule {
+export interface VersionsGetResponseRulesItemForceConnectionCloseRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18609,11 +18669,14 @@ export interface VersionsGetResultRulesItemForceConnectionCloseRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemForceConnectionCloseRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemForceConnectionCloseRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemForceConnectionCloseRuleCategoriesList | null | undefined;
+  categories?:
+    | VersionsGetResponseRulesItemForceConnectionCloseRuleCategoriesList
+    | null
+    | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18628,21 +18691,21 @@ export interface VersionsGetResultRulesItemForceConnectionCloseRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemForceConnectionCloseRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemJavaScriptChallengeRuleAction = "js_challenge";
-export type VersionsGetResultRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemJavaScriptChallengeRuleAction = "js_challenge";
+export type VersionsGetResponseRulesItemJavaScriptChallengeRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemJavaScriptChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemJavaScriptChallengeRuleLogging =
+export type VersionsGetResponseRulesItemJavaScriptChallengeRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemJavaScriptChallengeRuleRatelimit {
+export interface VersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18658,11 +18721,11 @@ export interface VersionsGetResultRulesItemJavaScriptChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemJavaScriptChallengeRule {
+export interface VersionsGetResponseRulesItemJavaScriptChallengeRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: VersionsGetResultRulesItemJavaScriptChallengeRuleAction;
+  action: VersionsGetResponseRulesItemJavaScriptChallengeRuleAction;
   /** Whether the rule should be executed. */
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
@@ -18676,7 +18739,7 @@ export interface VersionsGetResultRulesItemJavaScriptChallengeRule {
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemJavaScriptChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -18687,16 +18750,16 @@ export interface VersionsGetResultRulesItemJavaScriptChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemJavaScriptChallengeRuleRatelimit | null | undefined;
 }
-export type VersionsGetResultRulesItemLogRuleAction = "log";
-export type VersionsGetResultRulesItemLogRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemLogRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemLogRuleAction = "log";
+export type VersionsGetResponseRulesItemLogRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemLogRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemLogRuleRatelimit {
+export type VersionsGetResponseRulesItemLogRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemLogRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemLogRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemLogRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18712,7 +18775,7 @@ export interface VersionsGetResultRulesItemLogRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemLogRule {
+export interface VersionsGetResponseRulesItemLogRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18720,11 +18783,11 @@ export interface VersionsGetResultRulesItemLogRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemLogRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemLogRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemLogRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemLogRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18739,66 +18802,66 @@ export interface VersionsGetResultRulesItemLogRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemLogRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemLogRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemLogCustomFieldRuleAction = "log_custom_field";
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleAction = "log_custom_field";
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersCookieFieldsItem>;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsItem>;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsItem =
   RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem;
-export type VersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList =
   Array<RulesCreateResultRulesetRulesItemLogCustomFieldRuleActionParametersRequestFieldsItem>;
-export interface VersionsGetResultRulesItemLogCustomFieldRuleActionParameters {
+export interface VersionsGetResponseRulesItemLogCustomFieldRuleActionParameters {
   /** The cookie fields to log. */
   cookieFields?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersCookieFieldsList
     | null
     | undefined;
   /** The raw response fields to log. */
   rawResponseFields?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRawResponseFieldsList
     | null
     | undefined;
   /** The raw request fields to log. */
   requestFields?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersRequestFieldsList
     | null
     | undefined;
   /** The transformed response fields to log. */
   responseFields?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersResponseFieldsList
     | null
     | undefined;
   /** The transformed request fields to log. */
   transformedRequestFields?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParametersTransformedRequestFieldsList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemLogCustomFieldRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemLogCustomFieldRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemLogCustomFieldRuleRatelimit {
+export interface VersionsGetResponseRulesItemLogCustomFieldRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemLogCustomFieldRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18814,7 +18877,7 @@ export interface VersionsGetResultRulesItemLogCustomFieldRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemLogCustomFieldRule {
+export interface VersionsGetResponseRulesItemLogCustomFieldRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18822,14 +18885,14 @@ export interface VersionsGetResultRulesItemLogCustomFieldRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemLogCustomFieldRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemLogCustomFieldRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | VersionsGetResultRulesItemLogCustomFieldRuleActionParameters
+    | VersionsGetResponseRulesItemLogCustomFieldRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemLogCustomFieldRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18844,19 +18907,19 @@ export interface VersionsGetResultRulesItemLogCustomFieldRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemLogCustomFieldRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemLogCustomFieldRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemManagedChallengeRuleAction = "managed_challenge";
-export type VersionsGetResultRulesItemManagedChallengeRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemManagedChallengeRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemManagedChallengeRuleAction = "managed_challenge";
+export type VersionsGetResponseRulesItemManagedChallengeRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemManagedChallengeRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemManagedChallengeRuleRatelimit {
+export interface VersionsGetResponseRulesItemManagedChallengeRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemManagedChallengeRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18872,7 +18935,7 @@ export interface VersionsGetResultRulesItemManagedChallengeRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemManagedChallengeRule {
+export interface VersionsGetResponseRulesItemManagedChallengeRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18880,11 +18943,11 @@ export interface VersionsGetResultRulesItemManagedChallengeRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemManagedChallengeRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemManagedChallengeRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: unknown | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemManagedChallengeRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemManagedChallengeRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18899,48 +18962,48 @@ export interface VersionsGetResultRulesItemManagedChallengeRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemManagedChallengeRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemManagedChallengeRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemRedirectRuleAction = "redirect";
-export type VersionsGetResultRulesItemRedirectRuleActionParametersFromList =
+export type VersionsGetResponseRulesItemRedirectRuleAction = "redirect";
+export type VersionsGetResponseRulesItemRedirectRuleActionParametersFromList =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList;
-export type VersionsGetResultRulesItemRedirectRuleActionParametersFromValueTargetUrl =
+export type VersionsGetResponseRulesItemRedirectRuleActionParametersFromValueTargetUrl =
   RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
-export type VersionsGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode =
+export type VersionsGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode =
   | 301
   | 302
   | 303
   | 307
   | 308;
-export interface VersionsGetResultRulesItemRedirectRuleActionParametersFromValue {
+export interface VersionsGetResponseRulesItemRedirectRuleActionParametersFromValue {
   /** A URL to redirect the request to. */
   targetUrl: RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromValueTargetUrl;
   /** Whether to keep the query string of the original request. */
   preserveQueryString?: boolean | null | undefined;
   /** The status code to use for the redirect. */
   statusCode?:
-    | VersionsGetResultRulesItemRedirectRuleActionParametersFromValueStatusCode
+    | VersionsGetResponseRulesItemRedirectRuleActionParametersFromValueStatusCode
     | null
     | undefined;
 }
-export interface VersionsGetResultRulesItemRedirectRuleActionParameters {
+export interface VersionsGetResponseRulesItemRedirectRuleActionParameters {
   /** A redirect based on a bulk list lookup. */
   fromList?:
     | RulesCreateResultRulesetRulesItemRedirectRuleActionParametersFromList
     | null
     | undefined;
   /** A redirect based on the request properties. */
-  fromValue?: VersionsGetResultRulesItemRedirectRuleActionParametersFromValue | null | undefined;
+  fromValue?: VersionsGetResponseRulesItemRedirectRuleActionParametersFromValue | null | undefined;
 }
-export type VersionsGetResultRulesItemRedirectRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemRedirectRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemRedirectRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemRedirectRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemRedirectRuleRatelimit {
+export type VersionsGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemRedirectRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemRedirectRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemRedirectRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -18956,7 +19019,7 @@ export interface VersionsGetResultRulesItemRedirectRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemRedirectRule {
+export interface VersionsGetResponseRulesItemRedirectRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -18964,11 +19027,11 @@ export interface VersionsGetResultRulesItemRedirectRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemRedirectRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemRedirectRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemRedirectRuleActionParameters | null | undefined;
+  actionParameters?: VersionsGetResponseRulesItemRedirectRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemRedirectRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemRedirectRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -18983,82 +19046,82 @@ export interface VersionsGetResultRulesItemRedirectRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemRedirectRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemRedirectRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemRewriteRuleAction = "rewrite";
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleAction = "rewrite";
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation =
   "add";
-export interface VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation =
   "add";
-export interface VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeaderOperation;
 }
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation =
   "set";
-export interface VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeaderOperation;
   /** A static value for the header. */
   value: string;
 }
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation =
   "set";
-export interface VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader {
   /** An expression that evaluates to a value for the header. */
   expression: string;
   /** The operation to perform on the header. */
-  operation: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeaderOperation;
 }
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation =
   "remove";
-export interface VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader {
   /** The operation to perform on the header. */
-  operation: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
+  operation: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeaderOperation;
 }
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValue =
-  | VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
-  | VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
-  | VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
-  | VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
-  | VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
-export type VersionsGetResultRulesItemRewriteRuleActionParametersHeadersMap = {
-  [key: string]: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersValue | undefined;
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue =
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddStaticHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueAddDynamicHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetStaticHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueSetDynamicHeader
+  | VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValueRemoveHeader;
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap = {
+  [key: string]: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersValue | undefined;
 };
-export type VersionsGetResultRulesItemRewriteRuleActionParametersUriURIPathPath =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPathPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPathPath;
-export type VersionsGetResultRulesItemRewriteRuleActionParametersUriURIPath =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersUriURIPath =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath;
-export type VersionsGetResultRulesItemRewriteRuleActionParametersUriURIQueryQuery =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersUriURIQueryQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQueryQuery;
-export type VersionsGetResultRulesItemRewriteRuleActionParametersUriURIQuery =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersUriURIQuery =
   RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export type VersionsGetResultRulesItemRewriteRuleActionParametersUri =
+export type VersionsGetResponseRulesItemRewriteRuleActionParametersUri =
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIPath
   | RulesCreateResultRulesetRulesItemRewriteRuleActionParametersUriURIQuery;
-export interface VersionsGetResultRulesItemRewriteRuleActionParameters {
+export interface VersionsGetResponseRulesItemRewriteRuleActionParameters {
   /** A map of headers to rewrite. */
-  headers?: VersionsGetResultRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
+  headers?: VersionsGetResponseRulesItemRewriteRuleActionParametersHeadersMap | null | undefined;
   /** A URI path rewrite. */
-  uri?: VersionsGetResultRulesItemRewriteRuleActionParametersUri | null | undefined;
+  uri?: VersionsGetResponseRulesItemRewriteRuleActionParametersUri | null | undefined;
 }
-export type VersionsGetResultRulesItemRewriteRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemRewriteRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemRewriteRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemRewriteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemRewriteRuleRatelimit {
+export type VersionsGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemRewriteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemRewriteRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemRewriteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -19074,7 +19137,7 @@ export interface VersionsGetResultRulesItemRewriteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemRewriteRule {
+export interface VersionsGetResponseRulesItemRewriteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -19082,11 +19145,11 @@ export interface VersionsGetResultRulesItemRewriteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemRewriteRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemRewriteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemRewriteRuleActionParameters | null | undefined;
+  actionParameters?: VersionsGetResponseRulesItemRewriteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemRewriteRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemRewriteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -19101,24 +19164,24 @@ export interface VersionsGetResultRulesItemRewriteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemRewriteRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemRewriteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemRouteRuleAction = "route";
-export type VersionsGetResultRulesItemRouteRuleActionParametersOrigin =
+export type VersionsGetResponseRulesItemRouteRuleAction = "route";
+export type VersionsGetResponseRulesItemRouteRuleActionParametersOrigin =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersOrigin;
-export type VersionsGetResultRulesItemRouteRuleActionParametersSni =
+export type VersionsGetResponseRulesItemRouteRuleActionParametersSni =
   RulesCreateResultRulesetRulesItemRouteRuleActionParametersSni;
-export type VersionsGetResultRulesItemRouteRuleActionParameters =
+export type VersionsGetResponseRulesItemRouteRuleActionParameters =
   RulesCreateResultRulesetRulesItemRouteRuleActionParameters;
-export type VersionsGetResultRulesItemRouteRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemRouteRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemRouteRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemRouteRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemRouteRuleRatelimit {
+export type VersionsGetResponseRulesItemRouteRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemRouteRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemRouteRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemRouteRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -19134,7 +19197,7 @@ export interface VersionsGetResultRulesItemRouteRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemRouteRule {
+export interface VersionsGetResponseRulesItemRouteRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -19142,11 +19205,11 @@ export interface VersionsGetResultRulesItemRouteRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemRouteRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemRouteRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemRouteRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemRouteRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemRouteRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Whether the rule should be executed. */
@@ -19161,20 +19224,20 @@ export interface VersionsGetResultRulesItemRouteRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemRouteRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemRouteRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemScoreRuleAction = "score";
-export type VersionsGetResultRulesItemScoreRuleActionParameters =
+export type VersionsGetResponseRulesItemScoreRuleAction = "score";
+export type VersionsGetResponseRulesItemScoreRuleActionParameters =
   RulesCreateResultRulesetRulesItemScoreRuleActionParameters;
-export type VersionsGetResultRulesItemScoreRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemScoreRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemScoreRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemScoreRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemScoreRuleRatelimit {
+export type VersionsGetResponseRulesItemScoreRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemScoreRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemScoreRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemScoreRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -19190,7 +19253,7 @@ export interface VersionsGetResultRulesItemScoreRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemScoreRule {
+export interface VersionsGetResponseRulesItemScoreRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -19198,11 +19261,11 @@ export interface VersionsGetResultRulesItemScoreRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemScoreRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemScoreRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?: RulesCreateResultRulesetRulesItemScoreRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemScoreRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemScoreRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -19216,53 +19279,53 @@ export interface VersionsGetResultRulesItemScoreRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemScoreRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemScoreRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemServeErrorRuleAction = "serve_error";
-export type VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
+export type VersionsGetResponseRulesItemServeErrorRuleAction = "serve_error";
+export type VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContent {
+export interface VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent {
   /** The response content. */
   content: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContentContentType
+    | VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContentContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
+export type VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType =
   | "application/json"
   | "text/html"
   | "text/plain"
   | "text/xml";
-export interface VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset {
+export interface VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset {
   /** The name of a custom asset to serve as the error response. */
   assetName: string;
   /** The content type header to set with the error response. */
   contentType?:
-    | VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
+    | VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAssetContentType
     | null
     | undefined;
   /** The status code to use for the error. */
   statusCode?: number | null | undefined;
 }
-export type VersionsGetResultRulesItemServeErrorRuleActionParameters =
-  | VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersContent
-  | VersionsGetResultRulesItemServeErrorRuleActionParametersActionParametersAsset;
-export type VersionsGetResultRulesItemServeErrorRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemServeErrorRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemServeErrorRuleActionParameters =
+  | VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersContent
+  | VersionsGetResponseRulesItemServeErrorRuleActionParametersActionParametersAsset;
+export type VersionsGetResponseRulesItemServeErrorRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemServeErrorRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemServeErrorRuleRatelimit {
+export type VersionsGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemServeErrorRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemServeErrorRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemServeErrorRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -19278,7 +19341,7 @@ export interface VersionsGetResultRulesItemServeErrorRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemServeErrorRule {
+export interface VersionsGetResponseRulesItemServeErrorRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -19286,11 +19349,11 @@ export interface VersionsGetResultRulesItemServeErrorRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemServeErrorRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemServeErrorRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemServeErrorRuleActionParameters | null | undefined;
+  actionParameters?: VersionsGetResponseRulesItemServeErrorRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemServeErrorRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemServeErrorRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -19304,365 +19367,377 @@ export interface VersionsGetResultRulesItemServeErrorRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemServeErrorRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemServeErrorRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleAction = "set_cache_control";
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleAction = "set_cache_control";
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutable =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutable =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutableRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAge =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAgeRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidateRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstandRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation =
   | "set"
   | "remove";
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCache =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCache =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCacheRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStore =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStore =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStoreRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransform =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransformRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation =
   | "set"
   | "remove";
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
   /** Optional list of header names to qualify the directive (e.g., for "private" or "no-cache" directives). */
   qualifiers?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirectiveQualifiersList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivate =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivate =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivateRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidateRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublic =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublic =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublicRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxage =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxageRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfErrorRemoveDirective;
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirectiveOperation;
   /** The duration value in seconds for the directive. */
   value: number;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation =
   | "set"
   | "remove";
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective {
   /** The operation to perform on the cache-control directive. */
-  operation: VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
+  operation: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirectiveOperation;
   /** Whether the directive should only be applied to the Cloudflare CDN cache. */
   cloudflareOnly?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
-  | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
-export interface VersionsGetResultRulesItemSetCacheControlRuleActionParameters {
+export type VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate =
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateSetDirective
+  | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidateRemoveDirective;
+export interface VersionsGetResponseRulesItemSetCacheControlRuleActionParameters {
   /** A cache-control directive configuration. */
   immutable?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersImmutable
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersImmutable
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  maxAge?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
+  maxAge?: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMaxAge | null | undefined;
   /** A cache-control directive configuration. */
   mustRevalidate?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustRevalidate
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustRevalidate
     | null
     | undefined;
   /** A cache-control directive configuration. */
   mustUnderstand?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersMustUnderstand
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersMustUnderstand
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  noCache?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoCache | null | undefined;
+  noCache?:
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoCache
+    | null
+    | undefined;
   /** A cache-control directive configuration. */
-  noStore?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoStore | null | undefined;
+  noStore?:
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoStore
+    | null
+    | undefined;
   /** A cache-control directive configuration. */
   noTransform?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersNoTransform
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersNoTransform
     | null
     | undefined;
   /** A cache-control directive configuration that accepts optional qualifiers (header names). */
-  private?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPrivate | null | undefined;
-  /** A cache-control directive configuration. */
-  proxyRevalidate?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersProxyRevalidate
+  private?:
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPrivate
     | null
     | undefined;
   /** A cache-control directive configuration. */
-  public?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
+  proxyRevalidate?:
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersProxyRevalidate
+    | null
+    | undefined;
+  /** A cache-control directive configuration. */
+  public?: VersionsGetResponseRulesItemSetCacheControlRuleActionParametersPublic | null | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
-  sMaxage?: VersionsGetResultRulesItemSetCacheControlRuleActionParametersSMaxage | null | undefined;
+  sMaxage?:
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersSMaxage
+    | null
+    | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleIfError?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleIfError
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleIfError
     | null
     | undefined;
   /** A cache-control directive configuration that accepts a duration value in seconds. */
   staleWhileRevalidate?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParametersStaleWhileRevalidate
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheControlRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemSetCacheControlRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemSetCacheControlRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemSetCacheControlRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemSetCacheControlRuleLogging =
+export type VersionsGetResponseRulesItemSetCacheControlRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheControlRuleRatelimit {
+export interface VersionsGetResponseRulesItemSetCacheControlRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemSetCacheControlRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -19678,11 +19753,11 @@ export interface VersionsGetResultRulesItemSetCacheControlRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheControlRule {
+export interface VersionsGetResponseRulesItemSetCacheControlRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: VersionsGetResultRulesItemSetCacheControlRuleAction;
+  action: VersionsGetResponseRulesItemSetCacheControlRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -19694,11 +19769,11 @@ export interface VersionsGetResultRulesItemSetCacheControlRule {
   version: string;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | VersionsGetResultRulesItemSetCacheControlRuleActionParameters
+    | VersionsGetResponseRulesItemSetCacheControlRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemSetCacheControlRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemSetCacheControlRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -19709,116 +19784,116 @@ export interface VersionsGetResultRulesItemSetCacheControlRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemSetCacheControlRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemSetCacheControlRuleRatelimit | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleAction = "set_cache_settings";
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList =
   Array<number>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin"
   | "bypass";
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl {
   /** The browser TTL mode. */
-  mode: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
+  mode: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtlMode;
   /** The browser TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList =
   Array<string>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie {
   /** A list of cookies to check for the presence of. The presence of these cookies is included in the cache key. */
   checkPresence?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieCheckPresenceList
     | null
     | undefined;
   /** A list of cookies to include in the cache key. */
   include?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookieIncludeList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList =
   Array<string>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList =
   Array<string>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap =
   {
     [key: string]:
-      | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
+      | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsValueList
       | undefined;
   };
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader {
   /** A list of headers to check for the presence of. The presence of these headers is included in the cache key. */
   checkPresence?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderCheckPresenceList
     | null
     | undefined;
   /** A mapping of header names to a list of values. If a header is present in the request and contains any of the values provided, its value is included in the cache key. */
   contains?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderContainsMap
     | null
     | undefined;
   /** Whether to exclude the origin header in the cache key. */
   excludeOrigin?: boolean | null | undefined;
   /** A list of headers to include in the cache key. */
   include?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeaderIncludeList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHost;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude {
   /** Whether to exclude all query string parameters from the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to exclude from the cache key. */
   list?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExcludeListList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude {
   /** Whether to include all query string parameters in the cache key. */
   all?: boolean | null | undefined;
   /** A list of query string parameters to include in the cache key. */
   list?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringIncludeListList
     | null
     | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString {
   /** Which query string parameters to exclude from the cache key. */
   exclude?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringExclude
     | null
     | undefined;
   /** Which query string parameters to include in the cache key. */
   include?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryStringInclude
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyUser;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey {
   /** Which cookies to include in the cache key. */
   cookie?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyCookie
     | null
     | undefined;
   /** Which headers to include in the cache key. */
   header?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyHeader
     | null
     | undefined;
   /** How to use the host in the cache key. */
@@ -19828,7 +19903,7 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersC
     | undefined;
   /** Which query string parameters to include in or exclude from the cache key. */
   queryString?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKeyQueryString
     | null
     | undefined;
   /** How to use characteristics of the request user agent in the cache key. */
@@ -19837,117 +19912,117 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersC
     | null
     | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey {
   /** Whether to separate cached content based on the visitor's device type. */
   cacheByDeviceType?: boolean | null | undefined;
   /** Whether to protect from web cache deception attacks, while allowing static assets to be cached. */
   cacheDeceptionArmor?: boolean | null | undefined;
   /** Which components of the request are included or excluded from the cache key. */
   customKey?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKeyCustomKey
     | null
     | undefined;
   /** Whether to treat requests with the same query parameters the same, regardless of the order those query parameters are in. */
   ignoreQueryStringsOrder?: boolean | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheReserve =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersCacheReserve;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode =
   | "respect_origin"
   | "bypass_by_default"
   | "override_origin";
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItemStatusCodeRange;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList =
   Array<RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlItem>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl {
   /** The edge TTL mode. */
-  mode: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
+  mode: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlMode;
   /** The edge TTL (in seconds) if you choose the "override_origin" mode. */
   default?: number | null | undefined;
   /** A list of TTLs to apply to specific status codes or status code ranges. */
   statusCodeTtl?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtlStatusCodeTtlList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode =
   | "on"
   | "off"
   | "default";
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests {
   /** Whether to use range requests. `default` is the behaviour the zone gets without this rule. */
-  mode: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
+  mode: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequestsMode;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersServeStale =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersServeStale =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersServeStale;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersSharedDictionary =
   RulesCreateResultRulesetRulesItemSetCacheSettingsRuleActionParametersSharedDictionary;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault {
   /** How the header value is treated when building the cache key. */
-  action: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
+  action: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefaultAction;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction =
   | "bypass"
   | "passthrough"
   | "normalize";
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList =
   Array<string>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue {
   /** How the header value is treated when building the cache key. */
-  action: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
+  action: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueAction;
   /** The set of languages to normalize against. Only valid for the `accept-language` header. */
   languages?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueLanguagesList
     | null
     | undefined;
   /** The set of media types to normalize against. Only valid for the `accept` header. */
   mediaTypes?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValueMediaTypesList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap = {
   [key: string]:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersValue
     | undefined;
 };
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVary {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVary {
   /** Controls how response Vary headers without a per-header override contribute to the cache key. */
   default?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryDefault
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryDefault
     | null
     | undefined;
   /** A mapping of lowercase request header names to their vary configuration. */
   headers?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVaryHeadersMap
     | null
     | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParameters {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleActionParameters {
   /** A list of additional ports that caching should be enabled on. */
   additionalCacheablePorts?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersAdditionalCacheablePortsList
     | null
     | undefined;
   /** How long client browsers should cache the response. Cloudflare cache purge will not purge content cached on client browsers, so high browser TTLs may lead to stale content. */
   browserTtl?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersBrowserTtl
     | null
     | undefined;
   /** Whether the request's response from the origin is eligible for caching. Caching itself will still depend on the cache control header and your other caching configurations. */
   cache?: boolean | null | undefined;
   /** Which components of the request are included in or excluded from the cache key Cloudflare uses to store the response in cache. */
   cacheKey?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersCacheKey
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersCacheKey
     | null
     | undefined;
   /** Settings to determine whether the request's response from origin is eligible for Cache Reserve (requires a Cache Reserve add-on plan). */
@@ -19957,7 +20032,7 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParameters 
     | undefined;
   /** How long the Cloudflare edge network should cache the response. */
   edgeTtl?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersEdgeTtl
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersEdgeTtl
     | null
     | undefined;
   /** Whether Cloudflare will aim to strictly adhere to RFC 7234. */
@@ -19966,7 +20041,7 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParameters 
   originErrorPagePassthru?: boolean | null | undefined;
   /** Controls whether Cloudflare fetches a large asset from the origin as a series of range requests instead of one whole-body request. */
   originRangeRequests?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersOriginRangeRequests
     | null
     | undefined;
   /** A timeout value between two successive read operations to use for your origin server. Historically, the timeout value between two read options from Cloudflare to an origin server is 100 seconds. If you are attempting to reduce HTTP 524 errors because of timeouts from an origin server, try increasing this timeout value. */
@@ -19990,16 +20065,16 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleActionParameters 
   /** Whether to strip Set-Cookie headers from the origin response before caching. */
   stripSetCookie?: boolean | null | undefined;
   /** Controls how cached responses vary based on request headers. `default` is required by the API and applies to any Vary response header that does not have a per-header override. */
-  vary?: VersionsGetResultRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
+  vary?: VersionsGetResponseRulesItemSetCacheSettingsRuleActionParametersVary | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheSettingsRuleRatelimit {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemSetCacheSettingsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -20015,7 +20090,7 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheSettingsRule {
+export interface VersionsGetResponseRulesItemSetCacheSettingsRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -20023,14 +20098,14 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemSetCacheSettingsRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemSetCacheSettingsRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | VersionsGetResultRulesItemSetCacheSettingsRuleActionParameters
+    | VersionsGetResponseRulesItemSetCacheSettingsRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemSetCacheSettingsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -20044,93 +20119,94 @@ export interface VersionsGetResultRulesItemSetCacheSettingsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemSetCacheSettingsRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleAction = "set_cache_tags";
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleAction = "set_cache_tags";
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
+  values: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValuesValuesList;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpressionOperation;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
+  values: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValuesValuesList;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpressionOperation;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation =
   | "add"
   | "remove"
   | "set";
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues {
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesOperation;
   /** A list of cache tag values. */
-  values: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
+  values: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValuesValuesList;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation =
   | "add"
   | "remove"
   | "set";
-export interface VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression {
   /** An expression that evaluates to an array of cache tag values. */
   expression: string;
   /** The operation to perform on the cache tags. */
-  operation: VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
+  operation: VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpressionOperation;
 }
-export type VersionsGetResultRulesItemSetCacheTagsRuleActionParameters =
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
-  | VersionsGetResultRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
-export type VersionsGetResultRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemSetCacheTagsRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleActionParameters =
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsValues
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersAddCacheTagsExpression
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsValues
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersRemoveCacheTagsExpression
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsValues
+  | VersionsGetResponseRulesItemSetCacheTagsRuleActionParametersSetCacheTagsExpression;
+export type VersionsGetResponseRulesItemSetCacheTagsRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemSetCacheTagsRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemSetCacheTagsRuleLogging =
+export type VersionsGetResponseRulesItemSetCacheTagsRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemSetCacheTagsRuleRatelimit {
+export type VersionsGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList =
+  Array<string>;
+export interface VersionsGetResponseRulesItemSetCacheTagsRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemSetCacheTagsRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -20146,11 +20222,11 @@ export interface VersionsGetResultRulesItemSetCacheTagsRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemSetCacheTagsRule {
+export interface VersionsGetResponseRulesItemSetCacheTagsRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: VersionsGetResultRulesItemSetCacheTagsRuleAction;
+  action: VersionsGetResponseRulesItemSetCacheTagsRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -20161,9 +20237,12 @@ export interface VersionsGetResultRulesItemSetCacheTagsRule {
   /** The version of the rule. */
   version: string;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemSetCacheTagsRuleActionParameters | null | undefined;
+  actionParameters?:
+    | VersionsGetResponseRulesItemSetCacheTagsRuleActionParameters
+    | null
+    | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemSetCacheTagsRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -20174,39 +20253,39 @@ export interface VersionsGetResultRulesItemSetCacheTagsRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemSetCacheTagsRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemSetCacheTagsRuleRatelimit | null | undefined;
 }
-export type VersionsGetResultRulesItemSetConfigurationRuleAction = "set_config";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersAutominify =
+export type VersionsGetResponseRulesItemSetConfigurationRuleAction = "set_config";
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersAutominify =
   RulesCreateResultRulesetRulesItemSetConfigurationRuleActionParametersAutominify;
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersPolish =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersPolish =
   | "off"
   | "lossless"
   | "lossy"
   | "webp";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering =
   | "none"
   | "standard"
   | "full";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering =
   | "none"
   | "standard";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel =
   | "off"
   | "essentially_off"
   | "low"
   | "medium"
   | "high"
   | "under_attack";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersSsl =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl =
   | "off"
   | "flexible"
   | "full"
   | "strict"
   | "origin_pull";
-export type VersionsGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
+export type VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetConfigurationRuleActionParameters {
+export interface VersionsGetResponseRulesItemSetConfigurationRuleActionParameters {
   /** Whether to enable Automatic HTTPS Rewrites. */
   automaticHttpsRewrites?: boolean | null | undefined;
   /** Which file extensions to minify automatically. */
@@ -20237,48 +20316,51 @@ export interface VersionsGetResultRulesItemSetConfigurationRuleActionParameters 
   /** Whether to enable Opportunistic Encryption. */
   opportunisticEncryption?: boolean | null | undefined;
   /** The Polish level to configure. */
-  polish?: VersionsGetResultRulesItemSetConfigurationRuleActionParametersPolish | null | undefined;
+  polish?:
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParametersPolish
+    | null
+    | undefined;
   /** Whether to redirect verified AI training crawlers to canonical URLs found in the HTML response. */
   redirectsForAiTraining?: boolean | null | undefined;
   /** The request body buffering mode. */
   requestBodyBuffering?:
-    | VersionsGetResultRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParametersRequestBodyBuffering
     | null
     | undefined;
   /** The response body buffering mode. */
   responseBodyBuffering?:
-    | VersionsGetResultRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParametersResponseBodyBuffering
     | null
     | undefined;
   /** Whether to enable Rocket Loader. */
   rocketLoader?: boolean | null | undefined;
   /** The Security Level to configure. */
   securityLevel?:
-    | VersionsGetResultRulesItemSetConfigurationRuleActionParametersSecurityLevel
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSecurityLevel
     | null
     | undefined;
   /** Whether to enable Server-Side Excludes. */
   serverSideExcludes?: boolean | null | undefined;
   /** The SSL level to configure. */
-  ssl?: VersionsGetResultRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
+  ssl?: VersionsGetResponseRulesItemSetConfigurationRuleActionParametersSsl | null | undefined;
   /** Signed Exchanges (SXG) is deprecated. */
   sxg?: boolean | null | undefined;
   /** Whether to serve the WebMCP bridge script, which exposes the page's tools to browser AI agents. */
   webmcpEnabled?: boolean | null | undefined;
   /** Bundled WebMCP tool packs to activate for matching requests. An empty array disables all packs. Omitting this parameter leaves the pack selection unchanged. Does not enable the WebMCP bridge itself. */
   webmcpPacks?:
-    | VersionsGetResultRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParametersWebmcpPacksList
     | null
     | undefined;
 }
-export type VersionsGetResultRulesItemSetConfigurationRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemSetConfigurationRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemSetConfigurationRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemSetConfigurationRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemSetConfigurationRuleRatelimit {
+export interface VersionsGetResponseRulesItemSetConfigurationRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemSetConfigurationRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -20294,7 +20376,7 @@ export interface VersionsGetResultRulesItemSetConfigurationRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemSetConfigurationRule {
+export interface VersionsGetResponseRulesItemSetConfigurationRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -20302,14 +20384,14 @@ export interface VersionsGetResultRulesItemSetConfigurationRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemSetConfigurationRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemSetConfigurationRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
   actionParameters?:
-    | VersionsGetResultRulesItemSetConfigurationRuleActionParameters
+    | VersionsGetResponseRulesItemSetConfigurationRuleActionParameters
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemSetConfigurationRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemSetConfigurationRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -20323,13 +20405,13 @@ export interface VersionsGetResultRulesItemSetConfigurationRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemSetConfigurationRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemSetConfigurationRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemSkipRuleAction = "skip";
-export type VersionsGetResultRulesItemSkipRuleActionParametersPhase = "current";
-export type VersionsGetResultRulesItemSkipRuleActionParametersPhasesItem =
+export type VersionsGetResponseRulesItemSkipRuleAction = "skip";
+export type VersionsGetResponseRulesItemSkipRuleActionParametersPhase = "current";
+export type VersionsGetResponseRulesItemSkipRuleActionParametersPhasesItem =
   | "ddos_l4"
   | "ddos_l7"
   | "http_config_settings"
@@ -20355,9 +20437,9 @@ export type VersionsGetResultRulesItemSkipRuleActionParametersPhasesItem =
   | "magic_transit_ids_managed"
   | "magic_transit_managed"
   | "magic_transit_ratelimit";
-export type VersionsGetResultRulesItemSkipRuleActionParametersPhasesList =
-  Array<VersionsGetResultRulesItemSkipRuleActionParametersPhasesItem>;
-export type VersionsGetResultRulesItemSkipRuleActionParametersProductsItem =
+export type VersionsGetResponseRulesItemSkipRuleActionParametersPhasesList =
+  Array<VersionsGetResponseRulesItemSkipRuleActionParametersPhasesItem>;
+export type VersionsGetResponseRulesItemSkipRuleActionParametersProductsItem =
   | "bic"
   | "hot"
   | "rateLimit"
@@ -20365,35 +20447,35 @@ export type VersionsGetResultRulesItemSkipRuleActionParametersProductsItem =
   | "uaBlock"
   | "waf"
   | "zoneLockdown";
-export type VersionsGetResultRulesItemSkipRuleActionParametersProductsList =
-  Array<VersionsGetResultRulesItemSkipRuleActionParametersProductsItem>;
-export type VersionsGetResultRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
-export type VersionsGetResultRulesItemSkipRuleActionParametersRulesMap = {
-  [key: string]: VersionsGetResultRulesItemSkipRuleActionParametersRulesValueList | undefined;
+export type VersionsGetResponseRulesItemSkipRuleActionParametersProductsList =
+  Array<VersionsGetResponseRulesItemSkipRuleActionParametersProductsItem>;
+export type VersionsGetResponseRulesItemSkipRuleActionParametersRulesValueList = Array<string>;
+export type VersionsGetResponseRulesItemSkipRuleActionParametersRulesMap = {
+  [key: string]: VersionsGetResponseRulesItemSkipRuleActionParametersRulesValueList | undefined;
 };
-export type VersionsGetResultRulesItemSkipRuleActionParametersRuleset = "current";
-export type VersionsGetResultRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
-export interface VersionsGetResultRulesItemSkipRuleActionParameters {
+export type VersionsGetResponseRulesItemSkipRuleActionParametersRuleset = "current";
+export type VersionsGetResponseRulesItemSkipRuleActionParametersRulesetsList = Array<string>;
+export interface VersionsGetResponseRulesItemSkipRuleActionParameters {
   /** A phase to skip the execution of. This option is only compatible with the products option. */
-  phase?: VersionsGetResultRulesItemSkipRuleActionParametersPhase | null | undefined;
+  phase?: VersionsGetResponseRulesItemSkipRuleActionParametersPhase | null | undefined;
   /** A list of phases to skip the execution of. This option is incompatible with the rulesets option. */
-  phases?: VersionsGetResultRulesItemSkipRuleActionParametersPhasesList | null | undefined;
+  phases?: VersionsGetResponseRulesItemSkipRuleActionParametersPhasesList | null | undefined;
   /** A list of legacy security products to skip the execution of. */
-  products?: VersionsGetResultRulesItemSkipRuleActionParametersProductsList | null | undefined;
+  products?: VersionsGetResponseRulesItemSkipRuleActionParametersProductsList | null | undefined;
   /** A mapping of ruleset IDs to a list of rule IDs in that ruleset to skip the execution of. This option is incompatible with the ruleset option. */
-  rules?: VersionsGetResultRulesItemSkipRuleActionParametersRulesMap | null | undefined;
+  rules?: VersionsGetResponseRulesItemSkipRuleActionParametersRulesMap | null | undefined;
   /** A ruleset to skip the execution of. This option is incompatible with the rulesets option. */
-  ruleset?: VersionsGetResultRulesItemSkipRuleActionParametersRuleset | null | undefined;
+  ruleset?: VersionsGetResponseRulesItemSkipRuleActionParametersRuleset | null | undefined;
   /** A list of ruleset IDs to skip the execution of. This option is incompatible with the ruleset and phases options. */
-  rulesets?: VersionsGetResultRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
+  rulesets?: VersionsGetResponseRulesItemSkipRuleActionParametersRulesetsList | null | undefined;
 }
-export type VersionsGetResultRulesItemSkipRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemSkipRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemSkipRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemSkipRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
-export interface VersionsGetResultRulesItemSkipRuleRatelimit {
+export type VersionsGetResponseRulesItemSkipRuleRatelimitCharacteristicsList = Array<string>;
+export interface VersionsGetResponseRulesItemSkipRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemSkipRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemSkipRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -20409,7 +20491,7 @@ export interface VersionsGetResultRulesItemSkipRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemSkipRule {
+export interface VersionsGetResponseRulesItemSkipRule {
   /** The timestamp of when the rule was last modified. */
   lastUpdated: string;
   /** The version of the rule. */
@@ -20417,11 +20499,11 @@ export interface VersionsGetResultRulesItemSkipRule {
   /** The unique ID of the rule. */
   id?: string | null | undefined;
   /** The action to perform when the rule matches. */
-  action?: VersionsGetResultRulesItemSkipRuleAction | null | undefined;
+  action?: VersionsGetResponseRulesItemSkipRuleAction | null | undefined;
   /** The parameters configuring the rule's action. */
-  actionParameters?: VersionsGetResultRulesItemSkipRuleActionParameters | null | undefined;
+  actionParameters?: VersionsGetResponseRulesItemSkipRuleActionParameters | null | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemSkipRuleCategoriesList | null | undefined;
+  categories?: VersionsGetResponseRulesItemSkipRuleCategoriesList | null | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   enabled?: boolean | null | undefined;
@@ -20435,23 +20517,23 @@ export interface VersionsGetResultRulesItemSkipRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemSkipRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemSkipRuleRatelimit | null | undefined;
   /** The reference of the rule (the rule's ID by default). */
   ref?: string | null | undefined;
 }
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleActionParameters =
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleAction = "transform_response_html";
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleActionParameters =
   RulesCreateRequestBodyTransformResponseHTMLRuleActionParameters;
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleCategoriesList = Array<string>;
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleExposedCredentialCheck =
   RulesCreateRequestBodyChallengeRuleExposedCredentialCheck;
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleLogging =
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleLogging =
   RulesCreateRequestBodyChallengeRuleLogging;
-export type VersionsGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
+export type VersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList =
   Array<string>;
-export interface VersionsGetResultRulesItemTransformResponseHTMLRuleRatelimit {
+export interface VersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimit {
   /** Characteristics of the request on which the rate limit counter will be incremented. */
-  characteristics: VersionsGetResultRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
+  characteristics: VersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimitCharacteristicsList;
   /** Period in seconds over which the counter is being incremented. */
   period: number;
   /** An expression that defines when the rate limit counter should be incremented. It defaults to the same as the rule's expression. */
@@ -20467,11 +20549,11 @@ export interface VersionsGetResultRulesItemTransformResponseHTMLRuleRatelimit {
   /** A response header name provided by the origin, which contains the score to increment rate limit counter with. */
   scoreResponseHeaderName?: string | null | undefined;
 }
-export interface VersionsGetResultRulesItemTransformResponseHTMLRule {
+export interface VersionsGetResponseRulesItemTransformResponseHTMLRule {
   /** The unique ID of the rule. */
   id: string;
   /** The action to perform when the rule matches. */
-  action: VersionsGetResultRulesItemTransformResponseHTMLRuleAction;
+  action: VersionsGetResponseRulesItemTransformResponseHTMLRuleAction;
   enabled: boolean;
   /** The expression defining which traffic will match the rule. */
   expression: string;
@@ -20487,7 +20569,10 @@ export interface VersionsGetResultRulesItemTransformResponseHTMLRule {
     | null
     | undefined;
   /** The categories of the rule. */
-  categories?: VersionsGetResultRulesItemTransformResponseHTMLRuleCategoriesList | null | undefined;
+  categories?:
+    | VersionsGetResponseRulesItemTransformResponseHTMLRuleCategoriesList
+    | null
+    | undefined;
   /** An informative description of the rule. */
   description?: string | null | undefined;
   /** Configuration for exposed credential checking. */
@@ -20498,50 +20583,50 @@ export interface VersionsGetResultRulesItemTransformResponseHTMLRule {
   /** An object configuring the rule's logging behavior. */
   logging?: RulesCreateRequestBodyChallengeRuleLogging | null | undefined;
   /** An object configuring the rule's rate limit behavior. */
-  ratelimit?: VersionsGetResultRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
+  ratelimit?: VersionsGetResponseRulesItemTransformResponseHTMLRuleRatelimit | null | undefined;
 }
-export type VersionsGetResultRulesItem =
-  | VersionsGetResultRulesItemBlockRule
-  | VersionsGetResultRulesItemChallengeRule
-  | VersionsGetResultRulesItemResponseCompressionRule
-  | VersionsGetResultRulesItemDDoSDynamicRule
-  | VersionsGetResultRulesItemExecuteRule
-  | VersionsGetResultRulesItemForceConnectionCloseRule
-  | VersionsGetResultRulesItemJavaScriptChallengeRule
-  | VersionsGetResultRulesItemLogRule
-  | VersionsGetResultRulesItemLogCustomFieldRule
-  | VersionsGetResultRulesItemManagedChallengeRule
-  | VersionsGetResultRulesItemRedirectRule
-  | VersionsGetResultRulesItemRewriteRule
-  | VersionsGetResultRulesItemRouteRule
-  | VersionsGetResultRulesItemScoreRule
-  | VersionsGetResultRulesItemServeErrorRule
-  | VersionsGetResultRulesItemSetCacheControlRule
-  | VersionsGetResultRulesItemSetCacheSettingsRule
-  | VersionsGetResultRulesItemSetCacheTagsRule
-  | VersionsGetResultRulesItemSetConfigurationRule
-  | VersionsGetResultRulesItemSkipRule
-  | VersionsGetResultRulesItemTransformResponseHTMLRule;
-export type VersionsGetResultRulesList = Array<VersionsGetResultRulesItem>;
-export interface VersionsGetResult {
+export type VersionsGetResponseRulesItem =
+  | VersionsGetResponseRulesItemBlockRule
+  | VersionsGetResponseRulesItemChallengeRule
+  | VersionsGetResponseRulesItemResponseCompressionRule
+  | VersionsGetResponseRulesItemDDoSDynamicRule
+  | VersionsGetResponseRulesItemExecuteRule
+  | VersionsGetResponseRulesItemForceConnectionCloseRule
+  | VersionsGetResponseRulesItemJavaScriptChallengeRule
+  | VersionsGetResponseRulesItemLogRule
+  | VersionsGetResponseRulesItemLogCustomFieldRule
+  | VersionsGetResponseRulesItemManagedChallengeRule
+  | VersionsGetResponseRulesItemRedirectRule
+  | VersionsGetResponseRulesItemRewriteRule
+  | VersionsGetResponseRulesItemRouteRule
+  | VersionsGetResponseRulesItemScoreRule
+  | VersionsGetResponseRulesItemServeErrorRule
+  | VersionsGetResponseRulesItemSetCacheControlRule
+  | VersionsGetResponseRulesItemSetCacheSettingsRule
+  | VersionsGetResponseRulesItemSetCacheTagsRule
+  | VersionsGetResponseRulesItemSetConfigurationRule
+  | VersionsGetResponseRulesItemSkipRule
+  | VersionsGetResponseRulesItemTransformResponseHTMLRule;
+export type VersionsGetResponseRulesList = Array<VersionsGetResponseRulesItem>;
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
-  /** An informative description of the ruleset. */
-  description?: string | null | undefined;
   /** The kind of the ruleset. */
-  kind: VersionsGetResultKind;
+  kind: VersionsGetResponseKind;
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
   name: string;
   /** The phase of the ruleset. */
-  phase: VersionsGetResultPhase;
+  phase: VersionsGetResponsePhase;
   /** The list of rules in the ruleset. */
-  rules: VersionsGetResultRulesList;
+  rules: VersionsGetResponseRulesList;
   /** The version of the ruleset. */
   version: string;
+  /** An informative description of the ruleset. */
+  description?: string | null | undefined;
 }
-export type GetVersionResponse = VersionsGetResult;
 export interface GetVersionForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
@@ -33629,7 +33714,7 @@ export const getPhasForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetPhasForAccountRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<GetPhasResponse>,
+  output: __S(50, __c6, 2) as any as S.Schema<GetPhasResponse>,
   errors: [RulesetNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33647,7 +33732,7 @@ export const getPhasForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetPhasForZoneRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<GetPhasResponse>,
+  output: __S(50, __c6, 2) as any as S.Schema<GetPhasResponse>,
   errors: [RulesetNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33665,7 +33750,7 @@ export const getPhasVersionForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetPhasVersionForAccountRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<GetPhasVersionResponse>,
+  output: __S(74, __c9, 2) as any as S.Schema<GetPhasVersionResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33683,7 +33768,7 @@ export const getPhasVersionForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetPhasVersionForZoneRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<GetPhasVersionResponse>,
+  output: __S(74, __c9, 2) as any as S.Schema<GetPhasVersionResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33701,7 +33786,7 @@ export const getRulesetForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetRulesetForAccountRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<GetRulesetResponse>,
+  output: __S(98, __c12, 2) as any as S.Schema<GetRulesetResponse>,
   errors: [RulesetNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33719,7 +33804,7 @@ export const getRulesetForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetRulesetForZoneRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<GetRulesetResponse>,
+  output: __S(98, __c12, 2) as any as S.Schema<GetRulesetResponse>,
   errors: [RulesetNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33737,7 +33822,7 @@ export const getVersionForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetVersionForAccountRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<GetVersionResponse>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetVersionResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -33755,7 +33840,7 @@ export const getVersionForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetVersionForZoneRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<GetVersionResponse>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetVersionResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -34492,18 +34577,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          description: S.optional(S.NullOr(S.String)),
           kind: S.String,
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
           rules: __S(49, __c6, 1),
           version: S.String,
-        }),
-      ).annotate({ identifier: "PhasesGetResult" });
-    case 3:
-      return S.suspend(() =>
-        __S(50, __c6, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+          description: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPhasResponse" });
   }
 }
@@ -34902,18 +34983,14 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          description: S.optional(S.NullOr(S.String)),
           kind: S.String,
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
           rules: __S(73, __c9, 1),
           version: S.String,
-        }),
-      ).annotate({ identifier: "PhasesVersionsGetResult" });
-    case 3:
-      return S.suspend(() =>
-        __S(74, __c9, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+          description: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPhasVersionResponse" });
   }
 }
@@ -35312,18 +35389,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          description: S.optional(S.NullOr(S.String)),
           kind: S.String,
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
           rules: __S(97, __c12, 1),
           version: S.String,
-        }),
-      ).annotate({ identifier: "GetResult" });
-    case 3:
-      return S.suspend(() =>
-        __S(98, __c12, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+          description: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRulesetResponse" });
   }
 }
@@ -35716,18 +35789,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          description: S.optional(S.NullOr(S.String)),
           kind: S.String,
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
           rules: __S(121, __c15, 1),
           version: S.String,
-        }),
-      ).annotate({ identifier: "VersionsGetResult" });
-    case 3:
-      return S.suspend(() =>
-        __S(122, __c15, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+          description: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetVersionResponse" });
   }
 }

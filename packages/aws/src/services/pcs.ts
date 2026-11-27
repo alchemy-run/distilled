@@ -386,6 +386,30 @@ export interface NodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
   scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
+export type HealthMonitoringMode = "NONE" | "STANDARD" | (string & {});
+export type HealthMonitoringRepairAction = "AUTO" | "REPLACE" | "ISOLATE" | "NONE" | (string & {});
+export interface HealthMonitoring {
+  mode?: HealthMonitoringMode | undefined;
+  repairAction?: HealthMonitoringRepairAction | undefined;
+}
+export type DeepHealthCheckOnStartProfile = "NONE" | "QUICK" | "MEDIUM" | "LONG" | (string & {});
+export type DeepHealthCheckOnStartRepairAction =
+  | "AUTO"
+  | "REPLACE"
+  | "ISOLATE"
+  | "NONE"
+  | (string & {});
+export interface DeepHealthCheckOnStart {
+  profile?: DeepHealthCheckOnStartProfile | undefined;
+  repairAction?: DeepHealthCheckOnStartRepairAction | undefined;
+}
+export interface DeepHealthChecks {
+  onStart?: DeepHealthCheckOnStart | undefined;
+}
+export interface InstanceHealthChecksRequest {
+  healthMonitoring?: HealthMonitoring | undefined;
+  deepHealthChecks?: DeepHealthChecks | undefined;
+}
 export interface CreateComputeNodeGroupRequest {
   amiId?: string | undefined;
   securityGroupIds?: string[] | undefined;
@@ -402,6 +426,7 @@ export interface CreateComputeNodeGroupRequest {
   spotOptions?: SpotOptions | undefined;
   slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest | undefined;
   nodeLifecycleActions?: NodeLifecycleActionsRequest | undefined;
+  instanceHealthChecks?: InstanceHealthChecksRequest | undefined;
   clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -431,6 +456,10 @@ export interface NodeLifecycleActions {
   stages: NodeLifecycleStages;
   scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
+export interface InstanceHealthChecks {
+  healthMonitoring?: HealthMonitoring | undefined;
+  deepHealthChecks?: DeepHealthChecks | undefined;
+}
 export interface ComputeNodeGroup {
   amiId?: string | undefined;
   securityGroupIds?: string[] | undefined;
@@ -452,6 +481,7 @@ export interface ComputeNodeGroup {
   spotOptions?: SpotOptions | undefined;
   slurmConfiguration?: ComputeNodeGroupSlurmConfiguration | undefined;
   nodeLifecycleActions?: NodeLifecycleActions | undefined;
+  instanceHealthChecks?: InstanceHealthChecks | undefined;
   errorInfo?: ErrorInfo[] | undefined;
 }
 export interface CreateComputeNodeGroupResponse {
@@ -621,6 +651,7 @@ export interface RegisterComputeNodeGroupInstanceResponse {
   computeNodeGroupName?: string | undefined;
   nodeLifecycleActions?: NodeLifecycleActions | undefined;
   schedulerVersion?: string | undefined;
+  instanceHealthChecks?: InstanceHealthChecks | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -673,6 +704,10 @@ export interface UpdateNodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
   scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
+export interface UpdateInstanceHealthChecksRequest {
+  healthMonitoring?: HealthMonitoring | undefined;
+  deepHealthChecks?: DeepHealthChecks | undefined;
+}
 export interface UpdateComputeNodeGroupRequest {
   amiId?: string | undefined;
   securityGroupIds?: string[] | undefined;
@@ -688,6 +723,7 @@ export interface UpdateComputeNodeGroupRequest {
   iamInstanceProfileArn?: string | undefined;
   slurmConfiguration?: UpdateComputeNodeGroupSlurmConfigurationRequest | undefined;
   nodeLifecycleActions?: UpdateNodeLifecycleActionsRequest | undefined;
+  instanceHealthChecks?: UpdateInstanceHealthChecksRequest | undefined;
   clientToken?: string | undefined;
 }
 export interface UpdateComputeNodeGroupResponse {
@@ -1550,6 +1586,7 @@ function __c12(j: number): any {
           computeNodeGroupName: S.optional(S.String),
           nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
           schedulerVersion: S.optional(S.String),
+          instanceHealthChecks: S.optional(__S(455, __c28, 7)),
         }),
       ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
   }
@@ -1631,6 +1668,7 @@ function __c16(j: number): any {
           iamInstanceProfileArn: S.optional(S.String),
           slurmConfiguration: S.optional(__S(470, __c29, 6)),
           nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
+          instanceHealthChecks: S.optional(__S(455, __c28, 7)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateComputeNodeGroupRequest" });
@@ -1841,6 +1879,7 @@ function __c27(j: number): any {
           spotOptions: S.optional(__S(468, __c29, 4)),
           slurmConfiguration: S.optional(__S(470, __c29, 6)),
           nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
+          instanceHealthChecks: S.optional(__S(455, __c28, 7)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -1872,6 +1911,25 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({ stages: __S(450, __c28, 2), scriptCachingPolicy: S.optional(S.String) }),
       ).annotate({ identifier: "NodeLifecycleActionsRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ mode: S.optional(S.String), repairAction: S.optional(S.String) }),
+      ).annotate({ identifier: "HealthMonitoring" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ profile: S.optional(S.String), repairAction: S.optional(S.String) }),
+      ).annotate({ identifier: "DeepHealthCheckOnStart" });
+    case 6:
+      return S.suspend(() => S.Struct({ onStart: S.optional(__S(453, __c28, 5)) })).annotate({
+        identifier: "DeepHealthChecks",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          healthMonitoring: S.optional(__S(452, __c28, 4)),
+          deepHealthChecks: S.optional(__S(454, __c28, 6)),
+        }),
+      ).annotate({ identifier: "InstanceHealthChecksRequest" });
   }
 }
 function __c29(j: number): any {
@@ -1927,6 +1985,7 @@ function __c29(j: number): any {
           spotOptions: S.optional(__S(468, __c29, 4)),
           slurmConfiguration: S.optional(__S(470, __c29, 6)),
           nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
+          instanceHealthChecks: S.optional(__S(455, __c28, 7)),
           errorInfo: S.optional(__S(403, __c25, 3)),
         }),
       ).annotate({ identifier: "ComputeNodeGroup" });

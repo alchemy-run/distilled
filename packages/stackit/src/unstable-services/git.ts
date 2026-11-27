@@ -514,6 +514,16 @@ export interface PatchInstanceRequest {
   feature_toggle?: FeatureToggle | undefined;
   labels?: Labels | undefined;
 }
+export type PatchRunnerRequestLabelsList = Array<string>;
+export interface PatchRunnerRequest {
+  /** Project identifier. */
+  projectId: string;
+  /** Instance identifier. */
+  instanceId: string;
+  /** The runner's job family name. */
+  familyName?: string | undefined;
+  labels: PatchRunnerRequestLabelsList;
+}
 export interface UpdateUserRequest {
   /** Project identifier. */
   projectId: string;
@@ -555,8 +565,8 @@ export const createAuthentication: API.OperationMethod<
   CreateAuthenticationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<CreateAuthenticationRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<Authentication>,
+  input: __S(80, __c20, 0) as any as S.Schema<CreateAuthenticationRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<Authentication>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -573,8 +583,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(91, __c22, 3) as any as S.Schema<Instance>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(95, __c23, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -591,8 +601,8 @@ export const createRunner: API.OperationMethod<
   CreateRunnerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateRunnerRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Runner>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateRunnerRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<Runner>,
   errors: [BadRequest, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -609,8 +619,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(104, __c26, 0) as any as S.Schema<User>,
+  input: __S(104, __c26, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<User>,
   errors: [BadRequest, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -627,8 +637,8 @@ export const deleteAuthentication: API.OperationMethod<
   DeleteAuthenticationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<DeleteAuthenticationRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteAuthenticationResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<DeleteAuthenticationRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteAuthenticationResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -645,8 +655,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -663,8 +673,8 @@ export const deleteRunner: API.OperationMethod<
   DeleteRunnerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<DeleteRunnerRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteRunnerResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<DeleteRunnerRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteRunnerResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -682,7 +692,7 @@ export const deleteUser: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteUserResponse>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -700,7 +710,7 @@ export const getAuthentication: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetAuthenticationRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<Authentication>,
+  output: __S(84, __c21, 0) as any as S.Schema<Authentication>,
   errors: [BadRequest],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -718,7 +728,7 @@ export const getInstance: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(91, __c22, 3) as any as S.Schema<Instance>,
+  output: __S(95, __c23, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -772,7 +782,7 @@ export const getRunner: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetRunnerRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Runner>,
+  output: __S(100, __c25, 0) as any as S.Schema<Runner>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -790,7 +800,7 @@ export const getUser: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<GetUserResponse>,
+  output: __S(116, __c29, 0) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -872,7 +882,7 @@ export const listInstances2: API.OperationMethod<
 }));
 
 export type ListRunnerFamiliesError = BadRequest | NotFound | StackitOpError;
-/** A list of runner job families that are available for the project. */
+/** A list of runner families that are available for the project. */
 export const listRunnerFamilies: API.OperationMethod<
   ListRunnerFamiliesRequest,
   RunnerFamilyList,
@@ -916,7 +926,7 @@ export const patchAuthentication: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<PatchAuthenticationRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<Authentication>,
+  output: __S(84, __c21, 0) as any as S.Schema<Authentication>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -934,13 +944,31 @@ export const patchInstance: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<PatchInstanceRequest>,
-  output: __S(91, __c22, 3) as any as S.Schema<Instance>,
+  output: __S(95, __c23, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchInstance",
+}));
+
+export type PatchRunnerError = BadRequest | NotFound | StackitOpError;
+/** Patch Runner. Patches the Runner information. */
+export const patchRunner: API.OperationMethod<
+  PatchRunnerRequest,
+  Runner,
+  PatchRunnerError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c18, 0) as any as S.Schema<PatchRunnerRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<Runner>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRunner",
 }));
 
 export type UpdateUserError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -951,8 +979,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(104, __c26, 0) as any as S.Schema<User>,
+  input: __S(76, __c19, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -1172,7 +1200,7 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(104, __c26, 0));
+      return S.Array(__S(108, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1201,7 +1229,7 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthenticationRequest" });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(84, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1261,7 +1289,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(91, __c22, 3));
+      return S.Array(__S(95, __c23, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1377,8 +1405,8 @@ function __c17(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           acl: S.optional(S.NullOr(__S(0, __c0, 0))),
           admin_login: S.optional(S.Boolean),
-          feature_toggle: S.optional(__S(89, __c22, 1)),
-          labels: S.optional(__S(90, __c22, 2)),
+          feature_toggle: S.optional(__S(93, __c23, 1)),
+          labels: S.optional(__S(94, __c23, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1391,6 +1419,26 @@ function __c17(j: number): any {
   }
 }
 function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          familyName: S.optional(S.String),
+          labels: __S(0, __c0, 0),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1beta/projects/{projectId}/instances/{instanceId}/runner",
+            code: 200,
+            baseUrl: "https://git.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "PatchRunnerRequest" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1412,7 +1460,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1437,7 +1485,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateAuthenticationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1456,7 +1504,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Authentication" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1476,7 +1524,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1490,7 +1538,7 @@ function __c22(j: number): any {
         S.Struct({
           default_email_notifications: S.optional(S.NullOr(S.String)),
           enable_local_login: S.optional(S.NullOr(S.Boolean)),
-          pipelines: S.optional(__S(88, __c22, 0)),
+          pipelines: S.optional(__S(92, __c23, 0)),
         }),
       ).annotate({ identifier: "FeatureToggle" });
     case 2:
@@ -1503,10 +1551,10 @@ function __c22(j: number): any {
           consumed_disk: S.String,
           consumed_object_storage: S.String,
           created: S.String,
-          feature_toggle: __S(89, __c22, 1),
+          feature_toggle: __S(93, __c23, 1),
           flavor: S.String,
           id: S.String,
-          labels: S.optional(__S(90, __c22, 2)),
+          labels: S.optional(__S(94, __c23, 2)),
           name: S.String,
           state: S.String,
           url: S.String,
@@ -1515,7 +1563,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1535,7 +1583,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateRunnerRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1549,7 +1597,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Runner" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1572,7 +1620,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1585,7 +1633,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1604,13 +1652,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAuthenticationResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1628,7 +1676,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

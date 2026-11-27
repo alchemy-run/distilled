@@ -75,6 +75,31 @@ export interface MessagingSuppressionsAddSuppressionCreateRequest {
   /** The email address to suppress. Will not receive any messages until removed. */
   identifier: string;
 }
+/** * `bounce` - Bounce * `complaint` - Complaint * `manual` - Manual */
+export type BulkSuppressionReasonEnum = "bounce" | "complaint" | "manual";
+export interface BulkSuppressionEntry {
+  /** The email address to suppress. Matched case-insensitively. */
+  identifier: string;
+  /** Why the address is suppressed. `bounce` blocks every email, transactional included, because the address can't receive mail. `complaint` (the recipient reported spam) and `manual` block marketing email only. Defaults to `manual`. * `bounce` - Bounce * `complaint` - Complaint * `manual` - Manual */
+  reason?: BulkSuppressionReasonEnum | (string & {}) | undefined;
+}
+/** Addresses to suppress, at most 1000 per request. */
+export type MessagingSuppressionsBulkAddSuppressionsCreateRequestSuppressionsList =
+  Array<BulkSuppressionEntry>;
+export interface MessagingSuppressionsBulkAddSuppressionsCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Addresses to suppress, at most 1000 per request. */
+  suppressions: MessagingSuppressionsBulkAddSuppressionsCreateRequestSuppressionsList;
+}
+export interface BulkAddSuppressionsResult {
+  /** Number of distinct addresses received, after lowercasing. */
+  total: number;
+  /** Number of addresses added to the suppression list. */
+  created: number;
+  /** Number of addresses that already had an entry. A manual entry or a spam complaint keeps its reason. A `bounce` also makes an entry block transactional email, unless someone removed it from the list. */
+  already_present: number;
+}
 /** The email addresses to remove, at most 100 per request. */
 export type MessagingSuppressionsBulkRemoveSuppressionsCreateRequestIdentifiersList = Array<string>;
 export interface MessagingSuppressionsBulkRemoveSuppressionsCreateRequest {
@@ -140,6 +165,24 @@ export const messagingSuppressionsAddSuppressionCreate: API.OperationMethod<
   span: "MessagingSuppressionsAddSuppressionCreate",
 }));
 
+export type MessagingSuppressionsBulkAddSuppressionsCreateError = PosthogOpError;
+/** Add multiple email addresses to the suppression list Suppress every address in the list. An address that already has an entry keeps it, and a `bounce` also makes that entry block transactional email. Repeating a call is safe. */
+export const messagingSuppressionsBulkAddSuppressionsCreate: API.OperationMethod<
+  MessagingSuppressionsBulkAddSuppressionsCreateRequest,
+  BulkAddSuppressionsResult,
+  MessagingSuppressionsBulkAddSuppressionsCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(14, __c3, 2) as any as S.Schema<MessagingSuppressionsBulkAddSuppressionsCreateRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<BulkAddSuppressionsResult>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingSuppressionsBulkAddSuppressionsCreate",
+}));
+
 export type MessagingSuppressionsBulkRemoveSuppressionsCreateError = PosthogOpError;
 /** Remove several email addresses from the suppression list Remove up to 100 addresses from the suppression list so they can receive messages again. */
 export const messagingSuppressionsBulkRemoveSuppressionsCreate: API.OperationMethod<
@@ -149,11 +192,11 @@ export const messagingSuppressionsBulkRemoveSuppressionsCreate: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13,
-    __c3,
+    17,
+    __c4,
     1,
   ) as any as S.Schema<MessagingSuppressionsBulkRemoveSuppressionsCreateRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<BulkRemoveSuppressionsResponse>,
+  output: __S(18, __c4, 2) as any as S.Schema<BulkRemoveSuppressionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -170,8 +213,8 @@ export const messagingSuppressionsRemoveSuppressionCreate: API.OperationMethod<
   MessagingSuppressionsRemoveSuppressionCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -251,12 +294,46 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.String,
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BulkSuppressionEntry" });
+    case 1:
+      return S.Array(__S(12, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          suppressions: __S(13, __c3, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/messaging_suppressions/bulk_add_suppressions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MessagingSuppressionsBulkAddSuppressionsCreateRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.Number,
+          created: S.Number,
+          already_present: S.Number,
+        }),
+      ).annotate({ identifier: "BulkAddSuppressionsResult" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          identifiers: __S(12, __c3, 0),
+          identifiers: __S(16, __c4, 0),
           confirm_complaints: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -269,13 +346,13 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          removed: __S(12, __c3, 0),
-          not_found: __S(12, __c3, 0),
+          removed: __S(16, __c4, 0),
+          not_found: __S(16, __c4, 0),
         }),
       ).annotate({ identifier: "BulkRemoveSuppressionsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

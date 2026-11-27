@@ -253,6 +253,7 @@ export interface CreateCloudNativeAPIGatewayRequest {
   TradeType?: number | undefined;
   InternetConfig?: InternetConfig | undefined;
   PromId?: string | undefined;
+  EnableHttpPort?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -643,6 +644,7 @@ export interface CreateCloudNativeAPIGatewayRouteRequest {
   ResponseBuffering?: boolean | undefined;
   RegexPriority?: number | undefined;
   QueryStringParameters?: KVMappingList | undefined;
+  Timeout?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -650,8 +652,8 @@ export interface CreateCloudNativeAPIGatewayRouteResponse {
   RequestId?: string | undefined;
 }
 export interface QpsThreshold {
-  Unit: string;
   Max: number;
+  Unit: string;
 }
 export type QpsThresholdList = Array<QpsThreshold>;
 export interface ExternalRedis {
@@ -665,23 +667,24 @@ export interface RateLimitResponse {
   Headers?: KVMappingList | undefined;
   HttpStatus?: number | undefined;
 }
-export interface RuleFilter {
-  Key?: string | undefined;
-  Values?: StringList | undefined;
-  Operator?: string | undefined;
-  Name?: string | undefined;
-}
-export type RuleFilterList = Array<RuleFilter>;
 export interface AccurateQpsThreshold {
-  Unit: string;
   GlobalConfigId: string;
+  Unit: string;
 }
 export type AccurateQpsThresholdList = Array<AccurateQpsThreshold>;
+export interface RuleFilter {
+  Key?: string | undefined;
+  Name?: string | undefined;
+  Operator?: string | undefined;
+  Values?: StringList | undefined;
+}
+export type RuleFilterList = Array<RuleFilter>;
 export interface LimitRule {
+  AccurateQpsThresholds?: AccurateQpsThresholdList | undefined;
   Filters?: RuleFilterList | undefined;
   LimitBy?: KeyValueList | undefined;
   QpsThresholds?: QpsThresholdList | undefined;
-  AccurateQpsThresholds?: AccurateQpsThresholdList | undefined;
+  Enabled?: boolean | undefined;
 }
 export type LimitRuleList = Array<LimitRule>;
 export interface CloudNativeAPIGatewayRateLimitDetail {
@@ -783,11 +786,12 @@ export interface KongTarget {
   Host: string;
   Port: number;
   Weight: number;
-  Health?: string | undefined;
   CreatedTime?: string | undefined;
-  Source?: string | undefined;
   CvmInstanceId?: string | undefined;
   CvmInstanceName?: string | undefined;
+  Health?: string | undefined;
+  Id?: string | undefined;
+  Source?: string | undefined;
   Tags?: StringList | undefined;
 }
 export type KongTargetList = Array<KongTarget>;
@@ -1984,6 +1988,7 @@ export interface DescribeCloudNativeAPIGatewayResult {
   AvailableUpgrade?: boolean | undefined;
   AvailableRollbackVersion?: string | undefined;
   ForceHTTPSRedirect?: boolean | undefined;
+  PrivateIpAddresses?: StringList | undefined;
 }
 export interface DescribeCloudNativeAPIGatewayResponse {
   Result?: DescribeCloudNativeAPIGatewayResult | undefined;
@@ -2451,6 +2456,7 @@ export interface CloudNativeAPIGatewayNode {
   Status?: string | undefined;
   Weight?: number | undefined;
   IsDefaultWeight?: boolean | undefined;
+  NodeType?: string | undefined;
 }
 export type CloudNativeAPIGatewayNodeList = Array<CloudNativeAPIGatewayNode>;
 export interface DescribeCloudNativeAPIGatewayNodesResult {
@@ -2489,10 +2495,16 @@ export interface DescribeCloudNativeAPIGatewayRouteRateLimitResponse {
   Result?: CloudNativeAPIGatewayRateLimitDetail | undefined;
   RequestId?: string | undefined;
 }
+export interface TagKVFilter {
+  TagKey: string;
+  TagValue: string;
+}
+export type TagKVFilterList = Array<TagKVFilter>;
 export interface DescribeCloudNativeAPIGatewayRoutesRequest {
   GatewayId: string;
   Limit?: number | undefined;
   Offset?: number | undefined;
+  ServiceId?: string | undefined;
   ServiceName?: string | undefined;
   RouteName?: string | undefined;
   Filters?: ListFilterList | undefined;
@@ -2500,9 +2512,17 @@ export interface DescribeCloudNativeAPIGatewayRoutesRequest {
   GrayRoutesFirst?: boolean | undefined;
   OrderField?: string | undefined;
   OrderType?: string | undefined;
+  TagIds?: LongList | undefined;
+  TagFilters?: TagKVFilterList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface KongUserTagKV {
+  TagId?: number | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+}
+export type KongUserTagKVList = Array<KongUserTagKV>;
 export interface KongRoutePreview {
   ID?: string | undefined;
   Name?: string | undefined;
@@ -2523,6 +2543,9 @@ export interface KongRoutePreview {
   RegexPriority?: number | undefined;
   QueryStringParameters?: KVMappingList | undefined;
   RouteSource?: string | undefined;
+  Tags?: KongUserTagKVList | undefined;
+  Timeout?: number | null | undefined;
+  TimeoutSource?: string | undefined;
 }
 export type KongRoutePreviewList = Array<KongRoutePreview>;
 export interface KongServiceRouteList {
@@ -2537,6 +2560,7 @@ export interface DescribeCloudNativeAPIGatewaysRequest {
   Limit?: number | undefined;
   Offset?: number | undefined;
   Filters?: FilterList | undefined;
+  EnableRegionFilter?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -3860,6 +3884,7 @@ export interface ModifyCloudNativeAPIGatewayRouteRequest {
   ResponseBuffering?: boolean | undefined;
   RegexPriority?: number | undefined;
   QueryStringParameters?: KVMappingList | undefined;
+  Timeout?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4025,6 +4050,8 @@ export interface ModifyNetworkAccessStrategyRequest {
   NetworkType: string;
   Vip: string;
   AccessControl: NetworkAccessControl;
+  AccessControlSource?: string | undefined;
+  GlobalConfigId?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -5817,8 +5844,8 @@ export const describeCloudNativeAPIGatewayRoutes: API.OperationMethod<
   DescribeCloudNativeAPIGatewayRoutesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DescribeCloudNativeAPIGatewayRoutesRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayRoutesResponse>,
+  input: __S(6946, __c217, 2) as any as S.Schema<DescribeCloudNativeAPIGatewayRoutesRequest>,
+  output: __S(6948, __c217, 4) as any as S.Schema<DescribeCloudNativeAPIGatewayRoutesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9480,6 +9507,7 @@ function __c58(j: number): any {
           ResponseBuffering: S.optional(S.Boolean),
           RegexPriority: S.optional(S.Number),
           QueryStringParameters: S.optional(__S(1089, __c34, 1)),
+          Timeout: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9519,6 +9547,7 @@ function __c60(j: number): any {
           ResponseBuffering: S.optional(S.Boolean),
           RegexPriority: S.optional(S.Number),
           QueryStringParameters: S.optional(__S(1089, __c34, 1)),
+          Timeout: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9710,8 +9739,8 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Unit: S.String,
           Max: S.Number,
+          Unit: S.String,
         }),
       ).annotate({ identifier: "QpsThreshold" });
     case 1:
@@ -9736,30 +9765,31 @@ function __c71(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Key: S.optional(S.String),
-          Values: S.optional(__S(32, __c1, 0)),
-          Operator: S.optional(S.String),
-          Name: S.optional(S.String),
+          GlobalConfigId: S.String,
+          Unit: S.String,
         }),
-      ).annotate({ identifier: "RuleFilter" });
+      ).annotate({ identifier: "AccurateQpsThreshold" });
     case 5:
       return S.Array(__S(2276, __c71, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Unit: S.String,
-          GlobalConfigId: S.String,
+          Key: S.optional(S.String),
+          Name: S.optional(S.String),
+          Operator: S.optional(S.String),
+          Values: S.optional(__S(32, __c1, 0)),
         }),
-      ).annotate({ identifier: "AccurateQpsThreshold" });
+      ).annotate({ identifier: "RuleFilter" });
     case 7:
       return S.Array(__S(2278, __c71, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2277, __c71, 5)),
+          AccurateQpsThresholds: S.optional(__S(2277, __c71, 5)),
+          Filters: S.optional(__S(2279, __c71, 7)),
           LimitBy: S.optional(__S(1089, __c34, 1)),
           QpsThresholds: S.optional(__S(2273, __c71, 1)),
-          AccurateQpsThresholds: S.optional(__S(2279, __c71, 7)),
+          Enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LimitRule" });
     case 9:
@@ -9879,6 +9909,8 @@ function __c77(j: number): any {
           NetworkType: S.String,
           Vip: S.String,
           AccessControl: __S(6144, __c192, 0),
+          AccessControlSource: S.optional(S.String),
+          GlobalConfigId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10298,11 +10330,12 @@ function __c95(j: number): any {
           Host: S.String,
           Port: S.Number,
           Weight: S.Number,
-          Health: S.optional(S.String),
           CreatedTime: S.optional(S.String),
-          Source: S.optional(S.String),
           CvmInstanceId: S.optional(S.String),
           CvmInstanceName: S.optional(S.String),
+          Health: S.optional(S.String),
+          Id: S.optional(S.String),
+          Source: S.optional(S.String),
           Tags: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "KongTarget" });
@@ -11902,6 +11935,7 @@ function __c161(j: number): any {
           TradeType: S.optional(S.Number),
           InternetConfig: S.optional(__S(5184, __c162, 0)),
           PromId: S.optional(S.String),
+          EnableHttpPort: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12672,6 +12706,7 @@ function __c185(j: number): any {
           AvailableUpgrade: S.optional(S.Boolean),
           AvailableRollbackVersion: S.optional(S.String),
           ForceHTTPSRedirect: S.optional(S.Boolean),
+          PrivateIpAddresses: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayResult" });
   }
@@ -13531,6 +13566,7 @@ function __c211(j: number): any {
           Status: S.optional(S.String),
           Weight: S.optional(S.Number),
           IsDefaultWeight: S.optional(S.Boolean),
+          NodeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudNativeAPIGatewayNode" });
     case 2:
@@ -13674,9 +13710,19 @@ function __c217(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          TagKey: S.String,
+          TagValue: S.String,
+        }),
+      ).annotate({ identifier: "TagKVFilter" });
+    case 1:
+      return S.Array(__S(6944, __c217, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           GatewayId: S.String,
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
+          ServiceId: S.optional(S.String),
           ServiceName: S.optional(S.String),
           RouteName: S.optional(S.String),
           Filters: S.optional(__S(1089, __c34, 1)),
@@ -13684,6 +13730,8 @@ function __c217(j: number): any {
           GrayRoutesFirst: S.optional(S.Boolean),
           OrderField: S.optional(S.String),
           OrderType: S.optional(S.String),
+          TagIds: S.optional(__S(1888, __c59, 0)),
+          TagFilters: S.optional(__S(6945, __c217, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13693,17 +13741,17 @@ function __c217(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayRoutesRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          RouteList: S.optional(__S(6977, __c218, 1)),
+          RouteList: S.optional(__S(6979, __c218, 3)),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "KongServiceRouteList" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          Result: S.optional(__S(6945, __c217, 1)),
+          Result: S.optional(__S(6947, __c217, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudNativeAPIGatewayRoutesResponse" });
@@ -13712,6 +13760,16 @@ function __c217(j: number): any {
 function __c218(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TagId: S.optional(S.Number),
+          TagKey: S.optional(S.String),
+          TagValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KongUserTagKV" });
+    case 1:
+      return S.Array(__S(6976, __c218, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
@@ -13733,10 +13791,13 @@ function __c218(j: number): any {
           RegexPriority: S.optional(S.Number),
           QueryStringParameters: S.optional(__S(1089, __c34, 1)),
           RouteSource: S.optional(S.String),
+          Tags: S.optional(__S(6977, __c218, 1)),
+          Timeout: S.optional(S.NullOr(S.Number)),
+          TimeoutSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "KongRoutePreview" });
-    case 1:
-      return S.Array(__S(6976, __c218, 0));
+    case 3:
+      return S.Array(__S(6978, __c218, 2));
   }
 }
 function __c219(j: number): any {
@@ -13747,6 +13808,7 @@ function __c219(j: number): any {
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           Filters: S.optional(__S(6625, __c207, 1)),
+          EnableRegionFilter: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -14108,7 +14170,7 @@ function __c229(j: number): any {
           Service: S.optional(__S(7232, __c226, 0)),
           RouteTotalCount: S.optional(S.Number),
           RouteHasMore: S.optional(S.Boolean),
-          Routes: S.optional(__S(6977, __c218, 1)),
+          Routes: S.optional(__S(6979, __c218, 3)),
         }),
       ).annotate({ identifier: "KongServiceRoute" });
     case 2:

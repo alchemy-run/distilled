@@ -1476,6 +1476,8 @@ export interface UpgradeDedicatedDBInstanceRequest {
   SwitchAutoRetry?: number | undefined;
   SwitchStartTime?: string | undefined;
   SwitchEndTime?: string | undefined;
+  MasterHostId?: string | undefined;
+  SlaveHostIds?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -5190,6 +5192,8 @@ function __c91(j: number): any {
           SwitchAutoRetry: S.optional(S.Number),
           SwitchStartTime: S.optional(S.String),
           SwitchEndTime: S.optional(S.String),
+          MasterHostId: S.optional(S.String),
+          SlaveHostIds: S.optional(__S(16, __c1, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({

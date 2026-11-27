@@ -4094,7 +4094,7 @@ export const RestartNodeType: API.OperationMethod<
 }));
 
 export type RestartServiceReplicaError = AzureOpError;
-/** A long-running resource action. */
+/** Restarts one or more replicas of a Service Fabric managed service. */
 export const RestartServiceReplica: API.OperationMethod<
   RestartServiceReplicaRequest,
   RestartServiceReplicaResponse,

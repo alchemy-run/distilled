@@ -324,16 +324,9 @@ export type RailwayError =
 export type AccessGroupSource = "MANUAL";
 
 export type ActiveFeatureFlag =
-  | "AGENT_BOOTSTRAPS"
   | "AGENT_BYOK"
-  | "AGENT_BYOK_ANTHROPIC"
-  | "AGENT_BYOK_CHATGPT"
   | "AGENT_BYOK_FIREWORKS"
-  | "AGENT_BYOK_OPENAI"
-  | "AGENT_BYOK_OPENROUTER"
-  | "AGENT_CLAUDE_CONNECT"
-  | "AGENT_CONNECTORS"
-  | "AGENT_TASKS"
+  | "AGENT_FORK_TASKS"
   | "CHAT_SANDBOX"
   | "CLEARANCE"
   | "CLOUD_AGENTS"
@@ -341,24 +334,30 @@ export type ActiveFeatureFlag =
   | "CLOUD_AGENT_CHAT"
   | "CONNECTOR_TUNNELS"
   | "CS_MCP_EXPRESS"
+  | "DATABASE_AGENT_TOOLS"
   | "HA_FOR_MONGO"
   | "IN_DASHBOARD_SUPPORT"
   | "MAGIC_CONFIG"
   | "MANAGED_DATABASE_EDIT_WARNING"
   | "MANAGED_DATABASE_SETUP"
   | "PRIORITY_BOARDING"
+  | "RAILQL"
   | "RAILWAY_AGENT_DASHBOARD"
   | "RAILWAY_AUTOMATIONS"
   | "TRACING"
-  | "USAGE_INSIGHTS"
   | "VERIFIERS"
   | "VM_STORAGE_TRACES";
 
 export type ActivePlatformFlag =
   | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+  | "AGENT_BOOTSTRAPS_KILLSWITCH"
+  | "AGENT_BYOK_KILLSWITCH"
   | "AGENT_CACHE_TOKEN_BILLING"
+  | "AGENT_DASHBOARD_NEW_ACCOUNTS"
   | "AGENT_USAGE_CH_INGEST"
+  | "AI_GATEWAY_AGENTS"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+  | "AUTOMATION_PR_TRIGGER_WEBHOOK"
   | "BLOCK_TRIAL_RESTRICTION_APPEALS"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
@@ -369,7 +368,10 @@ export type ActivePlatformFlag =
   | "CS_MCP_EXPRESS"
   | "CTRD_IMAGE_STORE_ROLLOUT"
   | "DEFAULT_USAGE_ALERTS"
+  | "DEK_REGISTRY_CACHE"
+  | "DEK_REGISTRY_RECORD_ON_MISS"
   | "DEMO_PERCENTAGE_ROLLOUT"
+  | "DEPLOYMENT_ARCHIVE_PRODUCE"
   | "DEPLOYMENT_DIAGNOSIS_KILLSWITCH"
   | "DEPLOY_SUPERSEDE_ON_PUSH"
   | "DEV_STUDIO"
@@ -377,6 +379,8 @@ export type ActivePlatformFlag =
   | "DOMAIN_RECONCILE_KILLSWITCH"
   | "EMAIL_FORWARDING_KILLSWITCH"
   | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
+  | "ENVIRONMENT_PATCH_ARCHIVE_READ"
+  | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
@@ -400,8 +404,10 @@ export type ActivePlatformFlag =
   | "RADAR_HTTP_PATTERN_DETECTION"
   | "RADAR_SIGNUP_ENFORCE"
   | "RELAY_SPEND_RESERVATION_KILLSWITCH"
-  | "REMOVE_DEPLOYMENT_COMPACT"
   | "RESTRICTION_ABUSE_QUEUE"
+  | "SECRETS_SHADOW_COMPARE_SAMPLE"
+  | "SECRET_SCANNING_EMAIL"
+  | "SECRET_SCANNING_REVOKE"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
@@ -417,8 +423,8 @@ export type ActivePlatformFlag =
   | "USAGE_CH_READS"
   | "VERIFIERS"
   | "VM_COUPON_MIGRATION"
-  | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
-  | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
+  | "VM_ROLLOUT_EVACUATE"
+  | "VM_ROLLOUT_PAUSE"
   | "VM_USAGE_CH_INGEST"
   | "WORKSPACE_MCP_KILLSWITCH"
   | "X_AGENT_BUILDS";
@@ -427,13 +433,22 @@ export type ActiveProjectFeatureFlag =
   | "LEGACY_CONFIG_AS_CODE"
   | "PLACEHOLDER"
   | "RBS_VOLUMES"
-  | "VM_NEW_SERVICES";
+  | "TRACING_AUTO_INSTRUMENTATION"
+  | "VM_NEW_SERVICES"
+  | "VM_VOLUMES"
+  | "VOLUME_AUTO_GROW"
+  | "WEBSITES";
 
 export type ActiveServiceFeatureFlag =
   | "COPY_VOLUME_TO_ENVIRONMENT"
+  | "LIVENESS_CHECKS"
   | "PLACEHOLDER"
   | "SKIPPED_BUILDS"
   | "USE_DEPLOYMENT_VMS";
+
+export type AgentDashboardFeedbackKind = "feedback" | "problem";
+
+export type AgentDashboardFeedbackSentiment = "negative" | "neutral" | "positive";
 
 export type Builder = "HEROKU" | "NIXPACKS" | "PAKETO" | "RAILPACK";
 
@@ -505,6 +520,7 @@ export type CloudAgentTaskMode = "FOLLOW_UP" | "PROMPT" | "STEER";
 
 export type CloudAgentTaskStatus =
   | "AWAITING_INPUT"
+  | "CANCELLED"
   | "COMPLETED"
   | "FAILED"
   | "PENDING"
@@ -659,6 +675,8 @@ export type MonitorStatus = "ALERT" | "OK";
 
 export type MonitorThresholdCondition = "above" | "below";
 
+export type MonitorType = "threshold";
+
 /** The direction of a network flow relative to the service */
 export type NetworkFlowDirection = "egress" | "ingress";
 
@@ -685,6 +703,7 @@ export type ObservabilityDashboardItemType =
   | "HTTP_METRICS_ITEM"
   | "NETWORK_LOGS_ITEM"
   | "PROJECT_USAGE_ITEM"
+  | "RAILQL_ITEM"
   | "SERVICE_LOGS_ITEM"
   | "SERVICE_METRICS_ITEM"
   | "VOLUME_METRICS_ITEM";
@@ -714,9 +733,14 @@ export type Plan = "FREE" | "HOBBY" | "PRO";
 
 export type PlatformFeatureFlag =
   | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+  | "AGENT_BOOTSTRAPS_KILLSWITCH"
+  | "AGENT_BYOK_KILLSWITCH"
   | "AGENT_CACHE_TOKEN_BILLING"
+  | "AGENT_DASHBOARD_NEW_ACCOUNTS"
   | "AGENT_USAGE_CH_INGEST"
+  | "AI_GATEWAY_AGENTS"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+  | "AUTOMATION_PR_TRIGGER_WEBHOOK"
   | "BLOCK_TRIAL_RESTRICTION_APPEALS"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
@@ -727,7 +751,10 @@ export type PlatformFeatureFlag =
   | "CS_MCP_EXPRESS"
   | "CTRD_IMAGE_STORE_ROLLOUT"
   | "DEFAULT_USAGE_ALERTS"
+  | "DEK_REGISTRY_CACHE"
+  | "DEK_REGISTRY_RECORD_ON_MISS"
   | "DEMO_PERCENTAGE_ROLLOUT"
+  | "DEPLOYMENT_ARCHIVE_PRODUCE"
   | "DEPLOYMENT_DIAGNOSIS_KILLSWITCH"
   | "DEPLOY_SUPERSEDE_ON_PUSH"
   | "DEV_STUDIO"
@@ -735,6 +762,8 @@ export type PlatformFeatureFlag =
   | "DOMAIN_RECONCILE_KILLSWITCH"
   | "EMAIL_FORWARDING_KILLSWITCH"
   | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
+  | "ENVIRONMENT_PATCH_ARCHIVE_READ"
+  | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
@@ -758,8 +787,10 @@ export type PlatformFeatureFlag =
   | "RADAR_HTTP_PATTERN_DETECTION"
   | "RADAR_SIGNUP_ENFORCE"
   | "RELAY_SPEND_RESERVATION_KILLSWITCH"
-  | "REMOVE_DEPLOYMENT_COMPACT"
   | "RESTRICTION_ABUSE_QUEUE"
+  | "SECRETS_SHADOW_COMPARE_SAMPLE"
+  | "SECRET_SCANNING_EMAIL"
+  | "SECRET_SCANNING_REVOKE"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
@@ -775,8 +806,8 @@ export type PlatformFeatureFlag =
   | "USAGE_CH_READS"
   | "VERIFIERS"
   | "VM_COUPON_MIGRATION"
-  | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
-  | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
+  | "VM_ROLLOUT_EVACUATE"
+  | "VM_ROLLOUT_PAUSE"
   | "VM_USAGE_CH_INGEST"
   | "WORKSPACE_MCP_KILLSWITCH"
   | "X_AGENT_BUILDS";
@@ -873,6 +904,9 @@ export type ServiceDomainSyncStatus =
   | "UNSPECIFIED"
   | "UPDATING";
 
+/** What a service is, when it isn't an ordinary service. A Website's builds upload a release that the edge serves. */
+export type ServiceKind = "WEBSITE";
+
 export type SessionType = "BROWSER" | "CLI" | "FORUMS";
 
 export type SignalChangeKind = "default_changed" | "replaced" | "rollback" | "set" | "unset";
@@ -897,7 +931,14 @@ export type TCPProxySyncStatus =
   | "UNSPECIFIED"
   | "UPDATING";
 
+export type TakedownAcknowledgmentStatus = "ACKNOWLEDGED" | "CLEARED" | "REQUIRED";
+
+/** Which complaint a takedown answered. OTHER keeps generic wording rather than asserting a legal basis Railway did not record. */
+export type TakedownNoticeKind = "DMCA" | "OTHER" | "TRADEMARK";
+
 export type TeamRole = "ADMIN" | "MEMBER" | "VIEWER";
+
+export type TemplatePublishingStatus = "EXEMPT" | "LIMITED";
 
 export type TemplateStatus = "HIDDEN" | "PUBLISHED" | "UNPUBLISHED";
 
@@ -960,6 +1001,19 @@ export interface AccessGroupProjectInput {
 export interface AccessGroupUpdateInput {
   readonly name?: string | null | undefined;
   readonly role?: "ADMIN" | "MEMBER" | "VIEWER" | null | undefined;
+}
+
+export interface AgentDashboardFeedbackInput {
+  readonly cloudAgentId?: string | null | undefined;
+  readonly error?: string | null | undefined;
+  readonly failure?: string | null | undefined;
+  readonly kind?: "feedback" | "problem" | null | undefined;
+  readonly message?: string | null | undefined;
+  readonly path?: string | null | undefined;
+  readonly replayUrl?: string | null | undefined;
+  readonly runId?: string | null | undefined;
+  readonly sentiment?: "negative" | "neutral" | "positive" | null | undefined;
+  readonly userAgent?: string | null | undefined;
 }
 
 export interface AgentUsageLimitSetInput {
@@ -1109,6 +1163,7 @@ export interface CloudAgentStateReportInput {
 
 export interface CloudAgentTaskDispatchInput {
   readonly agentName?: string | null | undefined;
+  readonly allowCreate?: boolean | null | undefined;
   readonly cloudAgentId?: string | null | undefined;
   readonly context?: unknown | null | undefined;
   readonly conversationKey?: string | null | undefined;
@@ -1350,16 +1405,9 @@ export interface ExplicitOwnerInput {
 
 export interface FeatureFlagToggleInput {
   readonly flag:
-    | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
-    | "AGENT_BYOK_ANTHROPIC"
-    | "AGENT_BYOK_CHATGPT"
     | "AGENT_BYOK_FIREWORKS"
-    | "AGENT_BYOK_OPENAI"
-    | "AGENT_BYOK_OPENROUTER"
-    | "AGENT_CLAUDE_CONNECT"
-    | "AGENT_CONNECTORS"
-    | "AGENT_TASKS"
+    | "AGENT_FORK_TASKS"
     | "CHAT_SANDBOX"
     | "CLEARANCE"
     | "CLOUD_AGENTS"
@@ -1367,16 +1415,17 @@ export interface FeatureFlagToggleInput {
     | "CLOUD_AGENT_CHAT"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
+    | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
+    | "RAILQL"
     | "RAILWAY_AGENT_DASHBOARD"
     | "RAILWAY_AUTOMATIONS"
     | "TRACING"
-    | "USAGE_INSIGHTS"
     | "VERIFIERS"
     | "VM_STORAGE_TRACES";
 }
@@ -1403,30 +1452,27 @@ export interface HistoryFilterInput {
   readonly since?: string | null | undefined;
 }
 
-export interface IntegrationCreateInput {
-  readonly config: unknown;
-  readonly integrationAuthId?: string | null | undefined;
-  readonly name: string;
-  readonly projectId: string;
-}
-
-export interface IntegrationUpdateInput {
-  readonly config: unknown;
-  readonly integrationAuthId?: string | null | undefined;
-  readonly name: string;
-  readonly projectId: string;
-}
-
 export interface JobApplicationCreateInput {
   readonly email: string;
   readonly jobId: string;
   readonly name: string;
+  readonly turnstileToken?: string | Redacted.Redacted<string> | null | undefined;
   readonly why: string;
 }
 
 export interface LoginSessionAuthInput {
   readonly code: string;
   readonly hostname?: string | null | undefined;
+}
+
+export interface MonitorConfigInput {
+  readonly threshold?: MonitorThresholdConfigInput | null | undefined;
+  readonly type: "threshold";
+}
+
+export interface MonitorThresholdConfigInput {
+  readonly condition: "above" | "below";
+  readonly threshold: number;
 }
 
 export interface NotificationDeliveryFilterInput {
@@ -1480,7 +1526,9 @@ export interface ObservabilityDashboardItemConfigInput {
       >
     | null
     | undefined;
+  readonly query?: string | null | undefined;
   readonly resourceIds?: ReadonlyArray<string> | null | undefined;
+  readonly visualization?: string | null | undefined;
 }
 
 export interface ObservabilityDashboardItemCreateInput {
@@ -1494,30 +1542,24 @@ export interface ObservabilityDashboardItemCreateInput {
     | "HTTP_METRICS_ITEM"
     | "NETWORK_LOGS_ITEM"
     | "PROJECT_USAGE_ITEM"
+    | "RAILQL_ITEM"
     | "SERVICE_LOGS_ITEM"
     | "SERVICE_METRICS_ITEM"
     | "VOLUME_METRICS_ITEM";
+}
+
+export interface ObservabilityDashboardMonitorCreateInput {
+  readonly config: MonitorConfigInput;
+}
+
+export interface ObservabilityDashboardMonitorUpdateInput {
+  readonly config: MonitorConfigInput;
 }
 
 export interface ObservabilityDashboardUpdateInput {
   readonly dashboardItem: ObservabilityDashboardItemCreateInput;
   readonly displayConfig: unknown;
   readonly id: string;
-}
-
-export interface PluginCreateInput {
-  readonly environmentId?: string | null | undefined;
-  readonly friendlyName?: string | null | undefined;
-  readonly name: string;
-  readonly projectId: string;
-}
-
-export interface PluginRestartInput {
-  readonly environmentId?: string | null | undefined;
-}
-
-export interface PluginUpdateInput {
-  readonly friendlyName: string;
 }
 
 export interface PreferencesUpdateData {
@@ -1531,21 +1573,6 @@ export interface PreferencesUpdateData {
   readonly templateQueueEmail?: boolean | null | undefined;
   readonly token?: string | Redacted.Redacted<string> | null | undefined;
   readonly usageEmail?: boolean | null | undefined;
-}
-
-export interface PrivateNetworkCreateOrGetInput {
-  readonly environmentId: string;
-  readonly name: string;
-  readonly projectId: string;
-  readonly tags: ReadonlyArray<string>;
-}
-
-export interface PrivateNetworkEndpointCreateOrGetInput {
-  readonly environmentId: string;
-  readonly privateNetworkId: string;
-  readonly serviceId: string;
-  readonly serviceName: string;
-  readonly tags: ReadonlyArray<string>;
 }
 
 export interface ProjectClearanceDefaultUpdateInput {
@@ -1571,7 +1598,15 @@ export interface ProjectCreateRepo {
 }
 
 export interface ProjectFeatureFlagToggleInput {
-  readonly flag: "LEGACY_CONFIG_AS_CODE" | "PLACEHOLDER" | "RBS_VOLUMES" | "VM_NEW_SERVICES";
+  readonly flag:
+    | "LEGACY_CONFIG_AS_CODE"
+    | "PLACEHOLDER"
+    | "RBS_VOLUMES"
+    | "TRACING_AUTO_INSTRUMENTATION"
+    | "VM_NEW_SERVICES"
+    | "VM_VOLUMES"
+    | "VOLUME_AUTO_GROW"
+    | "WEBSITES";
   readonly projectId: string;
 }
 
@@ -1723,14 +1758,6 @@ export interface RegistryCredentialsInput {
   readonly username: string;
 }
 
-export interface ResetPluginCredentialsInput {
-  readonly environmentId: string;
-}
-
-export interface ResetPluginInput {
-  readonly environmentId: string;
-}
-
 export interface SandboxCreateInput {
   readonly environmentId: string;
   readonly idleTimeoutMinutes?: number | null | undefined;
@@ -1796,6 +1823,7 @@ export interface ServiceDomainUpdateInput {
 export interface ServiceFeatureFlagToggleInput {
   readonly flag:
     | "COPY_VOLUME_TO_ENVIRONMENT"
+    | "LIVENESS_CHECKS"
     | "PLACEHOLDER"
     | "SKIPPED_BUILDS"
     | "USE_DEPLOYMENT_VMS";
@@ -1961,6 +1989,11 @@ export interface TCPProxyCreateInput {
   readonly applicationPort: number;
   readonly environmentId: string;
   readonly serviceId: string;
+}
+
+export interface TakedownAcknowledgeInput {
+  readonly acknowledgmentId: string;
+  readonly statement: string;
 }
 
 export interface TemplateCloneInput {
@@ -2188,8 +2221,9 @@ export interface WorkspaceTrustedDomainCreateInput {
 }
 
 export interface WorkspaceTrustedDomainUpdateInput {
+  readonly autoJoinEnabled?: boolean | null | undefined;
   readonly id: string;
-  readonly role: string;
+  readonly role?: string | null | undefined;
 }
 
 export interface WorkspaceUpdateInput {
@@ -2511,6 +2545,7 @@ export interface CloudAgent {
   readonly environmentId: string;
   readonly id: string;
   readonly name: string;
+  readonly previewDomain: string | null;
   readonly privateDomain: string | null;
   readonly project: Project;
   readonly projectId: string;
@@ -2593,7 +2628,7 @@ export interface CloudAgentTask {
   readonly requestedByUserId: string | null;
   readonly sessionId: string | null;
   readonly startedAt: string | null;
-  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly status: "AWAITING_INPUT" | "CANCELLED" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly structuredOutput: unknown | null;
   readonly text: string | null;
 }
@@ -2609,7 +2644,7 @@ export interface CloudAgentTaskAttachment {
 }
 
 export interface CloudAgentTaskCancelResult {
-  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly status: "AWAITING_INPUT" | "CANCELLED" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly taskId: string;
 }
 
@@ -2618,7 +2653,7 @@ export interface CloudAgentTaskHandle {
   readonly deliveredAsReply: boolean;
   readonly replayed: boolean;
   readonly sessionId: string;
-  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly status: "AWAITING_INPUT" | "CANCELLED" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly taskId: string;
 }
 
@@ -2681,7 +2716,7 @@ export interface CloudAgentTaskResult {
   readonly reasoningEffort: string | null;
   readonly sessionId: string;
   readonly sessionState: string | null;
-  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly status: "AWAITING_INPUT" | "CANCELLED" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly structuredOutput: unknown | null;
   readonly taskId: string;
   readonly text: string | null;
@@ -3228,6 +3263,7 @@ export interface Environment {
   readonly projectId: string;
   readonly serviceInstances: ReadonlyArray<ServiceInstance>;
   readonly sourceEnvironment: Environment | null;
+  readonly sourceEnvironmentName: string | null;
   readonly unmergedChangesCount: number | null;
   readonly updatedAt: string;
   readonly variables: ReadonlyArray<Variable>;
@@ -3292,6 +3328,7 @@ export interface EnvironmentPatch {
   >;
   readonly status: "APPLYING" | "COMMITTED" | "FAILED" | "STAGED";
   readonly updatedAt: string;
+  readonly variablesRedacted: boolean;
 }
 
 export interface EnvironmentServiceInstancesConnection {
@@ -3537,30 +3574,6 @@ export interface Incident {
   readonly url: string;
 }
 
-export interface Integration {
-  readonly config: unknown;
-  readonly id: string;
-  readonly name: string;
-  readonly projectId: string;
-}
-
-export interface IntegrationAuth {
-  readonly id: string;
-  readonly integrations: ReadonlyArray<Integration>;
-  readonly provider: string;
-  readonly providerId: string;
-}
-
-export interface IntegrationAuthIntegrationsConnection {
-  readonly edges: ReadonlyArray<IntegrationAuthIntegrationsConnectionEdge>;
-  readonly pageInfo: PageInfo;
-}
-
-export interface IntegrationAuthIntegrationsConnectionEdge {
-  readonly cursor: string;
-  readonly node: Integration;
-}
-
 export interface InviteCode {
   readonly code: Redacted.Redacted<string>;
   readonly createdAt: string;
@@ -3596,6 +3609,13 @@ export interface LogTags {
   readonly projectId: string | null;
   readonly serviceId: string | null;
   readonly snapshotId: string | null;
+}
+
+/** Where the CLI that started a login session connected from. */
+export interface LoginSessionOrigin {
+  readonly ip: string | null;
+  readonly requestedAt: string | null;
+  readonly sameNetwork: boolean;
 }
 
 export interface MaintainerWorkspace {
@@ -3785,6 +3805,7 @@ export interface NotificationRule {
 export interface ObservabilityDashboard {
   readonly id: string;
   readonly items: ReadonlyArray<ObservabilityDashboardItemInstance>;
+  readonly revision: string;
 }
 
 export interface ObservabilityDashboardAlert {
@@ -3808,6 +3829,7 @@ export interface ObservabilityDashboardItem {
     | "HTTP_METRICS_ITEM"
     | "NETWORK_LOGS_ITEM"
     | "PROJECT_USAGE_ITEM"
+    | "RAILQL_ITEM"
     | "SERVICE_LOGS_ITEM"
     | "SERVICE_METRICS_ITEM"
     | "VOLUME_METRICS_ITEM";
@@ -3844,7 +3866,9 @@ export interface ObservabilityDashboardItemConfig {
     | "MEMORY_USAGE"
     | "NETWORK_USAGE"
   > | null;
+  readonly query: string | null;
   readonly resourceIds: ReadonlyArray<string> | null;
+  readonly visualization: string | null;
 }
 
 export interface ObservabilityDashboardItemInstance {
@@ -3900,6 +3924,13 @@ export interface PaymentMethodCard {
   readonly brand: string;
   readonly country: string | null;
   readonly last4: string;
+}
+
+/** An email change the authenticated user requested and has not confirmed yet. */
+export interface PendingEmailChange {
+  readonly email: string;
+  readonly expiresAt: string;
+  readonly requestedAt: string;
 }
 
 /** Live replication health of an HA database cluster's members. Used to gate the Enable/Disable PITR buttons on the same 'caught up' definition the rollout enforces. */
@@ -3990,9 +4021,14 @@ export interface PlanLimitOverride {
 export interface PlatformFeatureFlagStatus {
   readonly flag:
     | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+    | "AGENT_BOOTSTRAPS_KILLSWITCH"
+    | "AGENT_BYOK_KILLSWITCH"
     | "AGENT_CACHE_TOKEN_BILLING"
+    | "AGENT_DASHBOARD_NEW_ACCOUNTS"
     | "AGENT_USAGE_CH_INGEST"
+    | "AI_GATEWAY_AGENTS"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+    | "AUTOMATION_PR_TRIGGER_WEBHOOK"
     | "BLOCK_TRIAL_RESTRICTION_APPEALS"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
@@ -4003,7 +4039,10 @@ export interface PlatformFeatureFlagStatus {
     | "CS_MCP_EXPRESS"
     | "CTRD_IMAGE_STORE_ROLLOUT"
     | "DEFAULT_USAGE_ALERTS"
+    | "DEK_REGISTRY_CACHE"
+    | "DEK_REGISTRY_RECORD_ON_MISS"
     | "DEMO_PERCENTAGE_ROLLOUT"
+    | "DEPLOYMENT_ARCHIVE_PRODUCE"
     | "DEPLOYMENT_DIAGNOSIS_KILLSWITCH"
     | "DEPLOY_SUPERSEDE_ON_PUSH"
     | "DEV_STUDIO"
@@ -4011,6 +4050,8 @@ export interface PlatformFeatureFlagStatus {
     | "DOMAIN_RECONCILE_KILLSWITCH"
     | "EMAIL_FORWARDING_KILLSWITCH"
     | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
+    | "ENVIRONMENT_PATCH_ARCHIVE_READ"
+    | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
@@ -4034,8 +4075,10 @@ export interface PlatformFeatureFlagStatus {
     | "RADAR_HTTP_PATTERN_DETECTION"
     | "RADAR_SIGNUP_ENFORCE"
     | "RELAY_SPEND_RESERVATION_KILLSWITCH"
-    | "REMOVE_DEPLOYMENT_COMPACT"
     | "RESTRICTION_ABUSE_QUEUE"
+    | "SECRETS_SHADOW_COMPARE_SAMPLE"
+    | "SECRET_SCANNING_EMAIL"
+    | "SECRET_SCANNING_REVOKE"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
@@ -4051,8 +4094,8 @@ export interface PlatformFeatureFlagStatus {
     | "USAGE_CH_READS"
     | "VERIFIERS"
     | "VM_COUPON_MIGRATION"
-    | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
-    | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
+    | "VM_ROLLOUT_EVACUATE"
+    | "VM_ROLLOUT_PAUSE"
     | "VM_USAGE_CH_INGEST"
     | "WORKSPACE_MCP_KILLSWITCH"
     | "X_AGENT_BUILDS";
@@ -4100,6 +4143,72 @@ export interface PluginVariablesConnection {
 export interface PluginVariablesConnectionEdge {
   readonly cursor: string;
   readonly node: Variable;
+}
+
+export interface PostgresHaUptimeCluster {
+  readonly availability: number | null;
+  readonly degradedMinutes: number;
+  readonly downMinutes: number;
+  readonly environmentId: string;
+  readonly environmentName: string | null;
+  readonly excludedMinutes: number;
+  readonly lastRedundancyRound: string | null;
+  readonly measuredMinutes: number;
+  readonly openWindow: PostgresHaUptimeOpenWindow | null;
+  readonly platformDownMinutes: number;
+  readonly projectId: string;
+  readonly projectName: string | null;
+  readonly recent: string;
+  readonly redundancy: number | null;
+  readonly redundancyMeasuredMinutes: number;
+  readonly region: string | null;
+  readonly rootServiceId: string;
+  readonly rootServiceName: string | null;
+  readonly unknownMinutes: number;
+  readonly upMinutes: number;
+  readonly windows: number;
+  readonly workspaceName: string | null;
+}
+
+export interface PostgresHaUptimeClusterReport {
+  readonly cluster: PostgresHaUptimeCluster | null;
+  readonly daily: ReadonlyArray<PostgresHaUptimeDay>;
+  readonly windows: ReadonlyArray<PostgresHaUptimeWindow>;
+}
+
+export interface PostgresHaUptimeDay {
+  readonly day: string;
+  readonly degradedMinutes: number;
+  readonly downMinutes: number;
+  readonly excludedMinutes: number;
+  readonly measuredMinutes: number;
+  readonly redundancyMeasuredMinutes: number;
+  readonly unknownMinutes: number;
+  readonly upMinutes: number;
+}
+
+export interface PostgresHaUptimeOpenWindow {
+  readonly customerInitiated: boolean;
+  readonly failureClass: string | null;
+  readonly id: string;
+  readonly startedAt: string;
+}
+
+export interface PostgresHaUptimeWindow {
+  readonly customerInitiated: boolean;
+  readonly endedAt: string | null;
+  readonly environmentId: string;
+  readonly environmentName: string | null;
+  readonly evidence: string | null;
+  readonly failureClass: string | null;
+  readonly id: string;
+  readonly minutes: number;
+  readonly projectId: string;
+  readonly projectName: string | null;
+  readonly redundancyClass: string | null;
+  readonly rootServiceId: string;
+  readonly sli: string;
+  readonly startedAt: string;
 }
 
 export interface Preferences {
@@ -4154,7 +4263,14 @@ export interface Project {
   readonly environments: ReadonlyArray<Environment>;
   readonly expiredAt: string | null;
   readonly featureFlags: ReadonlyArray<
-    "LEGACY_CONFIG_AS_CODE" | "PLACEHOLDER" | "RBS_VOLUMES" | "VM_NEW_SERVICES"
+    | "LEGACY_CONFIG_AS_CODE"
+    | "PLACEHOLDER"
+    | "RBS_VOLUMES"
+    | "TRACING_AUTO_INSTRUMENTATION"
+    | "VM_NEW_SERVICES"
+    | "VM_VOLUMES"
+    | "VOLUME_AUTO_GROW"
+    | "WEBSITES"
   >;
   readonly focusedPrEnvironments: boolean;
   readonly groups: ReadonlyArray<Group>;
@@ -4553,26 +4669,6 @@ export interface QueryEventsConnectionEdge {
   readonly node: Event;
 }
 
-export interface QueryIntegrationAuthsConnection {
-  readonly edges: ReadonlyArray<QueryIntegrationAuthsConnectionEdge>;
-  readonly pageInfo: PageInfo;
-}
-
-export interface QueryIntegrationAuthsConnectionEdge {
-  readonly cursor: string;
-  readonly node: IntegrationAuth;
-}
-
-export interface QueryIntegrationsConnection {
-  readonly edges: ReadonlyArray<QueryIntegrationsConnectionEdge>;
-  readonly pageInfo: PageInfo;
-}
-
-export interface QueryIntegrationsConnectionEdge {
-  readonly cursor: string;
-  readonly node: Integration;
-}
-
 export interface QueryNotificationDeliveriesConnection {
   readonly edges: ReadonlyArray<QueryNotificationDeliveriesConnectionEdge>;
   readonly pageInfo: PageInfo;
@@ -4940,18 +5036,25 @@ export interface Service {
   readonly deletedAt: string | null;
   readonly deployments: ReadonlyArray<Deployment>;
   readonly featureFlags: ReadonlyArray<
-    "COPY_VOLUME_TO_ENVIRONMENT" | "PLACEHOLDER" | "SKIPPED_BUILDS" | "USE_DEPLOYMENT_VMS"
+    | "COPY_VOLUME_TO_ENVIRONMENT"
+    | "LIVENESS_CHECKS"
+    | "PLACEHOLDER"
+    | "SKIPPED_BUILDS"
+    | "USE_DEPLOYMENT_VMS"
   >;
   readonly groupId: string | null;
   readonly hasHiddenRegistryCredentialsFromTemplate: boolean;
   readonly icon: string | null;
   readonly id: string;
   readonly isRestricted: boolean;
+  readonly kind: "WEBSITE" | null;
   readonly name: string;
+  readonly pendingTakedownAcknowledgment: ServiceTakedownAcknowledgment | null;
   readonly project: Project;
   readonly projectId: string;
   readonly repoTriggers: ReadonlyArray<DeploymentTrigger>;
   readonly serviceInstances: ReadonlyArray<ServiceInstance>;
+  readonly takedownAcknowledgments: ReadonlyArray<ServiceTakedownAcknowledgment>;
   readonly templateId: string | null;
   readonly templateServiceId: string | null;
   readonly templateThreadSlug: string | null;
@@ -5073,6 +5176,26 @@ export interface ServiceServiceInstancesConnectionEdge {
 export interface ServiceSource {
   readonly image: string | null;
   readonly repo: string | null;
+}
+
+/** A takedown notice the customer must acknowledge before the service can deploy again. */
+export interface ServiceTakedownAcknowledgment {
+  readonly acknowledgedAt: string | null;
+  readonly acknowledgedBy: UserSummary | null;
+  readonly acknowledgedStatement: string | null;
+  readonly clearedAt: string | null;
+  readonly customerNotice: string | null;
+  readonly hasExternalNotice: boolean;
+  readonly headline: string;
+  readonly id: string;
+  readonly instruction: string;
+  readonly isApplying: boolean;
+  readonly noticeKind: "DMCA" | "OTHER" | "TRADEMARK";
+  readonly noticeUrl: string;
+  readonly restrictionId: string;
+  readonly statement: string;
+  readonly status: "ACKNOWLEDGED" | "CLEARED" | "REQUIRED";
+  readonly takenDownAt: string;
 }
 
 /** Whether a service's requests are producing spans, per exporting hop. The edge tracing a request says nothing about the app behind it. */
@@ -5206,16 +5329,9 @@ export interface TeamMember {
   readonly avatar: string | null;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
-    | "AGENT_BYOK_ANTHROPIC"
-    | "AGENT_BYOK_CHATGPT"
     | "AGENT_BYOK_FIREWORKS"
-    | "AGENT_BYOK_OPENAI"
-    | "AGENT_BYOK_OPENROUTER"
-    | "AGENT_CLAUDE_CONNECT"
-    | "AGENT_CONNECTORS"
-    | "AGENT_TASKS"
+    | "AGENT_FORK_TASKS"
     | "CHAT_SANDBOX"
     | "CLEARANCE"
     | "CLOUD_AGENTS"
@@ -5223,16 +5339,17 @@ export interface TeamMember {
     | "CLOUD_AGENT_CHAT"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
+    | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
+    | "RAILQL"
     | "RAILWAY_AGENT_DASHBOARD"
     | "RAILWAY_AUTOMATIONS"
     | "TRACING"
-    | "USAGE_INSIGHTS"
     | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   > | null;
@@ -5284,6 +5401,7 @@ export interface Template {
   readonly metadata: unknown;
   readonly name: string;
   readonly projects: number;
+  readonly publishingAllowance: TemplatePublishingAllowance | null;
   readonly publishingRestrictionId: string | null;
   readonly readme: string | null;
   readonly recentProjects: number;
@@ -5327,6 +5445,17 @@ export interface TemplateMetrics {
   readonly templateHealth: number;
   readonly totalDeployments: number;
   readonly totalEarnings: number;
+}
+
+/** How many templates this template's workspace may have live, and how many it has. New publishes are also rate limited per day; that limit is not reported here and surfaces as an error when hit. See https://docs.railway.com/templates/publish-and-share#publishing-limits */
+export interface TemplatePublishingAllowance {
+  readonly blockedReason: string | null;
+  readonly deployingWorkspaces: number;
+  readonly deployingWorkspacesPerExtraLive: number;
+  readonly liveLimit: number | null;
+  readonly liveTemplates: number;
+  readonly status: "EXEMPT" | "LIMITED";
+  readonly workspaceAgeDays: number;
 }
 
 export interface TemplateSearchResult {
@@ -5412,6 +5541,7 @@ export interface TraceSummary {
 }
 
 export interface TrustedDomain {
+  readonly autoJoinEnabled: boolean;
   readonly domainName: string;
   readonly id: string;
   readonly role: string;
@@ -5456,16 +5586,9 @@ export interface User {
   readonly createdAt: string;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
-    | "AGENT_BYOK_ANTHROPIC"
-    | "AGENT_BYOK_CHATGPT"
     | "AGENT_BYOK_FIREWORKS"
-    | "AGENT_BYOK_OPENAI"
-    | "AGENT_BYOK_OPENROUTER"
-    | "AGENT_CLAUDE_CONNECT"
-    | "AGENT_CONNECTORS"
-    | "AGENT_TASKS"
+    | "AGENT_FORK_TASKS"
     | "CHAT_SANDBOX"
     | "CLEARANCE"
     | "CLOUD_AGENTS"
@@ -5473,16 +5596,17 @@ export interface User {
     | "CLOUD_AGENT_CHAT"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
+    | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
+    | "RAILQL"
     | "RAILWAY_AGENT_DASHBOARD"
     | "RAILWAY_AUTOMATIONS"
     | "TRACING"
-    | "USAGE_INSIGHTS"
     | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   >;
@@ -5499,9 +5623,14 @@ export interface User {
   readonly name: string | null;
   readonly platformFeatureFlags: ReadonlyArray<
     | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+    | "AGENT_BOOTSTRAPS_KILLSWITCH"
+    | "AGENT_BYOK_KILLSWITCH"
     | "AGENT_CACHE_TOKEN_BILLING"
+    | "AGENT_DASHBOARD_NEW_ACCOUNTS"
     | "AGENT_USAGE_CH_INGEST"
+    | "AI_GATEWAY_AGENTS"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+    | "AUTOMATION_PR_TRIGGER_WEBHOOK"
     | "BLOCK_TRIAL_RESTRICTION_APPEALS"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
@@ -5512,7 +5641,10 @@ export interface User {
     | "CS_MCP_EXPRESS"
     | "CTRD_IMAGE_STORE_ROLLOUT"
     | "DEFAULT_USAGE_ALERTS"
+    | "DEK_REGISTRY_CACHE"
+    | "DEK_REGISTRY_RECORD_ON_MISS"
     | "DEMO_PERCENTAGE_ROLLOUT"
+    | "DEPLOYMENT_ARCHIVE_PRODUCE"
     | "DEPLOYMENT_DIAGNOSIS_KILLSWITCH"
     | "DEPLOY_SUPERSEDE_ON_PUSH"
     | "DEV_STUDIO"
@@ -5520,6 +5652,8 @@ export interface User {
     | "DOMAIN_RECONCILE_KILLSWITCH"
     | "EMAIL_FORWARDING_KILLSWITCH"
     | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
+    | "ENVIRONMENT_PATCH_ARCHIVE_READ"
+    | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
@@ -5543,8 +5677,10 @@ export interface User {
     | "RADAR_HTTP_PATTERN_DETECTION"
     | "RADAR_SIGNUP_ENFORCE"
     | "RELAY_SPEND_RESERVATION_KILLSWITCH"
-    | "REMOVE_DEPLOYMENT_COMPACT"
     | "RESTRICTION_ABUSE_QUEUE"
+    | "SECRETS_SHADOW_COMPARE_SAMPLE"
+    | "SECRET_SCANNING_EMAIL"
+    | "SECRET_SCANNING_REVOKE"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
@@ -5560,8 +5696,8 @@ export interface User {
     | "USAGE_CH_READS"
     | "VERIFIERS"
     | "VM_COUPON_MIGRATION"
-    | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
-    | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
+    | "VM_ROLLOUT_EVACUATE"
+    | "VM_ROLLOUT_PAUSE"
     | "VM_USAGE_CH_INGEST"
     | "WORKSPACE_MCP_KILLSWITCH"
     | "X_AGENT_BUILDS"
@@ -5650,25 +5786,6 @@ export interface Variable {
   readonly service: Service;
   readonly serviceId: string | null;
   readonly updatedAt: string;
-}
-
-export interface VercelAccount {
-  readonly id: string;
-  readonly integrationAuthId: string;
-  readonly isUser: boolean;
-  readonly name: string | null;
-  readonly projects: ReadonlyArray<VercelProject>;
-  readonly slug: string | null;
-}
-
-export interface VercelInfo {
-  readonly accounts: ReadonlyArray<VercelAccount>;
-}
-
-export interface VercelProject {
-  readonly accountId: string;
-  readonly id: string;
-  readonly name: string;
 }
 
 export interface Volume {
@@ -5881,16 +5998,9 @@ export interface WorkspaceMember {
   readonly avatar: string | null;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
-    | "AGENT_BYOK_ANTHROPIC"
-    | "AGENT_BYOK_CHATGPT"
     | "AGENT_BYOK_FIREWORKS"
-    | "AGENT_BYOK_OPENAI"
-    | "AGENT_BYOK_OPENROUTER"
-    | "AGENT_CLAUDE_CONNECT"
-    | "AGENT_CONNECTORS"
-    | "AGENT_TASKS"
+    | "AGENT_FORK_TASKS"
     | "CHAT_SANDBOX"
     | "CLEARANCE"
     | "CLOUD_AGENTS"
@@ -5898,16 +6008,17 @@ export interface WorkspaceMember {
     | "CLOUD_AGENT_CHAT"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
+    | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
+    | "RAILQL"
     | "RAILWAY_AGENT_DASHBOARD"
     | "RAILWAY_AUTOMATIONS"
     | "TRACING"
-    | "USAGE_INSIGHTS"
     | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   > | null;
@@ -6742,30 +6853,6 @@ export const Incident: TypeMeta = {
     return IncidentFields;
   },
 };
-export const Integration: TypeMeta = {
-  name: "Integration",
-  get fields() {
-    return IntegrationFields;
-  },
-};
-export const IntegrationAuth: TypeMeta = {
-  name: "IntegrationAuth",
-  get fields() {
-    return IntegrationAuthFields;
-  },
-};
-export const IntegrationAuthIntegrationsConnection: TypeMeta = {
-  name: "IntegrationAuthIntegrationsConnection",
-  get fields() {
-    return IntegrationAuthIntegrationsConnectionFields;
-  },
-};
-export const IntegrationAuthIntegrationsConnectionEdge: TypeMeta = {
-  name: "IntegrationAuthIntegrationsConnectionEdge",
-  get fields() {
-    return IntegrationAuthIntegrationsConnectionEdgeFields;
-  },
-};
 export const InviteCode: TypeMeta = {
   name: "InviteCode",
   get fields() {
@@ -6788,6 +6875,12 @@ export const LogTags: TypeMeta = {
   name: "LogTags",
   get fields() {
     return LogTagsFields;
+  },
+};
+export const LoginSessionOrigin: TypeMeta = {
+  name: "LoginSessionOrigin",
+  get fields() {
+    return LoginSessionOriginFields;
   },
 };
 export const MaintainerWorkspace: TypeMeta = {
@@ -6946,6 +7039,12 @@ export const PaymentMethodCard: TypeMeta = {
     return PaymentMethodCardFields;
   },
 };
+export const PendingEmailChange: TypeMeta = {
+  name: "PendingEmailChange",
+  get fields() {
+    return PendingEmailChangeFields;
+  },
+};
 export const PitrHaClusterReplicationHealth: TypeMeta = {
   name: "PitrHaClusterReplicationHealth",
   get fields() {
@@ -7022,6 +7121,36 @@ export const PluginVariablesConnectionEdge: TypeMeta = {
   name: "PluginVariablesConnectionEdge",
   get fields() {
     return PluginVariablesConnectionEdgeFields;
+  },
+};
+export const PostgresHaUptimeCluster: TypeMeta = {
+  name: "PostgresHaUptimeCluster",
+  get fields() {
+    return PostgresHaUptimeClusterFields;
+  },
+};
+export const PostgresHaUptimeClusterReport: TypeMeta = {
+  name: "PostgresHaUptimeClusterReport",
+  get fields() {
+    return PostgresHaUptimeClusterReportFields;
+  },
+};
+export const PostgresHaUptimeDay: TypeMeta = {
+  name: "PostgresHaUptimeDay",
+  get fields() {
+    return PostgresHaUptimeDayFields;
+  },
+};
+export const PostgresHaUptimeOpenWindow: TypeMeta = {
+  name: "PostgresHaUptimeOpenWindow",
+  get fields() {
+    return PostgresHaUptimeOpenWindowFields;
+  },
+};
+export const PostgresHaUptimeWindow: TypeMeta = {
+  name: "PostgresHaUptimeWindow",
+  get fields() {
+    return PostgresHaUptimeWindowFields;
   },
 };
 export const Preferences: TypeMeta = {
@@ -7418,30 +7547,6 @@ export const QueryEventsConnectionEdge: TypeMeta = {
   name: "QueryEventsConnectionEdge",
   get fields() {
     return QueryEventsConnectionEdgeFields;
-  },
-};
-export const QueryIntegrationAuthsConnection: TypeMeta = {
-  name: "QueryIntegrationAuthsConnection",
-  get fields() {
-    return QueryIntegrationAuthsConnectionFields;
-  },
-};
-export const QueryIntegrationAuthsConnectionEdge: TypeMeta = {
-  name: "QueryIntegrationAuthsConnectionEdge",
-  get fields() {
-    return QueryIntegrationAuthsConnectionEdgeFields;
-  },
-};
-export const QueryIntegrationsConnection: TypeMeta = {
-  name: "QueryIntegrationsConnection",
-  get fields() {
-    return QueryIntegrationsConnectionFields;
-  },
-};
-export const QueryIntegrationsConnectionEdge: TypeMeta = {
-  name: "QueryIntegrationsConnectionEdge",
-  get fields() {
-    return QueryIntegrationsConnectionEdgeFields;
   },
 };
 export const QueryNotificationDeliveriesConnection: TypeMeta = {
@@ -7882,6 +7987,12 @@ export const ServiceSource: TypeMeta = {
     return ServiceSourceFields;
   },
 };
+export const ServiceTakedownAcknowledgment: TypeMeta = {
+  name: "ServiceTakedownAcknowledgment",
+  get fields() {
+    return ServiceTakedownAcknowledgmentFields;
+  },
+};
 export const ServiceTracingStatus: TypeMeta = {
   name: "ServiceTracingStatus",
   get fields() {
@@ -8012,6 +8123,12 @@ export const TemplateMetrics: TypeMeta = {
   name: "TemplateMetrics",
   get fields() {
     return TemplateMetricsFields;
+  },
+};
+export const TemplatePublishingAllowance: TypeMeta = {
+  name: "TemplatePublishingAllowance",
+  get fields() {
+    return TemplatePublishingAllowanceFields;
   },
 };
 export const TemplateSearchResult: TypeMeta = {
@@ -8162,24 +8279,6 @@ export const Variable: TypeMeta = {
   name: "Variable",
   get fields() {
     return VariableFields;
-  },
-};
-export const VercelAccount: TypeMeta = {
-  name: "VercelAccount",
-  get fields() {
-    return VercelAccountFields;
-  },
-};
-export const VercelInfo: TypeMeta = {
-  name: "VercelInfo",
-  get fields() {
-    return VercelInfoFields;
-  },
-};
-export const VercelProject: TypeMeta = {
-  name: "VercelProject",
-  get fields() {
-    return VercelProjectFields;
   },
 };
 export const Volume: TypeMeta = {
@@ -8646,6 +8745,7 @@ const CloudAgentFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   id: scalarField("id"),
   name: scalarField("name"),
+  previewDomain: scalarField("previewDomain"),
   privateDomain: scalarField("privateDomain"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
@@ -9245,6 +9345,7 @@ const EnvironmentFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   sourceEnvironment: objectField("sourceEnvironment", Environment),
+  sourceEnvironmentName: scalarField("sourceEnvironmentName"),
   unmergedChangesCount: scalarField("unmergedChangesCount"),
   updatedAt: scalarField("updatedAt"),
   variables: connectionField("variables", Variable, {
@@ -9315,6 +9416,7 @@ const EnvironmentPatchFields: TypeMeta["fields"] = {
   patch: scalarField("patch", { argTypes: { decryptVariables: "Boolean" } }),
   status: scalarField("status"),
   updatedAt: scalarField("updatedAt"),
+  variablesRedacted: scalarField("variablesRedacted"),
 };
 
 const EnvironmentServiceInstancesConnectionFields: TypeMeta["fields"] = {
@@ -9535,35 +9637,6 @@ const IncidentFields: TypeMeta["fields"] = {
   url: scalarField("url"),
 };
 
-const IntegrationFields: TypeMeta["fields"] = {
-  config: scalarField("config"),
-  id: scalarField("id"),
-  name: scalarField("name"),
-  projectId: scalarField("projectId"),
-};
-
-const IntegrationAuthFields: TypeMeta["fields"] = {
-  id: scalarField("id"),
-  integrations: connectionField("integrations", Integration, {
-    after: "String",
-    before: "String",
-    first: "Int",
-    last: "Int",
-  }),
-  provider: scalarField("provider"),
-  providerId: scalarField("providerId"),
-};
-
-const IntegrationAuthIntegrationsConnectionFields: TypeMeta["fields"] = {
-  edges: listField("edges", IntegrationAuthIntegrationsConnectionEdge),
-  pageInfo: objectField("pageInfo", PageInfo),
-};
-
-const IntegrationAuthIntegrationsConnectionEdgeFields: TypeMeta["fields"] = {
-  cursor: scalarField("cursor"),
-  node: objectField("node", Integration),
-};
-
 const InviteCodeFields: TypeMeta["fields"] = {
   code: scalarField("code", { sensitive: true }),
   createdAt: scalarField("createdAt"),
@@ -9596,6 +9669,12 @@ const LogTagsFields: TypeMeta["fields"] = {
   projectId: scalarField("projectId"),
   serviceId: scalarField("serviceId"),
   snapshotId: scalarField("snapshotId"),
+};
+
+const LoginSessionOriginFields: TypeMeta["fields"] = {
+  ip: scalarField("ip"),
+  requestedAt: scalarField("requestedAt"),
+  sameNetwork: scalarField("sameNetwork"),
 };
 
 const MaintainerWorkspaceFields: TypeMeta["fields"] = {
@@ -9746,6 +9825,7 @@ const NotificationRuleFields: TypeMeta["fields"] = {
 const ObservabilityDashboardFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   items: listField("items", ObservabilityDashboardItemInstance),
+  revision: scalarField("revision"),
 };
 
 const ObservabilityDashboardAlertFields: TypeMeta["fields"] = {
@@ -9771,7 +9851,9 @@ const ObservabilityDashboardItemConfigFields: TypeMeta["fields"] = {
   logsFilter: scalarField("logsFilter"),
   measurements: scalarField("measurements"),
   projectUsageProperties: scalarField("projectUsageProperties"),
+  query: scalarField("query"),
   resourceIds: scalarField("resourceIds"),
+  visualization: scalarField("visualization"),
 };
 
 const ObservabilityDashboardItemInstanceFields: TypeMeta["fields"] = {
@@ -9830,6 +9912,12 @@ const PaymentMethodCardFields: TypeMeta["fields"] = {
   brand: scalarField("brand"),
   country: scalarField("country"),
   last4: scalarField("last4"),
+};
+
+const PendingEmailChangeFields: TypeMeta["fields"] = {
+  email: scalarField("email"),
+  expiresAt: scalarField("expiresAt"),
+  requestedAt: scalarField("requestedAt"),
 };
 
 const PitrHaClusterReplicationHealthFields: TypeMeta["fields"] = {
@@ -9947,6 +10035,72 @@ const PluginVariablesConnectionFields: TypeMeta["fields"] = {
 const PluginVariablesConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Variable),
+};
+
+const PostgresHaUptimeClusterFields: TypeMeta["fields"] = {
+  availability: scalarField("availability"),
+  degradedMinutes: scalarField("degradedMinutes"),
+  downMinutes: scalarField("downMinutes"),
+  environmentId: scalarField("environmentId"),
+  environmentName: scalarField("environmentName"),
+  excludedMinutes: scalarField("excludedMinutes"),
+  lastRedundancyRound: scalarField("lastRedundancyRound"),
+  measuredMinutes: scalarField("measuredMinutes"),
+  openWindow: objectField("openWindow", PostgresHaUptimeOpenWindow),
+  platformDownMinutes: scalarField("platformDownMinutes"),
+  projectId: scalarField("projectId"),
+  projectName: scalarField("projectName"),
+  recent: scalarField("recent"),
+  redundancy: scalarField("redundancy"),
+  redundancyMeasuredMinutes: scalarField("redundancyMeasuredMinutes"),
+  region: scalarField("region"),
+  rootServiceId: scalarField("rootServiceId"),
+  rootServiceName: scalarField("rootServiceName"),
+  unknownMinutes: scalarField("unknownMinutes"),
+  upMinutes: scalarField("upMinutes"),
+  windows: scalarField("windows"),
+  workspaceName: scalarField("workspaceName"),
+};
+
+const PostgresHaUptimeClusterReportFields: TypeMeta["fields"] = {
+  cluster: objectField("cluster", PostgresHaUptimeCluster),
+  daily: listField("daily", PostgresHaUptimeDay),
+  windows: listField("windows", PostgresHaUptimeWindow),
+};
+
+const PostgresHaUptimeDayFields: TypeMeta["fields"] = {
+  day: scalarField("day"),
+  degradedMinutes: scalarField("degradedMinutes"),
+  downMinutes: scalarField("downMinutes"),
+  excludedMinutes: scalarField("excludedMinutes"),
+  measuredMinutes: scalarField("measuredMinutes"),
+  redundancyMeasuredMinutes: scalarField("redundancyMeasuredMinutes"),
+  unknownMinutes: scalarField("unknownMinutes"),
+  upMinutes: scalarField("upMinutes"),
+};
+
+const PostgresHaUptimeOpenWindowFields: TypeMeta["fields"] = {
+  customerInitiated: scalarField("customerInitiated"),
+  failureClass: scalarField("failureClass"),
+  id: scalarField("id"),
+  startedAt: scalarField("startedAt"),
+};
+
+const PostgresHaUptimeWindowFields: TypeMeta["fields"] = {
+  customerInitiated: scalarField("customerInitiated"),
+  endedAt: scalarField("endedAt"),
+  environmentId: scalarField("environmentId"),
+  environmentName: scalarField("environmentName"),
+  evidence: scalarField("evidence"),
+  failureClass: scalarField("failureClass"),
+  id: scalarField("id"),
+  minutes: scalarField("minutes"),
+  projectId: scalarField("projectId"),
+  projectName: scalarField("projectName"),
+  redundancyClass: scalarField("redundancyClass"),
+  rootServiceId: scalarField("rootServiceId"),
+  sli: scalarField("sli"),
+  startedAt: scalarField("startedAt"),
 };
 
 const PreferencesFields: TypeMeta["fields"] = {
@@ -10444,26 +10598,6 @@ const QueryEventsConnectionEdgeFields: TypeMeta["fields"] = {
   node: objectField("node", Event),
 };
 
-const QueryIntegrationAuthsConnectionFields: TypeMeta["fields"] = {
-  edges: listField("edges", QueryIntegrationAuthsConnectionEdge),
-  pageInfo: objectField("pageInfo", PageInfo),
-};
-
-const QueryIntegrationAuthsConnectionEdgeFields: TypeMeta["fields"] = {
-  cursor: scalarField("cursor"),
-  node: objectField("node", IntegrationAuth),
-};
-
-const QueryIntegrationsConnectionFields: TypeMeta["fields"] = {
-  edges: listField("edges", QueryIntegrationsConnectionEdge),
-  pageInfo: objectField("pageInfo", PageInfo),
-};
-
-const QueryIntegrationsConnectionEdgeFields: TypeMeta["fields"] = {
-  cursor: scalarField("cursor"),
-  node: objectField("node", Integration),
-};
-
 const QueryNotificationDeliveriesConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryNotificationDeliveriesConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
@@ -10832,7 +10966,12 @@ const ServiceFields: TypeMeta["fields"] = {
   icon: scalarField("icon"),
   id: scalarField("id"),
   isRestricted: scalarField("isRestricted"),
+  kind: scalarField("kind"),
   name: scalarField("name"),
+  pendingTakedownAcknowledgment: objectField(
+    "pendingTakedownAcknowledgment",
+    ServiceTakedownAcknowledgment,
+  ),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   repoTriggers: connectionField("repoTriggers", DeploymentTrigger, {
@@ -10847,6 +10986,7 @@ const ServiceFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
+  takedownAcknowledgments: listField("takedownAcknowledgments", ServiceTakedownAcknowledgment),
   templateId: scalarField("templateId"),
   templateServiceId: scalarField("templateServiceId"),
   templateThreadSlug: scalarField("templateThreadSlug"),
@@ -10968,6 +11108,25 @@ const ServiceServiceInstancesConnectionEdgeFields: TypeMeta["fields"] = {
 const ServiceSourceFields: TypeMeta["fields"] = {
   image: scalarField("image"),
   repo: scalarField("repo"),
+};
+
+const ServiceTakedownAcknowledgmentFields: TypeMeta["fields"] = {
+  acknowledgedAt: scalarField("acknowledgedAt"),
+  acknowledgedBy: objectField("acknowledgedBy", UserSummary),
+  acknowledgedStatement: scalarField("acknowledgedStatement"),
+  clearedAt: scalarField("clearedAt"),
+  customerNotice: scalarField("customerNotice"),
+  hasExternalNotice: scalarField("hasExternalNotice"),
+  headline: scalarField("headline"),
+  id: scalarField("id"),
+  instruction: scalarField("instruction"),
+  isApplying: scalarField("isApplying"),
+  noticeKind: scalarField("noticeKind"),
+  noticeUrl: scalarField("noticeUrl"),
+  restrictionId: scalarField("restrictionId"),
+  statement: scalarField("statement"),
+  status: scalarField("status"),
+  takenDownAt: scalarField("takenDownAt"),
 };
 
 const ServiceTracingStatusFields: TypeMeta["fields"] = {
@@ -11153,6 +11312,7 @@ const TemplateFields: TypeMeta["fields"] = {
   metadata: scalarField("metadata"),
   name: scalarField("name"),
   projects: scalarField("projects"),
+  publishingAllowance: objectField("publishingAllowance", TemplatePublishingAllowance),
   publishingRestrictionId: scalarField("publishingRestrictionId"),
   readme: scalarField("readme"),
   recentProjects: scalarField("recentProjects"),
@@ -11201,6 +11361,16 @@ const TemplateMetricsFields: TypeMeta["fields"] = {
   templateHealth: scalarField("templateHealth"),
   totalDeployments: scalarField("totalDeployments"),
   totalEarnings: scalarField("totalEarnings"),
+};
+
+const TemplatePublishingAllowanceFields: TypeMeta["fields"] = {
+  blockedReason: scalarField("blockedReason"),
+  deployingWorkspaces: scalarField("deployingWorkspaces"),
+  deployingWorkspacesPerExtraLive: scalarField("deployingWorkspacesPerExtraLive"),
+  liveLimit: scalarField("liveLimit"),
+  liveTemplates: scalarField("liveTemplates"),
+  status: scalarField("status"),
+  workspaceAgeDays: scalarField("workspaceAgeDays"),
 };
 
 const TemplateSearchResultFields: TypeMeta["fields"] = {
@@ -11282,6 +11452,7 @@ const TraceSummaryFields: TypeMeta["fields"] = {
 };
 
 const TrustedDomainFields: TypeMeta["fields"] = {
+  autoJoinEnabled: scalarField("autoJoinEnabled"),
   domainName: scalarField("domainName"),
   id: scalarField("id"),
   role: scalarField("role"),
@@ -11437,25 +11608,6 @@ const VariableFields: TypeMeta["fields"] = {
   service: objectField("service", Service),
   serviceId: scalarField("serviceId"),
   updatedAt: scalarField("updatedAt"),
-};
-
-const VercelAccountFields: TypeMeta["fields"] = {
-  id: scalarField("id"),
-  integrationAuthId: scalarField("integrationAuthId"),
-  isUser: scalarField("isUser"),
-  name: scalarField("name"),
-  projects: listField("projects", VercelProject),
-  slug: scalarField("slug"),
-};
-
-const VercelInfoFields: TypeMeta["fields"] = {
-  accounts: listField("accounts", VercelAccount),
-};
-
-const VercelProjectFields: TypeMeta["fields"] = {
-  accountId: scalarField("accountId"),
-  id: scalarField("id"),
-  name: scalarField("name"),
 };
 
 const VolumeFields: TypeMeta["fields"] = {
@@ -11901,8 +12053,6 @@ export const Railway = {
       { sourceEnvironmentId: "String!", targetEnvironmentId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
-  changelogBlockImage: (args: { readonly id: string }): Query<string, RailwayGlobalError> =>
-    rootLeaf("query", "changelogBlockImage", false, args, { id: "String!" }, globalErrors),
   cloudAgent: (args: {
     readonly environmentId: string;
     readonly id: string;
@@ -11995,6 +12145,7 @@ export const Railway = {
     readonly sessionId?: string | null | undefined;
     readonly status?:
       | "AWAITING_INPUT"
+      | "CANCELLED"
       | "COMPLETED"
       | "FAILED"
       | "PENDING"
@@ -12342,8 +12493,18 @@ export const Railway = {
       },
       globalErrors,
     ),
-  environmentPatch: (args: { readonly id: string }): Query<EnvironmentPatch, RailwayGlobalError> =>
-    root("query", "environmentPatch", EnvironmentPatch, args, { id: "String!" }, globalErrors),
+  environmentPatch: (args: {
+    readonly id: string;
+    readonly environmentId?: string | null | undefined;
+  }): Query<EnvironmentPatch, RailwayGlobalError> =>
+    root(
+      "query",
+      "environmentPatch",
+      EnvironmentPatch,
+      args,
+      { environmentId: "String", id: "String!" },
+      globalErrors,
+    ),
   environmentPatches: (args: {
     readonly environmentId: string;
     readonly after?: string | null | undefined;
@@ -12669,49 +12830,19 @@ export const Railway = {
       },
       globalErrors,
     ),
-  integrationAuth: (args: {
-    readonly provider: string;
-    readonly providerId: string;
-  }): Query<IntegrationAuth, RailwayGlobalError> =>
-    root(
-      "query",
-      "integrationAuth",
-      IntegrationAuth,
-      args,
-      { provider: "String!", providerId: "String!" },
-      globalErrors,
-    ),
-  integrationAuths: (args?: {
-    readonly after?: string | null | undefined;
-    readonly before?: string | null | undefined;
-    readonly first?: number | null | undefined;
-    readonly last?: number | null | undefined;
-  }): Query<ReadonlyArray<IntegrationAuth>, RailwayGlobalError> =>
-    rootConnection(
-      "query",
-      "integrationAuths",
-      IntegrationAuth,
-      args,
-      { after: "String", before: "String", first: "Int", last: "Int" },
-      globalErrors,
-    ),
-  integrations: (args: {
-    readonly projectId: string;
-    readonly after?: string | null | undefined;
-    readonly before?: string | null | undefined;
-    readonly first?: number | null | undefined;
-    readonly last?: number | null | undefined;
-  }): Query<ReadonlyArray<Integration>, RailwayGlobalError> =>
-    rootConnection(
-      "query",
-      "integrations",
-      Integration,
-      args,
-      { after: "String", before: "String", first: "Int", last: "Int", projectId: "String!" },
-      globalErrors,
-    ),
   inviteCode: (args: { readonly code: string }): Query<InviteCode, RailwayGlobalError> =>
     root("query", "inviteCode", InviteCode, args, { code: "String!" }, globalErrors),
+  loginSessionOrigin: (args: {
+    readonly code: string;
+  }): Query<LoginSessionOrigin | null, RailwayGlobalError> =>
+    root(
+      "query",
+      "loginSessionOrigin",
+      LoginSessionOrigin,
+      args,
+      { code: "String!" },
+      globalErrors,
+    ),
   me: (): Query<User, RailwayGlobalError> =>
     root("query", "me", User, undefined, undefined, globalErrors),
   metrics: (args: {
@@ -12908,6 +13039,8 @@ export const Railway = {
       { after: "String", before: "String", first: "Int", last: "Int" },
       globalErrors,
     ),
+  pendingEmailChange: (): Query<PendingEmailChange | null, RailwayGlobalError> =>
+    root("query", "pendingEmailChange", PendingEmailChange, undefined, undefined, globalErrors),
   pitrHaClusterReplicationHealth: (args: {
     readonly environmentId: string;
     readonly rootServiceId: string;
@@ -12934,29 +13067,17 @@ export const Railway = {
     ),
   platformStatus: (): Query<PlatformStatus, RailwayGlobalError> =>
     root("query", "platformStatus", PlatformStatus, undefined, undefined, globalErrors),
-  plugin: (args: { readonly id: string }): Query<Plugin, RailwayGlobalError> =>
-    root("query", "plugin", Plugin, args, { id: "String!" }, globalErrors),
-  pluginLogs: (args: {
+  postgresHaClusterUptime: (args: {
     readonly environmentId: string;
-    readonly pluginId: string;
-    readonly endDate?: string | null | undefined;
-    readonly filter?: string | null | undefined;
-    readonly limit?: number | null | undefined;
-    readonly startDate?: string | null | undefined;
-  }): Query<ReadonlyArray<Log>, RailwayGlobalError> =>
-    rootList(
+    readonly serviceId: string;
+    readonly days?: number | null | undefined;
+  }): Query<PostgresHaUptimeClusterReport, RailwayGlobalError> =>
+    root(
       "query",
-      "pluginLogs",
-      Log,
+      "postgresHaClusterUptime",
+      PostgresHaUptimeClusterReport,
       args,
-      {
-        endDate: "DateTime",
-        environmentId: "String!",
-        filter: "String",
-        limit: "Int",
-        pluginId: "String!",
-        startDate: "DateTime",
-      },
+      { days: "Int", environmentId: "String!", serviceId: "String!" },
       globalErrors,
     ),
   preferences: (args?: {
@@ -13803,8 +13924,6 @@ export const Railway = {
       { environmentId: "String!", projectId: "String!", serviceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
-  vercelInfo: (): Query<VercelInfo, RailwayGlobalError> =>
-    root("query", "vercelInfo", VercelInfo, undefined, undefined, globalErrors),
   volumeInstance: (args: {
     readonly id: string;
   }): Query<VolumeInstance, RailwayNotFound | RailwayGlobalError> =>
@@ -14040,6 +14159,17 @@ export const Railway = {
       { id: "String!", input: "AccessGroupUpdateInput!" },
       globalErrors,
     ),
+  agentDashboardFeedbackCreate: (args: {
+    readonly input: AgentDashboardFeedbackInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "agentDashboardFeedbackCreate",
+      false,
+      args,
+      { input: "AgentDashboardFeedbackInput!" },
+      globalErrors,
+    ),
   agentUsageLimitSet: (args: {
     readonly input: AgentUsageLimitSetInput;
   }): Query<boolean, RailwayGlobalError> =>
@@ -14241,6 +14371,7 @@ export const Railway = {
   cloudAgentFork: (args: {
     readonly id: string;
     readonly name?: string | null | undefined;
+    readonly sessionId?: string | null | undefined;
     readonly variables?: unknown | null | undefined;
   }): Query<CloudAgent, RailwayGlobalError> =>
     root(
@@ -14248,7 +14379,7 @@ export const Railway = {
       "cloudAgentFork",
       CloudAgent,
       args,
-      { id: "ID!", name: "String", variables: "JSON" },
+      { id: "ID!", name: "String", sessionId: "String", variables: "JSON" },
       globalErrors,
     ),
   cloudAgentHarnessToken: (args: {
@@ -14612,6 +14743,8 @@ export const Railway = {
       { input: "EgressGatewayServiceTargetInput!" },
       globalErrors,
     ),
+  emailChangeCancel: (): Query<boolean, RailwayGlobalError> =>
+    rootLeaf("mutation", "emailChangeCancel", false, undefined, undefined, globalErrors),
   emailChangeConfirm: (args: { readonly nonce: string }): Query<boolean, RailwayGlobalError> =>
     rootLeaf("mutation", "emailChangeConfirm", false, args, { nonce: "String!" }, globalErrors),
   emailChangeInitiate: (args: { readonly newEmail: string }): Query<boolean, RailwayGlobalError> =>
@@ -14767,6 +14900,17 @@ export const Railway = {
       { commitMessage: "String", environmentId: "String!", skipDeploys: "Boolean" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
+  environmentPatchDismissFailure: (args: {
+    readonly patchId: string;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "environmentPatchDismissFailure",
+      false,
+      args,
+      { patchId: "String!" },
+      globalErrors,
+    ),
   environmentPatchRestage: (args: {
     readonly patchId: string;
   }): Query<EnvironmentPatch, RailwayGlobalError> =>
@@ -14896,31 +15040,6 @@ export const Railway = {
       { input: "GitHubRepoUpdateInput!" },
       globalErrors,
     ),
-  integrationCreate: (args: {
-    readonly input: IntegrationCreateInput;
-  }): Query<Integration, RailwayGlobalError> =>
-    root(
-      "mutation",
-      "integrationCreate",
-      Integration,
-      args,
-      { input: "IntegrationCreateInput!" },
-      globalErrors,
-    ),
-  integrationDelete: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
-    rootLeaf("mutation", "integrationDelete", false, args, { id: "String!" }, globalErrors),
-  integrationUpdate: (args: {
-    readonly id: string;
-    readonly input: IntegrationUpdateInput;
-  }): Query<Integration, RailwayGlobalError> =>
-    root(
-      "mutation",
-      "integrationUpdate",
-      Integration,
-      args,
-      { id: "String!", input: "IntegrationUpdateInput!" },
-      globalErrors,
-    ),
   inviteCodeUse: (args: { readonly code: string }): Query<Project, RailwayGlobalError> =>
     root("mutation", "inviteCodeUse", Project, args, { code: "String!" }, globalErrors),
   jobApplicationCreate: (args: {
@@ -15020,6 +15139,41 @@ export const Railway = {
       { input: "ObservabilityDashboardCreateInput!" },
       globalErrors,
     ),
+  observabilityDashboardMonitorCreate: (args: {
+    readonly dashboardItemId: string;
+    readonly input: ObservabilityDashboardMonitorCreateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "observabilityDashboardMonitorCreate",
+      false,
+      args,
+      { dashboardItemId: "String!", input: "ObservabilityDashboardMonitorCreateInput!" },
+      globalErrors,
+    ),
+  observabilityDashboardMonitorRemove: (args: {
+    readonly id: string;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "observabilityDashboardMonitorRemove",
+      false,
+      args,
+      { id: "String!" },
+      globalErrors,
+    ),
+  observabilityDashboardMonitorUpdate: (args: {
+    readonly id: string;
+    readonly input: ObservabilityDashboardMonitorUpdateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "observabilityDashboardMonitorUpdate",
+      false,
+      args,
+      { id: "String!", input: "ObservabilityDashboardMonitorUpdateInput!" },
+      globalErrors,
+    ),
   observabilityDashboardReset: (args: {
     readonly id: string;
   }): Query<boolean, RailwayGlobalError> =>
@@ -15034,92 +15188,18 @@ export const Railway = {
   observabilityDashboardUpdate: (args: {
     readonly id: string;
     readonly input: ReadonlyArray<ObservabilityDashboardUpdateInput>;
+    readonly revision?: string | null | undefined;
   }): Query<boolean, RailwayGlobalError> =>
     rootLeaf(
       "mutation",
       "observabilityDashboardUpdate",
       false,
       args,
-      { id: "String!", input: "[ObservabilityDashboardUpdateInput!]!" },
+      { id: "String!", input: "[ObservabilityDashboardUpdateInput!]!", revision: "String" },
       globalErrors,
     ),
   passkeyDelete: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
     rootLeaf("mutation", "passkeyDelete", false, args, { id: "String!" }, globalErrors),
-  pluginCreate: (args: { readonly input: PluginCreateInput }): Query<Plugin, RailwayGlobalError> =>
-    root("mutation", "pluginCreate", Plugin, args, { input: "PluginCreateInput!" }, globalErrors),
-  pluginDelete: (args: {
-    readonly id: string;
-    readonly environmentId?: string | null | undefined;
-  }): Query<boolean, RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "pluginDelete",
-      false,
-      args,
-      { environmentId: "String", id: "String!" },
-      globalErrors,
-    ),
-  pluginReset: (args: {
-    readonly id: string;
-    readonly input: ResetPluginInput;
-  }): Query<boolean, RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "pluginReset",
-      false,
-      args,
-      { id: "String!", input: "ResetPluginInput!" },
-      globalErrors,
-    ),
-  pluginResetCredentials: (args: {
-    readonly id: string;
-    readonly input: ResetPluginCredentialsInput;
-  }): Query<Redacted.Redacted<string>, RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "pluginResetCredentials",
-      false,
-      args,
-      { id: "String!", input: "ResetPluginCredentialsInput!" },
-      globalErrors,
-      { sensitive: true },
-    ),
-  pluginRestart: (args: {
-    readonly id: string;
-    readonly input: PluginRestartInput;
-  }): Query<Plugin, RailwayGlobalError> =>
-    root(
-      "mutation",
-      "pluginRestart",
-      Plugin,
-      args,
-      { id: "String!", input: "PluginRestartInput!" },
-      globalErrors,
-    ),
-  pluginStart: (args: {
-    readonly id: string;
-    readonly input: PluginRestartInput;
-  }): Query<boolean, RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "pluginStart",
-      false,
-      args,
-      { id: "String!", input: "PluginRestartInput!" },
-      globalErrors,
-    ),
-  pluginUpdate: (args: {
-    readonly id: string;
-    readonly input: PluginUpdateInput;
-  }): Query<Plugin, RailwayGlobalError> =>
-    root(
-      "mutation",
-      "pluginUpdate",
-      Plugin,
-      args,
-      { id: "String!", input: "PluginUpdateInput!" },
-      globalErrors,
-    ),
   preferencesUpdate: (args: {
     readonly input: PreferencesUpdateData;
   }): Query<Preferences, RailwayGlobalError> =>
@@ -15131,35 +15211,6 @@ export const Railway = {
       { input: "PreferencesUpdateData!" },
       globalErrors,
     ),
-  privateNetworkCreateOrGet: (args: {
-    readonly input: PrivateNetworkCreateOrGetInput;
-  }): Query<PrivateNetwork, RailwayNotFound | RailwayGlobalError> =>
-    root(
-      "mutation",
-      "privateNetworkCreateOrGet",
-      PrivateNetwork,
-      args,
-      { input: "PrivateNetworkCreateOrGetInput!" },
-      [RailwayNotFoundSpec, ...globalErrors],
-    ),
-  privateNetworkEndpointCreateOrGet: (args: {
-    readonly input: PrivateNetworkEndpointCreateOrGetInput;
-  }): Query<PrivateNetworkEndpoint, RailwayNotFound | RailwayGlobalError> =>
-    root(
-      "mutation",
-      "privateNetworkEndpointCreateOrGet",
-      PrivateNetworkEndpoint,
-      args,
-      { input: "PrivateNetworkEndpointCreateOrGetInput!" },
-      [RailwayNotFoundSpec, ...globalErrors],
-    ),
-  privateNetworkEndpointDelete: (args: {
-    readonly id: string;
-  }): Query<boolean, RailwayNotFound | RailwayGlobalError> =>
-    rootLeaf("mutation", "privateNetworkEndpointDelete", false, args, { id: "String!" }, [
-      RailwayNotFoundSpec,
-      ...globalErrors,
-    ]),
   privateNetworkEndpointRename: (args: {
     readonly dnsName: string;
     readonly id: string;
@@ -15171,17 +15222,6 @@ export const Railway = {
       false,
       args,
       { dnsName: "String!", id: "String!", privateNetworkId: "String!" },
-      [RailwayNotFoundSpec, ...globalErrors],
-    ),
-  privateNetworksForEnvironmentDelete: (args: {
-    readonly environmentId: string;
-  }): Query<boolean, RailwayNotFound | RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "privateNetworksForEnvironmentDelete",
-      false,
-      args,
-      { environmentId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   projectClaim: (args: {
@@ -15948,6 +15988,17 @@ export const Railway = {
     ),
   serviceRemoveUpstreamUrl: (args: { readonly id: string }): Query<Service, RailwayGlobalError> =>
     root("mutation", "serviceRemoveUpstreamUrl", Service, args, { id: "String!" }, globalErrors),
+  serviceTakedownAcknowledge: (args: {
+    readonly input: TakedownAcknowledgeInput;
+  }): Query<ServiceTakedownAcknowledgment, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "serviceTakedownAcknowledge",
+      ServiceTakedownAcknowledgment,
+      args,
+      { input: "TakedownAcknowledgeInput!" },
+      globalErrors,
+    ),
   serviceUpdate: (args: {
     readonly id: string;
     readonly input: ServiceUpdateInput;

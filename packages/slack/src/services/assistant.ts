@@ -239,6 +239,8 @@ export interface SearchContextResponse {
   response_metadata?: SearchContextResponseResponseMetadata | undefined;
   /** Requested content types whose search failed. Their lists in `results` are empty because they could not be searched, not because nothing matched. Present only when at least one failed; see the `content_type_search_failed` warning. */
   failed_content_types: SearchContextResponseFailedContentTypesList;
+  /** True when this is the last page that can be fetched but more results exist past it. `next_cursor` is then an empty string even though results were cut off; narrow the query to see the rest. Present only when true; see the `search_page_limit_reached` warning. */
+  page_limit_reached?: boolean | undefined;
 }
 export interface SearchInfoRequest {}
 export interface SearchInfoResponse {
@@ -530,6 +532,7 @@ function __c0(j: number): any {
           results: __S(12, __c0, 12),
           response_metadata: S.optional(__S(13, __c0, 13)),
           failed_content_types: __S(0, __c0, 0),
+          page_limit_reached: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SearchContextResponse" });
   }

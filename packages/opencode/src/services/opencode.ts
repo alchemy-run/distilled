@@ -103,14 +103,14 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(1040, __c65, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1056, __c66, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(1041, __c65, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1057, __c66, 1)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
@@ -135,17 +135,17 @@ export class NotFound
     | Error404Body8
     | SessionNotFoundErrorEncoded
     | Error404Body3
-    | Error404Body12
     | Error404Body13
-    | Error404Body17
+    | Error404Body14
+    | Error404Body19
     | ProjectNotFoundErrorEncoded
     | Error404Body4
     | Error404Body
+    | Error404Body12
     | Error404Body11
-    | Error404Body10
-    | Error404Body15
-    | Error404Body22
     | Error404Body16
+    | Error404Body24
+    | Error404Body17
     | Error404Body2
     | Error404Body5
     | Error404Body7
@@ -158,11 +158,13 @@ export interface ActivateCredentialRequest {
 }
 export interface ActivateCredentialResponse {}
 export interface CancelIntegrationCommandRequestLocation {
+  /** Absolute path of the directory. */
   directory?: string | null | undefined;
 }
 export interface CancelIntegrationCommandRequest {
   integrationID: string;
   attemptID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CancelIntegrationCommandResponse {}
@@ -170,12 +172,14 @@ export type CancelIntegrationOauthRequestLocation = CancelIntegrationCommandRequ
 export interface CancelIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CancelIntegrationOauthResponse {}
 export interface CancelSessionFormRequest {
   sessionID: string;
   formID: string;
+  /** Why the form was not answered, passed on to the asker. */
   message?: string | undefined;
 }
 export interface CancelSessionFormResponse {}
@@ -186,6 +190,7 @@ export interface CancelSessionInboxRequest {
 export interface CancelSessionInboxResponse {}
 export type CheckPluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CheckPluginRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   target?: string | null | undefined;
 }
@@ -254,6 +259,7 @@ export interface CommitSessionRevertRequest {
   sessionID: string;
 }
 export interface CommitSessionRevertResponse {}
+/** steer delivers before the agent's next model call, even mid-work. queue waits until the agent finishes its current work, then delivers one queued item at a time. Sending defaults to steer. */
 export type SessionInboxDelivery = "steer" | "queue";
 export interface CompactSessionRequest {
   sessionID: string;
@@ -279,6 +285,7 @@ export type CompleteIntegrationOauthRequestLocation = CancelIntegrationCommandRe
 export interface CompleteIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   code?: string | null | undefined;
 }
@@ -294,6 +301,7 @@ export type ConfigShellsResponse = ConfigShellsResponseBodyList;
 export type ConnectIntegrationCommandRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ConnectIntegrationCommandRequest {
   integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   label?: string | null | undefined;
@@ -325,6 +333,7 @@ export type FormValue = string | number | FormValueCase2 | boolean | FormValueCa
 export type FormAnswer = { [key: string]: FormValue | undefined };
 export interface ConnectIntegrationOauthRequest {
   integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   answer?: FormAnswer | null | undefined;
@@ -357,8 +366,11 @@ export interface ConnectIntegrationOauthResponse {
 }
 export interface ConnectPtyRequest {
   ptyID: string;
+  /** Absolute path of the location directory. Omit to use the server's default location. */
   location_directory_?: string | undefined;
+  /** Output offset to replay from. Use -1 to start at the current end; omit to replay all retained output. */
   cursor?: string | undefined;
+  /** Single-use ticket from pty.connect.token, which authorizes the connection without the usual credentials. */
   ticket?: string | undefined;
 }
 export type ConnectPtyResponse = boolean;
@@ -411,6 +423,7 @@ export type CreatePtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export type CreatePtyRequestArgsList = Array<string>;
 export type CreatePtyRequestEnvMap = { [key: string]: string | undefined };
 export interface CreatePtyRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   command?: string | undefined;
   args?: CreatePtyRequestArgsList | undefined;
@@ -447,13 +460,18 @@ export interface PermissionRule {
 }
 export type PermissionRuleset = Array<PermissionRule>;
 export interface CreateSessionRequest {
+  /** If a session with this ID already exists, it is returned unchanged, so retries are safe. */
   id?: string | null | undefined;
+  /** Creates a child session at the parent's location. Each time the child finishes running, it sends its last reply to the parent as a `<background-result kind="subagent">` message and wakes the parent, unless the parent has a staged revert. */
   parentID?: string | null | undefined;
   title?: string | null | undefined;
   agent?: string | null | undefined;
   model?: ModelRef | null | undefined;
+  /** Defaults to the server's working directory. Ignored when parentID is set. */
   location?: LocationPublicRef | null | undefined;
+  /** Opaque to OpenCode. Child sessions inherit the parent's metadata unless you pass your own. */
   metadata?: unknown | null | undefined;
+  /** Applied on top of the agent's rules. Child sessions inherit the parent's rules unless you pass your own. */
   permissions?: PermissionRuleset | null | undefined;
 }
 export type SessionForkBoundaryCase0Type = "before";
@@ -691,6 +709,7 @@ export interface CreateSessionPermissionResponse {
 }
 export type CreateShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CreateShellRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   command: string;
   cwd?: string | undefined;
@@ -731,6 +750,7 @@ export interface WorktreeInfo {
   directory: string;
 }
 export interface DebugHeapDumpRequest {
+  /** Absolute server-local directory to write the snapshot into, created when missing. Defaults to the server's log directory. */
   directory?: string | undefined;
 }
 export type DebugHeapDumpResponseMemoryRssCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -763,6 +783,7 @@ export interface DebugHeapDumpResponse {
 }
 export type DebugLocationEvictRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface DebugLocationEvictRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface DebugLocationEvictResponse {}
@@ -776,6 +797,7 @@ export interface ForkSessionResponse {
 export type FsFindRequestLocation = CancelIntegrationCommandRequestLocation;
 export type FsFindRequestType = "file" | "directory";
 export interface FsFindRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   query: string;
   type?: FsFindRequestType | (string & {}) | undefined;
@@ -797,6 +819,8 @@ export interface GenerateSessionRequest {
 }
 export interface SessionGenerateResponseData {
   text: string;
+  tokens: TokenUsageInfo;
+  cost: number;
 }
 export interface SessionGenerateResponse {
   data: SessionGenerateResponseData;
@@ -804,6 +828,7 @@ export interface SessionGenerateResponse {
 export type GetAgentRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetAgentRequest {
   agentID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ProviderSettingsTimeout = number | boolean;
@@ -831,6 +856,13 @@ export interface ProviderCache {
 }
 export type ProviderTransport = "http" | "websocket";
 export type ProviderEncoding = "zstd" | "gzip" | "none";
+export interface ProviderTls {
+  /** PEM client certificate, usually `{file:/path/to/client.pem}` */
+  cert: string;
+  /** PEM private key, usually `{file:/path/to/client.key}` */
+  key: string;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
+}
 export interface ProviderSettings {
   timeout?: ProviderSettingsTimeout | undefined;
   headerTimeout?: ProviderSettingsHeaderTimeout | undefined;
@@ -839,6 +871,7 @@ export interface ProviderSettings {
   cache?: ProviderCache | undefined;
   transport?: ProviderTransport | undefined;
   encoding?: ProviderEncoding | undefined;
+  tls?: ProviderTls | undefined;
   [key: string]: unknown;
 }
 export type ProviderRequestHeadersMap = { [key: string]: string | undefined };
@@ -847,6 +880,11 @@ export interface ProviderRequest {
   headers: ProviderRequestHeadersMap;
   body: unknown;
 }
+export interface AgentInfoInstructionsCase1 {
+  selected: string;
+  unselected: string;
+}
+export type AgentInfoInstructions = string | AgentInfoInstructionsCase1;
 export type AgentInfoMode = "subagent" | "primary" | "all";
 export interface AgentInfo {
   id: string;
@@ -854,6 +892,7 @@ export interface AgentInfo {
   model?: ModelRef | undefined;
   request: ProviderRequest;
   system?: string | undefined;
+  instructions?: AgentInfoInstructions | undefined;
   description?: string | undefined;
   mode: AgentInfoMode;
   hidden: boolean;
@@ -867,6 +906,7 @@ export interface GetAgentResponse {
 }
 export type GetConfigRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetConfigRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ConfigDocumentEncodedType = "document";
@@ -977,7 +1017,7 @@ export type McpLocalConfigEncodedType = "local";
 export type McpLocalConfigEncodedCommandList = Array<string>;
 export type McpLocalConfigEncodedEnvironmentMap = { [key: string]: string | undefined };
 export type McpLocalConfigEncodedTimeout = ConfigInfoEncodedMcpTimeout;
-/** MCP protocol negotiation. "legacy" (default) opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "auto" probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "2026-07-28" requires that revision and fails otherwise. */
+/** MCP protocol negotiation. "auto" (default) probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "legacy" opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "2026-07-28" requires that revision and fails otherwise. */
 export type McpProtocol = "legacy" | "auto" | "2026-07-28";
 export interface McpLocalConfigEncoded {
   type: McpLocalConfigEncodedType;
@@ -1027,6 +1067,7 @@ export interface ConfigInfoEncodedCompactionKeep {
 export type ConfigInfoEncodedCompactionBuffer = string | number;
 export interface ConfigInfoEncodedCompaction {
   auto?: boolean | undefined;
+  background?: boolean | undefined;
   keep?: ConfigInfoEncodedCompactionKeep | undefined;
   buffer?: ConfigInfoEncodedCompactionBuffer | undefined;
 }
@@ -1112,10 +1153,11 @@ export interface ConfigProviderSettings {
   cache?: ProviderCache | undefined;
   transport?: ProviderTransport | undefined;
   encoding?: ProviderEncoding | undefined;
+  tls?: ProviderTls | undefined;
   [key: string]: unknown;
 }
 export type ConfigProviderEncodedHeadersMap = { [key: string]: string | undefined };
-export type ModelTypeCase0 = "chat" | "decision" | "image";
+export type ModelTypeCase0 = "chat" | "decision" | "image" | "video";
 export type ModelType = ModelTypeCase0 | string;
 export interface ModelCompatibility {
   reasoningField?: ModelReasoningField | undefined;
@@ -1137,6 +1179,8 @@ export interface ConfigModelSettings {
   [key: string]: unknown;
 }
 export type ConfigModelEncodedHeadersMap = { [key: string]: string | undefined };
+export type ToolFreeformFormat = "text" | "regex" | "lark";
+export type ConfigModelCapabilitiesFreeformList = Array<ToolFreeformFormat>;
 export type ConfigModelCapabilitiesInputList = Array<string>;
 export type ConfigModelCapabilitiesOutputList = Array<string>;
 export interface ConfigModelReasoningCase0 {
@@ -1156,6 +1200,7 @@ export interface ConfigModelReasoningCase1 {
 export type ConfigModelReasoning = ConfigModelReasoningCase0 | ConfigModelReasoningCase1;
 export interface ConfigModelCapabilities {
   tools?: boolean | undefined;
+  freeform?: ConfigModelCapabilitiesFreeformList | undefined;
   input?: ConfigModelCapabilitiesInputList | undefined;
   output?: ConfigModelCapabilitiesOutputList | undefined;
   temperature?: boolean | undefined;
@@ -1227,6 +1272,16 @@ export interface ConfigProviderEncoded {
   models?: ConfigProviderEncodedModelsMap | undefined;
 }
 export type ConfigInfoEncodedProvidersMap = { [key: string]: ConfigProviderEncoded | undefined };
+export type ConfigInfoEncodedExperimentalVideoGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
+export type ConfigInfoEncodedExperimentalVideoGenerateCase1Model =
+  | string
+  | ConfigInfoEncodedModelCase1;
+export interface ConfigInfoEncodedExperimentalVideoGenerateCase1 {
+  model?: ConfigInfoEncodedExperimentalVideoGenerateCase1Model | undefined;
+}
+export type ConfigInfoEncodedExperimentalVideoGenerate =
+  | boolean
+  | ConfigInfoEncodedExperimentalVideoGenerateCase1;
 export type ConfigInfoEncodedExperimentalImageGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
 export type ConfigInfoEncodedExperimentalImageGenerateCase1Model =
   | string
@@ -1257,13 +1312,25 @@ export type ConfigInfoEncodedExperimentalPoliciesList =
   Array<ConfigInfoEncodedExperimentalPoliciesItem>;
 export interface ConfigInfoEncodedExperimental {
   portable_shell_scanner?: boolean | undefined;
+  codemode_vm?: boolean | undefined;
   all_flags?: boolean | undefined;
   todo?: boolean | undefined;
-  background_compaction?: boolean | undefined;
   media_blob?: boolean | undefined;
-  schedules?: boolean | undefined;
   artifacts?: boolean | undefined;
-  codemode_vm?: boolean | undefined;
+  console_watches?: boolean | undefined;
+  recommended_api?: boolean | undefined;
+  model_speeds?: boolean | undefined;
+  full_codemode?: boolean | undefined;
+  codemode_agents?: boolean | undefined;
+  machines?: boolean | undefined;
+  home_memory?: boolean | undefined;
+  project_overlay?: boolean | undefined;
+  opencode_api?: boolean | undefined;
+  mcp_skills?: boolean | undefined;
+  compaction_jobs?: boolean | undefined;
+  sqlite_fts?: boolean | undefined;
+  browser_stream_tunnel?: boolean | undefined;
+  video_generate?: ConfigInfoEncodedExperimentalVideoGenerate | undefined;
   part_rows?: boolean | undefined;
   image_generate?: ConfigInfoEncodedExperimentalImageGenerate | undefined;
   subagent_depth?: number | undefined;
@@ -1280,6 +1347,7 @@ export interface ConfigInfoEncoded {
   enterprise?: ConfigInfoEncodedEnterprise | undefined;
   username?: string | undefined;
   timezone?: string | undefined;
+  automations?: boolean | undefined;
   permissions?: PermissionRuleset | undefined;
   policies?: ConfigInfoEncodedPoliciesList | undefined;
   agents?: ConfigInfoEncodedAgentsMap | undefined;
@@ -1318,6 +1386,7 @@ export type GetConfigResponse = GetConfigResponseBodyList;
 export type GetIntegrationRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetIntegrationRequest {
   integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type IntegrationOAuthMethodType = "oauth";
@@ -1397,6 +1466,7 @@ export interface GetIntegrationResponse {
 }
 export type GetLocationRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetLocationRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface LocationPublicInfoProject {
@@ -1411,6 +1481,7 @@ export interface LocationPublicInfo {
 export type GetProviderRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetProviderRequest {
   providerID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ProviderInfoActivation = "auto" | "enabled" | "disabled";
@@ -1434,6 +1505,7 @@ export interface GetProviderResponse {
 export type GetPtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetPtyRequest {
   ptyID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface GetPtyResponse {
@@ -1542,6 +1614,7 @@ export interface PromptFileAttachment {
   mention?: PromptMention | undefined;
 }
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
+/** An agent @-mentioned in the prompt, such as @explore, to suggest the model use it. Only the @name in text reaches the model; this records which agent it names and doesn't change the session's own agent. */
 export interface PromptAgentAttachment {
   name: string;
   mention?: PromptMention | undefined;
@@ -1623,6 +1696,7 @@ export interface SessionMessageShell {
 }
 export interface SessionMessageAssistantTime {
   created: number;
+  firstToken?: number | undefined;
   streamed?: number | undefined;
   completed?: number | undefined;
 }
@@ -1849,6 +1923,7 @@ export interface GetSessionPermissionResponse {
 export type GetShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetShellRequest {
   id: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface GetShellResponse {
@@ -1857,6 +1932,7 @@ export interface GetShellResponse {
 }
 export type GetVcsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetVcsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface VcsBranch {
@@ -1875,6 +1951,7 @@ export type IntegrationCommandStatusRequestLocation = CancelIntegrationCommandRe
 export interface IntegrationCommandStatusRequest {
   integrationID: string;
   attemptID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type IntegrationCommandAttemptStatusCase0Status = "pending";
@@ -1959,6 +2036,7 @@ export interface IntegrationCommandStatusResponse {
 export type IntegrationConnectExternalRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationConnectExternalRequest {
   integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   answer?: FormAnswer | null | undefined;
@@ -1968,6 +2046,7 @@ export interface IntegrationConnectExternalResponse {}
 export type IntegrationConnectKeyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationConnectKeyRequest {
   integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   key: string;
   answer?: FormAnswer | null | undefined;
@@ -1978,6 +2057,7 @@ export type IntegrationOauthStatusRequestLocation = CancelIntegrationCommandRequ
 export interface IntegrationOauthStatusRequest {
   integrationID: string;
   attemptID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type IntegrationAttemptStatusCase0Status = "pending";
@@ -2060,6 +2140,7 @@ export interface IntegrationOauthStatusResponse {
 }
 export type ListAgentRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListAgentRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListAgentResponseDataList = Array<AgentInfo>;
@@ -2069,6 +2150,7 @@ export interface ListAgentResponse {
 }
 export type ListCommandRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListCommandRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CommandInfo {
@@ -2090,6 +2172,7 @@ export type ListDebugLocationResponseBodyList = Array<LocationPublicRef>;
 export type ListDebugLocationResponse = ListDebugLocationResponseBodyList;
 export type ListFormRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListFormRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListFormResponseDataList = Array<FormInfo>;
@@ -2099,7 +2182,9 @@ export interface ListFormResponse {
 }
 export type ListFsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListFsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** An absolute path or a path relative to the requested location. Defaults to the location directory. */
   path?: string | undefined;
 }
 export type ListFsResponseDataList = Array<FileSystemEntry>;
@@ -2109,6 +2194,7 @@ export interface ListFsResponse {
 }
 export type ListIntegrationRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListIntegrationRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListIntegrationResponseDataList = Array<IntegrationInfo>;
@@ -2118,6 +2204,7 @@ export interface ListIntegrationResponse {
 }
 export type ListMcpRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListMcpRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type McpStatusConnectedStatus = "connected";
@@ -2161,18 +2248,21 @@ export interface ListMcpResponse {
 }
 export type ListModelRequestLocation = CancelIntegrationCommandRequestLocation;
 export type ListModelRequestTypesCase1List = Array<ModelType>;
-/** Only list models of these types. Defaults to chat, the only type offered for sessions. */
 export type ListModelRequestTypes = ModelType | ListModelRequestTypesCase1List;
 export interface ListModelRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** Only list models of these types. Defaults to chat, the only type offered for sessions. */
   types?: ListModelRequestTypes | undefined;
 }
 export type ModelSettings = ConfigModelSettings;
 export type ModelInfoHeadersMap = { [key: string]: string | undefined };
+export type ModelCapabilitiesFreeformList = Array<ToolFreeformFormat>;
 export type ModelCapabilitiesInputList = Array<string>;
 export type ModelCapabilitiesOutputList = Array<string>;
 export interface ModelCapabilities {
   tools: boolean;
+  freeform?: ModelCapabilitiesFreeformList | undefined;
   input: ModelCapabilitiesInputList;
   output: ModelCapabilitiesOutputList;
   temperature?: boolean | undefined;
@@ -2186,6 +2276,14 @@ export interface ModelVariant {
   body?: unknown | undefined;
 }
 export type ModelInfoVariantsList = Array<ModelVariant>;
+export interface ModelSpeed {
+  base: string;
+  id: string;
+  faster: boolean;
+}
+export interface ModelInfoExperimental {
+  speed?: ModelSpeed | undefined;
+}
 export interface ModelInfoTime {
   released: number;
 }
@@ -2223,6 +2321,7 @@ export interface ModelInfo {
   body?: unknown | undefined;
   capabilities: ModelCapabilities;
   variants: ModelInfoVariantsList;
+  experimental?: ModelInfoExperimental | undefined;
   time: ModelInfoTime;
   cost: ModelInfoCostList;
   status: ModelInfoStatus;
@@ -2236,6 +2335,7 @@ export interface ListModelResponse {
 }
 export type ListPermissionRequestRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPermissionRequestRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPermissionRequestResponseDataList = Array<PermissionRequest>;
@@ -2244,6 +2344,7 @@ export interface ListPermissionRequestResponse {
   data: ListPermissionRequestResponseDataList;
 }
 export interface ListPermissionSavedRequest {
+  /** Project whose saved permissions to list. Defaults to the project of the requested location. */
   projectID?: string | undefined;
 }
 export interface PermissionSavedInfoTime {
@@ -2263,6 +2364,7 @@ export interface ListPermissionSavedResponse {
 }
 export type ListPluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPluginRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPluginResponseDataList = Array<PluginInfo>;
@@ -2271,6 +2373,7 @@ export interface ListPluginResponse {
   data: ListPluginResponseDataList;
 }
 export interface ListProjectRequest {
+  /** Set to true to include archived projects. */
   archived?: boolean | undefined;
 }
 export interface ProjectIcon {
@@ -2303,6 +2406,7 @@ export type ListProjectResponseBodyList = Array<Project>;
 export type ListProjectResponse = ListProjectResponseBodyList;
 export type ListProviderRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListProviderRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListProviderResponseDataList = Array<ProviderInfo>;
@@ -2312,6 +2416,7 @@ export interface ListProviderResponse {
 }
 export type ListPtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPtyRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPtyResponseDataList = Array<Pty>;
@@ -2321,6 +2426,7 @@ export interface ListPtyResponse {
 }
 export type ListReferenceRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListReferenceRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ReferenceLocalSourceType = "local";
@@ -2349,17 +2455,24 @@ export interface ListReferenceResponse {
 }
 export type ListSessionRequestOrder = "asc" | "desc";
 export type ListSessionRequestParentIDCase1 = "null";
-/** Filter by parent session. Use null to return only root sessions. */
 export type ListSessionRequestParentID = string | ListSessionRequestParentIDCase1;
 export interface ListSessionRequest {
+  /** Maximum number of sessions to return. Defaults to the newest 50 sessions. */
   limit?: string | undefined;
+  /** Session order for the first page. Use desc for newest first or asc for oldest first. */
   order?: ListSessionRequestOrder | (string & {}) | undefined;
+  /** Only sessions whose title contains this text, ignoring case. % and _ act as wildcards. */
   search?: string | undefined;
+  /** Filter by parent session. Use null to return only root sessions. */
   parentID?: ListSessionRequestParentID | undefined;
+  /** Filter by archive state. Use true to return only archived sessions or false to exclude them. Omit to include both. */
   archived?: boolean | undefined;
+  /** Only sessions whose directory is exactly this absolute path. */
   directory?: string | undefined;
   project?: string | undefined;
+  /** With project, only sessions at this path relative to the project directory. */
   subpath?: string | undefined;
+  /** Opaque cursor from a previous page's cursor.next or cursor.previous. It carries that page's filters and order, so other filters are ignored. */
   cursor?: string | undefined;
 }
 export type SessionsResponseDataList = Array<SessionInfo>;
@@ -2455,9 +2568,13 @@ export type ListSessionMessageRequestType =
   | "idle";
 export interface ListSessionMessageRequest {
   sessionID: string;
+  /** Maximum number of messages to return. When omitted, the endpoint returns its default page size. */
   limit?: string | undefined;
+  /** Message order for the first page. Use desc for newest first or asc for oldest first. */
   order?: ListSessionMessageRequestOrder | (string & {}) | undefined;
+  /** Opaque pagination cursor returned as cursor.previous or cursor.next in the previous response. Do not combine with order. */
   cursor?: string | undefined;
+  /** Filter by message type before pagination. When omitted, all message types are returned. Pass the same type when following cursors. */
   type?: ListSessionMessageRequestType | (string & {}) | undefined;
 }
 export type SessionMessagesResponseDataList = Array<SessionMessageInfo>;
@@ -2475,6 +2592,7 @@ export interface ListSessionPermissionResponse {
 }
 export type ListShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListShellRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListShellResponseDataList = Array<ShellInfo>;
@@ -2484,6 +2602,7 @@ export interface ListShellResponse {
 }
 export type ListSkillRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListSkillRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface SkillInfo {
@@ -2492,6 +2611,7 @@ export interface SkillInfo {
   description?: string | undefined;
   autoinvoke?: boolean | undefined;
   path: string;
+  /** The SKILL.md body. Empty for a skill whose body loads on demand, such as an MCP skill. */
   content: string;
 }
 export type ListSkillResponseDataList = Array<SkillInfo>;
@@ -2501,6 +2621,7 @@ export interface ListSkillResponse {
 }
 export type ListVcsBranchRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListVcsBranchRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   search?: string | undefined;
   limit?: string | undefined;
@@ -2523,6 +2644,7 @@ export interface LocationReloadRequest {}
 export interface LocationReloadResponse {}
 export type McpResourceCatalogRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface McpResourceCatalogRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface McpResource {
@@ -2551,6 +2673,7 @@ export interface McpResourceCatalogResponse {
 }
 export type ModelDefaultRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ModelDefaultRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface ModelDefaultResponse {
@@ -2565,6 +2688,7 @@ export interface MoveSessionRequest {
 export interface MoveSessionResponse {}
 export type PluginGuiRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface PluginGuiRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   id: string;
 }
@@ -2580,6 +2704,7 @@ export interface PluginGuiResponse {
 export type PtyConnectTokenRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface PtyConnectTokenRequest {
   ptyID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface PtyTicketConnectToken {
@@ -2592,6 +2717,7 @@ export interface PtyConnectTokenResponse {
 }
 export type ReadFsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ReadFsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface ReadFsResponse {}
@@ -2610,6 +2736,7 @@ export interface RemovePermissionSavedResponse {}
 export type RemovePtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RemovePtyRequest {
   ptyID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface RemovePtyResponse {}
@@ -2620,6 +2747,7 @@ export interface RemoveSessionResponse {}
 export type RemoveShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RemoveShellRequest {
   id: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface RemoveShellResponse {}
@@ -2647,6 +2775,7 @@ export type RpcCallRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RpcCallRequest {
   rpcID: string;
   method: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   input?: unknown | undefined;
 }
@@ -2683,6 +2812,7 @@ export interface SessionBackgroundRequest {
 }
 export interface SessionBackgroundResponse {}
 export interface PromptInputFileAttachment {
+  /** A file: URL on the server (a file, a directory, or ?start=N&end=M for lines of a text file), a data: URL, or a media: ref from a message. Up to 20 MB. */
   uri: string;
   source?: PromptFileSource | undefined;
   name?: string | undefined;
@@ -2699,6 +2829,7 @@ export type SessionCommandRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionCommandRequest {
   sessionID: string;
   name: string;
+  /** The command's arguments. */
   text: string;
   files?: SessionCommandRequestFilesList | undefined;
   agents?: SessionCommandRequestAgentsList | undefined;
@@ -2715,8 +2846,11 @@ export interface SessionContextResponse {
 }
 export interface SessionDiffRequest {
   sessionID: string;
+  /** User message whose turn to diff. Defaults to the turn of the newest user message. */
   from?: string | undefined;
+  /** Later user message whose turn ends the range. Defaults to the turn of `from` alone. */
   to?: string | undefined;
+  /** Unchanged lines around each hunk. Omit for full-file patches. */
   context?: string | undefined;
 }
 export type SessionDiffResponseDataList = Array<FileDiffInfo>;
@@ -2731,6 +2865,7 @@ export interface SessionEnvironmentRequest {
 export interface SessionEnvironmentResponse {}
 export interface SessionInterruptRequest {
   sessionID: string;
+  /** Set to true to resume pending steering input and next-in-line control items after interrupting. */
   resume?: boolean | undefined;
 }
 export interface SessionInterruptResponse {
@@ -2742,13 +2877,16 @@ export type SessionPromptRequestAgentsList = Array<PromptAgentAttachment>;
 export type SessionPromptRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionPromptRequest {
   sessionID: string;
+  /** Sending the same ID again returns the original item instead of adding a second one, so retries are safe. Reusing it in another session or for another kind of item fails with 409. */
   id?: string | null | undefined;
   text: string;
   files?: SessionPromptRequestFilesList | undefined;
   agents?: SessionPromptRequestAgentsList | undefined;
   skills?: SessionPromptRequestSkillsList | undefined;
+  /** Stored on the message. The model doesn't see it. */
   metadata?: unknown | undefined;
   delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  /** false adds the message to the inbox without starting the agent; it is delivered the next time the session runs. */
   resume?: boolean | null | undefined;
 }
 export interface SessionPromptResponse {
@@ -2780,11 +2918,15 @@ export interface SessionSwitchModelRequest {
 export interface SessionSwitchModelResponse {}
 export interface SessionSyntheticRequest {
   sessionID: string;
+  /** Sending the same ID again returns the original item instead of adding a second one, so retries are safe. Reusing it in another session or for another kind of item fails with 409. */
   id?: string | null | undefined;
   text: string;
+  /** Short label shown in the transcript instead of the full text. */
   description?: string | null | undefined;
+  /** Stored on the message. The model doesn't see it. */
   metadata?: unknown | undefined;
   delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  /** false adds the message to the inbox without starting the agent; it is delivered the next time the session runs. */
   resume?: boolean | null | undefined;
 }
 export interface SessionSyntheticResponse {
@@ -2798,8 +2940,11 @@ export interface SessionViewResponse {}
 export type ShellOutputRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ShellOutputRequest {
   id: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** Byte offset to read from, such as the cursor of the previous page. Defaults to 0. */
   cursor?: string | undefined;
+  /** Maximum number of bytes to return. Defaults to 65536. */
   limit?: string | undefined;
 }
 export type ShellOutputResponseData = SessionMessageShellOutput;
@@ -2843,6 +2988,7 @@ export type SubscribeEventRequestTypesCase0 =
   | "session.shell.started"
   | "session.shell.ended"
   | "session.step.started"
+  | "session.step.first-token"
   | "session.step.streamed"
   | "session.step.ended"
   | "session.step.failed"
@@ -2888,10 +3034,12 @@ export type SubscribeEventRequestTypesCase0 =
   | "shell.created"
   | "shell.exited"
   | "shell.deleted"
+  | "experimental.job.updated"
   | "form.created"
   | "form.replied"
   | "form.cancelled"
   | "websearch.updated"
+  | "experimental.push.updated"
   | "artifact.updated"
   | "session.status"
   | "session.idle"
@@ -2903,7 +3051,8 @@ export type SubscribeEventRequestTypesCase0 =
   | "installation.update-available"
   | "vcs.branch.updated"
   | "mcp.status.changed"
-  | "mcp.resources.changed";
+  | "mcp.resources.changed"
+  | "experimental.mcp.event";
 export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "location.shutdown"
   | "models-dev.refreshed"
@@ -2940,6 +3089,7 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "session.shell.started"
   | "session.shell.ended"
   | "session.step.started"
+  | "session.step.first-token"
   | "session.step.streamed"
   | "session.step.ended"
   | "session.step.failed"
@@ -2985,10 +3135,12 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "shell.created"
   | "shell.exited"
   | "shell.deleted"
+  | "experimental.job.updated"
   | "form.created"
   | "form.replied"
   | "form.cancelled"
   | "websearch.updated"
+  | "experimental.push.updated"
   | "artifact.updated"
   | "session.status"
   | "session.idle"
@@ -3000,15 +3152,16 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "installation.update-available"
   | "vcs.branch.updated"
   | "mcp.status.changed"
-  | "mcp.resources.changed";
+  | "mcp.resources.changed"
+  | "experimental.mcp.event";
 export type SubscribeEventRequestTypesCase2Item = SubscribeEventRequestTypesCase2ItemCase0 | string;
 export type SubscribeEventRequestTypesCase2List = Array<SubscribeEventRequestTypesCase2Item>;
-/** Only send events of these types, plus the initial server.connected event. When omitted, all events are sent. */
 export type SubscribeEventRequestTypes =
   | SubscribeEventRequestTypesCase0
   | string
   | SubscribeEventRequestTypesCase2List;
 export interface SubscribeEventRequest {
+  /** Only send events of these types, plus the initial server.connected event. When omitted, all events are sent. */
   types?: SubscribeEventRequestTypes | undefined;
 }
 export interface SubscribeEventResponse {}
@@ -3028,6 +3181,7 @@ export interface UpdatePermissionSavedResponse {
 export type UpdatePluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export type UpdatePluginRequestTargetsList = Array<string>;
 export interface UpdatePluginRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   targets: UpdatePluginRequestTargetsList;
 }
@@ -3046,6 +3200,7 @@ export interface UpdatePtyRequestSize {
 }
 export interface UpdatePtyRequest {
   ptyID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   title?: string | undefined;
   size?: UpdatePtyRequestSize | undefined;
@@ -3071,6 +3226,7 @@ export interface UpdateSessionInboxRequest {
 export interface UpdateSessionInboxResponse {}
 export type VcsBaseRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsBaseRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type VcsBaseSource = "reflog" | "default";
@@ -3087,6 +3243,7 @@ export type VcsDiffRequestLocation = CancelIntegrationCommandRequestLocation;
 export type VcsMode = "working" | "branch" | "committed";
 export type VcsUntracked = "files" | "folders";
 export interface VcsDiffRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   mode: VcsMode | (string & {});
   base?: string | undefined;
@@ -3100,12 +3257,15 @@ export interface VcsDiffResponse {
 }
 export type VcsInitRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsInitRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** VCS provider to initialize. Defaults to git. */
   provider?: string | undefined;
 }
 export interface VcsInitResponse {}
 export type VcsStatusRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsStatusRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type VcsFileStatusStatus = "added" | "deleted" | "modified";
@@ -3122,6 +3282,7 @@ export interface VcsStatusResponse {
 }
 export type WebsearchProvidersRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface WebsearchProvidersRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface WebSearchProvider {
@@ -3135,6 +3296,7 @@ export interface WebsearchProvidersResponse {
 }
 export type WebsearchQueryRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface WebsearchQueryRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: CancelIntegrationCommandRequestLocation | undefined;
   query: string;
   providerID?: string | undefined;
@@ -3256,7 +3418,7 @@ export interface IntegrationAttemptNotFoundErrorEncoded {
   attemptID: string;
   message: string;
 }
-export type Error404Body12 =
+export type Error404Body13 =
   | IntegrationNotFoundErrorEncoded
   | IntegrationAttemptNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -3267,7 +3429,7 @@ export interface IntegrationMethodNotFoundErrorEncoded {
   methodID: string;
   message: string;
 }
-export type Error404Body13 =
+export type Error404Body14 =
   | IntegrationNotFoundErrorEncoded
   | IntegrationMethodNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -3277,7 +3439,7 @@ export interface PtyNotFoundErrorEncoded {
   ptyID: string;
   message: string;
 }
-export type Error404Body17 = PtyNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body19 = PtyNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type ProjectNotFoundErrorEncodedTag = "ProjectNotFoundError";
 export interface ProjectNotFoundErrorEncoded {
   _tag: ProjectNotFoundErrorEncodedTag;
@@ -3299,21 +3461,21 @@ export interface AgentNotFoundErrorEncoded {
   message: string;
 }
 export type Error404Body = AgentNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type Error404Body11 = IntegrationNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body12 = IntegrationNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type ProviderNotFoundErrorEncodedTag = "ProviderNotFoundError";
 export interface ProviderNotFoundErrorEncoded {
   _tag: ProviderNotFoundErrorEncodedTag;
   providerID: string;
   message: string;
 }
-export type Error404Body10 = ProviderNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body11 = ProviderNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type PermissionNotFoundErrorEncodedTag = "PermissionNotFoundError";
 export interface PermissionNotFoundErrorEncoded {
   _tag: PermissionNotFoundErrorEncodedTag;
   requestID: string;
   message: string;
 }
-export type Error404Body15 =
+export type Error404Body16 =
   | SessionNotFoundErrorEncoded
   | PermissionNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -3323,14 +3485,14 @@ export interface ShellNotFoundErrorEncoded {
   id: string;
   message: string;
 }
-export type Error404Body22 = ShellNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body24 = ShellNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type FileNotFoundErrorEncodedTag = "FileNotFoundError";
 export interface FileNotFoundErrorEncoded {
   _tag: FileNotFoundErrorEncodedTag;
   path: string;
   message: string;
 }
-export type Error404Body16 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body17 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type PluginNotFoundErrorEncodedTag = "PluginNotFoundError";
 export interface PluginNotFoundErrorEncoded {
   _tag: PluginNotFoundErrorEncodedTag;
@@ -3366,8 +3528,8 @@ export const activateCredential: API.OperationMethod<
   ActivateCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ActivateCredentialRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<ActivateCredentialResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ActivateCredentialRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ActivateCredentialResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3384,8 +3546,8 @@ export const cancelIntegrationCommand: API.OperationMethod<
   CancelIntegrationCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<CancelIntegrationCommandRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CancelIntegrationCommandResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CancelIntegrationCommandRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelIntegrationCommandResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3402,8 +3564,8 @@ export const cancelIntegrationOauth: API.OperationMethod<
   CancelIntegrationOauthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CancelIntegrationOauthRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CancelIntegrationOauthResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CancelIntegrationOauthRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelIntegrationOauthResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3420,8 +3582,8 @@ export const cancelSessionForm: API.OperationMethod<
   CancelSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CancelSessionFormRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CancelSessionFormResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<CancelSessionFormRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelSessionFormResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3438,8 +3600,8 @@ export const cancelSessionInbox: API.OperationMethod<
   CancelSessionInboxError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<CancelSessionInboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CancelSessionInboxResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<CancelSessionInboxRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelSessionInboxResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3456,8 +3618,8 @@ export const checkPlugin: API.OperationMethod<
   CheckPluginError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<CheckPluginRequest>,
-  output: __S(2355, __c147, 3) as any as S.Schema<CheckPluginResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<CheckPluginRequest>,
+  output: __S(2371, __c148, 3) as any as S.Schema<CheckPluginResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3475,7 +3637,7 @@ export const clearSessionRevert: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ClearSessionRevertRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<ClearSessionRevertResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ClearSessionRevertResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3493,7 +3655,7 @@ export const commitSessionRevert: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CommitSessionRevertRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CommitSessionRevertResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CommitSessionRevertResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3503,7 +3665,7 @@ export const commitSessionRevert: API.OperationMethod<
 }));
 
 export type CompactSessionError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Compact session Durably admit a session compaction request. Steers by default: it runs at the next step boundary instead of waiting behind queued prompts. */
+/** Compact session Queue a summary of the session's history. Steers by default: it runs before the next model call, ahead of queued messages. */
 export const compactSession: API.OperationMethod<
   CompactSessionRequest,
   CompactSessionResponse,
@@ -3529,7 +3691,7 @@ export const completeIntegrationOauth: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<CompleteIntegrationOauthRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<CompleteIntegrationOauthResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CompleteIntegrationOauthResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3673,7 +3835,7 @@ export const createSession: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<CreateSessionResponse>,
+  output: __S(752, __c47, 0) as any as S.Schema<CreateSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3690,8 +3852,8 @@ export const createSessionForm: API.OperationMethod<
   CreateSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateSessionFormRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<CreateSessionFormResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<CreateSessionFormRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<CreateSessionFormResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3708,8 +3870,8 @@ export const createSessionPermission: API.OperationMethod<
   CreateSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CreateSessionPermissionRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<CreateSessionPermissionResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateSessionPermissionRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<CreateSessionPermissionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3726,8 +3888,8 @@ export const createShell: API.OperationMethod<
   CreateShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<CreateShellRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<CreateShellResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateShellRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<CreateShellResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3744,8 +3906,8 @@ export const createWorktree: API.OperationMethod<
   CreateWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateWorktreeRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<WorktreeInfo>,
+  input: __S(944, __c59, 0) as any as S.Schema<CreateWorktreeRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<WorktreeInfo>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3762,8 +3924,8 @@ export const debugHeapDump: API.OperationMethod<
   DebugHeapDumpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<DebugHeapDumpRequest>,
-  output: __S(946, __c59, 2) as any as S.Schema<DebugHeapDumpResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<DebugHeapDumpRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<DebugHeapDumpResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3780,8 +3942,8 @@ export const debugLocationEvict: API.OperationMethod<
   DebugLocationEvictError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DebugLocationEvictRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<DebugLocationEvictResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<DebugLocationEvictRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<DebugLocationEvictResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3791,15 +3953,15 @@ export const debugLocationEvict: API.OperationMethod<
 }));
 
 export type ForkSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Fork session Create a child session by copying projected history before a message. Omit before to copy the full history. */
+/** Fork session Create a child session with this session's history before a message. Omit before to copy the full history. */
 export const forkSession: API.OperationMethod<
   ForkSessionRequest,
   ForkSessionResponse,
   ForkSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ForkSessionRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<ForkSessionResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<ForkSessionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<ForkSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3816,8 +3978,8 @@ export const fsFind: API.OperationMethod<
   FsFindError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<FsFindRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<FsFindResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<FsFindRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<FsFindResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3827,15 +3989,15 @@ export const fsFind: API.OperationMethod<
 }));
 
 export type GenerateSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Generate text from session context Generate transient text from the current session context without mutating session history. */
+/** Generate text from session context Generate transient text from the current session context without mutating session history. Its tokens and cost count toward the session's totals. */
 export const generateSession: API.OperationMethod<
   GenerateSessionRequest,
   SessionGenerateResponse,
   GenerateSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GenerateSessionRequest>,
-  output: __S(1058, __c66, 2) as any as S.Schema<SessionGenerateResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<GenerateSessionRequest>,
+  output: __S(1074, __c67, 2) as any as S.Schema<SessionGenerateResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3852,8 +4014,8 @@ export const getAgent: API.OperationMethod<
   GetAgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<GetAgentRequest>,
-  output: __S(1073, __c67, 1) as any as S.Schema<GetAgentResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<GetAgentRequest>,
+  output: __S(1089, __c68, 1) as any as S.Schema<GetAgentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3870,8 +4032,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<GetConfigResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<GetConfigResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3888,8 +4050,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<GetIntegrationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3906,8 +4068,8 @@ export const getLocation: API.OperationMethod<
   GetLocationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<GetLocationRequest>,
-  output: __S(1186, __c74, 2) as any as S.Schema<LocationPublicInfo>,
+  input: __S(1200, __c75, 0) as any as S.Schema<GetLocationRequest>,
+  output: __S(1202, __c75, 2) as any as S.Schema<LocationPublicInfo>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3924,8 +4086,8 @@ export const getProvider: API.OperationMethod<
   GetProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetProviderRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<GetProviderResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetProviderRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<GetProviderResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3942,7 +4104,7 @@ export const getPty: API.OperationMethod<
   GetPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetPtyRequest>,
+  input: __S(1248, __c78, 0) as any as S.Schema<GetPtyRequest>,
   output: __S(640, __c40, 0) as any as S.Schema<GetPtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
@@ -3960,8 +4122,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<GetSessionResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<GetSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3978,8 +4140,8 @@ export const getSessionForm: API.OperationMethod<
   GetSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetSessionFormRequest>,
-  output: __S(1266, __c79, 2) as any as S.Schema<GetSessionFormResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<GetSessionFormRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<GetSessionFormResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -3989,15 +4151,15 @@ export const getSessionForm: API.OperationMethod<
 }));
 
 export type GetSessionMessageError = BadRequest | NotFound | OpencodeOpError;
-/** Get session message Retrieve one projected message owned by the Session. */
+/** Get session message Retrieve one message of the session by ID. */
 export const getSessionMessage: API.OperationMethod<
   GetSessionMessageRequest,
   GetSessionMessageResponse,
   GetSessionMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<GetSessionMessageRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<GetSessionMessageResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<GetSessionMessageRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<GetSessionMessageResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4014,8 +4176,8 @@ export const getSessionPermission: API.OperationMethod<
   GetSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetSessionPermissionRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<GetSessionPermissionResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GetSessionPermissionRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<GetSessionPermissionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4032,8 +4194,8 @@ export const getShell: API.OperationMethod<
   GetShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetShellRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<GetShellResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<GetShellRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<GetShellResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4050,8 +4212,8 @@ export const getVcs: API.OperationMethod<
   GetVcsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetVcsRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<GetVcsResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetVcsRequest>,
+  output: __S(1395, __c87, 3) as any as S.Schema<GetVcsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4068,8 +4230,8 @@ export const integrationCommandStatus: API.OperationMethod<
   IntegrationCommandStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<IntegrationCommandStatusRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<IntegrationCommandStatusResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<IntegrationCommandStatusRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<IntegrationCommandStatusResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4086,8 +4248,8 @@ export const integrationConnectExternal: API.OperationMethod<
   IntegrationConnectExternalError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<IntegrationConnectExternalRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<IntegrationConnectExternalResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<IntegrationConnectExternalRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<IntegrationConnectExternalResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4104,8 +4266,8 @@ export const integrationConnectKey: API.OperationMethod<
   IntegrationConnectKeyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<IntegrationConnectKeyRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<IntegrationConnectKeyResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<IntegrationConnectKeyRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<IntegrationConnectKeyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4122,8 +4284,8 @@ export const integrationOauthStatus: API.OperationMethod<
   IntegrationOauthStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<IntegrationOauthStatusRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<IntegrationOauthStatusResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<IntegrationOauthStatusRequest>,
+  output: __S(1457, __c91, 1) as any as S.Schema<IntegrationOauthStatusResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4140,8 +4302,8 @@ export const listAgent: API.OperationMethod<
   ListAgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListAgentRequest>,
-  output: __S(1458, __c91, 2) as any as S.Schema<ListAgentResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListAgentRequest>,
+  output: __S(1474, __c92, 2) as any as S.Schema<ListAgentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4158,8 +4320,8 @@ export const listCommand: API.OperationMethod<
   ListCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListCommandRequest>,
-  output: __S(1475, __c92, 3) as any as S.Schema<ListCommandResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListCommandRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<ListCommandResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4176,8 +4338,8 @@ export const listCredential: API.OperationMethod<
   ListCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListCredentialRequest>,
-  output: __S(1490, __c93, 2) as any as S.Schema<ListCredentialResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListCredentialRequest>,
+  output: __S(1506, __c94, 2) as any as S.Schema<ListCredentialResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4194,8 +4356,8 @@ export const listDebugLocation: API.OperationMethod<
   ListDebugLocationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListDebugLocationRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<ListDebugLocationResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ListDebugLocationRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<ListDebugLocationResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4212,8 +4374,8 @@ export const listForm: API.OperationMethod<
   ListFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListFormRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<ListFormResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListFormRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<ListFormResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4230,8 +4392,8 @@ export const listFs: API.OperationMethod<
   ListFsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListFsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<ListFsResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<ListFsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ListFsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4248,8 +4410,8 @@ export const listIntegration: API.OperationMethod<
   ListIntegrationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListIntegrationRequest>,
-  output: __S(1602, __c100, 2) as any as S.Schema<ListIntegrationResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListIntegrationRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<ListIntegrationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4266,8 +4428,8 @@ export const listMcp: API.OperationMethod<
   ListMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListMcpRequest>,
-  output: __S(1619, __c101, 3) as any as S.Schema<ListMcpResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListMcpRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<ListMcpResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4284,8 +4446,8 @@ export const listModel: API.OperationMethod<
   ListModelError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListModelRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<ListModelResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListModelRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<ListModelResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4302,8 +4464,8 @@ export const listPermissionRequest: API.OperationMethod<
   ListPermissionRequestError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListPermissionRequestRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<ListPermissionRequestResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListPermissionRequestRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<ListPermissionRequestResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4320,8 +4482,8 @@ export const listPermissionSaved: API.OperationMethod<
   ListPermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListPermissionSavedRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<ListPermissionSavedResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListPermissionSavedRequest>,
+  output: __S(1714, __c107, 2) as any as S.Schema<ListPermissionSavedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4338,8 +4500,8 @@ export const listPlugin: API.OperationMethod<
   ListPluginError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListPluginRequest>,
-  output: __S(2355, __c147, 3) as any as S.Schema<ListPluginResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListPluginRequest>,
+  output: __S(2371, __c148, 3) as any as S.Schema<ListPluginResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4356,8 +4518,8 @@ export const listProject: API.OperationMethod<
   ListProjectError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListProjectRequest>,
-  output: __S(1746, __c109, 2) as any as S.Schema<ListProjectResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListProjectRequest>,
+  output: __S(1762, __c110, 2) as any as S.Schema<ListProjectResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4374,8 +4536,8 @@ export const listProvider: API.OperationMethod<
   ListProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListProviderRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<ListProviderResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListProviderRequest>,
+  output: __S(1810, __c113, 2) as any as S.Schema<ListProviderResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4392,8 +4554,8 @@ export const listPty: API.OperationMethod<
   ListPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListPtyRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListPtyResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListPtyRequest>,
+  output: __S(1826, __c114, 2) as any as S.Schema<ListPtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4410,8 +4572,8 @@ export const listReference: API.OperationMethod<
   ListReferenceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListReferenceRequest>,
-  output: __S(1827, __c114, 3) as any as S.Schema<ListReferenceResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<ListReferenceRequest>,
+  output: __S(1843, __c115, 3) as any as S.Schema<ListReferenceResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4428,8 +4590,8 @@ export const listSession: API.OperationMethod<
   ListSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListSessionRequest>,
-  output: __S(1842, __c115, 2) as any as S.Schema<SessionsResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListSessionRequest>,
+  output: __S(1858, __c116, 2) as any as S.Schema<SessionsResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4446,8 +4608,8 @@ export const listSessionForm: API.OperationMethod<
   ListSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListSessionFormRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<ListSessionFormResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListSessionFormRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<ListSessionFormResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4457,15 +4619,15 @@ export const listSessionForm: API.OperationMethod<
 }));
 
 export type ListSessionInboxError = BadRequest | NotFound | OpencodeOpError;
-/** List session inbox List durable enqueued session work not yet delivered, ordered by enqueue sequence. Includes user, synthetic, compaction, and move items. */
+/** List session inbox List user, synthetic, compaction and move items not yet delivered to the agent, oldest first. Delivered user and synthetic items move to session.message.list. */
 export const listSessionInbox: API.OperationMethod<
   ListSessionInboxRequest,
   ListSessionInboxResponse,
   ListSessionInboxError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListSessionInboxRequest>,
-  output: __S(1890, __c118, 2) as any as S.Schema<ListSessionInboxResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListSessionInboxRequest>,
+  output: __S(1906, __c119, 2) as any as S.Schema<ListSessionInboxResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4475,15 +4637,15 @@ export const listSessionInbox: API.OperationMethod<
 }));
 
 export type ListSessionMessageError = BadRequest | NotFound | OpencodeOpError;
-/** Get session messages Retrieve projected messages for a session, optionally filtered by type. Items keep the requested order across pages; use cursor.next or cursor.previous to move through the ordered timeline, passing the same type filter on each page. */
+/** Get session messages List a session's messages, optionally filtered by type. Follow cursor.next or cursor.previous with the same type filter. Items still in the inbox aren't included. */
 export const listSessionMessage: API.OperationMethod<
   ListSessionMessageRequest,
   SessionMessagesResponse,
   ListSessionMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListSessionMessageRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<SessionMessagesResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListSessionMessageRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<SessionMessagesResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4500,8 +4662,8 @@ export const listSessionPermission: API.OperationMethod<
   ListSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ListSessionPermissionRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ListSessionPermissionResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<ListSessionPermissionRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListSessionPermissionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4518,8 +4680,8 @@ export const listShell: API.OperationMethod<
   ListShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListShellRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<ListShellResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListShellRequest>,
+  output: __S(1970, __c123, 2) as any as S.Schema<ListShellResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4536,8 +4698,8 @@ export const listSkill: API.OperationMethod<
   ListSkillError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListSkillRequest>,
-  output: __S(1971, __c123, 3) as any as S.Schema<ListSkillResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListSkillRequest>,
+  output: __S(1987, __c124, 3) as any as S.Schema<ListSkillResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4554,8 +4716,8 @@ export const listVcsBranch: API.OperationMethod<
   ListVcsBranchError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListVcsBranchRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<ListVcsBranchResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListVcsBranchRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<ListVcsBranchResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4572,8 +4734,8 @@ export const listWorktree: API.OperationMethod<
   ListWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListWorktreeRequest>,
-  output: __S(2019, __c126, 3) as any as S.Schema<ListWorktreeResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListWorktreeRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<ListWorktreeResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4590,8 +4752,8 @@ export const locationReload: API.OperationMethod<
   LocationReloadError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<LocationReloadRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<LocationReloadResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<LocationReloadRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<LocationReloadResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4608,8 +4770,8 @@ export const mcpResourceCatalog2: API.OperationMethod<
   McpResourceCatalog2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<McpResourceCatalogRequest>,
-  output: __S(2054, __c128, 6) as any as S.Schema<McpResourceCatalogResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<McpResourceCatalogRequest>,
+  output: __S(2070, __c129, 6) as any as S.Schema<McpResourceCatalogResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4626,8 +4788,8 @@ export const modelDefault: API.OperationMethod<
   ModelDefaultError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ModelDefaultRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<ModelDefaultResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ModelDefaultRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<ModelDefaultResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4644,8 +4806,8 @@ export const moveSession: API.OperationMethod<
   MoveSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<MoveSessionRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<MoveSessionResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<MoveSessionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<MoveSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4662,8 +4824,8 @@ export const pluginGui: API.OperationMethod<
   PluginGuiError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<PluginGuiRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<PluginGuiResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<PluginGuiRequest>,
+  output: __S(2114, __c132, 2) as any as S.Schema<PluginGuiResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4680,8 +4842,8 @@ export const ptyConnectToken: API.OperationMethod<
   PtyConnectTokenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<PtyConnectTokenRequest>,
-  output: __S(2114, __c132, 2) as any as S.Schema<PtyConnectTokenResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<PtyConnectTokenRequest>,
+  output: __S(2130, __c133, 2) as any as S.Schema<PtyConnectTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4698,8 +4860,8 @@ export const readFs: API.OperationMethod<
   ReadFsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ReadFsRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<ReadFsResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ReadFsRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReadFsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4716,8 +4878,8 @@ export const refreshWorktree: API.OperationMethod<
   RefreshWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<RefreshWorktreeRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RefreshWorktreeResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<RefreshWorktreeRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RefreshWorktreeResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4734,8 +4896,8 @@ export const removeCredential: API.OperationMethod<
   RemoveCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<RemoveCredentialRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemoveCredentialResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<RemoveCredentialRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveCredentialResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4752,8 +4914,8 @@ export const removePermissionSaved: API.OperationMethod<
   RemovePermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<RemovePermissionSavedRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemovePermissionSavedResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<RemovePermissionSavedRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemovePermissionSavedResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4770,8 +4932,8 @@ export const removePty: API.OperationMethod<
   RemovePtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<RemovePtyRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemovePtyResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<RemovePtyRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemovePtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4788,8 +4950,8 @@ export const removeSession: API.OperationMethod<
   RemoveSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<RemoveSessionRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemoveSessionResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<RemoveSessionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4806,8 +4968,8 @@ export const removeShell: API.OperationMethod<
   RemoveShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<RemoveShellRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemoveShellResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<RemoveShellRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveShellResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4824,8 +4986,8 @@ export const removeWorktree: API.OperationMethod<
   RemoveWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<RemoveWorktreeRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<RemoveWorktreeResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<RemoveWorktreeRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveWorktreeResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4842,8 +5004,8 @@ export const replySessionForm: API.OperationMethod<
   ReplySessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<ReplySessionFormRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<ReplySessionFormResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<ReplySessionFormRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReplySessionFormResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4860,8 +5022,8 @@ export const replySessionPermission: API.OperationMethod<
   ReplySessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<ReplySessionPermissionRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<ReplySessionPermissionResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<ReplySessionPermissionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReplySessionPermissionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4878,8 +5040,8 @@ export const rpcCall: API.OperationMethod<
   RpcCallError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<RpcCallRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<RpcOutput>,
+  input: __S(2320, __c145, 0) as any as S.Schema<RpcCallRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<RpcOutput>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4896,8 +5058,8 @@ export const serverInfo2: API.OperationMethod<
   ServerInfo2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ServerInfo2Request>,
-  output: __S(2323, __c145, 3) as any as S.Schema<ServerInfo>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ServerInfo2Request>,
+  output: __S(2339, __c146, 3) as any as S.Schema<ServerInfo>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4914,8 +5076,8 @@ export const serverPair: API.OperationMethod<
   ServerPairError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ServerPairRequest>,
-  output: __S(2369, __c148, 1) as any as S.Schema<PairingCode>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ServerPairRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<PairingCode>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4925,15 +5087,15 @@ export const serverPair: API.OperationMethod<
 }));
 
 export type SessionActiveError = BadRequest | OpencodeOpError;
-/** List active sessions Retrieve foreground Session drains currently owned by this OpenCode process. Sessions absent from the result are inactive. */
+/** List active sessions List the sessions whose agent is running right now in this server process. Sessions missing from the result are idle. */
 export const sessionActive: API.OperationMethod<
   SessionActiveRequest,
   SessionActiveResponse,
   SessionActiveError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<SessionActiveRequest>,
-  output: __S(2385, __c149, 1) as any as S.Schema<SessionActiveResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<SessionActiveRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<SessionActiveResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4950,8 +5112,8 @@ export const sessionBackground: API.OperationMethod<
   SessionBackgroundError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<SessionBackgroundRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionBackgroundResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<SessionBackgroundRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionBackgroundResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4961,15 +5123,15 @@ export const sessionBackground: API.OperationMethod<
 }));
 
 export type SessionCommandError = BadRequest | NotFound | OpencodeOpError;
-/** Run command Execute a slash command callback immediately. */
+/** Run command Run a named command in the session. Most commands send a prompt, so like session.prompt this returns before the agent finishes. An archived session is unarchived. */
 export const sessionCommand: API.OperationMethod<
   SessionCommandRequest,
   SessionCommandResponse,
   SessionCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<SessionCommandRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionCommandResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<SessionCommandRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionCommandResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -4986,8 +5148,8 @@ export const sessionContext: API.OperationMethod<
   SessionContextError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<SessionContextRequest>,
-  output: __S(2449, __c153, 1) as any as S.Schema<SessionContextResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<SessionContextRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<SessionContextResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5004,8 +5166,8 @@ export const sessionDiff: API.OperationMethod<
   SessionDiffError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<SessionDiffRequest>,
-  output: __S(2465, __c154, 1) as any as S.Schema<SessionDiffResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<SessionDiffRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<SessionDiffResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5022,8 +5184,8 @@ export const sessionEnvironment: API.OperationMethod<
   SessionEnvironmentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<SessionEnvironmentRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionEnvironmentResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<SessionEnvironmentRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionEnvironmentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5033,15 +5195,15 @@ export const sessionEnvironment: API.OperationMethod<
 }));
 
 export type SessionInterruptError = BadRequest | NotFound | OpencodeOpError;
-/** Interrupt session execution Interrupt active execution owned by this OpenCode process. Returns interrupted=true when an active execution was interrupted and false for the idle no-op. When resume=true, execution resumes pending steering input and next-in-line control items (manual compaction, moves) while queued prompts remain parked. */
+/** Interrupt session execution Stop the session's agent if it is running in this server process; interrupted=false means nothing was running. With resume=true it continues with pending steer items, compaction and moves, while queued messages keep waiting. */
 export const sessionInterrupt: API.OperationMethod<
   SessionInterruptRequest,
   SessionInterruptResponse,
   SessionInterruptError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<SessionInterruptRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<SessionInterruptResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<SessionInterruptRequest>,
+  output: __S(2513, __c157, 1) as any as S.Schema<SessionInterruptResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5051,15 +5213,15 @@ export const sessionInterrupt: API.OperationMethod<
 }));
 
 export type SessionPromptError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Send message Durably admit one session input and schedule agent-loop execution unless resume is false. */
+/** Send message Send a user message and start the agent unless resume is false. Returns once the message is queued, not when the agent finishes: wait with POST /api/experimental/session/:sessionID/wait or the session.execution.* events, then read the reply with GET /api/session/:sessionID/message. An archived session is unarchived. */
 export const sessionPrompt: API.OperationMethod<
   SessionPromptRequest,
   SessionPromptResponse,
   SessionPromptError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2518, __c157, 6) as any as S.Schema<SessionPromptRequest>,
-  output: __S(2519, __c157, 7) as any as S.Schema<SessionPromptResponse>,
+  input: __S(2534, __c158, 6) as any as S.Schema<SessionPromptRequest>,
+  output: __S(2535, __c158, 7) as any as S.Schema<SessionPromptResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5076,8 +5238,8 @@ export const sessionRevertStage: API.OperationMethod<
   SessionRevertStageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<SessionRevertStageRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<SessionRevertStageResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<SessionRevertStageRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<SessionRevertStageResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5087,7 +5249,7 @@ export const sessionRevertStage: API.OperationMethod<
 }));
 
 export type SessionShellError = BadRequest | NotFound | OpencodeOpError;
-/** Run shell command Execute one shell command in the session's working directory. Emits a shell.started event before execution and a shell.ended event with the merged output after. */
+/** Run shell command Execute one shell command in the session's working directory. Emits a shell.started event before execution and a shell.ended event with the merged output after. An archived session is unarchived. */
 export const sessionShell: API.OperationMethod<
   SessionShellRequest,
   SessionShellResponse,
@@ -5095,7 +5257,7 @@ export const sessionShell: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<SessionShellRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionShellResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionShellResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5105,7 +5267,7 @@ export const sessionShell: API.OperationMethod<
 }));
 
 export type SessionSwitchAgentError = BadRequest | NotFound | OpencodeOpError;
-/** Switch session agent Switch the agent used by subsequent provider turns. */
+/** Switch session agent Change the agent the session uses from its next model call on. */
 export const sessionSwitchAgent: API.OperationMethod<
   SessionSwitchAgentRequest,
   SessionSwitchAgentResponse,
@@ -5113,7 +5275,7 @@ export const sessionSwitchAgent: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<SessionSwitchAgentRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionSwitchAgentResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionSwitchAgentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5123,7 +5285,7 @@ export const sessionSwitchAgent: API.OperationMethod<
 }));
 
 export type SessionSwitchModelError = BadRequest | NotFound | OpencodeOpError;
-/** Switch session model Switch the model used by subsequent provider turns. */
+/** Switch session model Change the model the session uses from its next model call on. */
 export const sessionSwitchModel: API.OperationMethod<
   SessionSwitchModelRequest,
   SessionSwitchModelResponse,
@@ -5131,7 +5293,7 @@ export const sessionSwitchModel: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<SessionSwitchModelRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionSwitchModelResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionSwitchModelResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5141,7 +5303,7 @@ export const sessionSwitchModel: API.OperationMethod<
 }));
 
 export type SessionSyntheticError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Add synthetic message Durably admit synthetic session input and schedule execution unless resume is false. */
+/** Add synthetic message Add a message the model reads as user input but the user didn't type, such as a notification. Starts the agent unless resume is false or the session has a staged revert. */
 export const sessionSynthetic: API.OperationMethod<
   SessionSyntheticRequest,
   SessionSyntheticResponse,
@@ -5167,7 +5329,7 @@ export const sessionView: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<SessionViewRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SessionViewResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionViewResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5203,7 +5365,7 @@ export const subscribeEvent: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<SubscribeEventRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<SubscribeEventResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SubscribeEventResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5221,7 +5383,7 @@ export const updateCredential: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<UpdateCredentialRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdateCredentialResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateCredentialResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5257,7 +5419,7 @@ export const updatePlugin: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UpdatePluginRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdatePluginResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdatePluginResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5275,7 +5437,7 @@ export const updateProject: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<Project>,
+  output: __S(1779, __c111, 3) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5311,7 +5473,7 @@ export const updateSession: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdateSessionResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5329,7 +5491,7 @@ export const updateSessionInbox: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<UpdateSessionInboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdateSessionInboxResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateSessionInboxResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5383,7 +5545,7 @@ export const vcsInit: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<VcsInitRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<VcsInitResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<VcsInitResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -5531,7 +5693,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sessionID: S.String.pipe(T.Label()),
-          model: __S(688, __c43, 0),
+          model: __S(720, __c45, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/model", code: 200 })),
       ).annotate({ identifier: "SessionSwitchModelRequest" });
   }
@@ -5603,7 +5765,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}/output", code: 200 })),
@@ -5611,7 +5773,7 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(144, __c9, 0),
         }),
       ).annotate({ identifier: "ShellOutputResponse" });
@@ -5651,7 +5813,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1713, __c107, 1),
+          data: __S(1729, __c108, 1),
         }),
       ).annotate({ identifier: "UpdatePermissionSavedResponse" });
   }
@@ -5661,7 +5823,7 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           targets: __S(608, __c38, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/plugin/update", code: 200 })),
       ).annotate({ identifier: "UpdatePluginRequest" });
@@ -5687,8 +5849,8 @@ function __c15(j: number): any {
           projectID: S.String.pipe(T.Label()),
           canonical: S.optional(S.String),
           name: S.optional(S.String),
-          icon: S.optional(__S(1760, __c110, 0)),
-          commands: S.optional(__S(1761, __c110, 1)),
+          icon: S.optional(__S(1776, __c111, 0)),
+          commands: S.optional(__S(1777, __c111, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/project/{projectID}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
@@ -5706,7 +5868,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           title: S.optional(S.String),
           size: S.optional(__S(256, __c16, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/pty/{ptyID}", code: 200 })),
@@ -5721,7 +5883,7 @@ function __c17(j: number): any {
           sessionID: S.String.pipe(T.Label()),
           title: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(S.Unknown)),
-          permissions: S.optional(S.NullOr(__S(705, __c44, 1))),
+          permissions: S.optional(S.NullOr(__S(737, __c46, 1))),
           archived: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/session/{sessionID}", code: 200 })),
       ).annotate({ identifier: "UpdateSessionRequest" });
@@ -5746,7 +5908,7 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/vcs/base", code: 200 })),
       ).annotate({ identifier: "VcsBaseRequest" });
     case 1:
@@ -5760,7 +5922,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: S.NullOr(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "VcsBaseResponse" });
@@ -5771,7 +5933,7 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           mode: S.String.pipe(T.Query()),
           base: S.optional(S.String.pipe(T.Query())),
           context: S.optional(S.String.pipe(T.Query())),
@@ -5781,8 +5943,8 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(769, __c48, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(785, __c49, 1),
         }),
       ).annotate({ identifier: "VcsDiffResponse" });
   }
@@ -5792,7 +5954,7 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           provider: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/api/vcs/init", code: 200 })),
       ).annotate({ identifier: "VcsInitRequest" });
@@ -5803,7 +5965,7 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/vcs/status", code: 200 })),
       ).annotate({ identifier: "VcsStatusRequest" });
     case 1:
@@ -5820,7 +5982,7 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(354, __c22, 2),
         }),
       ).annotate({ identifier: "VcsStatusResponse" });
@@ -5831,7 +5993,7 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/websearch/provider", code: 200 })),
       ).annotate({ identifier: "WebsearchProvidersRequest" });
     case 1:
@@ -5846,7 +6008,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(370, __c23, 2),
         }),
       ).annotate({ identifier: "WebsearchProvidersResponse" });
@@ -5857,7 +6019,7 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           query: S.String,
           providerID: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/websearch", code: 200 })),
@@ -5889,7 +6051,7 @@ function __c24(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(388, __c24, 4),
         }),
       ).annotate({ identifier: "WebsearchQueryResponse" });
@@ -5941,7 +6103,7 @@ function __c27(j: number): any {
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           code: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -5981,7 +6143,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           methodID: S.String,
           label: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -6009,7 +6171,7 @@ function __c29(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(466, __c29, 2),
         }),
       ).annotate({ identifier: "ConnectIntegrationCommandResponse" });
@@ -6021,7 +6183,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           methodID: S.String,
           answer: S.optional(S.NullOr(__S(496, __c31, 0))),
           label: S.optional(S.NullOr(S.String)),
@@ -6054,7 +6216,7 @@ function __c30(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(482, __c30, 2),
         }),
       ).annotate({ identifier: "ConnectIntegrationOauthResponse" });
@@ -6149,7 +6311,7 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           command: S.optional(S.String),
           args: S.optional(__S(608, __c38, 0)),
           cwd: S.optional(S.String),
@@ -6176,7 +6338,7 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(656, __c41, 0),
         }),
       ).annotate({ identifier: "CreatePtyResponse" });
@@ -6208,15 +6370,39 @@ function __c42(j: number): any {
           parentID: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           agent: S.optional(S.NullOr(S.String)),
-          model: S.optional(S.NullOr(__S(688, __c43, 0))),
-          location: S.optional(S.NullOr(__S(1024, __c64, 0))),
+          model: S.optional(S.NullOr(__S(720, __c45, 0))),
+          location: S.optional(S.NullOr(__S(1040, __c65, 0))),
           metadata: S.optional(S.NullOr(S.Unknown)),
-          permissions: S.optional(S.NullOr(__S(705, __c44, 1))),
+          permissions: S.optional(S.NullOr(__S(737, __c46, 1))),
         }).pipe(T.Http({ method: "POST", uri: "/api/session", code: 200 })),
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
 function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          read: S.Number,
+          write: S.Number,
+        }),
+      ).annotate({ identifier: "TokenUsageInfoCache" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          input: S.Number,
+          output: S.Number,
+          reasoning: S.Number,
+          cache: __S(688, __c43, 0),
+        }),
+      ).annotate({ identifier: "TokenUsageInfo" });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6228,7 +6414,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ModelRef" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6239,31 +6425,20 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "PermissionRule" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(736, __c46, 0));
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(755, __c47, 3),
+          data: __S(770, __c48, 2),
         }),
       ).annotate({ identifier: "CreateSessionResponse" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          read: S.Number,
-          write: S.Number,
-        }),
-      ).annotate({ identifier: "TokenUsageInfoCache" });
-  }
-}
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6275,15 +6450,6 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: S.Number,
-          output: S.Number,
-          reasoning: S.Number,
-          cache: __S(736, __c46, 0),
-        }),
-      ).annotate({ identifier: "TokenUsageInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           created: S.Number,
           updated: S.Number,
           busy: S.optional(S.Number),
@@ -6292,30 +6458,30 @@ function __c47(j: number): any {
           archived: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SessionInfoTime" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           parentID: S.optional(S.String),
-          fork: S.optional(__S(752, __c47, 0)),
+          fork: S.optional(__S(768, __c48, 0)),
           projectID: S.String,
           agent: S.optional(S.String),
-          model: S.optional(__S(688, __c43, 0)),
+          model: S.optional(__S(720, __c45, 0)),
           cost: S.Number,
-          tokens: __S(753, __c47, 1),
+          tokens: __S(704, __c44, 0),
           outcome: S.optional(S.String),
-          time: __S(754, __c47, 2),
+          time: __S(769, __c48, 1),
           title: S.optional(S.String),
           subpath: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          permissions: S.optional(__S(705, __c44, 1)),
-          revert: S.optional(__S(784, __c49, 0)),
-          location: __S(1024, __c64, 0),
+          permissions: S.optional(__S(737, __c46, 1)),
+          revert: S.optional(__S(800, __c50, 0)),
+          location: __S(1040, __c65, 0),
         }),
       ).annotate({ identifier: "SessionInfo" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6329,10 +6495,10 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "FileDiffInfo" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6340,12 +6506,12 @@ function __c49(j: number): any {
           messageID: S.String,
           partID: S.optional(S.String),
           snapshot: S.optional(S.String),
-          files: S.optional(__S(769, __c48, 1)),
+          files: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "SessionRevert" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6354,24 +6520,24 @@ function __c50(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           title: S.String,
           metadata: S.optional(S.Unknown),
-          fields: __S(816, __c51, 0),
+          fields: __S(832, __c52, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/form", code: 200 })),
       ).annotate({ identifier: "CreateSessionFormRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(832, __c52, 0),
+          data: __S(848, __c53, 0),
         }),
       ).annotate({ identifier: "CreateSessionFormResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,12 +6546,12 @@ function __c52(j: number): any {
           sessionID: S.String,
           title: S.String,
           metadata: S.optional(S.Unknown),
-          fields: __S(816, __c51, 0),
+          fields: __S(832, __c52, 0),
         }),
       ).annotate({ identifier: "FormInfo" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6396,7 +6562,7 @@ function __c53(j: number): any {
           resources: __S(608, __c38, 0),
           save: S.optional(__S(608, __c38, 0)),
           metadata: S.optional(S.Unknown),
-          source: S.optional(__S(864, __c54, 0)),
+          source: S.optional(__S(880, __c55, 0)),
           agent: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/permission", code: 200 })),
       ).annotate({ identifier: "CreateSessionPermissionRequest" });
@@ -6410,12 +6576,12 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(849, __c53, 1),
+          data: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "CreateSessionPermissionResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6427,12 +6593,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PermissionSource" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           command: S.String,
           cwd: S.optional(S.String),
           timeout: S.optional(S.Number),
@@ -6441,18 +6607,18 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateShellRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(913, __c57, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(929, __c58, 1),
         }),
       ).annotate({ identifier: "CreateShellResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6474,12 +6640,12 @@ function __c57(j: number): any {
           exit: S.optional(S.Number),
           signal: S.optional(S.String),
           metadata: S.Unknown,
-          time: __S(912, __c57, 0),
+          time: __S(928, __c58, 0),
         }),
       ).annotate({ identifier: "ShellInfo" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6493,7 +6659,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateWorktreeRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6516,22 +6682,22 @@ function __c59(j: number): any {
         S.Struct({
           path: S.String,
           pid: S.Number,
-          memory: __S(945, __c59, 1),
+          memory: __S(961, __c60, 1),
         }),
       ).annotate({ identifier: "DebugHeapDumpResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/debug/location", code: 200 })),
       ).annotate({ identifier: "DebugLocationEvictRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6542,12 +6708,12 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ForkSessionRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           query: S.String.pipe(T.Query()),
           type: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
@@ -6555,7 +6721,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "FsFindRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6565,17 +6731,17 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "FileSystemEntry" });
     case 1:
-      return S.Array(__S(1008, __c63, 0));
+      return S.Array(__S(1024, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1009, __c63, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1025, __c64, 1),
         }),
       ).annotate({ identifier: "FsFindResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6585,13 +6751,13 @@ function __c64(j: number): any {
       ).annotate({ identifier: "LocationPublicRef" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _tag: S.String,
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "LocationNotFoundErrorEncoded" });
@@ -6605,7 +6771,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ProjectNotFoundErrorEncoded" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6618,35 +6784,37 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.String,
+          tokens: __S(704, __c44, 0),
+          cost: S.Number,
         }),
       ).annotate({ identifier: "SessionGenerateResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1057, __c66, 1),
+          data: __S(1073, __c67, 1),
         }),
       ).annotate({ identifier: "SessionGenerateResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/agent/{agentID}", code: 200 })),
       ).annotate({ identifier: "GetAgentRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1121, __c70, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1137, __c71, 1),
         }),
       ).annotate({ identifier: "GetAgentResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6657,9 +6825,17 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ProviderCache" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cert: S.String,
+          key: S.String,
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ProviderTls" });
+    case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -6667,21 +6843,22 @@ function __c69(j: number): any {
             headerTimeout: S.optional(S.Unknown),
             chunkTimeout: S.optional(S.Unknown),
             compaction: S.optional(S.Unknown),
-            cache: S.optional(__S(1088, __c68, 0)),
+            cache: S.optional(__S(1104, __c69, 0)),
             transport: S.optional(S.String),
             encoding: S.optional(S.String),
+            tls: S.optional(__S(1120, __c70, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ProviderSettings" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          settings: __S(1104, __c69, 0),
+          settings: __S(1121, __c70, 1),
           headers: __S(624, __c39, 0),
           body: S.Unknown,
         }),
@@ -6691,33 +6868,18 @@ function __c70(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          model: S.optional(__S(688, __c43, 0)),
-          request: __S(1120, __c70, 0),
+          model: S.optional(__S(720, __c45, 0)),
+          request: __S(1136, __c71, 0),
           system: S.optional(S.String),
+          instructions: S.optional(S.Unknown),
           description: S.optional(S.String),
           mode: S.String,
           hidden: S.Boolean,
           color: S.optional(S.String),
           steps: S.optional(S.Number),
-          permissions: __S(705, __c44, 1),
+          permissions: __S(737, __c46, 1),
         }),
       ).annotate({ identifier: "AgentInfo" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/config", code: 200 })),
-      ).annotate({ identifier: "GetConfigRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() => __S(1137, __c71, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetConfigResponse",
-      });
   }
 }
 function __c72(j: number): any {
@@ -6725,20 +6887,36 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/config", code: 200 })),
+      ).annotate({ identifier: "GetConfigRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() => __S(1153, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetConfigResponse",
+      });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/integration/{integrationID}", code: 200 })),
       ).annotate({ identifier: "GetIntegrationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1170, __c73, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1186, __c74, 2),
         }),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -6750,18 +6928,18 @@ function __c73(j: number): any {
           id: S.String,
           name: S.String,
           metadata: S.optional(S.Unknown),
-          methods: __S(1168, __c73, 0),
-          connections: __S(1169, __c73, 1),
+          methods: __S(1184, __c74, 0),
+          connections: __S(1185, __c74, 1),
         }),
       ).annotate({ identifier: "IntegrationInfo" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/location", code: 200 })),
       ).annotate({ identifier: "GetLocationRequest" });
     case 1:
@@ -6776,30 +6954,30 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           directory: S.String,
-          project: __S(1185, __c74, 1),
+          project: __S(1201, __c75, 1),
         }),
       ).annotate({ identifier: "LocationPublicInfo" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           providerID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/provider/{providerID}", code: 200 })),
       ).annotate({ identifier: "GetProviderRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1217, __c76, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1233, __c77, 1),
         }),
       ).annotate({ identifier: "GetProviderResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6824,26 +7002,26 @@ function __c76(j: number): any {
           name: S.String,
           activation: S.String,
           package: S.String,
-          compatibility: S.optional(__S(1216, __c76, 0)),
-          settings: S.optional(__S(1104, __c69, 0)),
+          compatibility: S.optional(__S(1232, __c77, 0)),
+          settings: S.optional(__S(1121, __c70, 1)),
           headers: S.optional(__S(624, __c39, 0)),
           body: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ProviderInfo" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}", code: 200 })),
       ).annotate({ identifier: "GetPtyRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6853,7 +7031,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6871,19 +7049,19 @@ function __c79(j: number): any {
           sessionID: S.String,
           title: S.String,
           metadata: S.optional(S.Unknown),
-          fields: __S(816, __c51, 0),
+          fields: __S(832, __c52, 0),
           state: S.Unknown,
         }),
       ).annotate({ identifier: "FormDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1265, __c79, 1),
+          data: __S(1281, __c80, 1),
         }),
       ).annotate({ identifier: "GetSessionFormResponse" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6902,7 +7080,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetSessionMessageResponse" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6914,13 +7092,13 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ActivateCredentialRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateCredentialResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6938,12 +7116,12 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1344, __c84, 0),
+          data: __S(1360, __c85, 0),
         }),
       ).annotate({ identifier: "GetSessionPermissionResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6954,21 +7132,10 @@ function __c84(j: number): any {
           resources: __S(608, __c38, 0),
           save: S.optional(__S(608, __c38, 0)),
           metadata: S.optional(S.Unknown),
-          source: S.optional(__S(864, __c54, 0)),
+          source: S.optional(__S(880, __c55, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PermissionRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}", code: 200 })),
-      ).annotate({ identifier: "GetShellRequest" });
   }
 }
 function __c86(j: number): any {
@@ -6976,7 +7143,18 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          id: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}", code: 200 })),
+      ).annotate({ identifier: "GetShellRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/vcs", code: 200 })),
       ).annotate({ identifier: "GetVcsRequest" });
     case 1:
@@ -6990,26 +7168,26 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provider: S.optional(S.String),
-          branch: __S(1377, __c86, 1),
+          branch: __S(1393, __c87, 1),
         }),
       ).annotate({ identifier: "VcsInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1378, __c86, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1394, __c87, 2),
         }),
       ).annotate({ identifier: "GetVcsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7021,19 +7199,19 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: S.Unknown,
         }),
       ).annotate({ identifier: "IntegrationCommandStatusResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           methodID: S.String,
           answer: S.optional(S.NullOr(__S(496, __c31, 0))),
           label: S.optional(S.NullOr(S.String)),
@@ -7047,13 +7225,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "IntegrationConnectExternalRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           key: S.String,
           answer: S.optional(S.NullOr(__S(496, __c31, 0))),
           label: S.optional(S.NullOr(S.String)),
@@ -7067,14 +7245,14 @@ function __c89(j: number): any {
       ).annotate({ identifier: "IntegrationConnectKeyRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7086,29 +7264,10 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: S.Unknown,
         }),
       ).annotate({ identifier: "IntegrationOauthStatusResponse" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
-      ).annotate({ identifier: "ListAgentRequest" });
-    case 1:
-      return S.Array(__S(1121, __c70, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1457, __c91, 1),
-        }),
-      ).annotate({ identifier: "ListAgentResponse" });
   }
 }
 function __c92(j: number): any {
@@ -7116,7 +7275,26 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
+      ).annotate({ identifier: "ListAgentRequest" });
+    case 1:
+      return S.Array(__S(1137, __c71, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1473, __c92, 1),
+        }),
+      ).annotate({ identifier: "ListAgentResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
       ).annotate({ identifier: "ListCommandRequest" });
     case 1:
@@ -7127,17 +7305,17 @@ function __c92(j: number): any {
         }),
       ).annotate({ identifier: "CommandInfo" });
     case 2:
-      return S.Array(__S(1473, __c92, 1));
+      return S.Array(__S(1489, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1474, __c92, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1490, __c93, 2),
         }),
       ).annotate({ identifier: "ListCommandResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7148,19 +7326,19 @@ function __c93(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1489, __c93, 1),
+          data: __S(1505, __c94, 1),
         }),
       ).annotate({ identifier: "ListCredentialResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7171,7 +7349,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CancelIntegrationCommandRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7181,52 +7359,41 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CancelIntegrationCommandRequestLocation" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/debug/location", code: 200 })),
       ).annotate({ identifier: "ListDebugLocationRequest" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
-      return S.suspend(() => __S(1537, __c96, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1553, __c97, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDebugLocationResponse",
       });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/form", code: 200 })),
-      ).annotate({ identifier: "ListFormRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1568, __c98, 0),
-        }),
-      ).annotate({ identifier: "ListFormResponse" });
   }
 }
 function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c52, 0));
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/form", code: 200 })),
+      ).annotate({ identifier: "ListFormRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1584, __c99, 0),
+        }),
+      ).annotate({ identifier: "ListFormResponse" });
   }
 }
 function __c99(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
-      ).annotate({ identifier: "ListFsRequest" });
+      return S.Array(__S(848, __c53, 0));
   }
 }
 function __c100(j: number): any {
@@ -7234,18 +7401,10 @@ function __c100(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
-      ).annotate({ identifier: "ListIntegrationRequest" });
-    case 1:
-      return S.Array(__S(1170, __c73, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1601, __c100, 1),
-        }),
-      ).annotate({ identifier: "ListIntegrationResponse" });
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
+      ).annotate({ identifier: "ListFsRequest" });
   }
 }
 function __c101(j: number): any {
@@ -7253,7 +7412,26 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
+      ).annotate({ identifier: "ListIntegrationRequest" });
+    case 1:
+      return S.Array(__S(1186, __c74, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1617, __c101, 1),
+        }),
+      ).annotate({ identifier: "ListIntegrationResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/mcp", code: 200 })),
       ).annotate({ identifier: "ListMcpRequest" });
     case 1:
@@ -7266,37 +7444,37 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "McpServer" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1618, __c101, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1634, __c102, 2),
         }),
       ).annotate({ identifier: "ListMcpResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           types: S.optional(S.Unknown.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/model", code: 200 })),
       ).annotate({ identifier: "ListModelRequest" });
     case 1:
-      return S.Array(__S(1659, __c103, 11));
+      return S.Array(__S(1678, __c104, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1633, __c102, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1649, __c103, 1),
         }),
       ).annotate({ identifier: "ListModelResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7319,13 +7497,15 @@ function __c103(j: number): any {
         S.StructWithRest(
           S.Struct({
             compaction: S.optional(S.Unknown),
-            cache: S.optional(__S(1088, __c68, 0)),
+            cache: S.optional(__S(1104, __c69, 0)),
             encoding: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConfigModelSettings" });
     case 2:
+      return S.Array(S.String);
+    case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -7335,51 +7515,66 @@ function __c103(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConfigModelVariantSettings" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          settings: S.optional(__S(1650, __c103, 2)),
+          settings: S.optional(__S(1667, __c104, 3)),
           headers: S.optional(__S(624, __c39, 0)),
           body: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ConfigModelEncodedVariantsItem" });
-    case 4:
-      return S.Array(__S(1651, __c103, 3));
     case 5:
+      return S.Array(__S(1668, __c104, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           size: S.Number,
         }),
       ).annotate({ identifier: "ConfigModelCostEncodedTier" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           tools: S.Boolean,
+          freeform: S.optional(__S(1666, __c104, 2)),
           input: __S(608, __c38, 0),
           output: __S(608, __c38, 0),
           temperature: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModelCapabilities" });
-    case 7:
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          base: S.String,
+          id: S.String,
+          faster: S.Boolean,
+        }),
+      ).annotate({ identifier: "ModelSpeed" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          speed: S.optional(__S(1672, __c104, 8)),
+        }),
+      ).annotate({ identifier: "ModelInfoExperimental" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           released: S.Number,
         }),
       ).annotate({ identifier: "ModelInfoTime" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          tier: S.optional(__S(1653, __c103, 5)),
+          tier: S.optional(__S(1670, __c104, 6)),
           input: S.Number,
           output: S.Number,
-          cache: __S(736, __c46, 0),
+          cache: __S(688, __c43, 0),
         }),
       ).annotate({ identifier: "ModelCost" });
-    case 9:
-      return S.Array(__S(1656, __c103, 8));
-    case 10:
+    case 12:
+      return S.Array(__S(1675, __c104, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           context: S.Number,
@@ -7387,7 +7582,7 @@ function __c103(j: number): any {
           output: S.Number,
         }),
       ).annotate({ identifier: "ModelInfoLimit" });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7397,46 +7592,47 @@ function __c103(j: number): any {
           type: S.optional(S.Unknown),
           family: S.optional(S.String),
           name: S.String,
-          compatibility: S.optional(__S(1648, __c103, 0)),
+          compatibility: S.optional(__S(1664, __c104, 0)),
           package: S.optional(S.String),
-          settings: S.optional(__S(1649, __c103, 1)),
+          settings: S.optional(__S(1665, __c104, 1)),
           headers: S.optional(__S(624, __c39, 0)),
           body: S.optional(S.Unknown),
-          capabilities: __S(1654, __c103, 6),
-          variants: __S(1652, __c103, 4),
-          time: __S(1655, __c103, 7),
-          cost: __S(1657, __c103, 9),
+          capabilities: __S(1671, __c104, 7),
+          variants: __S(1669, __c104, 5),
+          experimental: S.optional(__S(1673, __c104, 9)),
+          time: __S(1674, __c104, 10),
+          cost: __S(1676, __c104, 12),
           status: S.String,
           enabled: S.Boolean,
-          limit: __S(1658, __c103, 10),
+          limit: __S(1677, __c104, 13),
         }),
       ).annotate({ identifier: "ModelInfo" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/permission/request", code: 200 })),
-      ).annotate({ identifier: "ListPermissionRequestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1680, __c105, 0),
-        }),
-      ).annotate({ identifier: "ListPermissionRequestResponse" });
   }
 }
 function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1344, __c84, 0));
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/permission/request", code: 200 })),
+      ).annotate({ identifier: "ListPermissionRequestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1696, __c106, 0),
+        }),
+      ).annotate({ identifier: "ListPermissionRequestResponse" });
   }
 }
 function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1360, __c85, 0));
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7445,16 +7641,16 @@ function __c106(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/permission/saved", code: 200 })),
       ).annotate({ identifier: "ListPermissionSavedRequest" });
     case 1:
-      return S.Array(__S(1713, __c107, 1));
+      return S.Array(__S(1729, __c108, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1697, __c106, 1),
+          data: __S(1713, __c107, 1),
         }),
       ).annotate({ identifier: "ListPermissionSavedResponse" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7470,22 +7666,22 @@ function __c107(j: number): any {
           projectID: S.String,
           action: S.String,
           resource: S.String,
-          time: __S(1712, __c107, 0),
+          time: __S(1728, __c108, 0),
         }),
       ).annotate({ identifier: "PermissionSavedInfo" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/plugin", code: 200 })),
       ).annotate({ identifier: "ListPluginRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7494,14 +7690,14 @@ function __c109(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/project", code: 200 })),
       ).annotate({ identifier: "ListProjectRequest" });
     case 1:
-      return S.Array(__S(1763, __c110, 3));
+      return S.Array(__S(1779, __c111, 3));
     case 2:
-      return S.suspend(() => __S(1745, __c109, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1761, __c110, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectResponse",
       });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7533,22 +7729,22 @@ function __c110(j: number): any {
           canonical: S.String,
           vcs: S.optional(S.String),
           name: S.optional(S.String),
-          icon: S.optional(__S(1760, __c110, 0)),
-          commands: S.optional(__S(1761, __c110, 1)),
-          time: __S(1762, __c110, 2),
+          icon: S.optional(__S(1776, __c111, 0)),
+          commands: S.optional(__S(1777, __c111, 1)),
+          time: __S(1778, __c111, 2),
           sandboxes: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7559,42 +7755,23 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CancelIntegrationOauthRequest" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/provider", code: 200 })),
-      ).annotate({ identifier: "ListProviderRequest" });
-    case 1:
-      return S.Array(__S(1217, __c76, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1793, __c112, 1),
-        }),
-      ).annotate({ identifier: "ListProviderResponse" });
-  }
-}
 function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/pty", code: 200 })),
-      ).annotate({ identifier: "ListPtyRequest" });
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/provider", code: 200 })),
+      ).annotate({ identifier: "ListProviderRequest" });
     case 1:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(1233, __c77, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(1809, __c113, 1),
         }),
-      ).annotate({ identifier: "ListPtyResponse" });
+      ).annotate({ identifier: "ListProviderResponse" });
   }
 }
 function __c114(j: number): any {
@@ -7602,7 +7779,26 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/pty", code: 200 })),
+      ).annotate({ identifier: "ListPtyRequest" });
+    case 1:
+      return S.Array(__S(656, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1825, __c114, 1),
+        }),
+      ).annotate({ identifier: "ListPtyResponse" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
       ).annotate({ identifier: "ListReferenceRequest" });
     case 1:
@@ -7616,17 +7812,17 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "ReferenceInfo" });
     case 2:
-      return S.Array(__S(1825, __c114, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1826, __c114, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1842, __c115, 2),
         }),
       ).annotate({ identifier: "ListReferenceResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7643,17 +7839,17 @@ function __c115(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/session", code: 200 })),
       ).annotate({ identifier: "ListSessionRequest" });
     case 1:
-      return S.Array(__S(755, __c47, 3));
+      return S.Array(__S(770, __c48, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1841, __c115, 1),
-          cursor: __S(1856, __c116, 0),
+          data: __S(1857, __c116, 1),
+          cursor: __S(1872, __c117, 0),
         }),
       ).annotate({ identifier: "SessionsResponse" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7664,7 +7860,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "SessionsResponseCursor" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7675,12 +7871,12 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1568, __c98, 0),
+          data: __S(1584, __c99, 0),
         }),
       ).annotate({ identifier: "ListSessionFormResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7693,12 +7889,12 @@ function __c118(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1889, __c118, 1),
+          data: __S(1905, __c119, 1),
         }),
       ).annotate({ identifier: "ListSessionInboxResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7713,19 +7909,19 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1920, __c120, 0),
-          cursor: __S(1856, __c116, 0),
+          data: __S(1936, __c121, 0),
+          cursor: __S(1872, __c117, 0),
         }),
       ).annotate({ identifier: "SessionMessagesResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7736,28 +7932,9 @@ function __c121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1680, __c105, 0),
+          data: __S(1696, __c106, 0),
         }),
       ).annotate({ identifier: "ListSessionPermissionResponse" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/shell", code: 200 })),
-      ).annotate({ identifier: "ListShellRequest" });
-    case 1:
-      return S.Array(__S(913, __c57, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1953, __c122, 1),
-        }),
-      ).annotate({ identifier: "ListShellResponse" });
   }
 }
 function __c123(j: number): any {
@@ -7765,7 +7942,26 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/shell", code: 200 })),
+      ).annotate({ identifier: "ListShellRequest" });
+    case 1:
+      return S.Array(__S(929, __c58, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1969, __c123, 1),
+        }),
+      ).annotate({ identifier: "ListShellResponse" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/skill", code: 200 })),
       ).annotate({ identifier: "ListSkillRequest" });
     case 1:
@@ -7780,17 +7976,17 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "SkillInfo" });
     case 2:
-      return S.Array(__S(1969, __c123, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(1970, __c123, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1986, __c124, 2),
         }),
       ).annotate({ identifier: "ListSkillResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7804,12 +8000,12 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CancelSessionFormRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/vcs/branch", code: 200 })),
@@ -7817,13 +8013,13 @@ function __c125(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
+          location: __S(1040, __c65, 0),
           data: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "ListVcsBranchResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7839,14 +8035,14 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "WorktreeDirectory" });
     case 2:
-      return S.Array(__S(2017, __c126, 1));
+      return S.Array(__S(2033, __c127, 1));
     case 3:
-      return S.suspend(() => __S(2018, __c126, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2034, __c127, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWorktreeResponse",
       });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7854,12 +8050,12 @@ function __c127(j: number): any {
       ).annotate({ identifier: "LocationReloadRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/mcp/resource", code: 200 })),
       ).annotate({ identifier: "McpResourceCatalogRequest" });
     case 1:
@@ -7873,7 +8069,7 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "McpResource" });
     case 2:
-      return S.Array(__S(2049, __c128, 1));
+      return S.Array(__S(2065, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7885,41 +8081,41 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "McpResourceTemplate" });
     case 4:
-      return S.Array(__S(2051, __c128, 3));
+      return S.Array(__S(2067, __c129, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(2050, __c128, 2),
-          templates: __S(2052, __c128, 4),
+          resources: __S(2066, __c129, 2),
+          templates: __S(2068, __c129, 4),
         }),
       ).annotate({ identifier: "McpResourceCatalog" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(2053, __c128, 5),
+          location: __S(1040, __c65, 0),
+          data: __S(2069, __c129, 5),
         }),
       ).annotate({ identifier: "McpResourceCatalogResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/model/default", code: 200 })),
       ).annotate({ identifier: "ModelDefaultRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: S.NullOr(__S(1659, __c103, 11)),
+          location: __S(1040, __c65, 0),
+          data: S.NullOr(__S(1678, __c104, 14)),
         }),
       ).annotate({ identifier: "ModelDefaultResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7931,12 +8127,12 @@ function __c130(j: number): any {
       ).annotate({ identifier: "MoveSessionRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           id: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/api/plugin/gui", code: 200 })),
       ).annotate({ identifier: "PluginGuiRequest" });
@@ -7951,19 +8147,19 @@ function __c131(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(2097, __c131, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(2113, __c132, 1),
         }),
       ).annotate({ identifier: "PluginGuiResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/api/pty/{ptyID}/connect-token", code: 200 })),
       ).annotate({ identifier: "PtyConnectTokenRequest" });
     case 1:
@@ -7976,23 +8172,23 @@ function __c132(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(2113, __c132, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(2129, __c133, 1),
         }),
       ).annotate({ identifier: "PtyConnectTokenResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/fs/read/*", code: 200 })),
       ).annotate({ identifier: "ReadFsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8002,7 +8198,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "RefreshWorktreeRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8015,7 +8211,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CancelSessionInboxRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8025,7 +8221,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "RemoveCredentialRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8035,18 +8231,18 @@ function __c137(j: number): any {
       ).annotate({ identifier: "RemovePermissionSavedRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/pty/{ptyID}", code: 200 })),
       ).annotate({ identifier: "RemovePtyRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8056,18 +8252,18 @@ function __c139(j: number): any {
       ).annotate({ identifier: "RemoveSessionRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/shell/{id}", code: 200 })),
       ).annotate({ identifier: "RemoveShellRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8079,7 +8275,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "RemoveWorktreeRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8097,7 +8293,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ReplySessionFormRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8116,14 +8312,14 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ReplySessionPermissionRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           rpcID: S.String.pipe(T.Label()),
           method: S.String.pipe(T.Label()),
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           input: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/api/rpc/{rpcID}/{method}", code: 200 })),
       ).annotate({ identifier: "RpcCallRequest" });
@@ -8135,7 +8331,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "RpcOutput" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8160,24 +8356,24 @@ function __c145(j: number): any {
           pid: S.Number,
           hostname: S.optional(S.NullOr(S.String)),
           urls: __S(608, __c38, 0),
-          paths: __S(2321, __c145, 1),
-          capabilities: S.optional(S.NullOr(__S(2322, __c145, 2))),
+          paths: __S(2337, __c146, 1),
+          capabilities: S.optional(S.NullOr(__S(2338, __c146, 2))),
         }),
       ).annotate({ identifier: "ServerInfo" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1520, __c95, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           target: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/plugin/check", code: 200 })),
       ).annotate({ identifier: "CheckPluginRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8193,22 +8389,22 @@ function __c147(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           source: S.Unknown,
-          features: __S(2352, __c147, 0),
+          features: __S(2368, __c148, 0),
           state: S.Unknown,
         }),
       ).annotate({ identifier: "PluginInfo" });
     case 2:
-      return S.Array(__S(2353, __c147, 1));
+      return S.Array(__S(2369, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(1024, __c64, 0),
-          data: __S(2354, __c147, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(2370, __c148, 2),
         }),
       ).annotate({ identifier: "CheckPluginResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8223,7 +8419,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "PairingCode" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8237,7 +8433,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "SessionActiveResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8247,7 +8443,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "SessionBackgroundRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8255,15 +8451,15 @@ function __c151(j: number): any {
           sessionID: S.String.pipe(T.Label()),
           name: S.String,
           text: S.String,
-          files: S.optional(__S(2436, __c152, 4)),
-          agents: S.optional(__S(2434, __c152, 2)),
-          skills: S.optional(__S(2438, __c152, 6)),
+          files: S.optional(__S(2452, __c153, 4)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2454, __c153, 6)),
           delivery: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/command", code: 200 })),
       ).annotate({ identifier: "SessionCommandRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8277,11 +8473,11 @@ function __c152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          mention: S.optional(__S(2432, __c152, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptAgentAttachment" });
     case 2:
-      return S.Array(__S(2433, __c152, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8289,23 +8485,23 @@ function __c152(j: number): any {
           source: S.optional(S.Unknown),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          mention: S.optional(__S(2432, __c152, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptInputFileAttachment" });
     case 4:
-      return S.Array(__S(2435, __c152, 3));
+      return S.Array(__S(2451, __c153, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          mention: S.optional(__S(2432, __c152, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptInputSkillAttachment" });
     case 6:
-      return S.Array(__S(2437, __c152, 5));
+      return S.Array(__S(2453, __c153, 5));
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8316,12 +8512,12 @@ function __c153(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1920, __c120, 0),
+          data: __S(1936, __c121, 0),
         }),
       ).annotate({ identifier: "SessionContextResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8335,12 +8531,12 @@ function __c154(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(769, __c48, 1),
+          data: __S(785, __c49, 1),
         }),
       ).annotate({ identifier: "SessionDiffResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8351,7 +8547,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "SessionEnvironmentRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8368,7 +8564,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "SessionInterruptResponse" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8378,29 +8574,29 @@ function __c157(j: number): any {
           source: S.Unknown,
           name: S.optional(S.String),
           description: S.optional(S.String),
-          mention: S.optional(__S(2432, __c152, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptFileAttachment" });
     case 1:
-      return S.Array(__S(2512, __c157, 0));
+      return S.Array(__S(2528, __c158, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           text: S.optional(S.String),
-          mention: S.optional(__S(2432, __c152, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptSkillAttachment" });
     case 3:
-      return S.Array(__S(2514, __c157, 2));
+      return S.Array(__S(2530, __c158, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           text: S.String,
-          files: S.optional(__S(2513, __c157, 1)),
-          agents: S.optional(__S(2434, __c152, 2)),
-          skills: S.optional(__S(2515, __c157, 3)),
+          files: S.optional(__S(2529, __c158, 1)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2531, __c158, 3)),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SessionInboxUserPayload" });
@@ -8411,7 +8607,7 @@ function __c157(j: number): any {
           sessionID: S.String,
           time: __S(416, __c26, 0),
           type: S.String,
-          payload: __S(2516, __c157, 4),
+          payload: __S(2532, __c158, 4),
           delivery: S.String,
         }),
       ).annotate({ identifier: "SessionInboxUser" });
@@ -8421,9 +8617,9 @@ function __c157(j: number): any {
           sessionID: S.String.pipe(T.Label()),
           id: S.optional(S.NullOr(S.String)),
           text: S.String,
-          files: S.optional(__S(2436, __c152, 4)),
-          agents: S.optional(__S(2434, __c152, 2)),
-          skills: S.optional(__S(2438, __c152, 6)),
+          files: S.optional(__S(2452, __c153, 4)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2454, __c153, 6)),
           metadata: S.optional(S.Unknown),
           delivery: S.optional(S.NullOr(S.String)),
           resume: S.optional(S.NullOr(S.Boolean)),
@@ -8432,12 +8628,12 @@ function __c157(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2517, __c157, 5),
+          data: __S(2533, __c158, 5),
         }),
       ).annotate({ identifier: "SessionPromptResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8452,7 +8648,7 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(784, __c49, 0),
+          data: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "SessionRevertStageResponse" });
   }

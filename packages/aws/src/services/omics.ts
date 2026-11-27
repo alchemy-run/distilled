@@ -847,6 +847,7 @@ export interface DefaultRunSetting {
   sessionPolicy?: string | undefined;
   engineSettings?: any | undefined;
   scratchStorageMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
 }
 export interface SubmissionSummary {
   successfulStartSubmissionCount?: number | undefined;
@@ -1152,6 +1153,7 @@ export interface ConfigurationDetails {
   uuid?: string | undefined;
 }
 export type RunOutputUriPrefixMode = string;
+export type RunParametersUriOrPresignedUrl = string;
 export interface GetRunResponse {
   arn?: string | undefined;
   id?: string | undefined;
@@ -1197,6 +1199,8 @@ export interface GetRunResponse {
   engineSettings?: any | undefined;
   sessionPolicy?: string | undefined;
   outputUriPrefixMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
+  parametersUri?: string | undefined;
 }
 export interface GetRunCacheRequest {
   id: string;
@@ -2202,6 +2206,7 @@ export interface StartReferenceImportJobResponse {
   creationTime: Date;
 }
 export type RunRequestId = string;
+export type RunParametersUri = string;
 export interface StartRunRequest {
   workflowId?: string | undefined;
   workflowType?: string | undefined;
@@ -2228,6 +2233,8 @@ export interface StartRunRequest {
   sessionPolicy?: string | undefined;
   engineSettings?: any | undefined;
   outputUriPrefixMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
+  parametersUri?: string | undefined;
 }
 export interface StartRunResponse {
   arn?: string | undefined;
@@ -7033,6 +7040,8 @@ function __c5(j: number): any {
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
           outputUriPrefixMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
+          parametersUri: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/run" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartRunRequest" });
     case 1:
@@ -8630,6 +8639,7 @@ function __c78(j: number): any {
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
           scratchStorageMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DefaultRunSetting" });
   }
@@ -9100,6 +9110,8 @@ function __c93(j: number): any {
           engineSettings: S.optional(S.Any),
           sessionPolicy: S.optional(S.String),
           outputUriPrefixMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
+          parametersUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }

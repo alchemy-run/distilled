@@ -70,8 +70,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Column mask type (read only) */
-export type CreateColumnMaskRequestColumnMaskType =
+export type ColumnMaskType =
   | "Any"
   | "Integer"
   | "Boolean"
@@ -93,25 +92,10 @@ export interface CreateColumnMaskRequest {
   /** Column mask expression (read only) */
   expression: string;
   /** Column mask type (read only) */
-  columnMaskType: CreateColumnMaskRequestColumnMaskType | (string & {});
+  columnMaskType: ColumnMaskType | (string & {});
   /** Description (read only) */
   description: string;
 }
-/** Column Mask type (read only) */
-export type ColumnMaskColumnMaskType =
-  | "Any"
-  | "Integer"
-  | "Boolean"
-  | "Date"
-  | "Decimal"
-  | "Real"
-  | "Double"
-  | "Timestamp"
-  | "TimestampWithTimeZone"
-  | "Time"
-  | "TimeWithTimeZone"
-  | "Varbinary"
-  | "Varchar";
 /** A column mask */
 export interface ColumnMask {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -123,7 +107,7 @@ export interface ColumnMask {
   /** Column Mask expression (read only) */
   expression: string;
   /** Column Mask type (read only) */
-  columnMaskType: ColumnMaskColumnMaskType;
+  columnMaskType: ColumnMaskType;
   /** Description (read only) */
   description: string;
   /** Created on (read only) */
@@ -156,21 +140,6 @@ export interface PaginatedColumnMask {
   /** A page of results. */
   result: PaginatedColumnMaskResultList;
 }
-/** Column mask type */
-export type UpdateColumnMaskRequestColumnMaskType =
-  | "Any"
-  | "Integer"
-  | "Boolean"
-  | "Date"
-  | "Decimal"
-  | "Real"
-  | "Double"
-  | "Timestamp"
-  | "TimestampWithTimeZone"
-  | "Time"
-  | "TimeWithTimeZone"
-  | "Varbinary"
-  | "Varchar";
 export interface UpdateColumnMaskRequest {
   /** - A column mask - This parameter can be looked up using `name` instead of its Id. Use `name=value` instead of an Id to lookup/search using the `value`. `value` must be encoded ([see RFC](https://www.rfc-editor.org/rfc/rfc3986#section-2.2) including `=`) */
   columnMaskId: string;
@@ -181,7 +150,7 @@ export interface UpdateColumnMaskRequest {
   /** Column mask expression */
   expression?: string | undefined;
   /** Column mask type */
-  columnMaskType?: UpdateColumnMaskRequestColumnMaskType | (string & {}) | undefined;
+  columnMaskType?: ColumnMaskType | (string & {}) | undefined;
   /** Description */
   description?: string | undefined;
 }

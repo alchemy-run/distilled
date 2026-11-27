@@ -1630,7 +1630,7 @@ export const getOrganizationUsage: API.OperationMethod<
 }));
 
 export type InvalidateDatabaseTokensError = NotFound | TursoOpError;
-/** Invalidate All Database Auth Tokens Invalidates all authorization tokens for the specified database. */
+/** Invalidate All Database Auth Tokens Invalidates all database-scoped authorization tokens for the specified database. On AWS, only tokens for this database are invalidated; group tokens and tokens for other databases in the group are not affected. */
 export const invalidateDatabaseTokens: API.OperationMethod<
   InvalidateDatabaseTokensRequest,
   InvalidateDatabaseTokensResponse,
@@ -1648,7 +1648,7 @@ export const invalidateDatabaseTokens: API.OperationMethod<
 }));
 
 export type InvalidateGroupTokensError = NotFound | TursoOpError;
-/** Invalidate All Group Auth Tokens Invalidates all authorization tokens for the specified group. */
+/** Invalidate All Group Auth Tokens Invalidates all group authorization tokens for the specified group. On AWS, database-scoped tokens are not invalidated; invalidate them per database. */
 export const invalidateGroupTokens: API.OperationMethod<
   InvalidateGroupTokensRequest,
   InvalidateGroupTokensResponse,

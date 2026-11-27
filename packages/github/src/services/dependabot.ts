@@ -1508,7 +1508,7 @@ export const removeSelectedRepoFromOrgSecret: API.OperationMethod<
 }));
 
 export type RepositoryAccessForEnterpriseError = GithubOpError;
-/** Lists the repositories Dependabot can access in an enterprise Lists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise. The authenticated user must be an enterprise owner to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
+/** Lists the repositories Dependabot can access in an enterprise Lists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise. The authenticated user must be an enterprise owner to use this endpoint. */
 export const repositoryAccessForEnterprise: API.PaginatedOperationMethod<
   RepositoryAccessForEnterpriseRequest,
   DependabotRepositoryAccessDetails,
@@ -1582,7 +1582,7 @@ export const setRepositoryAccessDefaultLevel: API.OperationMethod<
 }));
 
 export type SetRepositoryAccessDefaultLevelForEnterpriseError = GithubOpError;
-/** Set the default repository access level for Dependabot in an enterprise Sets the default level of repository access Dependabot will have while performing an update across organizations in the enterprise. Available values are: - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories. - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories. The authenticated user must be an enterprise owner to use this endpoint. > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
+/** Set the default repository access level for Dependabot in an enterprise Sets the default level of repository access Dependabot will have while performing an update across organizations in the enterprise. Available values are: - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories. - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories. The authenticated user must be an enterprise owner to use this endpoint. */
 export const setRepositoryAccessDefaultLevelForEnterprise: API.OperationMethod<
   SetRepositoryAccessDefaultLevelForEnterpriseRequest,
   SetRepositoryAccessDefaultLevelForEnterpriseResponse,
@@ -1654,7 +1654,7 @@ export const updateAlert: API.OperationMethod<
 }));
 
 export type UpdateRepositoryAccessForEnterpriseError = GithubOpError;
-/** Updates Dependabot's repository access list for an enterprise Updates repositories according to the list of repositories that enterprise admins have given Dependabot access to when they've updated dependencies across organizations in the enterprise. The authenticated user must be an enterprise owner to use this endpoint. **Example request body:** ```json { "repository_ids_to_add": [123, 456], "repository_ids_to_remove": [789] } ``` > [!NOTE] > The "Enterprise administration" fine-grained permission is not available to callers. To use this API, you must use an OAuth app token or a personal access token (classic). */
+/** Updates Dependabot's repository access list for an enterprise Updates repositories according to the list of repositories that enterprise admins have given Dependabot access to when they've updated dependencies across organizations in the enterprise. The authenticated user must be an enterprise owner to use this endpoint. **Example request body:** ```json { "repository_ids_to_add": [123, 456], "repository_ids_to_remove": [789] } ``` */
 export const updateRepositoryAccessForEnterprise: API.OperationMethod<
   UpdateRepositoryAccessForEnterpriseRequest,
   UpdateRepositoryAccessForEnterpriseResponse,

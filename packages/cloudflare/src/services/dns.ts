@@ -4745,9 +4745,103 @@ export interface EnableZoneTransferOutgoingRequest {
   zoneId: string;
 }
 export type EnableZoneTransferOutgoingResponse = string;
+export interface RecordsExportRequestComment {
+  /** If this parameter is present, only records *without* a comment are returned. */
+  absent?: string | undefined;
+  /** Substring of the DNS record comment. Comment filters are case-insensitive. */
+  contains?: string | undefined;
+  /** Suffix of the DNS record comment. Comment filters are case-insensitive. */
+  endswith?: string | undefined;
+  /** Exact value of the DNS record comment. Comment filters are case-insensitive. */
+  exact?: string | undefined;
+  /** If this parameter is present, only records *with* a comment are returned. */
+  present?: string | undefined;
+  /** Prefix of the DNS record comment. Comment filters are case-insensitive. */
+  startswith?: string | undefined;
+}
+export interface RecordsExportRequestContent {
+  /** Substring of the DNS record content. Content filters are case-insensitive. */
+  contains?: string | undefined;
+  /** Suffix of the DNS record content. Content filters are case-insensitive. */
+  endswith?: string | undefined;
+  /** Exact value of the DNS record content. Content filters are case-insensitive. */
+  exact?: string | undefined;
+  /** Prefix of the DNS record content. Content filters are case-insensitive. */
+  startswith?: string | undefined;
+}
+export type RecordsExportRequestMatch = "any" | "all";
+export interface RecordsExportRequestName {
+  /** Substring of the DNS record name. Name filters are case-insensitive. */
+  contains?: string | undefined;
+  /** Suffix of the DNS record name. Name filters are case-insensitive. */
+  endswith?: string | undefined;
+  /** Exact value of the DNS record name. Name filters are case-insensitive. */
+  exact?: string | undefined;
+  /** Prefix of the DNS record name. Name filters are case-insensitive. */
+  startswith?: string | undefined;
+}
+export interface RecordsExportRequestTag {
+  /** Name of a tag which must *not* be present on the DNS record. Tag filters are case-insensitive. */
+  absent?: string | undefined;
+  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value contains `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
+  contains?: string | undefined;
+  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value ends with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
+  endswith?: string | undefined;
+  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value is `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
+  exact?: string | undefined;
+  /** Name of a tag which must be present on the DNS record. Tag filters are case-insensitive. */
+  present?: string | undefined;
+  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value starts with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
+  startswith?: string | undefined;
+}
+export type RecordsExportRequestTagMatch = "any" | "all";
+export type RecordsExportRequestType =
+  | "A"
+  | "AAAA"
+  | "CAA"
+  | "CERT"
+  | "CNAME"
+  | "DNSKEY"
+  | "DS"
+  | "HTTPS"
+  | "LOC"
+  | "MX"
+  | "NAPTR"
+  | "NS"
+  | "OPENPGPKEY"
+  | "PTR"
+  | "SMIMEA"
+  | "SRV"
+  | "SSHFP"
+  | "SVCB"
+  | "TLSA"
+  | "TXT"
+  | "URI";
 export interface ExportRecordRequest {
   /** Identifier. */
   zoneId: string;
+  comment?: RecordsExportRequestComment | undefined;
+  content?: RecordsExportRequestContent | undefined;
+  /** Whether to add the SOA and assigned apex NS records independently of the record filters. Set to `false` to export only matching stored records. Matching stored SOA and NS records are still exported. */
+  includeGeneratedRecords?: boolean | undefined;
+  /** Set to `true` to enable the `shadowed_by_name` filter. This does not add shadow metadata to the BIND output. */
+  includeShadowMetadata?: boolean | undefined;
+  /** Whether to match all search requirements or at least one (any). If set to `all`, acts like a logical AND between filters. If set to `any`, acts like a logical OR instead. Note that the interaction between tag filters is controlled by the `tag-match` parameter instead. */
+  match?: RecordsExportRequestMatch | (string & {}) | undefined;
+  name?: RecordsExportRequestName | undefined;
+  /** Whether the record is receiving the performance and security benefits of Cloudflare. */
+  proxied?: boolean | undefined;
+  /** Allows searching in multiple properties of a DNS record simultaneously. This parameter is intended for human users, not automation. Its exact behavior is intentionally left unspecified and is subject to change in the future. This parameter works independently of the `match` setting. For automated searches, please use the other available parameters. */
+  search?: string | undefined;
+  /** Filters the response to records at or below the specified NS delegation name. NS, DS, and NSEC records at the delegation name are excluded because they are not shadowed by that delegation. Those record types are included only when they exist below the delegation. The value must be a non-apex subdomain of the zone. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
+  shadowedByName?: string | undefined;
+  /** Returns NS records that shadow the given name, searching at the name itself and each of its ancestor names within the zone, excluding the zone apex. The value must be a subdomain of the zone; the zone apex is not accepted. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
+  shadowingName?: string | undefined;
+  tag?: RecordsExportRequestTag | undefined;
+  /** Whether to match all tag search requirements or at least one (any). If set to `all`, acts like a logical AND between tag filters. If set to `any`, acts like a logical OR instead. Note that the regular `match` parameter is still used to combine the resulting condition with other filters that aren't related to tags. The legacy `tag-match` parameter is an alias for this parameter. */
+  tagMatch?: RecordsExportRequestTagMatch | (string & {}) | undefined;
+  /** Record type. */
+  type?: RecordsExportRequestType | (string & {}) | undefined;
 }
 export interface ExportRecordResponse {}
 export interface ForceNotifyZoneTransferOutgoingRequest {
@@ -6162,56 +6256,19 @@ export interface ListDnssecZskResultItem {
 }
 export type ListDnssecZskResultList = Array<ListDnssecZskResultItem>;
 export type ListDnssecZskResponse = ListDnssecZskResultList;
-export interface RecordsListRequestComment {
-  /** If this parameter is present, only records *without* a comment are returned. */
-  absent?: string | undefined;
-  /** Substring of the DNS record comment. Comment filters are case-insensitive. */
-  contains?: string | undefined;
-  /** Suffix of the DNS record comment. Comment filters are case-insensitive. */
-  endswith?: string | undefined;
-  /** Exact value of the DNS record comment. Comment filters are case-insensitive. */
-  exact?: string | undefined;
-  /** If this parameter is present, only records *with* a comment are returned. */
-  present?: string | undefined;
-  /** Prefix of the DNS record comment. Comment filters are case-insensitive. */
-  startswith?: string | undefined;
-}
-export interface RecordsListRequestContent {
-  /** Substring of the DNS record content. Content filters are case-insensitive. */
-  contains?: string | undefined;
-  /** Suffix of the DNS record content. Content filters are case-insensitive. */
-  endswith?: string | undefined;
-  /** Exact value of the DNS record content. Content filters are case-insensitive. */
-  exact?: string | undefined;
-  /** Prefix of the DNS record content. Content filters are case-insensitive. */
-  startswith?: string | undefined;
-}
+export type RecordsListRequestComment = RecordsExportRequestComment;
+export type RecordsListRequestContent = RecordsExportRequestContent;
 export type RecordsListRequestMatch = "any" | "all";
-export interface RecordsListRequestName {
-  /** Substring of the DNS record name. Name filters are case-insensitive. */
-  contains?: string | undefined;
-  /** Suffix of the DNS record name. Name filters are case-insensitive. */
-  endswith?: string | undefined;
-  /** Exact value of the DNS record name. Name filters are case-insensitive. */
-  exact?: string | undefined;
-  /** Prefix of the DNS record name. Name filters are case-insensitive. */
-  startswith?: string | undefined;
-}
-export type RecordsListRequestOrder = "type" | "name" | "content" | "ttl" | "proxied";
-export interface RecordsListRequestTag {
-  /** Name of a tag which must *not* be present on the DNS record. Tag filters are case-insensitive. */
-  absent?: string | undefined;
-  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value contains `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  contains?: string | undefined;
-  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value ends with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  endswith?: string | undefined;
-  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value is `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  exact?: string | undefined;
-  /** Name of a tag which must be present on the DNS record. Tag filters are case-insensitive. */
-  present?: string | undefined;
-  /** A tag and value, of the form `&lt;tag-name&gt;:&lt;tag-value&gt;`. The API will only return DNS records that have a tag named `&lt;tag-name&gt;` whose value starts with `&lt;tag-value&gt;`. Tag filters are case-insensitive. */
-  startswith?: string | undefined;
-}
+export type RecordsListRequestName = RecordsExportRequestName;
+export type RecordsListRequestOrder =
+  | "type"
+  | "name"
+  | "content"
+  | "ttl"
+  | "proxied"
+  | "created_on"
+  | "modified_on";
+export type RecordsListRequestTag = RecordsExportRequestTag;
 export type RecordsListRequestTagMatch = "any" | "all";
 export type RecordsListRequestType =
   | "A"
@@ -6238,21 +6295,25 @@ export type RecordsListRequestType =
 export interface ListRecordsRequest {
   /** Identifier. */
   zoneId: string;
-  comment?: RecordsListRequestComment | undefined;
-  content?: RecordsListRequestContent | undefined;
+  comment?: RecordsExportRequestComment | undefined;
+  content?: RecordsExportRequestContent | undefined;
+  /** Opaque token for cursor pagination, obtained from `result_info.cursor` of the previous response. An empty value starts cursor pagination. Mutually exclusive with `page` and `prev_cursor`. */
+  cursor?: string | undefined;
   /** Direction to order DNS records in. */
   direction?: string | undefined;
   /** Whether to include shadow metadata in the `meta` field of each record in the response. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
   includeShadowMetadata?: boolean | undefined;
   /** Whether to match all search requirements or at least one (any). If set to `all`, acts like a logical AND between filters. If set to `any`, acts like a logical OR instead. Note that the interaction between tag filters is controlled by the `tag-match` parameter instead. */
   match?: RecordsListRequestMatch | (string & {}) | undefined;
-  name?: RecordsListRequestName | undefined;
+  name?: RecordsExportRequestName | undefined;
   /** Field to order DNS records by. */
   order?: RecordsListRequestOrder | (string & {}) | undefined;
-  /** Page number of paginated results. */
+  /** Page number for offset pagination. */
   page?: number | undefined;
   /** Number of DNS records per page. */
   perPage?: number | undefined;
+  /** Opaque token for requesting the previous page in cursor pagination, obtained from `result_info.prev_cursor` of the previous response. Mutually exclusive with `page` and `cursor`. */
+  prevCursor?: string | undefined;
   /** Whether the record is receiving the performance and security benefits of Cloudflare. */
   proxied?: boolean | undefined;
   /** Allows searching in multiple properties of a DNS record simultaneously. This parameter is intended for human users, not automation. Its exact behavior is intentionally left unspecified and is subject to change in the future. This parameter works independently of the `match` setting. For automated searches, please use the other available parameters. */
@@ -6261,8 +6322,8 @@ export interface ListRecordsRequest {
   shadowedByName?: string | undefined;
   /** Returns NS records that shadow the given name, searching at the name itself and each of its ancestor names within the zone, excluding the zone apex. The value must be a subdomain of the zone; the zone apex is not accepted. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records). */
   shadowingName?: string | undefined;
-  tag?: RecordsListRequestTag | undefined;
-  /** Whether to match all tag search requirements or at least one (any). If set to `all`, acts like a logical AND between tag filters. If set to `any`, acts like a logical OR instead. Note that the regular `match` parameter is still used to combine the resulting condition with other filters that aren't related to tags. */
+  tag?: RecordsExportRequestTag | undefined;
+  /** Whether to match all tag search requirements or at least one (any). If set to `all`, acts like a logical AND between tag filters. If set to `any`, acts like a logical OR instead. Note that the regular `match` parameter is still used to combine the resulting condition with other filters that aren't related to tags. The legacy `tag-match` parameter is an alias for this parameter. */
   tagMatch?: RecordsListRequestTagMatch | (string & {}) | undefined;
   /** Record type. */
   type?: RecordsListRequestType | (string & {}) | undefined;
@@ -11997,7 +12058,7 @@ export const enableZoneTransferOutgoing: API.OperationMethod<
 }));
 
 export type ExportRecordError = CloudflareOpError;
-/** You can export your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information. */
+/** Export your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. Use the same record filters as the List DNS Records endpoint to export only matching stored records. By default, the SOA record (stored or generated) and assigned apex NS records, where applicable, are included regardless of filters. Secondary zones must have a stored SOA record to export in this mode. Set `include_generated_records=false` to export only matching stored records, without adding the SOA/nameserver section or requiring secondary zones to have an SOA record. Matching stored SOA and NS records are still exported. This may produce a partial zone rather than a complete zone. Workers-managed records are never exported. The export returns at most 5,000,000 matching stored records, in addition to any automatically included SOA and assigned apex NS records. It is not paginated and does not support `page`, `per_page`, `order`, `direction`, `cursor`, or `prev_cursor`. `include_shadow_metadata=true` is required when using `shadowed_by_name`; it does not add shadow metadata to the BIND output. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information. */
 export const exportRecord: API.OperationMethod<
   ExportRecordRequest,
   ExportRecordResponse,
@@ -12005,7 +12066,7 @@ export const exportRecord: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ExportRecordRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<ExportRecordResponse>,
+  output: __S(544, __c34, 0) as any as S.Schema<ExportRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12022,7 +12083,7 @@ export const forceNotifyZoneTransferOutgoing: API.OperationMethod<
   ForceNotifyZoneTransferOutgoingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ForceNotifyZoneTransferOutgoingRequest>,
+  input: __S(560, __c35, 0) as any as S.Schema<ForceNotifyZoneTransferOutgoingRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<ForceNotifyZoneTransferOutgoingResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -12040,8 +12101,8 @@ export const getAnalyticReport: API.OperationMethod<
   GetAnalyticReportError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetAnalyticReportRequest>,
-  output: __S(548, __c34, 4) as any as S.Schema<GetAnalyticReportResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetAnalyticReportRequest>,
+  output: __S(580, __c36, 4) as any as S.Schema<GetAnalyticReportResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12058,8 +12119,8 @@ export const getAnalyticReportBytime: API.OperationMethod<
   GetAnalyticReportBytimeError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetAnalyticReportBytimeRequest>,
-  output: __S(582, __c36, 6) as any as S.Schema<GetAnalyticReportBytimeResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetAnalyticReportBytimeRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<GetAnalyticReportBytimeResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12076,8 +12137,8 @@ export const getDnssec: API.OperationMethod<
   GetDnssecError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetDnssecRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<GetDnssecResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetDnssecRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<GetDnssecResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12094,8 +12155,8 @@ export const getRecord: API.OperationMethod<
   GetRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetRecordRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<GetRecordResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetRecordRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<GetRecordResponse>,
   errors: [Forbidden, RecordNotFound],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12112,8 +12173,8 @@ export const getSettingAccount: API.OperationMethod<
   GetSettingAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetSettingAccountRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<GetSettingAccountResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetSettingAccountRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<GetSettingAccountResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12130,7 +12191,7 @@ export const getSettingAccountView: API.OperationMethod<
   GetSettingAccountViewError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetSettingAccountViewRequest>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetSettingAccountViewRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<GetSettingAccountViewResponse>,
   errors: [ViewNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12148,8 +12209,8 @@ export const getSettingsAccountNameserverSet: API.OperationMethod<
   GetSettingsAccountNameserverSetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetSettingsAccountNameserverSetRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<GetSettingsAccountNameserverSetResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetSettingsAccountNameserverSetRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<GetSettingsAccountNameserverSetResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12166,8 +12227,8 @@ export const getSettingZone: API.OperationMethod<
   GetSettingZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetSettingZoneRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<GetSettingZoneResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetSettingZoneRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<GetSettingZoneResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12184,8 +12245,8 @@ export const getUsageAccount: API.OperationMethod<
   GetUsageAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetUsageAccountRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<GetUsageAccountResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetUsageAccountRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<GetUsageAccountResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12202,8 +12263,8 @@ export const getUsageZone: API.OperationMethod<
   GetUsageZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetUsageZoneRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<GetUsageZoneResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetUsageZoneRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetUsageZoneResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12220,7 +12281,7 @@ export const getZoneTransferAcl: API.OperationMethod<
   GetZoneTransferAclError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetZoneTransferAclRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetZoneTransferAclRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<GetZoneTransferAclResponse>,
   errors: [AclNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12238,7 +12299,7 @@ export const getZoneTransferIncoming: API.OperationMethod<
   GetZoneTransferIncomingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetZoneTransferIncomingRequest>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetZoneTransferIncomingRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetZoneTransferIncomingResponse>,
   errors: [IncomingZoneTransferNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12259,7 +12320,7 @@ export const getZoneTransferOutgoing: API.OperationMethod<
   GetZoneTransferOutgoingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetZoneTransferOutgoingRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetZoneTransferOutgoingRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<GetZoneTransferOutgoingResponse>,
   errors: [OutgoingZoneTransferNotFound, OutgoingZoneTransfersNotAllowed],
   serviceErrors: CloudflareServiceErrors,
@@ -12277,7 +12338,7 @@ export const getZoneTransferOutgoingStatus: API.OperationMethod<
   GetZoneTransferOutgoingStatusError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetZoneTransferOutgoingStatusRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<GetZoneTransferOutgoingStatusRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<GetZoneTransferOutgoingStatusResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -12295,7 +12356,7 @@ export const getZoneTransferPeer: API.OperationMethod<
   GetZoneTransferPeerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetZoneTransferPeerRequest>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetZoneTransferPeerRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<GetZoneTransferPeerResponse>,
   errors: [PeerNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12313,7 +12374,7 @@ export const getZoneTransferTsig: API.OperationMethod<
   GetZoneTransferTsigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetZoneTransferTsigRequest>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetZoneTransferTsigRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetZoneTransferTsigResponse>,
   errors: [TsigNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12331,8 +12392,8 @@ export const importRecord: API.OperationMethod<
   ImportRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ImportRecordRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<ImportRecordResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ImportRecordRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<ImportRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12349,8 +12410,8 @@ export const listDnssecZsk: API.OperationMethod<
   ListDnssecZskError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListDnssecZskRequest>,
-  output: __S(902, __c56, 6) as any as S.Schema<ListDnssecZskResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListDnssecZskRequest>,
+  output: __S(934, __c58, 6) as any as S.Schema<ListDnssecZskResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12360,7 +12421,7 @@ export const listDnssecZsk: API.OperationMethod<
 }));
 
 export type ListRecordsError = Forbidden | CloudflareOpError;
-/** List, search, sort, and filter a zones' DNS records. */
+/** List, search, sort, and filter a zone's DNS records. Requests with `cursor` or `prev_cursor` use cursor pagination. Otherwise, the endpoint uses offset pagination. To start cursor pagination, set `cursor` to an empty value, then pass `result_info.cursor` from the previous response to request the next page. Cursor-paginated responses do not include `page`, `total_count`, or `total_pages`. Cursor tokens are opaque and can vary in length. Pass them back unchanged and do not assume a fixed length. */
 export const listRecords: API.PaginatedOperationMethod<
   ListRecordsRequest,
   ListRecordsResponse,
@@ -12369,8 +12430,8 @@ export const listRecords: API.PaginatedOperationMethod<
   RecordsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(913, __c57, 1) as any as S.Schema<ListRecordsRequest>,
-    output: __S(916, __c57, 4) as any as S.Schema<ListRecordsResponse>,
+    input: __S(944, __c59, 0) as any as S.Schema<ListRecordsRequest>,
+    output: __S(947, __c59, 3) as any as S.Schema<ListRecordsResponse>,
     errors: [Forbidden],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12398,8 +12459,8 @@ export const listSettingAccountViews: API.PaginatedOperationMethod<
   SettingsAccountViewsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(944, __c59, 0) as any as S.Schema<ListSettingAccountViewsRequest>,
-    output: __S(947, __c59, 3) as any as S.Schema<ListSettingAccountViewsResponse>,
+    input: __S(960, __c60, 0) as any as S.Schema<ListSettingAccountViewsRequest>,
+    output: __S(963, __c60, 3) as any as S.Schema<ListSettingAccountViewsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12425,8 +12486,8 @@ export const listSettingsAccountNameserverSets: API.OperationMethod<
   ListSettingsAccountNameserverSetsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListSettingsAccountNameserverSetsRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<ListSettingsAccountNameserverSetsResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListSettingsAccountNameserverSetsRequest>,
+  output: __S(979, __c61, 3) as any as S.Schema<ListSettingsAccountNameserverSetsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12445,8 +12506,8 @@ export const listZoneTransferAcls: API.PaginatedOperationMethod<
   ZoneTransfersAclsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(976, __c61, 0) as any as S.Schema<ListZoneTransferAclsRequest>,
-    output: __S(979, __c61, 3) as any as S.Schema<ListZoneTransferAclsResponse>,
+    input: __S(992, __c62, 0) as any as S.Schema<ListZoneTransferAclsRequest>,
+    output: __S(995, __c62, 3) as any as S.Schema<ListZoneTransferAclsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12468,8 +12529,8 @@ export const listZoneTransferPeers: API.PaginatedOperationMethod<
   ZoneTransfersPeersListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c62, 0) as any as S.Schema<ListZoneTransferPeersRequest>,
-    output: __S(995, __c62, 3) as any as S.Schema<ListZoneTransferPeersResponse>,
+    input: __S(1008, __c63, 0) as any as S.Schema<ListZoneTransferPeersRequest>,
+    output: __S(1011, __c63, 3) as any as S.Schema<ListZoneTransferPeersResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12491,8 +12552,8 @@ export const listZoneTransferTsigs: API.PaginatedOperationMethod<
   ZoneTransfersTsigsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1008, __c63, 0) as any as S.Schema<ListZoneTransferTsigsRequest>,
-    output: __S(1011, __c63, 3) as any as S.Schema<ListZoneTransferTsigsResponse>,
+    input: __S(1024, __c64, 0) as any as S.Schema<ListZoneTransferTsigsRequest>,
+    output: __S(1027, __c64, 3) as any as S.Schema<ListZoneTransferTsigsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12512,8 +12573,8 @@ export const patchDnssec: API.OperationMethod<
   PatchDnssecError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<PatchDnssecRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<PatchDnssecResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<PatchDnssecRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<PatchDnssecResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12530,8 +12591,8 @@ export const patchRecord: API.OperationMethod<
   PatchRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1042, __c65, 2) as any as S.Schema<PatchRecordRequest>,
-  output: __S(1044, __c65, 4) as any as S.Schema<PatchRecordResponse>,
+  input: __S(1058, __c66, 2) as any as S.Schema<PatchRecordRequest>,
+  output: __S(1060, __c66, 4) as any as S.Schema<PatchRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12548,8 +12609,8 @@ export const patchSettingAccount: API.OperationMethod<
   PatchSettingAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1058, __c66, 2) as any as S.Schema<PatchSettingAccountRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<PatchSettingAccountResponse>,
+  input: __S(1074, __c67, 2) as any as S.Schema<PatchSettingAccountRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<PatchSettingAccountResponse>,
   errors: [DnsSettingNotAvailable],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12566,7 +12627,7 @@ export const patchSettingAccountView: API.OperationMethod<
   PatchSettingAccountViewError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<PatchSettingAccountViewRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<PatchSettingAccountViewRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<PatchSettingAccountViewResponse>,
   errors: [ViewNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12584,8 +12645,8 @@ export const patchSettingZone: API.OperationMethod<
   PatchSettingZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1105, __c69, 1) as any as S.Schema<PatchSettingZoneRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<PatchSettingZoneResponse>,
+  input: __S(1121, __c70, 1) as any as S.Schema<PatchSettingZoneRequest>,
+  output: __S(1123, __c70, 3) as any as S.Schema<PatchSettingZoneResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12604,8 +12665,8 @@ export const scanListRecord: API.PaginatedOperationMethod<
   RecordsScanListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1120, __c70, 0) as any as S.Schema<ScanListRecordRequest>,
-    output: __S(1123, __c70, 3) as any as S.Schema<ScanListRecordResponse>,
+    input: __S(1136, __c71, 0) as any as S.Schema<ScanListRecordRequest>,
+    output: __S(1139, __c71, 3) as any as S.Schema<ScanListRecordResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -12625,8 +12686,8 @@ export const scanRecord: API.OperationMethod<
   ScanRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ScanRecordRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<ScanRecordResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ScanRecordRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<ScanRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12643,8 +12704,8 @@ export const scanReviewRecord: API.OperationMethod<
   ScanReviewRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1154, __c72, 2) as any as S.Schema<ScanReviewRecordRequest>,
-  output: __S(1157, __c72, 5) as any as S.Schema<ScanReviewRecordResponse>,
+  input: __S(1170, __c73, 2) as any as S.Schema<ScanReviewRecordRequest>,
+  output: __S(1173, __c73, 5) as any as S.Schema<ScanReviewRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12661,8 +12722,8 @@ export const scanTriggerRecord: API.OperationMethod<
   ScanTriggerRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ScanTriggerRecordRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<ScanTriggerRecordResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ScanTriggerRecordRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<ScanTriggerRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12679,8 +12740,8 @@ export const updateRecord: API.OperationMethod<
   UpdateRecordError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1186, __c74, 2) as any as S.Schema<UpdateRecordRequest>,
-  output: __S(1188, __c74, 4) as any as S.Schema<UpdateRecordResponse>,
+  input: __S(1202, __c75, 2) as any as S.Schema<UpdateRecordRequest>,
+  output: __S(1204, __c75, 4) as any as S.Schema<UpdateRecordResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -12697,7 +12758,7 @@ export const updateZoneTransferAcl: API.OperationMethod<
   UpdateZoneTransferAclError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdateZoneTransferAclRequest>,
+  input: __S(1216, __c76, 0) as any as S.Schema<UpdateZoneTransferAclRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<UpdateZoneTransferAclResponse>,
   errors: [AclNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12715,7 +12776,7 @@ export const updateZoneTransferIncoming: API.OperationMethod<
   UpdateZoneTransferIncomingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdateZoneTransferIncomingRequest>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UpdateZoneTransferIncomingRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateZoneTransferIncomingResponse>,
   errors: [IncomingZoneTransferNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12736,7 +12797,7 @@ export const updateZoneTransferOutgoing: API.OperationMethod<
   UpdateZoneTransferOutgoingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateZoneTransferOutgoingRequest>,
+  input: __S(1248, __c78, 0) as any as S.Schema<UpdateZoneTransferOutgoingRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<UpdateZoneTransferOutgoingResponse>,
   errors: [OutgoingZoneTransferNotFound, OutgoingZoneTransfersNotAllowed],
   serviceErrors: CloudflareServiceErrors,
@@ -12754,7 +12815,7 @@ export const updateZoneTransferPeer: API.OperationMethod<
   UpdateZoneTransferPeerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateZoneTransferPeerRequest>,
+  input: __S(1264, __c79, 0) as any as S.Schema<UpdateZoneTransferPeerRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<UpdateZoneTransferPeerResponse>,
   errors: [PeerNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -12772,7 +12833,7 @@ export const updateZoneTransferTsig: API.OperationMethod<
   UpdateZoneTransferTsigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateZoneTransferTsigRequest>,
+  input: __S(1280, __c80, 0) as any as S.Schema<UpdateZoneTransferTsigRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateZoneTransferTsigResponse>,
   errors: [TsigNotFound],
   serviceErrors: CloudflareServiceErrors,
@@ -14758,6 +14819,19 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          comment: S.optional(__S(512, __c32, 0).pipe(T.DeepQuery("comment"))),
+          content: S.optional(__S(528, __c33, 0).pipe(T.DeepQuery("content"))),
+          includeGeneratedRecords: S.optional(S.Boolean.pipe(T.Query("include_generated_records"))),
+          includeShadowMetadata: S.optional(S.Boolean.pipe(T.Query("include_shadow_metadata"))),
+          match: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(__S(528, __c33, 0).pipe(T.DeepQuery("name"))),
+          proxied: S.optional(S.Boolean.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          shadowedByName: S.optional(S.String.pipe(T.Query("shadowed_by_name"))),
+          shadowingName: S.optional(S.String.pipe(T.Query("shadowing_name"))),
+          tag: S.optional(__S(512, __c32, 0).pipe(T.DeepQuery("tag"))),
+          tagMatch: S.optional(S.String.pipe(T.Query("tag_match"))),
+          type: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records/export", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -14767,12 +14841,40 @@ function __c31(j: number): any {
 function __c32(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          absent: S.optional(S.String),
+          contains: S.optional(S.String),
+          endswith: S.optional(S.String),
+          exact: S.optional(S.String),
+          present: S.optional(S.String),
+          startswith: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecordsExportRequestComment" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contains: S.optional(S.String),
+          endswith: S.optional(S.String),
+          exact: S.optional(S.String),
+          startswith: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecordsExportRequestContent" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
         identifier: "ExportRecordResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14790,7 +14892,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ForceNotifyZoneTransferOutgoingRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14811,11 +14913,11 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dimensions: __S(48, __c3, 0),
-          metrics: __S(560, __c35, 0),
+          metrics: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "AnalyticsReportsGetResponseDataItem" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14831,24 +14933,24 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(546, __c34, 2),
+          data: __S(578, __c36, 2),
           dataLag: S.Number.pipe(T.Body("data_lag")),
           max: S.Unknown,
           min: S.Unknown,
-          query: __S(547, __c34, 3),
+          query: __S(579, __c36, 3),
           rows: S.Number,
           totals: S.Unknown,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAnalyticReportResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14873,16 +14975,16 @@ function __c36(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAnalyticReportBytimeRequest" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           dimensions: __S(48, __c3, 0),
-          metrics: __S(577, __c36, 1),
+          metrics: __S(609, __c38, 1),
         }),
       ).annotate({ identifier: "AnalyticsReportsBytimesGetResponseDataItem" });
     case 3:
-      return S.Array(__S(578, __c36, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -14901,19 +15003,19 @@ function __c36(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(579, __c36, 3),
+          data: __S(611, __c38, 3),
           dataLag: S.Number.pipe(T.Body("data_lag")),
           max: S.Unknown,
           min: S.Unknown,
-          query: __S(580, __c36, 4),
+          query: __S(612, __c38, 4),
           rows: S.Number,
-          timeIntervals: __S(581, __c36, 5).pipe(T.Body("time_intervals")),
+          timeIntervals: __S(613, __c38, 5).pipe(T.Body("time_intervals")),
           totals: S.Unknown,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAnalyticReportBytimeResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14925,7 +15027,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetDnssecRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14948,7 +15050,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetDnssecResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15398,11 +15500,11 @@ function __c39(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(625, __c39, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(657, __c41, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRecordResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15414,7 +15516,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetSettingAccountRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15436,7 +15538,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SettingsAccountGetResponseZoneDefaultsSoa" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15448,25 +15550,25 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
+          internalDns: __S(688, __c43, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
-          nameservers: __S(672, __c42, 0),
+          nameservers: __S(704, __c44, 0),
           nsTtl: S.Number.pipe(T.Body("ns_ttl")),
           secondaryOverrides: S.Boolean.pipe(T.Body("secondary_overrides")),
-          soa: __S(657, __c41, 1),
+          soa: __S(689, __c43, 1),
           zoneMode: S.String.pipe(T.Body("zone_mode")),
         }),
       ).annotate({ identifier: "SettingsAccountGetResponseZoneDefaults" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          zoneDefaults: __S(673, __c42, 1).pipe(T.Body("zone_defaults")),
+          zoneDefaults: __S(705, __c44, 1).pipe(T.Body("zone_defaults")),
           enforceDnsOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enforce_dns_only"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSettingAccountResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15485,7 +15587,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetSettingAccountViewRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15511,11 +15613,11 @@ function __c44(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(705, __c44, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(737, __c46, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSettingsAccountNameserverSetResponse" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15533,18 +15635,18 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
+          internalDns: __S(688, __c43, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
-          nameservers: __S(721, __c45, 1),
+          nameservers: __S(753, __c47, 1),
           nsTtl: S.Number.pipe(T.Body("ns_ttl")),
           secondaryOverrides: S.Boolean.pipe(T.Body("secondary_overrides")),
-          soa: __S(657, __c41, 1),
+          soa: __S(689, __c43, 1),
           zoneMode: S.String.pipe(T.Body("zone_mode")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSettingZoneResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15567,7 +15669,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetUsageAccountResponse" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15586,7 +15688,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetUsageZoneResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15605,7 +15707,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetZoneTransferAclRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15619,7 +15721,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetZoneTransferIncomingRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15633,7 +15735,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetZoneTransferOutgoingRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15651,7 +15753,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetZoneTransferOutgoingStatusRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15670,7 +15772,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetZoneTransferPeerRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15689,7 +15791,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetZoneTransferTsigRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15703,7 +15805,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ImportRecordRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15714,7 +15816,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ImportRecordResponse" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15739,7 +15841,7 @@ function __c56(j: number): any {
         S.Struct({
           algorithm: S.optional(S.NullOr(S.Number).pipe(T.Body("Algorithm"))),
           flags: S.optional(S.NullOr(S.Number).pipe(T.Body("Flags"))),
-          hdr: S.optional(S.NullOr(__S(897, __c56, 1)).pipe(T.Body("Hdr"))),
+          hdr: S.optional(S.NullOr(__S(929, __c58, 1)).pipe(T.Body("Hdr"))),
           protocol: S.optional(S.NullOr(S.Number).pipe(T.Body("Protocol"))),
           publicKey: S.optional(S.NullOr(S.String).pipe(T.Body("PublicKey"))),
         }),
@@ -15755,59 +15857,50 @@ function __c56(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dNSKEY: S.optional(S.NullOr(__S(898, __c56, 2)).pipe(T.Body("DNSKEY"))),
+          dNSKEY: S.optional(S.NullOr(__S(930, __c58, 2)).pipe(T.Body("DNSKEY"))),
           location: S.optional(S.NullOr(S.String).pipe(T.Body("Location"))),
           name: S.optional(S.NullOr(S.String).pipe(T.Body("Name"))),
-          signingKey: S.optional(S.NullOr(__S(899, __c56, 3)).pipe(T.Body("SigningKey"))),
+          signingKey: S.optional(S.NullOr(__S(931, __c58, 3)).pipe(T.Body("SigningKey"))),
           tag: S.optional(S.NullOr(S.String).pipe(T.Body("Tag"))),
         }),
       ).annotate({ identifier: "ListDnssecZskResultItem" });
     case 5:
-      return S.Array(__S(900, __c56, 4));
+      return S.Array(__S(932, __c58, 4));
     case 6:
       return S.suspend(() =>
-        __S(901, __c56, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(933, __c58, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListDnssecZskResponse" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          absent: S.optional(S.String),
-          contains: S.optional(S.String),
-          endswith: S.optional(S.String),
-          exact: S.optional(S.String),
-          present: S.optional(S.String),
-          startswith: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecordsListRequestComment" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          comment: S.optional(__S(912, __c57, 0).pipe(T.DeepQuery("comment"))),
-          content: S.optional(__S(928, __c58, 0).pipe(T.DeepQuery("content"))),
+          comment: S.optional(__S(512, __c32, 0).pipe(T.DeepQuery("comment"))),
+          content: S.optional(__S(528, __c33, 0).pipe(T.DeepQuery("content"))),
+          cursor: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           includeShadowMetadata: S.optional(S.Boolean.pipe(T.Query("include_shadow_metadata"))),
           match: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(__S(928, __c58, 0).pipe(T.DeepQuery("name"))),
+          name: S.optional(__S(528, __c33, 0).pipe(T.DeepQuery("name"))),
           order: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+          prevCursor: S.optional(S.String.pipe(T.Query("prev_cursor"))),
           proxied: S.optional(S.Boolean.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           shadowedByName: S.optional(S.String.pipe(T.Query("shadowed_by_name"))),
           shadowingName: S.optional(S.String.pipe(T.Query("shadowing_name"))),
-          tag: S.optional(__S(912, __c57, 0).pipe(T.DeepQuery("tag"))),
+          tag: S.optional(__S(512, __c32, 0).pipe(T.DeepQuery("tag"))),
           tagMatch: S.optional(S.String.pipe(T.Query("tag_match"))),
           type: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dns_records", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRecordsRequest" });
-    case 2:
+    case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
           [
@@ -16237,31 +16330,18 @@ function __c57(j: number): any {
           },
         ),
       );
+    case 2:
+      return S.Array(__S(945, __c59, 1));
     case 3:
-      return S.Array(__S(914, __c57, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(915, __c57, 3).pipe(T.EnvelopePayload()),
+          result: __S(946, __c59, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRecordsResponse" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contains: S.optional(S.String),
-          endswith: S.optional(S.String),
-          exact: S.optional(S.String),
-          startswith: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecordsListRequestContent" });
-  }
-}
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16269,7 +16349,7 @@ function __c59(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           direction: S.optional(S.String.pipe(T.Query())),
           match: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(__S(928, __c58, 0).pipe(T.DeepQuery("name"))),
+          name: S.optional(__S(528, __c33, 0).pipe(T.DeepQuery("name"))),
           order: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
@@ -16292,17 +16372,17 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "SettingsAccountViewsListResultItem" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(961, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(946, __c59, 2).pipe(T.EnvelopePayload()),
+          result: __S(962, __c60, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSettingAccountViewsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16328,14 +16408,14 @@ function __c60(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(977, __c61, 1));
     case 3:
       return S.suspend(() =>
-        __S(962, __c60, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(978, __c61, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSettingsAccountNameserverSetsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16356,17 +16436,17 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "ZoneTransfersAclsListResultItem" });
     case 2:
-      return S.Array(__S(977, __c61, 1));
+      return S.Array(__S(993, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(978, __c61, 2).pipe(T.EnvelopePayload()),
+          result: __S(994, __c62, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListZoneTransferAclsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16390,17 +16470,17 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ZoneTransfersPeersListResultItem" });
     case 2:
-      return S.Array(__S(993, __c62, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(994, __c62, 2).pipe(T.EnvelopePayload()),
+          result: __S(1010, __c63, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListZoneTransferPeersResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16422,17 +16502,17 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ZoneTransfersTsigsListResultItem" });
     case 2:
-      return S.Array(__S(1009, __c63, 1));
+      return S.Array(__S(1025, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(1010, __c63, 2).pipe(T.EnvelopePayload()),
+          result: __S(1026, __c64, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListZoneTransferTsigsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16448,7 +16528,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchDnssecRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -16499,10 +16579,10 @@ function __c65(j: number): any {
           content: S.optional(S.String),
           privateRouting: S.optional(S.Boolean.pipe(T.Body("private_routing"))),
           proxied: S.optional(S.Boolean),
-          settings: S.optional(__S(1040, __c65, 0)),
+          settings: S.optional(__S(1056, __c66, 0)),
           tags: S.optional(__S(48, __c3, 0)),
           priority: S.optional(S.Number),
-          data: S.optional(__S(1041, __c65, 1)),
+          data: S.optional(__S(1057, __c66, 1)),
         })
           .pipe(
             T.Http({
@@ -16945,11 +17025,11 @@ function __c65(j: number): any {
       );
     case 4:
       return S.suspend(() =>
-        __S(1043, __c65, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1059, __c66, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchRecordResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16961,12 +17041,12 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.optional(S.Boolean.pipe(T.Body("flatten_all_cnames"))),
-          internalDns: S.optional(__S(1072, __c67, 0).pipe(T.Body("internal_dns"))),
+          internalDns: S.optional(__S(1088, __c68, 0).pipe(T.Body("internal_dns"))),
           multiProvider: S.optional(S.Boolean.pipe(T.Body("multi_provider"))),
-          nameservers: S.optional(__S(1056, __c66, 0)),
+          nameservers: S.optional(__S(1072, __c67, 0)),
           nsTtl: S.optional(S.Number.pipe(T.Body("ns_ttl"))),
           secondaryOverrides: S.optional(S.Boolean.pipe(T.Body("secondary_overrides"))),
-          soa: S.optional(__S(1073, __c67, 1)),
+          soa: S.optional(__S(1089, __c68, 1)),
           zoneMode: S.optional(S.String.pipe(T.Body("zone_mode"))),
         }),
       ).annotate({ identifier: "SettingsAccountEditRequestZoneDefaults" });
@@ -16975,14 +17055,14 @@ function __c66(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           enforceDnsOnly: S.optional(S.Boolean.pipe(T.Body("enforce_dns_only"))),
-          zoneDefaults: S.optional(__S(1057, __c66, 1).pipe(T.Body("zone_defaults"))),
+          zoneDefaults: S.optional(__S(1073, __c67, 1).pipe(T.Body("zone_defaults"))),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/dns_settings", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchSettingAccountRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17004,7 +17084,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SettingsAccountEditRequestZoneDefaultsSoa" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17025,7 +17105,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PatchSettingAccountViewRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17036,12 +17116,12 @@ function __c69(j: number): any {
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           flattenAllCnames: S.optional(S.Boolean.pipe(T.Body("flatten_all_cnames"))),
-          internalDns: S.optional(__S(1072, __c67, 0).pipe(T.Body("internal_dns"))),
+          internalDns: S.optional(__S(1088, __c68, 0).pipe(T.Body("internal_dns"))),
           multiProvider: S.optional(S.Boolean.pipe(T.Body("multi_provider"))),
-          nameservers: S.optional(__S(1104, __c69, 0)),
+          nameservers: S.optional(__S(1120, __c70, 0)),
           nsTtl: S.optional(S.Number.pipe(T.Body("ns_ttl"))),
           secondaryOverrides: S.optional(S.Boolean.pipe(T.Body("secondary_overrides"))),
-          soa: S.optional(__S(1073, __c67, 1)),
+          soa: S.optional(__S(1089, __c68, 1)),
           zoneMode: S.optional(S.String.pipe(T.Body("zone_mode"))),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/dns_settings", code: 200 }))
@@ -17055,18 +17135,18 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flattenAllCnames: S.Boolean.pipe(T.Body("flatten_all_cnames")),
-          internalDns: __S(656, __c41, 0).pipe(T.Body("internal_dns")),
+          internalDns: __S(688, __c43, 0).pipe(T.Body("internal_dns")),
           multiProvider: S.Boolean.pipe(T.Body("multi_provider")),
-          nameservers: __S(1106, __c69, 2),
+          nameservers: __S(1122, __c70, 2),
           nsTtl: S.Number.pipe(T.Body("ns_ttl")),
           secondaryOverrides: S.Boolean.pipe(T.Body("secondary_overrides")),
-          soa: __S(657, __c41, 1),
+          soa: __S(689, __c43, 1),
           zoneMode: S.String.pipe(T.Body("zone_mode")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchSettingZoneResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17509,17 +17589,17 @@ function __c70(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(1121, __c70, 1));
+      return S.Array(__S(1137, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(1122, __c70, 2).pipe(T.EnvelopePayload()),
+          result: __S(1138, __c71, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ScanListRecordResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17531,7 +17611,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ScanRecordRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17629,12 +17709,12 @@ function __c72(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(1152, __c72, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          accepts: S.optional(__S(1153, __c72, 1)),
+          accepts: S.optional(__S(1169, __c73, 1)),
           rejects: S.optional(__S(17, __c1, 1)),
         })
           .pipe(
@@ -17845,17 +17925,17 @@ function __c72(j: number): any {
         ]),
       );
     case 4:
-      return S.Array(__S(1155, __c72, 3));
+      return S.Array(__S(1171, __c73, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          accepts: S.optional(S.NullOr(__S(1156, __c72, 4))),
+          accepts: S.optional(S.NullOr(__S(1172, __c73, 4))),
           rejects: S.optional(S.NullOr(__S(48, __c3, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ScanReviewRecordResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17869,7 +17949,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ScanTriggerRecordRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17920,10 +18000,10 @@ function __c74(j: number): any {
           content: S.optional(S.String),
           privateRouting: S.optional(S.Boolean.pipe(T.Body("private_routing"))),
           proxied: S.optional(S.Boolean),
-          settings: S.optional(__S(1184, __c74, 0)),
+          settings: S.optional(__S(1200, __c75, 0)),
           tags: S.optional(__S(48, __c3, 0)),
           priority: S.optional(S.Number),
-          data: S.optional(__S(1185, __c74, 1)),
+          data: S.optional(__S(1201, __c75, 1)),
         })
           .pipe(
             T.Http({
@@ -18366,11 +18446,11 @@ function __c74(j: number): any {
       );
     case 4:
       return S.suspend(() =>
-        __S(1187, __c74, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1203, __c75, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateRecordResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18391,7 +18471,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UpdateZoneTransferAclRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18408,7 +18488,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateZoneTransferIncomingRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18424,7 +18504,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateZoneTransferOutgoingRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18448,7 +18528,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateZoneTransferPeerRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

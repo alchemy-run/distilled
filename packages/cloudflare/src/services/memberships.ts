@@ -95,7 +95,7 @@ export interface GetResponseAccountSettings {
 export interface GetResponseAccount {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: GetResponseAccountType;
   /** Timestamp for the creation of the account */
@@ -253,7 +253,7 @@ export type ListResultItemAccountSettings = GetResponseAccountSettings;
 export interface ListResultItemAccount {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: ListResultItemAccountType;
   /** Timestamp for the creation of the account */
@@ -316,7 +316,7 @@ export type UpdateResponseAccountSettings = GetResponseAccountSettings;
 export interface UpdateResponseAccount {
   /** Identifier */
   id: string;
-  /** Account name */
+  /** Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes. */
   name: string;
   type: UpdateResponseAccountType;
   /** Timestamp for the creation of the account */

@@ -217,6 +217,8 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "aadya-neural"
   | "acestep"
   | "adapter-transformers"
+  | "akeratos"
+  | "alkove"
   | "allennlp"
   | "aneforge"
   | "anemoi"
@@ -227,6 +229,8 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "audiocraft"
   | "audioseal"
   | "bagel-mot"
+  | "basalt"
+  | "basedecision"
   | "bboxmaskpose"
   | "ben2"
   | "bertopic"
@@ -245,13 +249,16 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "chatterbox"
   | "chaossim"
   | "chat_tts"
+  | "chessqueries"
   | "chexmix"
   | "chronos-forecasting"
+  | "circuit-tracer"
   | "clara"
   | "clipscope"
   | "cloud-agents"
   | "collectorvision"
   | "colipri"
+  | "cooperscene"
   | "cosyvoice"
   | "cotracker"
   | "colpali"
@@ -264,6 +271,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "depth-pro"
   | "derm-foundation"
   | "describe-anything"
+  | "dewml"
   | "dia-tts"
   | "dia2"
   | "diff-interpretation-tuning"
@@ -273,6 +281,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "docking-at-home"
   | "doctr"
   | "drinkme"
+  | "duo-world-model"
   | "edsnlp"
   | "egohand"
   | "elm"
@@ -280,6 +289,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "ensomi"
   | "espnet"
   | "eupe"
+  | "fahr-face"
   | "fairseq"
   | "fastai"
   | "fastprint"
@@ -289,6 +299,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "flexray"
   | "flextab"
   | "fme"
+  | "fse"
   | "gaussianformer"
   | "gemma.cpp"
   | "geometry-crafter"
@@ -296,6 +307,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "gliner"
   | "gliner2"
   | "glm-tts"
+  | "glyd"
   | "glyph-byt5"
   | "granite-library"
   | "grok"
@@ -318,6 +330,8 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "infinitetalk"
   | "infinite-you"
   | "intellifold"
+  | "inworld-sava"
+  | "inworld-voice-isolation"
   | "ising-decoding"
   | "jev-style"
   | "keras"
@@ -327,6 +341,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "kernels"
   | "kimi-audio"
   | "kittentts"
+  | "konfai"
   | "kronos"
   | "k2"
   | "lyra-2.0"
@@ -337,9 +352,13 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "litert"
   | "litert-lm"
   | "lerobot"
+  | "libreyolo"
   | "lightglue"
+  | "limx-dynamics"
+  | "lingbot-map"
   | "liveportrait"
   | "longcat-video-avatar-1.5"
+  | "linnet-tts"
   | "llama-cpp-python"
   | "mini-omni2"
   | "mindspore"
@@ -350,13 +369,16 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "manas-1"
   | "mars5-tts"
   | "matanyone"
+  | "mediapipe"
   | "memra"
   | "mesh-anything"
   | "merlin"
   | "medvae"
   | "mflux"
   | "microduck"
+  | "minicpm-ocr"
   | "mitie"
+  | "mjlab"
   | "ml-agents"
   | "ml-sharp"
   | "mlx"
@@ -369,13 +391,16 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "mtvcraft"
   | "multimolecule"
   | "nemo"
+  | "neurobrix"
   | "ninfer"
   | "nobg"
   | "nv-medtech"
+  | "onnxruntime-genai"
   | "open-oasis"
   | "open_clip"
   | "openasr"
   | "opendde"
+  | "opendecision"
   | "openpeerllm"
   | "open-sora"
   | "outetts"
@@ -384,8 +409,12 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "peft"
   | "perception-encoder"
   | "phantom-wan"
+  | "pika-h3-flex"
   | "piper"
+  | "pixeldense"
   | "pocket-tts"
+  | "pqgan"
+  | "protomotions"
   | "pruna-ai"
   | "pxia"
   | "pyannote-audio"
@@ -394,6 +423,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "quantumpeer"
   | "qwen3_tts"
   | "recurrentgemma"
+  | "redefiner"
   | "relik"
   | "refiners"
   | "renderformer"
@@ -403,6 +433,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "routee-powertrain"
   | "rt-detr-hand-detector-v1"
   | "rwkv"
+  | "s1s2"
   | "saelens"
   | "sage-music"
   | "scail-2"
@@ -411,6 +442,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "sam-3d-objects"
   | "same"
   | "sample-factory"
+  | "sap-case"
   | "sap-rpt-1-oss"
   | "sapiens"
   | "sapiens2"
@@ -434,7 +466,9 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "songbloom"
   | "stable-baselines3"
   | "stanza"
+  | "strands-decider"
   | "supertonic"
+  | "svdtrunc"
   | "swarmformer"
   | "synthefy-migas"
   | "f5-tts"
@@ -451,17 +485,20 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "tirex"
   | "tirex-2"
   | "torchgeo"
+  | "torch-pointcloud"
   | "transformers"
   | "transformers.js"
   | "trellis"
   | "trellis2"
   | "tunejury"
   | "ultralytics"
+  | "unitree-rl"
   | "univa"
   | "uni-3dar"
   | "unity-sentis"
   | "sana"
   | "videoprism"
+  | "verto-asr"
   | "vfi-mamba"
   | "vismatch"
   | "lvface"
@@ -472,10 +509,14 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "vibevoice"
   | "videox_fun"
   | "wan2.2"
+  | "wavegen"
   | "wham"
   | "whisperkit"
+  | "wilddet3d"
   | "yolov10"
   | "yolov26"
+  | "zao-lib"
+  | "zipsplat"
   | "zonos"
   | "3dtopia-xl";
 export type QuickSearchPostRequestLibrary = QuickSearchPostRequestLibraryCase0 | string;
@@ -625,7 +666,6 @@ export interface QuickSearchPostResponseDatasetsItem {
   private?: boolean | undefined;
   /** Whether the repo is owned by a user or an organization */
   authorType?: QuickSearchPostResponseDatasetsItemAuthorType | undefined;
-  trendingWeight: number;
 }
 export type QuickSearchPostResponseDatasetsList = Array<QuickSearchPostResponseDatasetsItem>;
 /** Whether the repo is owned by a user or an organization */
@@ -636,7 +676,6 @@ export interface QuickSearchPostResponseModelsItem {
   private?: boolean | undefined;
   /** Whether the repo is owned by a user or an organization */
   authorType?: QuickSearchPostResponseModelsItemAuthorType | undefined;
-  trendingWeight: number;
 }
 export type QuickSearchPostResponseModelsList = Array<QuickSearchPostResponseModelsItem>;
 export interface QuickSearchPostResponseOrgsItem {
@@ -655,7 +694,6 @@ export interface QuickSearchPostResponseSpacesItem {
   /** Whether the repo is owned by a user or an organization */
   authorType?: QuickSearchPostResponseSpacesItemAuthorType | undefined;
   emoji: string;
-  trendingWeight: number;
 }
 export type QuickSearchPostResponseSpacesList = Array<QuickSearchPostResponseSpacesItem>;
 export interface QuickSearchPostResponseUsersItem {
@@ -947,6 +985,8 @@ export type SearchQuickRequestLibraryCase0 =
   | "aadya-neural"
   | "acestep"
   | "adapter-transformers"
+  | "akeratos"
+  | "alkove"
   | "allennlp"
   | "aneforge"
   | "anemoi"
@@ -957,6 +997,8 @@ export type SearchQuickRequestLibraryCase0 =
   | "audiocraft"
   | "audioseal"
   | "bagel-mot"
+  | "basalt"
+  | "basedecision"
   | "bboxmaskpose"
   | "ben2"
   | "bertopic"
@@ -975,13 +1017,16 @@ export type SearchQuickRequestLibraryCase0 =
   | "chatterbox"
   | "chaossim"
   | "chat_tts"
+  | "chessqueries"
   | "chexmix"
   | "chronos-forecasting"
+  | "circuit-tracer"
   | "clara"
   | "clipscope"
   | "cloud-agents"
   | "collectorvision"
   | "colipri"
+  | "cooperscene"
   | "cosyvoice"
   | "cotracker"
   | "colpali"
@@ -994,6 +1039,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "depth-pro"
   | "derm-foundation"
   | "describe-anything"
+  | "dewml"
   | "dia-tts"
   | "dia2"
   | "diff-interpretation-tuning"
@@ -1003,6 +1049,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "docking-at-home"
   | "doctr"
   | "drinkme"
+  | "duo-world-model"
   | "edsnlp"
   | "egohand"
   | "elm"
@@ -1010,6 +1057,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "ensomi"
   | "espnet"
   | "eupe"
+  | "fahr-face"
   | "fairseq"
   | "fastai"
   | "fastprint"
@@ -1019,6 +1067,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "flexray"
   | "flextab"
   | "fme"
+  | "fse"
   | "gaussianformer"
   | "gemma.cpp"
   | "geometry-crafter"
@@ -1026,6 +1075,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "gliner"
   | "gliner2"
   | "glm-tts"
+  | "glyd"
   | "glyph-byt5"
   | "granite-library"
   | "grok"
@@ -1048,6 +1098,8 @@ export type SearchQuickRequestLibraryCase0 =
   | "infinitetalk"
   | "infinite-you"
   | "intellifold"
+  | "inworld-sava"
+  | "inworld-voice-isolation"
   | "ising-decoding"
   | "jev-style"
   | "keras"
@@ -1057,6 +1109,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "kernels"
   | "kimi-audio"
   | "kittentts"
+  | "konfai"
   | "kronos"
   | "k2"
   | "lyra-2.0"
@@ -1067,9 +1120,13 @@ export type SearchQuickRequestLibraryCase0 =
   | "litert"
   | "litert-lm"
   | "lerobot"
+  | "libreyolo"
   | "lightglue"
+  | "limx-dynamics"
+  | "lingbot-map"
   | "liveportrait"
   | "longcat-video-avatar-1.5"
+  | "linnet-tts"
   | "llama-cpp-python"
   | "mini-omni2"
   | "mindspore"
@@ -1080,13 +1137,16 @@ export type SearchQuickRequestLibraryCase0 =
   | "manas-1"
   | "mars5-tts"
   | "matanyone"
+  | "mediapipe"
   | "memra"
   | "mesh-anything"
   | "merlin"
   | "medvae"
   | "mflux"
   | "microduck"
+  | "minicpm-ocr"
   | "mitie"
+  | "mjlab"
   | "ml-agents"
   | "ml-sharp"
   | "mlx"
@@ -1099,13 +1159,16 @@ export type SearchQuickRequestLibraryCase0 =
   | "mtvcraft"
   | "multimolecule"
   | "nemo"
+  | "neurobrix"
   | "ninfer"
   | "nobg"
   | "nv-medtech"
+  | "onnxruntime-genai"
   | "open-oasis"
   | "open_clip"
   | "openasr"
   | "opendde"
+  | "opendecision"
   | "openpeerllm"
   | "open-sora"
   | "outetts"
@@ -1114,8 +1177,12 @@ export type SearchQuickRequestLibraryCase0 =
   | "peft"
   | "perception-encoder"
   | "phantom-wan"
+  | "pika-h3-flex"
   | "piper"
+  | "pixeldense"
   | "pocket-tts"
+  | "pqgan"
+  | "protomotions"
   | "pruna-ai"
   | "pxia"
   | "pyannote-audio"
@@ -1124,6 +1191,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "quantumpeer"
   | "qwen3_tts"
   | "recurrentgemma"
+  | "redefiner"
   | "relik"
   | "refiners"
   | "renderformer"
@@ -1133,6 +1201,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "routee-powertrain"
   | "rt-detr-hand-detector-v1"
   | "rwkv"
+  | "s1s2"
   | "saelens"
   | "sage-music"
   | "scail-2"
@@ -1141,6 +1210,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "sam-3d-objects"
   | "same"
   | "sample-factory"
+  | "sap-case"
   | "sap-rpt-1-oss"
   | "sapiens"
   | "sapiens2"
@@ -1164,7 +1234,9 @@ export type SearchQuickRequestLibraryCase0 =
   | "songbloom"
   | "stable-baselines3"
   | "stanza"
+  | "strands-decider"
   | "supertonic"
+  | "svdtrunc"
   | "swarmformer"
   | "synthefy-migas"
   | "f5-tts"
@@ -1181,17 +1253,20 @@ export type SearchQuickRequestLibraryCase0 =
   | "tirex"
   | "tirex-2"
   | "torchgeo"
+  | "torch-pointcloud"
   | "transformers"
   | "transformers.js"
   | "trellis"
   | "trellis2"
   | "tunejury"
   | "ultralytics"
+  | "unitree-rl"
   | "univa"
   | "uni-3dar"
   | "unity-sentis"
   | "sana"
   | "videoprism"
+  | "verto-asr"
   | "vfi-mamba"
   | "vismatch"
   | "lvface"
@@ -1202,10 +1277,14 @@ export type SearchQuickRequestLibraryCase0 =
   | "vibevoice"
   | "videox_fun"
   | "wan2.2"
+  | "wavegen"
   | "wham"
   | "whisperkit"
+  | "wilddet3d"
   | "yolov10"
   | "yolov26"
+  | "zao-lib"
+  | "zipsplat"
   | "zonos"
   | "3dtopia-xl";
 export type SearchQuickRequestLibrary = SearchQuickRequestLibraryCase0 | string;
@@ -1353,7 +1432,6 @@ export interface SearchQuickResponseDatasetsItem {
   private?: boolean | undefined;
   /** Whether the repo is owned by a user or an organization */
   authorType?: SearchQuickResponseDatasetsItemAuthorType | undefined;
-  trendingWeight: number;
 }
 export type SearchQuickResponseDatasetsList = Array<SearchQuickResponseDatasetsItem>;
 /** Whether the repo is owned by a user or an organization */
@@ -1364,7 +1442,6 @@ export interface SearchQuickResponseModelsItem {
   private?: boolean | undefined;
   /** Whether the repo is owned by a user or an organization */
   authorType?: SearchQuickResponseModelsItemAuthorType | undefined;
-  trendingWeight: number;
 }
 export type SearchQuickResponseModelsList = Array<SearchQuickResponseModelsItem>;
 export type SearchQuickResponseOrgsItem = QuickSearchPostResponseOrgsItem;
@@ -1378,7 +1455,6 @@ export interface SearchQuickResponseSpacesItem {
   /** Whether the repo is owned by a user or an organization */
   authorType?: SearchQuickResponseSpacesItemAuthorType | undefined;
   emoji: string;
-  trendingWeight: number;
 }
 export type SearchQuickResponseSpacesList = Array<SearchQuickResponseSpacesItem>;
 export type SearchQuickResponseUsersItem = QuickSearchPostResponseUsersItem;
@@ -1443,7 +1519,7 @@ export const quickSearchPost: API.OperationMethod<
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<QuickSearchPostRequest>,
-  output: __S(49, __c1, 17) as any as S.Schema<QuickSearchPostResponse>,
+  output: __S(31, __c1, 15) as any as S.Schema<QuickSearchPostResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -1460,8 +1536,8 @@ export const searchFullText: API.OperationMethod<
   SearchFullTextError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<SearchFullTextRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<SearchFullTextResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<SearchFullTextRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<SearchFullTextResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -1478,8 +1554,8 @@ export const searchQuick: API.OperationMethod<
   SearchQuickError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SearchQuickRequest>,
-  output: __S(49, __c1, 17) as any as S.Schema<SearchQuickResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<SearchQuickRequest>,
+  output: __S(31, __c1, 15) as any as S.Schema<SearchQuickResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -1502,14 +1578,14 @@ function __c0(j: number): any {
           orgsFilter: S.optional(S.Unknown.pipe(T.Query())),
           reposFilter: S.optional(S.Unknown.pipe(T.Query())),
           pipelines: S.optional(S.Unknown.pipe(T.Query())),
-          exclude: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          exclude: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           namespace: S.optional(S.String.pipe(T.Query())),
           includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
           repoName: S.optional(S.String.pipe(T.Query())),
           repoType: S.optional(S.Unknown.pipe(T.Query())),
           discussionId: S.optional(S.String.pipe(T.Query())),
           discussionCollectionName: S.optional(S.String.pipe(T.Query())),
-          spacesTags: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          spacesTags: S.optional(__S(16, __c1, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/api/quicksearch", code: 200 })),
       ).annotate({ identifier: "QuickSearchPostRequest" });
   }
@@ -1525,11 +1601,10 @@ function __c1(j: number): any {
           id: S.String,
           private: S.optional(S.Boolean),
           authorType: S.optional(S.String),
-          trendingWeight: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseDatasetsItem" });
     case 2:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1540,7 +1615,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseOrgsItem" });
     case 4:
-      return S.Array(__S(35, __c1, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1549,11 +1624,10 @@ function __c1(j: number): any {
           private: S.optional(S.Boolean),
           authorType: S.optional(S.String),
           emoji: S.String,
-          trendingWeight: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseSpacesItem" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
+      return S.Array(__S(21, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1564,7 +1638,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseUsersItem" });
     case 8:
-      return S.Array(__S(39, __c1, 7));
+      return S.Array(__S(23, __c1, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1574,7 +1648,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponsePapersItem" });
     case 10:
-      return S.Array(__S(41, __c1, 9));
+      return S.Array(__S(25, __c1, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1584,19 +1658,8 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "QuickSearchPostResponseCollectionsItem" });
     case 12:
-      return S.Array(__S(43, __c1, 11));
+      return S.Array(__S(27, __c1, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          _id: S.String,
-          id: S.String,
-          private: S.optional(S.Boolean),
-          authorType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QuickSearchPostResponseBucketsItem" });
-    case 14:
-      return S.Array(__S(45, __c1, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
@@ -1605,31 +1668,31 @@ function __c1(j: number): any {
           private: S.Boolean,
         }),
       ).annotate({ identifier: "QuickSearchPostResponseBlogsItem" });
-    case 16:
-      return S.Array(__S(47, __c1, 15));
-    case 17:
+    case 14:
+      return S.Array(__S(29, __c1, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          datasets: __S(34, __c1, 2),
+          datasets: __S(18, __c1, 2),
           datasetsCount: S.Number,
-          models: __S(34, __c1, 2),
+          models: __S(18, __c1, 2),
           modelsCount: S.Number,
-          orgs: __S(36, __c1, 4),
+          orgs: __S(20, __c1, 4),
           q: S.String,
-          spaces: __S(38, __c1, 6),
+          spaces: __S(22, __c1, 6),
           spacesCount: S.Number,
-          users: __S(40, __c1, 8),
-          papers: __S(42, __c1, 10),
+          users: __S(24, __c1, 8),
+          papers: __S(26, __c1, 10),
           papersCount: S.Number,
-          collections: __S(44, __c1, 12),
+          collections: __S(28, __c1, 12),
           collectionsCount: S.Number,
-          buckets: __S(46, __c1, 14),
+          buckets: __S(18, __c1, 2),
           bucketsCount: S.Number,
-          containers: __S(46, __c1, 14),
+          containers: __S(18, __c1, 2),
           containersCount: S.Number,
-          kernels: __S(42, __c1, 10),
+          kernels: __S(26, __c1, 10),
           kernelsCount: S.Number,
-          blogs: __S(48, __c1, 16),
+          blogs: __S(30, __c1, 14),
           blogsCount: S.Number,
         }),
       ).annotate({ identifier: "QuickSearchPostResponse" });
@@ -1664,14 +1727,14 @@ function __c3(j: number): any {
           orgsFilter: S.optional(S.Unknown.pipe(T.Query())),
           reposFilter: S.optional(S.Unknown.pipe(T.Query())),
           pipelines: S.optional(S.Unknown.pipe(T.Query())),
-          exclude: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          exclude: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           namespace: S.optional(S.String.pipe(T.Query())),
           includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
           repoName: S.optional(S.String.pipe(T.Query())),
           repoType: S.optional(S.Unknown.pipe(T.Query())),
           discussionId: S.optional(S.String.pipe(T.Query())),
           discussionCollectionName: S.optional(S.String.pipe(T.Query())),
-          spacesTags: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          spacesTags: S.optional(__S(16, __c1, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/quicksearch", code: 200 })),
       ).annotate({ identifier: "SearchQuickRequest" });
   }

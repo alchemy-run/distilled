@@ -193,6 +193,36 @@ export type ContributionLevel =
   | "SECOND_QUARTILE"
   | "THIRD_QUARTILE";
 
+/** The effort level for a Copilot code review. For more information, see [Review effort level](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export type CopilotCodeReviewEffort = "ADAPTIVE" | "BALANCED" | "LITE" | "MAX";
+
+/** A Copilot code review effort level. For more information, see [Review effort level](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export type CopilotCodeReviewEffortLevel = "ADAPTIVE" | "BALANCED" | "LITE" | "MAX";
+
+/** The stable reason a Copilot code review request was denied or conflicted with an existing request. */
+export type CopilotCodeReviewRequestReason =
+  | "ACTOR_INELIGIBLE"
+  | "APP_NOT_INSTALLED"
+  | "LICENSED_ORGANIZATION_UNAVAILABLE"
+  | "NO_QUOTA_REMAINING"
+  | "REPOSITORY_INELIGIBLE"
+  | "REQUEST_CONFLICT";
+
+/** Which configuration an organization's Copilot code review runner values come from. */
+export type CopilotCodeReviewRunnerConfiguredBy = "CODE_REVIEW" | "CODING_AGENT";
+
+/** The type of runner Copilot code review uses. */
+export type CopilotCodeReviewRunnerType = "LABELED" | "STANDARD";
+
+/** The severity Copilot code review assigned to a review comment. */
+export type CopilotCodeReviewSeverity = "HIGH" | "LOW" | "MEDIUM";
+
+/** Which review comment severities Copilot code review leaves out. */
+export type CopilotCodeReviewSeverityFilter = "LOW" | "LOW_AND_MEDIUM" | "NO_FILTER";
+
+/** The kind of source reported as contributing to a Copilot code review comment. */
+export type CopilotCodeReviewSourceKind = "CUSTOM_INSTRUCTIONS" | "MCP" | "SKILL";
+
 /** The allowed value types for a custom property definition. */
 export type CustomPropertyValueType =
   | "MULTI_SELECT"
@@ -292,6 +322,12 @@ export type EnterpriseAllowPrivateRepositoryForkingPolicyValue =
   | "SAME_ORGANIZATION"
   | "SAME_ORGANIZATION_USER_ACCOUNTS"
   | "USER_ACCOUNTS";
+
+/** The configured Copilot code review policy for an enterprise. */
+export type EnterpriseCopilotCodeReviewPolicyState =
+  | "CONFIGURED_BY_ORGANIZATION_ADMINS"
+  | "DISABLED_FOR_ALL_ORGANIZATIONS"
+  | "ENABLED_FOR_ALL_ORGANIZATIONS";
 
 /** The possible values for the enterprise base repository permission setting. */
 export type EnterpriseDefaultRepositoryPermissionSettingValue =
@@ -468,7 +504,7 @@ export type IssueFieldSingleSelectOptionColor =
 export type IssueFieldUpdateOperation = "ADD" | "CLEAR" | "REMOVE" | "SET";
 
 /** The visibility of an issue field. */
-export type IssueFieldVisibility = "ALL" | "ORG_ONLY";
+export type IssueFieldVisibility = "ALL" | "ORG_ONLY" | "RESTRICTED";
 
 /** Properties by which issue connections can be ordered. */
 export type IssueOrderField = "COMMENTS" | "CREATED_AT" | "UPDATED_AT";
@@ -725,6 +761,27 @@ export type OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility =
   | "PUBLIC_INTERNAL"
   | "PUBLIC_PRIVATE";
 
+/** The default Copilot code review effort to set for an organization. For more
+information, see [Review effort level](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export type OrganizationCopilotCodeReviewEffortSetting =
+  | "ADAPTIVE"
+  | "BALANCED"
+  | "INHERIT"
+  | "LITE"
+  | "MAX";
+
+/** Why an organization's Copilot code review policy was not updated. */
+export type OrganizationCopilotCodeReviewPolicyConflict = "POLICY_MANAGED_BY_ENTERPRISE";
+
+/** The scope that controls an organization's Copilot code review policy. */
+export type OrganizationCopilotCodeReviewPolicyManager = "ENTERPRISE" | "ORGANIZATION";
+
+/** The Copilot code review policy state for an organization. */
+export type OrganizationCopilotCodeReviewPolicyState = "DISABLED" | "ENABLED";
+
+/** Why an organization's Copilot code review settings were not updated. */
+export type OrganizationCopilotCodeReviewSettingsConflict = "SETTING_NOT_EDITABLE";
+
 /** The possible organization invitation roles. */
 export type OrganizationInvitationRole =
   | "ADMIN"
@@ -816,6 +873,9 @@ export type PinnedDiscussionPattern =
 
 /** Properties by which pinned environments connections can be ordered */
 export type PinnedEnvironmentOrderField = "POSITION";
+
+/** Properties by which pinned issue fields can be ordered. */
+export type PinnedIssueFieldOrderField = "POSITION";
 
 /** The possible archived states of a project card. */
 export type ProjectCardArchivedState = "ARCHIVED" | "NOT_ARCHIVED";
@@ -1121,6 +1181,15 @@ export type RepositoryContributionType =
   | "PULL_REQUEST_REVIEW"
   | "REPOSITORY";
 
+/** The Copilot code review effort to set for a repository. For more information,
+see [Review effort level](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
+export type RepositoryCopilotCodeReviewEffortSetting =
+  | "ADAPTIVE"
+  | "BALANCED"
+  | "INHERIT"
+  | "LITE"
+  | "MAX";
+
 /** The allowed actors who can edit the values of a custom property. */
 export type RepositoryCustomPropertyValuesEditableBy = "ORG_ACTORS" | "ORG_AND_REPO_ACTORS";
 
@@ -1172,6 +1241,7 @@ export type RepositoryOrderField =
 export type RepositoryPermission =
   | "ADMIN"
   | "MAINTAIN"
+  | "MODERATE"
   | "READ"
   | "TRIAGE"
   | "TRIAGE_PLUS"
@@ -1216,6 +1286,7 @@ export type RepositoryRuleType =
   | "SECRET_SCANNING"
   | "TAG"
   | "TAG_NAME_PATTERN"
+  | "UNKNOWN"
   | "UPDATE"
   | "WORKFLOWS"
   | "WORKFLOW_UPDATES";
@@ -2530,7 +2601,7 @@ export interface CreateIssueFieldInput {
   readonly name: string;
   readonly options?: ReadonlyArray<IssueFieldSingleSelectOptionInput> | null | undefined;
   readonly ownerId: string;
-  readonly visibility?: "ALL" | "ORG_ONLY" | null | undefined;
+  readonly visibility?: "ALL" | "ORG_ONLY" | "RESTRICTED" | null | undefined;
 }
 
 /** Autogenerated input type of CreateIssueFieldValue */
@@ -2555,6 +2626,7 @@ export interface CreateIssueInput {
   readonly projectIds?: ReadonlyArray<string> | null | undefined;
   readonly projectV2Ids?: ReadonlyArray<string> | null | undefined;
   readonly repositoryId: string;
+  readonly statusId?: string | null | undefined;
   readonly title: string;
 }
 
@@ -3518,6 +3590,7 @@ export interface DequeuePullRequestInput {
 /** Autogenerated input type of DisablePullRequestAutoMerge */
 export interface DisablePullRequestAutoMergeInput {
   readonly clientMutationId?: string | null | undefined;
+  readonly includeStack?: boolean | null | undefined;
   readonly pullRequestId: string;
 }
 
@@ -3582,6 +3655,7 @@ export interface EnablePullRequestAutoMergeInput {
   readonly commitBody?: string | null | undefined;
   readonly commitHeadline?: string | null | undefined;
   readonly expectedHeadOid?: string | null | undefined;
+  readonly includeStack?: boolean | null | undefined;
   readonly mergeMethod?: "MERGE" | "REBASE" | "SQUASH" | null | undefined;
   readonly pullRequestId: string;
 }
@@ -4221,6 +4295,12 @@ export interface PinnedEnvironmentOrder {
   readonly field: "POSITION";
 }
 
+/** Ordering options for pinned issue field connections. */
+export interface PinnedIssueFieldOrder {
+  readonly direction: "ASC" | "DESC";
+  readonly field: "POSITION";
+}
+
 /** An issue or PR and its owning repository to be used in a project card. */
 export interface ProjectCardImport {
   readonly number: number;
@@ -4671,6 +4751,7 @@ export interface RepositoryRuleInput {
     | "SECRET_SCANNING"
     | "TAG"
     | "TAG_NAME_PATTERN"
+    | "UNKNOWN"
     | "UPDATE"
     | "WORKFLOWS"
     | "WORKFLOW_UPDATES";
@@ -4703,6 +4784,13 @@ export interface ReprioritizeSubIssueInput {
   readonly clientMutationId?: string | null | undefined;
   readonly issueId: string;
   readonly subIssueId: string;
+}
+
+/** Autogenerated input type of RequestCopilotCodeReview */
+export interface RequestCopilotCodeReviewInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly pullRequestId: string;
+  readonly reviewEffort?: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX" | null | undefined;
 }
 
 /** Autogenerated input type of RequestReviewsByLogin */
@@ -4867,6 +4955,14 @@ export interface SetIssueFieldValueInput {
   readonly clientMutationId?: string | null | undefined;
   readonly issueFields: ReadonlyArray<IssueFieldCreateOrUpdateInput>;
   readonly issueId: string;
+}
+
+/** Autogenerated input type of SetIssueStatus */
+export interface SetIssueStatusInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly duplicateIssueId?: string | null | undefined;
+  readonly issueId: string;
+  readonly statusId: string;
 }
 
 /** Autogenerated input type of SetOrganizationInteractionLimit */
@@ -5273,6 +5369,16 @@ export interface UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput {
   readonly settingValue: "DISABLED" | "ENABLED" | "NO_POLICY";
 }
 
+/** Autogenerated input type of UpdateEnterpriseCopilotCodeReviewPolicy */
+export interface UpdateEnterpriseCopilotCodeReviewPolicyInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly enterpriseId: string;
+  readonly policyState:
+    | "CONFIGURED_BY_ORGANIZATION_ADMINS"
+    | "DISABLED_FOR_ALL_ORGANIZATIONS"
+    | "ENABLED_FOR_ALL_ORGANIZATIONS";
+}
+
 /** Autogenerated input type of UpdateEnterpriseDefaultRepositoryPermissionSetting */
 export interface UpdateEnterpriseDefaultRepositoryPermissionSettingInput {
   readonly clientMutationId?: string | null | undefined;
@@ -5454,7 +5560,7 @@ export interface UpdateIssueFieldInput {
   readonly id: string;
   readonly name?: string | null | undefined;
   readonly options?: ReadonlyArray<IssueFieldSingleSelectOptionInput> | null | undefined;
-  readonly visibility?: "ALL" | "ORG_ONLY" | null | undefined;
+  readonly visibility?: "ALL" | "ORG_ONLY" | "RESTRICTED" | null | undefined;
 }
 
 /** Autogenerated input type of UpdateIssueFieldValue */
@@ -5481,6 +5587,7 @@ export interface UpdateIssueInput {
   readonly projectIds?: ReadonlyArray<string> | null | undefined;
   readonly state?: "CLOSED" | "OPEN" | null | undefined;
   readonly stateInput?: IssueStateUpdateInput | null | undefined;
+  readonly statusId?: string | null | undefined;
   readonly title?: string | null | undefined;
 }
 
@@ -5531,6 +5638,37 @@ export interface UpdateNotificationRestrictionSettingInput {
 export interface UpdateOrganizationAllowPrivateRepositoryForkingSettingInput {
   readonly clientMutationId?: string | null | undefined;
   readonly forkingEnabled: boolean;
+  readonly organizationId: string;
+}
+
+/** Autogenerated input type of UpdateOrganizationCopilotCodeReviewPolicy */
+export interface UpdateOrganizationCopilotCodeReviewPolicyInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly organizationId: string;
+  readonly state: "DISABLED" | "ENABLED";
+}
+
+/** Autogenerated input type of UpdateOrganizationCopilotCodeReviewRunnerConfiguration */
+export interface UpdateOrganizationCopilotCodeReviewRunnerConfigurationInput {
+  readonly allowRepositoryCustomization?: boolean | null | undefined;
+  readonly clientMutationId?: string | null | undefined;
+  readonly organizationId: string;
+  readonly runnerGroupName?: string | null | undefined;
+  readonly runnerLabels?: ReadonlyArray<string> | null | undefined;
+  readonly runnerType: "LABELED" | "STANDARD";
+}
+
+/** Autogenerated input type of UpdateOrganizationCopilotCodeReviewSettings */
+export interface UpdateOrganizationCopilotCodeReviewSettingsInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly defaultReviewEffort?:
+    | "ADAPTIVE"
+    | "BALANCED"
+    | "INHERIT"
+    | "LITE"
+    | "MAX"
+    | null
+    | undefined;
   readonly organizationId: string;
 }
 
@@ -5717,6 +5855,17 @@ export interface UpdateRefsInput {
   readonly repositoryId: string;
 }
 
+/** Autogenerated input type of UpdateRepositoryCopilotCodeReviewSettings */
+export interface UpdateRepositoryCopilotCodeReviewSettingsInput {
+  readonly clientMutationId?: string | null | undefined;
+  readonly crossRepoContextEnabled?: boolean | null | undefined;
+  readonly customInstructionsEnabled?: boolean | null | undefined;
+  readonly mcpEnabled?: boolean | null | undefined;
+  readonly repositoryId: string;
+  readonly reviewEffort?: "ADAPTIVE" | "BALANCED" | "INHERIT" | "LITE" | "MAX" | null | undefined;
+  readonly severityFilter?: "LOW" | "LOW_AND_MEDIUM" | "NO_FILTER" | null | undefined;
+}
+
 /** Autogenerated input type of UpdateRepositoryCustomProperty */
 export interface UpdateRepositoryCustomPropertyInput {
   readonly allowedValues?: ReadonlyArray<string> | null | undefined;
@@ -5802,7 +5951,14 @@ export interface UpdateTeamReviewAssignmentInput {
 /** Autogenerated input type of UpdateTeamsRepository */
 export interface UpdateTeamsRepositoryInput {
   readonly clientMutationId?: string | null | undefined;
-  readonly permission: "ADMIN" | "MAINTAIN" | "READ" | "TRIAGE" | "TRIAGE_PLUS" | "WRITE";
+  readonly permission:
+    | "ADMIN"
+    | "MAINTAIN"
+    | "MODERATE"
+    | "READ"
+    | "TRIAGE"
+    | "TRIAGE_PLUS"
+    | "WRITE";
   readonly repositoryId: string;
   readonly teamIds: ReadonlyArray<string>;
 }
@@ -6081,7 +6237,7 @@ export type OrganizationAuditEntry =
   | TeamRemoveMemberAuditEntry
   | TeamRemoveRepositoryAuditEntry;
 
-/** Used for argument of CreateProjectV2 mutation. */
+/** An organization or user that can own resources. */
 export type OrganizationOrUser = Organization | User;
 
 /** A pending suggestion for an issue. May target the issue's type, labels, field values, assignees, or close state. */
@@ -7821,6 +7977,13 @@ export interface CopilotCodeReviewParameters {
   readonly reviewOnPush: boolean;
 }
 
+/** A validated source reported as contributing to a Copilot code review comment. */
+export interface CopilotCodeReviewSource {
+  readonly kind: "CUSTOM_INSTRUCTIONS" | "MCP" | "SKILL";
+  readonly name: string;
+  readonly path: string | null;
+}
+
 /** Copilot endpoint information */
 export interface CopilotEndpoints {
   readonly api: string;
@@ -8990,6 +9153,7 @@ export interface Enterprise {
   readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly billingEmail: string | null;
   readonly billingInfo: EnterpriseBillingInfo | null;
+  readonly copilotCodeReviewPolicy: EnterpriseCopilotCodeReviewPolicy | null;
   readonly createdAt: string;
   readonly databaseId: number | null;
   readonly description: string | null;
@@ -9089,6 +9253,15 @@ export interface EnterpriseConnection {
   readonly nodes: ReadonlyArray<Enterprise | null> | null;
   readonly pageInfo: PageInfo;
   readonly totalCount: number;
+}
+
+/** The enterprise's configured Copilot code review policy, not a user's effective policy. */
+export interface EnterpriseCopilotCodeReviewPolicy {
+  readonly policyState:
+    | "CONFIGURED_BY_ORGANIZATION_ADMINS"
+    | "DISABLED_FOR_ALL_ORGANIZATIONS"
+    | "ENABLED_FOR_ALL_ORGANIZATIONS"
+    | null;
 }
 
 /** An edge in a connection. */
@@ -10038,6 +10211,7 @@ export interface Issue {
     { readonly enableDuplicate?: boolean | null | undefined },
     false
   >;
+  readonly status: PlanningStatus | null;
   readonly subIssues: ReadonlyArray<Issue>;
   readonly subIssuesSummary: SubIssuesSummary;
   readonly suggestedActors: ReadonlyArray<Bot | Mannequin | Organization | User>;
@@ -10144,6 +10318,7 @@ export interface Issue {
   readonly viewerCanReopen: boolean;
   readonly viewerCanSetFields: boolean | null;
   readonly viewerCanSetMilestone: boolean;
+  readonly viewerCanSetStatus: boolean;
   readonly viewerCanSubscribe: boolean;
   readonly viewerCanType: boolean | null;
   readonly viewerCanUpdate: boolean;
@@ -10325,7 +10500,7 @@ export interface IssueFieldCommon {
   readonly description: string | null;
   readonly fullDatabaseId: string | null;
   readonly name: string;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** Represents a date issue field. */
@@ -10336,7 +10511,7 @@ export interface IssueFieldDate {
   readonly fullDatabaseId: string | null;
   readonly id: string;
   readonly name: string;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** The value of a date field in an Issue item. */
@@ -10361,7 +10536,7 @@ export interface IssueFieldMultiSelect {
   readonly id: string;
   readonly name: string;
   readonly options: ReadonlyArray<IssueFieldSingleSelectOption>;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** The value of a multi select field in an Issue item. */
@@ -10386,7 +10561,7 @@ export interface IssueFieldNumber {
   readonly fullDatabaseId: string | null;
   readonly id: string;
   readonly name: string;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** The value of a number field in an Issue item. */
@@ -10427,7 +10602,7 @@ export interface IssueFieldSingleSelect {
   readonly id: string;
   readonly name: string;
   readonly options: ReadonlyArray<IssueFieldSingleSelectOption>;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** Represents an option in a single-select issue field. */
@@ -10466,7 +10641,7 @@ export interface IssueFieldText {
   readonly fullDatabaseId: string | null;
   readonly id: string;
   readonly name: string;
-  readonly visibility: "ALL" | "ORG_ONLY";
+  readonly visibility: "ALL" | "ORG_ONLY" | "RESTRICTED";
 }
 
 /** The value of a text field in an Issue item. */
@@ -12573,6 +12748,8 @@ export interface Organization {
     | TeamRemoveRepositoryAuditEntry
   >;
   readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
+  readonly copilotCodeReviewRunnerConfiguration: OrganizationCopilotCodeReviewRunnerConfiguration | null;
+  readonly copilotCodeReviewSettings: OrganizationCopilotCodeReviewSettings | null;
   readonly createdAt: string;
   readonly databaseId: number | null;
   readonly description: string | null;
@@ -12613,6 +12790,7 @@ export interface Organization {
   readonly newTeamUrl: string;
   readonly notificationDeliveryRestrictionEnabledSetting: "DISABLED" | "ENABLED";
   readonly organizationBillingEmail: string | null;
+  readonly organizationCopilotCodeReviewPolicy: OrganizationCopilotCodeReviewPolicy | null;
   readonly packages: ReadonlyArray<Package>;
   readonly pendingMembers: ReadonlyArray<User>;
   readonly pinnableItems: ReadonlyArray<Gist | Repository>;
@@ -12625,6 +12803,7 @@ export interface Organization {
   > | null;
   readonly pinnedItems: ReadonlyArray<Gist | Repository>;
   readonly pinnedItemsRemaining: number;
+  readonly planningStatuses: ReadonlyArray<PlanningStatus> | null;
   readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
@@ -12850,6 +13029,38 @@ export interface OrganizationConnection {
   readonly nodes: ReadonlyArray<Organization | null> | null;
   readonly pageInfo: PageInfo;
   readonly totalCount: number;
+}
+
+/** An organization's default Copilot code review effort. */
+export interface OrganizationCopilotCodeReviewDefaultEffort {
+  readonly configured: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX" | null;
+  readonly editable: boolean;
+  readonly effective: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX";
+  readonly githubDefault: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX";
+  readonly managedBy: "ENTERPRISE" | "ORGANIZATION";
+}
+
+/** The organization's configured and effective Copilot code review policy. */
+export interface OrganizationCopilotCodeReviewPolicy {
+  readonly configuredState: "DISABLED" | "ENABLED" | null;
+  readonly editable: boolean;
+  readonly effectiveState: "DISABLED" | "ENABLED";
+  readonly managedBy: "ENTERPRISE" | "ORGANIZATION";
+}
+
+/** The effective runner configuration that Copilot code review uses for an organization. */
+export interface OrganizationCopilotCodeReviewRunnerConfiguration {
+  readonly allowRepositoryCustomization: boolean;
+  readonly configuredBy: "CODE_REVIEW" | "CODING_AGENT";
+  readonly runnerGroupName: string | null;
+  readonly runnerLabels: ReadonlyArray<string>;
+  readonly runnerType: "LABELED" | "STANDARD";
+}
+
+/** An organization's Copilot code review settings. */
+export interface OrganizationCopilotCodeReviewSettings {
+  readonly availableReviewEfforts: ReadonlyArray<"ADAPTIVE" | "BALANCED" | "LITE" | "MAX">;
+  readonly defaultReviewEffort: OrganizationCopilotCodeReviewDefaultEffort;
 }
 
 /** An edge in a connection. */
@@ -13321,6 +13532,39 @@ export interface PinnedIssueConnection {
 export interface PinnedIssueEdge {
   readonly cursor: string;
   readonly node: PinnedIssue | null;
+}
+
+/** A planning status an issue can be in. Issue statuses are in public preview and
+subject to change. They're rolling out gradually, so they might not be available
+in your repositories yet. */
+export interface PlanningStatus {
+  readonly category: PlanningStatusCategory;
+  readonly id: string;
+  readonly name: string;
+}
+
+/** The category of a planning status, which decides whether the issue is open or
+closed. Issue statuses are in public preview and subject to change. They're
+rolling out gradually, so they might not be available in your repositories yet. */
+export interface PlanningStatusCategory {
+  readonly key: string;
+  readonly name: string;
+  readonly state: "CLOSED" | "OPEN";
+  readonly stateReason: "COMPLETED" | "DUPLICATE" | "NOT_PLANNED" | "REOPENED" | null;
+}
+
+/** The connection type for PlanningStatus. */
+export interface PlanningStatusConnection {
+  readonly edges: ReadonlyArray<PlanningStatusEdge | null> | null;
+  readonly nodes: ReadonlyArray<PlanningStatus | null> | null;
+  readonly pageInfo: PageInfo;
+  readonly totalCount: number;
+}
+
+/** An edge in a connection. */
+export interface PlanningStatusEdge {
+  readonly cursor: string;
+  readonly node: PlanningStatus | null;
 }
 
 /** Audit log entry for a private_repository_forking.disable event. */
@@ -14446,7 +14690,11 @@ export interface PullRequest {
     | "MEMBER"
     | "NONE"
     | "OWNER";
-  readonly autoMergeRequest: AutoMergeRequest | null;
+  readonly autoMergeRequest: FieldWithArgs<
+    AutoMergeRequest | null,
+    { readonly includeStack?: boolean | null | undefined },
+    false
+  >;
   readonly baseRef: Ref | null;
   readonly baseRefName: string;
   readonly baseRefOid: string;
@@ -14663,9 +14911,17 @@ export interface PullRequest {
   readonly viewerCanAssign: boolean;
   readonly viewerCanClose: boolean;
   readonly viewerCanDeleteHeadRef: boolean;
-  readonly viewerCanDisableAutoMerge: boolean;
+  readonly viewerCanDisableAutoMerge: FieldWithArgs<
+    boolean,
+    { readonly includeStack?: boolean | null | undefined },
+    false
+  >;
   readonly viewerCanEditFiles: boolean;
-  readonly viewerCanEnableAutoMerge: boolean;
+  readonly viewerCanEnableAutoMerge: FieldWithArgs<
+    boolean,
+    { readonly includeStack?: boolean | null | undefined },
+    false
+  >;
   readonly viewerCanLabel: boolean;
   readonly viewerCanMergeAsAdmin: boolean;
   readonly viewerCannotUpdateReasons: ReadonlyArray<
@@ -14811,6 +15067,7 @@ export interface PullRequestReview {
   readonly bodyText: string;
   readonly comments: ReadonlyArray<PullRequestReviewComment>;
   readonly commit: Commit | null;
+  readonly copilotCodeReviewEffort: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX" | null;
   readonly createdAt: string;
   readonly createdViaEmail: boolean;
   readonly databaseId: number | null;
@@ -14818,6 +15075,7 @@ export interface PullRequestReview {
   readonly fullDatabaseId: string | null;
   readonly id: string;
   readonly includesCreatedEdit: boolean;
+  readonly isCopilotCodeReview: boolean;
   readonly isMinimized: boolean;
   readonly lastEditedAt: string | null;
   readonly minimizedReason: string | null;
@@ -14866,6 +15124,8 @@ export interface PullRequestReviewComment {
   readonly bodyHTML: string;
   readonly bodyText: string;
   readonly commit: Commit | null;
+  readonly copilotCodeReviewSeverity: "HIGH" | "LOW" | "MEDIUM" | null;
+  readonly copilotCodeReviewSources: ReadonlyArray<CopilotCodeReviewSource>;
   readonly createdAt: string;
   readonly createdViaEmail: boolean;
   readonly databaseId: number | null;
@@ -14875,6 +15135,7 @@ export interface PullRequestReviewComment {
   readonly fullDatabaseId: string | null;
   readonly id: string;
   readonly includesCreatedEdit: boolean;
+  readonly isCopilotCodeReview: boolean;
   readonly isMinimized: boolean;
   readonly lastEditedAt: string | null;
   readonly line: number | null;
@@ -14965,6 +15226,7 @@ export interface PullRequestReviewThread {
   readonly path: string;
   readonly pullRequest: PullRequest;
   readonly repository: Repository;
+  readonly resolutionReason: "ADDRESSED" | "INVALID" | "WONT_FIX" | null;
   readonly resolvedBy: User | null;
   readonly startDiffSide: "LEFT" | "RIGHT" | null;
   readonly startLine: number | null;
@@ -16594,8 +16856,16 @@ export interface Repository {
   readonly parent: Repository | null;
   readonly pinnedDiscussions: ReadonlyArray<PinnedDiscussion>;
   readonly pinnedEnvironments: ReadonlyArray<PinnedEnvironment> | null;
+  readonly pinnedIssueFields: ReadonlyArray<
+    | IssueFieldDate
+    | IssueFieldMultiSelect
+    | IssueFieldNumber
+    | IssueFieldSingleSelect
+    | IssueFieldText
+  > | null;
   readonly pinnedIssues: ReadonlyArray<PinnedIssue> | null;
   readonly planFeatures: RepositoryPlanFeatures;
+  readonly planningStatuses: ReadonlyArray<PlanningStatus> | null;
   readonly primaryLanguage: Language | null;
   readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
@@ -16615,6 +16885,7 @@ export interface Repository {
   readonly refs: ReadonlyArray<Ref> | null;
   readonly release: FieldWithArgs<Release | null, { readonly tagName: string }>;
   readonly releases: ReadonlyArray<Release>;
+  readonly repositoryCopilotCodeReviewSettings: RepositoryCopilotCodeReviewSettings | null;
   readonly repositoryCustomPropertyValue: FieldWithArgs<
     RepositoryCustomPropertyValue | null,
     { readonly propertyName: string }
@@ -16660,6 +16931,7 @@ export interface Repository {
   readonly viewerPermission:
     | "ADMIN"
     | "MAINTAIN"
+    | "MODERATE"
     | "READ"
     | "TRIAGE"
     | "TRIAGE_PLUS"
@@ -16713,7 +16985,14 @@ export interface RepositoryCollaboratorConnection {
 export interface RepositoryCollaboratorEdge {
   readonly cursor: string;
   readonly node: User;
-  readonly permission: "ADMIN" | "MAINTAIN" | "READ" | "TRIAGE" | "TRIAGE_PLUS" | "WRITE";
+  readonly permission:
+    | "ADMIN"
+    | "MAINTAIN"
+    | "MODERATE"
+    | "READ"
+    | "TRIAGE"
+    | "TRIAGE_PLUS"
+    | "WRITE";
   readonly permissionSources: ReadonlyArray<PermissionSource> | null;
 }
 
@@ -16731,6 +17010,22 @@ export interface RepositoryContactLink {
   readonly about: string;
   readonly name: string;
   readonly url: string;
+}
+
+/** A repository's Copilot code review effort. */
+export interface RepositoryCopilotCodeReviewEffort {
+  readonly configured: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX" | null;
+  readonly effective: "ADAPTIVE" | "BALANCED" | "LITE" | "MAX";
+}
+
+/** A repository's Copilot code review settings. These settings tune reviews; they do not enable Copilot code review. */
+export interface RepositoryCopilotCodeReviewSettings {
+  readonly availableReviewEfforts: ReadonlyArray<"ADAPTIVE" | "BALANCED" | "LITE" | "MAX">;
+  readonly crossRepoContextEnabled: boolean;
+  readonly customInstructionsEnabled: boolean;
+  readonly mcpEnabled: boolean;
+  readonly reviewEffort: RepositoryCopilotCodeReviewEffort;
+  readonly severityFilter: "LOW" | "LOW_AND_MEDIUM" | "NO_FILTER";
 }
 
 /** A repository custom property. */
@@ -16867,7 +17162,14 @@ export interface RepositoryInvitation {
   readonly invitee: User | null;
   readonly inviter: User;
   readonly permalink: string;
-  readonly permission: "ADMIN" | "MAINTAIN" | "READ" | "TRIAGE" | "TRIAGE_PLUS" | "WRITE";
+  readonly permission:
+    | "ADMIN"
+    | "MAINTAIN"
+    | "MODERATE"
+    | "READ"
+    | "TRIAGE"
+    | "TRIAGE_PLUS"
+    | "WRITE";
   readonly repository: RepositoryInfo | null;
 }
 
@@ -17019,6 +17321,7 @@ export interface RepositoryRule {
     | "SECRET_SCANNING"
     | "TAG"
     | "TAG_NAME_PATTERN"
+    | "UNKNOWN"
     | "UPDATE"
     | "WORKFLOWS"
     | "WORKFLOW_UPDATES";
@@ -17234,6 +17537,23 @@ export interface RepositoryVulnerabilityAlertEdge {
 export interface ReprioritizeSubIssuePayload {
   readonly clientMutationId: string | null;
   readonly issue: Issue | null;
+}
+
+/** Autogenerated return type of RequestCopilotCodeReview. */
+export interface RequestCopilotCodeReviewPayload {
+  readonly actor: Actor | null;
+  readonly clientMutationId: string | null;
+  readonly failureReason:
+    | "ACTOR_INELIGIBLE"
+    | "APP_NOT_INSTALLED"
+    | "LICENSED_ORGANIZATION_UNAVAILABLE"
+    | "NO_QUOTA_REMAINING"
+    | "REPOSITORY_INELIGIBLE"
+    | "REQUEST_CONFLICT"
+    | null;
+  readonly pullRequest: PullRequest | null;
+  readonly reviewRequest: ReviewRequest | null;
+  readonly success: boolean | null;
 }
 
 /** Autogenerated return type of RequestReviewsByLogin. */
@@ -17642,6 +17962,12 @@ export interface SetIssueFieldValuePayload {
     | IssueFieldSingleSelectValue
     | IssueFieldTextValue
   > | null;
+}
+
+/** Autogenerated return type of SetIssueStatus. */
+export interface SetIssueStatusPayload {
+  readonly clientMutationId: string | null;
+  readonly issue: Issue | null;
 }
 
 /** Autogenerated return type of SetOrganizationInteractionLimit. */
@@ -18589,7 +18915,14 @@ export interface TeamRepositoryConnection {
 export interface TeamRepositoryEdge {
   readonly cursor: string;
   readonly node: Repository;
-  readonly permission: "ADMIN" | "MAINTAIN" | "READ" | "TRIAGE" | "TRIAGE_PLUS" | "WRITE";
+  readonly permission:
+    | "ADMIN"
+    | "MAINTAIN"
+    | "MODERATE"
+    | "READ"
+    | "TRIAGE"
+    | "TRIAGE_PLUS"
+    | "WRITE";
 }
 
 /** Represents a team that can be requested to review a pull request. */
@@ -18936,6 +19269,12 @@ export interface UpdateEnterpriseAllowPrivateRepositoryForkingSettingPayload {
   readonly message: string | null;
 }
 
+/** Autogenerated return type of UpdateEnterpriseCopilotCodeReviewPolicy. */
+export interface UpdateEnterpriseCopilotCodeReviewPolicyPayload {
+  readonly clientMutationId: string | null;
+  readonly policy: EnterpriseCopilotCodeReviewPolicy | null;
+}
+
 /** Autogenerated return type of UpdateEnterpriseDefaultRepositoryPermissionSetting. */
 export interface UpdateEnterpriseDefaultRepositoryPermissionSettingPayload {
   readonly clientMutationId: string | null;
@@ -19145,6 +19484,26 @@ export interface UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload {
   readonly organization: Organization | null;
 }
 
+/** Autogenerated return type of UpdateOrganizationCopilotCodeReviewPolicy. */
+export interface UpdateOrganizationCopilotCodeReviewPolicyPayload {
+  readonly clientMutationId: string | null;
+  readonly conflict: "POLICY_MANAGED_BY_ENTERPRISE" | null;
+  readonly policy: OrganizationCopilotCodeReviewPolicy | null;
+}
+
+/** Autogenerated return type of UpdateOrganizationCopilotCodeReviewRunnerConfiguration. */
+export interface UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayload {
+  readonly clientMutationId: string | null;
+  readonly runnerConfiguration: OrganizationCopilotCodeReviewRunnerConfiguration | null;
+}
+
+/** Autogenerated return type of UpdateOrganizationCopilotCodeReviewSettings. */
+export interface UpdateOrganizationCopilotCodeReviewSettingsPayload {
+  readonly clientMutationId: string | null;
+  readonly conflict: "SETTING_NOT_EDITABLE" | null;
+  readonly settings: OrganizationCopilotCodeReviewSettings | null;
+}
+
 /** Autogenerated return type of UpdateOrganizationWebCommitSignoffSetting. */
 export interface UpdateOrganizationWebCommitSignoffSettingPayload {
   readonly clientMutationId: string | null;
@@ -19268,6 +19627,12 @@ export interface UpdateRefPayload {
 /** Autogenerated return type of UpdateRefs. */
 export interface UpdateRefsPayload {
   readonly clientMutationId: string | null;
+}
+
+/** Autogenerated return type of UpdateRepositoryCopilotCodeReviewSettings. */
+export interface UpdateRepositoryCopilotCodeReviewSettingsPayload {
+  readonly clientMutationId: string | null;
+  readonly settings: RepositoryCopilotCodeReviewSettings | null;
 }
 
 /** Autogenerated return type of UpdateRepositoryCustomProperty. */
@@ -19409,7 +19774,15 @@ export interface User {
   readonly isSponsoredBy: FieldWithArgs<boolean, { readonly accountLogin: string }>;
   readonly isSponsoringViewer: boolean;
   readonly issueComments: ReadonlyArray<IssueComment>;
+  readonly issueFields: ReadonlyArray<
+    | IssueFieldDate
+    | IssueFieldMultiSelect
+    | IssueFieldNumber
+    | IssueFieldSingleSelect
+    | IssueFieldText
+  > | null;
   readonly issues: ReadonlyArray<Issue>;
+  readonly issueTypes: ReadonlyArray<IssueType> | null;
   readonly isViewer: boolean;
   readonly itemShowcase: ProfileItemShowcase;
   readonly lifetimeReceivedSponsorshipValues: ReadonlyArray<SponsorAndLifetimeValue>;
@@ -19423,8 +19796,16 @@ export interface User {
   readonly organizationVerifiedDomainEmails: ReadonlyArray<string>;
   readonly packages: ReadonlyArray<Package>;
   readonly pinnableItems: ReadonlyArray<Gist | Repository>;
+  readonly pinnedIssueFields: ReadonlyArray<
+    | IssueFieldDate
+    | IssueFieldMultiSelect
+    | IssueFieldNumber
+    | IssueFieldSingleSelect
+    | IssueFieldText
+  > | null;
   readonly pinnedItems: ReadonlyArray<Gist | Repository>;
   readonly pinnedItemsRemaining: number;
+  readonly planningStatuses: ReadonlyArray<PlanningStatus> | null;
   readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
@@ -20697,6 +21078,12 @@ export const CopilotCodeReviewParameters: TypeMeta = {
     return CopilotCodeReviewParametersFields;
   },
 };
+export const CopilotCodeReviewSource: TypeMeta = {
+  name: "CopilotCodeReviewSource",
+  get fields() {
+    return CopilotCodeReviewSourceFields;
+  },
+};
 export const CopilotEndpoints: TypeMeta = {
   name: "CopilotEndpoints",
   get fields() {
@@ -21583,6 +21970,12 @@ export const EnterpriseConnection: TypeMeta = {
   name: "EnterpriseConnection",
   get fields() {
     return EnterpriseConnectionFields;
+  },
+};
+export const EnterpriseCopilotCodeReviewPolicy: TypeMeta = {
+  name: "EnterpriseCopilotCodeReviewPolicy",
+  get fields() {
+    return EnterpriseCopilotCodeReviewPolicyFields;
   },
 };
 export const EnterpriseEdge: TypeMeta = {
@@ -22953,6 +23346,30 @@ export const OrganizationConnection: TypeMeta = {
     return OrganizationConnectionFields;
   },
 };
+export const OrganizationCopilotCodeReviewDefaultEffort: TypeMeta = {
+  name: "OrganizationCopilotCodeReviewDefaultEffort",
+  get fields() {
+    return OrganizationCopilotCodeReviewDefaultEffortFields;
+  },
+};
+export const OrganizationCopilotCodeReviewPolicy: TypeMeta = {
+  name: "OrganizationCopilotCodeReviewPolicy",
+  get fields() {
+    return OrganizationCopilotCodeReviewPolicyFields;
+  },
+};
+export const OrganizationCopilotCodeReviewRunnerConfiguration: TypeMeta = {
+  name: "OrganizationCopilotCodeReviewRunnerConfiguration",
+  get fields() {
+    return OrganizationCopilotCodeReviewRunnerConfigurationFields;
+  },
+};
+export const OrganizationCopilotCodeReviewSettings: TypeMeta = {
+  name: "OrganizationCopilotCodeReviewSettings",
+  get fields() {
+    return OrganizationCopilotCodeReviewSettingsFields;
+  },
+};
 export const OrganizationEdge: TypeMeta = {
   name: "OrganizationEdge",
   get fields() {
@@ -23269,6 +23686,30 @@ export const PinnedIssueEdge: TypeMeta = {
   name: "PinnedIssueEdge",
   get fields() {
     return PinnedIssueEdgeFields;
+  },
+};
+export const PlanningStatus: TypeMeta = {
+  name: "PlanningStatus",
+  get fields() {
+    return PlanningStatusFields;
+  },
+};
+export const PlanningStatusCategory: TypeMeta = {
+  name: "PlanningStatusCategory",
+  get fields() {
+    return PlanningStatusCategoryFields;
+  },
+};
+export const PlanningStatusConnection: TypeMeta = {
+  name: "PlanningStatusConnection",
+  get fields() {
+    return PlanningStatusConnectionFields;
+  },
+};
+export const PlanningStatusEdge: TypeMeta = {
+  name: "PlanningStatusEdge",
+  get fields() {
+    return PlanningStatusEdgeFields;
   },
 };
 export const PrivateRepositoryForkingDisableAuditEntry: TypeMeta = {
@@ -24453,6 +24894,18 @@ export const RepositoryContactLink: TypeMeta = {
     return RepositoryContactLinkFields;
   },
 };
+export const RepositoryCopilotCodeReviewEffort: TypeMeta = {
+  name: "RepositoryCopilotCodeReviewEffort",
+  get fields() {
+    return RepositoryCopilotCodeReviewEffortFields;
+  },
+};
+export const RepositoryCopilotCodeReviewSettings: TypeMeta = {
+  name: "RepositoryCopilotCodeReviewSettings",
+  get fields() {
+    return RepositoryCopilotCodeReviewSettingsFields;
+  },
+};
 export const RepositoryCustomProperty: TypeMeta = {
   name: "RepositoryCustomProperty",
   get fields() {
@@ -24703,6 +25156,12 @@ export const ReprioritizeSubIssuePayload: TypeMeta = {
   name: "ReprioritizeSubIssuePayload",
   get fields() {
     return ReprioritizeSubIssuePayloadFields;
+  },
+};
+export const RequestCopilotCodeReviewPayload: TypeMeta = {
+  name: "RequestCopilotCodeReviewPayload",
+  get fields() {
+    return RequestCopilotCodeReviewPayloadFields;
   },
 };
 export const RequestReviewsByLoginPayload: TypeMeta = {
@@ -24967,6 +25426,12 @@ export const SetIssueFieldValuePayload: TypeMeta = {
   name: "SetIssueFieldValuePayload",
   get fields() {
     return SetIssueFieldValuePayloadFields;
+  },
+};
+export const SetIssueStatusPayload: TypeMeta = {
+  name: "SetIssueStatusPayload",
+  get fields() {
+    return SetIssueStatusPayloadFields;
   },
 };
 export const SetOrganizationInteractionLimitPayload: TypeMeta = {
@@ -25695,6 +26160,12 @@ export const UpdateEnterpriseAllowPrivateRepositoryForkingSettingPayload: TypeMe
     return UpdateEnterpriseAllowPrivateRepositoryForkingSettingPayloadFields;
   },
 };
+export const UpdateEnterpriseCopilotCodeReviewPolicyPayload: TypeMeta = {
+  name: "UpdateEnterpriseCopilotCodeReviewPolicyPayload",
+  get fields() {
+    return UpdateEnterpriseCopilotCodeReviewPolicyPayloadFields;
+  },
+};
 export const UpdateEnterpriseDefaultRepositoryPermissionSettingPayload: TypeMeta = {
   name: "UpdateEnterpriseDefaultRepositoryPermissionSettingPayload",
   get fields() {
@@ -25875,6 +26346,24 @@ export const UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload: Type
     return UpdateOrganizationAllowPrivateRepositoryForkingSettingPayloadFields;
   },
 };
+export const UpdateOrganizationCopilotCodeReviewPolicyPayload: TypeMeta = {
+  name: "UpdateOrganizationCopilotCodeReviewPolicyPayload",
+  get fields() {
+    return UpdateOrganizationCopilotCodeReviewPolicyPayloadFields;
+  },
+};
+export const UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayload: TypeMeta = {
+  name: "UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayload",
+  get fields() {
+    return UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayloadFields;
+  },
+};
+export const UpdateOrganizationCopilotCodeReviewSettingsPayload: TypeMeta = {
+  name: "UpdateOrganizationCopilotCodeReviewSettingsPayload",
+  get fields() {
+    return UpdateOrganizationCopilotCodeReviewSettingsPayloadFields;
+  },
+};
 export const UpdateOrganizationWebCommitSignoffSettingPayload: TypeMeta = {
   name: "UpdateOrganizationWebCommitSignoffSettingPayload",
   get fields() {
@@ -25993,6 +26482,12 @@ export const UpdateRefsPayload: TypeMeta = {
   name: "UpdateRefsPayload",
   get fields() {
     return UpdateRefsPayloadFields;
+  },
+};
+export const UpdateRepositoryCopilotCodeReviewSettingsPayload: TypeMeta = {
+  name: "UpdateRepositoryCopilotCodeReviewSettingsPayload",
+  get fields() {
+    return UpdateRepositoryCopilotCodeReviewSettingsPayloadFields;
   },
 };
 export const UpdateRepositoryCustomPropertyPayload: TypeMeta = {
@@ -27900,6 +28395,12 @@ const CopilotCodeReviewParametersFields: TypeMeta["fields"] = {
   reviewOnPush: scalarField("reviewOnPush"),
 };
 
+const CopilotCodeReviewSourceFields: TypeMeta["fields"] = {
+  kind: scalarField("kind"),
+  name: scalarField("name"),
+  path: scalarField("path"),
+};
+
 const CopilotEndpointsFields: TypeMeta["fields"] = {
   api: scalarField("api"),
   exp: scalarField("exp"),
@@ -28941,6 +29442,10 @@ const EnterpriseFields: TypeMeta["fields"] = {
   avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   billingEmail: scalarField("billingEmail"),
   billingInfo: objectField("billingInfo", EnterpriseBillingInfo),
+  copilotCodeReviewPolicy: objectField(
+    "copilotCodeReviewPolicy",
+    EnterpriseCopilotCodeReviewPolicy,
+  ),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
   description: scalarField("description"),
@@ -29084,6 +29589,10 @@ const EnterpriseConnectionFields: TypeMeta["fields"] = {
   nodes: listField("nodes", Enterprise),
   pageInfo: objectField("pageInfo", PageInfo),
   totalCount: scalarField("totalCount"),
+};
+
+const EnterpriseCopilotCodeReviewPolicyFields: TypeMeta["fields"] = {
+  policyState: scalarField("policyState"),
 };
 
 const EnterpriseEdgeFields: TypeMeta["fields"] = {
@@ -30301,6 +30810,7 @@ const IssueFields_: TypeMeta["fields"] = {
   resourcePath: scalarField("resourcePath"),
   state: scalarField("state"),
   stateReason: scalarField("stateReason", { argTypes: { enableDuplicate: "Boolean" } }),
+  status: objectField("status", PlanningStatus),
   subIssues: connectionField("subIssues", Issue, {
     after: "String",
     before: "String",
@@ -30365,6 +30875,7 @@ const IssueFields_: TypeMeta["fields"] = {
   viewerCanReopen: scalarField("viewerCanReopen"),
   viewerCanSetFields: scalarField("viewerCanSetFields"),
   viewerCanSetMilestone: scalarField("viewerCanSetMilestone"),
+  viewerCanSetStatus: scalarField("viewerCanSetStatus"),
   viewerCanSubscribe: scalarField("viewerCanSubscribe"),
   viewerCanType: scalarField("viewerCanType"),
   viewerCanUpdate: scalarField("viewerCanUpdate"),
@@ -32122,6 +32633,14 @@ const OrganizationFields: TypeMeta["fields"] = {
     query: "String",
   }),
   avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
+  copilotCodeReviewRunnerConfiguration: objectField(
+    "copilotCodeReviewRunnerConfiguration",
+    OrganizationCopilotCodeReviewRunnerConfiguration,
+  ),
+  copilotCodeReviewSettings: objectField(
+    "copilotCodeReviewSettings",
+    OrganizationCopilotCodeReviewSettings,
+  ),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
   description: scalarField("description"),
@@ -32231,6 +32750,10 @@ const OrganizationFields: TypeMeta["fields"] = {
     "notificationDeliveryRestrictionEnabledSetting",
   ),
   organizationBillingEmail: scalarField("organizationBillingEmail"),
+  organizationCopilotCodeReviewPolicy: objectField(
+    "organizationCopilotCodeReviewPolicy",
+    OrganizationCopilotCodeReviewPolicy,
+  ),
   packages: connectionField("packages", Package, {
     after: "String",
     before: "String",
@@ -32259,6 +32782,7 @@ const OrganizationFields: TypeMeta["fields"] = {
     before: "String",
     first: "Int",
     last: "Int",
+    orderBy: "PinnedIssueFieldOrder",
   }),
   pinnedItems: connectionField("pinnedItems", PinnableItem, {
     after: "String",
@@ -32268,6 +32792,12 @@ const OrganizationFields: TypeMeta["fields"] = {
     types: "[PinnableItemType!]",
   }),
   pinnedItemsRemaining: scalarField("pinnedItemsRemaining"),
+  planningStatuses: connectionField("planningStatuses", PlanningStatus, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+  }),
   project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
@@ -32482,6 +33012,37 @@ const OrganizationConnectionFields: TypeMeta["fields"] = {
   nodes: listField("nodes", Organization),
   pageInfo: objectField("pageInfo", PageInfo),
   totalCount: scalarField("totalCount"),
+};
+
+const OrganizationCopilotCodeReviewDefaultEffortFields: TypeMeta["fields"] = {
+  configured: scalarField("configured"),
+  editable: scalarField("editable"),
+  effective: scalarField("effective"),
+  githubDefault: scalarField("githubDefault"),
+  managedBy: scalarField("managedBy"),
+};
+
+const OrganizationCopilotCodeReviewPolicyFields: TypeMeta["fields"] = {
+  configuredState: scalarField("configuredState"),
+  editable: scalarField("editable"),
+  effectiveState: scalarField("effectiveState"),
+  managedBy: scalarField("managedBy"),
+};
+
+const OrganizationCopilotCodeReviewRunnerConfigurationFields: TypeMeta["fields"] = {
+  allowRepositoryCustomization: scalarField("allowRepositoryCustomization"),
+  configuredBy: scalarField("configuredBy"),
+  runnerGroupName: scalarField("runnerGroupName"),
+  runnerLabels: scalarField("runnerLabels"),
+  runnerType: scalarField("runnerType"),
+};
+
+const OrganizationCopilotCodeReviewSettingsFields: TypeMeta["fields"] = {
+  availableReviewEfforts: scalarField("availableReviewEfforts"),
+  defaultReviewEffort: objectField(
+    "defaultReviewEffort",
+    OrganizationCopilotCodeReviewDefaultEffort,
+  ),
 };
 
 const OrganizationEdgeFields: TypeMeta["fields"] = {
@@ -32915,6 +33476,31 @@ const PinnedIssueConnectionFields: TypeMeta["fields"] = {
 const PinnedIssueEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", PinnedIssue),
+};
+
+const PlanningStatusFields: TypeMeta["fields"] = {
+  category: objectField("category", PlanningStatusCategory),
+  id: scalarField("id"),
+  name: scalarField("name"),
+};
+
+const PlanningStatusCategoryFields: TypeMeta["fields"] = {
+  key: scalarField("key"),
+  name: scalarField("name"),
+  state: scalarField("state"),
+  stateReason: scalarField("stateReason"),
+};
+
+const PlanningStatusConnectionFields: TypeMeta["fields"] = {
+  edges: listField("edges", PlanningStatusEdge),
+  nodes: listField("nodes", PlanningStatus),
+  pageInfo: objectField("pageInfo", PageInfo),
+  totalCount: scalarField("totalCount"),
+};
+
+const PlanningStatusEdgeFields: TypeMeta["fields"] = {
+  cursor: scalarField("cursor"),
+  node: objectField("node", PlanningStatus),
 };
 
 const PrivateRepositoryForkingDisableAuditEntryFields: TypeMeta["fields"] = {
@@ -33818,7 +34404,7 @@ const PullRequestFields: TypeMeta["fields"] = {
   }),
   author: objectField("author", Actor),
   authorAssociation: scalarField("authorAssociation"),
-  autoMergeRequest: objectField("autoMergeRequest", AutoMergeRequest),
+  autoMergeRequest: objectField("autoMergeRequest", AutoMergeRequest, { includeStack: "Boolean" }),
   baseRef: objectField("baseRef", Ref),
   baseRefName: scalarField("baseRefName"),
   baseRefOid: scalarField("baseRefOid"),
@@ -34029,9 +34615,13 @@ const PullRequestFields: TypeMeta["fields"] = {
   viewerCanAssign: scalarField("viewerCanAssign"),
   viewerCanClose: scalarField("viewerCanClose"),
   viewerCanDeleteHeadRef: scalarField("viewerCanDeleteHeadRef"),
-  viewerCanDisableAutoMerge: scalarField("viewerCanDisableAutoMerge"),
+  viewerCanDisableAutoMerge: scalarField("viewerCanDisableAutoMerge", {
+    argTypes: { includeStack: "Boolean" },
+  }),
   viewerCanEditFiles: scalarField("viewerCanEditFiles"),
-  viewerCanEnableAutoMerge: scalarField("viewerCanEnableAutoMerge"),
+  viewerCanEnableAutoMerge: scalarField("viewerCanEnableAutoMerge", {
+    argTypes: { includeStack: "Boolean" },
+  }),
   viewerCanLabel: scalarField("viewerCanLabel"),
   viewerCanMergeAsAdmin: scalarField("viewerCanMergeAsAdmin"),
   viewerCannotUpdateReasons: scalarField("viewerCannotUpdateReasons"),
@@ -34167,6 +34757,7 @@ const PullRequestReviewFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   commit: objectField("commit", Commit),
+  copilotCodeReviewEffort: scalarField("copilotCodeReviewEffort"),
   createdAt: scalarField("createdAt"),
   createdViaEmail: scalarField("createdViaEmail"),
   databaseId: scalarField("databaseId"),
@@ -34174,6 +34765,7 @@ const PullRequestReviewFields: TypeMeta["fields"] = {
   fullDatabaseId: scalarField("fullDatabaseId"),
   id: scalarField("id"),
   includesCreatedEdit: scalarField("includesCreatedEdit"),
+  isCopilotCodeReview: scalarField("isCopilotCodeReview"),
   isMinimized: scalarField("isMinimized"),
   lastEditedAt: scalarField("lastEditedAt"),
   minimizedReason: scalarField("minimizedReason"),
@@ -34222,6 +34814,8 @@ const PullRequestReviewCommentFields: TypeMeta["fields"] = {
   bodyHTML: scalarField("bodyHTML"),
   bodyText: scalarField("bodyText"),
   commit: objectField("commit", Commit),
+  copilotCodeReviewSeverity: scalarField("copilotCodeReviewSeverity"),
+  copilotCodeReviewSources: listField("copilotCodeReviewSources", CopilotCodeReviewSource),
   createdAt: scalarField("createdAt"),
   createdViaEmail: scalarField("createdViaEmail"),
   databaseId: scalarField("databaseId"),
@@ -34231,6 +34825,7 @@ const PullRequestReviewCommentFields: TypeMeta["fields"] = {
   fullDatabaseId: scalarField("fullDatabaseId"),
   id: scalarField("id"),
   includesCreatedEdit: scalarField("includesCreatedEdit"),
+  isCopilotCodeReview: scalarField("isCopilotCodeReview"),
   isMinimized: scalarField("isMinimized"),
   lastEditedAt: scalarField("lastEditedAt"),
   line: scalarField("line"),
@@ -34331,6 +34926,7 @@ const PullRequestReviewThreadFields: TypeMeta["fields"] = {
   path: scalarField("path"),
   pullRequest: objectField("pullRequest", PullRequest),
   repository: objectField("repository", Repository),
+  resolutionReason: scalarField("resolutionReason"),
   resolvedBy: objectField("resolvedBy", User),
   startDiffSide: scalarField("startDiffSide"),
   startLine: scalarField("startLine"),
@@ -35646,6 +36242,13 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "PinnedEnvironmentOrder",
   }),
+  pinnedIssueFields: connectionField("pinnedIssueFields", IssueFields, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+    orderBy: "PinnedIssueFieldOrder",
+  }),
   pinnedIssues: connectionField("pinnedIssues", PinnedIssue, {
     after: "String",
     before: "String",
@@ -35653,6 +36256,12 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   planFeatures: objectField("planFeatures", RepositoryPlanFeatures),
+  planningStatuses: connectionField("planningStatuses", PlanningStatus, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+  }),
   primaryLanguage: objectField("primaryLanguage", Language),
   project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
@@ -35721,6 +36330,10 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "ReleaseOrder",
   }),
+  repositoryCopilotCodeReviewSettings: objectField(
+    "repositoryCopilotCodeReviewSettings",
+    RepositoryCopilotCodeReviewSettings,
+  ),
   repositoryCustomPropertyValue: objectField(
     "repositoryCustomPropertyValue",
     RepositoryCustomPropertyValue,
@@ -35867,6 +36480,20 @@ const RepositoryContactLinkFields: TypeMeta["fields"] = {
   about: scalarField("about"),
   name: scalarField("name"),
   url: scalarField("url"),
+};
+
+const RepositoryCopilotCodeReviewEffortFields: TypeMeta["fields"] = {
+  configured: scalarField("configured"),
+  effective: scalarField("effective"),
+};
+
+const RepositoryCopilotCodeReviewSettingsFields: TypeMeta["fields"] = {
+  availableReviewEfforts: scalarField("availableReviewEfforts"),
+  crossRepoContextEnabled: scalarField("crossRepoContextEnabled"),
+  customInstructionsEnabled: scalarField("customInstructionsEnabled"),
+  mcpEnabled: scalarField("mcpEnabled"),
+  reviewEffort: objectField("reviewEffort", RepositoryCopilotCodeReviewEffort),
+  severityFilter: scalarField("severityFilter"),
 };
 
 const RepositoryCustomPropertyFields: TypeMeta["fields"] = {
@@ -36280,6 +36907,15 @@ const ReprioritizeSubIssuePayloadFields: TypeMeta["fields"] = {
   issue: objectField("issue", Issue),
 };
 
+const RequestCopilotCodeReviewPayloadFields: TypeMeta["fields"] = {
+  actor: objectField("actor", Actor),
+  clientMutationId: scalarField("clientMutationId"),
+  failureReason: scalarField("failureReason"),
+  pullRequest: objectField("pullRequest", PullRequest),
+  reviewRequest: objectField("reviewRequest", ReviewRequest),
+  success: scalarField("success"),
+};
+
 const RequestReviewsByLoginPayloadFields: TypeMeta["fields"] = {
   actor: objectField("actor", Actor),
   clientMutationId: scalarField("clientMutationId"),
@@ -36603,6 +37239,11 @@ const SetIssueFieldValuePayloadFields: TypeMeta["fields"] = {
   clientMutationId: scalarField("clientMutationId"),
   issue: objectField("issue", Issue),
   issueFieldValues: objectField("issueFieldValues", IssueFieldValue),
+};
+
+const SetIssueStatusPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  issue: objectField("issue", Issue),
 };
 
 const SetOrganizationInteractionLimitPayloadFields: TypeMeta["fields"] = {
@@ -37781,6 +38422,11 @@ const UpdateEnterpriseAllowPrivateRepositoryForkingSettingPayloadFields: TypeMet
   message: scalarField("message"),
 };
 
+const UpdateEnterpriseCopilotCodeReviewPolicyPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  policy: objectField("policy", EnterpriseCopilotCodeReviewPolicy),
+};
+
 const UpdateEnterpriseDefaultRepositoryPermissionSettingPayloadFields: TypeMeta["fields"] = {
   clientMutationId: scalarField("clientMutationId"),
   enterprise: objectField("enterprise", Enterprise),
@@ -37950,6 +38596,26 @@ const UpdateOrganizationAllowPrivateRepositoryForkingSettingPayloadFields: TypeM
   organization: objectField("organization", Organization),
 };
 
+const UpdateOrganizationCopilotCodeReviewPolicyPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  conflict: scalarField("conflict"),
+  policy: objectField("policy", OrganizationCopilotCodeReviewPolicy),
+};
+
+const UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  runnerConfiguration: objectField(
+    "runnerConfiguration",
+    OrganizationCopilotCodeReviewRunnerConfiguration,
+  ),
+};
+
+const UpdateOrganizationCopilotCodeReviewSettingsPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  conflict: scalarField("conflict"),
+  settings: objectField("settings", OrganizationCopilotCodeReviewSettings),
+};
+
 const UpdateOrganizationWebCommitSignoffSettingPayloadFields: TypeMeta["fields"] = {
   clientMutationId: scalarField("clientMutationId"),
   message: scalarField("message"),
@@ -38058,6 +38724,11 @@ const UpdateRefPayloadFields: TypeMeta["fields"] = {
 
 const UpdateRefsPayloadFields: TypeMeta["fields"] = {
   clientMutationId: scalarField("clientMutationId"),
+};
+
+const UpdateRepositoryCopilotCodeReviewSettingsPayloadFields: TypeMeta["fields"] = {
+  clientMutationId: scalarField("clientMutationId"),
+  settings: objectField("settings", RepositoryCopilotCodeReviewSettings),
 };
 
 const UpdateRepositoryCustomPropertyPayloadFields: TypeMeta["fields"] = {
@@ -38203,6 +38874,13 @@ const UserFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "IssueCommentOrder",
   }),
+  issueFields: connectionField("issueFields", IssueFields, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+    orderBy: "IssueFieldOrder",
+  }),
   issues: connectionField("issues", Issue, {
     after: "String",
     before: "String",
@@ -38212,6 +38890,13 @@ const UserFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "IssueOrder",
     states: "[IssueState!]",
+  }),
+  issueTypes: connectionField("issueTypes", IssueType, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+    orderBy: "IssueTypeOrder",
   }),
   isViewer: scalarField("isViewer"),
   itemShowcase: objectField("itemShowcase", ProfileItemShowcase),
@@ -38264,6 +38949,13 @@ const UserFields: TypeMeta["fields"] = {
     last: "Int",
     types: "[PinnableItemType!]",
   }),
+  pinnedIssueFields: connectionField("pinnedIssueFields", IssueFields, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+    orderBy: "PinnedIssueFieldOrder",
+  }),
   pinnedItems: connectionField("pinnedItems", PinnableItem, {
     after: "String",
     before: "String",
@@ -38272,6 +38964,12 @@ const UserFields: TypeMeta["fields"] = {
     types: "[PinnableItemType!]",
   }),
   pinnedItemsRemaining: scalarField("pinnedItemsRemaining"),
+  planningStatuses: connectionField("planningStatuses", PlanningStatus, {
+    after: "String",
+    before: "String",
+    first: "Int",
+    last: "Int",
+  }),
   project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
@@ -41012,6 +41710,17 @@ export const GitHub = {
       { input: "ReprioritizeSubIssueInput!" },
       globalErrors,
     ),
+  requestCopilotCodeReview: (args: {
+    readonly input: RequestCopilotCodeReviewInput;
+  }): Query<RequestCopilotCodeReviewPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "requestCopilotCodeReview",
+      RequestCopilotCodeReviewPayload,
+      args,
+      { input: "RequestCopilotCodeReviewInput!" },
+      globalErrors,
+    ),
   requestReviews: (args: {
     readonly input: RequestReviewsInput;
   }): Query<RequestReviewsPayload | null, GitHubGlobalError> =>
@@ -41131,6 +41840,17 @@ export const GitHub = {
       SetIssueFieldValuePayload,
       args,
       { input: "SetIssueFieldValueInput!" },
+      globalErrors,
+    ),
+  setIssueStatus: (args: {
+    readonly input: SetIssueStatusInput;
+  }): Query<SetIssueStatusPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "setIssueStatus",
+      SetIssueStatusPayload,
+      args,
+      { input: "SetIssueStatusInput!" },
       globalErrors,
     ),
   setOrganizationInteractionLimit: (args: {
@@ -41499,6 +42219,17 @@ export const GitHub = {
       { input: "UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput!" },
       globalErrors,
     ),
+  updateEnterpriseCopilotCodeReviewPolicy: (args: {
+    readonly input: UpdateEnterpriseCopilotCodeReviewPolicyInput;
+  }): Query<UpdateEnterpriseCopilotCodeReviewPolicyPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "updateEnterpriseCopilotCodeReviewPolicy",
+      UpdateEnterpriseCopilotCodeReviewPolicyPayload,
+      args,
+      { input: "UpdateEnterpriseCopilotCodeReviewPolicyInput!" },
+      globalErrors,
+    ),
   updateEnterpriseDefaultRepositoryPermissionSetting: (args: {
     readonly input: UpdateEnterpriseDefaultRepositoryPermissionSettingInput;
   }): Query<UpdateEnterpriseDefaultRepositoryPermissionSettingPayload | null, GitHubGlobalError> =>
@@ -41850,6 +42581,42 @@ export const GitHub = {
       { input: "UpdateOrganizationAllowPrivateRepositoryForkingSettingInput!" },
       globalErrors,
     ),
+  updateOrganizationCopilotCodeReviewPolicy: (args: {
+    readonly input: UpdateOrganizationCopilotCodeReviewPolicyInput;
+  }): Query<UpdateOrganizationCopilotCodeReviewPolicyPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "updateOrganizationCopilotCodeReviewPolicy",
+      UpdateOrganizationCopilotCodeReviewPolicyPayload,
+      args,
+      { input: "UpdateOrganizationCopilotCodeReviewPolicyInput!" },
+      globalErrors,
+    ),
+  updateOrganizationCopilotCodeReviewRunnerConfiguration: (args: {
+    readonly input: UpdateOrganizationCopilotCodeReviewRunnerConfigurationInput;
+  }): Query<
+    UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayload | null,
+    GitHubGlobalError
+  > =>
+    root(
+      "mutation",
+      "updateOrganizationCopilotCodeReviewRunnerConfiguration",
+      UpdateOrganizationCopilotCodeReviewRunnerConfigurationPayload,
+      args,
+      { input: "UpdateOrganizationCopilotCodeReviewRunnerConfigurationInput!" },
+      globalErrors,
+    ),
+  updateOrganizationCopilotCodeReviewSettings: (args: {
+    readonly input: UpdateOrganizationCopilotCodeReviewSettingsInput;
+  }): Query<UpdateOrganizationCopilotCodeReviewSettingsPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "updateOrganizationCopilotCodeReviewSettings",
+      UpdateOrganizationCopilotCodeReviewSettingsPayload,
+      args,
+      { input: "UpdateOrganizationCopilotCodeReviewSettingsInput!" },
+      globalErrors,
+    ),
   updateOrganizationWebCommitSignoffSetting: (args: {
     readonly input: UpdateOrganizationWebCommitSignoffSettingInput;
   }): Query<UpdateOrganizationWebCommitSignoffSettingPayload | null, GitHubGlobalError> =>
@@ -42068,6 +42835,17 @@ export const GitHub = {
       UpdateRepositoryPayload,
       args,
       { input: "UpdateRepositoryInput!" },
+      globalErrors,
+    ),
+  updateRepositoryCopilotCodeReviewSettings: (args: {
+    readonly input: UpdateRepositoryCopilotCodeReviewSettingsInput;
+  }): Query<UpdateRepositoryCopilotCodeReviewSettingsPayload | null, GitHubGlobalError> =>
+    root(
+      "mutation",
+      "updateRepositoryCopilotCodeReviewSettings",
+      UpdateRepositoryCopilotCodeReviewSettingsPayload,
+      args,
+      { input: "UpdateRepositoryCopilotCodeReviewSettingsInput!" },
       globalErrors,
     ),
   updateRepositoryCustomProperty: (args: {

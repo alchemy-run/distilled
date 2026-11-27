@@ -49,10 +49,23 @@ export interface CreateTokenFlowResponse {
   code: string;
   waitSecret: string | Redacted.Redacted<string>;
 }
+export type StringList = Array<string>;
 export interface DeleteTokenRequest {
   tokenId?: string | undefined;
+  tokenIds?: StringList | undefined;
+  allowMissing?: boolean | undefined;
 }
-export interface DeleteTokenResponse {}
+export interface DeleteTokenResponse {
+  deletedTokenIds: StringList;
+}
+export interface DisableTokenRequest {
+  tokenIds?: StringList | undefined;
+}
+export interface DisableTokenResponse {}
+export interface EnableTokenRequest {
+  tokenIds?: StringList | undefined;
+}
+export interface EnableTokenResponse {}
 export interface GetTokenInfoRequest {}
 export interface UserIdentity {
   userId: string;
@@ -120,6 +133,40 @@ export const deleteToken: API.OperationMethod<
   span: "DeleteToken",
 }));
 
+export type DisableTokenError = ModalOpError;
+export const disableToken: API.OperationMethod<
+  DisableTokenRequest & MaxMessageBytesInput,
+  DisableTokenResponse,
+  DisableTokenError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(12, __c3, 0) as any as S.Schema<DisableTokenRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<DisableTokenResponse>,
+  errors: [],
+  serviceErrors: ModalServiceErrors,
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableToken",
+}));
+
+export type EnableTokenError = ModalOpError;
+export const enableToken: API.OperationMethod<
+  EnableTokenRequest & MaxMessageBytesInput,
+  EnableTokenResponse,
+  EnableTokenError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(20, __c5, 0) as any as S.Schema<EnableTokenRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<EnableTokenResponse>,
+  errors: [],
+  serviceErrors: ModalServiceErrors,
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableToken",
+}));
+
 export type GetTokenInfoError = ModalOpError;
 export const getTokenInfo: API.OperationMethod<
   GetTokenInfoRequest & MaxMessageBytesInput,
@@ -127,8 +174,8 @@ export const getTokenInfo: API.OperationMethod<
   GetTokenInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetTokenInfoRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<GetTokenInfoResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetTokenInfoRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<GetTokenInfoResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -144,8 +191,8 @@ export const waitTokenFlow: API.OperationMethod<
   WaitTokenFlowError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<WaitTokenFlowRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<WaitTokenFlowResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<WaitTokenFlowRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<WaitTokenFlowResponse>,
   errors: [],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -185,15 +232,57 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenId: S.optional(S.String),
+          tokenIds: S.optional(__S(8, __c2, 0)),
+          allowMissing: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenDelete", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteTokenRequest" });
     case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTokenResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          deletedTokenIds: __S(8, __c2, 0),
+        }),
+      ).annotate({ identifier: "DeleteTokenResponse" });
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenIds: S.optional(__S(8, __c2, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenDisable", code: 200 }),
+        ),
+      ).annotate({ identifier: "DisableTokenRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DisableTokenResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenIds: S.optional(__S(8, __c2, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenEnable", code: 200 }),
+        ),
+      ).annotate({ identifier: "EnableTokenRequest" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -213,7 +302,7 @@ function __c2(j: number): any {
         S.Struct({
           serviceUserId: S.String,
           serviceUserName: S.String,
-          createdBy: S.optional(__S(9, __c2, 1)),
+          createdBy: S.optional(__S(25, __c6, 1)),
         }),
       ).annotate({ identifier: "ServiceUserIdentity" });
     case 3:
@@ -222,8 +311,8 @@ function __c2(j: number): any {
           tokenId: S.String,
           workspaceId: S.String,
           workspaceName: S.String,
-          userIdentity: S.optional(__S(9, __c2, 1)),
-          serviceUserIdentity: S.optional(__S(10, __c2, 2)),
+          userIdentity: S.optional(__S(25, __c6, 1)),
+          serviceUserIdentity: S.optional(__S(26, __c6, 2)),
           createdAt: S.optional(S.String),
           expiresAt: S.optional(S.String),
           tokenName: S.String,
@@ -231,7 +320,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetTokenInfoResponse" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

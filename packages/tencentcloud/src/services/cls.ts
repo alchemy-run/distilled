@@ -1027,6 +1027,7 @@ export interface RuleTagInfo {
 }
 export interface DynamicIndex {
   Status?: boolean | undefined;
+  Tokenizer?: string | undefined;
 }
 export interface RuleInfo {
   FullText?: FullTextInfo | null | undefined;
@@ -1388,6 +1389,8 @@ export interface CreateS3RechargeRequest {
   Compress?: string | undefined;
   ExtractRuleInfo?: ExtractRuleInfo | undefined;
   TaskType?: number | undefined;
+  SQSEnabled?: boolean | undefined;
+  SQSUrl?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2663,6 +2666,7 @@ export interface DataTransformTaskInfo {
   ProcessToTimestamp?: number | undefined;
   DataTransformSqlDataSources?: DataTransformSqlDataSourceList | undefined;
   EnvInfos?: EnvInfoList | undefined;
+  Describe?: string | undefined;
 }
 export type DataTransformTaskInfoList = Array<DataTransformTaskInfo>;
 export interface DescribeDataTransformInfoResponse {
@@ -3582,6 +3586,8 @@ export interface S3RechargeInfo {
   Progress?: number | undefined;
   CreateTime?: number | undefined;
   UpdateTime?: number | undefined;
+  SQSEnabled?: boolean | undefined;
+  SQSUrl?: string | undefined;
 }
 export type S3RechargeInfoList = Array<S3RechargeInfo>;
 export interface DescribeS3RechargesResponse {
@@ -4530,6 +4536,8 @@ export interface ModifyS3RechargeRequest {
   Prefix?: string | undefined;
   Compress?: string | undefined;
   ExtractRuleInfo?: ExtractRuleInfo | undefined;
+  SQSEnabled?: boolean | undefined;
+  SQSUrl?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -9733,6 +9741,7 @@ function __c30(j: number): any {
           ProcessToTimestamp: S.optional(S.Number),
           DataTransformSqlDataSources: S.optional(__S(2913, __c182, 1)),
           EnvInfos: S.optional(__S(2915, __c182, 3)),
+          Describe: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataTransformTaskInfo" });
     case 2:
@@ -11654,6 +11663,8 @@ function __c88(j: number): any {
           Progress: S.optional(S.Number),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
+          SQSEnabled: S.optional(S.Boolean),
+          SQSUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "S3RechargeInfo" });
     case 2:
@@ -13211,6 +13222,8 @@ function __c153(j: number): any {
           Prefix: S.optional(S.String),
           Compress: S.optional(S.String),
           ExtractRuleInfo: S.optional(__S(982, __c61, 6)),
+          SQSEnabled: S.optional(S.Boolean),
+          SQSUrl: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cls", version: "2020-10-16", action: "ModifyS3Recharge" })),
       ).annotate({ identifier: "ModifyS3RechargeRequest" });
@@ -14155,6 +14168,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.Boolean),
+          Tokenizer: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicIndex" });
     case 7:
@@ -14846,6 +14860,8 @@ function __c217(j: number): any {
           Compress: S.optional(S.String),
           ExtractRuleInfo: S.optional(__S(982, __c61, 6)),
           TaskType: S.optional(S.Number),
+          SQSEnabled: S.optional(S.Boolean),
+          SQSUrl: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cls", version: "2020-10-16", action: "CreateS3Recharge" })),
       ).annotate({ identifier: "CreateS3RechargeRequest" });

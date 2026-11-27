@@ -2624,6 +2624,10 @@ export interface ListProjectDomainsRequest {
   accountId: string;
   /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
+  /** Page number of custom domains, starting at 1. */
+  page?: number | undefined;
+  /** Number of custom domains per page. */
+  perPage?: number | undefined;
 }
 export type ProjectsDomainsListResultItemCertificateAuthority = "google" | "lets_encrypt";
 export type ProjectsDomainsListResultItemStatus =
@@ -5664,6 +5668,8 @@ function __c16(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           projectName: S.String.pipe(T.Label("project_name")),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(
             T.Http({

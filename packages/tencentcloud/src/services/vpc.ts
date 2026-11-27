@@ -525,6 +525,7 @@ export interface SecurityGroup {
   CreatedTime?: string | undefined;
   TagSet?: TagList | undefined;
   UpdateTime?: string | undefined;
+  ServiceManaged?: boolean | undefined;
 }
 export interface CloneSecurityGroupResponse {
   SecurityGroup?: SecurityGroup | undefined;
@@ -21075,6 +21076,7 @@ function __c289(j: number): any {
           CreatedTime: S.optional(S.String),
           TagSet: S.optional(__S(3761, __c470, 1)),
           UpdateTime: S.optional(S.String),
+          ServiceManaged: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SecurityGroup" });
   }

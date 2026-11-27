@@ -2553,6 +2553,7 @@ export interface ClusterSettings {
   plugins?: ClusterSettingsPluginsList | undefined;
   resourceOverrides?: ClusterSettingsResourceOverridesMap | undefined;
   resourceViewEnabled?: boolean | undefined;
+  ssoAutoLogin?: boolean | undefined;
   statusBadgeEnabled?: boolean | undefined;
   statusBadgeRootUrl?: string | undefined;
   syncWithReplaceAllowed?: boolean | undefined;
@@ -7955,6 +7956,7 @@ function __c90(j: number): any {
           plugins: S.optional(__S(2912, __c91, 0)),
           resourceOverrides: S.optional(__S(2899, __c90, 19)),
           resourceViewEnabled: S.optional(S.Boolean),
+          ssoAutoLogin: S.optional(S.Boolean),
           statusBadgeEnabled: S.optional(S.Boolean),
           statusBadgeRootUrl: S.optional(S.String),
           syncWithReplaceAllowed: S.optional(S.Boolean),

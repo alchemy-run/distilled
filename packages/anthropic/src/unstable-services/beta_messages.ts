@@ -28,25 +28,17 @@ const TELEMETRY = {
 } as const;
 
 export type AnthropicBetaCase1 =
-  | "message-batches-2024-09-24"
-  | "prompt-caching-2024-07-31"
   | "computer-use-2024-10-22"
   | "computer-use-2025-01-24"
-  | "pdfs-2024-09-25"
-  | "token-counting-2024-11-01"
-  | "token-efficient-tools-2025-02-19"
   | "output-128k-2025-02-19"
-  | "files-api-2025-04-14"
   | "mcp-client-2025-04-04"
   | "mcp-client-2025-11-20"
   | "dev-full-thinking-2025-05-14"
   | "interleaved-thinking-2025-05-14"
   | "code-execution-2025-05-22"
-  | "extended-cache-ttl-2025-04-11"
   | "context-1m-2025-08-07"
   | "context-management-2025-06-27"
   | "model-context-window-exceeded-2025-08-26"
-  | "skills-2025-10-02"
   | "fast-mode-2026-02-01"
   | "output-300k-2026-03-24"
   | "user-profiles-2026-03-24"
@@ -54,7 +46,6 @@ export type AnthropicBetaCase1 =
   | "user-profiles-2026-09-04"
   | "advisor-tool-2026-03-01"
   | "managed-agents-2026-04-01"
-  | "cache-diagnosis-2026-04-07"
   | "dreaming-2026-04-21"
   | "thinking-token-count-2026-05-13"
   | "server-side-fallback-2026-06-01"
@@ -69,7 +60,6 @@ export type AnthropicBetaCase1 =
   | "structured-outputs-2025-11-13"
   | "task-budgets-2026-03-13"
   | "thinking-display-updates-2026-08-18"
-  | "ce-user-management-2026-07-13"
   | "mid-conversation-output-config-2026-07-01"
   | "thinking-binding-controls-2026-08-01"
   | "mid-conversation-system-clear-at-2026-08-21"
@@ -83,7 +73,21 @@ export type AnthropicBetaCase1 =
   | "admin-user-sign-out-2026-10-08"
   | "message-threads-2026-08-12"
   | "analytics-usage-cost-2026-08-24"
-  | "experimental-claude-tag-2026-10-21";
+  | "experimental-claude-tag-2026-10-21"
+  | "message-batches-2024-09-24"
+  | "prompt-caching-2024-07-31"
+  | "pdfs-2024-09-25"
+  | "token-counting-2024-11-01"
+  | "token-efficient-tools-2025-02-19"
+  | "files-api-2025-04-14"
+  | "extended-cache-ttl-2025-04-11"
+  | "skills-2025-10-02"
+  | "cache-diagnosis-2026-04-07"
+  | "ce-user-management-2026-07-13"
+  | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
+  | "google-managed-data-controls-2026-09-01"
+  | "user-profiles-billing-2026-10-01";
 /** Beta names you can send in the `anthropic-beta` header. See [Beta headers](https://platform.claude.com/docs/en/api/beta-headers) for how to send them and where to find the name a feature needs. */
 export type AnthropicBeta = string | AnthropicBetaCase1;
 /** Optional header to specify the beta version(s) you want to use. */
@@ -136,6 +140,14 @@ export interface BetaMessageBatch {
 }
 /** Optional header to specify the beta version(s) you want to use. */
 export type CountMessageTokensRequestAnthropicBetaList = Array<AnthropicBeta>;
+/** Who is billed for a request. */
+export type BetaBillTo = "self" | "user_profile";
+/** Declares which organization is billed for the request. */
+export interface BetaBillingPolicy {
+  /** Who is billed. `self`, the default, bills your organization, as if `billing_policy` were omitted. `user_profile` bills the customer behind the user profile the request names; if that customer has not linked an Anthropic organization to the profile, or has not allowed your organization to bill it, the request is rejected rather than billed to you. */
+  bill_to?: BetaBillTo | (string & {}) | undefined;
+  type: string;
+}
 /** The time-to-live for the cache control breakpoint. This may be one the following values: - `5m`: 5 minutes - `1h`: 1 hour Defaults to `5m`. See [prompt caching pricing](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) for details. */
 export type BetaCacheControlEphemeralTtl = "5m" | "1h";
 export interface BetaCacheControlEphemeral {
@@ -1899,6 +1911,8 @@ export interface CountMessageTokensRequest {
   anthropicUserProfileId?: string | undefined;
   /** Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace. */
   anthropicWorkspaceId?: string | undefined;
+  /** Declares which organization is billed when this body is sent to `/v1/messages`. Accepted here so that you can count the tokens of the exact body you will send, and otherwise ignored: counting tokens bills nobody, so no user profile is required. */
+  billing_policy?: BetaBillingPolicy | null | undefined;
   /** Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request. */
   cache_control?: BetaCacheControlEphemeral | null | undefined;
   /** Compaction configuration. When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`. */
@@ -2031,6 +2045,8 @@ export interface CreateMessageRequest {
   model: Model;
   /** Input messages. Our models are trained to operate on alternating `user` and `assistant` conversational turns. When creating a new `Message`, you specify the prior conversational turns with the `messages` parameter, and the model then generates the next `Message` in the conversation. Consecutive `user` or `assistant` turns in your request will be combined into a single turn. Each input message must be an object with a `role` and `content`. You can specify a single `user`-role message, or you can include multiple `user` and `assistant` messages. If the final message uses the `assistant` role, the response content will continue immediately from the content in that message. This can be used to constrain part of the model's response. This is called prefill. On models that don't support prefill, creating a message that ends with a partial `assistant` response returns a 400 error. See [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported). Example with a single `user` message: ```json [{"role": "user", "content": "Hello, Claude"}] ``` Example with multiple conversational turns: ```json [ {"role": "user", "content": "Hello there."}, {"role": "assistant", "content": "Hi, I'm Claude. How can I help you?"}, {"role": "user", "content": "Can you explain LLMs in plain English?"}, ] ``` Example with a partially-filled response from Claude, for models that support prefill: ```json [ {"role": "user", "content": "What's the Greek name for Sun? (A) Sol (B) Helios (C) Sun"}, {"role": "assistant", "content": "The best answer is ("}, ] ``` Each input message `content` may be either a single `string` or an array of content blocks, where each block has a specific `type`. Using a `string` for `content` is shorthand for an array of one content block of type `"text"`. The following input messages are equivalent: ```json {"role": "user", "content": "Hello, Claude"} ``` ```json {"role": "user", "content": [{"type": "text", "text": "Hello, Claude"}]} ``` See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages). Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role), you can use the top-level `system` parameter. There is a limit of 100,000 messages in a single request. */
   messages: CreateMessageRequestMessagesList;
+  /** Declares which organization is billed for this request. `{"type": "billing_policy", "bill_to": "user_profile"}` bills the customer behind the user profile named in the `anthropic-user-profile-id` header, instead of your organization. If that customer has not linked an Anthropic organization to the profile, or has not allowed your organization to bill it, the request is rejected rather than billed to you. Omit the field, or send `"bill_to": "self"` (the default), to be billed as usual. Message Batches does not currently support billing the customer behind a user profile. In a batch, omit the field or send `"bill_to": "self"`. A request in a batch that sets `"bill_to": "user_profile"` gets an `errored` result with an `invalid_request_error`, nobody is billed for it, and the batch's other requests run as usual. */
+  billing_policy?: BetaBillingPolicy | null | undefined;
   /** Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request. */
   cache_control?: BetaCacheControlEphemeral | null | undefined;
   /** Compaction configuration. When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`. */
@@ -2880,6 +2896,8 @@ export interface BetaCreateMessageParams {
   model: Model;
   /** Input messages. Our models are trained to operate on alternating `user` and `assistant` conversational turns. When creating a new `Message`, you specify the prior conversational turns with the `messages` parameter, and the model then generates the next `Message` in the conversation. Consecutive `user` or `assistant` turns in your request will be combined into a single turn. Each input message must be an object with a `role` and `content`. You can specify a single `user`-role message, or you can include multiple `user` and `assistant` messages. If the final message uses the `assistant` role, the response content will continue immediately from the content in that message. This can be used to constrain part of the model's response. This is called prefill. On models that don't support prefill, creating a message that ends with a partial `assistant` response returns a 400 error. See [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported). Example with a single `user` message: ```json [{"role": "user", "content": "Hello, Claude"}] ``` Example with multiple conversational turns: ```json [ {"role": "user", "content": "Hello there."}, {"role": "assistant", "content": "Hi, I'm Claude. How can I help you?"}, {"role": "user", "content": "Can you explain LLMs in plain English?"}, ] ``` Example with a partially-filled response from Claude, for models that support prefill: ```json [ {"role": "user", "content": "What's the Greek name for Sun? (A) Sol (B) Helios (C) Sun"}, {"role": "assistant", "content": "The best answer is ("}, ] ``` Each input message `content` may be either a single `string` or an array of content blocks, where each block has a specific `type`. Using a `string` for `content` is shorthand for an array of one content block of type `"text"`. The following input messages are equivalent: ```json {"role": "user", "content": "Hello, Claude"} ``` ```json {"role": "user", "content": [{"type": "text", "text": "Hello, Claude"}]} ``` See [input examples](https://platform.claude.com/docs/en/build-with-claude/working-with-messages). Note that if you want to include a [system prompt](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role), you can use the top-level `system` parameter. There is a limit of 100,000 messages in a single request. */
   messages: BetaCreateMessageParamsMessagesList;
+  /** Declares which organization is billed for this request. `{"type": "billing_policy", "bill_to": "user_profile"}` bills the customer behind the user profile named in the `anthropic-user-profile-id` header, instead of your organization. If that customer has not linked an Anthropic organization to the profile, or has not allowed your organization to bill it, the request is rejected rather than billed to you. Omit the field, or send `"bill_to": "self"` (the default), to be billed as usual. Message Batches does not currently support billing the customer behind a user profile. In a batch, omit the field or send `"bill_to": "self"`. A request in a batch that sets `"bill_to": "user_profile"` gets an `errored` result with an `invalid_request_error`, nobody is billed for it, and the batch's other requests run as usual. */
+  billing_policy?: BetaBillingPolicy | null | undefined;
   /** Top-level cache control automatically applies a cache_control marker to the last cacheable block in the request. */
   cache_control?: BetaCacheControlEphemeral | null | undefined;
   /** Compaction configuration. When set on `POST /v1/messages`, the request is a compaction request: the conversation in `messages` is summarized and the response holds only the resulting `compaction` block (`stop_reason` `"compaction"`), which later requests send first in `messages` in place of the messages it summarizes. `POST /v1/messages/count_tokens` accepts this parameter and ignores it: the count it returns is for the conversation in `messages` as sent. Cannot be combined with `context_management`. */
@@ -3238,14 +3256,15 @@ function __c3(j: number): any {
           anthropicVersion: S.optional(S.String.pipe(T.Header("anthropic-version"))),
           anthropicUserProfileId: S.optional(S.String.pipe(T.Header("anthropic-user-profile-id"))),
           anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
-          cache_control: S.optional(S.NullOr(__S(128, __c4, 0))),
-          compaction: S.optional(S.NullOr(__S(129, __c4, 1))),
-          context_management: S.optional(S.NullOr(__S(132, __c4, 4))),
-          mcp_servers: S.optional(__S(135, __c4, 7)),
-          messages: __S(137, __c4, 9),
+          billing_policy: S.optional(S.NullOr(__S(128, __c4, 0))),
+          cache_control: S.optional(S.NullOr(__S(129, __c4, 1))),
+          compaction: S.optional(S.NullOr(__S(130, __c4, 2))),
+          context_management: S.optional(S.NullOr(__S(133, __c4, 5))),
+          mcp_servers: S.optional(__S(136, __c4, 8)),
+          messages: __S(138, __c4, 10),
           model: S.Unknown,
-          output_config: S.optional(__S(140, __c4, 12)),
-          output_format: S.optional(S.NullOr(__S(138, __c4, 10))),
+          output_config: S.optional(__S(141, __c4, 13)),
+          output_format: S.optional(S.NullOr(__S(139, __c4, 11))),
           speed: S.optional(S.NullOr(S.String)),
           system: S.optional(S.Unknown),
           thinking: S.optional(S.Unknown),
@@ -3273,58 +3292,65 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          bill_to: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaBillingPolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           ttl: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "BetaCacheControlEphemeral" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           instructions: S.optional(S.NullOr(S.String)),
           type: S.String,
         }),
       ).annotate({ identifier: "BetaSummarizeCompaction" });
-    case 2:
-      return S.Array(S.String);
     case 3:
-      return S.Array(S.Unknown);
+      return S.Array(S.String);
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          edits: S.optional(__S(131, __c4, 3)),
-        }),
-      ).annotate({ identifier: "BetaContextManagementConfig" });
+      return S.Array(S.Unknown);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          allowed_tools: S.optional(S.NullOr(__S(130, __c4, 2))),
+          edits: S.optional(__S(132, __c4, 4)),
+        }),
+      ).annotate({ identifier: "BetaContextManagementConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          allowed_tools: S.optional(S.NullOr(__S(131, __c4, 3))),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "BetaRequestMCPServerToolConfiguration" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           authorization_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           name: S.String,
-          tool_configuration: S.optional(S.NullOr(__S(133, __c4, 5))),
+          tool_configuration: S.optional(S.NullOr(__S(134, __c4, 6))),
           type: S.String,
           url: S.String,
         }),
       ).annotate({ identifier: "BetaRequestMCPServerURLDefinition" });
-    case 7:
-      return S.Array(__S(134, __c4, 6));
     case 8:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(135, __c4, 7));
     case 9:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.Unknown);
     case 10:
+      return S.Array(S.Unknown);
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          schema: __S(136, __c4, 8),
+          schema: __S(137, __c4, 9),
           type: S.String,
         }),
       ).annotate({ identifier: "BetaJsonOutputFormat" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           remaining: S.optional(S.NullOr(S.Number)),
@@ -3332,12 +3358,12 @@ function __c4(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "BetaTokenTaskBudget" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           effort: S.optional(S.NullOr(S.String)),
-          format: S.optional(S.NullOr(__S(138, __c4, 10))),
-          task_budget: S.optional(S.NullOr(__S(139, __c4, 11))),
+          format: S.optional(S.NullOr(__S(139, __c4, 11))),
+          task_budget: S.optional(S.NullOr(__S(140, __c4, 12))),
         }),
       ).annotate({ identifier: "BetaOutputConfig" });
   }
@@ -3352,23 +3378,24 @@ function __c5(j: number): any {
           anthropicUserProfileId: S.optional(S.String.pipe(T.Header("anthropic-user-profile-id"))),
           anthropicWorkspaceId: S.optional(S.String.pipe(T.Header("anthropic-workspace-id"))),
           model: S.Unknown,
-          messages: __S(137, __c4, 9),
-          cache_control: S.optional(S.NullOr(__S(128, __c4, 0))),
-          compaction: S.optional(S.NullOr(__S(129, __c4, 1))),
+          messages: __S(138, __c4, 10),
+          billing_policy: S.optional(S.NullOr(__S(128, __c4, 0))),
+          cache_control: S.optional(S.NullOr(__S(129, __c4, 1))),
+          compaction: S.optional(S.NullOr(__S(130, __c4, 2))),
           container: S.optional(S.NullOr(S.Unknown)),
-          context_management: S.optional(S.NullOr(__S(132, __c4, 4))),
+          context_management: S.optional(S.NullOr(__S(133, __c4, 5))),
           diagnostics: S.optional(S.NullOr(__S(192, __c6, 0))),
           fallback_credit_token: S.optional(S.NullOr(S.Unknown)),
           fallbacks: S.optional(S.NullOr(S.Unknown)),
           inference_geo: S.optional(S.NullOr(S.String)),
           max_tokens: S.Number,
-          mcp_servers: S.optional(__S(135, __c4, 7)),
+          mcp_servers: S.optional(__S(136, __c4, 8)),
           metadata: S.optional(__S(193, __c6, 1)),
-          output_config: S.optional(__S(140, __c4, 12)),
-          output_format: S.optional(S.NullOr(__S(138, __c4, 10))),
+          output_config: S.optional(__S(141, __c4, 13)),
+          output_format: S.optional(S.NullOr(__S(139, __c4, 11))),
           service_tier: S.optional(S.String),
           speed: S.optional(S.NullOr(S.String)),
-          stop_sequences: S.optional(__S(130, __c4, 2)),
+          stop_sequences: S.optional(__S(131, __c4, 3)),
           stream: S.optional(S.Boolean),
           system: S.optional(S.Unknown),
           thinking: S.optional(S.Unknown),
@@ -3513,23 +3540,24 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.Unknown,
-          messages: __S(137, __c4, 9),
-          cache_control: S.optional(S.NullOr(__S(128, __c4, 0))),
-          compaction: S.optional(S.NullOr(__S(129, __c4, 1))),
+          messages: __S(138, __c4, 10),
+          billing_policy: S.optional(S.NullOr(__S(128, __c4, 0))),
+          cache_control: S.optional(S.NullOr(__S(129, __c4, 1))),
+          compaction: S.optional(S.NullOr(__S(130, __c4, 2))),
           container: S.optional(S.NullOr(S.Unknown)),
-          context_management: S.optional(S.NullOr(__S(132, __c4, 4))),
+          context_management: S.optional(S.NullOr(__S(133, __c4, 5))),
           diagnostics: S.optional(S.NullOr(__S(192, __c6, 0))),
           fallback_credit_token: S.optional(S.NullOr(S.Unknown)),
           fallbacks: S.optional(S.NullOr(S.Unknown)),
           inference_geo: S.optional(S.NullOr(S.String)),
           max_tokens: S.Number,
-          mcp_servers: S.optional(__S(135, __c4, 7)),
+          mcp_servers: S.optional(__S(136, __c4, 8)),
           metadata: S.optional(__S(193, __c6, 1)),
-          output_config: S.optional(__S(140, __c4, 12)),
-          output_format: S.optional(S.NullOr(__S(138, __c4, 10))),
+          output_config: S.optional(__S(141, __c4, 13)),
+          output_format: S.optional(S.NullOr(__S(139, __c4, 11))),
           service_tier: S.optional(S.String),
           speed: S.optional(S.NullOr(S.String)),
-          stop_sequences: S.optional(__S(130, __c4, 2)),
+          stop_sequences: S.optional(__S(131, __c4, 3)),
           stream: S.optional(S.Boolean),
           system: S.optional(S.Unknown),
           thinking: S.optional(S.Unknown),

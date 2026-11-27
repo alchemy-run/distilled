@@ -396,6 +396,22 @@ export interface GetPersistentSandboxRequest {
 export interface GetPersistentSandboxResponse {
   persistentSandboxId: string;
   sandboxId: string;
+  /** Set once the persistent Sandbox is terminated; unset otherwise. */
+  terminatedAt?: string | undefined;
+}
+export interface ListPersistentSandboxTunnelsRequest {
+  persistentSandboxId?: string | undefined;
+}
+export interface TunnelData {
+  host: string;
+  port: number;
+  unencryptedHost?: string | undefined;
+  unencryptedPort?: number | undefined;
+  containerPort: number;
+}
+export type TunnelDataList = Array<TunnelData>;
+export interface ListPersistentSandboxTunnelsResponse {
+  tunnels: TunnelDataList;
 }
 export interface ResumePersistentSandboxRequest {
   persistentSandboxId?: string | undefined;
@@ -419,7 +435,7 @@ export const createPersistentSandbox: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c1, 9) as any as S.Schema<CreatePersistentSandboxRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<CreatePersistentSandboxResponse>,
+  output: __S(42, __c1, 10) as any as S.Schema<CreatePersistentSandboxResponse>,
   errors: [PersistentSandboxAlreadyExists, PersistentSandboxesNotAvailable],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -435,14 +451,31 @@ export const getPersistentSandbox: API.OperationMethod<
   GetPersistentSandboxError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<GetPersistentSandboxRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<GetPersistentSandboxResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<GetPersistentSandboxRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<GetPersistentSandboxResponse>,
   errors: [PersistentSandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPersistentSandbox",
+}));
+
+export type ListPersistentSandboxTunnelsError = ModalOpError;
+export const listPersistentSandboxTunnels: API.OperationMethod<
+  ListPersistentSandboxTunnelsRequest & MaxMessageBytesInput,
+  ListPersistentSandboxTunnelsResponse,
+  ListPersistentSandboxTunnelsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<ListPersistentSandboxTunnelsRequest>,
+  output: __S(131, __c4, 3) as any as S.Schema<ListPersistentSandboxTunnelsResponse>,
+  errors: [],
+  serviceErrors: ModalServiceErrors,
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersistentSandboxTunnels",
 }));
 
 export type ResumePersistentSandboxError =
@@ -473,7 +506,7 @@ export const terminatePersistentSandbox: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<TerminatePersistentSandboxRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<TerminatePersistentSandboxResponse>,
+  output: __S(64, __c2, 0) as any as S.Schema<TerminatePersistentSandboxResponse>,
   errors: [PersistentSandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -677,7 +710,7 @@ function __c0(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          block: S.optional(__S(96, __c3, 0)),
+          block: S.optional(__S(64, __c2, 0)),
           viaProxy: S.optional(__S(28, __c0, 28)),
           viaSidecar: S.optional(__S(29, __c0, 29)),
         }),
@@ -807,11 +840,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePersistentSandboxRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           persistentSandboxId: S.String,
@@ -820,13 +849,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreatePersistentSandboxResponse" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "OutboundPolicyRedirectBlock" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -840,7 +869,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           persistentSandboxId: S.optional(S.String),
-          name: S.optional(__S(128, __c4, 0)),
+          name: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -849,6 +878,48 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetPersistentSandboxRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          persistentSandboxId: S.String,
+          sandboxId: S.String,
+          terminatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetPersistentSandboxResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          persistentSandboxId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/PersistentSandboxTunnelsList",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPersistentSandboxTunnelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          port: S.Number,
+          unencryptedHost: S.optional(S.String),
+          unencryptedPort: S.optional(S.Number),
+          containerPort: S.Number,
+        }),
+      ).annotate({ identifier: "TunnelData" });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tunnels: __S(130, __c4, 2),
+        }),
+      ).annotate({ identifier: "ListPersistentSandboxTunnelsResponse" });
   }
 }
 function __c5(j: number): any {

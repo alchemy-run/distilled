@@ -103,10 +103,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.workos.api#AuditLogEventDto/members/occurred_at/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.workos.api#AuditLogEventDto/members/actor/traits/smithy.api#required"
     },
     {
@@ -683,18 +679,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryGroupList/members/object/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryGroupList/members/data/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryGroupList/members/list_metadata/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.workos.api#DirectoryGroup/members/object/traits/smithy.api#required"
     },
     {
@@ -724,66 +708,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.workos.api#DirectoryGroup/members/updated_at/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserList/members/object/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserList/members/data/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserList/members/list_metadata/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/object/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/id/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/directory_id/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/organization_id/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/idp_id/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/email/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/state/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/raw_attributes/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/custom_attributes/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/created_at/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/updated_at/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.workos.api#DirectoryUserWithGroups/members/groups/traits/smithy.api#required"
     },
     {
       "op": "remove",

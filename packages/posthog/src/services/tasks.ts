@@ -185,12 +185,14 @@ export interface CreateTaskRequest {
   description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `account_audit` - Account audit * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge * `metrics_import` - Metrics Import * `knowledge_writer` - Knowledge Writer * `context_layer` - Context Layer * `feature_flags` - Feature Flags */
   origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
-  /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
+  /** Target repository. For GitHub, use `organization/repo` (e.g. `posthog/posthog-js`). For GitLab, set `repository_integration` and use the full project path, which can include nested groups (e.g. `acme/platform/api`). */
   repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
   repositories?: CreateTaskRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
   github_integration?: number | null | undefined;
+  /** GitLab integration for a task in a GitLab project on gitlab.com. Requires `repository`. Leave `github_integration` and `github_user_integration` empty. */
+  repository_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
   github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
@@ -227,6 +229,10 @@ export interface CreateTaskRequest {
   channel?: string | null | undefined;
   /** Earliest start time for a one-off cloud run, in ISO 8601 format. Must be in the future and within 30 days. Times without an offset use UTC. Omit or send null to start immediately. */
   scheduled_at?: string | null | undefined;
+  /** Identity of this submission when targeting a warm run. Keep it unchanged on retries; a different submission may fall back to a cold task if the warm run was already claimed. */
+  warm_submission_id?: string | null | undefined;
+  /** Target an unused warm run owned by this user. All sandbox settings must match except permission mode, which is acknowledged before the first message. */
+  warm_run_id?: string | null | undefined;
   /** Create the first cloud run. It starts immediately unless scheduled_at is set. */
   start_run?: boolean | undefined;
   /** Question to forward to the signal report's scout when creating a discussion task. Send an empty string when there is no question. Omit only for older clients that embed the question in the task description. Not persisted on the task. */
@@ -404,6 +410,23 @@ export interface SlackThreadReferenceDTO {
 export type TaskCreateResponseDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
 /** * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
 export type TaskClientProvenanceEnum = "posthog_desktop" | "posthog_mobile" | "posthog_web";
+/** * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+export type TaskClientEnum = "posthog_desktop" | "posthog_mobile" | "posthog_web" | "slack";
+/** * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+export type TaskStatusEnum = "queued" | "running" | "idle" | "done";
+/** * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+export type TaskStatusReasonEnum =
+  | "turn_closed"
+  | "user_stopped"
+  | "provision_failed"
+  | "unexpected_failure"
+  | "timed_out"
+  | "budget_spent"
+  | "credit_spent"
+  | "access_changed"
+  | "finished"
+  | "closed"
+  | "cancelled";
 /** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
 export interface TaskCreateResponseDTO {
   id: string;
@@ -437,8 +460,74 @@ export interface TaskCreateResponseDTO {
   origin_key?: string | null | undefined;
   /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
   client_provenance?: TaskClientProvenanceEnum | null | undefined;
+  /** Client the latest person turn on this task came from. Null when no turn came from a known client. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+  last_client?: TaskClientEnum | null | undefined;
+  /** When the latest person turn from `last_client` arrived. */
+  last_client_at?: string | null | undefined;
+  /** GitLab integration for a task in a GitLab project. Null for GitHub tasks and tasks without a repository. */
+  repository_integration?: number | null | undefined;
+  /** Where the task is now. `queued` waits for a sandbox, `running` has a live run, `idle` can be woken by a follow-up and `done` is finished. Null on older tasks that have not been filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
+  /** Message shown next to `status_reason`, such as the error from a failed run. */
+  status_detail?: string | null | undefined;
   /** Error returned when the task was created but its first run could not start. */
   run_error?: string | undefined;
+}
+export interface CreateTasksCloseRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export type TaskDetailDTORepositoriesList = Array<string>;
+export type TaskDetailDTOJsonSchemaMap = { [key: string]: unknown | undefined };
+export type TaskDetailDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
+/** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
+export interface TaskDetailDTO {
+  id: string;
+  task_number: number | null;
+  slug: string;
+  title: string;
+  title_manually_set: boolean;
+  description: string;
+  origin_product: string;
+  /** Agent protocol and harness used for this task's runs. * `acp` - ACP * `pi` - Pi */
+  runtime: TaskRuntimeEnum;
+  repository: string | null;
+  repositories: TaskDetailDTORepositoriesList;
+  github_integration: number | null;
+  github_user_integration: string | null;
+  signal_report: string | null;
+  json_schema: TaskDetailDTOJsonSchemaMap | null;
+  internal: boolean;
+  archived: boolean;
+  archived_at: string | null;
+  /** Latest run details for this task */
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
+  ci_prompt: string | null;
+  channel?: string | null | undefined;
+  slack_thread_references: TaskDetailDTOSlackThreadReferencesList;
+  /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
+  origin_key?: string | null | undefined;
+  /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
+  client_provenance?: TaskClientProvenanceEnum | null | undefined;
+  /** Client the latest person turn on this task came from. Null when no turn came from a known client. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+  last_client?: TaskClientEnum | null | undefined;
+  /** When the latest person turn from `last_client` arrived. */
+  last_client_at?: string | null | undefined;
+  /** GitLab integration for a task in a GitLab project. Null for GitHub tasks and tasks without a repository. */
+  repository_integration?: number | null | undefined;
+  /** Where the task is now. `queued` waits for a sandbox, `running` has a live run, `idle` can be woken by a follow-up and `done` is finished. Null on older tasks that have not been filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
+  /** Message shown next to `status_reason`, such as the error from a failed run. */
+  status_detail?: string | null | undefined;
 }
 export interface CreateTasksConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -487,43 +576,6 @@ export interface CreateTasksHandoffRequest {
   id: string;
   /** ID of the user taking over the task. Must have access to this project and not be the task's current owner. */
   user: number;
-}
-export type TaskDetailDTORepositoriesList = Array<string>;
-export type TaskDetailDTOJsonSchemaMap = { [key: string]: unknown | undefined };
-export type TaskDetailDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
-/** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
-export interface TaskDetailDTO {
-  id: string;
-  task_number: number | null;
-  slug: string;
-  title: string;
-  title_manually_set: boolean;
-  description: string;
-  origin_product: string;
-  /** Agent protocol and harness used for this task's runs. * `acp` - ACP * `pi` - Pi */
-  runtime: TaskRuntimeEnum;
-  repository: string | null;
-  repositories: TaskDetailDTORepositoriesList;
-  github_integration: number | null;
-  github_user_integration: string | null;
-  signal_report: string | null;
-  json_schema: TaskDetailDTOJsonSchemaMap | null;
-  internal: boolean;
-  archived: boolean;
-  archived_at: string | null;
-  /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null | undefined;
-  created_at?: string | null | undefined;
-  updated_at?: string | null | undefined;
-  last_activity_at?: string | null | undefined;
-  created_by?: TaskUserBasicInfo | null | undefined;
-  ci_prompt: string | null;
-  channel?: string | null | undefined;
-  slack_thread_references: TaskDetailDTOSlackThreadReferencesList;
-  /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null | undefined;
-  /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
-  client_provenance?: TaskClientProvenanceEnum | null | undefined;
 }
 export interface CreateTasksMeConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -906,6 +958,18 @@ export interface TaskRunResponse {
   origin_key?: string | null | undefined;
   /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
   client_provenance?: TaskClientProvenanceEnum | null | undefined;
+  /** Client the latest person turn on this task came from. Null when no turn came from a known client. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+  last_client?: TaskClientEnum | null | undefined;
+  /** When the latest person turn from `last_client` arrived. */
+  last_client_at?: string | null | undefined;
+  /** GitLab integration for a task in a GitLab project. Null for GitHub tasks and tasks without a repository. */
+  repository_integration?: number | null | undefined;
+  /** Where the task is now. `queued` waits for a sandbox, `running` has a live run, `idle` can be woken by a follow-up and `done` is finished. Null on older tasks that have not been filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
+  /** Message shown next to `status_reason`, such as the error from a failed run. */
+  status_detail?: string | null | undefined;
   /** Error returned when the run could not start. */
   run_error?: string | undefined;
   /** The run this call created or activated. Read run-scoped ids from here -- `run.id` is the id the run's stream and command endpoints take, while the top-level `id` is the task's. Set on every 200; when `run_error` is also set, the run exists but its workflow did not start. */
@@ -1040,6 +1104,10 @@ export interface TaskSummaryDTO {
   updated_at: string;
   origin_product?: string | undefined;
   latest_run?: TaskRunSummary | null | undefined;
+  /** Where the task is now: queued, running, idle or done. Null on older tasks not filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
 }
 export type PaginatedTaskSummaryDTOListResultsList = Array<TaskSummaryDTO>;
 export interface PaginatedTaskSummaryDTOList {
@@ -1111,6 +1179,8 @@ export interface WarmTaskResponse {
   task_id: string;
   /** Id of the idling warm Run. The normal create+run path reuses and activates it on submit. */
   run_id: string;
+  /** The server can negotiate the final permission mode before activating an explicitly targeted warm run. */
+  permission_mode_mutable?: boolean | undefined;
 }
 /** Optional metadata to merge into the artifact registry record. */
 export type EditTasksRunsLivingArtifactRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -1225,6 +1295,8 @@ export interface TaskCommentEntry {
   content: string;
   /** Whether this comment body has more content. */
   content_truncated: boolean;
+  /** Byte offset where this body chunk starts. */
+  content_offset: number;
   /** Byte offset for the next body chunk, or null when complete. */
   content_next_offset: number | null;
   /** Comment author's display name. */
@@ -1267,11 +1339,15 @@ export interface ModelChoice {
   supported_efforts: ModelChoiceSupportedEffortsList;
   /** Per-token cost against the catalogue baseline, ready to display, such as '2.5x' or '~0.55x'. Prefixed when the input and output rates diverge enough that one number flatters either. Null for a model the catalogue quotes no rate for. */
   cost_multiplier?: string | null | undefined;
+  /** Largest context window the model accepts, in tokens. */
+  context_window?: number | undefined;
+  /** Whether the project's plan may run this model. A free plan may run only the free-tier models. */
+  allowed?: boolean | undefined;
 }
-/** Every model a run may use, newest catalogue from the LLM gateway. Empty when the gateway is unreachable. */
+/** Every model a PostHog Code run may use, read from the PostHog model catalog. */
 export type ModelCatalogueResponseModelsList = Array<ModelChoice>;
 export interface ModelCatalogueResponse {
-  /** Every model a run may use, newest catalogue from the LLM gateway. Empty when the gateway is unreachable. */
+  /** Every model a PostHog Code run may use, read from the PostHog model catalog. */
   models: ModelCatalogueResponseModelsList;
 }
 export interface GetTasksPinnedRequest {
@@ -1641,6 +1717,7 @@ export type ListTasksRequestStatus =
   | "completed"
   | "failed"
   | "cancelled";
+export type ListTasksRequestTaskStatus = "queued" | "running" | "idle" | "done";
 export interface ListTasksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1692,6 +1769,8 @@ export interface ListTasksRequest {
   stage?: string | undefined;
   /** Filter tasks by the status of their most recent run. * `not_started` - not_started * `queued` - queued * `in_progress` - in_progress * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
   status?: ListTasksRequestStatus | (string & {}) | undefined;
+  /** Filter tasks by their own status: queued, running, idle or done. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  task_status?: ListTasksRequestTaskStatus | (string & {}) | undefined;
 }
 export type TaskBasicRepositoriesList = Array<string>;
 export type TaskBasicJsonSchemaMap = { [key: string]: unknown | undefined };
@@ -1728,6 +1807,18 @@ export interface TaskBasic {
   origin_key?: string | null | undefined;
   /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
   client_provenance?: TaskClientProvenanceEnum | null | undefined;
+  /** Client the latest person turn on this task came from. Null when no turn came from a known client. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+  last_client?: TaskClientEnum | null | undefined;
+  /** When the latest person turn from `last_client` arrived. */
+  last_client_at?: string | null | undefined;
+  /** GitLab integration for a task in a GitLab project. Null for GitHub tasks and tasks without a repository. */
+  repository_integration?: number | null | undefined;
+  /** Where the task is now. `queued` waits for a sandbox, `running` has a live run, `idle` can be woken by a follow-up and `done` is finished. Null on older tasks that have not been filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
+  /** Message shown next to `status_reason`, such as the error from a failed run. */
+  status_detail?: string | null | undefined;
   /** First 1000 characters of the description, so a summary surface can show a prompt snippet without the full body. Open the task for the complete text. */
   description_preview: string;
 }
@@ -2148,12 +2239,14 @@ export interface UpdateTaskRequest {
   description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `account_audit` - Account audit * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge * `metrics_import` - Metrics Import * `knowledge_writer` - Knowledge Writer * `context_layer` - Context Layer * `feature_flags` - Feature Flags */
   origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
-  /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
+  /** Target repository. For GitHub, use `organization/repo` (e.g. `posthog/posthog-js`). For GitLab, set `repository_integration` and use the full project path, which can include nested groups (e.g. `acme/platform/api`). */
   repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
   repositories?: UpdateTaskRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
   github_integration?: number | null | undefined;
+  /** GitLab integration for a task in a GitLab project on gitlab.com. Requires `repository`. Leave `github_integration` and `github_user_integration` empty. */
+  repository_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
   github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
@@ -2205,12 +2298,14 @@ export interface UpdateTasksPartialRequest {
   description?: string | undefined;
   /** PostHog product or surface that created this task (e.g. error_tracking, slack, user_created). Origins reserved for server-created agents cannot be set through this API. * `onboarding` - Onboarding * `account_audit` - Account audit * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge * `metrics_import` - Metrics Import * `knowledge_writer` - Knowledge Writer * `context_layer` - Context Layer * `feature_flags` - Feature Flags */
   origin_product?: TaskOriginProductEnum | (string & {}) | undefined;
-  /** Target GitHub repository in `organization/repo` format (e.g. `posthog/posthog-js`). */
+  /** Target repository. For GitHub, use `organization/repo` (e.g. `posthog/posthog-js`). For GitLab, set `repository_integration` and use the full project path, which can include nested groups (e.g. `acme/platform/api`). */
   repository?: string | null | undefined;
   /** GitHub repositories available to this task, each in `organization/repo` format. */
   repositories?: UpdateTasksPartialRequestRepositoriesList | undefined;
   /** GitHub integration for this task. */
   github_integration?: number | null | undefined;
+  /** GitLab integration for a task in a GitLab project on gitlab.com. Requires `repository`. Leave `github_integration` and `github_user_integration` empty. */
+  repository_integration?: number | null | undefined;
   /** User-scoped GitHub integration to use for user-authored cloud runs. */
   github_user_integration?: string | null | undefined;
   /** Signal report this task implements, when created from a report. */
@@ -2271,6 +2366,8 @@ export type TaskRunErrorResponseMissingArtifactIdsList = Array<string>;
 /** * `burst` - burst * `sustained` - sustained */
 export type LimitTypeEnum = "burst" | "sustained";
 export interface TaskRunErrorResponse {
+  /** Message ID to reuse as the JSON-RPC id when retrying delivery */
+  id?: unknown | undefined;
   /** Human-readable validation error */
   detail?: string | undefined;
   /** Human-readable error message */
@@ -2302,14 +2399,32 @@ export const createTask: API.OperationMethod<
   CreateTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(340, __c42, 4) as any as S.Schema<CreateTaskRequest>,
-  output: __S(341, __c42, 5) as any as S.Schema<TaskCreateResponseDTO>,
+  input: __S(332, __c41, 4) as any as S.Schema<CreateTaskRequest>,
+  output: __S(333, __c41, 5) as any as S.Schema<TaskCreateResponseDTO>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTask",
+}));
+
+export type CreateTasksCloseError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
+/** Close a task Mark an idle task as done. A done task refuses new runs and follow-up messages, so start a new task to keep working on it. */
+export const createTasksClose: API.OperationMethod<
+  CreateTasksCloseRequest,
+  TaskDetailDTO,
+  CreateTasksCloseError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c56, 0) as any as S.Schema<CreateTasksCloseRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<TaskDetailDTO>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksClose",
 }));
 
 export type CreateTasksConfigError = PosthogOpError;
@@ -2320,8 +2435,8 @@ export const createTasksConfig: API.OperationMethod<
   CreateTasksConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<CreateTasksConfigRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<TasksTeamConfigResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<CreateTasksConfigRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<TasksTeamConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2338,8 +2453,8 @@ export const createTasksConfigAgentInstruction: API.OperationMethod<
   CreateTasksConfigAgentInstructionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<CreateTasksConfigAgentInstructionRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<TasksAgentInstructions>,
+  input: __S(576, __c72, 0) as any as S.Schema<CreateTasksConfigAgentInstructionRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TasksAgentInstructions>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2356,8 +2471,8 @@ export const createTasksHandoff: API.OperationMethod<
   CreateTasksHandoffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<CreateTasksHandoffRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(592, __c74, 0) as any as S.Schema<CreateTasksHandoffRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2374,8 +2489,8 @@ export const createTasksMeConfig: API.OperationMethod<
   CreateTasksMeConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<CreateTasksMeConfigRequest>,
-  output: __S(609, __c76, 1) as any as S.Schema<TasksUserConfigResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<CreateTasksMeConfigRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<TasksUserConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2392,8 +2507,8 @@ export const createTasksMeConfigAgentInstruction: API.OperationMethod<
   CreateTasksMeConfigAgentInstructionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<CreateTasksMeConfigAgentInstructionRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<TasksAgentInstructions>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksMeConfigAgentInstructionRequest>,
+  output: __S(584, __c73, 0) as any as S.Schema<TasksAgentInstructions>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2410,8 +2525,8 @@ export const createTasksMeConfigTaskDefault: API.OperationMethod<
   CreateTasksMeConfigTaskDefaultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksMeConfigTaskDefaultRequest>,
-  output: __S(600, __c75, 0) as any as S.Schema<TasksTaskDefaults>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateTasksMeConfigTaskDefaultRequest>,
+  output: __S(608, __c76, 0) as any as S.Schema<TasksTaskDefaults>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2428,8 +2543,8 @@ export const createTasksPin: API.OperationMethod<
   CreateTasksPinError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateTasksPinRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TaskPinResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksPinRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<TaskPinResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2446,8 +2561,8 @@ export const createTasksPresence: API.OperationMethod<
   CreateTasksPresenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksPresenceRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<CreateTasksPresenceResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateTasksPresenceRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateTasksPresenceResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2464,8 +2579,8 @@ export const createTasksPullRequestTitle: API.OperationMethod<
   CreateTasksPullRequestTitleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksPullRequestTitleRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TaskPullRequestTitles>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateTasksPullRequestTitleRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<TaskPullRequestTitles>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2482,8 +2597,8 @@ export const createTasksRepoRoutingRule: API.OperationMethod<
   CreateTasksRepoRoutingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRepoRoutingRuleRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateTasksRepoRoutingRuleRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2492,7 +2607,7 @@ export const createTasksRepoRoutingRule: API.OperationMethod<
   span: "CreateTasksRepoRoutingRule",
 }));
 
-export type CreateTasksRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
+export type CreateTasksRunError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
 /** Run task Create a new task run and kick off the workflow. The response is the refreshed task with the created run under the top-level `run` key: read `run.id` for anything run-scoped, such as the run's stream and command endpoints. The top-level `id` is the task's, and `latest_run` mirrors `run` only as long as nothing newer starts -- reading either of those as the created run is deprecated. */
 export const createTasksRun: API.OperationMethod<
   CreateTasksRunRequest,
@@ -2500,9 +2615,9 @@ export const createTasksRun: API.OperationMethod<
   CreateTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateTasksRunRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<TaskRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(88, __c11, 0) as any as S.Schema<CreateTasksRunRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<TaskRunResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2518,8 +2633,8 @@ export const createTasksRunsLivingArtifact: API.OperationMethod<
   CreateTasksRunsLivingArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateTasksRunsLivingArtifactRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateTasksRunsLivingArtifactRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2536,8 +2651,8 @@ export const createTasksSummary: API.OperationMethod<
   CreateTasksSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateTasksSummaryRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<PaginatedTaskSummaryDTOList>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateTasksSummaryRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<PaginatedTaskSummaryDTOList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2554,8 +2669,8 @@ export const createTasksThreadMessage: API.OperationMethod<
   CreateTasksThreadMessageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateTasksThreadMessageRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<TaskThreadMessageDTO>,
+  input: __S(136, __c17, 0) as any as S.Schema<CreateTasksThreadMessageRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<TaskThreadMessageDTO>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2572,8 +2687,8 @@ export const createTasksWarm: API.OperationMethod<
   CreateTasksWarmError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<CreateTasksWarmRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<WarmTaskResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<CreateTasksWarmRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<WarmTaskResponse>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2591,7 +2706,7 @@ export const editTasksRunsLivingArtifact: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<EditTasksRunsLivingArtifactRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
+  output: __S(104, __c13, 0) as any as S.Schema<TaskRunLivingArtifactResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2645,7 +2760,7 @@ export const getTask: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
+  output: __S(456, __c57, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2691,7 +2806,7 @@ export const getTasksComment: API.OperationMethod<
 }));
 
 export type GetTasksModelError = PosthogOpError;
-/** List available models Return the models a task run may use, with the reasoning efforts each one supports. Derived from the live LLM gateway catalogue, so a newly released model appears without a client change. An empty list means the gateway is unreachable -- clients should fall back to their own default rather than treating it as 'no models exist'. */
+/** List available models Return the models a task run may use, with the reasoning efforts each one supports. Read from the PostHog model catalog, narrowed to the models a PostHog Code token may call. Each model is marked with whether the project's plan allows it. */
 export const getTasksModel: API.OperationMethod<
   GetTasksModelRequest,
   ModelCatalogueResponse,
@@ -2735,7 +2850,7 @@ export const getTasksRepoRoutingRule: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetTasksRepoRoutingRuleRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
+  output: __S(81, __c10, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2915,7 +3030,7 @@ export const listTasksConfig: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ListTasksConfigRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<TasksTeamConfigResponse>,
+  output: __S(560, __c70, 0) as any as S.Schema<TasksTeamConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2932,8 +3047,8 @@ export const listTasksMeConfig: API.OperationMethod<
   ListTasksMeConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListTasksMeConfigRequest>,
-  output: __S(609, __c76, 1) as any as S.Schema<TasksUserConfigResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<ListTasksMeConfigRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<TasksUserConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3005,7 +3120,7 @@ export const tasksDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<TasksDestroyRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<TasksDestroyResponse>,
+  output: __S(48, __c6, 0) as any as S.Schema<TasksDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3023,7 +3138,7 @@ export const tasksPresenceDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<TasksPresenceDestroyRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<TasksPresenceDestroyResponse>,
+  output: __S(48, __c6, 0) as any as S.Schema<TasksPresenceDestroyResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3041,7 +3156,7 @@ export const tasksRepoRoutingRulesDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyResponse>,
+  output: __S(48, __c6, 0) as any as S.Schema<TasksRepoRoutingRulesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3095,7 +3210,7 @@ export const tasksRunsLivingArtifactsVersionContent: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentResponse>,
+  output: __S(48, __c6, 0) as any as S.Schema<TasksRunsLivingArtifactsVersionContentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3112,8 +3227,8 @@ export const tasksSearchRetrieve: API.OperationMethod<
   TasksSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<TasksSearchRetrieveRequest>,
-  output: __S(451, __c56, 3) as any as S.Schema<TasksSearchRetrieveResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<TasksSearchRetrieveRequest>,
+  output: __S(467, __c58, 3) as any as S.Schema<TasksSearchRetrieveResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3134,8 +3249,8 @@ export const tasksStagedArtifactsFinalizeUploadCreate: API.OperationMethod<
   TasksStagedArtifactsFinalizeUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(482, __c60, 2) as any as S.Schema<TasksStagedArtifactsFinalizeUploadCreateRequest>,
-  output: __S(483, __c60, 3) as any as S.Schema<TaskStagedArtifactsFinalizeUploadResponse>,
+  input: __S(474, __c59, 2) as any as S.Schema<TasksStagedArtifactsFinalizeUploadCreateRequest>,
+  output: __S(475, __c59, 3) as any as S.Schema<TaskStagedArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3156,8 +3271,8 @@ export const tasksStagedArtifactsPrepareUploadCreate: API.OperationMethod<
   TasksStagedArtifactsPrepareUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(498, __c62, 2) as any as S.Schema<TasksStagedArtifactsPrepareUploadCreateRequest>,
-  output: __S(502, __c62, 6) as any as S.Schema<TaskStagedArtifactsPrepareUploadResponse>,
+  input: __S(490, __c61, 2) as any as S.Schema<TasksStagedArtifactsPrepareUploadCreateRequest>,
+  output: __S(494, __c61, 6) as any as S.Schema<TaskStagedArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3174,8 +3289,8 @@ export const tasksThreadMessagesDestroy: API.OperationMethod<
   TasksThreadMessagesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<TasksThreadMessagesDestroyRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<TasksThreadMessagesDestroyResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<TasksThreadMessagesDestroyRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<TasksThreadMessagesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3192,8 +3307,8 @@ export const tasksThreadMessagesSendToAgentCreate: API.OperationMethod<
   TasksThreadMessagesSendToAgentCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<TasksThreadMessagesSendToAgentCreateRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<TaskThreadMessageDTO>,
+  input: __S(504, __c63, 0) as any as S.Schema<TasksThreadMessagesSendToAgentCreateRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<TaskThreadMessageDTO>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3210,8 +3325,8 @@ export const tasksWarmResumeCreate: API.OperationMethod<
   TasksWarmResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<TasksWarmResumeCreateRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<WarmTaskResumeResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<TasksWarmResumeCreateRequest>,
+  output: __S(513, __c64, 1) as any as S.Schema<WarmTaskResumeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3228,8 +3343,8 @@ export const updateTask: API.OperationMethod<
   UpdateTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(520, __c65, 0) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3246,8 +3361,8 @@ export const updateTasksPartial: API.OperationMethod<
   UpdateTasksPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<UpdateTasksPartialRequest>,
-  output: __S(584, __c73, 0) as any as S.Schema<TaskDetailDTO>,
+  input: __S(528, __c66, 0) as any as S.Schema<UpdateTasksPartialRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3264,8 +3379,8 @@ export const updateTasksRepoRoutingRule: API.OperationMethod<
   UpdateTasksRepoRoutingRuleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<UpdateTasksRepoRoutingRuleRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(536, __c67, 0) as any as S.Schema<UpdateTasksRepoRoutingRuleRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3282,8 +3397,8 @@ export const updateTasksRepoRoutingRulesPartial: API.OperationMethod<
   UpdateTasksRepoRoutingRulesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<UpdateTasksRepoRoutingRulesPartialRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<RepoRoutingRule>,
+  input: __S(544, __c68, 0) as any as S.Schema<UpdateTasksRepoRoutingRulesPartialRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<RepoRoutingRule>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3304,6 +3419,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.Unknown),
           detail: S.optional(S.String),
           error: S.optional(S.String),
           type: S.optional(S.String),
@@ -3325,6 +3441,23 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          agent_instructions: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/tasks/@me/config/agent_instructions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTasksMeConfigAgentInstructionRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           start_in_plan_mode: S.optional(S.Boolean),
           auto_publish_cloud_runs: S.optional(S.Boolean),
           default_cloud_target: S.optional(S.NullOr(S.String)),
@@ -3338,7 +3471,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateTasksMeConfigTaskDefaultRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3359,7 +3492,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TaskPinResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3377,13 +3510,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateTasksPresenceRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateTasksPresenceResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3401,18 +3534,18 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          titles: __S(56, __c7, 0),
+          titles: __S(64, __c8, 0),
         }),
       ).annotate({ identifier: "TaskPullRequestTitles" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3430,7 +3563,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateTasksRepoRoutingRuleRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3442,7 +3575,7 @@ function __c9(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(344, __c43, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(336, __c42, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -3453,14 +3586,14 @@ function __c9(j: number): any {
           rule_text: S.String,
           repository: S.String,
           priority: S.Number,
-          created_by: S.NullOr(__S(72, __c9, 0)),
+          created_by: S.NullOr(__S(80, __c10, 0)),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "RepoRoutingRule" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3488,27 +3621,33 @@ function __c10(j: number): any {
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(344, __c43, 0)),
+          json_schema: S.NullOr(__S(336, __c42, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
+          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
+          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(370, __c46, 2),
+          slack_thread_references: __S(362, __c45, 2),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
+          last_client: S.optional(S.NullOr(S.String)),
+          last_client_at: S.optional(S.NullOr(S.String)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
+          status: S.optional(S.NullOr(S.String)),
+          status_reason: S.optional(S.NullOr(S.String)),
+          status_detail: S.optional(S.NullOr(S.String)),
           run_error: S.optional(S.String),
-          run: S.optional(S.NullOr(__S(368, __c46, 0))),
+          run: S.optional(S.NullOr(__S(360, __c45, 0))),
         }),
       ).annotate({ identifier: "TaskRunResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3524,7 +3663,7 @@ function __c11(j: number): any {
           content_type: S.optional(S.String),
           source_artifact_id: S.optional(S.String),
           source_storage_path: S.optional(S.String),
-          metadata: S.optional(__S(344, __c43, 0)),
+          metadata: S.optional(__S(336, __c42, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3535,7 +3674,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsLivingArtifactRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3551,20 +3690,20 @@ function __c12(j: number): any {
           location: S.Unknown,
           metadata: S.Unknown,
           current_version: S.Number,
-          versions: __S(104, __c13, 0),
+          versions: __S(112, __c14, 0),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskRunLivingArtifactResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(344, __c43, 0));
+      return S.Array(__S(336, __c42, 0));
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3587,23 +3726,25 @@ function __c14(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           origin_product: S.optional(S.String),
-          latest_run: S.optional(S.NullOr(__S(120, __c15, 0))),
+          latest_run: S.optional(S.NullOr(__S(128, __c16, 0))),
+          status: S.optional(S.NullOr(S.String)),
+          status_reason: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskSummaryDTO" });
     case 2:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(114, __c14, 2),
+          results: __S(122, __c15, 2),
         }),
       ).annotate({ identifier: "PaginatedTaskSummaryDTOList" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3619,7 +3760,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TaskRunSummary" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3637,7 +3778,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateTasksThreadMessageRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3646,17 +3787,17 @@ function __c17(j: number): any {
           task: S.String,
           author_kind: S.String,
           event: S.String,
-          payload: __S(344, __c43, 0),
+          payload: __S(336, __c42, 0),
           content: S.String,
           created_at: S.String,
-          author: S.optional(S.NullOr(__S(352, __c44, 0))),
+          author: S.optional(S.NullOr(__S(344, __c43, 0))),
           forwarded_to_agent_at: S.optional(S.NullOr(S.String)),
-          forwarded_by: S.optional(S.NullOr(__S(352, __c44, 0))),
+          forwarded_by: S.optional(S.NullOr(__S(344, __c43, 0))),
         }),
       ).annotate({ identifier: "TaskThreadMessageDTO" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3678,15 +3819,12 @@ function __c18(j: number): any {
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/warm/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateTasksWarmRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           task_id: S.String,
           run_id: S.String,
+          permission_mode_mutable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WarmTaskResponse" });
   }
@@ -3706,7 +3844,7 @@ function __c20(j: number): any {
           content_type: S.optional(S.String),
           source_artifact_id: S.optional(S.String),
           source_storage_path: S.optional(S.String),
-          metadata: S.optional(__S(344, __c43, 0)),
+          metadata: S.optional(__S(336, __c42, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3832,6 +3970,7 @@ function __c25(j: number): any {
           id: S.String,
           content: S.String,
           content_truncated: S.Boolean,
+          content_offset: S.Number,
           content_next_offset: S.NullOr(S.Number),
           author: S.NullOr(S.String),
           created_at: S.String,
@@ -3883,6 +4022,8 @@ function __c27(j: number): any {
           display_name: S.String,
           supported_efforts: __S(224, __c28, 0),
           cost_multiplier: S.optional(S.NullOr(S.String)),
+          context_window: S.optional(S.Number),
+          allowed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModelChoice" });
     case 2:
@@ -3981,7 +4122,7 @@ function __c32(j: number): any {
           state: S.optional(S.String),
           estimated: S.optional(S.Boolean),
           reason: S.optional(S.String),
-          evidence: S.optional(__S(344, __c43, 0)),
+          evidence: S.optional(__S(336, __c42, 0)),
         }),
       ).annotate({ identifier: "CapabilityState" });
     case 2:
@@ -4212,6 +4353,7 @@ function __c37(j: number): any {
           sources: S.optional(__S(224, __c28, 0).pipe(T.Query())),
           stage: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
+          task_status: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/tasks/", code: 200 })),
       ).annotate({ identifier: "ListTasksRequest" });
     case 1:
@@ -4314,24 +4456,12 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/tasks/@me/config/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListTasksMeConfigRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String,
           initial_branch: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskRunOptionsRepository" });
     case 1:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(328, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4339,8 +4469,8 @@ function __c42(j: number): any {
           adapter: S.optional(S.String),
           model: S.optional(S.String),
           reasoning_effort: S.optional(S.String),
-          repositories: S.optional(__S(337, __c42, 1)),
-          output_schema: S.optional(__S(344, __c43, 0)),
+          repositories: S.optional(__S(329, __c41, 1)),
+          output_schema: S.optional(__S(336, __c42, 0)),
           permission_mode: S.optional(S.String),
           auto_publish: S.optional(S.Boolean),
         }),
@@ -4363,6 +4493,7 @@ function __c42(j: number): any {
           repository: S.optional(S.NullOr(S.String)),
           repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
           github_user_integration: S.optional(S.NullOr(S.String)),
           signal_report: S.optional(S.NullOr(S.String)),
           signal_report_task_relationship: S.optional(S.String),
@@ -4379,6 +4510,8 @@ function __c42(j: number): any {
           auto_publish: S.optional(S.NullOr(S.Boolean)),
           channel: S.optional(S.NullOr(S.String)),
           scheduled_at: S.optional(S.NullOr(S.String)),
+          warm_submission_id: S.optional(S.NullOr(S.String)),
+          warm_run_id: S.optional(S.NullOr(S.String)),
           start_run: S.optional(S.Boolean),
           signal_report_discussion_question: S.optional(S.String),
           naming_source: S.optional(S.String),
@@ -4386,8 +4519,8 @@ function __c42(j: number): any {
           custom_image_id: S.optional(S.NullOr(S.String)),
           runtime: S.optional(S.String),
           profile: S.optional(S.String),
-          options: S.optional(__S(338, __c42, 2)),
-          source: S.optional(__S(339, __c42, 3)),
+          options: S.optional(__S(330, __c41, 2)),
+          source: S.optional(__S(331, __c41, 3)),
           idempotency_key: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/", code: 200 })),
       ).annotate({ identifier: "CreateTaskRequest" });
@@ -4407,32 +4540,38 @@ function __c42(j: number): any {
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(344, __c43, 0)),
+          json_schema: S.NullOr(__S(336, __c42, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
+          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
+          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(370, __c46, 2),
+          slack_thread_references: __S(362, __c45, 2),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
+          last_client: S.optional(S.NullOr(S.String)),
+          last_client_at: S.optional(S.NullOr(S.String)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
+          status: S.optional(S.NullOr(S.String)),
+          status_reason: S.optional(S.NullOr(S.String)),
+          status_detail: S.optional(S.NullOr(S.String)),
           run_error: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskCreateResponseDTO" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4444,13 +4583,13 @@ function __c44(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(344, __c43, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(336, __c42, 0))),
           role_at_organization: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskUserBasicInfo" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4471,10 +4610,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunArtifactResponse" });
     case 1:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(352, __c44, 0));
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4491,11 +4630,11 @@ function __c46(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           log_url: S.optional(S.NullOr(S.String)),
           error_message: S.NullOr(S.String),
-          output: S.NullOr(__S(344, __c43, 0)),
+          output: S.NullOr(__S(336, __c42, 0)),
           task_summary: S.NullOr(S.String),
           task_tags: __S(0, __c0, 0),
-          state: __S(344, __c43, 0),
-          artifacts: __S(361, __c45, 1),
+          state: __S(336, __c42, 0),
+          artifacts: __S(353, __c44, 1),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -4512,7 +4651,19 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "SlackThreadReferenceDTO" });
     case 2:
-      return S.Array(__S(369, __c46, 1));
+      return S.Array(__S(361, __c45, 1));
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/tasks/@me/config/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListTasksMeConfigRequest" });
   }
 }
 function __c47(j: number): any {
@@ -4530,7 +4681,7 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRepoRoutingRulesRequest" });
     case 1:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(81, __c10, 1));
     case 2:
       return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTasksRepoRoutingRulesResponse",
@@ -4554,7 +4705,7 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRunsLivingArtifactsRequest" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(104, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4581,7 +4732,7 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksThreadMessagesRequest" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4649,7 +4800,7 @@ function __c53(j: number): any {
           task_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
           name: S.String,
-          query: S.optional(__S(344, __c43, 0)),
+          query: S.optional(__S(336, __c42, 0)),
           insight_id: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -4662,7 +4813,7 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          artifact: __S(96, __c12, 0),
+          artifact: __S(104, __c13, 0),
           export_asset_id: S.Number,
           url: S.optional(S.NullOr(S.String)),
         }),
@@ -4700,7 +4851,7 @@ function __c54(j: number): any {
           location: S.Unknown,
           metadata: S.Unknown,
           current_version: S.Number,
-          versions: __S(104, __c13, 0),
+          versions: __S(112, __c14, 0),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           content: S.optional(S.NullOr(S.String)),
@@ -4735,6 +4886,65 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/tasks/{id}/close/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTasksCloseRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          task_number: S.NullOr(S.Number),
+          slug: S.String,
+          title: S.String,
+          title_manually_set: S.Boolean,
+          description: S.String,
+          origin_product: S.String,
+          runtime: S.String,
+          repository: S.NullOr(S.String),
+          repositories: __S(0, __c0, 0),
+          github_integration: S.NullOr(S.Number),
+          github_user_integration: S.NullOr(S.String),
+          signal_report: S.NullOr(S.String),
+          json_schema: S.NullOr(__S(336, __c42, 0)),
+          internal: S.Boolean,
+          archived: S.Boolean,
+          archived_at: S.NullOr(S.String),
+          latest_run: S.optional(S.NullOr(__S(360, __c45, 0))),
+          created_at: S.optional(S.NullOr(S.String)),
+          updated_at: S.optional(S.NullOr(S.String)),
+          last_activity_at: S.optional(S.NullOr(S.String)),
+          created_by: S.optional(S.NullOr(__S(344, __c43, 0))),
+          ci_prompt: S.NullOr(S.String),
+          channel: S.optional(S.NullOr(S.String)),
+          slack_thread_references: __S(362, __c45, 2),
+          origin_key: S.optional(S.NullOr(S.String)),
+          client_provenance: S.optional(S.NullOr(S.String)),
+          last_client: S.optional(S.NullOr(S.String)),
+          last_client_at: S.optional(S.NullOr(S.String)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
+          status: S.optional(S.NullOr(S.String)),
+          status_reason: S.optional(S.NullOr(S.String)),
+          status_detail: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TaskDetailDTO" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           q: S.String.pipe(T.Query()),
         }).pipe(
@@ -4751,62 +4961,22 @@ function __c56(j: number): any {
           task_id: S.NullOr(S.String),
           task_run_id: S.NullOr(S.String),
           channel_id: S.NullOr(S.String),
-          created_by: S.NullOr(__S(352, __c44, 0)),
+          created_by: S.NullOr(__S(344, __c43, 0)),
           origin_product: S.NullOr(S.String),
-          latest_run: S.NullOr(__S(120, __c15, 0)),
+          latest_run: S.NullOr(__S(128, __c16, 0)),
           updated_at: S.String,
           metadata: S.Unknown,
         }),
       ).annotate({ identifier: "TaskSearchResult" });
     case 2:
-      return S.Array(__S(449, __c56, 1));
+      return S.Array(__S(465, __c58, 1));
     case 3:
-      return S.suspend(() => __S(450, __c56, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(466, __c58, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "TasksSearchRetrieveResponse",
       });
   }
 }
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          runtime: S.optional(S.NullOr(S.String)),
-          runtime_adapter: S.optional(S.NullOr(S.String)),
-          model: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/config/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateTasksConfigRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ai_run_preferences: __S(472, __c59, 0),
-          agent_instructions: S.String,
-        }),
-      ).annotate({ identifier: "TasksTeamConfigResponse" });
-  }
-}
 function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          runtime: S.optional(S.NullOr(S.String)),
-          runtime_adapter: S.optional(S.NullOr(S.String)),
-          model: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TasksAIRunPreferences" });
-  }
-}
-function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4817,17 +4987,17 @@ function __c60(j: number): any {
           source: S.optional(S.String),
           storage_path: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(488, __c61, 0)),
+          metadata: S.optional(__S(480, __c60, 0)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactFinalizeUpload" });
     case 1:
-      return S.Array(__S(480, __c60, 0));
+      return S.Array(__S(472, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(481, __c60, 1)),
+          artifacts: S.optional(__S(473, __c59, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4839,12 +5009,12 @@ function __c60(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(361, __c45, 1)),
+          artifacts: S.optional(__S(353, __c44, 1)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactsFinalizeUploadResponse" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4858,7 +5028,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "TaskRunSkillBundleMetadata" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4868,17 +5038,17 @@ function __c62(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(488, __c61, 0)),
+          metadata: S.optional(__S(480, __c60, 0)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactPrepareUpload" });
     case 1:
-      return S.Array(__S(496, __c62, 0));
+      return S.Array(__S(488, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(497, __c62, 1)),
+          artifacts: S.optional(__S(489, __c61, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4891,7 +5061,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          fields: S.optional(__S(56, __c7, 0)),
+          fields: S.optional(__S(64, __c8, 0)),
         }),
       ).annotate({ identifier: "S3PresignedPost" });
     case 4:
@@ -4903,23 +5073,23 @@ function __c62(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(488, __c61, 0)),
+          metadata: S.optional(__S(480, __c60, 0)),
           storage_path: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          presigned_post: S.optional(__S(499, __c62, 3)),
+          presigned_post: S.optional(__S(491, __c61, 3)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactPrepareUploadResponse" });
     case 5:
-      return S.Array(__S(500, __c62, 4));
+      return S.Array(__S(492, __c61, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(501, __c62, 5)),
+          artifacts: S.optional(__S(493, __c61, 5)),
         }),
       ).annotate({ identifier: "TaskStagedArtifactsPrepareUploadResponse" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4937,7 +5107,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "TasksThreadMessagesDestroyRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4948,12 +5118,12 @@ function __c64(j: number): any {
           task: S.String,
           author_kind: S.String,
           event: S.String,
-          payload: __S(344, __c43, 0),
+          payload: __S(336, __c42, 0),
           content: S.String,
           created_at: S.String,
-          author: S.optional(S.NullOr(__S(352, __c44, 0))),
+          author: S.optional(S.NullOr(__S(344, __c43, 0))),
           forwarded_to_agent_at: S.optional(S.NullOr(S.String)),
-          forwarded_by: S.optional(S.NullOr(__S(352, __c44, 0))),
+          forwarded_by: S.optional(S.NullOr(__S(344, __c43, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4964,7 +5134,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "TasksThreadMessagesSendToAgentCreateRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4980,9 +5150,16 @@ function __c65(j: number): any {
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/{id}/warm/", code: 200 }),
         ),
       ).annotate({ identifier: "TasksWarmResumeCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.String,
+          run_id: S.String,
+        }),
+      ).annotate({ identifier: "WarmTaskResumeResponse" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4996,6 +5173,7 @@ function __c66(j: number): any {
           repository: S.optional(S.NullOr(S.String)),
           repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
           github_user_integration: S.optional(S.NullOr(S.String)),
           signal_report: S.optional(S.NullOr(S.String)),
           signal_report_task_relationship: S.optional(S.String),
@@ -5017,7 +5195,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateTaskRequest" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5031,6 +5209,7 @@ function __c67(j: number): any {
           repository: S.optional(S.NullOr(S.String)),
           repositories: S.optional(__S(0, __c0, 0)),
           github_integration: S.optional(S.NullOr(S.Number)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
           github_user_integration: S.optional(S.NullOr(S.String)),
           signal_report: S.optional(S.NullOr(S.String)),
           signal_report_task_relationship: S.optional(S.String),
@@ -5052,7 +5231,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateTasksPartialRequest" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5071,7 +5250,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateTasksRepoRoutingRuleRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5090,7 +5269,47 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateTasksRepoRoutingRulesPartialRequest" });
   }
 }
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          runtime: S.optional(S.NullOr(S.String)),
+          runtime_adapter: S.optional(S.NullOr(S.String)),
+          model: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/tasks/config/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateTasksConfigRequest" });
+  }
+}
 function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ai_run_preferences: __S(568, __c71, 0),
+          agent_instructions: S.String,
+        }),
+      ).annotate({ identifier: "TasksTeamConfigResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          runtime: S.optional(S.NullOr(S.String)),
+          runtime_adapter: S.optional(S.NullOr(S.String)),
+          model: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TasksAIRunPreferences" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5107,7 +5326,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateTasksConfigAgentInstructionRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5117,7 +5336,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "TasksAgentInstructions" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5135,43 +5354,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateTasksHandoffRequest" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          task_number: S.NullOr(S.Number),
-          slug: S.String,
-          title: S.String,
-          title_manually_set: S.Boolean,
-          description: S.String,
-          origin_product: S.String,
-          runtime: S.String,
-          repository: S.NullOr(S.String),
-          repositories: __S(0, __c0, 0),
-          github_integration: S.NullOr(S.Number),
-          github_user_integration: S.NullOr(S.String),
-          signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(344, __c43, 0)),
-          internal: S.Boolean,
-          archived: S.Boolean,
-          archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(368, __c46, 0))),
-          created_at: S.optional(S.NullOr(S.String)),
-          updated_at: S.optional(S.NullOr(S.String)),
-          last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(352, __c44, 0))),
-          ci_prompt: S.NullOr(S.String),
-          channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(370, __c46, 2),
-          origin_key: S.optional(S.NullOr(S.String)),
-          client_provenance: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TaskDetailDTO" });
-  }
-}
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5191,7 +5374,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CreateTasksMeConfigRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5203,7 +5386,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "TasksTaskDefaults" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5218,29 +5401,12 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ai_run_preferences: __S(472, __c59, 0),
-          resolved_ai_run_defaults: __S(608, __c76, 0),
+          ai_run_preferences: __S(568, __c71, 0),
+          resolved_ai_run_defaults: __S(616, __c77, 0),
           agent_instructions: S.String,
-          task_defaults: __S(600, __c75, 0),
+          task_defaults: __S(608, __c76, 0),
         }),
       ).annotate({ identifier: "TasksUserConfigResponse" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          agent_instructions: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/tasks/@me/config/agent_instructions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTasksMeConfigAgentInstructionRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

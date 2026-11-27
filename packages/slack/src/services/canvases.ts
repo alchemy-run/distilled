@@ -144,7 +144,7 @@ export interface SetAccessResponse {
   failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export type CreateCanvaseError = SlackOpError;
-/** Create canvas for a user Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `canvas_creation_failed` -- Canvas was unable to be created. - `free_team_canvas_tab_already_exists` -- Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` -- Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */
+/** Create canvas for a user Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `channel_not_found` -- Value passed for `channel_id` was invalid, or the caller doesn't have access to that channel. - `canvas_creation_failed` -- Canvas was unable to be created. - `free_team_canvas_tab_already_exists` -- Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` -- Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */
 export const createCanvase: API.OperationMethod<
   CreateCanvaseRequest,
   CreateCanvaseResponse,

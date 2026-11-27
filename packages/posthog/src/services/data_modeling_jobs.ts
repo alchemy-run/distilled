@@ -117,6 +117,8 @@ export interface PaginatedDataModelingJobList {
   next?: string | null | undefined;
   previous?: string | null | undefined;
   results: PaginatedDataModelingJobListResultsList;
+  /** True when `count` stopped at a cap, so it is a lower bound and `next` keeps paging past it. */
+  count_is_capped?: boolean | undefined;
 }
 export type GetDataModelingJobError = PosthogOpError;
 /** List data modeling jobs which are "runs" for our saved queries. */
@@ -304,6 +306,7 @@ function __c4(j: number): any {
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           results: __S(18, __c4, 2),
+          count_is_capped: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PaginatedDataModelingJobList" });
   }

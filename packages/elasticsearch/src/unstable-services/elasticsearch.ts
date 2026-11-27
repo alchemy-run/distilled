@@ -917,6 +917,15 @@ export type GlobalScriptsPainlessExecutePainlessContext =
   | "keyword_field"
   | "long_field"
   | "composite_field";
+export interface TypesQueryDslBitmapTermsQuery {
+  /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
+  boost?: number | undefined;
+  _name?: string | undefined;
+  /** The name of the field to search against. It must be an `integer` or a `long` field with `index` enabled. */
+  field: string;
+  /** The values to match, as a base64-encoded serialized roaring bitmap in little-endian byte order. The type of the field determines the expected format: an `integer` field expects a 32-bit roaring bitmap, and a `long` field expects a 64-bit roaring bitmap in the portable format. The bitmap can only contain non-negative values: from `0` to `2^31 - 1` for an `integer` field and from `0` to `2^63 - 1` for a `long` field. */
+  value: string;
+}
 export type TypesQueryDslBoolQueryFilterCase1List = Array<TypesQueryDslQueryContainer>;
 /** The clause (query) must appear in matching documents. However, unlike `must`, the score of the query will be ignored. */
 export type TypesQueryDslBoolQueryFilter =
@@ -2250,6 +2259,12 @@ export interface TypesAggregationsRateAggregation {
   /** How the rate is calculated. */
   mode?: TypesAggregationsRateMode | (string & {}) | undefined;
 }
+export interface TypesAggregationsRoaringBitmapAggregation {
+  /** The `integer` or `long` field from which to collect the distinct values. Scripts are not supported, so the field must be mapped. */
+  field: string;
+  /** The value to use for documents that do not have a value for the field. It must be non-negative and fit the `integer` or `long` type of the field. By default, documents without a value are ignored. */
+  missing?: number | undefined;
+}
 export interface TypesAggregationsReverseNestedAggregation {
   /** Defines the nested object field that should be joined back to. The default is empty, which means that it joins back to the root/main document level. */
   path?: string | undefined;
@@ -2465,7 +2480,7 @@ export type GlobalSearchTypesHighlighterType = GlobalSearchTypesHighlighterTypeC
 export type GlobalSearchTypesBoundaryScanner = "chars" | "sentence" | "word";
 export type GlobalSearchTypesHighlighterFragmenter = "simple" | "span";
 export type GlobalSearchTypesHighlightOptionsMap = { [key: string]: unknown | undefined };
-export type GlobalSearchTypesHighlighterOrder = "score";
+export type GlobalSearchTypesHighlighterOrder = "none" | "score";
 /** Use in conjunction with `pre_tags` to define the HTML tags to use for the highlighted text. By default, highlighted text is wrapped in `<em>` and `</em>` tags. */
 export type GlobalSearchTypesHighlightPostTagsList = Array<string>;
 /** Use in conjunction with `post_tags` to define the HTML tags to use for the highlighted text. By default, highlighted text is wrapped in `<em>` and `</em>` tags. */
@@ -2809,6 +2824,8 @@ export interface TypesAggregationsAggregationContainer {
   rare_terms?: TypesAggregationsRareTermsAggregation | undefined;
   /** Calculates a rate of documents or a field in each bucket. Can only be used inside a `date_histogram` or `composite` aggregation. */
   rate?: TypesAggregationsRateAggregation | undefined;
+  /** Returns the exact distinct values of an `integer` or `long` field across the matching documents, as a base64-encoded portable roaring bitmap. The result can be passed to the `bitmap_terms` query. It can't be placed inside an aggregation that produces more than one bucket, such as `terms` or `histogram`. */
+  roaring_bitmap?: TypesAggregationsRoaringBitmapAggregation | undefined;
   /** A special single bucket aggregation that enables aggregating on parent documents from nested documents. Should only be defined inside a `nested` aggregation. */
   reverse_nested?: TypesAggregationsReverseNestedAggregation | undefined;
   /** A single bucket aggregation that randomly includes documents in the aggregated results. Sampling provides significant speed improvement at the cost of accuracy. */
@@ -3081,8 +3098,8 @@ export type TypesTextSimilarityRerankerFilter =
 /** Only applicable to the `recursive` strategy and required when using it. A list of strings used as possible split points when chunking text. Each string can be a plain string or a regular expression (regex) pattern. The system tries each separator in order to split the text, starting from the first item in the list. After splitting, it attempts to recombine smaller pieces into larger chunks that stay within the `max_chunk_size` limit, to reduce the total number of chunks generated. */
 export type TypesMappingChunkRescorerChunkingSettingsSeparatorsList = Array<string>;
 export interface TypesMappingChunkRescorerChunkingSettings {
-  /** The maximum size of a chunk in words. This value cannot be lower than `20` (for `sentence` strategy) or `10` (for `word` strategy). This value should not exceed the window size for the associated model. */
-  max_chunk_size: number;
+  /** The maximum size of a chunk in words. It is required for the `sentence`, `word` and `recursive` strategies, and not allowed for the `none` strategy. If it is the only setting, the documents are chunked by sentence, without overlap. If no chunking settings are given, the documents are chunked by sentence, without overlap, and the maximum size of a chunk is the window size of the reranking model. */
+  max_chunk_size?: number | undefined;
   /** The number of overlapping words for chunks. It is applicable only to a `word` chunking strategy. This value cannot be higher than half the `max_chunk_size` value. */
   overlap?: number | undefined;
   /** The number of overlapping sentences for chunks. It is applicable only for a `sentence` chunking strategy. It can be either `1` or `0`. */
@@ -3117,6 +3134,8 @@ export interface TypesTextSimilarityReranker {
   inference_text: string;
   /** The document field to be used for text similarity comparisons. This field should contain the text that will be evaluated against the inference_text. */
   field: string;
+  /** Whether to return the documents from the nested retriever as they are, without reranking them, if the reranking fails. If `false`, a reranking failure fails the request. */
+  allow_rerank_failures?: boolean | undefined;
   /** Whether to rescore on only the best matching chunks. */
   chunk_rescorer?: TypesChunkRescorer | undefined;
 }
@@ -3880,9 +3899,6 @@ export type TypesQueryDslMoreLikeThisQueryFieldsList = Array<string>;
 export type TypesQueryDslLikeDocumentFieldsList = Array<string>;
 /** Overrides the default analyzer. */
 export type TypesQueryDslLikeDocumentPerFieldAnalyzerMap = { [key: string]: string | undefined };
-export type TypesRoutingCase1List = Array<string>;
-/** Only to be used in query and path parameters, as the array form is actually a csv */
-export type TypesRouting = string | TypesRoutingCase1List;
 export type TypesVersionType = "internal" | "external" | "external_gte";
 export interface TypesQueryDslLikeDocument {
   /** A document not present in the index. */
@@ -3894,7 +3910,7 @@ export interface TypesQueryDslLikeDocument {
   _index?: string | undefined;
   /** Overrides the default analyzer. */
   per_field_analyzer?: TypesQueryDslLikeDocumentPerFieldAnalyzerMap | undefined;
-  routing?: TypesRouting | undefined;
+  routing?: string | undefined;
   version?: number | undefined;
   version_type?: TypesVersionType | (string & {}) | undefined;
 }
@@ -3983,13 +3999,10 @@ export interface TypesQueryDslMoreLikeThisQuery {
   min_term_freq?: number | undefined;
   /** The minimum word length below which the terms are ignored. */
   min_word_length?: number | undefined;
-  routing?: string | undefined;
   /** An array of stop words. Any word in this set is ignored. */
   stop_words?: TypesAnalysisStopWords | undefined;
   /** Used in combination with `like` to exclude documents that match a set of terms. */
   unlike?: TypesQueryDslMoreLikeThisQueryUnlike | undefined;
-  version?: number | undefined;
-  version_type?: TypesVersionType | (string & {}) | undefined;
 }
 export type TypesQueryDslTextQueryType =
   | "best_fields"
@@ -4649,6 +4662,8 @@ export interface TypesQueryDslTypeQuery {
 }
 /** An Elasticsearch Query DSL (Domain Specific Language) object that defines a query. */
 export interface TypesQueryDslQueryContainer {
+  /** Returns documents whose `integer` or `long` field value is contained in a roaring bitmap that is provided as a base64-encoded string. It is the counterpart of the `terms` query for very large sets of numeric values. */
+  bitmap_terms?: TypesQueryDslBitmapTermsQuery | undefined;
   /** matches documents matching boolean combinations of other queries. */
   bool?: TypesQueryDslBoolQuery | undefined;
   /** Returns documents matching a `positive` query while reducing the relevance score of documents that also match a `negative` query. */
@@ -4809,8 +4824,8 @@ export interface GlobalMsearchMultisearchHeader {
   preference?: string | undefined;
   project_routing?: string | undefined;
   request_cache?: boolean | undefined;
-  /** A custom value used to route operations to a specific shard. Not allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead. */
-  routing?: TypesRouting | undefined;
+  /** A custom value used to route operations to a specific shard, or multiple comma separated values. Not allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead. */
+  routing?: string | undefined;
   search_type?: TypesSearchType | (string & {}) | undefined;
   ccs_minimize_roundtrips?: boolean | undefined;
   allow_partial_search_results?: boolean | undefined;
@@ -5797,6 +5812,12 @@ export interface TypesAggregationsRateAggregate {
   value: number;
   value_as_string?: string | undefined;
 }
+/** Result of the `roaring_bitmap` aggregation. */
+export interface TypesAggregationsRoaringBitmapAggregate {
+  meta?: TypesMetadata | undefined;
+  /** The distinct values of the field, as a base64-encoded portable roaring bitmap. It is `null` if the field is unmapped. */
+  value: string;
+}
 /** Result of the `cumulative_cardinality` aggregation */
 export type TypesAggregationsCumulativeCardinalityAggregate = TypesAggregationsRateAggregate;
 export type TypesAggregationsMatrixStatsFieldsCovarianceMap = { [key: string]: number | undefined };
@@ -5907,6 +5928,7 @@ export type TypesAggregationsAggregate =
   | TypesAggregationsTopMetricsAggregate
   | TypesAggregationsTTestAggregate
   | TypesAggregationsRateAggregate
+  | TypesAggregationsRoaringBitmapAggregate
   | TypesAggregationsRateAggregate
   | TypesAggregationsMatrixStatsAggregate
   | TypesAggregationsGeoLineAggregate;
@@ -6038,6 +6060,8 @@ export interface GlobalSearchTypesKnnQueryProfileBreakdown {
   count_weight_count: number;
   create_weight: number;
   create_weight_count: number;
+  into_bit_set: number;
+  into_bit_set_count: number;
   match: number;
   match_count: number;
   next_doc: number;
@@ -6351,7 +6375,7 @@ export interface GlobalMsearchMultiSearchItem {
   _scroll_id?: string | undefined;
   suggest?: GlobalMsearchMultiSearchItemSuggestMap | undefined;
   terminated_early?: boolean | undefined;
-  status?: number | undefined;
+  status: number;
 }
 /** The response returned by Elasticsearch when request execution did not succeed. */
 export interface TypesErrorResponseBase {
@@ -6472,6 +6496,9 @@ export type FleetMsearch3ResponseDocsList = Array<GlobalMsearchResponseItem>;
 export interface FleetMsearch3Response {
   docs: FleetMsearch3ResponseDocsList;
 }
+export type TypesRoutingCase1List = Array<string>;
+/** Only to be used in query and path parameters, as the array form is actually a csv */
+export type TypesRouting = string | TypesRoutingCase1List;
 export type FleetSearch1RequestStatsList = Array<string>;
 export type TypesSuggestMode = "missing" | "popular" | "always";
 /** Defines how to fetch a source. Fetching can be disabled entirely, or the source can be filtered. Used as a query parameter along with the `_source_includes` and `_source_excludes` parameters. */
@@ -6546,6 +6573,8 @@ export interface FleetSearch1Request {
   sort?: FleetSearch1RequestSort | undefined;
   /** A comma separated list of checkpoints. When configured, the search API will only be executed on a shard after the relevant checkpoint has become visible for search. Defaults to an empty list which will cause Elasticsearch to immediately execute the search. */
   wait_for_checkpoints?: FleetSearch1RequestWaitForCheckpointsList | undefined;
+  /** The maximum time to wait for the checkpoints specified in `wait_for_checkpoints` to become visible for search. */
+  wait_for_checkpoints_timeout?: TypesDuration | undefined;
   /** If true, returns partial results if there are shard request timeouts or shard failures. If false, returns an error with no partial results. Defaults to the configured cluster setting `search.default_allow_partial_results`, which is true by default. */
   allow_partial_search_results?: boolean | undefined;
   aggregations?: FleetSearch1RequestAggregationsMap | undefined;
@@ -7296,6 +7325,622 @@ export interface PostConnectorSyncJobRequest {
 export interface PostConnectorSyncJobResponse {
   id: string;
 }
+export type PrometheusLabelsRequestMatchList = Array<string>;
+export interface PrometheusLabelsRequest {
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabelsRequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label names to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label names. */
+export type PrometheusLabelsResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabelsResponseWarningsList = Array<string>;
+export interface PrometheusLabelsResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label names. */
+  data: PrometheusLabelsResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabelsResponseWarningsList | undefined;
+}
+export type PrometheusLabels1RequestMatchList = Array<string>;
+export interface PrometheusLabels1Request {
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabels1RequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label names to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label names. */
+export type PrometheusLabels1ResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabels1ResponseWarningsList = Array<string>;
+export interface PrometheusLabels1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label names. */
+  data: PrometheusLabels1ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabels1ResponseWarningsList | undefined;
+}
+export type PrometheusLabels2RequestMatchList = Array<string>;
+export interface PrometheusLabels2Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabels2RequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label names to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label names. */
+export type PrometheusLabels2ResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabels2ResponseWarningsList = Array<string>;
+export interface PrometheusLabels2Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label names. */
+  data: PrometheusLabels2ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabels2ResponseWarningsList | undefined;
+}
+export type PrometheusLabels3RequestMatchList = Array<string>;
+export interface PrometheusLabels3Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabels3RequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label names to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label names. */
+export type PrometheusLabels3ResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabels3ResponseWarningsList = Array<string>;
+export interface PrometheusLabels3Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label names. */
+  data: PrometheusLabels3ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabels3ResponseWarningsList | undefined;
+}
+export type PrometheusLabelValuesRequestMatchList = Array<string>;
+export interface PrometheusLabelValuesRequest {
+  /** The name of the label. */
+  name: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabelValuesRequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label values to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label values. */
+export type PrometheusLabelValuesResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabelValuesResponseWarningsList = Array<string>;
+export interface PrometheusLabelValuesResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label values. */
+  data: PrometheusLabelValuesResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabelValuesResponseWarningsList | undefined;
+}
+export type PrometheusLabelValues1RequestMatchList = Array<string>;
+export interface PrometheusLabelValues1Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The name of the label. */
+  name: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. If you omit all of them, every series in the time range is considered. */
+  match__?: PrometheusLabelValues1RequestMatchList | undefined;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of label values to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+/** The sorted label values. */
+export type PrometheusLabelValues1ResponseDataList = Array<string>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusLabelValues1ResponseWarningsList = Array<string>;
+export interface PrometheusLabelValues1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The sorted label values. */
+  data: PrometheusLabelValues1ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusLabelValues1ResponseWarningsList | undefined;
+}
+export interface PrometheusMetadataRequest {
+  /** Restricts the response to one metric name. */
+  metric?: string | undefined;
+  /** The maximum number of distinct metrics to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The maximum number of metadata entries to return for each metric. `0` means no limit from the request. */
+  limit_per_metric?: number | undefined;
+}
+export interface PrometheusMetadataMetricMetadata {
+  /** The metric type, such as `counter`, `gauge` or `histogram`. */
+  type: string;
+  /** The help text. It is always an empty string. */
+  help: string;
+  /** The metric unit, or an empty string if there is none. */
+  unit: string;
+}
+export type PrometheusMetadataResponseDataValueList = Array<PrometheusMetadataMetricMetadata>;
+/** The metadata entries, keyed by metric name. */
+export type PrometheusMetadataResponseDataMap = {
+  [key: string]: PrometheusMetadataResponseDataValueList | undefined;
+};
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusMetadataResponseWarningsList = Array<string>;
+export interface PrometheusMetadataResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The metadata entries, keyed by metric name. */
+  data: PrometheusMetadataResponseDataMap;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusMetadataResponseWarningsList | undefined;
+}
+export interface PrometheusMetadata1Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** Restricts the response to one metric name. */
+  metric?: string | undefined;
+  /** The maximum number of distinct metrics to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The maximum number of metadata entries to return for each metric. `0` means no limit from the request. */
+  limit_per_metric?: number | undefined;
+}
+export type PrometheusMetadata1ResponseDataValueList = Array<PrometheusMetadataMetricMetadata>;
+/** The metadata entries, keyed by metric name. */
+export type PrometheusMetadata1ResponseDataMap = {
+  [key: string]: PrometheusMetadata1ResponseDataValueList | undefined;
+};
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusMetadata1ResponseWarningsList = Array<string>;
+export interface PrometheusMetadata1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The metadata entries, keyed by metric name. */
+  data: PrometheusMetadata1ResponseDataMap;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusMetadata1ResponseWarningsList | undefined;
+}
+export interface PrometheusQueryRequest {
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The evaluation instant, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  time?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** The result series. Sample values are JSON strings, including `NaN`, `+Inf` and `-Inf`. */
+export type PrometheusTypesQueryResultResultList = Array<unknown>;
+export interface PrometheusTypesQueryResult {
+  /** The type of the result: `vector` for an instant query, `matrix` for a range query. */
+  resultType: string;
+  /** The result series. Sample values are JSON strings, including `NaN`, `+Inf` and `-Inf`. */
+  result: PrometheusTypesQueryResultResultList;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQueryResponseWarningsList = Array<string>;
+export interface PrometheusQueryResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQueryResponseWarningsList | undefined;
+}
+export interface PrometheusQuery1Request {
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The evaluation instant, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  time?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQuery1ResponseWarningsList = Array<string>;
+export interface PrometheusQuery1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQuery1ResponseWarningsList | undefined;
+}
+export interface PrometheusQuery2Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The evaluation instant, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  time?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQuery2ResponseWarningsList = Array<string>;
+export interface PrometheusQuery2Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQuery2ResponseWarningsList | undefined;
+}
+export interface PrometheusQuery3Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The evaluation instant, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  time?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQuery3ResponseWarningsList = Array<string>;
+export interface PrometheusQuery3Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQuery3ResponseWarningsList | undefined;
+}
+export interface PrometheusQueryExemplarsRequest {
+  /** The PromQL expression that selects the series. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** The labels of the series that the exemplars belong to. */
+export type PrometheusQueryExemplarsExemplarSeriesSeriesLabelsMap = {
+  [key: string]: string | undefined;
+};
+/** The labels of the exemplar, such as `trace_id`. */
+export type PrometheusQueryExemplarsExemplarLabelsMap = { [key: string]: string | undefined };
+export interface PrometheusQueryExemplarsExemplar {
+  /** The labels of the exemplar, such as `trace_id`. */
+  labels: PrometheusQueryExemplarsExemplarLabelsMap;
+  /** The exemplar value, as a string. */
+  value: string;
+  /** The exemplar timestamp, in Unix seconds. */
+  timestamp: number;
+}
+export type PrometheusQueryExemplarsExemplarSeriesExemplarsList =
+  Array<PrometheusQueryExemplarsExemplar>;
+export interface PrometheusQueryExemplarsExemplarSeries {
+  /** The labels of the series that the exemplars belong to. */
+  seriesLabels: PrometheusQueryExemplarsExemplarSeriesSeriesLabelsMap;
+  exemplars: PrometheusQueryExemplarsExemplarSeriesExemplarsList;
+}
+/** The exemplars, grouped by series. */
+export type PrometheusQueryExemplarsResponseDataList =
+  Array<PrometheusQueryExemplarsExemplarSeries>;
+export interface PrometheusQueryExemplarsResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The exemplars, grouped by series. */
+  data: PrometheusQueryExemplarsResponseDataList;
+}
+export interface PrometheusQueryExemplars1Request {
+  /** The PromQL expression that selects the series. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** The exemplars, grouped by series. */
+export type PrometheusQueryExemplars1ResponseDataList =
+  Array<PrometheusQueryExemplarsExemplarSeries>;
+export interface PrometheusQueryExemplars1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The exemplars, grouped by series. */
+  data: PrometheusQueryExemplars1ResponseDataList;
+}
+export interface PrometheusQueryExemplars2Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression that selects the series. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** The exemplars, grouped by series. */
+export type PrometheusQueryExemplars2ResponseDataList =
+  Array<PrometheusQueryExemplarsExemplarSeries>;
+export interface PrometheusQueryExemplars2Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The exemplars, grouped by series. */
+  data: PrometheusQueryExemplars2ResponseDataList;
+}
+export interface PrometheusQueryExemplars3Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression that selects the series. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** The exemplars, grouped by series. */
+export type PrometheusQueryExemplars3ResponseDataList =
+  Array<PrometheusQueryExemplarsExemplarSeries>;
+export interface PrometheusQueryExemplars3Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The exemplars, grouped by series. */
+  data: PrometheusQueryExemplars3ResponseDataList;
+}
+export interface PrometheusQueryRangeRequest {
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The resolution between samples, as a number of seconds or a duration such as `30s` or `1h30m`. */
+  step: string;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQueryRangeResponseWarningsList = Array<string>;
+export interface PrometheusQueryRangeResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQueryRangeResponseWarningsList | undefined;
+}
+export interface PrometheusQueryRange1Request {
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The resolution between samples, as a number of seconds or a duration such as `30s` or `1h30m`. */
+  step: string;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQueryRange1ResponseWarningsList = Array<string>;
+export interface PrometheusQueryRange1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQueryRange1ResponseWarningsList | undefined;
+}
+export interface PrometheusQueryRange2Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The resolution between samples, as a number of seconds or a duration such as `30s` or `1h30m`. */
+  step: string;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQueryRange2ResponseWarningsList = Array<string>;
+export interface PrometheusQueryRange2Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQueryRange2ResponseWarningsList | undefined;
+}
+export interface PrometheusQueryRange3Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** The PromQL expression to evaluate. */
+  query: string;
+  /** The start of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  start: string;
+  /** The end of the range, as an RFC 3339 timestamp or Unix time in seconds. */
+  end: string;
+  /** The resolution between samples, as a number of seconds or a duration such as `30s` or `1h30m`. */
+  step: string;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+  /** The evaluation timeout, as a number of seconds or a duration such as `30s`. It must be positive and is capped by the `xpack.prometheus.query.timeout` cluster setting. */
+  timeout?: string | undefined;
+}
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusQueryRange3ResponseWarningsList = Array<string>;
+export interface PrometheusQueryRange3Response {
+  /** The status of the request: `success`. */
+  status: string;
+  data: PrometheusTypesQueryResult;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusQueryRange3ResponseWarningsList | undefined;
+}
+export type PrometheusSeriesRequestMatchList = Array<string>;
+export interface PrometheusSeriesRequest {
+  /** Repeated series selectors, for example `up{job="prometheus"}`. At least one is required. */
+  match__: PrometheusSeriesRequestMatchList;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+export type PrometheusSeriesResponseDataItemMap = { [key: string]: string | undefined };
+/** The label sets of the matching series. */
+export type PrometheusSeriesResponseDataList = Array<PrometheusSeriesResponseDataItemMap>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusSeriesResponseWarningsList = Array<string>;
+export interface PrometheusSeriesResponse {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The label sets of the matching series. */
+  data: PrometheusSeriesResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusSeriesResponseWarningsList | undefined;
+}
+export type PrometheusSeries1RequestMatchList = Array<string>;
+export interface PrometheusSeries1Request {
+  /** Repeated series selectors, for example `up{job="prometheus"}`. At least one is required. */
+  match__: PrometheusSeries1RequestMatchList;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+export type PrometheusSeries1ResponseDataItemMap = { [key: string]: string | undefined };
+/** The label sets of the matching series. */
+export type PrometheusSeries1ResponseDataList = Array<PrometheusSeries1ResponseDataItemMap>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusSeries1ResponseWarningsList = Array<string>;
+export interface PrometheusSeries1Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The label sets of the matching series. */
+  data: PrometheusSeries1ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusSeries1ResponseWarningsList | undefined;
+}
+export type PrometheusSeries2RequestMatchList = Array<string>;
+export interface PrometheusSeries2Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. At least one is required. */
+  match__: PrometheusSeries2RequestMatchList;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+export type PrometheusSeries2ResponseDataItemMap = { [key: string]: string | undefined };
+/** The label sets of the matching series. */
+export type PrometheusSeries2ResponseDataList = Array<PrometheusSeries2ResponseDataItemMap>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusSeries2ResponseWarningsList = Array<string>;
+export interface PrometheusSeries2Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The label sets of the matching series. */
+  data: PrometheusSeries2ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusSeries2ResponseWarningsList | undefined;
+}
+export type PrometheusSeries3RequestMatchList = Array<string>;
+export interface PrometheusSeries3Request {
+  /** An index expression that restricts which indices are considered, for example `metrics-generic.prometheus-*`. If you omit it, the default expression `metrics-*` is used. Only indices with `index.mode: time_series` are considered. */
+  index: string;
+  /** Repeated series selectors, for example `up{job="prometheus"}`. At least one is required. */
+  match__: PrometheusSeries3RequestMatchList;
+  /** The start of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to 24 hours before `end`. */
+  start?: string | undefined;
+  /** The end of the time range, as an RFC 3339 timestamp or Unix time in seconds. Defaults to the current time. */
+  end?: string | undefined;
+  /** The maximum number of series to return. `0` means no limit from the request. */
+  limit?: number | undefined;
+}
+export type PrometheusSeries3ResponseDataItemMap = { [key: string]: string | undefined };
+/** The label sets of the matching series. */
+export type PrometheusSeries3ResponseDataList = Array<PrometheusSeries3ResponseDataItemMap>;
+/** Warnings, such as a notice that the results were truncated because of `limit`. */
+export type PrometheusSeries3ResponseWarningsList = Array<string>;
+export interface PrometheusSeries3Response {
+  /** The status of the request: `success`. */
+  status: string;
+  /** The label sets of the matching series. */
+  data: PrometheusSeries3ResponseDataList;
+  /** Warnings, such as a notice that the results were truncated because of `limit`. */
+  warnings?: PrometheusSeries3ResponseWarningsList | undefined;
+}
+export interface PrometheusStatusBuildinfoRequest {}
+export interface PrometheusStatusBuildinfoBuildInfo {
+  /** The name of the application. It is always `Elasticsearch`. */
+  application: string;
+  /** The Elasticsearch version. */
+  version: string;
+  /** The commit hash of the Elasticsearch build. */
+  revision: string;
+  /** The date of the Elasticsearch build. */
+  buildDate: TypesDateTime;
+}
+export interface PrometheusStatusBuildinfoResponse {
+  /** The status of the request. It is always `success`. */
+  status: string;
+  /** The Elasticsearch build information. */
+  data: PrometheusStatusBuildinfoBuildInfo;
+}
+export interface PrometheusStatusBuildinfo1Request {
+  /** An index pattern, accepted for consistency with the other Prometheus endpoints. The response doesn't depend on it. */
+  index: string;
+}
+export interface PrometheusStatusBuildinfo1Response {
+  /** The status of the request. It is always `success`. */
+  status: string;
+  /** The Elasticsearch build information. */
+  data: PrometheusStatusBuildinfoBuildInfo;
+}
 export interface PutConnectorRequest {
   /** The unique identifier of the connector to be created or updated. ID is auto-generated if not provided. */
   connector_id: string;
@@ -7591,6 +8236,8 @@ export interface SearchFleetRequest {
   sort?: SearchFleetRequestSort | undefined;
   /** A comma separated list of checkpoints. When configured, the search API will only be executed on a shard after the relevant checkpoint has become visible for search. Defaults to an empty list which will cause Elasticsearch to immediately execute the search. */
   wait_for_checkpoints?: SearchFleetRequestWaitForCheckpointsList | undefined;
+  /** The maximum time to wait for the checkpoints specified in `wait_for_checkpoints` to become visible for search. */
+  wait_for_checkpoints_timeout?: TypesDuration | undefined;
   /** If true, returns partial results if there are shard request timeouts or shard failures. If false, returns an error with no partial results. Defaults to the configured cluster setting `search.default_allow_partial_results`, which is true by default. */
   allow_partial_search_results?: boolean | undefined;
   aggregations?: SearchFleetRequestAggregationsMap | undefined;
@@ -9445,6 +10092,13 @@ export type IndicesTypesCacheQueries = ConnectorTypesFeatureEnabled;
 export interface IndicesTypesQueries {
   cache?: ConnectorTypesFeatureEnabled | undefined;
 }
+export interface IndicesTypesCacheRequests {
+  /** Whether the shard request cache is enabled for the index. This setting is dynamic and can be updated on an existing index. */
+  enable?: SpecUtilsStringifiedboolean | undefined;
+}
+export interface IndicesTypesRequests {
+  cache?: IndicesTypesCacheRequests | undefined;
+}
 export type IndicesTypesSettingsSimilarityBm25Type = "BM25";
 export interface IndicesTypesSettingsSimilarityBm25 {
   type: IndicesTypesSettingsSimilarityBm25Type;
@@ -9639,6 +10293,7 @@ export interface IndicesTypesIndexSettings {
   settings?: IndicesTypesIndexSettings | undefined;
   time_series?: IndicesTypesIndexSettingsTimeSeries | undefined;
   queries?: IndicesTypesQueries | undefined;
+  requests?: IndicesTypesRequests | undefined;
   /** Configure custom similarity settings to customize how search results are scored. */
   similarity?: IndicesTypesIndexSettingsSimilarityMap | undefined;
   /** Enable or disable dynamic mapping for an index. */
@@ -10201,6 +10856,8 @@ export interface TypesMappingDenseVectorIndexOptions {
   rescore_vector?: TypesMappingDenseVectorIndexOptionsRescoreVector | undefined;
   /** `true` if vector rescoring should be done on-disk Only applicable to `bbq_disk`, `bbq_hnsw`, `int4_hnsw`, `int8_hnsw` */
   on_disk_rescore?: boolean | undefined;
+  /** If `true`, direct I/O is used where possible while merging the vector data of the field, so that a merge does not displace what searches keep in memory. It can be changed with a mapping update, which applies to later merges. */
+  on_disk_merge?: boolean | undefined;
   /** The segment document count threshold below which HNSW graph construction is skipped in favor of brute-force flat search. `-1` (default) defers to format defaults: `300` for `bbq_hnsw`, `150` for `hnsw`, `int8_hnsw`, and `int4_hnsw`. `0` always builds the graph. A positive value overrides the format default. Only applicable to `hnsw`, `int8_hnsw`, `int4_hnsw`, `bbq_hnsw`, and `bbq_disk` index types. */
   flat_index_threshold?: number | undefined;
   /** Only applicable to `bbq_disk`. The number of vectors per cluster. Must be between 64 and 65536. */
@@ -10333,7 +10990,7 @@ export interface TypesMappingPassthroughObjectProperty {
   synthetic_source_keep?: TypesMappingSyntheticSourceKeepEnum | (string & {}) | undefined;
   copy_to?: TypesFields | undefined;
   store?: boolean | undefined;
-  type?: TypesMappingPassthroughObjectPropertyType | (string & {}) | undefined;
+  type: TypesMappingPassthroughObjectPropertyType;
   enabled?: boolean | undefined;
   priority?: number | undefined;
   time_series_dimension?: boolean | undefined;
@@ -10932,6 +11589,8 @@ export interface TypesMappingIntegerNumberProperty {
   time_series_dimension?: boolean | undefined;
   type: TypesMappingIntegerNumberPropertyType;
   null_value?: number | undefined;
+  /** If `true`, the field's values are indexed in an inverted index instead of a BKD tree. This speeds up queries that match a field against many values, such as `terms` queries, but wide range queries are typically slower than on a BKD tree. Requires `index` to be `true`. */
+  index_terms?: boolean | undefined;
 }
 /** Metadata about the field. */
 export type TypesMappingLongNumberPropertyMetaMap = { [key: string]: string | undefined };
@@ -10965,6 +11624,8 @@ export interface TypesMappingLongNumberProperty {
   time_series_dimension?: boolean | undefined;
   type: TypesMappingLongNumberPropertyType;
   null_value?: number | undefined;
+  /** If `true`, the field's values are indexed in an inverted index instead of a BKD tree. This speeds up queries that match a field against many values, such as `terms` queries, but wide range queries are typically slower than on a BKD tree. Requires `index` to be `true`. */
+  index_terms?: boolean | undefined;
 }
 /** Metadata about the field. */
 export type TypesMappingScaledFloatNumberPropertyMetaMap = { [key: string]: string | undefined };
@@ -13116,8 +13777,8 @@ export const cancelConnectorSyncJob: API.OperationMethod<
   CancelConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CancelConnectorSyncJobRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<CancelConnectorSyncJobResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CancelConnectorSyncJobRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CancelConnectorSyncJobResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13134,8 +13795,8 @@ export const cancelTask: API.OperationMethod<
   CancelTaskError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CancelTaskRequest>,
-  output: __S(1317, __c41, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CancelTaskRequest>,
+  output: __S(1829, __c57, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13152,8 +13813,8 @@ export const catTasks: API.OperationMethod<
   CatTasksError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CatTasksRequest>,
-  output: __S(1987, __c62, 3) as any as S.Schema<CatTasksResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CatTasksRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<CatTasksResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13170,8 +13831,8 @@ export const claimConnectorSyncJob: API.OperationMethod<
   ClaimConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ClaimConnectorSyncJobRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<ClaimConnectorSyncJobResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ClaimConnectorSyncJobRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ClaimConnectorSyncJobResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13188,8 +13849,8 @@ export const connectorCheckIn: API.OperationMethod<
   ConnectorCheckInError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ConnectorCheckInRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorCheckInResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ConnectorCheckInRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorCheckInResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13206,8 +13867,8 @@ export const connectorPut1: API.OperationMethod<
   ConnectorPut1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ConnectorPut1Request>,
-  output: __S(3552, __c111, 0) as any as S.Schema<ConnectorPut1Response>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ConnectorPut1Request>,
+  output: __S(4160, __c130, 0) as any as S.Schema<ConnectorPut1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13224,8 +13885,8 @@ export const connectorSyncJobCheckIn: API.OperationMethod<
   ConnectorSyncJobCheckInError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ConnectorSyncJobCheckInRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<ConnectorSyncJobCheckInResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<ConnectorSyncJobCheckInRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ConnectorSyncJobCheckInResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13242,8 +13903,8 @@ export const connectorSyncJobError: API.OperationMethod<
   ConnectorSyncJobErrorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ConnectorSyncJobErrorRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<ConnectorSyncJobErrorResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ConnectorSyncJobErrorRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ConnectorSyncJobErrorResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13261,7 +13922,7 @@ export const connectorSyncJobUpdateStats: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsResponse>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13278,8 +13939,8 @@ export const connectorUpdateActiveFiltering: API.OperationMethod<
   ConnectorUpdateActiveFilteringError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ConnectorUpdateActiveFilteringRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateActiveFilteringResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ConnectorUpdateActiveFilteringRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateActiveFilteringResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13296,8 +13957,8 @@ export const connectorUpdateApiKeyId: API.OperationMethod<
   ConnectorUpdateApiKeyIdError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ConnectorUpdateApiKeyIdRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateApiKeyIdResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ConnectorUpdateApiKeyIdRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateApiKeyIdResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13314,8 +13975,8 @@ export const connectorUpdateConfiguration: API.OperationMethod<
   ConnectorUpdateConfigurationError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ConnectorUpdateConfigurationRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateConfigurationResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ConnectorUpdateConfigurationRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateConfigurationResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13332,8 +13993,8 @@ export const connectorUpdateError: API.OperationMethod<
   ConnectorUpdateErrorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ConnectorUpdateErrorRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateErrorResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ConnectorUpdateErrorRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateErrorResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13350,8 +14011,8 @@ export const connectorUpdateFeatures: API.OperationMethod<
   ConnectorUpdateFeaturesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ConnectorUpdateFeaturesRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateFeaturesResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ConnectorUpdateFeaturesRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateFeaturesResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13368,8 +14029,8 @@ export const connectorUpdateFiltering: API.OperationMethod<
   ConnectorUpdateFilteringError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ConnectorUpdateFilteringRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateFilteringResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ConnectorUpdateFilteringRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateFilteringResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13386,8 +14047,8 @@ export const connectorUpdateFilteringValidation: API.OperationMethod<
   ConnectorUpdateFilteringValidationError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ConnectorUpdateFilteringValidationRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateFilteringValidationResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ConnectorUpdateFilteringValidationRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateFilteringValidationResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13404,8 +14065,8 @@ export const connectorUpdateIndexName: API.OperationMethod<
   ConnectorUpdateIndexNameError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ConnectorUpdateIndexNameRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateIndexNameResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ConnectorUpdateIndexNameRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateIndexNameResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13422,8 +14083,8 @@ export const connectorUpdateName: API.OperationMethod<
   ConnectorUpdateNameError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ConnectorUpdateNameRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateNameResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ConnectorUpdateNameRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateNameResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13440,8 +14101,8 @@ export const connectorUpdateNative: API.OperationMethod<
   ConnectorUpdateNativeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ConnectorUpdateNativeRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateNativeResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ConnectorUpdateNativeRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateNativeResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13458,8 +14119,8 @@ export const connectorUpdatePipeline: API.OperationMethod<
   ConnectorUpdatePipelineError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ConnectorUpdatePipelineRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdatePipelineResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ConnectorUpdatePipelineRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdatePipelineResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13476,8 +14137,8 @@ export const connectorUpdateScheduling: API.OperationMethod<
   ConnectorUpdateSchedulingError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ConnectorUpdateSchedulingRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateSchedulingResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ConnectorUpdateSchedulingRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateSchedulingResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13494,8 +14155,8 @@ export const connectorUpdateServiceType: API.OperationMethod<
   ConnectorUpdateServiceTypeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ConnectorUpdateServiceTypeRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateServiceTypeResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ConnectorUpdateServiceTypeRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateServiceTypeResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13512,8 +14173,8 @@ export const connectorUpdateStatus: API.OperationMethod<
   ConnectorUpdateStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ConnectorUpdateStatusRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ConnectorUpdateStatusResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ConnectorUpdateStatusRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<ConnectorUpdateStatusResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13530,8 +14191,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13548,8 +14209,8 @@ export const deleteConnectorSyncJob: API.OperationMethod<
   DeleteConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteConnectorSyncJobRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteConnectorSyncJobRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13566,8 +14227,8 @@ export const disableStreamsLog: API.OperationMethod<
   DisableStreamsLogError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DisableStreamsLogRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DisableStreamsLogRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13584,8 +14245,8 @@ export const enableStreamsLog: API.OperationMethod<
   EnableStreamsLogError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<EnableStreamsLogRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1632, __c51, 0) as any as S.Schema<EnableStreamsLogRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [Conflict],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13602,8 +14263,8 @@ export const esqlDeleteDataset: API.OperationMethod<
   EsqlDeleteDatasetError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<EsqlDeleteDatasetRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1664, __c52, 0) as any as S.Schema<EsqlDeleteDatasetRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13620,8 +14281,8 @@ export const esqlDeleteDataSource: API.OperationMethod<
   EsqlDeleteDataSourceError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<EsqlDeleteDataSourceRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(1856, __c58, 0) as any as S.Schema<EsqlDeleteDataSourceRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13638,8 +14299,8 @@ export const esqlGetDataset: API.OperationMethod<
   EsqlGetDatasetError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<EsqlGetDatasetRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<EsqlGetDatasetResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<EsqlGetDatasetRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<EsqlGetDatasetResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13656,8 +14317,8 @@ export const esqlGetDataset1: API.OperationMethod<
   EsqlGetDataset1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<EsqlGetDataset1Request>,
-  output: __S(1410, __c44, 2) as any as S.Schema<EsqlGetDataset1Response>,
+  input: __S(1984, __c62, 0) as any as S.Schema<EsqlGetDataset1Request>,
+  output: __S(1922, __c60, 2) as any as S.Schema<EsqlGetDataset1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13674,8 +14335,8 @@ export const esqlGetDataSource: API.OperationMethod<
   EsqlGetDataSourceError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<EsqlGetDataSourceRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<EsqlGetDataSourceResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<EsqlGetDataSourceRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<EsqlGetDataSourceResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13692,8 +14353,8 @@ export const esqlGetDataSource1: API.OperationMethod<
   EsqlGetDataSource1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<EsqlGetDataSource1Request>,
-  output: __S(1538, __c48, 2) as any as S.Schema<EsqlGetDataSource1Response>,
+  input: __S(2080, __c65, 0) as any as S.Schema<EsqlGetDataSource1Request>,
+  output: __S(2050, __c64, 2) as any as S.Schema<EsqlGetDataSource1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13710,8 +14371,8 @@ export const esqlGetQuery: API.OperationMethod<
   EsqlGetQueryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<EsqlGetQueryRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<EsqlGetQueryResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<EsqlGetQueryRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<EsqlGetQueryResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13728,8 +14389,8 @@ export const esqlListQueries: API.OperationMethod<
   EsqlListQueriesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<EsqlListQueriesRequest>,
-  output: __S(1635, __c51, 3) as any as S.Schema<EsqlListQueriesResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<EsqlListQueriesRequest>,
+  output: __S(2147, __c67, 3) as any as S.Schema<EsqlListQueriesResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13746,8 +14407,8 @@ export const esqlPutDataset: API.OperationMethod<
   EsqlPutDatasetError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<EsqlPutDatasetRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(2176, __c68, 0) as any as S.Schema<EsqlPutDatasetRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13764,8 +14425,8 @@ export const esqlPutDataSource: API.OperationMethod<
   EsqlPutDataSourceError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<EsqlPutDataSourceRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(2208, __c69, 0) as any as S.Schema<EsqlPutDataSourceRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13782,8 +14443,8 @@ export const executeScriptsPainless: API.OperationMethod<
   ExecuteScriptsPainlessError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ExecuteScriptsPainlessRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<ExecuteScriptsPainlessResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ExecuteScriptsPainlessRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<ExecuteScriptsPainlessResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13800,8 +14461,8 @@ export const fleetMsearch: API.OperationMethod<
   FleetMsearchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<FleetMsearchRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<FleetMsearchResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<FleetMsearchRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<FleetMsearchResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13818,8 +14479,8 @@ export const fleetMsearch1: API.OperationMethod<
   FleetMsearch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<FleetMsearch1Request>,
-  output: __S(2050, __c64, 2) as any as S.Schema<FleetMsearch1Response>,
+  input: __S(2656, __c83, 0) as any as S.Schema<FleetMsearch1Request>,
+  output: __S(2594, __c81, 2) as any as S.Schema<FleetMsearch1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13836,8 +14497,8 @@ export const fleetMsearch2: API.OperationMethod<
   FleetMsearch2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<FleetMsearch2Request>,
-  output: __S(2050, __c64, 2) as any as S.Schema<FleetMsearch2Response>,
+  input: __S(2688, __c84, 0) as any as S.Schema<FleetMsearch2Request>,
+  output: __S(2594, __c81, 2) as any as S.Schema<FleetMsearch2Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13854,8 +14515,8 @@ export const fleetMsearch3: API.OperationMethod<
   FleetMsearch3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<FleetMsearch3Request>,
-  output: __S(2050, __c64, 2) as any as S.Schema<FleetMsearch3Response>,
+  input: __S(2720, __c85, 0) as any as S.Schema<FleetMsearch3Request>,
+  output: __S(2594, __c81, 2) as any as S.Schema<FleetMsearch3Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13872,8 +14533,8 @@ export const fleetSearch1: API.OperationMethod<
   FleetSearch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<FleetSearch1Request>,
-  output: __S(2451, __c76, 19) as any as S.Schema<FleetSearch1Response>,
+  input: __S(2752, __c86, 0) as any as S.Schema<FleetSearch1Request>,
+  output: __S(2964, __c92, 20) as any as S.Schema<FleetSearch1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13890,8 +14551,8 @@ export const getConnector: API.OperationMethod<
   GetConnectorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetConnectorRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ConnectorTypesConnector>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<ConnectorTypesConnector>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13908,8 +14569,8 @@ export const getConnectorSyncJob: API.OperationMethod<
   GetConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetConnectorSyncJobRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<ConnectorTypesConnectorSyncJob>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetConnectorSyncJobRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<ConnectorTypesConnectorSyncJob>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13926,8 +14587,8 @@ export const getTask: API.OperationMethod<
   GetTaskError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<GetTaskResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<GetTaskResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13944,8 +14605,8 @@ export const indicesDiskUsage: API.OperationMethod<
   IndicesDiskUsageError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<IndicesDiskUsageRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<IndicesDiskUsageResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<IndicesDiskUsageRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<IndicesDiskUsageResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13962,8 +14623,8 @@ export const indicesFieldUsageStats: API.OperationMethod<
   IndicesFieldUsageStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<IndicesFieldUsageStatsRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<IndicesFieldUsageStatsFieldsUsageBody>,
+  input: __S(3232, __c101, 0) as any as S.Schema<IndicesFieldUsageStatsRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<IndicesFieldUsageStatsFieldsUsageBody>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13980,8 +14641,8 @@ export const inferenceDecision: API.OperationMethod<
   InferenceDecisionError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2786, __c87, 2) as any as S.Schema<InferenceDecisionRequest>,
-  output: __S(2789, __c87, 5) as any as S.Schema<InferenceTypesDecisionInferenceResult>,
+  input: __S(3330, __c104, 2) as any as S.Schema<InferenceDecisionRequest>,
+  output: __S(3333, __c104, 5) as any as S.Schema<InferenceTypesDecisionInferenceResult>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -13998,8 +14659,8 @@ export const inferenceDocumentExtraction: API.OperationMethod<
   InferenceDocumentExtractionError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2817, __c88, 1) as any as S.Schema<InferenceDocumentExtractionRequest>,
-  output: __S(2820, __c88, 4) as any as S.Schema<InferenceTypesDocumentExtractionInferenceResult>,
+  input: __S(3361, __c105, 1) as any as S.Schema<InferenceDocumentExtractionRequest>,
+  output: __S(3364, __c105, 4) as any as S.Schema<InferenceTypesDocumentExtractionInferenceResult>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14016,8 +14677,8 @@ export const inferenceEmbedding: API.OperationMethod<
   InferenceEmbeddingError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<InferenceEmbeddingRequest>,
-  output: __S(2851, __c89, 3) as any as S.Schema<InferenceTypesEmbeddingInferenceResult>,
+  input: __S(3392, __c106, 0) as any as S.Schema<InferenceEmbeddingRequest>,
+  output: __S(3395, __c106, 3) as any as S.Schema<InferenceTypesEmbeddingInferenceResult>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14034,8 +14695,8 @@ export const knnEval: API.OperationMethod<
   KnnEvalError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<KnnEvalRequest>,
-  output: __S(2920, __c91, 8) as any as S.Schema<KnnEvalResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<KnnEvalRequest>,
+  output: __S(3464, __c108, 8) as any as S.Schema<KnnEvalResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14052,8 +14713,8 @@ export const knnEval1: API.OperationMethod<
   KnnEval1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<KnnEval1Request>,
-  output: __S(2920, __c91, 8) as any as S.Schema<KnnEval1Response>,
+  input: __S(3488, __c109, 0) as any as S.Schema<KnnEval1Request>,
+  output: __S(3464, __c108, 8) as any as S.Schema<KnnEval1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14070,8 +14731,8 @@ export const listConnector: API.OperationMethod<
   ListConnectorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListConnectorRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListConnectorResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListConnectorRequest>,
+  output: __S(3522, __c110, 2) as any as S.Schema<ListConnectorResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14088,8 +14749,8 @@ export const listConnectorSyncJob: API.OperationMethod<
   ListConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListConnectorSyncJobRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<ListConnectorSyncJobResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListConnectorSyncJobRequest>,
+  output: __S(3554, __c111, 2) as any as S.Schema<ListConnectorSyncJobResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14106,8 +14767,8 @@ export const listTasks: API.OperationMethod<
   ListTasksError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(1317, __c41, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(1829, __c57, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14124,7 +14785,7 @@ export const nodesGetRepositoriesMeteringInfo: API.OperationMethod<
   NodesGetRepositoriesMeteringInfoError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<NodesGetRepositoriesMeteringInfoRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<NodesGetRepositoriesMeteringInfoRequest>,
   output: __S(133, __c4, 5) as any as S.Schema<NodesGetRepositoriesMeteringInfoResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
@@ -14142,8 +14803,8 @@ export const postConnector: API.OperationMethod<
   PostConnectorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<PostConnectorRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<PostConnectorResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<PostConnectorRequest>,
+  output: __S(4160, __c130, 0) as any as S.Schema<PostConnectorResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14160,14 +14821,482 @@ export const postConnectorSyncJob: API.OperationMethod<
   PostConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<PostConnectorSyncJobRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<PostConnectorSyncJobResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<PostConnectorSyncJobRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<PostConnectorSyncJobResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PostConnectorSyncJob",
+}));
+
+export type PrometheusLabelsError = ElasticsearchOpError;
+/** Get Prometheus label names Get the sorted names of the labels present on the matching time series. The endpoint mirrors the Prometheus `/api/v1/labels` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabels: API.OperationMethod<
+  PrometheusLabelsRequest,
+  PrometheusLabelsResponse,
+  PrometheusLabelsError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3744, __c117, 0) as any as S.Schema<PrometheusLabelsRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabelsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabels",
+}));
+
+export type PrometheusLabels1Error = ElasticsearchOpError;
+/** Get Prometheus label names Get the sorted names of the labels present on the matching time series. The endpoint mirrors the Prometheus `/api/v1/labels` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabels1: API.OperationMethod<
+  PrometheusLabels1Request,
+  PrometheusLabels1Response,
+  PrometheusLabels1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3808, __c119, 0) as any as S.Schema<PrometheusLabels1Request>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabels1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabels1",
+}));
+
+export type PrometheusLabels2Error = ElasticsearchOpError;
+/** Get Prometheus label names Get the sorted names of the labels present on the matching time series. The endpoint mirrors the Prometheus `/api/v1/labels` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabels2: API.OperationMethod<
+  PrometheusLabels2Request,
+  PrometheusLabels2Response,
+  PrometheusLabels2Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3840, __c120, 0) as any as S.Schema<PrometheusLabels2Request>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabels2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabels2",
+}));
+
+export type PrometheusLabels3Error = ElasticsearchOpError;
+/** Get Prometheus label names Get the sorted names of the labels present on the matching time series. The endpoint mirrors the Prometheus `/api/v1/labels` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabels3: API.OperationMethod<
+  PrometheusLabels3Request,
+  PrometheusLabels3Response,
+  PrometheusLabels3Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3872, __c121, 0) as any as S.Schema<PrometheusLabels3Request>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabels3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabels3",
+}));
+
+export type PrometheusLabelValuesError = ElasticsearchOpError;
+/** Get Prometheus label values Get the sorted deduplicated values of one label on the matching time series. Label names can use the OpenMetrics `U__` encoding for characters that are not valid in Prometheus label names. An unknown label returns an empty list. The endpoint mirrors the Prometheus `/api/v1/label/{name}/values` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabelValues: API.OperationMethod<
+  PrometheusLabelValuesRequest,
+  PrometheusLabelValuesResponse,
+  PrometheusLabelValuesError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3904, __c122, 0) as any as S.Schema<PrometheusLabelValuesRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabelValuesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabelValues",
+}));
+
+export type PrometheusLabelValues1Error = ElasticsearchOpError;
+/** Get Prometheus label values Get the sorted deduplicated values of one label on the matching time series. Label names can use the OpenMetrics `U__` encoding for characters that are not valid in Prometheus label names. An unknown label returns an empty list. The endpoint mirrors the Prometheus `/api/v1/label/{name}/values` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusLabelValues1: API.OperationMethod<
+  PrometheusLabelValues1Request,
+  PrometheusLabelValues1Response,
+  PrometheusLabelValues1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3936, __c123, 0) as any as S.Schema<PrometheusLabelValues1Request>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PrometheusLabelValues1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusLabelValues1",
+}));
+
+export type PrometheusMetadataError = ElasticsearchOpError;
+/** Get Prometheus metric metadata Get the type and unit of the metrics in time series data streams, over a fixed 24-hour lookback. The `help` field is always an empty string. The endpoint mirrors the Prometheus `/api/v1/metadata` endpoint, without `match[]`, `start` and `end`. ## Required authorization * Index privileges: `read` */
+export const prometheusMetadata: API.OperationMethod<
+  PrometheusMetadataRequest,
+  PrometheusMetadataResponse,
+  PrometheusMetadataError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3968, __c124, 0) as any as S.Schema<PrometheusMetadataRequest>,
+  output: __S(4003, __c125, 3) as any as S.Schema<PrometheusMetadataResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusMetadata",
+}));
+
+export type PrometheusMetadata1Error = ElasticsearchOpError;
+/** Get Prometheus metric metadata Get the type and unit of the metrics in time series data streams, over a fixed 24-hour lookback. The `help` field is always an empty string. The endpoint mirrors the Prometheus `/api/v1/metadata` endpoint, without `match[]`, `start` and `end`. ## Required authorization * Index privileges: `read` */
+export const prometheusMetadata1: API.OperationMethod<
+  PrometheusMetadata1Request,
+  PrometheusMetadata1Response,
+  PrometheusMetadata1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4032, __c126, 0) as any as S.Schema<PrometheusMetadata1Request>,
+  output: __S(4003, __c125, 3) as any as S.Schema<PrometheusMetadata1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusMetadata1",
+}));
+
+export type PrometheusQueryError = ElasticsearchOpError;
+/** Run a PromQL instant query Evaluate a PromQL expression at a single instant and return vector data. The endpoint mirrors the Prometheus `/api/v1/query` endpoint. POST requests carry the parameters as an `application/x-www-form-urlencoded` body and are accepted only on authenticated TLS connections. ## Required authorization * Index privileges: `read` */
+export const prometheusQuery: API.OperationMethod<
+  PrometheusQueryRequest,
+  PrometheusQueryResponse,
+  PrometheusQueryError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4064, __c127, 0) as any as S.Schema<PrometheusQueryRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQueryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQuery",
+}));
+
+export type PrometheusQuery1Error = ElasticsearchOpError;
+/** Run a PromQL instant query Evaluate a PromQL expression at a single instant and return vector data. The endpoint mirrors the Prometheus `/api/v1/query` endpoint. POST requests carry the parameters as an `application/x-www-form-urlencoded` body and are accepted only on authenticated TLS connections. ## Required authorization * Index privileges: `read` */
+export const prometheusQuery1: API.OperationMethod<
+  PrometheusQuery1Request,
+  PrometheusQuery1Response,
+  PrometheusQuery1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4192, __c131, 0) as any as S.Schema<PrometheusQuery1Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQuery1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQuery1",
+}));
+
+export type PrometheusQuery2Error = ElasticsearchOpError;
+/** Run a PromQL instant query Evaluate a PromQL expression at a single instant and return vector data. The endpoint mirrors the Prometheus `/api/v1/query` endpoint. POST requests carry the parameters as an `application/x-www-form-urlencoded` body and are accepted only on authenticated TLS connections. ## Required authorization * Index privileges: `read` */
+export const prometheusQuery2: API.OperationMethod<
+  PrometheusQuery2Request,
+  PrometheusQuery2Response,
+  PrometheusQuery2Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4224, __c132, 0) as any as S.Schema<PrometheusQuery2Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQuery2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQuery2",
+}));
+
+export type PrometheusQuery3Error = ElasticsearchOpError;
+/** Run a PromQL instant query Evaluate a PromQL expression at a single instant and return vector data. The endpoint mirrors the Prometheus `/api/v1/query` endpoint. POST requests carry the parameters as an `application/x-www-form-urlencoded` body and are accepted only on authenticated TLS connections. ## Required authorization * Index privileges: `read` */
+export const prometheusQuery3: API.OperationMethod<
+  PrometheusQuery3Request,
+  PrometheusQuery3Response,
+  PrometheusQuery3Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4256, __c133, 0) as any as S.Schema<PrometheusQuery3Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQuery3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQuery3",
+}));
+
+export type PrometheusQueryExemplarsError = ElasticsearchOpError;
+/** Query Prometheus exemplars Get the exemplars of the series selected by a PromQL expression over a time range. The endpoint mirrors the Prometheus `/api/v1/query_exemplars` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryExemplars: API.OperationMethod<
+  PrometheusQueryExemplarsRequest,
+  PrometheusQueryExemplarsResponse,
+  PrometheusQueryExemplarsError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4288, __c134, 0) as any as S.Schema<PrometheusQueryExemplarsRequest>,
+  output: __S(4324, __c135, 4) as any as S.Schema<PrometheusQueryExemplarsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryExemplars",
+}));
+
+export type PrometheusQueryExemplars1Error = ElasticsearchOpError;
+/** Query Prometheus exemplars Get the exemplars of the series selected by a PromQL expression over a time range. The endpoint mirrors the Prometheus `/api/v1/query_exemplars` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryExemplars1: API.OperationMethod<
+  PrometheusQueryExemplars1Request,
+  PrometheusQueryExemplars1Response,
+  PrometheusQueryExemplars1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4352, __c136, 0) as any as S.Schema<PrometheusQueryExemplars1Request>,
+  output: __S(4324, __c135, 4) as any as S.Schema<PrometheusQueryExemplars1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryExemplars1",
+}));
+
+export type PrometheusQueryExemplars2Error = ElasticsearchOpError;
+/** Query Prometheus exemplars Get the exemplars of the series selected by a PromQL expression over a time range. The endpoint mirrors the Prometheus `/api/v1/query_exemplars` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryExemplars2: API.OperationMethod<
+  PrometheusQueryExemplars2Request,
+  PrometheusQueryExemplars2Response,
+  PrometheusQueryExemplars2Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4384, __c137, 0) as any as S.Schema<PrometheusQueryExemplars2Request>,
+  output: __S(4324, __c135, 4) as any as S.Schema<PrometheusQueryExemplars2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryExemplars2",
+}));
+
+export type PrometheusQueryExemplars3Error = ElasticsearchOpError;
+/** Query Prometheus exemplars Get the exemplars of the series selected by a PromQL expression over a time range. The endpoint mirrors the Prometheus `/api/v1/query_exemplars` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryExemplars3: API.OperationMethod<
+  PrometheusQueryExemplars3Request,
+  PrometheusQueryExemplars3Response,
+  PrometheusQueryExemplars3Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4416, __c138, 0) as any as S.Schema<PrometheusQueryExemplars3Request>,
+  output: __S(4324, __c135, 4) as any as S.Schema<PrometheusQueryExemplars3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryExemplars3",
+}));
+
+export type PrometheusQueryRangeError = ElasticsearchOpError;
+/** Run a PromQL range query Evaluate a PromQL expression over a time range and return matrix data. The endpoint mirrors the Prometheus `/api/v1/query_range` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryRange: API.OperationMethod<
+  PrometheusQueryRangeRequest,
+  PrometheusQueryRangeResponse,
+  PrometheusQueryRangeError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4448, __c139, 0) as any as S.Schema<PrometheusQueryRangeRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQueryRangeResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryRange",
+}));
+
+export type PrometheusQueryRange1Error = ElasticsearchOpError;
+/** Run a PromQL range query Evaluate a PromQL expression over a time range and return matrix data. The endpoint mirrors the Prometheus `/api/v1/query_range` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryRange1: API.OperationMethod<
+  PrometheusQueryRange1Request,
+  PrometheusQueryRange1Response,
+  PrometheusQueryRange1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4480, __c140, 0) as any as S.Schema<PrometheusQueryRange1Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQueryRange1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryRange1",
+}));
+
+export type PrometheusQueryRange2Error = ElasticsearchOpError;
+/** Run a PromQL range query Evaluate a PromQL expression over a time range and return matrix data. The endpoint mirrors the Prometheus `/api/v1/query_range` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryRange2: API.OperationMethod<
+  PrometheusQueryRange2Request,
+  PrometheusQueryRange2Response,
+  PrometheusQueryRange2Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4512, __c141, 0) as any as S.Schema<PrometheusQueryRange2Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQueryRange2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryRange2",
+}));
+
+export type PrometheusQueryRange3Error = ElasticsearchOpError;
+/** Run a PromQL range query Evaluate a PromQL expression over a time range and return matrix data. The endpoint mirrors the Prometheus `/api/v1/query_range` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusQueryRange3: API.OperationMethod<
+  PrometheusQueryRange3Request,
+  PrometheusQueryRange3Response,
+  PrometheusQueryRange3Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4576, __c143, 0) as any as S.Schema<PrometheusQueryRange3Request>,
+  output: __S(4097, __c128, 1) as any as S.Schema<PrometheusQueryRange3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusQueryRange3",
+}));
+
+export type PrometheusSeriesError = ElasticsearchOpError;
+/** Find Prometheus series Get the time series that match the given selectors. The endpoint mirrors the Prometheus `/api/v1/series` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusSeries: API.OperationMethod<
+  PrometheusSeriesRequest,
+  PrometheusSeriesResponse,
+  PrometheusSeriesError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4608, __c144, 0) as any as S.Schema<PrometheusSeriesRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PrometheusSeriesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusSeries",
+}));
+
+export type PrometheusSeries1Error = ElasticsearchOpError;
+/** Find Prometheus series Get the time series that match the given selectors. The endpoint mirrors the Prometheus `/api/v1/series` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusSeries1: API.OperationMethod<
+  PrometheusSeries1Request,
+  PrometheusSeries1Response,
+  PrometheusSeries1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4704, __c147, 0) as any as S.Schema<PrometheusSeries1Request>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PrometheusSeries1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusSeries1",
+}));
+
+export type PrometheusSeries2Error = ElasticsearchOpError;
+/** Find Prometheus series Get the time series that match the given selectors. The endpoint mirrors the Prometheus `/api/v1/series` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusSeries2: API.OperationMethod<
+  PrometheusSeries2Request,
+  PrometheusSeries2Response,
+  PrometheusSeries2Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4736, __c148, 0) as any as S.Schema<PrometheusSeries2Request>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PrometheusSeries2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusSeries2",
+}));
+
+export type PrometheusSeries3Error = ElasticsearchOpError;
+/** Find Prometheus series Get the time series that match the given selectors. The endpoint mirrors the Prometheus `/api/v1/series` endpoint. ## Required authorization * Index privileges: `read` */
+export const prometheusSeries3: API.OperationMethod<
+  PrometheusSeries3Request,
+  PrometheusSeries3Response,
+  PrometheusSeries3Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4768, __c149, 0) as any as S.Schema<PrometheusSeries3Request>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PrometheusSeries3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusSeries3",
+}));
+
+export type PrometheusStatusBuildinfoError = ElasticsearchOpError;
+/** Get Prometheus build information Get Elasticsearch build information in the format of the Prometheus `/api/v1/status/buildinfo` endpoint. Prometheus-compatible clients, such as Grafana, call this endpoint to identify the backend and the features it supports. */
+export const prometheusStatusBuildinfo: API.OperationMethod<
+  PrometheusStatusBuildinfoRequest,
+  PrometheusStatusBuildinfoResponse,
+  PrometheusStatusBuildinfoError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4800, __c150, 0) as any as S.Schema<PrometheusStatusBuildinfoRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<PrometheusStatusBuildinfoResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusStatusBuildinfo",
+}));
+
+export type PrometheusStatusBuildinfo1Error = ElasticsearchOpError;
+/** Get Prometheus build information Get Elasticsearch build information in the format of the Prometheus `/api/v1/status/buildinfo` endpoint. Prometheus-compatible clients, such as Grafana, call this endpoint to identify the backend and the features it supports. */
+export const prometheusStatusBuildinfo1: API.OperationMethod<
+  PrometheusStatusBuildinfo1Request,
+  PrometheusStatusBuildinfo1Response,
+  PrometheusStatusBuildinfo1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4864, __c152, 0) as any as S.Schema<PrometheusStatusBuildinfo1Request>,
+  output: __S(4833, __c151, 1) as any as S.Schema<PrometheusStatusBuildinfo1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrometheusStatusBuildinfo1",
 }));
 
 export type PutConnectorError = ElasticsearchOpError;
@@ -14178,8 +15307,8 @@ export const putConnector: API.OperationMethod<
   PutConnectorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<PutConnectorRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<PutConnectorResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<PutConnectorRequest>,
+  output: __S(4160, __c130, 0) as any as S.Schema<PutConnectorResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14196,8 +15325,8 @@ export const resetEncryption: API.OperationMethod<
   ResetEncryptionError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ResetEncryptionRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ResetEncryptionRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14214,8 +15343,8 @@ export const resetFeatures: API.OperationMethod<
   ResetFeaturesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ResetFeaturesRequest>,
-  output: __S(3267, __c102, 3) as any as S.Schema<ResetFeaturesResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ResetFeaturesRequest>,
+  output: __S(4963, __c155, 3) as any as S.Schema<ResetFeaturesResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14232,8 +15361,8 @@ export const scriptsPainlessExecute1: API.OperationMethod<
   ScriptsPainlessExecute1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ScriptsPainlessExecute1Request>,
-  output: __S(1953, __c61, 1) as any as S.Schema<ScriptsPainlessExecute1Response>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ScriptsPainlessExecute1Request>,
+  output: __S(2497, __c78, 1) as any as S.Schema<ScriptsPainlessExecute1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14250,8 +15379,8 @@ export const searchableSnapshotsCacheStats: API.OperationMethod<
   SearchableSnapshotsCacheStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<SearchableSnapshotsCacheStatsRequest>,
-  output: __S(3363, __c105, 3) as any as S.Schema<SearchableSnapshotsCacheStatsResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<SearchableSnapshotsCacheStatsRequest>,
+  output: __S(5091, __c159, 3) as any as S.Schema<SearchableSnapshotsCacheStatsResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14268,8 +15397,8 @@ export const searchableSnapshotsCacheStats1: API.OperationMethod<
   SearchableSnapshotsCacheStats1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<SearchableSnapshotsCacheStats1Request>,
-  output: __S(3363, __c105, 3) as any as S.Schema<SearchableSnapshotsCacheStats1Response>,
+  input: __S(5120, __c160, 0) as any as S.Schema<SearchableSnapshotsCacheStats1Request>,
+  output: __S(5091, __c159, 3) as any as S.Schema<SearchableSnapshotsCacheStats1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14286,8 +15415,8 @@ export const searchableSnapshotsClearCache: API.OperationMethod<
   SearchableSnapshotsClearCacheError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<SearchableSnapshotsClearCacheRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<SearchableSnapshotsClearCacheResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<SearchableSnapshotsClearCacheRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<SearchableSnapshotsClearCacheResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14304,8 +15433,8 @@ export const searchableSnapshotsClearCache1: API.OperationMethod<
   SearchableSnapshotsClearCache1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<SearchableSnapshotsClearCache1Request>,
-  output: __S(2752, __c86, 0) as any as S.Schema<SearchableSnapshotsClearCache1Response>,
+  input: __S(5184, __c162, 0) as any as S.Schema<SearchableSnapshotsClearCache1Request>,
+  output: __S(3296, __c103, 0) as any as S.Schema<SearchableSnapshotsClearCache1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14322,8 +15451,8 @@ export const searchApplicationDelete: API.OperationMethod<
   SearchApplicationDeleteError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<SearchApplicationDeleteRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
+  input: __S(5216, __c163, 0) as any as S.Schema<SearchApplicationDeleteRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14340,8 +15469,8 @@ export const searchApplicationGet: API.OperationMethod<
   SearchApplicationGetError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<SearchApplicationGetRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<SearchApplicationGetResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<SearchApplicationGetRequest>,
+  output: __S(5280, __c165, 0) as any as S.Schema<SearchApplicationGetResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14358,8 +15487,8 @@ export const searchApplicationList: API.OperationMethod<
   SearchApplicationListError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<SearchApplicationListRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<SearchApplicationListResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<SearchApplicationListRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<SearchApplicationListResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14376,8 +15505,8 @@ export const searchApplicationPut: API.OperationMethod<
   SearchApplicationPutError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<SearchApplicationPutRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<SearchApplicationPutResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<SearchApplicationPutRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<SearchApplicationPutResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14394,8 +15523,8 @@ export const searchApplicationRenderQuery: API.OperationMethod<
   SearchApplicationRenderQueryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<SearchApplicationRenderQueryRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<SearchApplicationRenderQueryResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<SearchApplicationRenderQueryRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<SearchApplicationRenderQueryResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14412,8 +15541,8 @@ export const searchApplicationSearch: API.OperationMethod<
   SearchApplicationSearchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<SearchApplicationSearchRequest>,
-  output: __S(2451, __c76, 19) as any as S.Schema<GlobalSearchResponseBody>,
+  input: __S(224, __c7, 0) as any as S.Schema<SearchApplicationSearchRequest>,
+  output: __S(2964, __c92, 20) as any as S.Schema<GlobalSearchResponseBody>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14430,8 +15559,8 @@ export const searchApplicationSearch1: API.OperationMethod<
   SearchApplicationSearch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<SearchApplicationSearch1Request>,
-  output: __S(2451, __c76, 19) as any as S.Schema<GlobalSearchResponseBody>,
+  input: __S(256, __c8, 0) as any as S.Schema<SearchApplicationSearch1Request>,
+  output: __S(2964, __c92, 20) as any as S.Schema<GlobalSearchResponseBody>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14448,8 +15577,8 @@ export const searchFleet: API.OperationMethod<
   SearchFleetError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<SearchFleetRequest>,
-  output: __S(2451, __c76, 19) as any as S.Schema<SearchFleetResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<SearchFleetRequest>,
+  output: __S(2964, __c92, 20) as any as S.Schema<SearchFleetResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14466,8 +15595,8 @@ export const securityCloneApiKey: API.OperationMethod<
   SecurityCloneApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<SecurityCloneApiKeyRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<SecurityCloneApiKeyResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<SecurityCloneApiKeyRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<SecurityCloneApiKeyResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14484,8 +15613,8 @@ export const securityCloneApiKey1: API.OperationMethod<
   SecurityCloneApiKey1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<SecurityCloneApiKey1Request>,
-  output: __S(3873, __c121, 1) as any as S.Schema<SecurityCloneApiKey1Response>,
+  input: __S(352, __c11, 0) as any as S.Schema<SecurityCloneApiKey1Request>,
+  output: __S(353, __c11, 1) as any as S.Schema<SecurityCloneApiKey1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14502,8 +15631,8 @@ export const simulateIngest: API.OperationMethod<
   SimulateIngestError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<SimulateIngestRequest>,
-  output: __S(4061, __c126, 29) as any as S.Schema<SimulateIngestResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<SimulateIngestRequest>,
+  output: __S(542, __c16, 30) as any as S.Schema<SimulateIngestResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14520,8 +15649,8 @@ export const simulateIngest1: API.OperationMethod<
   SimulateIngest1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<SimulateIngest1Request>,
-  output: __S(4061, __c126, 29) as any as S.Schema<SimulateIngest1Response>,
+  input: __S(544, __c17, 0) as any as S.Schema<SimulateIngest1Request>,
+  output: __S(542, __c16, 30) as any as S.Schema<SimulateIngest1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14538,8 +15667,8 @@ export const simulateIngest2: API.OperationMethod<
   SimulateIngest2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<SimulateIngest2Request>,
-  output: __S(4061, __c126, 29) as any as S.Schema<SimulateIngest2Response>,
+  input: __S(576, __c18, 0) as any as S.Schema<SimulateIngest2Request>,
+  output: __S(542, __c16, 30) as any as S.Schema<SimulateIngest2Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14556,8 +15685,8 @@ export const simulateIngest3: API.OperationMethod<
   SimulateIngest3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<SimulateIngest3Request>,
-  output: __S(4061, __c126, 29) as any as S.Schema<SimulateIngest3Response>,
+  input: __S(608, __c19, 0) as any as S.Schema<SimulateIngest3Request>,
+  output: __S(542, __c16, 30) as any as S.Schema<SimulateIngest3Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14574,8 +15703,8 @@ export const snapshotRepositoryVerifyIntegrity: API.OperationMethod<
   SnapshotRepositoryVerifyIntegrityError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14592,8 +15721,8 @@ export const streamsStatus: API.OperationMethod<
   StreamsStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<StreamsStatusRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<StreamsStatusResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<StreamsStatusRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<StreamsStatusResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14610,8 +15739,8 @@ export const tasksCancel1: API.OperationMethod<
   TasksCancel1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<TasksCancel1Request>,
-  output: __S(1317, __c41, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
+  input: __S(736, __c23, 0) as any as S.Schema<TasksCancel1Request>,
+  output: __S(1829, __c57, 5) as any as S.Schema<TasksTypesTaskListResponseBase>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -14766,4717 +15895,6 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/_connector/{connector_id}/_filtering/_activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateActiveFilteringRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          api_key_id: S.optional(S.String),
-          api_key_secret_id: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_api_key_id", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateApiKeyIdRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          configuration: S.optional(__S(326, __c10, 6)),
-          values: S.optional(__S(192, __c6, 0)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_configuration", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateConfigurationRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "ConnectorTypesDependency" });
-    case 1:
-      return S.Array(__S(320, __c10, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          label: S.String,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "ConnectorTypesSelectOption" });
-    case 3:
-      return S.Array(__S(322, __c10, 2));
-    case 4:
-      return S.Array(S.Unknown);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          category: S.optional(S.String),
-          default_value: S.Unknown,
-          depends_on: __S(321, __c10, 1),
-          display: S.String,
-          label: S.String,
-          options: __S(323, __c10, 3),
-          order: S.optional(S.Number),
-          placeholder: S.optional(S.String),
-          required: S.Boolean,
-          sensitive: S.Boolean,
-          tooltip: S.optional(S.String),
-          type: S.optional(S.String),
-          ui_restrictions: S.optional(__S(1248, __c39, 0)),
-          validations: S.optional(__S(324, __c10, 4)),
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "ConnectorTypesConnectorConfigProperties" });
-    case 6:
-      return S.Record(S.String, __S(325, __c10, 5));
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          error: S.String,
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_error", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateErrorRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          features: __S(417, __c13, 1),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_features", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateFeaturesRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          advanced: S.optional(__S(448, __c14, 0)),
-          basic: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({ identifier: "ConnectorTypesSyncRulesFeature" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          document_level_security: S.optional(__S(448, __c14, 0)),
-          incremental_sync: S.optional(__S(448, __c14, 0)),
-          native_connector_api_keys: S.optional(__S(448, __c14, 0)),
-          sync_rules: S.optional(__S(416, __c13, 0)),
-        }),
-      ).annotate({ identifier: "ConnectorTypesConnectorFeatures" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConnectorTypesFeatureEnabled" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          filtering: S.optional(__S(577, __c18, 1)),
-          rules: S.optional(__S(546, __c17, 2)),
-          advanced_snippet: S.optional(__S(544, __c17, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_filtering", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateFilteringRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ids: __S(1248, __c39, 0),
-          messages: __S(1248, __c39, 0),
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringValidation" });
-    case 1:
-      return S.Array(__S(512, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          errors: __S(513, __c16, 1),
-          state: S.String,
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringRulesValidation" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.optional(S.Unknown),
-          updated_at: S.optional(S.Unknown),
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringAdvancedSnippet" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.optional(S.Unknown),
-          field: S.String,
-          id: S.String,
-          order: S.Number,
-          policy: S.String,
-          rule: S.String,
-          updated_at: S.optional(S.Unknown),
-          value: S.String,
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringRule" });
-    case 2:
-      return S.Array(__S(545, __c17, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          advanced_snippet: __S(544, __c17, 0),
-          rules: __S(546, __c17, 2),
-          validation: __S(514, __c16, 2),
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringRules" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: __S(547, __c17, 3),
-          domain: S.optional(S.String),
-          draft: __S(547, __c17, 3),
-        }),
-      ).annotate({ identifier: "ConnectorTypesFilteringConfig" });
-    case 1:
-      return S.Array(__S(576, __c18, 0));
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          validation: __S(514, __c16, 2),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/_connector/{connector_id}/_filtering/_validation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateFilteringValidationRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          index_name: S.String,
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_index_name", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateIndexNameRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_name", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateNameRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_sync_job_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/_connector/_sync_job/{connector_sync_job_id}/_cancel",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelConnectorSyncJobRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.String,
-        }),
-      ).annotate({ identifier: "CancelConnectorSyncJobResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          is_native: S.Boolean,
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_native", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateNativeRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          pipeline: __S(832, __c26, 0),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_pipeline", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdatePipelineRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          extract_binary_content: S.Boolean,
-          name: S.String,
-          reduce_whitespace: S.Boolean,
-          run_ml_inference: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConnectorTypesIngestPipelineParams" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          scheduling: __S(897, __c28, 1),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_scheduling", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateSchedulingRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          interval: S.String,
-        }),
-      ).annotate({ identifier: "ConnectorTypesConnectorScheduling" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          access_control: S.optional(__S(896, __c28, 0)),
-          full: S.optional(__S(896, __c28, 0)),
-          incremental: S.optional(__S(896, __c28, 0)),
-        }),
-      ).annotate({ identifier: "ConnectorTypesSchedulingConfiguration" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          service_type: S.String,
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_service_type", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectorUpdateServiceTypeRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          status: S.String,
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_status", code: 200 })),
-      ).annotate({ identifier: "ConnectorUpdateStatusRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          delete_sync_jobs: S.optional(S.Boolean.pipe(T.Query())),
-          hard: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/_connector/{connector_id}", code: 200 })),
-      ).annotate({ identifier: "DeleteConnectorRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          acknowledged: S.Boolean,
-        }),
-      ).annotate({ identifier: "TypesAcknowledgedResponseBase" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_sync_job_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/_connector/_sync_job/{connector_sync_job_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteConnectorSyncJobRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_disable", code: 200 })),
-      ).annotate({ identifier: "DisableStreamsLogRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_enable", code: 200 })),
-      ).annotate({ identifier: "EnableStreamsLogRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/_query/dataset/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlDeleteDatasetRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(S.Unknown.pipe(T.Query())),
-          nodes: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          parent_task_id: S.optional(S.String.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_tasks/_cancel", code: 200 })),
-      ).annotate({ identifier: "CancelTaskRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          cancelled: S.optional(S.Boolean),
-          cancellable: S.Boolean,
-          description: S.optional(S.String),
-          headers: __S(1216, __c38, 0),
-          id: S.Number,
-          node: S.String,
-          running_time: S.optional(S.Unknown),
-          running_time_in_nanos: S.Number,
-          start_time_in_millis: S.Number,
-          status: S.optional(S.Unknown),
-          type: S.String,
-          parent_task_id: S.optional(S.String),
-          original_task_id: S.optional(S.String),
-          original_start_time_in_millis: S.optional(S.Number),
-          original_start_time: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TasksTypesTaskInfo" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          task_id: S.Number,
-          node_id: S.String,
-          status: S.String,
-          reason: __S(1, __c0, 1),
-        }),
-      ).annotate({ identifier: "TypesTaskFailure" });
-    case 1:
-      return S.Array(__S(1312, __c41, 0));
-    case 2:
-      return S.Record(S.String, __S(1280, __c40, 0));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          transport_address: S.optional(S.String),
-          host: S.optional(S.String),
-          ip: S.optional(S.String),
-          roles: S.optional(__S(1248, __c39, 0)),
-          attributes: S.optional(__S(1216, __c38, 0)),
-          tasks: __S(1314, __c41, 2),
-        }),
-      ).annotate({ identifier: "TasksTypesNodeTasks" });
-    case 4:
-      return S.Record(S.String, __S(1315, __c41, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          node_failures: S.optional(__S(96, __c3, 0)),
-          task_failures: S.optional(__S(1313, __c41, 1)),
-          nodes: S.optional(__S(1316, __c41, 4)),
-          tasks: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TasksTypesTaskListResponseBase" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/_query/data_source/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlDeleteDataSourceRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_query/dataset", code: 200 })),
-      ).annotate({ identifier: "EsqlGetDatasetRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          data_source: S.String,
-          resource: S.String,
-          description: S.optional(S.String),
-          settings: S.optional(__S(192, __c6, 0)),
-          mappings: S.optional(__S(1443, __c45, 3)),
-        }),
-      ).annotate({ identifier: "EsqlTypesESQLDataset" });
-    case 1:
-      return S.Array(__S(1408, __c44, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          datasets: __S(1409, __c44, 1),
-        }),
-      ).annotate({ identifier: "EsqlGetDatasetResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          rename_from: S.optional(S.String),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EsqlTypesDatasetFieldMapping" });
-    case 1:
-      return S.Record(S.String, __S(1440, __c45, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-        }),
-      ).annotate({ identifier: "EsqlTypesIdPath" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dynamic: S.optional(S.String),
-          properties: S.optional(__S(1441, __c45, 1)),
-          _id: S.optional(__S(1442, __c45, 2)),
-        }),
-      ).annotate({ identifier: "EsqlTypesDatasetMapping" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_query/dataset/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlGetDataset1Request" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_query/data_source", code: 200 })),
-      ).annotate({ identifier: "EsqlGetDataSourceRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          type: S.String,
-          description: S.optional(S.String),
-          settings: __S(192, __c6, 0),
-        }),
-      ).annotate({ identifier: "EsqlTypesESQLDataSource" });
-    case 1:
-      return S.Array(__S(1536, __c48, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data_sources: __S(1537, __c48, 1),
-        }),
-      ).annotate({ identifier: "EsqlGetDataSourceResponse" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_query/data_source/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlGetDataSource1Request" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/_query/queries/{id}", code: 200 })),
-      ).annotate({ identifier: "EsqlGetQueryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          node: S.String,
-          start_time_millis: S.Number,
-          running_time_nanos: S.Number,
-          query: S.String,
-          coordinating_node: S.String,
-          data_nodes: __S(1248, __c39, 0),
-        }),
-      ).annotate({ identifier: "EsqlGetQueryResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_query/queries", code: 200 })),
-      ).annotate({ identifier: "EsqlListQueriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          node: S.String,
-          start_time_millis: S.Number,
-          running_time_nanos: S.Number,
-          query: S.String,
-        }),
-      ).annotate({ identifier: "EsqlListQueriesBody" });
-    case 2:
-      return S.Record(S.String, __S(1633, __c51, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          queries: __S(1634, __c51, 2),
-        }),
-      ).annotate({ identifier: "EsqlListQueriesResponse" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          data_source: S.String,
-          resource: S.String,
-          description: S.optional(S.String),
-          mappings: S.optional(__S(1443, __c45, 3)),
-          settings: S.optional(__S(192, __c6, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/_query/dataset/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlPutDatasetRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          type: S.String,
-          description: S.optional(S.String),
-          settings: S.optional(__S(192, __c6, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/_query/data_source/{name}", code: 200 })),
-      ).annotate({ identifier: "EsqlPutDataSourceRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          context: S.optional(S.String),
-          context_setup: S.optional(__S(1952, __c61, 0)),
-          script: S.optional(__S(1792, __c56, 0)),
-        }).pipe(T.Http({ method: "GET", uri: "/_scripts/painless/_execute", code: 200 })),
-      ).annotate({ identifier: "ExecuteScriptsPainlessRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          oversample: S.Number,
-        }),
-      ).annotate({ identifier: "TypesRescoreVector" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(S.Unknown),
-          id: S.optional(S.String),
-          params: S.optional(__S(192, __c6, 0)),
-          lang: S.optional(S.Unknown),
-          options: S.optional(__S(1216, __c38, 0)),
-        }),
-      ).annotate({ identifier: "TypesScript" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          script: __S(1792, __c56, 0),
-        }),
-      ).annotate({ identifier: "TypesQueryDslScriptScoreFunction" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1938, __c60, 18)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          filter: S.optional(S.Unknown),
-          minimum_should_match: S.optional(S.Unknown),
-          must: S.optional(S.Unknown),
-          must_not: S.optional(S.Unknown),
-          should: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesQueryDslBoolQuery" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          negative_boost: S.Number,
-          negative: S.suspend(() => __S(1938, __c60, 18)),
-          positive: S.suspend(() => __S(1938, __c60, 18)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslBoostingQuery" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          cutoff_frequency: S.optional(S.Number),
-          high_freq_operator: S.optional(S.String),
-          low_freq_operator: S.optional(S.String),
-          minimum_should_match: S.optional(S.Unknown),
-          query: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslCommonTermsQuery" });
-    case 4:
-      return S.Record(S.String, __S(1827, __c57, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          fields: __S(1248, __c39, 0),
-          query: S.String,
-          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          minimum_should_match: S.optional(S.Unknown),
-          zero_terms_query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslCombinedFieldsQuery" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          filter: S.suspend(() => __S(1938, __c60, 18)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslConstantScoreQuery" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          inference_id: S.optional(S.String),
-          input: S.Unknown,
-          timeout: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesEmbedding" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          model_id: S.optional(S.String),
-          model_text: S.String,
-        }),
-      ).annotate({ identifier: "TypesTextEmbedding" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          index: S.String,
-          path: S.String,
-          routing: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesLookupQueryVectorBuilder" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          embedding: S.optional(__S(1831, __c57, 7)),
-          text_embedding: S.optional(__S(1832, __c57, 8)),
-          lookup: S.optional(__S(1833, __c57, 9)),
-        }),
-      ).annotate({ identifier: "TypesQueryVectorBuilder" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query_vector: S.optional(S.Unknown),
-          query_vector_builder: S.optional(__S(1834, __c57, 10)),
-          similarity_function: S.optional(S.String),
-          quantized: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslDenseVectorQuery" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          queries: __S(1824, __c57, 0),
-          tie_breaker: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesQueryDslDisMaxQuery" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslExistsQuery" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          factor: S.optional(S.Number),
-          missing: S.optional(S.Number),
-          modifier: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslFieldValueFactorScoreFunction" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          seed: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesQueryDslRandomScoreFunction" });
-    case 16:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "TypesAggregationsGlobalAggregation",
-      });
-    case 17:
-      return S.Record(S.String, S.Number);
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          format: S.optional(S.String),
-          include_unmapped: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslFieldAndFormat" });
-    case 19:
-      return S.Array(__S(1842, __c57, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.Unknown),
-          boundary_chars: S.optional(S.String),
-          boundary_max_scan: S.optional(S.Number),
-          boundary_scanner: S.optional(S.String),
-          boundary_scanner_locale: S.optional(S.String),
-          force_source: S.optional(S.Boolean),
-          fragmenter: S.optional(S.String),
-          fragment_size: S.optional(S.Number),
-          highlight_filter: S.optional(S.Boolean),
-          highlight_query: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          max_fragment_length: S.optional(S.Number),
-          max_analyzed_offset: S.optional(S.Number),
-          no_match_size: S.optional(S.Number),
-          number_of_fragments: S.optional(S.Number),
-          options: S.optional(__S(192, __c6, 0)),
-          order: S.optional(S.String),
-          phrase_limit: S.optional(S.Number),
-          post_tags: S.optional(__S(1248, __c39, 0)),
-          pre_tags: S.optional(__S(1248, __c39, 0)),
-          require_field_match: S.optional(S.Boolean),
-          tags_schema: S.optional(S.String),
-          encoder: S.optional(S.String),
-          fields: S.Unknown,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesHighlight" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          script: S.suspend(() => __S(1792, __c56, 0)),
-          ignore_failure: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesScriptField" });
-    case 22:
-      return S.Record(S.String, __S(1845, __c57, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          size: S.optional(S.Number),
-          from: S.optional(S.Number),
-          collapse: S.optional(S.suspend(() => __S(1848, __c57, 24))),
-          docvalue_fields: S.optional(__S(1843, __c57, 19)),
-          explain: S.optional(S.Boolean),
-          highlight: S.optional(__S(1844, __c57, 20)),
-          ignore_unmapped: S.optional(S.Boolean),
-          script_fields: S.optional(__S(1846, __c57, 22)),
-          seq_no_primary_term: S.optional(S.Boolean),
-          field: S.optional(__S(1248, __c39, 0)),
-          fields: S.optional(__S(1843, __c57, 19)),
-          sort: S.optional(S.Unknown),
-          _source: S.optional(S.Unknown),
-          stored_fields: S.optional(S.Unknown),
-          track_scores: S.optional(S.Boolean),
-          version: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesInnerHits" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          inner_hits: S.optional(S.Unknown),
-          max_concurrent_group_searches: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesFieldCollapse" });
-    case 25:
-      return S.Array(S.Unknown);
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          weight: S.optional(S.Number),
-          _name: S.optional(S.String),
-          exp: S.optional(S.Unknown),
-          gauss: S.optional(S.Unknown),
-          linear: S.optional(S.Unknown),
-          field_value_factor: S.optional(__S(1838, __c57, 14)),
-          random_score: S.optional(__S(1839, __c57, 15)),
-          script_score: S.optional(__S(1793, __c56, 1)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslFunctionScoreContainer" });
-    case 27:
-      return S.Array(__S(1850, __c57, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          boost_mode: S.optional(S.String),
-          functions: S.optional(__S(1851, __c57, 27)),
-          max_boost: S.optional(S.Number),
-          min_score: S.optional(S.Number),
-          query: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          score_mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslFunctionScoreQuery" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          max_expansions: S.optional(S.Number),
-          prefix_length: S.optional(S.Number),
-          rewrite: S.optional(S.String),
-          transpositions: S.optional(S.Boolean),
-          fuzziness: S.optional(S.Unknown),
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "TypesQueryDslFuzzyQuery" });
-    case 30:
-      return S.Record(S.String, __S(1853, __c57, 29));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          type: S.optional(S.String),
-          validation_method: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslGeoBoundingBoxQuery" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          distance: S.String,
-          distance_type: S.optional(S.String),
-          validation_method: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslGeoDistanceQuery" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          geotile: S.optional(S.String),
-          geohash: S.optional(S.String),
-          geohex: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslGeoGridQuery" });
-    case 2:
-      return S.Record(S.String, __S(1857, __c58, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          validation_method: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslGeoPolygonQuery" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslGeoShapeQuery" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-          inner_hits: S.optional(__S(1847, __c57, 23)),
-          max_children: S.optional(S.Number),
-          min_children: S.optional(S.Number),
-          query: S.suspend(() => __S(1938, __c60, 18)),
-          score_mode: S.optional(S.String),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslHasChildQuery" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-          inner_hits: S.optional(__S(1847, __c57, 23)),
-          parent_type: S.String,
-          query: S.suspend(() => __S(1938, __c60, 18)),
-          score: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslHasParentQuery" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          values: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIdsQuery" });
-    case 8:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1872, __c58, 16)));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          before: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          contained_by: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          containing: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          not_contained_by: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          not_containing: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          not_overlapping: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          overlapping: S.optional(S.suspend(() => __S(1872, __c58, 16))),
-          script: S.optional(__S(1792, __c56, 0)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsFilter" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          intervals: __S(1864, __c58, 8),
-          filter: S.optional(__S(1865, __c58, 9)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsAnyOf" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          analyzer: S.optional(S.String),
-          fuzziness: S.optional(S.Unknown),
-          prefix_length: S.optional(S.Number),
-          term: S.String,
-          transpositions: S.optional(S.Boolean),
-          use_field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsFuzzy" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          analyzer: S.optional(S.String),
-          max_gaps: S.optional(S.Number),
-          ordered: S.optional(S.Boolean),
-          query: S.String,
-          use_field: S.optional(S.String),
-          filter: S.optional(__S(1865, __c58, 9)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsMatch" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          analyzer: S.optional(S.String),
-          prefix: S.String,
-          use_field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsPrefix" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          analyzer: S.optional(S.String),
-          gte: S.optional(S.String),
-          gt: S.optional(S.String),
-          lte: S.optional(S.String),
-          lt: S.optional(S.String),
-          use_field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsRange" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          analyzer: S.optional(S.String),
-          pattern: S.String,
-          use_field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsRegexp" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          all_of: S.optional(S.suspend(() => __S(1874, __c58, 18))),
-          any_of: S.optional(__S(1866, __c58, 10)),
-          fuzzy: S.optional(__S(1867, __c58, 11)),
-          match: S.optional(__S(1868, __c58, 12)),
-          prefix: S.optional(__S(1869, __c58, 13)),
-          range: S.optional(__S(1870, __c58, 14)),
-          regexp: S.optional(__S(1871, __c58, 15)),
-          wildcard: S.optional(__S(1871, __c58, 15)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsContainer" });
-    case 17:
-      return S.Array(__S(1872, __c58, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          intervals: __S(1873, __c58, 17),
-          max_gaps: S.optional(S.Number),
-          ordered: S.optional(S.Boolean),
-          filter: S.optional(__S(1865, __c58, 9)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsAllOf" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          all_of: S.optional(__S(1874, __c58, 18)),
-          any_of: S.optional(__S(1866, __c58, 10)),
-          fuzzy: S.optional(__S(1867, __c58, 11)),
-          match: S.optional(__S(1868, __c58, 12)),
-          prefix: S.optional(__S(1869, __c58, 13)),
-          range: S.optional(__S(1870, __c58, 14)),
-          regexp: S.optional(__S(1871, __c58, 15)),
-          wildcard: S.optional(__S(1871, __c58, 15)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslIntervalsQuery" });
-    case 20:
-      return S.Record(S.String, __S(1875, __c58, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query_vector: S.optional(S.Unknown),
-          query_vector_builder: S.optional(__S(1834, __c57, 10)),
-          num_candidates: S.optional(S.Number),
-          visit_percentage: S.optional(S.Number),
-          k: S.optional(S.Number),
-          filter: S.optional(S.Unknown),
-          similarity: S.optional(S.Number),
-          rescore_vector: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "TypesKnnQuery" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          case_insensitive: S.optional(S.Boolean),
-          default_field: S.optional(S.String),
-          query: S.String,
-          time_zone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslKqlQuery" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
-          cutoff_frequency: S.optional(S.Number),
-          fuzziness: S.optional(S.Unknown),
-          fuzzy_rewrite: S.optional(S.String),
-          fuzzy_transpositions: S.optional(S.Boolean),
-          lenient: S.optional(S.Boolean),
-          max_expansions: S.optional(S.Number),
-          minimum_should_match: S.optional(S.Unknown),
-          operator: S.optional(S.String),
-          prefix_length: S.optional(S.Number),
-          query: S.Unknown,
-          zero_terms_query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMatchQuery" });
-    case 24:
-      return S.Record(S.String, __S(1879, __c58, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMatchAllQuery" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          fuzziness: S.optional(S.Unknown),
-          fuzzy_rewrite: S.optional(S.String),
-          fuzzy_transpositions: S.optional(S.Boolean),
-          max_expansions: S.optional(S.Number),
-          minimum_should_match: S.optional(S.Unknown),
-          operator: S.optional(S.String),
-          prefix_length: S.optional(S.Number),
-          query: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslMatchBoolPrefixQuery" });
-    case 27:
-      return S.Record(S.String, __S(1882, __c58, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          query: S.String,
-          slop: S.optional(S.Number),
-          zero_terms_query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMatchPhraseQuery" });
-    case 29:
-      return S.Record(S.String, __S(1884, __c58, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          max_expansions: S.optional(S.Number),
-          query: S.String,
-          slop: S.optional(S.Number),
-          zero_terms_query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMatchPhrasePrefixQuery" });
-    case 31:
-      return S.Record(S.String, __S(1886, __c58, 30));
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          boost_terms: S.optional(S.Number),
-          fail_on_unsupported_field: S.optional(S.Boolean),
-          fields: S.optional(__S(1248, __c39, 0)),
-          include: S.optional(S.Boolean),
-          like: S.Unknown,
-          max_doc_freq: S.optional(S.Number),
-          max_query_terms: S.optional(S.Number),
-          max_word_length: S.optional(S.Number),
-          min_doc_freq: S.optional(S.Number),
-          minimum_should_match: S.optional(S.Unknown),
-          min_term_freq: S.optional(S.Number),
-          min_word_length: S.optional(S.Number),
-          routing: S.optional(S.String),
-          stop_words: S.optional(S.Unknown),
-          unlike: S.optional(S.Unknown),
-          version: S.optional(S.Number),
-          version_type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMoreLikeThisQuery" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
-          cutoff_frequency: S.optional(S.Number),
-          fields: S.optional(S.Unknown),
-          fuzziness: S.optional(S.Unknown),
-          fuzzy_rewrite: S.optional(S.String),
-          fuzzy_transpositions: S.optional(S.Boolean),
-          lenient: S.optional(S.Boolean),
-          max_expansions: S.optional(S.Number),
-          minimum_should_match: S.optional(S.Unknown),
-          operator: S.optional(S.String),
-          prefix_length: S.optional(S.Number),
-          query: S.String,
-          slop: S.optional(S.Number),
-          tie_breaker: S.optional(S.Number),
-          type: S.optional(S.String),
-          zero_terms_query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslMultiMatchQuery" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-          inner_hits: S.optional(__S(1847, __c57, 23)),
-          path: S.String,
-          query: S.suspend(() => __S(1938, __c60, 18)),
-          score_mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslNestedQuery" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          id: S.optional(S.String),
-          ignore_unmapped: S.optional(S.Boolean),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslParentIdQuery" });
-    case 4:
-      return S.Array(S.Unknown);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          document: S.optional(S.Unknown),
-          documents: S.optional(__S(1892, __c59, 4)),
-          field: S.String,
-          id: S.optional(S.String),
-          index: S.optional(S.String),
-          name: S.optional(S.String),
-          preference: S.optional(S.String),
-          routing: S.optional(S.String),
-          version: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesQueryDslPercolateQuery" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          _id: S.String,
-          _index: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslPinnedDoc" });
-    case 7:
-      return S.Array(__S(1894, __c59, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          organic: S.suspend(() => __S(1938, __c60, 18)),
-          ids: S.optional(__S(1248, __c39, 0)),
-          docs: S.optional(__S(1895, __c59, 7)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslPinnedQuery" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          rewrite: S.optional(S.String),
-          value: S.String,
-          case_insensitive: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslPrefixQuery" });
-    case 10:
-      return S.Record(S.String, __S(1897, __c59, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          allow_leading_wildcard: S.optional(S.Boolean),
-          analyzer: S.optional(S.String),
-          analyze_wildcard: S.optional(S.Boolean),
-          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
-          default_field: S.optional(S.String),
-          default_operator: S.optional(S.String),
-          enable_position_increments: S.optional(S.Boolean),
-          escape: S.optional(S.Boolean),
-          fields: S.optional(__S(1248, __c39, 0)),
-          fuzziness: S.optional(S.Unknown),
-          fuzzy_max_expansions: S.optional(S.Number),
-          fuzzy_prefix_length: S.optional(S.Number),
-          fuzzy_rewrite: S.optional(S.String),
-          fuzzy_transpositions: S.optional(S.Boolean),
-          lenient: S.optional(S.Boolean),
-          max_determinized_states: S.optional(S.Number),
-          minimum_should_match: S.optional(S.Unknown),
-          phrase_slop: S.optional(S.Number),
-          query: S.String,
-          quote_analyzer: S.optional(S.String),
-          quote_field_suffix: S.optional(S.String),
-          rewrite: S.optional(S.String),
-          tie_breaker: S.optional(S.Number),
-          time_zone: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslQueryStringQuery" });
-    case 12:
-      return S.Record(S.String, S.Unknown);
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          pivot: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionSaturation" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          scaling_factor: S.Number,
-        }),
-      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionLogarithm" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          pivot: S.Number,
-          exponent: S.Number,
-        }),
-      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionSigmoid" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          saturation: S.optional(__S(1901, __c59, 13)),
-          log: S.optional(__S(1902, __c59, 14)),
-          linear: S.optional(__S(1840, __c57, 16)),
-          sigmoid: S.optional(__S(1903, __c59, 15)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslRankFeatureQuery" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          case_insensitive: S.optional(S.Boolean),
-          flags: S.optional(S.String),
-          max_determinized_states: S.optional(S.Number),
-          rewrite: S.optional(S.String),
-          value: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslRegexpQuery" });
-    case 18:
-      return S.Record(S.String, __S(1905, __c59, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          organic: S.suspend(() => __S(1938, __c60, 18)),
-          ruleset_ids: S.optional(S.Unknown),
-          ruleset_id: S.optional(S.String),
-          match_criteria: S.Unknown,
-        }),
-      ).annotate({ identifier: "TypesQueryDslRuleQuery" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          script: __S(1792, __c56, 0),
-        }),
-      ).annotate({ identifier: "TypesQueryDslScriptQuery" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          min_score: S.optional(S.Number),
-          query: S.suspend(() => __S(1938, __c60, 18)),
-          script: __S(1792, __c56, 0),
-        }),
-      ).annotate({ identifier: "TypesQueryDslScriptScoreQuery" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslSemanticQuery" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          analyzer: S.optional(S.String),
-          analyze_wildcard: S.optional(S.Boolean),
-          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
-          default_operator: S.optional(S.String),
-          fields: S.optional(__S(1248, __c39, 0)),
-          flags: S.optional(S.Unknown),
-          fuzzy_max_expansions: S.optional(S.Number),
-          fuzzy_prefix_length: S.optional(S.Number),
-          fuzzy_transpositions: S.optional(S.Boolean),
-          lenient: S.optional(S.Boolean),
-          minimum_should_match: S.optional(S.Unknown),
-          query: S.String,
-          quote_field_suffix: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSimpleQueryStringQuery" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query: S.suspend(() => __S(1922, __c60, 2)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanFieldMaskingQuery" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          end: S.Number,
-          match: S.suspend(() => __S(1922, __c60, 2)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanFirstQuery" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          match: S.suspend(() => __S(1938, __c60, 18)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanMultiTermQuery" });
-    case 27:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1922, __c60, 2)));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          clauses: __S(1915, __c59, 27),
-          in_order: S.optional(S.Boolean),
-          slop: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanNearQuery" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          dist: S.optional(S.Number),
-          exclude: S.suspend(() => __S(1922, __c60, 2)),
-          include: S.suspend(() => __S(1922, __c60, 2)),
-          post: S.optional(S.Number),
-          pre: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanNotQuery" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          clauses: __S(1915, __c59, 27),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanOrQuery" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanTermQuery" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(1919, __c59, 31));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          big: S.suspend(() => __S(1922, __c60, 2)),
-          little: S.suspend(() => __S(1922, __c60, 2)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanWithinQuery" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          span_containing: S.optional(S.suspend(() => __S(1923, __c60, 3))),
-          span_field_masking: S.optional(__S(1912, __c59, 24)),
-          span_first: S.optional(__S(1913, __c59, 25)),
-          span_gap: S.optional(__S(1841, __c57, 17)),
-          span_multi: S.optional(__S(1914, __c59, 26)),
-          span_near: S.optional(__S(1916, __c59, 28)),
-          span_not: S.optional(__S(1917, __c59, 29)),
-          span_or: S.optional(__S(1918, __c59, 30)),
-          span_term: S.optional(__S(1920, __c60, 0)),
-          span_within: S.optional(__S(1921, __c60, 1)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanQuery" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          big: __S(1922, __c60, 2),
-          little: __S(1922, __c60, 2),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSpanContainingQuery" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          tokens_freq_ratio_threshold: S.optional(S.Number),
-          tokens_weight_threshold: S.optional(S.Number),
-          only_score_pruned_tokens: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesTokenPruningConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query: S.optional(S.String),
-          prune: S.optional(S.Boolean),
-          pruning_config: S.optional(__S(1924, __c60, 4)),
-          query_vector: S.optional(__S(1841, __c57, 17)),
-          inference_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslSparseVectorQuery" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          value: S.Unknown,
-          case_insensitive: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesQueryDslTermQuery" });
-    case 7:
-      return S.Record(S.String, __S(1926, __c60, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          minimum_should_match: S.optional(S.Unknown),
-          minimum_should_match_field: S.optional(S.String),
-          minimum_should_match_script: S.optional(__S(1792, __c56, 0)),
-          terms: __S(1849, __c57, 25),
-        }),
-      ).annotate({ identifier: "TypesQueryDslTermsSetQuery" });
-    case 9:
-      return S.Record(S.String, __S(1928, __c60, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          model_id: S.String,
-          model_text: S.String,
-          pruning_config: S.optional(__S(1924, __c60, 4)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslTextExpansionQuery" });
-    case 11:
-      return S.Record(S.String, __S(1930, __c60, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          tokens: S.Unknown,
-          pruning_config: S.optional(__S(1924, __c60, 4)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslWeightedTokensQuery" });
-    case 13:
-      return S.Record(S.String, __S(1932, __c60, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          case_insensitive: S.optional(S.Boolean),
-          rewrite: S.optional(S.String),
-          value: S.optional(S.String),
-          wildcard: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesQueryDslWildcardQuery" });
-    case 15:
-      return S.Record(S.String, __S(1934, __c60, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          query: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslWrapperQuery" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          boost: S.optional(S.Number),
-          _name: S.optional(S.String),
-          value: S.String,
-        }),
-      ).annotate({ identifier: "TypesQueryDslTypeQuery" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          bool: S.optional(__S(1825, __c57, 1)),
-          boosting: S.optional(__S(1826, __c57, 2)),
-          common: S.optional(__S(1828, __c57, 4)),
-          combined_fields: S.optional(__S(1829, __c57, 5)),
-          constant_score: S.optional(__S(1830, __c57, 6)),
-          dense_vector: S.optional(__S(1835, __c57, 11)),
-          dis_max: S.optional(__S(1836, __c57, 12)),
-          distance_feature: S.optional(S.Unknown),
-          exists: S.optional(__S(1837, __c57, 13)),
-          function_score: S.optional(__S(1852, __c57, 28)),
-          fuzzy: S.optional(__S(1854, __c57, 30)),
-          geo_bounding_box: S.optional(__S(1855, __c57, 31)),
-          geo_distance: S.optional(__S(1856, __c58, 0)),
-          geo_grid: S.optional(__S(1858, __c58, 2)),
-          geo_polygon: S.optional(__S(1859, __c58, 3)),
-          geo_shape: S.optional(__S(1860, __c58, 4)),
-          has_child: S.optional(__S(1861, __c58, 5)),
-          has_parent: S.optional(__S(1862, __c58, 6)),
-          ids: S.optional(__S(1863, __c58, 7)),
-          intervals: S.optional(__S(1876, __c58, 20)),
-          knn: S.optional(__S(1877, __c58, 21)),
-          kql: S.optional(__S(1878, __c58, 22)),
-          match: S.optional(__S(1880, __c58, 24)),
-          match_all: S.optional(__S(1881, __c58, 25)),
-          match_bool_prefix: S.optional(__S(1883, __c58, 27)),
-          match_none: S.optional(__S(1881, __c58, 25)),
-          match_phrase: S.optional(__S(1885, __c58, 29)),
-          match_phrase_prefix: S.optional(__S(1887, __c58, 31)),
-          more_like_this: S.optional(__S(1888, __c59, 0)),
-          multi_match: S.optional(__S(1889, __c59, 1)),
-          nested: S.optional(__S(1890, __c59, 2)),
-          parent_id: S.optional(__S(1891, __c59, 3)),
-          percolate: S.optional(__S(1893, __c59, 5)),
-          pinned: S.optional(__S(1896, __c59, 8)),
-          prefix: S.optional(__S(1898, __c59, 10)),
-          query_string: S.optional(__S(1899, __c59, 11)),
-          range: S.optional(__S(1900, __c59, 12)),
-          rank_feature: S.optional(__S(1904, __c59, 16)),
-          regexp: S.optional(__S(1906, __c59, 18)),
-          rule: S.optional(__S(1907, __c59, 19)),
-          script: S.optional(__S(1908, __c59, 20)),
-          script_score: S.optional(__S(1909, __c59, 21)),
-          semantic: S.optional(__S(1910, __c59, 22)),
-          shape: S.optional(__S(1860, __c58, 4)),
-          simple_query_string: S.optional(__S(1911, __c59, 23)),
-          span_containing: S.optional(__S(1923, __c60, 3)),
-          span_field_masking: S.optional(__S(1912, __c59, 24)),
-          span_first: S.optional(__S(1913, __c59, 25)),
-          span_multi: S.optional(__S(1914, __c59, 26)),
-          span_near: S.optional(__S(1916, __c59, 28)),
-          span_not: S.optional(__S(1917, __c59, 29)),
-          span_or: S.optional(__S(1918, __c59, 30)),
-          span_term: S.optional(__S(1920, __c60, 0)),
-          span_within: S.optional(__S(1921, __c60, 1)),
-          sparse_vector: S.optional(__S(1925, __c60, 5)),
-          term: S.optional(__S(1927, __c60, 7)),
-          terms: S.optional(__S(1881, __c58, 25)),
-          terms_set: S.optional(__S(1929, __c60, 9)),
-          text_expansion: S.optional(__S(1931, __c60, 11)),
-          weighted_tokens: S.optional(__S(1933, __c60, 13)),
-          wildcard: S.optional(__S(1935, __c60, 15)),
-          wrapper: S.optional(__S(1936, __c60, 16)),
-          type: S.optional(__S(1937, __c60, 17)),
-        }),
-      ).annotate({ identifier: "TypesQueryDslQueryContainer" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          document: S.Unknown,
-          index: S.String,
-          query: S.optional(__S(1938, __c60, 18)),
-        }),
-      ).annotate({ identifier: "GlobalScriptsPainlessExecutePainlessContextSetup" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.Unknown,
-        }),
-      ).annotate({ identifier: "ExecuteScriptsPainlessResponse" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          detailed: S.optional(S.Boolean.pipe(T.Query())),
-          nodes: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          parent_task_id: S.optional(S.String.pipe(T.Query())),
-          h: S.optional(S.Unknown.pipe(T.Query())),
-          s: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-          format: S.optional(S.String.pipe(T.Query())),
-          help: S.optional(S.Boolean.pipe(T.Query())),
-          v: S.optional(S.Boolean.pipe(T.Query())),
-          bytes: S.optional(S.String.pipe(T.Query())),
-          time: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_cat/tasks", code: 200 })),
-      ).annotate({ identifier: "CatTasksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          action: S.optional(S.String),
-          task_id: S.optional(S.String),
-          parent_task_id: S.optional(S.String),
-          type: S.optional(S.String),
-          start_time: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          running_time_ns: S.optional(S.String),
-          running_time: S.optional(S.String),
-          node_id: S.optional(S.String),
-          ip: S.optional(S.String),
-          port: S.optional(S.String),
-          node: S.optional(S.String),
-          version: S.optional(S.String),
-          x_opaque_id: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CatTasksTasksRecord" });
-    case 2:
-      return S.Array(__S(1985, __c62, 1));
-    case 3:
-      return S.suspend(() => __S(1986, __c62, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CatTasksResponse",
-      });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
-          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
-          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
-          search_type: S.optional(S.String.pipe(T.Query())),
-          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
-          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
-          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(2048, __c64, 0).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "GET", uri: "/_fleet/_fleet_msearch", code: 200 })),
-      ).annotate({ identifier: "FleetMsearchRequest" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          docs: __S(2049, __c64, 1),
-        }),
-      ).annotate({ identifier: "FleetMsearchResponse" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
-          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
-          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
-          search_type: S.optional(S.String.pipe(T.Query())),
-          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
-          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
-          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(2048, __c64, 0).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/_fleet/_fleet_msearch", code: 200 })),
-      ).annotate({ identifier: "FleetMsearch1Request" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
-          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
-          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
-          search_type: S.optional(S.String.pipe(T.Query())),
-          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
-          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
-          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(2048, __c64, 0).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
-      ).annotate({ identifier: "FleetMsearch2Request" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
-          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
-          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
-          search_type: S.optional(S.String.pipe(T.Query())),
-          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
-          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
-          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(2048, __c64, 0).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
-      ).annotate({ identifier: "FleetMsearch3Request" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          analyzer: S.optional(S.String.pipe(T.Query())),
-          analyze_wildcard: S.optional(S.Boolean.pipe(T.Query())),
-          batched_reduce_size: S.optional(S.Number.pipe(T.Query())),
-          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
-          default_operator: S.optional(S.String.pipe(T.Query())),
-          df: S.optional(S.String.pipe(T.Query())),
-          docvalue_fields: S.optional(S.Unknown.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          explain: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          lenient: S.optional(S.Boolean.pipe(T.Query())),
-          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
-          preference: S.optional(S.String.pipe(T.Query())),
-          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
-          request_cache: S.optional(S.Boolean.pipe(T.Query())),
-          routing: S.optional(S.Unknown.pipe(T.Query())),
-          scroll: S.optional(S.Unknown.pipe(T.Query())),
-          search_type: S.optional(S.String.pipe(T.Query())),
-          stats: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          stored_fields: S.optional(S.Unknown.pipe(T.Query())),
-          suggest_field: S.optional(S.String.pipe(T.Query())),
-          suggest_mode: S.optional(S.String.pipe(T.Query())),
-          suggest_size: S.optional(S.Number.pipe(T.Query())),
-          suggest_text: S.optional(S.String.pipe(T.Query())),
-          terminate_after: S.optional(S.Number.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          track_total_hits: S.optional(S.Unknown.pipe(T.Query())),
-          track_scores: S.optional(S.Boolean.pipe(T.Query())),
-          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
-          version: S.optional(S.Boolean.pipe(T.Query())),
-          _source: S.optional(S.Unknown.pipe(T.Query())),
-          _source_excludes: S.optional(S.Unknown.pipe(T.Query())),
-          _source_includes: S.optional(S.Unknown.pipe(T.Query())),
-          seq_no_primary_term: S.optional(S.Boolean.pipe(T.Query())),
-          q: S.optional(S.String.pipe(T.Query())),
-          size: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.Number.pipe(T.Query())),
-          sort: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
-          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          aggregations: S.optional(__S(2370, __c74, 2)),
-          collapse: S.optional(__S(1848, __c57, 24)),
-          ext: S.optional(__S(192, __c6, 0)),
-          highlight: S.optional(__S(1844, __c57, 20)),
-          indices_boost: S.optional(__S(2371, __c74, 3)),
-          min_score: S.optional(S.Number),
-          post_filter: S.optional(__S(1938, __c60, 18)),
-          profile: S.optional(S.Boolean),
-          query: S.optional(__S(1938, __c60, 18)),
-          rescore: S.optional(S.Unknown),
-          script_fields: S.optional(__S(1846, __c57, 22)),
-          search_after: S.optional(__S(1849, __c57, 25)),
-          slice: S.optional(__S(2391, __c74, 23)),
-          fields: S.optional(__S(1843, __c57, 19)),
-          suggest: S.optional(__S(2392, __c74, 24)),
-          pit: S.optional(__S(2393, __c74, 25)),
-          runtime_mappings: S.optional(__S(2470, __c77, 6)),
-        }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_search", code: 200 })),
-      ).annotate({ identifier: "FleetSearch1Request" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.optional(S.String),
-          node: S.optional(S.String),
-          reason: __S(1, __c0, 1),
-          shard: S.optional(S.Number),
-          status: S.optional(S.String),
-          primary: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesShardFailure" });
-    case 1:
-      return S.Array(__S(2240, __c70, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          failed: S.Number,
-          successful: S.Number,
-          total: S.Number,
-          failures: S.optional(__S(2241, __c70, 1)),
-          skipped: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesShardStatistics" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(
-        S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2369, __c74, 1)),
-      );
-    case 1:
-      return S.Record(
-        S.String,
-        /*@__PURE__*/ S.suspend(() => __S(1938, __c60, 18)),
-      );
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          filters: S.optional(__S(2273, __c71, 1)),
-          separator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAdjacencyMatrixAggregation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          buckets: S.optional(S.Number),
-          field: S.optional(S.String),
-          format: S.optional(S.String),
-          minimum_interval: S.optional(S.Unknown),
-          missing: S.optional(S.Unknown),
-          offset: S.optional(S.String),
-          params: S.optional(__S(192, __c6, 0)),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          time_zone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAutoDateHistogramAggregation" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAverageAggregation" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAverageBucketAggregation" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          compression: S.optional(S.Number),
-          execution_hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBoxplotAggregation" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketScriptAggregation" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Number),
-          gap_policy: S.optional(S.String),
-          size: S.optional(S.Number),
-          sort: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketSortAggregation" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          alternative: S.optional(__S(1248, __c39, 0)),
-          fractions: S.optional(__S(2080, __c65, 0)),
-          sampling_method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketKsAggregation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          doc_count: S.Number,
-          expectations: __S(2080, __c65, 0),
-          fractions: S.optional(__S(2080, __c65, 0)),
-        }),
-      ).annotate({
-        identifier: "TypesAggregationsBucketCorrelationFunctionCountCorrelationIndicator",
-      });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          indicator: __S(2282, __c71, 10),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketCorrelationFunctionCountCorrelation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          count_correlation: __S(2283, __c71, 11),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketCorrelationFunction" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          function: __S(2284, __c71, 12),
-        }),
-      ).annotate({ identifier: "TypesAggregationsBucketCorrelationAggregation" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          precision_threshold: S.optional(S.Number),
-          rehash: S.optional(S.Boolean),
-          execution_hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCardinalityAggregation" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCartesianBoundsAggregation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          max_unique_tokens: S.optional(S.Number),
-          max_matched_tokens: S.optional(S.Number),
-          similarity_threshold: S.optional(S.Number),
-          categorization_filters: S.optional(__S(1248, __c39, 0)),
-          categorization_analyzer: S.optional(S.Unknown),
-          shard_size: S.optional(S.Number),
-          size: S.optional(S.Number),
-          min_doc_count: S.optional(S.Number),
-          shard_min_doc_count: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCategorizeTextAggregation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsChildrenAggregation" });
-    case 18:
-      return S.Record(S.String, S.Unknown);
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing_bucket: S.optional(S.Boolean),
-          missing_order: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          value_type: S.optional(S.String),
-          order: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeTermsAggregation" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing_bucket: S.optional(S.Boolean),
-          missing_order: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          value_type: S.optional(S.String),
-          order: S.optional(S.String),
-          interval: S.Number,
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeHistogramAggregation" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing_bucket: S.optional(S.Boolean),
-          missing_order: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          value_type: S.optional(S.String),
-          order: S.optional(S.String),
-          format: S.optional(S.String),
-          calendar_interval: S.optional(S.String),
-          fixed_interval: S.optional(S.String),
-          offset: S.optional(S.Unknown),
-          time_zone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeDateHistogramAggregation" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing_bucket: S.optional(S.Boolean),
-          missing_order: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          value_type: S.optional(S.String),
-          order: S.optional(S.String),
-          precision: S.optional(S.Number),
-          bounds: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeGeoTileGridAggregation" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          terms: S.optional(__S(2291, __c71, 19)),
-          histogram: S.optional(__S(2292, __c71, 20)),
-          date_histogram: S.optional(__S(2293, __c71, 21)),
-          geotile_grid: S.optional(__S(2294, __c71, 22)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeAggregationSource" });
-    case 24:
-      return S.Record(S.String, __S(2295, __c71, 23));
-    case 25:
-      return S.Array(__S(2296, __c71, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(__S(2290, __c71, 18)),
-          size: S.optional(S.Number),
-          sources: S.optional(__S(2297, __c71, 25)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsCompositeAggregation" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          max: S.optional(S.Unknown),
-          min: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsExtendedBoundsFieldDateMath" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          calendar_interval: S.optional(S.String),
-          extended_bounds: S.optional(__S(2299, __c71, 27)),
-          hard_bounds: S.optional(__S(2299, __c71, 27)),
-          field: S.optional(S.String),
-          fixed_interval: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          interval: S.optional(S.Unknown),
-          min_doc_count: S.optional(S.Number),
-          missing: S.optional(S.Unknown),
-          offset: S.optional(S.Unknown),
-          order: S.optional(S.Unknown),
-          params: S.optional(__S(192, __c6, 0)),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          time_zone: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsDateHistogramAggregation" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Unknown),
-          key: S.optional(S.String),
-          to: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsDateRangeExpression" });
-    case 30:
-      return S.Array(__S(2301, __c71, 29));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          format: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          ranges: S.optional(__S(2302, __c71, 30)),
-          time_zone: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsDateRangeAggregation" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          execution_hint: S.optional(S.String),
-          max_docs_per_value: S.optional(S.Number),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          shard_size: S.optional(S.Number),
-          field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsDiversifiedSamplerAggregation" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          sigma: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsExtendedStatsAggregation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          sigma: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsExtendedStatsBucketAggregation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          exclude: S.optional(S.Unknown),
-          include: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsFrequentItemSetsField" });
-    case 4:
-      return S.Array(__S(2307, __c72, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          fields: __S(2308, __c72, 4),
-          minimum_set_size: S.optional(S.Number),
-          minimum_support: S.optional(S.Number),
-          size: S.optional(S.Number),
-          filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsFrequentItemSetsAggregation" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          filters: S.optional(S.Unknown),
-          other_bucket: S.optional(S.Boolean),
-          other_bucket_key: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsFiltersAggregation" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          wrap_longitude: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoBoundsAggregation" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          count: S.optional(S.Number),
-          location: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoCentroidAggregation" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Unknown),
-          key: S.optional(S.String),
-          to: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAggregationRange" });
-    case 10:
-      return S.Array(__S(2313, __c72, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          distance_type: S.optional(S.String),
-          field: S.optional(S.String),
-          origin: S.optional(S.Unknown),
-          ranges: S.optional(__S(2314, __c72, 10)),
-          unit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoDistanceAggregation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          bounds: S.optional(S.Unknown),
-          field: S.optional(S.String),
-          precision: S.optional(S.Unknown),
-          shard_size: S.optional(S.Number),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoHashGridAggregation" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoLinePoint" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          point: __S(2317, __c72, 13),
-          sort: S.optional(__S(2317, __c72, 13)),
-          include_sort: S.optional(S.Boolean),
-          sort_order: S.optional(S.String),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoLineAggregation" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          precision: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          size: S.optional(S.Number),
-          bounds: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeoTileGridAggregation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          precision: S.optional(S.Number),
-          bounds: S.optional(S.Unknown),
-          size: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGeohexGridAggregation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          max: S.optional(S.Number),
-          min: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsExtendedBoundsdouble" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          extended_bounds: S.optional(__S(2321, __c72, 17)),
-          hard_bounds: S.optional(__S(2321, __c72, 17)),
-          field: S.optional(S.String),
-          interval: S.optional(S.Number),
-          min_doc_count: S.optional(S.Number),
-          missing: S.optional(S.Number),
-          offset: S.optional(S.Number),
-          order: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsHistogramAggregation" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String),
-          mask: S.optional(S.String),
-          to: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsIpRangeAggregationRange" });
-    case 20:
-      return S.Array(__S(2323, __c72, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          ranges: S.optional(__S(2324, __c72, 20)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsIpRangeAggregation" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          prefix_length: S.Number,
-          is_ipv6: S.optional(S.Boolean),
-          append_prefix_length: S.optional(S.Boolean),
-          keyed: S.optional(S.Boolean),
-          min_doc_count: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsIpPrefixAggregation" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          num_top_classes: S.optional(S.Number),
-          num_top_feature_importance_values: S.optional(S.Number),
-          prediction_field_type: S.optional(S.String),
-          results_field: S.optional(S.String),
-          top_classes_results_field: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MlTypesClassificationInferenceOptions" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          regression: S.optional(__S(2464, __c77, 0)),
-          classification: S.optional(__S(2327, __c72, 23)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsInferenceConfigContainer" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          model_id: S.String,
-          inference_config: S.optional(__S(2328, __c72, 24)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsInferenceAggregation" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(S.Unknown),
-          missing: S.optional(__S(1841, __c57, 17)),
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMatrixStatsAggregation" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          compression: S.optional(S.Number),
-          execution_hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMedianAbsoluteDeviationAggregation" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMissingAggregation" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          window: S.optional(S.Number),
-          shift: S.optional(S.Number),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMovingPercentilesAggregation" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          script: S.optional(S.String),
-          shift: S.optional(S.Number),
-          window: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMovingFunctionAggregation" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          missing: S.optional(S.Unknown),
-          field: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMultiTermLookup" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2335, __c72, 31));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          collect_mode: S.optional(S.String),
-          order: S.optional(S.Unknown),
-          min_doc_count: S.optional(S.Number),
-          shard_min_doc_count: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          show_term_doc_count_error: S.optional(S.Boolean),
-          size: S.optional(S.Number),
-          terms: __S(2336, __c73, 0),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMultiTermsAggregation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsNestedAggregation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsNormalizeAggregation" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          number_of_significant_value_digits: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsHdrMethod" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          compression: S.optional(S.Number),
-          execution_hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTDigest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-          values: S.optional(S.Unknown),
-          hdr: S.optional(__S(2340, __c73, 4)),
-          tdigest: S.optional(__S(2341, __c73, 5)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsPercentileRanksAggregation" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          keyed: S.optional(S.Boolean),
-          percents: S.optional(S.Unknown),
-          hdr: S.optional(__S(2340, __c73, 4)),
-          tdigest: S.optional(__S(2341, __c73, 5)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsPercentilesAggregation" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          percents: S.optional(__S(2080, __c65, 0)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsPercentilesBucketAggregation" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Number),
-          ranges: S.optional(__S(2314, __c72, 10)),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          keyed: S.optional(S.Boolean),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsRangeAggregation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          exclude: S.optional(S.Unknown),
-          field: S.optional(S.String),
-          include: S.optional(S.Unknown),
-          max_doc_count: S.optional(S.Number),
-          missing: S.optional(S.Unknown),
-          precision: S.optional(S.Number),
-          value_type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsRareTermsAggregation" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          format: S.optional(S.String),
-          unit: S.optional(S.String),
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsRateAggregation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          probability: S.Number,
-          seed: S.optional(S.Number),
-          shard_seed: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsRandomSamplerAggregation" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          shard_size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsSamplerAggregation" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          combine_script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          init_script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          map_script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          params: S.optional(__S(192, __c6, 0)),
-          reduce_script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsScriptedMetricAggregation" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          buckets_path: S.optional(S.Unknown),
-          format: S.optional(S.String),
-          gap_policy: S.optional(S.String),
-          lag: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsSerialDifferencingAggregation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          background_is_superset: S.Boolean,
-          include_negatives: S.Boolean,
-        }),
-      ).annotate({ identifier: "TypesAggregationsChiSquareHeuristic" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          background_is_superset: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsGoogleNormalizedDistanceHeuristic" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          background_is_superset: S.optional(S.Boolean),
-          include_negatives: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsMutualInformationHeuristic" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          script: S.suspend(() => __S(1792, __c56, 0)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsScriptedHeuristic" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          background_is_superset: S.optional(S.Boolean),
-          normalize_above: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsPValueHeuristic" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          background_filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          chi_square: S.optional(__S(2352, __c73, 16)),
-          exclude: S.optional(S.Unknown),
-          execution_hint: S.optional(S.String),
-          field: S.optional(S.String),
-          gnd: S.optional(__S(2353, __c73, 17)),
-          include: S.optional(S.Unknown),
-          jlh: S.optional(S.Unknown),
-          min_doc_count: S.optional(S.Number),
-          mutual_information: S.optional(__S(2354, __c73, 18)),
-          percentage: S.optional(S.Unknown),
-          script_heuristic: S.optional(__S(2355, __c73, 19)),
-          p_value: S.optional(__S(2356, __c73, 20)),
-          shard_min_doc_count: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesAggregationsSignificantTermsAggregation" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          background_filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          chi_square: S.optional(__S(2352, __c73, 16)),
-          exclude: S.optional(S.Unknown),
-          execution_hint: S.optional(S.String),
-          field: S.optional(S.String),
-          filter_duplicate_text: S.optional(S.Boolean),
-          gnd: S.optional(__S(2353, __c73, 17)),
-          include: S.optional(S.Unknown),
-          jlh: S.optional(S.Unknown),
-          min_doc_count: S.optional(S.Number),
-          mutual_information: S.optional(__S(2354, __c73, 18)),
-          percentage: S.optional(S.Unknown),
-          script_heuristic: S.optional(__S(2355, __c73, 19)),
-          shard_min_doc_count: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          size: S.optional(S.Number),
-          source_fields: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsSignificantTextAggregation" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          show_distribution: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsStringStatsAggregation" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          collect_mode: S.optional(S.String),
-          exclude: S.optional(S.Unknown),
-          execution_hint: S.optional(S.String),
-          field: S.optional(S.String),
-          include: S.optional(S.Unknown),
-          min_doc_count: S.optional(S.Number),
-          missing: S.optional(S.Unknown),
-          missing_order: S.optional(S.String),
-          missing_bucket: S.optional(S.Boolean),
-          value_type: S.optional(S.String),
-          order: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          shard_min_doc_count: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          show_term_doc_count_error: S.optional(S.Boolean),
-          size: S.optional(S.Number),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTermsAggregation" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          size: S.optional(S.Number),
-          keyed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTimeSeriesAggregation" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Unknown),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          docvalue_fields: S.optional(__S(1843, __c57, 19)),
-          explain: S.optional(S.Boolean),
-          fields: S.optional(__S(1843, __c57, 19)),
-          from: S.optional(S.Number),
-          highlight: S.optional(__S(1844, __c57, 20)),
-          script_fields: S.optional(__S(1846, __c57, 22)),
-          size: S.optional(S.Number),
-          sort: S.optional(S.Unknown),
-          _source: S.optional(S.Unknown),
-          stored_fields: S.optional(S.Unknown),
-          track_scores: S.optional(S.Boolean),
-          version: S.optional(S.Boolean),
-          seq_no_primary_term: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTopHitsAggregation" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTestPopulation" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          a: S.optional(__S(2363, __c73, 27)),
-          b: S.optional(__S(2363, __c73, 27)),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTTestAggregation" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          metrics: S.optional(S.Unknown),
-          size: S.optional(S.Number),
-          sort: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TypesAggregationsTopMetricsAggregation" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          missing: S.optional(S.Number),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsWeightedAverageValue" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          format: S.optional(S.String),
-          value: S.optional(__S(2366, __c73, 30)),
-          value_type: S.optional(S.String),
-          weight: S.optional(__S(2366, __c73, 30)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsWeightedAverageAggregation" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          buckets: S.optional(S.Number),
-          shard_size: S.optional(S.Number),
-          initial_buffer: S.optional(S.Number),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-        }),
-      ).annotate({ identifier: "TypesAggregationsVariableWidthHistogramAggregation" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          aggregations: S.optional(__S(2272, __c71, 0)),
-          meta: S.optional(__S(192, __c6, 0)),
-          adjacency_matrix: S.optional(__S(2274, __c71, 2)),
-          auto_date_histogram: S.optional(__S(2275, __c71, 3)),
-          avg: S.optional(__S(2276, __c71, 4)),
-          avg_bucket: S.optional(__S(2277, __c71, 5)),
-          boxplot: S.optional(__S(2278, __c71, 6)),
-          bucket_script: S.optional(__S(2279, __c71, 7)),
-          bucket_selector: S.optional(__S(2279, __c71, 7)),
-          bucket_sort: S.optional(__S(2280, __c71, 8)),
-          bucket_count_ks_test: S.optional(__S(2281, __c71, 9)),
-          bucket_correlation: S.optional(__S(2285, __c71, 13)),
-          cardinality: S.optional(__S(2286, __c71, 14)),
-          cartesian_bounds: S.optional(__S(2287, __c71, 15)),
-          cartesian_centroid: S.optional(__S(2287, __c71, 15)),
-          categorize_text: S.optional(__S(2288, __c71, 16)),
-          change_point: S.optional(__S(2277, __c71, 5)),
-          children: S.optional(__S(2289, __c71, 17)),
-          composite: S.optional(__S(2298, __c71, 26)),
-          cumulative_cardinality: S.optional(__S(2277, __c71, 5)),
-          cumulative_sum: S.optional(__S(2277, __c71, 5)),
-          date_histogram: S.optional(__S(2300, __c71, 28)),
-          date_range: S.optional(__S(2303, __c71, 31)),
-          derivative: S.optional(__S(2277, __c71, 5)),
-          diversified_sampler: S.optional(__S(2304, __c72, 0)),
-          extended_stats: S.optional(__S(2305, __c72, 1)),
-          extended_stats_bucket: S.optional(__S(2306, __c72, 2)),
-          frequent_item_sets: S.optional(__S(2309, __c72, 5)),
-          filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          filters: S.optional(__S(2310, __c72, 6)),
-          geo_bounds: S.optional(__S(2311, __c72, 7)),
-          geo_centroid: S.optional(__S(2312, __c72, 8)),
-          geo_distance: S.optional(__S(2315, __c72, 11)),
-          geohash_grid: S.optional(__S(2316, __c72, 12)),
-          geo_line: S.optional(__S(2318, __c72, 14)),
-          geotile_grid: S.optional(__S(2319, __c72, 15)),
-          geohex_grid: S.optional(__S(2320, __c72, 16)),
-          global: S.optional(__S(1840, __c57, 16)),
-          histogram: S.optional(__S(2322, __c72, 18)),
-          ip_range: S.optional(__S(2325, __c72, 21)),
-          ip_prefix: S.optional(__S(2326, __c72, 22)),
-          inference: S.optional(__S(2329, __c72, 25)),
-          line: S.optional(__S(2318, __c72, 14)),
-          matrix_stats: S.optional(__S(2330, __c72, 26)),
-          max: S.optional(__S(2276, __c71, 4)),
-          max_bucket: S.optional(__S(2277, __c71, 5)),
-          median_absolute_deviation: S.optional(__S(2331, __c72, 27)),
-          min: S.optional(__S(2276, __c71, 4)),
-          min_bucket: S.optional(__S(2277, __c71, 5)),
-          missing: S.optional(__S(2332, __c72, 28)),
-          moving_avg: S.optional(S.Unknown),
-          moving_percentiles: S.optional(__S(2333, __c72, 29)),
-          moving_fn: S.optional(__S(2334, __c72, 30)),
-          multi_terms: S.optional(__S(2337, __c73, 1)),
-          nested: S.optional(__S(2338, __c73, 2)),
-          normalize: S.optional(__S(2339, __c73, 3)),
-          parent: S.optional(__S(2289, __c71, 17)),
-          percentile_ranks: S.optional(__S(2342, __c73, 6)),
-          percentiles: S.optional(__S(2343, __c73, 7)),
-          percentiles_bucket: S.optional(__S(2344, __c73, 8)),
-          range: S.optional(__S(2345, __c73, 9)),
-          rare_terms: S.optional(__S(2346, __c73, 10)),
-          rate: S.optional(__S(2347, __c73, 11)),
-          reverse_nested: S.optional(__S(2338, __c73, 2)),
-          random_sampler: S.optional(__S(2348, __c73, 12)),
-          sampler: S.optional(__S(2349, __c73, 13)),
-          scripted_metric: S.optional(__S(2350, __c73, 14)),
-          serial_diff: S.optional(__S(2351, __c73, 15)),
-          significant_terms: S.optional(__S(2357, __c73, 21)),
-          significant_text: S.optional(__S(2358, __c73, 22)),
-          stats: S.optional(__S(2276, __c71, 4)),
-          stats_bucket: S.optional(__S(2277, __c71, 5)),
-          string_stats: S.optional(__S(2359, __c73, 23)),
-          sum: S.optional(__S(2276, __c71, 4)),
-          sum_bucket: S.optional(__S(2277, __c71, 5)),
-          terms: S.optional(__S(2360, __c73, 24)),
-          time_series: S.optional(__S(2361, __c73, 25)),
-          top_hits: S.optional(__S(2362, __c73, 26)),
-          t_test: S.optional(__S(2364, __c73, 28)),
-          top_metrics: S.optional(__S(2365, __c73, 29)),
-          value_count: S.optional(__S(2276, __c71, 4)),
-          weighted_avg: S.optional(__S(2367, __c73, 31)),
-          variable_width_histogram: S.optional(__S(2368, __c74, 0)),
-        }),
-      ).annotate({ identifier: "TypesAggregationsAggregationContainer" });
-    case 2:
-      return S.Record(S.String, __S(2369, __c74, 1));
-    case 3:
-      return S.Array(__S(1841, __c57, 17));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          rank_constant: S.optional(S.Number),
-          rank_window_size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesRrfRank" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          rrf: S.optional(__S(2372, __c74, 4)),
-        }),
-      ).annotate({ identifier: "TypesRankContainer" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          query: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          search_after: S.optional(__S(1849, __c57, 25)),
-          terminate_after: S.optional(S.Number),
-          sort: S.optional(S.Unknown),
-          collapse: S.optional(__S(1848, __c57, 24)),
-        }),
-      ).annotate({ identifier: "TypesStandardRetriever" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          field: S.String,
-          query_vector: S.optional(S.Unknown),
-          query_vector_builder: S.optional(__S(1834, __c57, 10)),
-          k: S.Number,
-          num_candidates: S.optional(S.Number),
-          visit_percentage: S.optional(S.Number),
-          similarity: S.optional(S.Number),
-          rescore_vector: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "TypesKnnRetriever" });
-    case 8:
-      return S.Array(S.Unknown);
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          retrievers: __S(2376, __c74, 8),
-          rank_constant: S.optional(S.Number),
-          rank_window_size: S.optional(S.Number),
-          query: S.optional(S.String),
-          fields: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "TypesRRFRetriever" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          max_chunk_size: S.Number,
-          overlap: S.optional(S.Number),
-          sentence_overlap: S.optional(S.Number),
-          separator_group: S.optional(S.String),
-          separators: S.optional(__S(1248, __c39, 0)),
-          strategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesMappingChunkRescorerChunkingSettings" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          size: S.optional(S.Number),
-          chunking_settings: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "TypesChunkRescorer" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          rank_window_size: S.optional(S.Number),
-          inference_id: S.optional(S.String),
-          inference_text: S.String,
-          field: S.String,
-          chunk_rescorer: S.optional(__S(2379, __c74, 11)),
-        }),
-      ).annotate({ identifier: "TypesTextSimilarityReranker" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          ruleset_ids: S.Unknown,
-          match_criteria: S.Unknown,
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          rank_window_size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesRuleRetriever" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          rescore: S.Unknown,
-        }),
-      ).annotate({ identifier: "TypesRescorerRetriever" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          weight: S.optional(S.Number),
-          normalizer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesInnerRetriever" });
-    case 16:
-      return S.Array(__S(2383, __c74, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          retrievers: S.optional(__S(2384, __c74, 16)),
-          rank_window_size: S.optional(S.Number),
-          query: S.optional(S.String),
-          fields: S.optional(__S(1248, __c39, 0)),
-          normalizer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesLinearRetriever" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.optional(S.String),
-          id: S.String,
-        }),
-      ).annotate({ identifier: "TypesSpecifiedDocument" });
-    case 19:
-      return S.Array(__S(2386, __c74, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          ids: S.optional(__S(1248, __c39, 0)),
-          docs: S.optional(__S(2387, __c74, 19)),
-          rank_window_size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesPinnedRetriever" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.Unknown),
-          min_score: S.optional(S.Number),
-          _name: S.optional(S.String),
-          type: S.String,
-          field: S.String,
-          retriever: S.suspend(() => __S(2390, __c74, 22)),
-          size: S.optional(S.Number),
-          rank_window_size: S.optional(S.Number),
-          query_vector: S.optional(S.Unknown),
-          query_vector_builder: S.optional(__S(1834, __c57, 10)),
-          lambda: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TypesDiversifyRetriever" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          standard: S.optional(__S(2374, __c74, 6)),
-          knn: S.optional(__S(2375, __c74, 7)),
-          rrf: S.optional(__S(2377, __c74, 9)),
-          text_similarity_reranker: S.optional(__S(2380, __c74, 12)),
-          rule: S.optional(__S(2381, __c74, 13)),
-          rescorer: S.optional(__S(2382, __c74, 14)),
-          linear: S.optional(__S(2385, __c74, 17)),
-          pinned: S.optional(__S(2388, __c74, 20)),
-          diversify: S.optional(__S(2389, __c74, 21)),
-        }),
-      ).annotate({ identifier: "TypesRetrieverContainer" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          id: S.String,
-          max: S.Number,
-        }),
-      ).annotate({ identifier: "TypesSlicedScroll" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesSuggester" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          keep_alive: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesPointInTimeReference" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          aggregations: S.optional(__S(2370, __c74, 2)),
-          collapse: S.optional(__S(1848, __c57, 24)),
-          explain: S.optional(S.Boolean),
-          ext: S.optional(__S(192, __c6, 0)),
-          from: S.optional(S.Number),
-          highlight: S.optional(__S(1844, __c57, 20)),
-          track_total_hits: S.optional(S.Unknown),
-          indices_boost: S.optional(__S(2371, __c74, 3)),
-          docvalue_fields: S.optional(__S(1843, __c57, 19)),
-          knn: S.optional(S.Unknown),
-          rank: S.optional(__S(2373, __c74, 5)),
-          min_score: S.optional(S.Number),
-          post_filter: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          profile: S.optional(S.Boolean),
-          query: S.optional(S.suspend(() => __S(1938, __c60, 18))),
-          rescore: S.optional(S.Unknown),
-          retriever: S.optional(__S(2390, __c74, 22)),
-          script_fields: S.optional(__S(1846, __c57, 22)),
-          search_after: S.optional(__S(1849, __c57, 25)),
-          size: S.optional(S.Number),
-          slice: S.optional(__S(2391, __c74, 23)),
-          sort: S.optional(S.Unknown),
-          _source: S.optional(S.Unknown),
-          fields: S.optional(__S(1843, __c57, 19)),
-          suggest: S.optional(__S(2392, __c74, 24)),
-          terminate_after: S.optional(S.Number),
-          timeout: S.optional(S.String),
-          track_scores: S.optional(S.Boolean),
-          version: S.optional(S.Boolean),
-          seq_no_primary_term: S.optional(S.Boolean),
-          stored_fields: S.optional(S.Unknown),
-          pit: S.optional(__S(2393, __c74, 25)),
-          runtime_mappings: S.optional(__S(2470, __c77, 6)),
-          stats: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesSearchRequestBody" });
-    case 27:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2396, __c74, 28)));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          details: S.optional(__S(2395, __c74, 27)),
-          value: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalExplainExplanationDetail" });
-    case 29:
-      return S.Array(__S(2396, __c74, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          details: __S(2397, __c74, 29),
-          value: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalExplainExplanation" });
-    case 31:
-      return S.Record(S.String, __S(1248, __c39, 0));
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          hits: S.suspend(() => __S(2406, __c75, 6)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesInnerHitsResult" });
-    case 1:
-      return S.Record(S.String, __S(2400, __c75, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          offset: S.Number,
-          _nested: S.optional(__S(2402, __c75, 2)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesNestedIdentity" });
-    case 3:
-      return S.Record(S.String, __S(1892, __c59, 4));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          _index: S.String,
-          _id: S.optional(S.String),
-          _score: S.optional(S.Unknown),
-          _explanation: S.optional(__S(2398, __c74, 30)),
-          fields: S.optional(__S(192, __c6, 0)),
-          highlight: S.optional(__S(2399, __c74, 31)),
-          inner_hits: S.optional(__S(2401, __c75, 1)),
-          matched_queries: S.optional(S.Unknown),
-          _nested: S.optional(__S(2402, __c75, 2)),
-          _ignored: S.optional(__S(1248, __c39, 0)),
-          ignored_field_values: S.optional(__S(2403, __c75, 3)),
-          _shard: S.optional(S.String),
-          _node: S.optional(S.String),
-          _routing: S.optional(S.String),
-          _source: S.optional(S.Unknown),
-          _rank: S.optional(S.Number),
-          _seq_no: S.optional(S.Number),
-          _primary_term: S.optional(S.Number),
-          _version: S.optional(S.Number),
-          sort: S.optional(__S(1849, __c57, 25)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesHit" });
-    case 5:
-      return S.Array(__S(2404, __c75, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.optional(S.Unknown),
-          hits: __S(2405, __c75, 5),
-          max_score: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesHitsMetadata" });
-    case 7:
-      return S.Record(S.String, S.Unknown);
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          indices: S.String,
-          took: S.optional(S.Number),
-          timed_out: S.Boolean,
-          _shards: S.optional(__S(2242, __c70, 2)),
-          failures: S.optional(__S(2241, __c70, 1)),
-        }),
-      ).annotate({ identifier: "TypesClusterDetails" });
-    case 9:
-      return S.Record(S.String, __S(2408, __c75, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          skipped: S.Number,
-          successful: S.Number,
-          total: S.Number,
-          running: S.Number,
-          partial: S.Number,
-          failed: S.Number,
-          details: S.optional(__S(2409, __c75, 9)),
-        }),
-      ).annotate({ identifier: "TypesClusterStatistics" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          build_aggregation: S.Number,
-          build_aggregation_count: S.Number,
-          build_leaf_collector: S.Number,
-          build_leaf_collector_count: S.Number,
-          collect: S.Number,
-          collect_count: S.Number,
-          initialize: S.Number,
-          initialize_count: S.Number,
-          post_collection: S.optional(S.Number),
-          post_collection_count: S.optional(S.Number),
-          reduce: S.Number,
-          reduce_count: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesAggregationBreakdown" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          results_from_metadata: S.optional(S.Number),
-          query: S.optional(S.String),
-          specialized_for: S.optional(S.String),
-          segments_counted_in_constant_time: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesAggregationProfileDelegateDebugFilter" });
-    case 13:
-      return S.Array(__S(2412, __c75, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          segments_with_multi_valued_ords: S.optional(S.Number),
-          collection_strategy: S.optional(S.String),
-          segments_with_single_valued_ords: S.optional(S.Number),
-          total_buckets: S.optional(S.Number),
-          built_buckets: S.optional(S.Number),
-          result_strategy: S.optional(S.String),
-          has_filter: S.optional(S.Boolean),
-          delegate: S.optional(S.String),
-          delegate_debug: S.optional(__S(2414, __c75, 14)),
-          chars_fetched: S.optional(S.Number),
-          extract_count: S.optional(S.Number),
-          extract_ns: S.optional(S.Number),
-          values_fetched: S.optional(S.Number),
-          collect_analyzed_ns: S.optional(S.Number),
-          collect_analyzed_count: S.optional(S.Number),
-          surviving_buckets: S.optional(S.Number),
-          ordinals_collectors_used: S.optional(S.Number),
-          ordinals_collectors_overhead_too_high: S.optional(S.Number),
-          string_hashing_collectors_used: S.optional(S.Number),
-          numeric_collectors_used: S.optional(S.Number),
-          empty_collectors_used: S.optional(S.Number),
-          deferred_aggregators: S.optional(__S(1248, __c39, 0)),
-          segments_with_doc_count_field: S.optional(S.Number),
-          segments_with_deleted_docs: S.optional(S.Number),
-          filters: S.optional(__S(2413, __c75, 13)),
-          segments_counted: S.optional(S.Number),
-          segments_collected: S.optional(S.Number),
-          map_reducer: S.optional(S.String),
-          brute_force_used: S.optional(S.Number),
-          dynamic_pruning_attempted: S.optional(S.Number),
-          dynamic_pruning_used: S.optional(S.Number),
-          skipped_due_to_no_data: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesAggregationProfileDebug" });
-    case 15:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2416, __c75, 16)));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          breakdown: __S(2411, __c75, 11),
-          description: S.String,
-          time_in_nanos: S.Number,
-          type: S.String,
-          debug: S.optional(__S(2414, __c75, 14)),
-          children: S.optional(__S(2415, __c75, 15)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesAggregationProfile" });
-    case 17:
-      return S.Array(__S(2416, __c75, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          collection_statistics: S.Number,
-          collection_statistics_count: S.Number,
-          create_weight: S.Number,
-          create_weight_count: S.Number,
-          rewrite: S.Number,
-          rewrite_count: S.Number,
-          term_statistics: S.Number,
-          term_statistics_count: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesDfsStatisticsBreakdown" });
-    case 19:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2420, __c75, 20)));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          description: S.String,
-          time: S.optional(S.Unknown),
-          time_in_nanos: S.Number,
-          breakdown: __S(2418, __c75, 18),
-          debug: S.optional(__S(192, __c6, 0)),
-          children: S.optional(__S(2419, __c75, 19)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesDfsStatisticsProfile" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          advance: S.Number,
-          advance_count: S.Number,
-          build_scorer: S.Number,
-          build_scorer_count: S.Number,
-          compute_max_score: S.Number,
-          compute_max_score_count: S.Number,
-          count_weight: S.Number,
-          count_weight_count: S.Number,
-          create_weight: S.Number,
-          create_weight_count: S.Number,
-          match: S.Number,
-          match_count: S.Number,
-          next_doc: S.Number,
-          next_doc_count: S.Number,
-          score: S.Number,
-          score_count: S.Number,
-          set_min_competitive_score: S.Number,
-          set_min_competitive_score_count: S.Number,
-          shallow_advance: S.Number,
-          shallow_advance_count: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesKnnQueryProfileBreakdown" });
-    case 22:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2423, __c75, 23)));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          description: S.String,
-          time: S.optional(S.Unknown),
-          time_in_nanos: S.Number,
-          breakdown: __S(2421, __c75, 21),
-          debug: S.optional(__S(192, __c6, 0)),
-          children: S.optional(__S(2422, __c75, 22)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesKnnQueryProfileResult" });
-    case 24:
-      return S.Array(__S(2423, __c75, 23));
-    case 25:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2426, __c75, 26)));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          reason: S.String,
-          time: S.optional(S.Unknown),
-          time_in_nanos: S.Number,
-          children: S.optional(__S(2425, __c75, 25)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesKnnCollectorResult" });
-    case 27:
-      return S.Array(__S(2426, __c75, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          vector_operations_count: S.optional(S.Number),
-          query: __S(2424, __c75, 24),
-          rewrite_time: S.Number,
-          collector: __S(2427, __c75, 27),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesDfsKnnProfile" });
-    case 29:
-      return S.Array(__S(2428, __c75, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          statistics: S.optional(__S(2420, __c75, 20)),
-          knn: S.optional(__S(2429, __c75, 29)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesDfsProfile" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          load_source: S.optional(S.Number),
-          load_source_count: S.optional(S.Number),
-          load_stored_fields: S.optional(S.Number),
-          load_stored_fields_count: S.optional(S.Number),
-          next_reader: S.optional(S.Number),
-          next_reader_count: S.optional(S.Number),
-          process_count: S.optional(S.Number),
-          process: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesFetchProfileBreakdown" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stored_fields: S.optional(__S(1248, __c39, 0)),
-          fast_path: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesFetchProfileDebug" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2434, __c76, 2)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          description: S.String,
-          time_in_nanos: S.Number,
-          breakdown: __S(2431, __c75, 31),
-          debug: S.optional(__S(2432, __c76, 0)),
-          children: S.optional(__S(2433, __c76, 1)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesFetchProfile" });
-    case 3:
-      return S.Array(S.Unknown);
-    case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2437, __c76, 5)));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          reason: S.String,
-          time_in_nanos: S.Number,
-          children: S.optional(__S(2436, __c76, 4)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesCollector" });
-    case 6:
-      return S.Array(__S(2437, __c76, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          advance: S.Number,
-          advance_count: S.Number,
-          build_scorer: S.Number,
-          build_scorer_count: S.Number,
-          create_weight: S.Number,
-          create_weight_count: S.Number,
-          into_bit_set: S.Number,
-          into_bit_set_count: S.Number,
-          match: S.Number,
-          match_count: S.Number,
-          shallow_advance: S.Number,
-          shallow_advance_count: S.Number,
-          next_doc: S.Number,
-          next_doc_count: S.Number,
-          score: S.Number,
-          score_count: S.Number,
-          compute_max_score: S.Number,
-          compute_max_score_count: S.Number,
-          count_weight: S.Number,
-          count_weight_count: S.Number,
-          set_min_competitive_score: S.Number,
-          set_min_competitive_score_count: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesQueryBreakdown" });
-    case 8:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2441, __c76, 9)));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          breakdown: __S(2439, __c76, 7),
-          description: S.String,
-          time_in_nanos: S.Number,
-          type: S.String,
-          debug: S.optional(__S(192, __c6, 0)),
-          children: S.optional(__S(2440, __c76, 8)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesQueryProfile" });
-    case 10:
-      return S.Array(__S(2441, __c76, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          collector: __S(2438, __c76, 6),
-          query: __S(2442, __c76, 10),
-          rewrite_time: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesSearchProfile" });
-    case 12:
-      return S.Array(__S(2443, __c76, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          aggregations: __S(2417, __c75, 17),
-          cluster: S.String,
-          dfs: S.optional(__S(2430, __c75, 30)),
-          fetch: S.optional(__S(2434, __c76, 2)),
-          id: S.String,
-          index: S.String,
-          node_id: S.String,
-          rescore: S.optional(__S(2435, __c76, 3)),
-          searches: __S(2444, __c76, 12),
-          shard_id: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesShardProfile" });
-    case 14:
-      return S.Array(__S(2445, __c76, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(__S(2394, __c74, 26)),
-          indices: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesSearchRequestCoordinatorMetadata" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          shards: __S(2446, __c76, 14),
-          request: S.optional(__S(2447, __c76, 15)),
-        }),
-      ).annotate({ identifier: "GlobalSearchTypesProfile" });
-    case 17:
-      return S.Array(S.Unknown);
-    case 18:
-      return S.Record(S.String, __S(2449, __c76, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          took: S.Number,
-          timed_out: S.Boolean,
-          _shards: __S(2242, __c70, 2),
-          hits: __S(2406, __c75, 6),
-          aggregations: S.optional(__S(2407, __c75, 7)),
-          _clusters: S.optional(__S(2410, __c75, 10)),
-          fields: S.optional(__S(192, __c6, 0)),
-          max_score: S.optional(S.Number),
-          num_reduce_phases: S.optional(S.Number),
-          profile: S.optional(__S(2448, __c76, 16)),
-          pit_id: S.optional(S.String),
-          _scroll_id: S.optional(S.String),
-          suggest: S.optional(__S(2450, __c76, 18)),
-          terminated_early: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FleetSearch1Response" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          results_field: S.optional(S.String),
-          num_top_feature_importance_values: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MlTypesRegressionInferenceOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "TypesMappingCompositeSubField" });
-    case 2:
-      return S.Record(S.String, __S(2465, __c77, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesMappingRuntimeFieldFetchFields" });
-    case 4:
-      return S.Array(__S(2467, __c77, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(__S(2466, __c77, 2)),
-          fetch_fields: S.optional(__S(2468, __c77, 4)),
-          format: S.optional(S.String),
-          input_field: S.optional(S.String),
-          target_field: S.optional(S.String),
-          target_index: S.optional(S.String),
-          script: S.optional(S.suspend(() => __S(1792, __c56, 0))),
-          on_script_error: S.optional(S.String),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "TypesMappingRuntimeField" });
-    case 6:
-      return S.Record(S.String, __S(2469, __c77, 5));
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          include_deleted: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_connector/{connector_id}", code: 200 })),
-      ).annotate({ identifier: "GetConnectorRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          max_crawl_depth: S.optional(S.Number),
-          sitemap_discovery_disabled: S.optional(S.Boolean),
-          domain_allowlist: S.optional(__S(1248, __c39, 0)),
-          sitemap_urls: S.optional(__S(1248, __c39, 0)),
-          seed_urls: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "ConnectorTypesCustomSchedulingConfigurationOverrides" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          configuration_overrides: __S(2528, __c79, 0),
-          enabled: S.Boolean,
-          interval: S.String,
-          last_synced: S.optional(S.Unknown),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ConnectorTypesCustomScheduling" });
-    case 2:
-      return S.Record(S.String, __S(2529, __c79, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          api_key_id: S.optional(S.String),
-          api_key_secret_id: S.optional(S.String),
-          configuration: __S(326, __c10, 6),
-          custom_scheduling: __S(2530, __c79, 2),
-          deleted: S.Boolean,
-          description: S.optional(S.String),
-          error: S.optional(S.String),
-          features: S.optional(__S(417, __c13, 1)),
-          filtering: __S(577, __c18, 1),
-          id: S.optional(S.String),
-          index_name: S.optional(S.String),
-          is_native: S.Boolean,
-          language: S.optional(S.String),
-          last_access_control_sync_error: S.optional(S.String),
-          last_access_control_sync_scheduled_at: S.optional(S.Unknown),
-          last_access_control_sync_status: S.optional(S.String),
-          last_deleted_document_count: S.optional(S.Number),
-          last_incremental_sync_scheduled_at: S.optional(S.Unknown),
-          last_indexed_document_count: S.optional(S.Number),
-          last_seen: S.optional(S.Unknown),
-          last_sync_error: S.optional(S.String),
-          last_sync_scheduled_at: S.optional(S.Unknown),
-          last_sync_status: S.optional(S.String),
-          last_synced: S.optional(S.Unknown),
-          name: S.optional(S.String),
-          pipeline: S.optional(__S(832, __c26, 0)),
-          scheduling: __S(897, __c28, 1),
-          service_type: S.optional(S.String),
-          status: S.String,
-          sync_cursor: S.optional(S.Unknown),
-          sync_now: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConnectorTypesConnector" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_sync_job_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/_connector/_sync_job/{connector_sync_job_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetConnectorSyncJobRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          configuration: __S(326, __c10, 6),
-          filtering: __S(547, __c17, 3),
-          id: S.String,
-          index_name: S.String,
-          language: S.optional(S.String),
-          pipeline: S.optional(__S(832, __c26, 0)),
-          service_type: S.String,
-          sync_cursor: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ConnectorTypesSyncJobConnectorReference" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cancelation_requested_at: S.optional(S.Unknown),
-          canceled_at: S.optional(S.Unknown),
-          completed_at: S.optional(S.Unknown),
-          connector: __S(2592, __c81, 0),
-          created_at: S.Unknown,
-          deleted_document_count: S.Number,
-          error: S.optional(S.String),
-          id: S.String,
-          indexed_document_count: S.Number,
-          indexed_document_volume: S.Number,
-          job_type: S.String,
-          last_seen: S.optional(S.Unknown),
-          metadata: __S(192, __c6, 0),
-          started_at: S.optional(S.Unknown),
-          status: S.String,
-          total_document_count: S.Number,
-          trigger_method: S.String,
-          worker_hostname: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectorTypesConnectorSyncJob" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          task_id: S.String.pipe(T.Label()),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_tasks/{task_id}", code: 200 })),
-      ).annotate({ identifier: "GetTaskRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          completed: S.Boolean,
-          task: __S(1280, __c40, 0),
-          response: S.optional(S.Unknown),
-          error: S.optional(__S(1, __c0, 1)),
-        }),
-      ).annotate({ identifier: "GetTaskResponse" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          flush: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          run_expensive_tasks: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/{index}/_disk_usage", code: 200 })),
-      ).annotate({ identifier: "IndicesDiskUsageRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          fields: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/{index}/_field_usage_stats", code: 200 })),
-      ).annotate({ identifier: "IndicesFieldUsageStatsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _shards: __S(2242, __c70, 2),
-        }),
-      ).annotate({ identifier: "IndicesFieldUsageStatsFieldsUsageBody" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_sync_job_id: S.String.pipe(T.Label()),
-          sync_cursor: S.optional(S.Unknown),
-          worker_hostname: S.String,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/_connector/_sync_job/{connector_sync_job_id}/_claim",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ClaimConnectorSyncJobRequest" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "ClaimConnectorSyncJobResponse",
-      });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          questions: S.optional(__S(2784, __c87, 0)),
-        }),
-      ).annotate({ identifier: "InferenceDecisionDecisionTaskSettings" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          inference_id: S.String.pipe(T.Label()),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          input: S.Unknown,
-          task_settings: S.optional(__S(2785, __c87, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/_inference/decision/{inference_id}", code: 200 })),
-      ).annotate({ identifier: "InferenceDecisionRequest" });
-    case 3:
-      return S.Record(S.String, S.Unknown);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          answers: __S(2787, __c87, 3),
-        }),
-      ).annotate({ identifier: "InferenceTypesDecisionResult" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          decision: __S(2788, __c87, 4),
-        }),
-      ).annotate({ identifier: "InferenceTypesDecisionInferenceResult" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          output_format: S.optional(S.String),
-          parameters: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "InferenceDocumentExtractionDocumentExtractionTaskSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          inference_id: S.String.pipe(T.Label()),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          input: S.Unknown,
-          task_settings: S.optional(__S(2816, __c88, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/_inference/document_extraction/{inference_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "InferenceDocumentExtractionRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          content: S.String,
-          format: S.String,
-          metadata: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "InferenceTypesDocumentExtractionResult" });
-    case 3:
-      return S.Array(__S(2818, __c88, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          document_extraction: __S(2819, __c88, 3),
-        }),
-      ).annotate({ identifier: "InferenceTypesDocumentExtractionInferenceResult" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          inference_id: S.String.pipe(T.Label()),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          input: S.Unknown,
-          input_type: S.optional(S.String),
-          task_settings: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "POST", uri: "/_inference/embedding/{inference_id}", code: 200 })),
-      ).annotate({ identifier: "InferenceEmbeddingRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          embedding: __S(2080, __c65, 0),
-        }),
-      ).annotate({ identifier: "InferenceTypesDenseEmbeddingByteResult" });
-    case 2:
-      return S.Array(__S(2849, __c89, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          embeddings_bytes: S.optional(__S(2850, __c89, 2)),
-          embeddings_bits: S.optional(__S(2850, __c89, 2)),
-          embeddings: S.optional(__S(2850, __c89, 2)),
-        }),
-      ).annotate({ identifier: "InferenceTypesEmbeddingInferenceResult" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-          field: S.String,
-          k: S.Number,
-          query_source: S.Unknown,
-          baseline: S.optional(__S(2912, __c91, 0)),
-          knn_settings: __S(2913, __c91, 1),
-          allow_exact_baseline: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "GET", uri: "/{index}/_knn_eval", code: 200 })),
-      ).annotate({ identifier: "KnnEvalRequest" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          visit_percentage: S.optional(S.Number),
-          num_candidates: S.optional(S.Number),
-          rescore_vector: S.optional(__S(1760, __c55, 0)),
-          exact: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GlobalKnnEvalKnnEvalSettings" });
-    case 1:
-      return S.Array(__S(2912, __c91, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.String,
-        }),
-      ).annotate({ identifier: "GlobalKnnEvalKnnEvalQuerySourceSummary" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          visit_percentage: S.optional(S.Number),
-          num_candidates: S.optional(S.Number),
-          rescore_vector: S.optional(__S(1760, __c55, 0)),
-          exact: S.optional(S.Boolean),
-          rescore_window_capped: S.optional(S.Boolean),
-          quantized_scores: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GlobalKnnEvalKnnEvalReportedSettings" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          knn_settings: __S(2915, __c91, 3),
-          recall: S.Unknown,
-          included_queries: S.Number,
-          excluded_queries: S.Number,
-          took_ms: S.Number,
-          vector_ops: S.Number,
-        }),
-      ).annotate({ identifier: "GlobalKnnEvalKnnEvalResult" });
-    case 5:
-      return S.Array(__S(2916, __c91, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          error: __S(1, __c0, 1),
-        }),
-      ).annotate({ identifier: "GlobalKnnEvalKnnEvalFailure" });
-    case 7:
-      return S.Record(S.String, __S(2918, __c91, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          query_source: S.optional(__S(2914, __c91, 2)),
-          baseline: S.optional(__S(2915, __c91, 3)),
-          baseline_took_ms: S.optional(S.Number),
-          baseline_vector_ops: S.optional(S.Number),
-          baseline_vector_ops_kind: S.optional(S.String),
-          results: S.optional(__S(2917, __c91, 5)),
-          failures: S.optional(__S(2919, __c91, 7)),
-          task: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KnnEvalResponse" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-          field: S.String,
-          k: S.Number,
-          query_source: S.Unknown,
-          baseline: S.optional(__S(2912, __c91, 0)),
-          knn_settings: __S(2913, __c91, 1),
-          allow_exact_baseline: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/{index}/_knn_eval", code: 200 })),
-      ).annotate({ identifier: "KnnEval1Request" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Number.pipe(T.Query())),
-          size: S.optional(S.Number.pipe(T.Query())),
-          index_name: S.optional(S.Unknown.pipe(T.Query())),
-          connector_name: S.optional(S.Unknown.pipe(T.Query())),
-          service_type: S.optional(S.Unknown.pipe(T.Query())),
-          include_deleted: S.optional(S.Boolean.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_connector", code: 200 })),
-      ).annotate({ identifier: "ListConnectorRequest" });
-    case 1:
-      return S.Array(__S(2531, __c79, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          results: __S(2977, __c93, 1),
-        }),
-      ).annotate({ identifier: "ListConnectorResponse" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Number.pipe(T.Query())),
-          size: S.optional(S.Number.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          connector_id: S.optional(S.String.pipe(T.Query())),
-          job_type: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_connector/_sync_job", code: 200 })),
-      ).annotate({ identifier: "ListConnectorSyncJobRequest" });
-    case 1:
-      return S.Array(__S(2593, __c81, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          results: __S(3009, __c94, 1),
-        }),
-      ).annotate({ identifier: "ListConnectorSyncJobResponse" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(S.Unknown.pipe(T.Query())),
-          detailed: S.optional(S.Boolean.pipe(T.Query())),
-          group_by: S.optional(S.String.pipe(T.Query())),
-          nodes: S.optional(S.Unknown.pipe(T.Query())),
-          parent_task_id: S.optional(S.String.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_tasks", code: 200 })),
-      ).annotate({ identifier: "ListTasksRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/_nodes/{node_id}/_repositories_metering", code: 200 }),
-        ),
-      ).annotate({ identifier: "NodesGetRepositoriesMeteringInfoRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          index_name: S.optional(S.String),
-          is_native: S.optional(S.Boolean),
-          language: S.optional(S.String),
-          name: S.optional(S.String),
-          service_type: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/_connector", code: 200 })),
-      ).annotate({ identifier: "PostConnectorRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_check_in", code: 200 })),
-      ).annotate({ identifier: "ConnectorCheckInRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          job_type: S.optional(S.String),
-          trigger_method: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/_connector/_sync_job", code: 200 })),
-      ).annotate({ identifier: "PostConnectorSyncJobRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }),
-      ).annotate({ identifier: "PostConnectorSyncJobResponse" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_id: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          index_name: S.optional(S.String),
-          is_native: S.optional(S.Boolean),
-          language: S.optional(S.String),
-          name: S.optional(S.String),
-          service_type: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}", code: 200 })),
-      ).annotate({ identifier: "PutConnectorRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accept_data_loss: S.Boolean.pipe(T.Query()),
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_encryption/_reset", code: 200 })),
-      ).annotate({ identifier: "ResetEncryptionRequest" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_features/_reset", code: 200 })),
-      ).annotate({ identifier: "ResetFeaturesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.String,
-        }),
-      ).annotate({ identifier: "FeaturesTypesFeature" });
-    case 2:
-      return S.Array(__S(3265, __c102, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          features: __S(3266, __c102, 2),
-        }),
-      ).annotate({ identifier: "ResetFeaturesResponse" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          context: S.optional(S.String),
-          context_setup: S.optional(__S(1952, __c61, 0)),
-          script: S.optional(__S(1792, __c56, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/_scripts/painless/_execute", code: 200 })),
-      ).annotate({ identifier: "ScriptsPainlessExecute1Request" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/_searchable_snapshots/cache/stats", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchableSnapshotsCacheStatsRequest" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reads: S.Number,
-          bytes_read_in_bytes: S.Unknown,
-          writes: S.Number,
-          bytes_written_in_bytes: S.Unknown,
-          evictions: S.Number,
-          num_regions: S.Number,
-          size_in_bytes: S.Unknown,
-          region_size_in_bytes: S.Unknown,
-        }),
-      ).annotate({ identifier: "SearchableSnapshotsCacheStatsShared" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          shared_cache: __S(3360, __c105, 0),
-        }),
-      ).annotate({ identifier: "SearchableSnapshotsCacheStatsNode" });
-    case 2:
-      return S.Record(S.String, __S(3361, __c105, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          nodes: __S(3362, __c105, 2),
-        }),
-      ).annotate({ identifier: "SearchableSnapshotsCacheStatsResponse" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/_searchable_snapshots/{node_id}/cache/stats", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchableSnapshotsCacheStats1Request" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_searchable_snapshots/cache/clear", code: 200 })),
-      ).annotate({ identifier: "SearchableSnapshotsClearCacheRequest" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          index: S.String.pipe(T.Label()),
-          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
-          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/{index}/_searchable_snapshots/cache/clear", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchableSnapshotsClearCache1Request" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/_application/search_application/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchApplicationDeleteRequest" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          index_name: S.optional(S.String),
-          is_native: S.optional(S.Boolean),
-          language: S.optional(S.String),
-          name: S.optional(S.String),
-          service_type: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/_connector", code: 200 })),
-      ).annotate({ identifier: "ConnectorPut1Request" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "ConnectorPut1Response" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/_application/search_application/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchApplicationGetRequest" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          indices: __S(1248, __c39, 0),
-          analytics_collection_name: S.optional(S.String),
-          template: S.optional(__S(1793, __c56, 1)),
-          name: S.String,
-          updated_at_millis: S.Number,
-        }),
-      ).annotate({ identifier: "SearchApplicationGetResponse" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          from: S.optional(S.Number.pipe(T.Query())),
-          size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/_application/search_application", code: 200 })),
-      ).annotate({ identifier: "SearchApplicationListRequest" });
-    case 1:
-      return S.Array(__S(3616, __c113, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          results: __S(3649, __c114, 1),
-        }),
-      ).annotate({ identifier: "SearchApplicationListResponse" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          create: S.optional(S.Boolean.pipe(T.Query())),
-          indices: __S(1248, __c39, 0),
-          analytics_collection_name: S.optional(S.String),
-          template: S.optional(__S(1793, __c56, 1)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/_application/search_application/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "SearchApplicationPutRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          params: S.optional(__S(192, __c6, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/_application/search_application/{name}/_render_query",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SearchApplicationRenderQueryRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
           typed_keys: S.optional(S.Boolean.pipe(T.Query())),
           params: S.optional(__S(192, __c6, 0)),
@@ -19490,7 +15908,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "SearchApplicationSearchRequest" });
   }
 }
-function __c118(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19508,7 +15926,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "SearchApplicationSearch1Request" });
   }
 }
-function __c119(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19534,7 +15952,7 @@ function __c119(j: number): any {
           routing: S.optional(S.Unknown.pipe(T.Query())),
           scroll: S.optional(S.Unknown.pipe(T.Query())),
           search_type: S.optional(S.String.pipe(T.Query())),
-          stats: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
+          stats: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
           stored_fields: S.optional(S.Unknown.pipe(T.Query())),
           suggest_field: S.optional(S.String.pipe(T.Query())),
           suggest_mode: S.optional(S.String.pipe(T.Query())),
@@ -19555,30 +15973,31 @@ function __c119(j: number): any {
           size: S.optional(S.Number.pipe(T.Query())),
           from: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.Unknown.pipe(T.Query())),
-          wait_for_checkpoints: S.optional(__S(2080, __c65, 0).pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          wait_for_checkpoints_timeout: S.optional(S.Unknown.pipe(T.Query())),
           allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
-          aggregations: S.optional(__S(2370, __c74, 2)),
-          collapse: S.optional(__S(1848, __c57, 24)),
+          aggregations: S.optional(__S(2883, __c90, 3)),
+          collapse: S.optional(__S(2361, __c73, 25)),
           ext: S.optional(__S(192, __c6, 0)),
-          highlight: S.optional(__S(1844, __c57, 20)),
-          indices_boost: S.optional(__S(2371, __c74, 3)),
+          highlight: S.optional(__S(2357, __c73, 21)),
+          indices_boost: S.optional(__S(2884, __c90, 4)),
           min_score: S.optional(S.Number),
-          post_filter: S.optional(__S(1938, __c60, 18)),
+          post_filter: S.optional(__S(2450, __c76, 18)),
           profile: S.optional(S.Boolean),
-          query: S.optional(__S(1938, __c60, 18)),
+          query: S.optional(__S(2450, __c76, 18)),
           rescore: S.optional(S.Unknown),
-          script_fields: S.optional(__S(1846, __c57, 22)),
-          search_after: S.optional(__S(1849, __c57, 25)),
-          slice: S.optional(__S(2391, __c74, 23)),
-          fields: S.optional(__S(1843, __c57, 19)),
-          suggest: S.optional(__S(2392, __c74, 24)),
-          pit: S.optional(__S(2393, __c74, 25)),
-          runtime_mappings: S.optional(__S(2470, __c77, 6)),
+          script_fields: S.optional(__S(2359, __c73, 23)),
+          search_after: S.optional(__S(2362, __c73, 26)),
+          slice: S.optional(__S(2904, __c90, 24)),
+          fields: S.optional(__S(2356, __c73, 20)),
+          suggest: S.optional(__S(2905, __c90, 25)),
+          pit: S.optional(__S(2906, __c90, 26)),
+          runtime_mappings: S.optional(__S(2982, __c93, 6)),
         }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/_fleet_search", code: 200 })),
       ).annotate({ identifier: "SearchFleetRequest" });
   }
 }
-function __c120(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19602,7 +16021,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "SecurityCloneApiKeyResponse" });
   }
 }
-function __c121(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19626,23 +16045,23 @@ function __c121(j: number): any {
       ).annotate({ identifier: "SecurityCloneApiKey1Response" });
   }
 }
-function __c122(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
-          docs: __S(3938, __c123, 2),
-          component_template_substitutions: S.optional(__S(4004, __c125, 4)),
-          index_template_substitutions: S.optional(__S(4010, __c125, 10)),
-          mapping_addition: S.optional(__S(3993, __c124, 25)),
-          pipeline_substitutions: S.optional(__S(4056, __c126, 24)),
+          docs: __S(418, __c13, 2),
+          component_template_substitutions: S.optional(__S(486, __c15, 6)),
+          index_template_substitutions: S.optional(__S(492, __c15, 12)),
+          mapping_addition: S.optional(__S(475, __c14, 27)),
+          pipeline_substitutions: S.optional(__S(538, __c16, 26)),
         }).pipe(T.Http({ method: "GET", uri: "/_ingest/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngestRequest" });
   }
 }
-function __c123(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -19655,7 +16074,7 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "IngestTypesDocument" });
     case 2:
-      return S.Array(__S(3937, __c123, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -19666,7 +16085,7 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          retention_lease: S.optional(__S(3939, __c123, 3)),
+          retention_lease: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "IndicesTypesSoftDeletes" });
     case 5:
@@ -19688,7 +16107,7 @@ function __c123(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          scheduler: S.optional(__S(3942, __c123, 6)),
+          scheduler: S.optional(__S(422, __c13, 6)),
         }),
       ).annotate({ identifier: "IndicesTypesMerge" });
     case 8:
@@ -19709,8 +16128,8 @@ function __c123(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(3945, __c123, 9)),
-          fetch: S.optional(__S(3945, __c123, 9)),
+          query: S.optional(__S(425, __c13, 9)),
+          fetch: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "IndicesTypesSlowlogTresholds" });
     case 11:
@@ -19719,14 +16138,14 @@ function __c123(j: number): any {
           level: S.optional(S.String),
           source: S.optional(S.Number),
           reformat: S.optional(S.Boolean),
-          threshold: S.optional(__S(3946, __c123, 10)),
+          threshold: S.optional(__S(426, __c13, 10)),
         }),
       ).annotate({ identifier: "IndicesTypesSlowlogSettings" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          idle: S.optional(__S(3944, __c123, 8)),
-          slowlog: S.optional(__S(3947, __c123, 11)),
+          idle: S.optional(__S(424, __c13, 8)),
+          slowlog: S.optional(__S(427, __c13, 11)),
         }),
       ).annotate({ identifier: "IndicesTypesSettingsSearch" });
     case 13:
@@ -19776,10 +16195,10 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enable: S.optional(S.String),
-          include: S.optional(__S(3952, __c123, 16)),
-          require: S.optional(__S(3953, __c123, 17)),
-          initial_recovery: S.optional(__S(3954, __c123, 18)),
-          disk: S.optional(__S(3955, __c123, 19)),
+          include: S.optional(__S(432, __c13, 16)),
+          require: S.optional(__S(433, __c13, 17)),
+          initial_recovery: S.optional(__S(434, __c13, 18)),
+          disk: S.optional(__S(435, __c13, 19)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexRoutingAllocation" });
     case 21:
@@ -19791,8 +16210,8 @@ function __c123(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          allocation: S.optional(__S(3956, __c123, 20)),
-          rebalance: S.optional(__S(3957, __c123, 21)),
+          allocation: S.optional(__S(436, __c13, 20)),
+          rebalance: S.optional(__S(437, __c13, 21)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexRouting" });
     case 23:
@@ -19804,7 +16223,7 @@ function __c123(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          node_left: S.optional(__S(3959, __c123, 23)),
+          node_left: S.optional(__S(439, __c13, 23)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettingsUnassigned" });
     case 25:
@@ -19820,7 +16239,7 @@ function __c123(j: number): any {
           indexing_complete: S.optional(S.Unknown),
           origination_date: S.optional(S.Number),
           parse_origination_date: S.optional(S.Boolean),
-          step: S.optional(__S(3961, __c123, 25)),
+          step: S.optional(__S(441, __c13, 25)),
           rollover_alias: S.optional(S.String),
           prefer_ilm: S.optional(S.Unknown),
         }),
@@ -19845,7 +16264,7 @@ function __c123(j: number): any {
           sync_interval: S.optional(S.Unknown),
           durability: S.optional(S.String),
           flush_threshold_size: S.optional(S.Unknown),
-          retention: S.optional(__S(3964, __c123, 28)),
+          retention: S.optional(__S(444, __c13, 28)),
         }),
       ).annotate({ identifier: "IndicesTypesTranslog" });
     case 30:
@@ -19858,7 +16277,7 @@ function __c123(j: number): any {
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c124(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -19871,11 +16290,11 @@ function __c124(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          analyzer: S.optional(__S(3967, __c123, 31)),
-          char_filter: S.optional(__S(3968, __c124, 0)),
-          filter: S.optional(__S(3969, __c124, 1)),
-          normalizer: S.optional(__S(3970, __c124, 2)),
-          tokenizer: S.optional(__S(3971, __c124, 3)),
+          analyzer: S.optional(__S(447, __c13, 31)),
+          char_filter: S.optional(__S(448, __c14, 0)),
+          filter: S.optional(__S(449, __c14, 1)),
+          normalizer: S.optional(__S(450, __c14, 2)),
+          tokenizer: S.optional(__S(451, __c14, 3)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettingsAnalysis" });
     case 5:
@@ -19889,66 +16308,78 @@ function __c124(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          cache: S.optional(__S(448, __c14, 0)),
+          cache: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesQueries" });
     case 7:
-      return S.Record(S.String, S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          enable: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "IndicesTypesCacheRequests" });
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          cache: S.optional(__S(455, __c14, 7)),
+        }),
+      ).annotate({ identifier: "IndicesTypesRequests" });
+    case 9:
+      return S.Record(S.String, S.Unknown);
+    case 10:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Unknown),
           ignore_dynamic_beyond_limit: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesTypesMappingLimitSettingsTotalFields" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IndicesTypesMappingLimitSettingsDepth" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
         }),
       ).annotate({ identifier: "IndicesTypesMappingLimitSettingsSourceFields" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           coerce: S.optional(S.Boolean),
-          total_fields: S.optional(__S(3976, __c124, 8)),
-          depth: S.optional(__S(3977, __c124, 9)),
-          nested_fields: S.optional(__S(3977, __c124, 9)),
-          nested_objects: S.optional(__S(3977, __c124, 9)),
-          field_name_length: S.optional(__S(3977, __c124, 9)),
-          dimension_fields: S.optional(__S(3977, __c124, 9)),
-          source: S.optional(__S(3978, __c124, 10)),
+          total_fields: S.optional(__S(458, __c14, 10)),
+          depth: S.optional(__S(459, __c14, 11)),
+          nested_fields: S.optional(__S(459, __c14, 11)),
+          nested_objects: S.optional(__S(459, __c14, 11)),
+          field_name_length: S.optional(__S(459, __c14, 11)),
+          dimension_fields: S.optional(__S(459, __c14, 11)),
+          source: S.optional(__S(460, __c14, 12)),
           ignore_malformed: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesTypesMappingLimitSettings" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(3945, __c123, 9)),
+          index: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingSlowlogTresholds" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           level: S.optional(S.String),
           source: S.optional(S.Number),
           reformat: S.optional(S.Boolean),
-          threshold: S.optional(__S(3980, __c124, 12)),
+          threshold: S.optional(__S(462, __c14, 14)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingSlowlogSettings" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          memory: __S(3977, __c124, 9),
+          memory: __S(459, __c14, 11),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingPressure" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.Unknown),
@@ -19956,14 +16387,14 @@ function __c124(j: number): any {
           stats_refresh_interval: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesTypesStorage" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(3984, __c124, 16)),
+          index: S.optional(__S(466, __c14, 18)),
           mode: S.optional(S.String),
           routing_path: S.optional(S.Unknown),
-          soft_deletes: S.optional(__S(3940, __c123, 4)),
-          sort: S.optional(__S(3941, __c123, 5)),
+          soft_deletes: S.optional(__S(420, __c13, 4)),
+          sort: S.optional(__S(421, __c13, 5)),
           number_of_shards: S.optional(S.Unknown),
           number_of_replicas: S.optional(S.Unknown),
           number_of_routing_shards: S.optional(S.Number),
@@ -19973,8 +16404,8 @@ function __c124(j: number): any {
           load_fixed_bitset_filters_eagerly: S.optional(S.Boolean),
           hidden: S.optional(S.Unknown),
           auto_expand_replicas: S.optional(S.String),
-          merge: S.optional(__S(3943, __c123, 7)),
-          search: S.optional(__S(3948, __c123, 12)),
+          merge: S.optional(__S(423, __c13, 7)),
+          search: S.optional(__S(428, __c13, 12)),
           refresh_interval: S.optional(S.Unknown),
           max_result_window: S.optional(S.Unknown),
           max_inner_result_window: S.optional(S.Number),
@@ -19983,44 +16414,45 @@ function __c124(j: number): any {
           max_script_fields: S.optional(S.Number),
           max_ngram_diff: S.optional(S.Number),
           max_shingle_diff: S.optional(S.Number),
-          blocks: S.optional(__S(3949, __c123, 13)),
+          blocks: S.optional(__S(429, __c13, 13)),
           max_refresh_listeners: S.optional(S.Number),
-          analyze: S.optional(__S(3950, __c123, 14)),
-          highlight: S.optional(__S(3951, __c123, 15)),
+          analyze: S.optional(__S(430, __c13, 14)),
+          highlight: S.optional(__S(431, __c13, 15)),
           max_terms_count: S.optional(S.Number),
           max_regex_length: S.optional(S.Number),
-          routing: S.optional(__S(3958, __c123, 22)),
-          unassigned: S.optional(__S(3960, __c123, 24)),
+          routing: S.optional(__S(438, __c13, 22)),
+          unassigned: S.optional(__S(440, __c13, 24)),
           gc_deletes: S.optional(S.Unknown),
           default_pipeline: S.optional(S.String),
           final_pipeline: S.optional(S.String),
-          lifecycle: S.optional(__S(3962, __c123, 26)),
+          lifecycle: S.optional(__S(442, __c13, 26)),
           provided_name: S.optional(S.String),
           creation_date: S.optional(S.Unknown),
           creation_date_string: S.optional(S.Unknown),
           uuid: S.optional(S.String),
-          version: S.optional(__S(3963, __c123, 27)),
+          version: S.optional(__S(443, __c13, 27)),
           verified_before_close: S.optional(S.Unknown),
           format: S.optional(S.Unknown),
           max_slices_per_scroll: S.optional(S.Number),
-          translog: S.optional(__S(3965, __c123, 29)),
-          query_string: S.optional(__S(3966, __c123, 30)),
+          translog: S.optional(__S(445, __c13, 29)),
+          query_string: S.optional(__S(446, __c13, 30)),
           priority: S.optional(S.Unknown),
           top_metrics_max_size: S.optional(S.Number),
-          analysis: S.optional(__S(3972, __c124, 4)),
-          settings: S.optional(__S(3984, __c124, 16)),
-          time_series: S.optional(__S(3973, __c124, 5)),
-          queries: S.optional(__S(3974, __c124, 6)),
-          similarity: S.optional(__S(3975, __c124, 7)),
-          mapping: S.optional(__S(3979, __c124, 11)),
-          indexing_slowlog: S.optional(__S(3981, __c124, 13).pipe(T.Body("indexing.slowlog"))),
-          indexing_pressure: S.optional(__S(3982, __c124, 14)),
-          store: S.optional(__S(3983, __c124, 15)),
+          analysis: S.optional(__S(452, __c14, 4)),
+          settings: S.optional(__S(466, __c14, 18)),
+          time_series: S.optional(__S(453, __c14, 5)),
+          queries: S.optional(__S(454, __c14, 6)),
+          requests: S.optional(__S(456, __c14, 8)),
+          similarity: S.optional(__S(457, __c14, 9)),
+          mapping: S.optional(__S(461, __c14, 13)),
+          indexing_slowlog: S.optional(__S(463, __c14, 15).pipe(T.Body("indexing.slowlog"))),
+          indexing_pressure: S.optional(__S(464, __c14, 16)),
+          store: S.optional(__S(465, __c14, 17)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettings" });
-    case 17:
-      return S.Record(S.String, __S(3984, __c124, 16));
-    case 18:
+    case 19:
+      return S.Record(S.String, __S(466, __c14, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           analyzer: S.String,
@@ -20035,7 +16467,7 @@ function __c124(j: number): any {
           store_term_vectors: S.Boolean,
         }),
       ).annotate({ identifier: "TypesMappingAllField" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           match: S.optional(S.Unknown),
@@ -20046,56 +16478,56 @@ function __c124(j: number): any {
           unmatch_mapping_type: S.optional(S.Unknown),
           match_pattern: S.optional(S.String),
           mapping: S.optional(S.Unknown),
-          runtime: S.optional(__S(2469, __c77, 5)),
+          runtime: S.optional(__S(2981, __c93, 5)),
         }),
       ).annotate({ identifier: "TypesMappingDynamicTemplate" });
-    case 20:
-      return S.Record(S.String, __S(3987, __c124, 19));
-    case 21:
-      return S.Array(__S(3988, __c124, 20));
     case 22:
-      return S.Record(S.String, S.Unknown);
+      return S.Record(S.String, __S(469, __c14, 21));
     case 23:
+      return S.Array(__S(470, __c14, 22));
+    case 24:
+      return S.Record(S.String, S.Unknown);
+    case 25:
       return S.suspend(() =>
         S.Struct({
           required: S.Boolean,
         }),
       ).annotate({ identifier: "TypesMappingRoutingField" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          excludes: S.optional(__S(1248, __c39, 0)),
-          includes: S.optional(__S(1248, __c39, 0)),
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypesMappingSourceField" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          all_field: S.optional(__S(3986, __c124, 18)),
-          date_detection: S.optional(S.Boolean),
-          dynamic: S.optional(S.String),
-          dynamic_date_formats: S.optional(__S(1248, __c39, 0)),
-          dynamic_templates: S.optional(__S(3989, __c124, 21)),
-          _field_names: S.optional(__S(448, __c14, 0)),
-          index_field: S.optional(__S(448, __c14, 0)),
-          _meta: S.optional(__S(192, __c6, 0)),
-          numeric_detection: S.optional(S.Boolean),
-          properties: S.optional(__S(3990, __c124, 22)),
-          _routing: S.optional(__S(3991, __c124, 23)),
-          _size: S.optional(__S(448, __c14, 0)),
-          _source: S.optional(__S(3992, __c124, 24)),
-          runtime: S.optional(__S(2470, __c77, 6)),
-          enabled: S.optional(S.Boolean),
-          subobjects: S.optional(S.String),
-          _data_stream_timestamp: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({ identifier: "TypesMappingTypeMapping" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(1938, __c60, 18)),
+          enabled: S.optional(S.Boolean),
+          excludes: S.optional(__S(1760, __c55, 0)),
+          includes: S.optional(__S(1760, __c55, 0)),
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesMappingSourceField" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          all_field: S.optional(__S(468, __c14, 20)),
+          date_detection: S.optional(S.Boolean),
+          dynamic: S.optional(S.String),
+          dynamic_date_formats: S.optional(__S(1760, __c55, 0)),
+          dynamic_templates: S.optional(__S(471, __c14, 23)),
+          _field_names: S.optional(__S(960, __c30, 0)),
+          index_field: S.optional(__S(960, __c30, 0)),
+          _meta: S.optional(__S(192, __c6, 0)),
+          numeric_detection: S.optional(S.Boolean),
+          properties: S.optional(__S(472, __c14, 24)),
+          _routing: S.optional(__S(473, __c14, 25)),
+          _size: S.optional(__S(960, __c30, 0)),
+          _source: S.optional(__S(474, __c14, 26)),
+          runtime: S.optional(__S(2982, __c93, 6)),
+          enabled: S.optional(S.Boolean),
+          subobjects: S.optional(S.String),
+          _data_stream_timestamp: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "TypesMappingTypeMapping" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(2450, __c76, 18)),
           index_routing: S.optional(S.String),
           is_write_index: S.optional(S.Boolean),
           routing: S.optional(S.String),
@@ -20103,69 +16535,69 @@ function __c124(j: number): any {
           is_hidden: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IndicesTypesAliasDefinition" });
-    case 27:
-      return S.Record(S.String, __S(3994, __c124, 26));
-    case 28:
+    case 29:
+      return S.Record(S.String, __S(476, __c14, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           after: S.Unknown,
           fixed_interval: S.String,
         }),
       ).annotate({ identifier: "IndicesTypesDownsamplingRound" });
-    case 29:
-      return S.Array(__S(3996, __c124, 28));
-    case 30:
+    case 31:
+      return S.Array(__S(478, __c14, 30));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           data_retention: S.optional(S.Unknown),
           effective_retention: S.optional(S.Unknown),
           retention_determined_by: S.optional(S.String),
-          downsampling: S.optional(__S(3997, __c124, 29)),
+          downsampling: S.optional(__S(479, __c14, 31)),
           downsampling_method: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           frozen_after: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamLifecycle" });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           data_retention: S.optional(S.Unknown),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IndicesTypesFailureStoreLifecycle" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          lifecycle: S.optional(__S(3999, __c124, 31)),
+          lifecycle: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamFailureStore" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          failure_store: S.optional(__S(4000, __c125, 0)),
+          failure_store: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamOptions" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           _meta: S.optional(__S(192, __c6, 0)),
           version: S.optional(S.Number),
-          settings: S.optional(__S(3985, __c124, 17)),
-          mappings: S.optional(__S(3993, __c124, 25)),
-          aliases: S.optional(__S(3995, __c124, 27)),
-          lifecycle: S.optional(__S(3998, __c124, 30)),
-          data_stream_options: S.optional(__S(4001, __c125, 1)),
+          settings: S.optional(__S(467, __c14, 19)),
+          mappings: S.optional(__S(475, __c14, 27)),
+          aliases: S.optional(__S(477, __c14, 29)),
+          lifecycle: S.optional(__S(480, __c15, 0)),
+          data_stream_options: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplateSummary" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          template: __S(4002, __c125, 2),
+          template: __S(484, __c15, 4),
           version: S.optional(S.Number),
           _meta: S.optional(__S(192, __c6, 0)),
           deprecated: S.optional(S.Boolean),
@@ -20175,12 +16607,12 @@ function __c125(j: number): any {
           modified_date_millis: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplateNode" });
-    case 4:
-      return S.Record(S.String, __S(4003, __c125, 3));
-    case 5:
+    case 6:
+      return S.Record(S.String, __S(485, __c15, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(1938, __c60, 18)),
+          filter: S.optional(__S(2450, __c76, 18)),
           index_routing: S.optional(S.String),
           is_hidden: S.optional(S.Boolean),
           is_write_index: S.optional(S.Boolean),
@@ -20188,36 +16620,36 @@ function __c125(j: number): any {
           search_routing: S.optional(S.String),
         }),
       ).annotate({ identifier: "IndicesTypesAlias" });
-    case 6:
-      return S.Record(S.String, __S(4005, __c125, 5));
-    case 7:
+    case 8:
+      return S.Record(S.String, __S(487, __c15, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          aliases: S.optional(__S(4006, __c125, 6)),
-          mappings: S.optional(__S(3993, __c124, 25)),
-          settings: S.optional(__S(3984, __c124, 16)),
-          lifecycle: S.optional(__S(3998, __c124, 30)),
-          data_stream_options: S.optional(__S(4001, __c125, 1)),
+          aliases: S.optional(__S(488, __c15, 8)),
+          mappings: S.optional(__S(475, __c14, 27)),
+          settings: S.optional(__S(466, __c14, 18)),
+          lifecycle: S.optional(__S(480, __c15, 0)),
+          data_stream_options: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplateSummary" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           hidden: S.optional(S.Boolean),
           allow_custom_routing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplateDataStreamConfiguration" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           index_patterns: S.Unknown,
-          composed_of: __S(1248, __c39, 0),
-          template: S.optional(__S(4007, __c125, 7)),
+          composed_of: __S(1760, __c55, 0),
+          template: S.optional(__S(489, __c15, 9)),
           version: S.optional(S.Number),
           priority: S.optional(S.Number),
           _meta: S.optional(__S(192, __c6, 0)),
           allow_auto_create: S.optional(S.Boolean),
-          data_stream: S.optional(__S(4008, __c125, 8)),
+          data_stream: S.optional(__S(490, __c15, 10)),
           deprecated: S.optional(S.Boolean),
           ignore_missing_component_templates: S.optional(S.Unknown),
           created_date: S.optional(S.Unknown),
@@ -20226,17 +16658,17 @@ function __c125(j: number): any {
           modified_date_millis: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplate" });
-    case 10:
-      return S.Record(S.String, __S(4009, __c125, 9));
-    case 11:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4053, __c126, 21)));
     case 12:
+      return S.Record(S.String, __S(491, __c15, 11));
+    case 13:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(535, __c16, 23)));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           value: S.optional(S.Unknown),
@@ -20246,45 +16678,45 @@ function __c125(j: number): any {
           ignore_empty_values: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesAppendProcessor" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
           indexed_chars: S.optional(S.Number),
           indexed_chars_field: S.optional(S.String),
           max_field_bytes: S.optional(S.Unknown),
-          properties: S.optional(__S(1248, __c39, 0)),
+          properties: S.optional(__S(1760, __c55, 0)),
           target_field: S.optional(S.String),
           remove_binary: S.optional(S.Boolean),
           resource_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesAttachmentProcessor" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesBytesProcessor" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20293,13 +16725,13 @@ function __c125(j: number): any {
           timezone: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesCefProcessor" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           error_distance: S.Number,
           field: S.String,
@@ -20308,13 +16740,13 @@ function __c125(j: number): any {
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesCircleProcessor" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           source_ip: S.optional(S.String),
           source_port: S.optional(S.String),
@@ -20329,13 +16761,13 @@ function __c125(j: number): any {
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesCommunityIDProcessor" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20343,13 +16775,13 @@ function __c125(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "IngestTypesConvertProcessor" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           empty_value: S.optional(S.Unknown),
           field: S.String,
@@ -20360,31 +16792,31 @@ function __c125(j: number): any {
           trim: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesCsvProcessor" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
-          formats: __S(1248, __c39, 0),
+          formats: __S(1760, __c55, 0),
           locale: S.optional(S.String),
           target_field: S.optional(S.String),
           timezone: S.optional(S.String),
           output_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesDateProcessor" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
-          date_formats: S.optional(__S(1248, __c39, 0)),
+          date_formats: S.optional(__S(1760, __c55, 0)),
           date_rounding: S.String,
           field: S.String,
           index_name_format: S.optional(S.String),
@@ -20393,13 +16825,13 @@ function __c125(j: number): any {
           timezone: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesDateIndexNameProcessor" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           append_separator: S.optional(S.String),
           field: S.String,
@@ -20407,36 +16839,36 @@ function __c125(j: number): any {
           pattern: S.String,
         }),
       ).annotate({ identifier: "IngestTypesDissectProcessor" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           override: S.optional(S.Boolean),
           path: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesDotExpanderProcessor" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesDropProcessor" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20447,24 +16879,24 @@ function __c125(j: number): any {
           target_field: S.String,
         }),
       ).annotate({ identifier: "IngestTypesEnrichProcessor" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           message: S.String,
         }),
       ).annotate({ identifier: "IngestTypesFailProcessor" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           fields: S.Unknown,
           target_field: S.optional(S.String),
@@ -20473,43 +16905,47 @@ function __c125(j: number): any {
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesFingerprintProcessor" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
-          processor: S.suspend(() => __S(4053, __c126, 21)),
+          processor: S.suspend(() => __S(535, __c16, 23)),
         }),
       ).annotate({ identifier: "IngestTypesForeachProcessor" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           database_file: S.optional(S.String),
           field: S.String,
           first_only: S.optional(S.Boolean),
           ignore_missing: S.optional(S.Boolean),
-          properties: S.optional(__S(1248, __c39, 0)),
+          properties: S.optional(__S(1760, __c55, 0)),
           target_field: S.optional(S.String),
           download_database_on_pipeline_creation: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesIpLocationProcessor" });
-    case 30:
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           tile_type: S.String,
@@ -20522,34 +16958,30 @@ function __c125(j: number): any {
           target_format: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesGeoGridProcessor" });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           ecs_compatibility: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
-          pattern_definitions: S.optional(__S(1216, __c38, 0)),
-          patterns: __S(1248, __c39, 0),
+          pattern_definitions: S.optional(__S(1728, __c54, 0)),
+          patterns: __S(1760, __c55, 0),
           trace_match: S.optional(S.Boolean),
           validate_only: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesGrokProcessor" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20558,7 +16990,7 @@ function __c126(j: number): any {
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesGsubProcessor" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           num_top_classes: S.optional(S.Number),
@@ -20568,49 +17000,49 @@ function __c126(j: number): any {
           prediction_field_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesInferenceConfigClassification" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          regression: S.optional(__S(2464, __c77, 0)),
-          classification: S.optional(__S(4033, __c126, 1)),
+          regression: S.optional(__S(2976, __c93, 0)),
+          classification: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "IngestTypesInferenceConfig" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           model_id: S.String,
           target_field: S.optional(S.String),
           field_map: S.optional(__S(192, __c6, 0)),
-          inference_config: S.optional(__S(4034, __c126, 2)),
+          inference_config: S.optional(__S(516, __c16, 4)),
           input_output: S.optional(S.Unknown),
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesInferenceProcessor" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           separator: S.String,
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesJoinProcessor" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           add_to_root: S.optional(S.Boolean),
           add_to_root_conflict_strategy: S.optional(S.String),
@@ -20619,19 +17051,19 @@ function __c126(j: number): any {
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesJsonProcessor" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
-          exclude_keys: S.optional(__S(1248, __c39, 0)),
+          exclude_keys: S.optional(__S(1760, __c55, 0)),
           field: S.String,
           field_split: S.String,
           ignore_missing: S.optional(S.Boolean),
-          include_keys: S.optional(__S(1248, __c39, 0)),
+          include_keys: S.optional(__S(1760, __c55, 0)),
           prefix: S.optional(S.String),
           strip_brackets: S.optional(S.Boolean),
           target_field: S.optional(S.String),
@@ -20640,45 +17072,45 @@ function __c126(j: number): any {
           value_split: S.String,
         }),
       ).annotate({ identifier: "IngestTypesKeyValueProcessor" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           source_ip: S.optional(S.String),
           destination_ip: S.optional(S.String),
           target_field: S.optional(S.String),
-          internal_networks: S.optional(__S(1248, __c39, 0)),
+          internal_networks: S.optional(__S(1760, __c55, 0)),
           internal_networks_field: S.optional(S.String),
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesNetworkDirectionProcessor" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           name: S.String,
           ignore_missing_pipeline: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesPipelineProcessor" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
-          patterns: __S(1248, __c39, 0),
-          pattern_definitions: S.optional(__S(1216, __c38, 0)),
+          patterns: __S(1760, __c55, 0),
+          pattern_definitions: S.optional(__S(1728, __c54, 0)),
           prefix: S.optional(S.String),
           suffix: S.optional(S.String),
           ignore_missing: S.optional(S.Boolean),
@@ -20686,39 +17118,39 @@ function __c126(j: number): any {
           trace_redact: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesRedactProcessor" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           target_field: S.optional(S.String),
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesRegisteredDomainProcessor" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.Unknown,
           keep: S.optional(S.Unknown),
           ignore_missing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesRemoveProcessor" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20726,26 +17158,26 @@ function __c126(j: number): any {
           target_field: S.String,
         }),
       ).annotate({ identifier: "IngestTypesRenameProcessor" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           destination: S.optional(S.String),
           dataset: S.optional(S.Unknown),
           namespace: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IngestTypesRerouteProcessor" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           id: S.optional(S.String),
           lang: S.optional(S.Unknown),
@@ -20753,13 +17185,13 @@ function __c126(j: number): any {
           source: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IngestTypesScriptProcessor" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           copy_from: S.optional(S.String),
           field: S.String,
@@ -20769,38 +17201,38 @@ function __c126(j: number): any {
           value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IngestTypesSetProcessor" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
-          properties: S.optional(__S(1248, __c39, 0)),
+          properties: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "IngestTypesSetSecurityUserProcessor" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           order: S.optional(S.String),
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesSortProcessor" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20809,13 +17241,13 @@ function __c126(j: number): any {
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesSplitProcessor" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
@@ -20824,83 +17256,83 @@ function __c126(j: number): any {
           target_field: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesUriPartsProcessor" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          if: S.optional(__S(1792, __c56, 0)),
+          if: S.optional(__S(2464, __c77, 0)),
           ignore_failure: S.optional(S.Boolean),
-          on_failure: S.optional(__S(4011, __c125, 11)),
+          on_failure: S.optional(__S(493, __c15, 13)),
           tag: S.optional(S.String),
           field: S.String,
           ignore_missing: S.optional(S.Boolean),
           regex_file: S.optional(S.String),
           target_field: S.optional(S.String),
-          properties: S.optional(__S(3936, __c123, 0)),
+          properties: S.optional(__S(416, __c13, 0)),
           extract_device_type: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesUserAgentProcessor" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          append: S.optional(__S(4012, __c125, 12)),
-          attachment: S.optional(__S(4013, __c125, 13)),
-          bytes: S.optional(__S(4014, __c125, 14)),
-          cef: S.optional(__S(4015, __c125, 15)),
-          circle: S.optional(__S(4016, __c125, 16)),
-          community_id: S.optional(__S(4017, __c125, 17)),
-          convert: S.optional(__S(4018, __c125, 18)),
-          csv: S.optional(__S(4019, __c125, 19)),
-          date: S.optional(__S(4020, __c125, 20)),
-          date_index_name: S.optional(__S(4021, __c125, 21)),
-          dissect: S.optional(__S(4022, __c125, 22)),
-          dot_expander: S.optional(__S(4023, __c125, 23)),
-          drop: S.optional(__S(4024, __c125, 24)),
-          enrich: S.optional(__S(4025, __c125, 25)),
-          fail: S.optional(__S(4026, __c125, 26)),
-          fingerprint: S.optional(__S(4027, __c125, 27)),
-          foreach: S.optional(__S(4028, __c125, 28)),
-          ip_location: S.optional(__S(4029, __c125, 29)),
-          geo_grid: S.optional(__S(4030, __c125, 30)),
-          geoip: S.optional(__S(4029, __c125, 29)),
-          grok: S.optional(__S(4031, __c125, 31)),
-          gsub: S.optional(__S(4032, __c126, 0)),
-          html_strip: S.optional(__S(4014, __c125, 14)),
-          inference: S.optional(__S(4035, __c126, 3)),
-          join: S.optional(__S(4036, __c126, 4)),
-          json: S.optional(__S(4037, __c126, 5)),
-          kv: S.optional(__S(4038, __c126, 6)),
-          lowercase: S.optional(__S(4014, __c125, 14)),
-          network_direction: S.optional(__S(4039, __c126, 7)),
-          normalize_for_stream: S.optional(__S(4024, __c125, 24)),
-          pipeline: S.optional(__S(4040, __c126, 8)),
-          recover_failure_document: S.optional(__S(4024, __c125, 24)),
-          redact: S.optional(__S(4041, __c126, 9)),
-          registered_domain: S.optional(__S(4042, __c126, 10)),
-          remove: S.optional(__S(4043, __c126, 11)),
-          rename: S.optional(__S(4044, __c126, 12)),
-          reroute: S.optional(__S(4045, __c126, 13)),
-          script: S.optional(__S(4046, __c126, 14)),
-          set: S.optional(__S(4047, __c126, 15)),
-          set_security_user: S.optional(__S(4048, __c126, 16)),
-          sort: S.optional(__S(4049, __c126, 17)),
-          split: S.optional(__S(4050, __c126, 18)),
-          terminate: S.optional(__S(4024, __c125, 24)),
-          trim: S.optional(__S(4014, __c125, 14)),
-          uppercase: S.optional(__S(4014, __c125, 14)),
-          urldecode: S.optional(__S(4014, __c125, 14)),
-          uri_parts: S.optional(__S(4051, __c126, 19)),
-          user_agent: S.optional(__S(4052, __c126, 20)),
-        }),
-      ).annotate({ identifier: "IngestTypesProcessorContainer" });
-    case 22:
-      return S.Array(__S(4053, __c126, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
+          append: S.optional(__S(494, __c15, 14)),
+          attachment: S.optional(__S(495, __c15, 15)),
+          bytes: S.optional(__S(496, __c15, 16)),
+          cef: S.optional(__S(497, __c15, 17)),
+          circle: S.optional(__S(498, __c15, 18)),
+          community_id: S.optional(__S(499, __c15, 19)),
+          convert: S.optional(__S(500, __c15, 20)),
+          csv: S.optional(__S(501, __c15, 21)),
+          date: S.optional(__S(502, __c15, 22)),
+          date_index_name: S.optional(__S(503, __c15, 23)),
+          dissect: S.optional(__S(504, __c15, 24)),
+          dot_expander: S.optional(__S(505, __c15, 25)),
+          drop: S.optional(__S(506, __c15, 26)),
+          enrich: S.optional(__S(507, __c15, 27)),
+          fail: S.optional(__S(508, __c15, 28)),
+          fingerprint: S.optional(__S(509, __c15, 29)),
+          foreach: S.optional(__S(510, __c15, 30)),
+          ip_location: S.optional(__S(511, __c15, 31)),
+          geo_grid: S.optional(__S(512, __c16, 0)),
+          geoip: S.optional(__S(511, __c15, 31)),
+          grok: S.optional(__S(513, __c16, 1)),
+          gsub: S.optional(__S(514, __c16, 2)),
+          html_strip: S.optional(__S(496, __c15, 16)),
+          inference: S.optional(__S(517, __c16, 5)),
+          join: S.optional(__S(518, __c16, 6)),
+          json: S.optional(__S(519, __c16, 7)),
+          kv: S.optional(__S(520, __c16, 8)),
+          lowercase: S.optional(__S(496, __c15, 16)),
+          network_direction: S.optional(__S(521, __c16, 9)),
+          normalize_for_stream: S.optional(__S(506, __c15, 26)),
+          pipeline: S.optional(__S(522, __c16, 10)),
+          recover_failure_document: S.optional(__S(506, __c15, 26)),
+          redact: S.optional(__S(523, __c16, 11)),
+          registered_domain: S.optional(__S(524, __c16, 12)),
+          remove: S.optional(__S(525, __c16, 13)),
+          rename: S.optional(__S(526, __c16, 14)),
+          reroute: S.optional(__S(527, __c16, 15)),
+          script: S.optional(__S(528, __c16, 16)),
+          set: S.optional(__S(529, __c16, 17)),
+          set_security_user: S.optional(__S(530, __c16, 18)),
+          sort: S.optional(__S(531, __c16, 19)),
+          split: S.optional(__S(532, __c16, 20)),
+          terminate: S.optional(__S(506, __c15, 26)),
+          trim: S.optional(__S(496, __c15, 16)),
+          uppercase: S.optional(__S(496, __c15, 16)),
+          urldecode: S.optional(__S(496, __c15, 16)),
+          uri_parts: S.optional(__S(533, __c16, 21)),
+          user_agent: S.optional(__S(534, __c16, 22)),
+        }),
+      ).annotate({ identifier: "IngestTypesProcessorContainer" });
+    case 24:
+      return S.Array(__S(535, __c16, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.String),
-          on_failure: S.optional(__S(4054, __c126, 22)),
-          processors: S.optional(__S(4054, __c126, 22)),
+          on_failure: S.optional(__S(536, __c16, 24)),
+          processors: S.optional(__S(536, __c16, 24)),
           version: S.optional(S.Number),
           deprecated: S.optional(S.Boolean),
           _meta: S.optional(__S(192, __c6, 0)),
@@ -20911,72 +17343,54 @@ function __c126(j: number): any {
           field_access_pattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestTypesPipeline" });
-    case 24:
-      return S.Record(S.String, __S(4055, __c126, 23));
-    case 25:
-      return S.Array(__S(1216, __c38, 0));
     case 26:
+      return S.Record(S.String, __S(537, __c16, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
           _index: S.String,
           _source: __S(192, __c6, 0),
           _version: S.Unknown,
-          executed_pipelines: __S(1248, __c39, 0),
-          ignored_fields: S.optional(__S(4057, __c126, 25)),
+          executed_pipelines: __S(1760, __c55, 0),
+          ignored_fields: S.optional(__S(4672, __c146, 0)),
           error: S.optional(__S(1, __c0, 1)),
-          effective_mapping: S.optional(__S(3993, __c124, 25)),
+          effective_mapping: S.optional(__S(475, __c14, 27)),
         }),
       ).annotate({ identifier: "SimulateIngestIngestDocumentSimulation" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          doc: S.optional(__S(4058, __c126, 26)),
+          doc: S.optional(__S(539, __c16, 27)),
         }),
       ).annotate({ identifier: "SimulateIngestSimulateIngestDocumentResult" });
-    case 28:
-      return S.Array(__S(4059, __c126, 27));
     case 29:
+      return S.Array(__S(540, __c16, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          docs: __S(4060, __c126, 28),
+          docs: __S(541, __c16, 29),
         }),
       ).annotate({ identifier: "SimulateIngestResponse" });
   }
 }
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connector_sync_job_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/_connector/_sync_job/{connector_sync_job_id}/_check_in",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectorSyncJobCheckInRequest" });
-  }
-}
-function __c128(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
-          docs: __S(3938, __c123, 2),
-          component_template_substitutions: S.optional(__S(4004, __c125, 4)),
-          index_template_substitutions: S.optional(__S(4010, __c125, 10)),
-          mapping_addition: S.optional(__S(3993, __c124, 25)),
-          pipeline_substitutions: S.optional(__S(4056, __c126, 24)),
+          docs: __S(418, __c13, 2),
+          component_template_substitutions: S.optional(__S(486, __c15, 6)),
+          index_template_substitutions: S.optional(__S(492, __c15, 12)),
+          mapping_addition: S.optional(__S(475, __c14, 27)),
+          pipeline_substitutions: S.optional(__S(538, __c16, 26)),
         }).pipe(T.Http({ method: "POST", uri: "/_ingest/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest1Request" });
   }
 }
-function __c129(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20984,16 +17398,16 @@ function __c129(j: number): any {
           index: S.String.pipe(T.Label()),
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
-          docs: __S(3938, __c123, 2),
-          component_template_substitutions: S.optional(__S(4004, __c125, 4)),
-          index_template_substitutions: S.optional(__S(4010, __c125, 10)),
-          mapping_addition: S.optional(__S(3993, __c124, 25)),
-          pipeline_substitutions: S.optional(__S(4056, __c126, 24)),
+          docs: __S(418, __c13, 2),
+          component_template_substitutions: S.optional(__S(486, __c15, 6)),
+          index_template_substitutions: S.optional(__S(492, __c15, 12)),
+          mapping_addition: S.optional(__S(475, __c14, 27)),
+          pipeline_substitutions: S.optional(__S(538, __c16, 26)),
         }).pipe(T.Http({ method: "GET", uri: "/_ingest/{index}/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest2Request" });
   }
 }
-function __c130(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21001,16 +17415,16 @@ function __c130(j: number): any {
           index: S.String.pipe(T.Label()),
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
-          docs: __S(3938, __c123, 2),
-          component_template_substitutions: S.optional(__S(4004, __c125, 4)),
-          index_template_substitutions: S.optional(__S(4010, __c125, 10)),
-          mapping_addition: S.optional(__S(3993, __c124, 25)),
-          pipeline_substitutions: S.optional(__S(4056, __c126, 24)),
+          docs: __S(418, __c13, 2),
+          component_template_substitutions: S.optional(__S(486, __c15, 6)),
+          index_template_substitutions: S.optional(__S(492, __c15, 12)),
+          mapping_addition: S.optional(__S(475, __c14, 27)),
+          pipeline_substitutions: S.optional(__S(538, __c16, 26)),
         }).pipe(T.Http({ method: "POST", uri: "/_ingest/{index}/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest3Request" });
   }
 }
-function __c131(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21030,7 +17444,23 @@ function __c131(j: number): any {
       ).annotate({ identifier: "SnapshotRepositoryVerifyIntegrityRequest" });
   }
 }
-function __c132(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/_connector/{connector_id}/_filtering/_activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateActiveFilteringRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21041,11 +17471,4717 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(448, __c14, 0),
-          logs_otel: __S(448, __c14, 0).pipe(T.Body("logs.otel")),
-          logs_ecs: __S(448, __c14, 0).pipe(T.Body("logs.ecs")),
+          logs: __S(960, __c30, 0),
+          logs_otel: __S(960, __c30, 0).pipe(T.Body("logs.otel")),
+          logs_ecs: __S(960, __c30, 0).pipe(T.Body("logs.ecs")),
         }),
       ).annotate({ identifier: "StreamsStatusResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.String.pipe(T.Label()),
+          actions: S.optional(S.Unknown.pipe(T.Query())),
+          nodes: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          parent_task_id: S.optional(S.String.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_tasks/{task_id}/_cancel", code: 200 })),
+      ).annotate({ identifier: "TasksCancel1Request" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          api_key_id: S.optional(S.String),
+          api_key_secret_id: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_api_key_id", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateApiKeyIdRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          configuration: S.optional(__S(838, __c26, 6)),
+          values: S.optional(__S(192, __c6, 0)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_configuration", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateConfigurationRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "ConnectorTypesDependency" });
+    case 1:
+      return S.Array(__S(832, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.String,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "ConnectorTypesSelectOption" });
+    case 3:
+      return S.Array(__S(834, __c26, 2));
+    case 4:
+      return S.Array(S.Unknown);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          default_value: S.Unknown,
+          depends_on: __S(833, __c26, 1),
+          display: S.String,
+          label: S.String,
+          options: __S(835, __c26, 3),
+          order: S.optional(S.Number),
+          placeholder: S.optional(S.String),
+          required: S.Boolean,
+          sensitive: S.Boolean,
+          tooltip: S.optional(S.String),
+          type: S.optional(S.String),
+          ui_restrictions: S.optional(__S(1760, __c55, 0)),
+          validations: S.optional(__S(836, __c26, 4)),
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "ConnectorTypesConnectorConfigProperties" });
+    case 6:
+      return S.Record(S.String, __S(837, __c26, 5));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          error: S.String,
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_error", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateErrorRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          features: __S(929, __c29, 1),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_features", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateFeaturesRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          advanced: S.optional(__S(960, __c30, 0)),
+          basic: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "ConnectorTypesSyncRulesFeature" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          document_level_security: S.optional(__S(960, __c30, 0)),
+          incremental_sync: S.optional(__S(960, __c30, 0)),
+          native_connector_api_keys: S.optional(__S(960, __c30, 0)),
+          sync_rules: S.optional(__S(928, __c29, 0)),
+        }),
+      ).annotate({ identifier: "ConnectorTypesConnectorFeatures" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConnectorTypesFeatureEnabled" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          filtering: S.optional(__S(1089, __c34, 1)),
+          rules: S.optional(__S(1058, __c33, 2)),
+          advanced_snippet: S.optional(__S(1056, __c33, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_filtering", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateFilteringRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ids: __S(1760, __c55, 0),
+          messages: __S(1760, __c55, 0),
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringValidation" });
+    case 1:
+      return S.Array(__S(1024, __c32, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: __S(1025, __c32, 1),
+          state: S.String,
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringRulesValidation" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.optional(S.Unknown),
+          updated_at: S.optional(S.Unknown),
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringAdvancedSnippet" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.optional(S.Unknown),
+          field: S.String,
+          id: S.String,
+          order: S.Number,
+          policy: S.String,
+          rule: S.String,
+          updated_at: S.optional(S.Unknown),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringRule" });
+    case 2:
+      return S.Array(__S(1057, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          advanced_snippet: __S(1056, __c33, 0),
+          rules: __S(1058, __c33, 2),
+          validation: __S(1026, __c32, 2),
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringRules" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active: __S(1059, __c33, 3),
+          domain: S.optional(S.String),
+          draft: __S(1059, __c33, 3),
+        }),
+      ).annotate({ identifier: "ConnectorTypesFilteringConfig" });
+    case 1:
+      return S.Array(__S(1088, __c34, 0));
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          validation: __S(1026, __c32, 2),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/_connector/{connector_id}/_filtering/_validation",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateFilteringValidationRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          index_name: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_index_name", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateIndexNameRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_name", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateNameRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_sync_job_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/_connector/_sync_job/{connector_sync_job_id}/_cancel",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelConnectorSyncJobRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.String,
+        }),
+      ).annotate({ identifier: "CancelConnectorSyncJobResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          is_native: S.Boolean,
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_native", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateNativeRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          pipeline: __S(1344, __c42, 0),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_pipeline", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdatePipelineRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          extract_binary_content: S.Boolean,
+          name: S.String,
+          reduce_whitespace: S.Boolean,
+          run_ml_inference: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConnectorTypesIngestPipelineParams" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          scheduling: __S(1409, __c44, 1),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_scheduling", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateSchedulingRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          interval: S.String,
+        }),
+      ).annotate({ identifier: "ConnectorTypesConnectorScheduling" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          access_control: S.optional(__S(1408, __c44, 0)),
+          full: S.optional(__S(1408, __c44, 0)),
+          incremental: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "ConnectorTypesSchedulingConfiguration" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          service_type: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_service_type", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConnectorUpdateServiceTypeRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          status: S.String,
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_status", code: 200 })),
+      ).annotate({ identifier: "ConnectorUpdateStatusRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          delete_sync_jobs: S.optional(S.Boolean.pipe(T.Query())),
+          hard: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/_connector/{connector_id}", code: 200 })),
+      ).annotate({ identifier: "DeleteConnectorRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          acknowledged: S.Boolean,
+        }),
+      ).annotate({ identifier: "TypesAcknowledgedResponseBase" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_sync_job_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/_connector/_sync_job/{connector_sync_job_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteConnectorSyncJobRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_disable", code: 200 })),
+      ).annotate({ identifier: "DisableStreamsLogRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_enable", code: 200 })),
+      ).annotate({ identifier: "EnableStreamsLogRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/_query/dataset/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlDeleteDatasetRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actions: S.optional(S.Unknown.pipe(T.Query())),
+          nodes: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          parent_task_id: S.optional(S.String.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_tasks/_cancel", code: 200 })),
+      ).annotate({ identifier: "CancelTaskRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          cancelled: S.optional(S.Boolean),
+          cancellable: S.Boolean,
+          description: S.optional(S.String),
+          headers: __S(1728, __c54, 0),
+          id: S.Number,
+          node: S.String,
+          running_time: S.optional(S.Unknown),
+          running_time_in_nanos: S.Number,
+          start_time_in_millis: S.Number,
+          status: S.optional(S.Unknown),
+          type: S.String,
+          parent_task_id: S.optional(S.String),
+          original_task_id: S.optional(S.String),
+          original_start_time_in_millis: S.optional(S.Number),
+          original_start_time: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TasksTypesTaskInfo" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.Number,
+          node_id: S.String,
+          status: S.String,
+          reason: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "TypesTaskFailure" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.Record(S.String, __S(1792, __c56, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          transport_address: S.optional(S.String),
+          host: S.optional(S.String),
+          ip: S.optional(S.String),
+          roles: S.optional(__S(1760, __c55, 0)),
+          attributes: S.optional(__S(1728, __c54, 0)),
+          tasks: __S(1826, __c57, 2),
+        }),
+      ).annotate({ identifier: "TasksTypesNodeTasks" });
+    case 4:
+      return S.Record(S.String, __S(1827, __c57, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          node_failures: S.optional(__S(96, __c3, 0)),
+          task_failures: S.optional(__S(1825, __c57, 1)),
+          nodes: S.optional(__S(1828, __c57, 4)),
+          tasks: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TasksTypesTaskListResponseBase" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/_query/data_source/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlDeleteDataSourceRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_query/dataset", code: 200 })),
+      ).annotate({ identifier: "EsqlGetDatasetRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          data_source: S.String,
+          resource: S.String,
+          description: S.optional(S.String),
+          settings: S.optional(__S(192, __c6, 0)),
+          mappings: S.optional(__S(1955, __c61, 3)),
+        }),
+      ).annotate({ identifier: "EsqlTypesESQLDataset" });
+    case 1:
+      return S.Array(__S(1920, __c60, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          datasets: __S(1921, __c60, 1),
+        }),
+      ).annotate({ identifier: "EsqlGetDatasetResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          rename_from: S.optional(S.String),
+          format: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EsqlTypesDatasetFieldMapping" });
+    case 1:
+      return S.Record(S.String, __S(1952, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+        }),
+      ).annotate({ identifier: "EsqlTypesIdPath" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dynamic: S.optional(S.String),
+          properties: S.optional(__S(1953, __c61, 1)),
+          _id: S.optional(__S(1954, __c61, 2)),
+        }),
+      ).annotate({ identifier: "EsqlTypesDatasetMapping" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_query/dataset/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlGetDataset1Request" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_query/data_source", code: 200 })),
+      ).annotate({ identifier: "EsqlGetDataSourceRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+          description: S.optional(S.String),
+          settings: __S(192, __c6, 0),
+        }),
+      ).annotate({ identifier: "EsqlTypesESQLDataSource" });
+    case 1:
+      return S.Array(__S(2048, __c64, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data_sources: __S(2049, __c64, 1),
+        }),
+      ).annotate({ identifier: "EsqlGetDataSourceResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_query/data_source/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlGetDataSource1Request" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/_query/queries/{id}", code: 200 })),
+      ).annotate({ identifier: "EsqlGetQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node: S.String,
+          start_time_millis: S.Number,
+          running_time_nanos: S.Number,
+          query: S.String,
+          coordinating_node: S.String,
+          data_nodes: __S(1760, __c55, 0),
+        }),
+      ).annotate({ identifier: "EsqlGetQueryResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_query/queries", code: 200 })),
+      ).annotate({ identifier: "EsqlListQueriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node: S.String,
+          start_time_millis: S.Number,
+          running_time_nanos: S.Number,
+          query: S.String,
+        }),
+      ).annotate({ identifier: "EsqlListQueriesBody" });
+    case 2:
+      return S.Record(S.String, __S(2145, __c67, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          queries: __S(2146, __c67, 2),
+        }),
+      ).annotate({ identifier: "EsqlListQueriesResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          data_source: S.String,
+          resource: S.String,
+          description: S.optional(S.String),
+          mappings: S.optional(__S(1955, __c61, 3)),
+          settings: S.optional(__S(192, __c6, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/_query/dataset/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlPutDatasetRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          type: S.String,
+          description: S.optional(S.String),
+          settings: S.optional(__S(192, __c6, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/_query/data_source/{name}", code: 200 })),
+      ).annotate({ identifier: "EsqlPutDataSourceRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          context: S.optional(S.String),
+          context_setup: S.optional(__S(2496, __c78, 0)),
+          script: S.optional(__S(2464, __c77, 0)),
+        }).pipe(T.Http({ method: "GET", uri: "/_scripts/painless/_execute", code: 200 })),
+      ).annotate({ identifier: "ExecuteScriptsPainlessRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          oversample: S.Number,
+        }),
+      ).annotate({ identifier: "TypesRescoreVector" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslBitmapTermsQuery" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2450, __c76, 18)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          filter: S.optional(S.Unknown),
+          minimum_should_match: S.optional(S.Unknown),
+          must: S.optional(S.Unknown),
+          must_not: S.optional(S.Unknown),
+          should: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesQueryDslBoolQuery" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          negative_boost: S.Number,
+          negative: S.suspend(() => __S(2450, __c76, 18)),
+          positive: S.suspend(() => __S(2450, __c76, 18)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslBoostingQuery" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          cutoff_frequency: S.optional(S.Number),
+          high_freq_operator: S.optional(S.String),
+          low_freq_operator: S.optional(S.String),
+          minimum_should_match: S.optional(S.Unknown),
+          query: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslCommonTermsQuery" });
+    case 5:
+      return S.Record(S.String, __S(2340, __c73, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          fields: __S(1760, __c55, 0),
+          query: S.String,
+          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
+          operator: S.optional(S.String),
+          minimum_should_match: S.optional(S.Unknown),
+          zero_terms_query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslCombinedFieldsQuery" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          filter: S.suspend(() => __S(2450, __c76, 18)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslConstantScoreQuery" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          inference_id: S.optional(S.String),
+          input: S.Unknown,
+          timeout: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesEmbedding" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          model_id: S.optional(S.String),
+          model_text: S.String,
+        }),
+      ).annotate({ identifier: "TypesTextEmbedding" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          index: S.String,
+          path: S.String,
+          routing: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesLookupQueryVectorBuilder" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          embedding: S.optional(__S(2344, __c73, 8)),
+          text_embedding: S.optional(__S(2345, __c73, 9)),
+          lookup: S.optional(__S(2346, __c73, 10)),
+        }),
+      ).annotate({ identifier: "TypesQueryVectorBuilder" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query_vector: S.optional(S.Unknown),
+          query_vector_builder: S.optional(__S(2347, __c73, 11)),
+          similarity_function: S.optional(S.String),
+          quantized: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslDenseVectorQuery" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          queries: __S(2337, __c73, 1),
+          tie_breaker: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesQueryDslDisMaxQuery" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslExistsQuery" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          factor: S.optional(S.Number),
+          missing: S.optional(S.Number),
+          modifier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslFieldValueFactorScoreFunction" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          seed: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesQueryDslRandomScoreFunction" });
+    case 17:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "TypesAggregationsGlobalAggregation",
+      });
+    case 18:
+      return S.Record(S.String, S.Number);
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          format: S.optional(S.String),
+          include_unmapped: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslFieldAndFormat" });
+    case 20:
+      return S.Array(__S(2355, __c73, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.Unknown),
+          boundary_chars: S.optional(S.String),
+          boundary_max_scan: S.optional(S.Number),
+          boundary_scanner: S.optional(S.String),
+          boundary_scanner_locale: S.optional(S.String),
+          force_source: S.optional(S.Boolean),
+          fragmenter: S.optional(S.String),
+          fragment_size: S.optional(S.Number),
+          highlight_filter: S.optional(S.Boolean),
+          highlight_query: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          max_fragment_length: S.optional(S.Number),
+          max_analyzed_offset: S.optional(S.Number),
+          no_match_size: S.optional(S.Number),
+          number_of_fragments: S.optional(S.Number),
+          options: S.optional(__S(192, __c6, 0)),
+          order: S.optional(S.String),
+          phrase_limit: S.optional(S.Number),
+          post_tags: S.optional(__S(1760, __c55, 0)),
+          pre_tags: S.optional(__S(1760, __c55, 0)),
+          require_field_match: S.optional(S.Boolean),
+          tags_schema: S.optional(S.String),
+          encoder: S.optional(S.String),
+          fields: S.Unknown,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesHighlight" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          script: S.suspend(() => __S(2464, __c77, 0)),
+          ignore_failure: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesScriptField" });
+    case 23:
+      return S.Record(S.String, __S(2358, __c73, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          size: S.optional(S.Number),
+          from: S.optional(S.Number),
+          collapse: S.optional(S.suspend(() => __S(2361, __c73, 25))),
+          docvalue_fields: S.optional(__S(2356, __c73, 20)),
+          explain: S.optional(S.Boolean),
+          highlight: S.optional(__S(2357, __c73, 21)),
+          ignore_unmapped: S.optional(S.Boolean),
+          script_fields: S.optional(__S(2359, __c73, 23)),
+          seq_no_primary_term: S.optional(S.Boolean),
+          field: S.optional(__S(1760, __c55, 0)),
+          fields: S.optional(__S(2356, __c73, 20)),
+          sort: S.optional(S.Unknown),
+          _source: S.optional(S.Unknown),
+          stored_fields: S.optional(S.Unknown),
+          track_scores: S.optional(S.Boolean),
+          version: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesInnerHits" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          inner_hits: S.optional(S.Unknown),
+          max_concurrent_group_searches: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesFieldCollapse" });
+    case 26:
+      return S.Array(S.Unknown);
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          weight: S.optional(S.Number),
+          _name: S.optional(S.String),
+          exp: S.optional(S.Unknown),
+          gauss: S.optional(S.Unknown),
+          linear: S.optional(S.Unknown),
+          field_value_factor: S.optional(__S(2351, __c73, 15)),
+          random_score: S.optional(__S(2352, __c73, 16)),
+          script_score: S.optional(__S(2465, __c77, 1)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslFunctionScoreContainer" });
+    case 28:
+      return S.Array(__S(2363, __c73, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          boost_mode: S.optional(S.String),
+          functions: S.optional(__S(2364, __c73, 28)),
+          max_boost: S.optional(S.Number),
+          min_score: S.optional(S.Number),
+          query: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          score_mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslFunctionScoreQuery" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          max_expansions: S.optional(S.Number),
+          prefix_length: S.optional(S.Number),
+          rewrite: S.optional(S.String),
+          transpositions: S.optional(S.Boolean),
+          fuzziness: S.optional(S.Unknown),
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "TypesQueryDslFuzzyQuery" });
+    case 31:
+      return S.Record(S.String, __S(2366, __c73, 30));
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          type: S.optional(S.String),
+          validation_method: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslGeoBoundingBoxQuery" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          distance: S.String,
+          distance_type: S.optional(S.String),
+          validation_method: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslGeoDistanceQuery" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          geotile: S.optional(S.String),
+          geohash: S.optional(S.String),
+          geohex: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslGeoGridQuery" });
+    case 3:
+      return S.Record(S.String, __S(2370, __c74, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          validation_method: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslGeoPolygonQuery" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslGeoShapeQuery" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+          inner_hits: S.optional(__S(2360, __c73, 24)),
+          max_children: S.optional(S.Number),
+          min_children: S.optional(S.Number),
+          query: S.suspend(() => __S(2450, __c76, 18)),
+          score_mode: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslHasChildQuery" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+          inner_hits: S.optional(__S(2360, __c73, 24)),
+          parent_type: S.String,
+          query: S.suspend(() => __S(2450, __c76, 18)),
+          score: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslHasParentQuery" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          values: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIdsQuery" });
+    case 9:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2385, __c74, 17)));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          before: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          contained_by: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          containing: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          not_contained_by: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          not_containing: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          not_overlapping: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          overlapping: S.optional(S.suspend(() => __S(2385, __c74, 17))),
+          script: S.optional(__S(2464, __c77, 0)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsFilter" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          intervals: __S(2377, __c74, 9),
+          filter: S.optional(__S(2378, __c74, 10)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsAnyOf" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          analyzer: S.optional(S.String),
+          fuzziness: S.optional(S.Unknown),
+          prefix_length: S.optional(S.Number),
+          term: S.String,
+          transpositions: S.optional(S.Boolean),
+          use_field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsFuzzy" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          analyzer: S.optional(S.String),
+          max_gaps: S.optional(S.Number),
+          ordered: S.optional(S.Boolean),
+          query: S.String,
+          use_field: S.optional(S.String),
+          filter: S.optional(__S(2378, __c74, 10)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsMatch" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          analyzer: S.optional(S.String),
+          prefix: S.String,
+          use_field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsPrefix" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          analyzer: S.optional(S.String),
+          gte: S.optional(S.String),
+          gt: S.optional(S.String),
+          lte: S.optional(S.String),
+          lt: S.optional(S.String),
+          use_field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsRange" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          analyzer: S.optional(S.String),
+          pattern: S.String,
+          use_field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsRegexp" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          all_of: S.optional(S.suspend(() => __S(2387, __c74, 19))),
+          any_of: S.optional(__S(2379, __c74, 11)),
+          fuzzy: S.optional(__S(2380, __c74, 12)),
+          match: S.optional(__S(2381, __c74, 13)),
+          prefix: S.optional(__S(2382, __c74, 14)),
+          range: S.optional(__S(2383, __c74, 15)),
+          regexp: S.optional(__S(2384, __c74, 16)),
+          wildcard: S.optional(__S(2384, __c74, 16)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsContainer" });
+    case 18:
+      return S.Array(__S(2385, __c74, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          intervals: __S(2386, __c74, 18),
+          max_gaps: S.optional(S.Number),
+          ordered: S.optional(S.Boolean),
+          filter: S.optional(__S(2378, __c74, 10)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsAllOf" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          all_of: S.optional(__S(2387, __c74, 19)),
+          any_of: S.optional(__S(2379, __c74, 11)),
+          fuzzy: S.optional(__S(2380, __c74, 12)),
+          match: S.optional(__S(2381, __c74, 13)),
+          prefix: S.optional(__S(2382, __c74, 14)),
+          range: S.optional(__S(2383, __c74, 15)),
+          regexp: S.optional(__S(2384, __c74, 16)),
+          wildcard: S.optional(__S(2384, __c74, 16)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslIntervalsQuery" });
+    case 21:
+      return S.Record(S.String, __S(2388, __c74, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query_vector: S.optional(S.Unknown),
+          query_vector_builder: S.optional(__S(2347, __c73, 11)),
+          num_candidates: S.optional(S.Number),
+          visit_percentage: S.optional(S.Number),
+          k: S.optional(S.Number),
+          filter: S.optional(S.Unknown),
+          similarity: S.optional(S.Number),
+          rescore_vector: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "TypesKnnQuery" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          case_insensitive: S.optional(S.Boolean),
+          default_field: S.optional(S.String),
+          query: S.String,
+          time_zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslKqlQuery" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
+          cutoff_frequency: S.optional(S.Number),
+          fuzziness: S.optional(S.Unknown),
+          fuzzy_rewrite: S.optional(S.String),
+          fuzzy_transpositions: S.optional(S.Boolean),
+          lenient: S.optional(S.Boolean),
+          max_expansions: S.optional(S.Number),
+          minimum_should_match: S.optional(S.Unknown),
+          operator: S.optional(S.String),
+          prefix_length: S.optional(S.Number),
+          query: S.Unknown,
+          zero_terms_query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMatchQuery" });
+    case 25:
+      return S.Record(S.String, __S(2392, __c74, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMatchAllQuery" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          fuzziness: S.optional(S.Unknown),
+          fuzzy_rewrite: S.optional(S.String),
+          fuzzy_transpositions: S.optional(S.Boolean),
+          max_expansions: S.optional(S.Number),
+          minimum_should_match: S.optional(S.Unknown),
+          operator: S.optional(S.String),
+          prefix_length: S.optional(S.Number),
+          query: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslMatchBoolPrefixQuery" });
+    case 28:
+      return S.Record(S.String, __S(2395, __c74, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          query: S.String,
+          slop: S.optional(S.Number),
+          zero_terms_query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMatchPhraseQuery" });
+    case 30:
+      return S.Record(S.String, __S(2397, __c74, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          max_expansions: S.optional(S.Number),
+          query: S.String,
+          slop: S.optional(S.Number),
+          zero_terms_query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMatchPhrasePrefixQuery" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(2399, __c74, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          boost_terms: S.optional(S.Number),
+          fail_on_unsupported_field: S.optional(S.Boolean),
+          fields: S.optional(__S(1760, __c55, 0)),
+          include: S.optional(S.Boolean),
+          like: S.Unknown,
+          max_doc_freq: S.optional(S.Number),
+          max_query_terms: S.optional(S.Number),
+          max_word_length: S.optional(S.Number),
+          min_doc_freq: S.optional(S.Number),
+          minimum_should_match: S.optional(S.Unknown),
+          min_term_freq: S.optional(S.Number),
+          min_word_length: S.optional(S.Number),
+          stop_words: S.optional(S.Unknown),
+          unlike: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMoreLikeThisQuery" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
+          cutoff_frequency: S.optional(S.Number),
+          fields: S.optional(S.Unknown),
+          fuzziness: S.optional(S.Unknown),
+          fuzzy_rewrite: S.optional(S.String),
+          fuzzy_transpositions: S.optional(S.Boolean),
+          lenient: S.optional(S.Boolean),
+          max_expansions: S.optional(S.Number),
+          minimum_should_match: S.optional(S.Unknown),
+          operator: S.optional(S.String),
+          prefix_length: S.optional(S.Number),
+          query: S.String,
+          slop: S.optional(S.Number),
+          tie_breaker: S.optional(S.Number),
+          type: S.optional(S.String),
+          zero_terms_query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslMultiMatchQuery" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+          inner_hits: S.optional(__S(2360, __c73, 24)),
+          path: S.String,
+          query: S.suspend(() => __S(2450, __c76, 18)),
+          score_mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslNestedQuery" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          id: S.optional(S.String),
+          ignore_unmapped: S.optional(S.Boolean),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslParentIdQuery" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          document: S.optional(S.Unknown),
+          documents: S.optional(__S(2304, __c72, 0)),
+          field: S.String,
+          id: S.optional(S.String),
+          index: S.optional(S.String),
+          name: S.optional(S.String),
+          preference: S.optional(S.String),
+          routing: S.optional(S.String),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesQueryDslPercolateQuery" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          _index: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslPinnedDoc" });
+    case 7:
+      return S.Array(__S(2406, __c75, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          organic: S.suspend(() => __S(2450, __c76, 18)),
+          ids: S.optional(__S(1760, __c55, 0)),
+          docs: S.optional(__S(2407, __c75, 7)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslPinnedQuery" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          rewrite: S.optional(S.String),
+          value: S.String,
+          case_insensitive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslPrefixQuery" });
+    case 10:
+      return S.Record(S.String, __S(2409, __c75, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          allow_leading_wildcard: S.optional(S.Boolean),
+          analyzer: S.optional(S.String),
+          analyze_wildcard: S.optional(S.Boolean),
+          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
+          default_field: S.optional(S.String),
+          default_operator: S.optional(S.String),
+          enable_position_increments: S.optional(S.Boolean),
+          escape: S.optional(S.Boolean),
+          fields: S.optional(__S(1760, __c55, 0)),
+          fuzziness: S.optional(S.Unknown),
+          fuzzy_max_expansions: S.optional(S.Number),
+          fuzzy_prefix_length: S.optional(S.Number),
+          fuzzy_rewrite: S.optional(S.String),
+          fuzzy_transpositions: S.optional(S.Boolean),
+          lenient: S.optional(S.Boolean),
+          max_determinized_states: S.optional(S.Number),
+          minimum_should_match: S.optional(S.Unknown),
+          phrase_slop: S.optional(S.Number),
+          query: S.String,
+          quote_analyzer: S.optional(S.String),
+          quote_field_suffix: S.optional(S.String),
+          rewrite: S.optional(S.String),
+          tie_breaker: S.optional(S.Number),
+          time_zone: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslQueryStringQuery" });
+    case 12:
+      return S.Record(S.String, S.Unknown);
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          pivot: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionSaturation" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          scaling_factor: S.Number,
+        }),
+      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionLogarithm" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          pivot: S.Number,
+          exponent: S.Number,
+        }),
+      ).annotate({ identifier: "TypesQueryDslRankFeatureFunctionSigmoid" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          saturation: S.optional(__S(2413, __c75, 13)),
+          log: S.optional(__S(2414, __c75, 14)),
+          linear: S.optional(__S(2353, __c73, 17)),
+          sigmoid: S.optional(__S(2415, __c75, 15)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslRankFeatureQuery" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          case_insensitive: S.optional(S.Boolean),
+          flags: S.optional(S.String),
+          max_determinized_states: S.optional(S.Number),
+          rewrite: S.optional(S.String),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslRegexpQuery" });
+    case 18:
+      return S.Record(S.String, __S(2417, __c75, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          organic: S.suspend(() => __S(2450, __c76, 18)),
+          ruleset_ids: S.optional(S.Unknown),
+          ruleset_id: S.optional(S.String),
+          match_criteria: S.Unknown,
+        }),
+      ).annotate({ identifier: "TypesQueryDslRuleQuery" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          script: __S(2464, __c77, 0),
+        }),
+      ).annotate({ identifier: "TypesQueryDslScriptQuery" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          min_score: S.optional(S.Number),
+          query: S.suspend(() => __S(2450, __c76, 18)),
+          script: __S(2464, __c77, 0),
+        }),
+      ).annotate({ identifier: "TypesQueryDslScriptScoreQuery" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslSemanticQuery" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          analyzer: S.optional(S.String),
+          analyze_wildcard: S.optional(S.Boolean),
+          auto_generate_synonyms_phrase_query: S.optional(S.Boolean),
+          default_operator: S.optional(S.String),
+          fields: S.optional(__S(1760, __c55, 0)),
+          flags: S.optional(S.Unknown),
+          fuzzy_max_expansions: S.optional(S.Number),
+          fuzzy_prefix_length: S.optional(S.Number),
+          fuzzy_transpositions: S.optional(S.Boolean),
+          lenient: S.optional(S.Boolean),
+          minimum_should_match: S.optional(S.Unknown),
+          query: S.String,
+          quote_field_suffix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSimpleQueryStringQuery" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query: S.suspend(() => __S(2434, __c76, 2)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanFieldMaskingQuery" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          end: S.Number,
+          match: S.suspend(() => __S(2434, __c76, 2)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanFirstQuery" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          match: S.suspend(() => __S(2450, __c76, 18)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanMultiTermQuery" });
+    case 27:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2434, __c76, 2)));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          clauses: __S(2427, __c75, 27),
+          in_order: S.optional(S.Boolean),
+          slop: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanNearQuery" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          dist: S.optional(S.Number),
+          exclude: S.suspend(() => __S(2434, __c76, 2)),
+          include: S.suspend(() => __S(2434, __c76, 2)),
+          post: S.optional(S.Number),
+          pre: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanNotQuery" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          clauses: __S(2427, __c75, 27),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanOrQuery" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanTermQuery" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(2431, __c75, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          big: S.suspend(() => __S(2434, __c76, 2)),
+          little: S.suspend(() => __S(2434, __c76, 2)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanWithinQuery" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          span_containing: S.optional(S.suspend(() => __S(2435, __c76, 3))),
+          span_field_masking: S.optional(__S(2424, __c75, 24)),
+          span_first: S.optional(__S(2425, __c75, 25)),
+          span_gap: S.optional(__S(2354, __c73, 18)),
+          span_multi: S.optional(__S(2426, __c75, 26)),
+          span_near: S.optional(__S(2428, __c75, 28)),
+          span_not: S.optional(__S(2429, __c75, 29)),
+          span_or: S.optional(__S(2430, __c75, 30)),
+          span_term: S.optional(__S(2432, __c76, 0)),
+          span_within: S.optional(__S(2433, __c76, 1)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanQuery" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          big: __S(2434, __c76, 2),
+          little: __S(2434, __c76, 2),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSpanContainingQuery" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          tokens_freq_ratio_threshold: S.optional(S.Number),
+          tokens_weight_threshold: S.optional(S.Number),
+          only_score_pruned_tokens: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesTokenPruningConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query: S.optional(S.String),
+          prune: S.optional(S.Boolean),
+          pruning_config: S.optional(__S(2436, __c76, 4)),
+          query_vector: S.optional(__S(2354, __c73, 18)),
+          inference_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslSparseVectorQuery" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          value: S.Unknown,
+          case_insensitive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesQueryDslTermQuery" });
+    case 7:
+      return S.Record(S.String, __S(2438, __c76, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          minimum_should_match: S.optional(S.Unknown),
+          minimum_should_match_field: S.optional(S.String),
+          minimum_should_match_script: S.optional(__S(2464, __c77, 0)),
+          terms: __S(2362, __c73, 26),
+        }),
+      ).annotate({ identifier: "TypesQueryDslTermsSetQuery" });
+    case 9:
+      return S.Record(S.String, __S(2440, __c76, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          model_id: S.String,
+          model_text: S.String,
+          pruning_config: S.optional(__S(2436, __c76, 4)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslTextExpansionQuery" });
+    case 11:
+      return S.Record(S.String, __S(2442, __c76, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          tokens: S.Unknown,
+          pruning_config: S.optional(__S(2436, __c76, 4)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslWeightedTokensQuery" });
+    case 13:
+      return S.Record(S.String, __S(2444, __c76, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          case_insensitive: S.optional(S.Boolean),
+          rewrite: S.optional(S.String),
+          value: S.optional(S.String),
+          wildcard: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesQueryDslWildcardQuery" });
+    case 15:
+      return S.Record(S.String, __S(2446, __c76, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          query: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslWrapperQuery" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          boost: S.optional(S.Number),
+          _name: S.optional(S.String),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "TypesQueryDslTypeQuery" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          bitmap_terms: S.optional(__S(2336, __c73, 0)),
+          bool: S.optional(__S(2338, __c73, 2)),
+          boosting: S.optional(__S(2339, __c73, 3)),
+          common: S.optional(__S(2341, __c73, 5)),
+          combined_fields: S.optional(__S(2342, __c73, 6)),
+          constant_score: S.optional(__S(2343, __c73, 7)),
+          dense_vector: S.optional(__S(2348, __c73, 12)),
+          dis_max: S.optional(__S(2349, __c73, 13)),
+          distance_feature: S.optional(S.Unknown),
+          exists: S.optional(__S(2350, __c73, 14)),
+          function_score: S.optional(__S(2365, __c73, 29)),
+          fuzzy: S.optional(__S(2367, __c73, 31)),
+          geo_bounding_box: S.optional(__S(2368, __c74, 0)),
+          geo_distance: S.optional(__S(2369, __c74, 1)),
+          geo_grid: S.optional(__S(2371, __c74, 3)),
+          geo_polygon: S.optional(__S(2372, __c74, 4)),
+          geo_shape: S.optional(__S(2373, __c74, 5)),
+          has_child: S.optional(__S(2374, __c74, 6)),
+          has_parent: S.optional(__S(2375, __c74, 7)),
+          ids: S.optional(__S(2376, __c74, 8)),
+          intervals: S.optional(__S(2389, __c74, 21)),
+          knn: S.optional(__S(2390, __c74, 22)),
+          kql: S.optional(__S(2391, __c74, 23)),
+          match: S.optional(__S(2393, __c74, 25)),
+          match_all: S.optional(__S(2394, __c74, 26)),
+          match_bool_prefix: S.optional(__S(2396, __c74, 28)),
+          match_none: S.optional(__S(2394, __c74, 26)),
+          match_phrase: S.optional(__S(2398, __c74, 30)),
+          match_phrase_prefix: S.optional(__S(2400, __c75, 0)),
+          more_like_this: S.optional(__S(2401, __c75, 1)),
+          multi_match: S.optional(__S(2402, __c75, 2)),
+          nested: S.optional(__S(2403, __c75, 3)),
+          parent_id: S.optional(__S(2404, __c75, 4)),
+          percolate: S.optional(__S(2405, __c75, 5)),
+          pinned: S.optional(__S(2408, __c75, 8)),
+          prefix: S.optional(__S(2410, __c75, 10)),
+          query_string: S.optional(__S(2411, __c75, 11)),
+          range: S.optional(__S(2412, __c75, 12)),
+          rank_feature: S.optional(__S(2416, __c75, 16)),
+          regexp: S.optional(__S(2418, __c75, 18)),
+          rule: S.optional(__S(2419, __c75, 19)),
+          script: S.optional(__S(2420, __c75, 20)),
+          script_score: S.optional(__S(2421, __c75, 21)),
+          semantic: S.optional(__S(2422, __c75, 22)),
+          shape: S.optional(__S(2373, __c74, 5)),
+          simple_query_string: S.optional(__S(2423, __c75, 23)),
+          span_containing: S.optional(__S(2435, __c76, 3)),
+          span_field_masking: S.optional(__S(2424, __c75, 24)),
+          span_first: S.optional(__S(2425, __c75, 25)),
+          span_multi: S.optional(__S(2426, __c75, 26)),
+          span_near: S.optional(__S(2428, __c75, 28)),
+          span_not: S.optional(__S(2429, __c75, 29)),
+          span_or: S.optional(__S(2430, __c75, 30)),
+          span_term: S.optional(__S(2432, __c76, 0)),
+          span_within: S.optional(__S(2433, __c76, 1)),
+          sparse_vector: S.optional(__S(2437, __c76, 5)),
+          term: S.optional(__S(2439, __c76, 7)),
+          terms: S.optional(__S(2394, __c74, 26)),
+          terms_set: S.optional(__S(2441, __c76, 9)),
+          text_expansion: S.optional(__S(2443, __c76, 11)),
+          weighted_tokens: S.optional(__S(2445, __c76, 13)),
+          wildcard: S.optional(__S(2447, __c76, 15)),
+          wrapper: S.optional(__S(2448, __c76, 16)),
+          type: S.optional(__S(2449, __c76, 17)),
+        }),
+      ).annotate({ identifier: "TypesQueryDslQueryContainer" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(S.Unknown),
+          id: S.optional(S.String),
+          params: S.optional(__S(192, __c6, 0)),
+          lang: S.optional(S.Unknown),
+          options: S.optional(__S(1728, __c54, 0)),
+        }),
+      ).annotate({ identifier: "TypesScript" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          script: __S(2464, __c77, 0),
+        }),
+      ).annotate({ identifier: "TypesQueryDslScriptScoreFunction" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          document: S.Unknown,
+          index: S.String,
+          query: S.optional(__S(2450, __c76, 18)),
+        }),
+      ).annotate({ identifier: "GlobalScriptsPainlessExecutePainlessContextSetup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.Unknown,
+        }),
+      ).annotate({ identifier: "ExecuteScriptsPainlessResponse" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actions: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          detailed: S.optional(S.Boolean.pipe(T.Query())),
+          nodes: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          parent_task_id: S.optional(S.String.pipe(T.Query())),
+          h: S.optional(S.Unknown.pipe(T.Query())),
+          s: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+          help: S.optional(S.Boolean.pipe(T.Query())),
+          v: S.optional(S.Boolean.pipe(T.Query())),
+          bytes: S.optional(S.String.pipe(T.Query())),
+          time: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_cat/tasks", code: 200 })),
+      ).annotate({ identifier: "CatTasksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          action: S.optional(S.String),
+          task_id: S.optional(S.String),
+          parent_task_id: S.optional(S.String),
+          type: S.optional(S.String),
+          start_time: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          running_time_ns: S.optional(S.String),
+          running_time: S.optional(S.String),
+          node_id: S.optional(S.String),
+          ip: S.optional(S.String),
+          port: S.optional(S.String),
+          node: S.optional(S.String),
+          version: S.optional(S.String),
+          x_opaque_id: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CatTasksTasksRecord" });
+    case 2:
+      return S.Array(__S(2529, __c79, 1));
+    case 3:
+      return S.suspend(() => __S(2530, __c79, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CatTasksResponse",
+      });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
+          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
+          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
+          search_type: S.optional(S.String.pipe(T.Query())),
+          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
+          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
+          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "GET", uri: "/_fleet/_fleet_msearch", code: 200 })),
+      ).annotate({ identifier: "FleetMsearchRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          docs: __S(2593, __c81, 1),
+        }),
+      ).annotate({ identifier: "FleetMsearchResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
+          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
+          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
+          search_type: S.optional(S.String.pipe(T.Query())),
+          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
+          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
+          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/_fleet/_fleet_msearch", code: 200 })),
+      ).annotate({ identifier: "FleetMsearch1Request" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
+          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
+          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
+          search_type: S.optional(S.String.pipe(T.Query())),
+          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
+          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
+          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
+      ).annotate({ identifier: "FleetMsearch2Request" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          max_concurrent_searches: S.optional(S.Number.pipe(T.Query())),
+          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
+          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
+          search_type: S.optional(S.String.pipe(T.Query())),
+          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
+          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
+          body: __S(2592, __c81, 0).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
+      ).annotate({ identifier: "FleetMsearch3Request" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          analyzer: S.optional(S.String.pipe(T.Query())),
+          analyze_wildcard: S.optional(S.Boolean.pipe(T.Query())),
+          batched_reduce_size: S.optional(S.Number.pipe(T.Query())),
+          ccs_minimize_roundtrips: S.optional(S.Boolean.pipe(T.Query())),
+          default_operator: S.optional(S.String.pipe(T.Query())),
+          df: S.optional(S.String.pipe(T.Query())),
+          docvalue_fields: S.optional(S.Unknown.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          explain: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_throttled: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          lenient: S.optional(S.Boolean.pipe(T.Query())),
+          max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
+          preference: S.optional(S.String.pipe(T.Query())),
+          pre_filter_shard_size: S.optional(S.Number.pipe(T.Query())),
+          request_cache: S.optional(S.Boolean.pipe(T.Query())),
+          routing: S.optional(S.Unknown.pipe(T.Query())),
+          scroll: S.optional(S.Unknown.pipe(T.Query())),
+          search_type: S.optional(S.String.pipe(T.Query())),
+          stats: S.optional(__S(1760, __c55, 0).pipe(T.Query())),
+          stored_fields: S.optional(S.Unknown.pipe(T.Query())),
+          suggest_field: S.optional(S.String.pipe(T.Query())),
+          suggest_mode: S.optional(S.String.pipe(T.Query())),
+          suggest_size: S.optional(S.Number.pipe(T.Query())),
+          suggest_text: S.optional(S.String.pipe(T.Query())),
+          terminate_after: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          track_total_hits: S.optional(S.Unknown.pipe(T.Query())),
+          track_scores: S.optional(S.Boolean.pipe(T.Query())),
+          typed_keys: S.optional(S.Boolean.pipe(T.Query())),
+          rest_total_hits_as_int: S.optional(S.Boolean.pipe(T.Query())),
+          version: S.optional(S.Boolean.pipe(T.Query())),
+          _source: S.optional(S.Unknown.pipe(T.Query())),
+          _source_excludes: S.optional(S.Unknown.pipe(T.Query())),
+          _source_includes: S.optional(S.Unknown.pipe(T.Query())),
+          seq_no_primary_term: S.optional(S.Boolean.pipe(T.Query())),
+          q: S.optional(S.String.pipe(T.Query())),
+          size: S.optional(S.Number.pipe(T.Query())),
+          from: S.optional(S.Number.pipe(T.Query())),
+          sort: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_checkpoints: S.optional(__S(2624, __c82, 0).pipe(T.Query())),
+          wait_for_checkpoints_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
+          aggregations: S.optional(__S(2883, __c90, 3)),
+          collapse: S.optional(__S(2361, __c73, 25)),
+          ext: S.optional(__S(192, __c6, 0)),
+          highlight: S.optional(__S(2357, __c73, 21)),
+          indices_boost: S.optional(__S(2884, __c90, 4)),
+          min_score: S.optional(S.Number),
+          post_filter: S.optional(__S(2450, __c76, 18)),
+          profile: S.optional(S.Boolean),
+          query: S.optional(__S(2450, __c76, 18)),
+          rescore: S.optional(S.Unknown),
+          script_fields: S.optional(__S(2359, __c73, 23)),
+          search_after: S.optional(__S(2362, __c73, 26)),
+          slice: S.optional(__S(2904, __c90, 24)),
+          fields: S.optional(__S(2356, __c73, 20)),
+          suggest: S.optional(__S(2905, __c90, 25)),
+          pit: S.optional(__S(2906, __c90, 26)),
+          runtime_mappings: S.optional(__S(2982, __c93, 6)),
+        }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_search", code: 200 })),
+      ).annotate({ identifier: "FleetSearch1Request" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(2882, __c90, 2)),
+      );
+    case 1:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(2450, __c76, 18)),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(2785, __c87, 1)),
+          separator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAdjacencyMatrixAggregation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          buckets: S.optional(S.Number),
+          field: S.optional(S.String),
+          format: S.optional(S.String),
+          minimum_interval: S.optional(S.Unknown),
+          missing: S.optional(S.Unknown),
+          offset: S.optional(S.String),
+          params: S.optional(__S(192, __c6, 0)),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          time_zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAutoDateHistogramAggregation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAverageAggregation" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAverageBucketAggregation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          compression: S.optional(S.Number),
+          execution_hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBoxplotAggregation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketScriptAggregation" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Number),
+          gap_policy: S.optional(S.String),
+          size: S.optional(S.Number),
+          sort: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketSortAggregation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          alternative: S.optional(__S(1760, __c55, 0)),
+          fractions: S.optional(__S(2624, __c82, 0)),
+          sampling_method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketKsAggregation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          doc_count: S.Number,
+          expectations: __S(2624, __c82, 0),
+          fractions: S.optional(__S(2624, __c82, 0)),
+        }),
+      ).annotate({
+        identifier: "TypesAggregationsBucketCorrelationFunctionCountCorrelationIndicator",
+      });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          indicator: __S(2794, __c87, 10),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketCorrelationFunctionCountCorrelation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          count_correlation: __S(2795, __c87, 11),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketCorrelationFunction" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          function: __S(2796, __c87, 12),
+        }),
+      ).annotate({ identifier: "TypesAggregationsBucketCorrelationAggregation" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          precision_threshold: S.optional(S.Number),
+          rehash: S.optional(S.Boolean),
+          execution_hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCardinalityAggregation" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCartesianBoundsAggregation" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          max_unique_tokens: S.optional(S.Number),
+          max_matched_tokens: S.optional(S.Number),
+          similarity_threshold: S.optional(S.Number),
+          categorization_filters: S.optional(__S(1760, __c55, 0)),
+          categorization_analyzer: S.optional(S.Unknown),
+          shard_size: S.optional(S.Number),
+          size: S.optional(S.Number),
+          min_doc_count: S.optional(S.Number),
+          shard_min_doc_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCategorizeTextAggregation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsChildrenAggregation" });
+    case 18:
+      return S.Record(S.String, S.Unknown);
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing_bucket: S.optional(S.Boolean),
+          missing_order: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          value_type: S.optional(S.String),
+          order: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeTermsAggregation" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing_bucket: S.optional(S.Boolean),
+          missing_order: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          value_type: S.optional(S.String),
+          order: S.optional(S.String),
+          interval: S.Number,
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeHistogramAggregation" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing_bucket: S.optional(S.Boolean),
+          missing_order: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          value_type: S.optional(S.String),
+          order: S.optional(S.String),
+          format: S.optional(S.String),
+          calendar_interval: S.optional(S.String),
+          fixed_interval: S.optional(S.String),
+          offset: S.optional(S.Unknown),
+          time_zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeDateHistogramAggregation" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing_bucket: S.optional(S.Boolean),
+          missing_order: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          value_type: S.optional(S.String),
+          order: S.optional(S.String),
+          precision: S.optional(S.Number),
+          bounds: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeGeoTileGridAggregation" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          terms: S.optional(__S(2803, __c87, 19)),
+          histogram: S.optional(__S(2804, __c87, 20)),
+          date_histogram: S.optional(__S(2805, __c87, 21)),
+          geotile_grid: S.optional(__S(2806, __c87, 22)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeAggregationSource" });
+    case 24:
+      return S.Record(S.String, __S(2807, __c87, 23));
+    case 25:
+      return S.Array(__S(2808, __c87, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(__S(2802, __c87, 18)),
+          size: S.optional(S.Number),
+          sources: S.optional(__S(2809, __c87, 25)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsCompositeAggregation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          max: S.optional(S.Unknown),
+          min: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsExtendedBoundsFieldDateMath" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          calendar_interval: S.optional(S.String),
+          extended_bounds: S.optional(__S(2811, __c87, 27)),
+          hard_bounds: S.optional(__S(2811, __c87, 27)),
+          field: S.optional(S.String),
+          fixed_interval: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          interval: S.optional(S.Unknown),
+          min_doc_count: S.optional(S.Number),
+          missing: S.optional(S.Unknown),
+          offset: S.optional(S.Unknown),
+          order: S.optional(S.Unknown),
+          params: S.optional(__S(192, __c6, 0)),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          time_zone: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsDateHistogramAggregation" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Unknown),
+          key: S.optional(S.String),
+          to: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsDateRangeExpression" });
+    case 30:
+      return S.Array(__S(2813, __c87, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          format: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          ranges: S.optional(__S(2814, __c87, 30)),
+          time_zone: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsDateRangeAggregation" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          execution_hint: S.optional(S.String),
+          max_docs_per_value: S.optional(S.Number),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          shard_size: S.optional(S.Number),
+          field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsDiversifiedSamplerAggregation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          sigma: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsExtendedStatsAggregation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          sigma: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsExtendedStatsBucketAggregation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          exclude: S.optional(S.Unknown),
+          include: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsFrequentItemSetsField" });
+    case 4:
+      return S.Array(__S(2819, __c88, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fields: __S(2820, __c88, 4),
+          minimum_set_size: S.optional(S.Number),
+          minimum_support: S.optional(S.Number),
+          size: S.optional(S.Number),
+          filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsFrequentItemSetsAggregation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(S.Unknown),
+          other_bucket: S.optional(S.Boolean),
+          other_bucket_key: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsFiltersAggregation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          wrap_longitude: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoBoundsAggregation" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          count: S.optional(S.Number),
+          location: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoCentroidAggregation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Unknown),
+          key: S.optional(S.String),
+          to: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAggregationRange" });
+    case 10:
+      return S.Array(__S(2825, __c88, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          distance_type: S.optional(S.String),
+          field: S.optional(S.String),
+          origin: S.optional(S.Unknown),
+          ranges: S.optional(__S(2826, __c88, 10)),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoDistanceAggregation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          bounds: S.optional(S.Unknown),
+          field: S.optional(S.String),
+          precision: S.optional(S.Unknown),
+          shard_size: S.optional(S.Number),
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoHashGridAggregation" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoLinePoint" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          point: __S(2829, __c88, 13),
+          sort: S.optional(__S(2829, __c88, 13)),
+          include_sort: S.optional(S.Boolean),
+          sort_order: S.optional(S.String),
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoLineAggregation" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          precision: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          size: S.optional(S.Number),
+          bounds: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeoTileGridAggregation" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          precision: S.optional(S.Number),
+          bounds: S.optional(S.Unknown),
+          size: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGeohexGridAggregation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          max: S.optional(S.Number),
+          min: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsExtendedBoundsdouble" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          extended_bounds: S.optional(__S(2833, __c88, 17)),
+          hard_bounds: S.optional(__S(2833, __c88, 17)),
+          field: S.optional(S.String),
+          interval: S.optional(S.Number),
+          min_doc_count: S.optional(S.Number),
+          missing: S.optional(S.Number),
+          offset: S.optional(S.Number),
+          order: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsHistogramAggregation" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.String),
+          mask: S.optional(S.String),
+          to: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsIpRangeAggregationRange" });
+    case 20:
+      return S.Array(__S(2835, __c88, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          ranges: S.optional(__S(2836, __c88, 20)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsIpRangeAggregation" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          prefix_length: S.Number,
+          is_ipv6: S.optional(S.Boolean),
+          append_prefix_length: S.optional(S.Boolean),
+          keyed: S.optional(S.Boolean),
+          min_doc_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsIpPrefixAggregation" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          num_top_classes: S.optional(S.Number),
+          num_top_feature_importance_values: S.optional(S.Number),
+          prediction_field_type: S.optional(S.String),
+          results_field: S.optional(S.String),
+          top_classes_results_field: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MlTypesClassificationInferenceOptions" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          regression: S.optional(__S(2976, __c93, 0)),
+          classification: S.optional(__S(2839, __c88, 23)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsInferenceConfigContainer" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          model_id: S.String,
+          inference_config: S.optional(__S(2840, __c88, 24)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsInferenceAggregation" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(S.Unknown),
+          missing: S.optional(__S(2354, __c73, 18)),
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMatrixStatsAggregation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          compression: S.optional(S.Number),
+          execution_hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMedianAbsoluteDeviationAggregation" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMissingAggregation" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          window: S.optional(S.Number),
+          shift: S.optional(S.Number),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMovingPercentilesAggregation" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          script: S.optional(S.String),
+          shift: S.optional(S.Number),
+          window: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMovingFunctionAggregation" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          missing: S.optional(S.Unknown),
+          field: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMultiTermLookup" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2847, __c88, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collect_mode: S.optional(S.String),
+          order: S.optional(S.Unknown),
+          min_doc_count: S.optional(S.Number),
+          shard_min_doc_count: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          show_term_doc_count_error: S.optional(S.Boolean),
+          size: S.optional(S.Number),
+          terms: __S(2848, __c89, 0),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMultiTermsAggregation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsNestedAggregation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsNormalizeAggregation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          number_of_significant_value_digits: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsHdrMethod" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          compression: S.optional(S.Number),
+          execution_hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTDigest" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+          values: S.optional(S.Unknown),
+          hdr: S.optional(__S(2852, __c89, 4)),
+          tdigest: S.optional(__S(2853, __c89, 5)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsPercentileRanksAggregation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          keyed: S.optional(S.Boolean),
+          percents: S.optional(S.Unknown),
+          hdr: S.optional(__S(2852, __c89, 4)),
+          tdigest: S.optional(__S(2853, __c89, 5)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsPercentilesAggregation" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          percents: S.optional(__S(2624, __c82, 0)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsPercentilesBucketAggregation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Number),
+          ranges: S.optional(__S(2826, __c88, 10)),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          keyed: S.optional(S.Boolean),
+          format: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsRangeAggregation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          exclude: S.optional(S.Unknown),
+          field: S.optional(S.String),
+          include: S.optional(S.Unknown),
+          max_doc_count: S.optional(S.Number),
+          missing: S.optional(S.Unknown),
+          precision: S.optional(S.Number),
+          value_type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsRareTermsAggregation" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          format: S.optional(S.String),
+          unit: S.optional(S.String),
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsRateAggregation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          missing: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsRoaringBitmapAggregation" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          probability: S.Number,
+          seed: S.optional(S.Number),
+          shard_seed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsRandomSamplerAggregation" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          shard_size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsSamplerAggregation" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          combine_script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          init_script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          map_script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          params: S.optional(__S(192, __c6, 0)),
+          reduce_script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsScriptedMetricAggregation" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          buckets_path: S.optional(S.Unknown),
+          format: S.optional(S.String),
+          gap_policy: S.optional(S.String),
+          lag: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsSerialDifferencingAggregation" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          background_is_superset: S.Boolean,
+          include_negatives: S.Boolean,
+        }),
+      ).annotate({ identifier: "TypesAggregationsChiSquareHeuristic" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          background_is_superset: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsGoogleNormalizedDistanceHeuristic" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          background_is_superset: S.optional(S.Boolean),
+          include_negatives: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsMutualInformationHeuristic" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          script: S.suspend(() => __S(2464, __c77, 0)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsScriptedHeuristic" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          background_is_superset: S.optional(S.Boolean),
+          normalize_above: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsPValueHeuristic" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          background_filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          chi_square: S.optional(__S(2865, __c89, 17)),
+          exclude: S.optional(S.Unknown),
+          execution_hint: S.optional(S.String),
+          field: S.optional(S.String),
+          gnd: S.optional(__S(2866, __c89, 18)),
+          include: S.optional(S.Unknown),
+          jlh: S.optional(S.Unknown),
+          min_doc_count: S.optional(S.Number),
+          mutual_information: S.optional(__S(2867, __c89, 19)),
+          percentage: S.optional(S.Unknown),
+          script_heuristic: S.optional(__S(2868, __c89, 20)),
+          p_value: S.optional(__S(2869, __c89, 21)),
+          shard_min_doc_count: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesAggregationsSignificantTermsAggregation" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          background_filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          chi_square: S.optional(__S(2865, __c89, 17)),
+          exclude: S.optional(S.Unknown),
+          execution_hint: S.optional(S.String),
+          field: S.optional(S.String),
+          filter_duplicate_text: S.optional(S.Boolean),
+          gnd: S.optional(__S(2866, __c89, 18)),
+          include: S.optional(S.Unknown),
+          jlh: S.optional(S.Unknown),
+          min_doc_count: S.optional(S.Number),
+          mutual_information: S.optional(__S(2867, __c89, 19)),
+          percentage: S.optional(S.Unknown),
+          script_heuristic: S.optional(__S(2868, __c89, 20)),
+          shard_min_doc_count: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          size: S.optional(S.Number),
+          source_fields: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsSignificantTextAggregation" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          show_distribution: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsStringStatsAggregation" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          collect_mode: S.optional(S.String),
+          exclude: S.optional(S.Unknown),
+          execution_hint: S.optional(S.String),
+          field: S.optional(S.String),
+          include: S.optional(S.Unknown),
+          min_doc_count: S.optional(S.Number),
+          missing: S.optional(S.Unknown),
+          missing_order: S.optional(S.String),
+          missing_bucket: S.optional(S.Boolean),
+          value_type: S.optional(S.String),
+          order: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          shard_min_doc_count: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          show_term_doc_count_error: S.optional(S.Boolean),
+          size: S.optional(S.Number),
+          format: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTermsAggregation" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          size: S.optional(S.Number),
+          keyed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTimeSeriesAggregation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Unknown),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          docvalue_fields: S.optional(__S(2356, __c73, 20)),
+          explain: S.optional(S.Boolean),
+          fields: S.optional(__S(2356, __c73, 20)),
+          from: S.optional(S.Number),
+          highlight: S.optional(__S(2357, __c73, 21)),
+          script_fields: S.optional(__S(2359, __c73, 23)),
+          size: S.optional(S.Number),
+          sort: S.optional(S.Unknown),
+          _source: S.optional(S.Unknown),
+          stored_fields: S.optional(S.Unknown),
+          track_scores: S.optional(S.Boolean),
+          version: S.optional(S.Boolean),
+          seq_no_primary_term: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTopHitsAggregation" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTestPopulation" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          a: S.optional(__S(2876, __c89, 28)),
+          b: S.optional(__S(2876, __c89, 28)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTTestAggregation" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          metrics: S.optional(S.Unknown),
+          size: S.optional(S.Number),
+          sort: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TypesAggregationsTopMetricsAggregation" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          missing: S.optional(S.Number),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsWeightedAverageValue" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          format: S.optional(S.String),
+          value: S.optional(__S(2879, __c89, 31)),
+          value_type: S.optional(S.String),
+          weight: S.optional(__S(2879, __c89, 31)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsWeightedAverageAggregation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          buckets: S.optional(S.Number),
+          shard_size: S.optional(S.Number),
+          initial_buffer: S.optional(S.Number),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+        }),
+      ).annotate({ identifier: "TypesAggregationsVariableWidthHistogramAggregation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          aggregations: S.optional(__S(2784, __c87, 0)),
+          meta: S.optional(__S(192, __c6, 0)),
+          adjacency_matrix: S.optional(__S(2786, __c87, 2)),
+          auto_date_histogram: S.optional(__S(2787, __c87, 3)),
+          avg: S.optional(__S(2788, __c87, 4)),
+          avg_bucket: S.optional(__S(2789, __c87, 5)),
+          boxplot: S.optional(__S(2790, __c87, 6)),
+          bucket_script: S.optional(__S(2791, __c87, 7)),
+          bucket_selector: S.optional(__S(2791, __c87, 7)),
+          bucket_sort: S.optional(__S(2792, __c87, 8)),
+          bucket_count_ks_test: S.optional(__S(2793, __c87, 9)),
+          bucket_correlation: S.optional(__S(2797, __c87, 13)),
+          cardinality: S.optional(__S(2798, __c87, 14)),
+          cartesian_bounds: S.optional(__S(2799, __c87, 15)),
+          cartesian_centroid: S.optional(__S(2799, __c87, 15)),
+          categorize_text: S.optional(__S(2800, __c87, 16)),
+          change_point: S.optional(__S(2789, __c87, 5)),
+          children: S.optional(__S(2801, __c87, 17)),
+          composite: S.optional(__S(2810, __c87, 26)),
+          cumulative_cardinality: S.optional(__S(2789, __c87, 5)),
+          cumulative_sum: S.optional(__S(2789, __c87, 5)),
+          date_histogram: S.optional(__S(2812, __c87, 28)),
+          date_range: S.optional(__S(2815, __c87, 31)),
+          derivative: S.optional(__S(2789, __c87, 5)),
+          diversified_sampler: S.optional(__S(2816, __c88, 0)),
+          extended_stats: S.optional(__S(2817, __c88, 1)),
+          extended_stats_bucket: S.optional(__S(2818, __c88, 2)),
+          frequent_item_sets: S.optional(__S(2821, __c88, 5)),
+          filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          filters: S.optional(__S(2822, __c88, 6)),
+          geo_bounds: S.optional(__S(2823, __c88, 7)),
+          geo_centroid: S.optional(__S(2824, __c88, 8)),
+          geo_distance: S.optional(__S(2827, __c88, 11)),
+          geohash_grid: S.optional(__S(2828, __c88, 12)),
+          geo_line: S.optional(__S(2830, __c88, 14)),
+          geotile_grid: S.optional(__S(2831, __c88, 15)),
+          geohex_grid: S.optional(__S(2832, __c88, 16)),
+          global: S.optional(__S(2353, __c73, 17)),
+          histogram: S.optional(__S(2834, __c88, 18)),
+          ip_range: S.optional(__S(2837, __c88, 21)),
+          ip_prefix: S.optional(__S(2838, __c88, 22)),
+          inference: S.optional(__S(2841, __c88, 25)),
+          line: S.optional(__S(2830, __c88, 14)),
+          matrix_stats: S.optional(__S(2842, __c88, 26)),
+          max: S.optional(__S(2788, __c87, 4)),
+          max_bucket: S.optional(__S(2789, __c87, 5)),
+          median_absolute_deviation: S.optional(__S(2843, __c88, 27)),
+          min: S.optional(__S(2788, __c87, 4)),
+          min_bucket: S.optional(__S(2789, __c87, 5)),
+          missing: S.optional(__S(2844, __c88, 28)),
+          moving_avg: S.optional(S.Unknown),
+          moving_percentiles: S.optional(__S(2845, __c88, 29)),
+          moving_fn: S.optional(__S(2846, __c88, 30)),
+          multi_terms: S.optional(__S(2849, __c89, 1)),
+          nested: S.optional(__S(2850, __c89, 2)),
+          normalize: S.optional(__S(2851, __c89, 3)),
+          parent: S.optional(__S(2801, __c87, 17)),
+          percentile_ranks: S.optional(__S(2854, __c89, 6)),
+          percentiles: S.optional(__S(2855, __c89, 7)),
+          percentiles_bucket: S.optional(__S(2856, __c89, 8)),
+          range: S.optional(__S(2857, __c89, 9)),
+          rare_terms: S.optional(__S(2858, __c89, 10)),
+          rate: S.optional(__S(2859, __c89, 11)),
+          roaring_bitmap: S.optional(__S(2860, __c89, 12)),
+          reverse_nested: S.optional(__S(2850, __c89, 2)),
+          random_sampler: S.optional(__S(2861, __c89, 13)),
+          sampler: S.optional(__S(2862, __c89, 14)),
+          scripted_metric: S.optional(__S(2863, __c89, 15)),
+          serial_diff: S.optional(__S(2864, __c89, 16)),
+          significant_terms: S.optional(__S(2870, __c89, 22)),
+          significant_text: S.optional(__S(2871, __c89, 23)),
+          stats: S.optional(__S(2788, __c87, 4)),
+          stats_bucket: S.optional(__S(2789, __c87, 5)),
+          string_stats: S.optional(__S(2872, __c89, 24)),
+          sum: S.optional(__S(2788, __c87, 4)),
+          sum_bucket: S.optional(__S(2789, __c87, 5)),
+          terms: S.optional(__S(2873, __c89, 25)),
+          time_series: S.optional(__S(2874, __c89, 26)),
+          top_hits: S.optional(__S(2875, __c89, 27)),
+          t_test: S.optional(__S(2877, __c89, 29)),
+          top_metrics: S.optional(__S(2878, __c89, 30)),
+          value_count: S.optional(__S(2788, __c87, 4)),
+          weighted_avg: S.optional(__S(2880, __c90, 0)),
+          variable_width_histogram: S.optional(__S(2881, __c90, 1)),
+        }),
+      ).annotate({ identifier: "TypesAggregationsAggregationContainer" });
+    case 3:
+      return S.Record(S.String, __S(2882, __c90, 2));
+    case 4:
+      return S.Array(__S(2354, __c73, 18));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          rank_constant: S.optional(S.Number),
+          rank_window_size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesRrfRank" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          rrf: S.optional(__S(2885, __c90, 5)),
+        }),
+      ).annotate({ identifier: "TypesRankContainer" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          query: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          search_after: S.optional(__S(2362, __c73, 26)),
+          terminate_after: S.optional(S.Number),
+          sort: S.optional(S.Unknown),
+          collapse: S.optional(__S(2361, __c73, 25)),
+        }),
+      ).annotate({ identifier: "TypesStandardRetriever" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          field: S.String,
+          query_vector: S.optional(S.Unknown),
+          query_vector_builder: S.optional(__S(2347, __c73, 11)),
+          k: S.Number,
+          num_candidates: S.optional(S.Number),
+          visit_percentage: S.optional(S.Number),
+          similarity: S.optional(S.Number),
+          rescore_vector: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "TypesKnnRetriever" });
+    case 9:
+      return S.Array(S.Unknown);
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          retrievers: __S(2889, __c90, 9),
+          rank_constant: S.optional(S.Number),
+          rank_window_size: S.optional(S.Number),
+          query: S.optional(S.String),
+          fields: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "TypesRRFRetriever" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          max_chunk_size: S.optional(S.Number),
+          overlap: S.optional(S.Number),
+          sentence_overlap: S.optional(S.Number),
+          separator_group: S.optional(S.String),
+          separators: S.optional(__S(1760, __c55, 0)),
+          strategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesMappingChunkRescorerChunkingSettings" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          size: S.optional(S.Number),
+          chunking_settings: S.optional(__S(2891, __c90, 11)),
+        }),
+      ).annotate({ identifier: "TypesChunkRescorer" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          rank_window_size: S.optional(S.Number),
+          inference_id: S.optional(S.String),
+          inference_text: S.String,
+          field: S.String,
+          allow_rerank_failures: S.optional(S.Boolean),
+          chunk_rescorer: S.optional(__S(2892, __c90, 12)),
+        }),
+      ).annotate({ identifier: "TypesTextSimilarityReranker" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          ruleset_ids: S.Unknown,
+          match_criteria: S.Unknown,
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          rank_window_size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesRuleRetriever" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          rescore: S.Unknown,
+        }),
+      ).annotate({ identifier: "TypesRescorerRetriever" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          weight: S.optional(S.Number),
+          normalizer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesInnerRetriever" });
+    case 17:
+      return S.Array(__S(2896, __c90, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          retrievers: S.optional(__S(2897, __c90, 17)),
+          rank_window_size: S.optional(S.Number),
+          query: S.optional(S.String),
+          fields: S.optional(__S(1760, __c55, 0)),
+          normalizer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesLinearRetriever" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.optional(S.String),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "TypesSpecifiedDocument" });
+    case 20:
+      return S.Array(__S(2899, __c90, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          ids: S.optional(__S(1760, __c55, 0)),
+          docs: S.optional(__S(2900, __c90, 20)),
+          rank_window_size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesPinnedRetriever" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.Unknown),
+          min_score: S.optional(S.Number),
+          _name: S.optional(S.String),
+          type: S.String,
+          field: S.String,
+          retriever: S.suspend(() => __S(2903, __c90, 23)),
+          size: S.optional(S.Number),
+          rank_window_size: S.optional(S.Number),
+          query_vector: S.optional(S.Unknown),
+          query_vector_builder: S.optional(__S(2347, __c73, 11)),
+          lambda: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesDiversifyRetriever" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          standard: S.optional(__S(2887, __c90, 7)),
+          knn: S.optional(__S(2888, __c90, 8)),
+          rrf: S.optional(__S(2890, __c90, 10)),
+          text_similarity_reranker: S.optional(__S(2893, __c90, 13)),
+          rule: S.optional(__S(2894, __c90, 14)),
+          rescorer: S.optional(__S(2895, __c90, 15)),
+          linear: S.optional(__S(2898, __c90, 18)),
+          pinned: S.optional(__S(2901, __c90, 21)),
+          diversify: S.optional(__S(2902, __c90, 22)),
+        }),
+      ).annotate({ identifier: "TypesRetrieverContainer" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          id: S.String,
+          max: S.Number,
+        }),
+      ).annotate({ identifier: "TypesSlicedScroll" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesSuggester" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          keep_alive: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesPointInTimeReference" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          aggregations: S.optional(__S(2883, __c90, 3)),
+          collapse: S.optional(__S(2361, __c73, 25)),
+          explain: S.optional(S.Boolean),
+          ext: S.optional(__S(192, __c6, 0)),
+          from: S.optional(S.Number),
+          highlight: S.optional(__S(2357, __c73, 21)),
+          track_total_hits: S.optional(S.Unknown),
+          indices_boost: S.optional(__S(2884, __c90, 4)),
+          docvalue_fields: S.optional(__S(2356, __c73, 20)),
+          knn: S.optional(S.Unknown),
+          rank: S.optional(__S(2886, __c90, 6)),
+          min_score: S.optional(S.Number),
+          post_filter: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          profile: S.optional(S.Boolean),
+          query: S.optional(S.suspend(() => __S(2450, __c76, 18))),
+          rescore: S.optional(S.Unknown),
+          retriever: S.optional(__S(2903, __c90, 23)),
+          script_fields: S.optional(__S(2359, __c73, 23)),
+          search_after: S.optional(__S(2362, __c73, 26)),
+          size: S.optional(S.Number),
+          slice: S.optional(__S(2904, __c90, 24)),
+          sort: S.optional(S.Unknown),
+          _source: S.optional(S.Unknown),
+          fields: S.optional(__S(2356, __c73, 20)),
+          suggest: S.optional(__S(2905, __c90, 25)),
+          terminate_after: S.optional(S.Number),
+          timeout: S.optional(S.String),
+          track_scores: S.optional(S.Boolean),
+          version: S.optional(S.Boolean),
+          seq_no_primary_term: S.optional(S.Boolean),
+          stored_fields: S.optional(S.Unknown),
+          pit: S.optional(__S(2906, __c90, 26)),
+          runtime_mappings: S.optional(__S(2982, __c93, 6)),
+          stats: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesSearchRequestBody" });
+    case 28:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2909, __c90, 29)));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          details: S.optional(__S(2908, __c90, 28)),
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalExplainExplanationDetail" });
+    case 30:
+      return S.Array(__S(2909, __c90, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          details: __S(2910, __c90, 30),
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalExplainExplanation" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(1760, __c55, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hits: S.suspend(() => __S(2919, __c91, 7)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesInnerHitsResult" });
+    case 2:
+      return S.Record(S.String, __S(2913, __c91, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          offset: S.Number,
+          _nested: S.optional(__S(2915, __c91, 3)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesNestedIdentity" });
+    case 4:
+      return S.Record(S.String, __S(2304, __c72, 0));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _index: S.String,
+          _id: S.optional(S.String),
+          _score: S.optional(S.Unknown),
+          _explanation: S.optional(__S(2911, __c90, 31)),
+          fields: S.optional(__S(192, __c6, 0)),
+          highlight: S.optional(__S(2912, __c91, 0)),
+          inner_hits: S.optional(__S(2914, __c91, 2)),
+          matched_queries: S.optional(S.Unknown),
+          _nested: S.optional(__S(2915, __c91, 3)),
+          _ignored: S.optional(__S(1760, __c55, 0)),
+          ignored_field_values: S.optional(__S(2916, __c91, 4)),
+          _shard: S.optional(S.String),
+          _node: S.optional(S.String),
+          _routing: S.optional(S.String),
+          _source: S.optional(S.Unknown),
+          _rank: S.optional(S.Number),
+          _seq_no: S.optional(S.Number),
+          _primary_term: S.optional(S.Number),
+          _version: S.optional(S.Number),
+          sort: S.optional(__S(2362, __c73, 26)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesHit" });
+    case 6:
+      return S.Array(__S(2917, __c91, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.optional(S.Unknown),
+          hits: __S(2918, __c91, 6),
+          max_score: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesHitsMetadata" });
+    case 8:
+      return S.Record(S.String, S.Unknown);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          indices: S.String,
+          took: S.optional(S.Number),
+          timed_out: S.Boolean,
+          _shards: S.optional(__S(3010, __c94, 2)),
+          failures: S.optional(__S(3009, __c94, 1)),
+        }),
+      ).annotate({ identifier: "TypesClusterDetails" });
+    case 10:
+      return S.Record(S.String, __S(2921, __c91, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          skipped: S.Number,
+          successful: S.Number,
+          total: S.Number,
+          running: S.Number,
+          partial: S.Number,
+          failed: S.Number,
+          details: S.optional(__S(2922, __c91, 10)),
+        }),
+      ).annotate({ identifier: "TypesClusterStatistics" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          build_aggregation: S.Number,
+          build_aggregation_count: S.Number,
+          build_leaf_collector: S.Number,
+          build_leaf_collector_count: S.Number,
+          collect: S.Number,
+          collect_count: S.Number,
+          initialize: S.Number,
+          initialize_count: S.Number,
+          post_collection: S.optional(S.Number),
+          post_collection_count: S.optional(S.Number),
+          reduce: S.Number,
+          reduce_count: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesAggregationBreakdown" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          results_from_metadata: S.optional(S.Number),
+          query: S.optional(S.String),
+          specialized_for: S.optional(S.String),
+          segments_counted_in_constant_time: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesAggregationProfileDelegateDebugFilter" });
+    case 14:
+      return S.Array(__S(2925, __c91, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          segments_with_multi_valued_ords: S.optional(S.Number),
+          collection_strategy: S.optional(S.String),
+          segments_with_single_valued_ords: S.optional(S.Number),
+          total_buckets: S.optional(S.Number),
+          built_buckets: S.optional(S.Number),
+          result_strategy: S.optional(S.String),
+          has_filter: S.optional(S.Boolean),
+          delegate: S.optional(S.String),
+          delegate_debug: S.optional(__S(2927, __c91, 15)),
+          chars_fetched: S.optional(S.Number),
+          extract_count: S.optional(S.Number),
+          extract_ns: S.optional(S.Number),
+          values_fetched: S.optional(S.Number),
+          collect_analyzed_ns: S.optional(S.Number),
+          collect_analyzed_count: S.optional(S.Number),
+          surviving_buckets: S.optional(S.Number),
+          ordinals_collectors_used: S.optional(S.Number),
+          ordinals_collectors_overhead_too_high: S.optional(S.Number),
+          string_hashing_collectors_used: S.optional(S.Number),
+          numeric_collectors_used: S.optional(S.Number),
+          empty_collectors_used: S.optional(S.Number),
+          deferred_aggregators: S.optional(__S(1760, __c55, 0)),
+          segments_with_doc_count_field: S.optional(S.Number),
+          segments_with_deleted_docs: S.optional(S.Number),
+          filters: S.optional(__S(2926, __c91, 14)),
+          segments_counted: S.optional(S.Number),
+          segments_collected: S.optional(S.Number),
+          map_reducer: S.optional(S.String),
+          brute_force_used: S.optional(S.Number),
+          dynamic_pruning_attempted: S.optional(S.Number),
+          dynamic_pruning_used: S.optional(S.Number),
+          skipped_due_to_no_data: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesAggregationProfileDebug" });
+    case 16:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2929, __c91, 17)));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: __S(2924, __c91, 12),
+          description: S.String,
+          time_in_nanos: S.Number,
+          type: S.String,
+          debug: S.optional(__S(2927, __c91, 15)),
+          children: S.optional(__S(2928, __c91, 16)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesAggregationProfile" });
+    case 18:
+      return S.Array(__S(2929, __c91, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          collection_statistics: S.Number,
+          collection_statistics_count: S.Number,
+          create_weight: S.Number,
+          create_weight_count: S.Number,
+          rewrite: S.Number,
+          rewrite_count: S.Number,
+          term_statistics: S.Number,
+          term_statistics_count: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesDfsStatisticsBreakdown" });
+    case 20:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2933, __c91, 21)));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          description: S.String,
+          time: S.optional(S.Unknown),
+          time_in_nanos: S.Number,
+          breakdown: __S(2931, __c91, 19),
+          debug: S.optional(__S(192, __c6, 0)),
+          children: S.optional(__S(2932, __c91, 20)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesDfsStatisticsProfile" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          advance: S.Number,
+          advance_count: S.Number,
+          build_scorer: S.Number,
+          build_scorer_count: S.Number,
+          compute_max_score: S.Number,
+          compute_max_score_count: S.Number,
+          count_weight: S.Number,
+          count_weight_count: S.Number,
+          create_weight: S.Number,
+          create_weight_count: S.Number,
+          into_bit_set: S.Number,
+          into_bit_set_count: S.Number,
+          match: S.Number,
+          match_count: S.Number,
+          next_doc: S.Number,
+          next_doc_count: S.Number,
+          score: S.Number,
+          score_count: S.Number,
+          set_min_competitive_score: S.Number,
+          set_min_competitive_score_count: S.Number,
+          shallow_advance: S.Number,
+          shallow_advance_count: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesKnnQueryProfileBreakdown" });
+    case 23:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2936, __c91, 24)));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          description: S.String,
+          time: S.optional(S.Unknown),
+          time_in_nanos: S.Number,
+          breakdown: __S(2934, __c91, 22),
+          debug: S.optional(__S(192, __c6, 0)),
+          children: S.optional(__S(2935, __c91, 23)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesKnnQueryProfileResult" });
+    case 25:
+      return S.Array(__S(2936, __c91, 24));
+    case 26:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2939, __c91, 27)));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          reason: S.String,
+          time: S.optional(S.Unknown),
+          time_in_nanos: S.Number,
+          children: S.optional(__S(2938, __c91, 26)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesKnnCollectorResult" });
+    case 28:
+      return S.Array(__S(2939, __c91, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          vector_operations_count: S.optional(S.Number),
+          query: __S(2937, __c91, 25),
+          rewrite_time: S.Number,
+          collector: __S(2940, __c91, 28),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesDfsKnnProfile" });
+    case 30:
+      return S.Array(__S(2941, __c91, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          statistics: S.optional(__S(2933, __c91, 21)),
+          knn: S.optional(__S(2942, __c91, 30)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesDfsProfile" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          load_source: S.optional(S.Number),
+          load_source_count: S.optional(S.Number),
+          load_stored_fields: S.optional(S.Number),
+          load_stored_fields_count: S.optional(S.Number),
+          next_reader: S.optional(S.Number),
+          next_reader_count: S.optional(S.Number),
+          process_count: S.optional(S.Number),
+          process: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesFetchProfileBreakdown" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          stored_fields: S.optional(__S(1760, __c55, 0)),
+          fast_path: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesFetchProfileDebug" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2947, __c92, 3)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          description: S.String,
+          time_in_nanos: S.Number,
+          breakdown: __S(2944, __c92, 0),
+          debug: S.optional(__S(2945, __c92, 1)),
+          children: S.optional(__S(2946, __c92, 2)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesFetchProfile" });
+    case 4:
+      return S.Array(S.Unknown);
+    case 5:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2950, __c92, 6)));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          reason: S.String,
+          time_in_nanos: S.Number,
+          children: S.optional(__S(2949, __c92, 5)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesCollector" });
+    case 7:
+      return S.Array(__S(2950, __c92, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          advance: S.Number,
+          advance_count: S.Number,
+          build_scorer: S.Number,
+          build_scorer_count: S.Number,
+          create_weight: S.Number,
+          create_weight_count: S.Number,
+          into_bit_set: S.Number,
+          into_bit_set_count: S.Number,
+          match: S.Number,
+          match_count: S.Number,
+          shallow_advance: S.Number,
+          shallow_advance_count: S.Number,
+          next_doc: S.Number,
+          next_doc_count: S.Number,
+          score: S.Number,
+          score_count: S.Number,
+          compute_max_score: S.Number,
+          compute_max_score_count: S.Number,
+          count_weight: S.Number,
+          count_weight_count: S.Number,
+          set_min_competitive_score: S.Number,
+          set_min_competitive_score_count: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesQueryBreakdown" });
+    case 9:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2954, __c92, 10)));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: __S(2952, __c92, 8),
+          description: S.String,
+          time_in_nanos: S.Number,
+          type: S.String,
+          debug: S.optional(__S(192, __c6, 0)),
+          children: S.optional(__S(2953, __c92, 9)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesQueryProfile" });
+    case 11:
+      return S.Array(__S(2954, __c92, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          collector: __S(2951, __c92, 7),
+          query: __S(2955, __c92, 11),
+          rewrite_time: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesSearchProfile" });
+    case 13:
+      return S.Array(__S(2956, __c92, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          aggregations: __S(2930, __c91, 18),
+          cluster: S.String,
+          dfs: S.optional(__S(2943, __c91, 31)),
+          fetch: S.optional(__S(2947, __c92, 3)),
+          id: S.String,
+          index: S.String,
+          node_id: S.String,
+          rescore: S.optional(__S(2948, __c92, 4)),
+          searches: __S(2957, __c92, 13),
+          shard_id: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesShardProfile" });
+    case 15:
+      return S.Array(__S(2958, __c92, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(__S(2907, __c90, 27)),
+          indices: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesSearchRequestCoordinatorMetadata" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          shards: __S(2959, __c92, 15),
+          request: S.optional(__S(2960, __c92, 16)),
+        }),
+      ).annotate({ identifier: "GlobalSearchTypesProfile" });
+    case 18:
+      return S.Array(S.Unknown);
+    case 19:
+      return S.Record(S.String, __S(2962, __c92, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          took: S.Number,
+          timed_out: S.Boolean,
+          _shards: __S(3010, __c94, 2),
+          hits: __S(2919, __c91, 7),
+          aggregations: S.optional(__S(2920, __c91, 8)),
+          _clusters: S.optional(__S(2923, __c91, 11)),
+          fields: S.optional(__S(192, __c6, 0)),
+          max_score: S.optional(S.Number),
+          num_reduce_phases: S.optional(S.Number),
+          profile: S.optional(__S(2961, __c92, 17)),
+          pit_id: S.optional(S.String),
+          _scroll_id: S.optional(S.String),
+          suggest: S.optional(__S(2963, __c92, 19)),
+          terminated_early: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FleetSearch1Response" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          results_field: S.optional(S.String),
+          num_top_feature_importance_values: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MlTypesRegressionInferenceOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "TypesMappingCompositeSubField" });
+    case 2:
+      return S.Record(S.String, __S(2977, __c93, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          format: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TypesMappingRuntimeFieldFetchFields" });
+    case 4:
+      return S.Array(__S(2979, __c93, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(__S(2978, __c93, 2)),
+          fetch_fields: S.optional(__S(2980, __c93, 4)),
+          format: S.optional(S.String),
+          input_field: S.optional(S.String),
+          target_field: S.optional(S.String),
+          target_index: S.optional(S.String),
+          script: S.optional(S.suspend(() => __S(2464, __c77, 0))),
+          on_script_error: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "TypesMappingRuntimeField" });
+    case 6:
+      return S.Record(S.String, __S(2981, __c93, 5));
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.optional(S.String),
+          node: S.optional(S.String),
+          reason: __S(1, __c0, 1),
+          shard: S.optional(S.Number),
+          status: S.optional(S.String),
+          primary: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TypesShardFailure" });
+    case 1:
+      return S.Array(__S(3008, __c94, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          failed: S.Number,
+          successful: S.Number,
+          total: S.Number,
+          failures: S.optional(__S(3009, __c94, 1)),
+          skipped: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TypesShardStatistics" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          include_deleted: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_connector/{connector_id}", code: 200 })),
+      ).annotate({ identifier: "GetConnectorRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          max_crawl_depth: S.optional(S.Number),
+          sitemap_discovery_disabled: S.optional(S.Boolean),
+          domain_allowlist: S.optional(__S(1760, __c55, 0)),
+          sitemap_urls: S.optional(__S(1760, __c55, 0)),
+          seed_urls: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "ConnectorTypesCustomSchedulingConfigurationOverrides" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          configuration_overrides: __S(3072, __c96, 0),
+          enabled: S.Boolean,
+          interval: S.String,
+          last_synced: S.optional(S.Unknown),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ConnectorTypesCustomScheduling" });
+    case 2:
+      return S.Record(S.String, __S(3073, __c96, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          api_key_id: S.optional(S.String),
+          api_key_secret_id: S.optional(S.String),
+          configuration: __S(838, __c26, 6),
+          custom_scheduling: __S(3074, __c96, 2),
+          deleted: S.Boolean,
+          description: S.optional(S.String),
+          error: S.optional(S.String),
+          features: S.optional(__S(929, __c29, 1)),
+          filtering: __S(1089, __c34, 1),
+          id: S.optional(S.String),
+          index_name: S.optional(S.String),
+          is_native: S.Boolean,
+          language: S.optional(S.String),
+          last_access_control_sync_error: S.optional(S.String),
+          last_access_control_sync_scheduled_at: S.optional(S.Unknown),
+          last_access_control_sync_status: S.optional(S.String),
+          last_deleted_document_count: S.optional(S.Number),
+          last_incremental_sync_scheduled_at: S.optional(S.Unknown),
+          last_indexed_document_count: S.optional(S.Number),
+          last_seen: S.optional(S.Unknown),
+          last_sync_error: S.optional(S.String),
+          last_sync_scheduled_at: S.optional(S.Unknown),
+          last_sync_status: S.optional(S.String),
+          last_synced: S.optional(S.Unknown),
+          name: S.optional(S.String),
+          pipeline: S.optional(__S(1344, __c42, 0)),
+          scheduling: __S(1409, __c44, 1),
+          service_type: S.optional(S.String),
+          status: S.String,
+          sync_cursor: S.optional(S.Unknown),
+          sync_now: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConnectorTypesConnector" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_sync_job_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/_connector/_sync_job/{connector_sync_job_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetConnectorSyncJobRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          configuration: __S(838, __c26, 6),
+          filtering: __S(1059, __c33, 3),
+          id: S.String,
+          index_name: S.String,
+          language: S.optional(S.String),
+          pipeline: S.optional(__S(1344, __c42, 0)),
+          service_type: S.String,
+          sync_cursor: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ConnectorTypesSyncJobConnectorReference" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cancelation_requested_at: S.optional(S.Unknown),
+          canceled_at: S.optional(S.Unknown),
+          completed_at: S.optional(S.Unknown),
+          connector: __S(3136, __c98, 0),
+          created_at: S.Unknown,
+          deleted_document_count: S.Number,
+          error: S.optional(S.String),
+          id: S.String,
+          indexed_document_count: S.Number,
+          indexed_document_volume: S.Number,
+          job_type: S.String,
+          last_seen: S.optional(S.Unknown),
+          metadata: __S(192, __c6, 0),
+          started_at: S.optional(S.Unknown),
+          status: S.String,
+          total_document_count: S.Number,
+          trigger_method: S.String,
+          worker_hostname: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectorTypesConnectorSyncJob" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          task_id: S.String.pipe(T.Label()),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_tasks/{task_id}", code: 200 })),
+      ).annotate({ identifier: "GetTaskRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          completed: S.Boolean,
+          task: __S(1792, __c56, 0),
+          response: S.optional(S.Unknown),
+          error: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "GetTaskResponse" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          flush: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          run_expensive_tasks: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/{index}/_disk_usage", code: 200 })),
+      ).annotate({ identifier: "IndicesDiskUsageRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          fields: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/{index}/_field_usage_stats", code: 200 })),
+      ).annotate({ identifier: "IndicesFieldUsageStatsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _shards: __S(3010, __c94, 2),
+        }),
+      ).annotate({ identifier: "IndicesFieldUsageStatsFieldsUsageBody" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_sync_job_id: S.String.pipe(T.Label()),
+          sync_cursor: S.optional(S.Unknown),
+          worker_hostname: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/_connector/_sync_job/{connector_sync_job_id}/_claim",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ClaimConnectorSyncJobRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ClaimConnectorSyncJobResponse",
+      });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          questions: S.optional(__S(3328, __c104, 0)),
+        }),
+      ).annotate({ identifier: "InferenceDecisionDecisionTaskSettings" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          inference_id: S.String.pipe(T.Label()),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          input: S.Unknown,
+          task_settings: S.optional(__S(3329, __c104, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/_inference/decision/{inference_id}", code: 200 })),
+      ).annotate({ identifier: "InferenceDecisionRequest" });
+    case 3:
+      return S.Record(S.String, S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          answers: __S(3331, __c104, 3),
+        }),
+      ).annotate({ identifier: "InferenceTypesDecisionResult" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          decision: __S(3332, __c104, 4),
+        }),
+      ).annotate({ identifier: "InferenceTypesDecisionInferenceResult" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          output_format: S.optional(S.String),
+          parameters: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "InferenceDocumentExtractionDocumentExtractionTaskSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inference_id: S.String.pipe(T.Label()),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          input: S.Unknown,
+          task_settings: S.optional(__S(3360, __c105, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/_inference/document_extraction/{inference_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "InferenceDocumentExtractionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.String,
+          format: S.String,
+          metadata: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "InferenceTypesDocumentExtractionResult" });
+    case 3:
+      return S.Array(__S(3362, __c105, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          document_extraction: __S(3363, __c105, 3),
+        }),
+      ).annotate({ identifier: "InferenceTypesDocumentExtractionInferenceResult" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inference_id: S.String.pipe(T.Label()),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          input: S.Unknown,
+          input_type: S.optional(S.String),
+          task_settings: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/_inference/embedding/{inference_id}", code: 200 })),
+      ).annotate({ identifier: "InferenceEmbeddingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          embedding: __S(2624, __c82, 0),
+        }),
+      ).annotate({ identifier: "InferenceTypesDenseEmbeddingByteResult" });
+    case 2:
+      return S.Array(__S(3393, __c106, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          embeddings_bytes: S.optional(__S(3394, __c106, 2)),
+          embeddings_bits: S.optional(__S(3394, __c106, 2)),
+          embeddings: S.optional(__S(3394, __c106, 2)),
+        }),
+      ).annotate({ identifier: "InferenceTypesEmbeddingInferenceResult" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+          field: S.String,
+          k: S.Number,
+          query_source: S.Unknown,
+          baseline: S.optional(__S(3456, __c108, 0)),
+          knn_settings: __S(3457, __c108, 1),
+          allow_exact_baseline: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "GET", uri: "/{index}/_knn_eval", code: 200 })),
+      ).annotate({ identifier: "KnnEvalRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          visit_percentage: S.optional(S.Number),
+          num_candidates: S.optional(S.Number),
+          rescore_vector: S.optional(__S(2272, __c71, 0)),
+          exact: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GlobalKnnEvalKnnEvalSettings" });
+    case 1:
+      return S.Array(__S(3456, __c108, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.String,
+        }),
+      ).annotate({ identifier: "GlobalKnnEvalKnnEvalQuerySourceSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          visit_percentage: S.optional(S.Number),
+          num_candidates: S.optional(S.Number),
+          rescore_vector: S.optional(__S(2272, __c71, 0)),
+          exact: S.optional(S.Boolean),
+          rescore_window_capped: S.optional(S.Boolean),
+          quantized_scores: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GlobalKnnEvalKnnEvalReportedSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          knn_settings: __S(3459, __c108, 3),
+          recall: S.Unknown,
+          included_queries: S.Number,
+          excluded_queries: S.Number,
+          took_ms: S.Number,
+          vector_ops: S.Number,
+        }),
+      ).annotate({ identifier: "GlobalKnnEvalKnnEvalResult" });
+    case 5:
+      return S.Array(__S(3460, __c108, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "GlobalKnnEvalKnnEvalFailure" });
+    case 7:
+      return S.Record(S.String, __S(3462, __c108, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          query_source: S.optional(__S(3458, __c108, 2)),
+          baseline: S.optional(__S(3459, __c108, 3)),
+          baseline_took_ms: S.optional(S.Number),
+          baseline_vector_ops: S.optional(S.Number),
+          baseline_vector_ops_kind: S.optional(S.String),
+          results: S.optional(__S(3461, __c108, 5)),
+          failures: S.optional(__S(3463, __c108, 7)),
+          task: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KnnEvalResponse" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+          field: S.String,
+          k: S.Number,
+          query_source: S.Unknown,
+          baseline: S.optional(__S(3456, __c108, 0)),
+          knn_settings: __S(3457, __c108, 1),
+          allow_exact_baseline: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/{index}/_knn_eval", code: 200 })),
+      ).annotate({ identifier: "KnnEval1Request" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Number.pipe(T.Query())),
+          size: S.optional(S.Number.pipe(T.Query())),
+          index_name: S.optional(S.Unknown.pipe(T.Query())),
+          connector_name: S.optional(S.Unknown.pipe(T.Query())),
+          service_type: S.optional(S.Unknown.pipe(T.Query())),
+          include_deleted: S.optional(S.Boolean.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_connector", code: 200 })),
+      ).annotate({ identifier: "ListConnectorRequest" });
+    case 1:
+      return S.Array(__S(3075, __c96, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          results: __S(3521, __c110, 1),
+        }),
+      ).annotate({ identifier: "ListConnectorResponse" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Number.pipe(T.Query())),
+          size: S.optional(S.Number.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          connector_id: S.optional(S.String.pipe(T.Query())),
+          job_type: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_connector/_sync_job", code: 200 })),
+      ).annotate({ identifier: "ListConnectorSyncJobRequest" });
+    case 1:
+      return S.Array(__S(3137, __c98, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          results: __S(3553, __c111, 1),
+        }),
+      ).annotate({ identifier: "ListConnectorSyncJobResponse" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actions: S.optional(S.Unknown.pipe(T.Query())),
+          detailed: S.optional(S.Boolean.pipe(T.Query())),
+          group_by: S.optional(S.String.pipe(T.Query())),
+          nodes: S.optional(S.Unknown.pipe(T.Query())),
+          parent_task_id: S.optional(S.String.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_tasks", code: 200 })),
+      ).annotate({ identifier: "ListTasksRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_nodes/{node_id}/_repositories_metering", code: 200 }),
+        ),
+      ).annotate({ identifier: "NodesGetRepositoriesMeteringInfoRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          index_name: S.optional(S.String),
+          is_native: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          name: S.optional(S.String),
+          service_type: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/_connector", code: 200 })),
+      ).annotate({ identifier: "PostConnectorRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_check_in", code: 200 })),
+      ).annotate({ identifier: "ConnectorCheckInRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          job_type: S.optional(S.String),
+          trigger_method: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/_connector/_sync_job", code: 200 })),
+      ).annotate({ identifier: "PostConnectorSyncJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "PostConnectorSyncJobResponse" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/labels", code: 200 })),
+      ).annotate({ identifier: "PrometheusLabelsRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(1760, __c55, 0),
+          warnings: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusLabelsResponse" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/api/v1/labels", code: 200 })),
+      ).annotate({ identifier: "PrometheusLabels1Request" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/labels", code: 200 })),
+      ).annotate({ identifier: "PrometheusLabels2Request" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/{index}/api/v1/labels", code: 200 })),
+      ).annotate({ identifier: "PrometheusLabels3Request" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_prometheus/api/v1/label/{name}/values", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusLabelValuesRequest" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          match__: S.optional(__S(1760, __c55, 0).pipe(T.Query("match[]"))),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/_prometheus/{index}/api/v1/label/{name}/values",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PrometheusLabelValues1Request" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metric: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          limit_per_metric: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/metadata", code: 200 })),
+      ).annotate({ identifier: "PrometheusMetadataRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          help: S.String,
+          unit: S.String,
+        }),
+      ).annotate({ identifier: "PrometheusMetadataMetricMetadata" });
+    case 1:
+      return S.Array(__S(4000, __c125, 0));
+    case 2:
+      return S.Record(S.String, __S(4001, __c125, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(4002, __c125, 2),
+          warnings: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusMetadataResponse" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          metric: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          limit_per_metric: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/metadata", code: 200 })),
+      ).annotate({ identifier: "PrometheusMetadata1Request" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          time: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/query", code: 200 })),
+      ).annotate({ identifier: "PrometheusQueryRequest" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resultType: S.String,
+          result: __S(2304, __c72, 0),
+        }),
+      ).annotate({ identifier: "PrometheusTypesQueryResult" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(4096, __c128, 0),
+          warnings: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusQueryResponse" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          index_name: S.optional(S.String),
+          is_native: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          name: S.optional(S.String),
+          service_type: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector", code: 200 })),
+      ).annotate({ identifier: "ConnectorPut1Request" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ConnectorPut1Response" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          time: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/api/v1/query", code: 200 })),
+      ).annotate({ identifier: "PrometheusQuery1Request" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          time: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/query", code: 200 })),
+      ).annotate({ identifier: "PrometheusQuery2Request" });
   }
 }
 function __c133(j: number): any {
@@ -21053,16 +22189,353 @@ function __c133(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          task_id: S.String.pipe(T.Label()),
-          actions: S.optional(S.Unknown.pipe(T.Query())),
-          nodes: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          parent_task_id: S.optional(S.String.pipe(T.Query())),
-          wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/_tasks/{task_id}/_cancel", code: 200 })),
-      ).annotate({ identifier: "TasksCancel1Request" });
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          time: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/{index}/api/v1/query", code: 200 })),
+      ).annotate({ identifier: "PrometheusQuery3Request" });
   }
 }
 function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/query_exemplars", code: 200 })),
+      ).annotate({ identifier: "PrometheusQueryExemplarsRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: __S(1728, __c54, 0),
+          value: S.String,
+          timestamp: S.Number,
+        }),
+      ).annotate({ identifier: "PrometheusQueryExemplarsExemplar" });
+    case 1:
+      return S.Array(__S(4320, __c135, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          seriesLabels: __S(1728, __c54, 0),
+          exemplars: __S(4321, __c135, 1),
+        }),
+      ).annotate({ identifier: "PrometheusQueryExemplarsExemplarSeries" });
+    case 3:
+      return S.Array(__S(4322, __c135, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(4323, __c135, 3),
+        }),
+      ).annotate({ identifier: "PrometheusQueryExemplarsResponse" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/api/v1/query_exemplars", code: 200 })),
+      ).annotate({ identifier: "PrometheusQueryExemplars1Request" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/query_exemplars", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusQueryExemplars2Request" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/_prometheus/{index}/api/v1/query_exemplars", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusQueryExemplars3Request" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          step: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/query_range", code: 200 })),
+      ).annotate({ identifier: "PrometheusQueryRangeRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          step: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/api/v1/query_range", code: 200 })),
+      ).annotate({ identifier: "PrometheusQueryRange1Request" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          step: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/query_range", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusQueryRange2Request" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_sync_job_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/_connector/_sync_job/{connector_sync_job_id}/_check_in",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectorSyncJobCheckInRequest" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          query: S.String.pipe(T.Query()),
+          start: S.String.pipe(T.Query()),
+          end: S.String.pipe(T.Query()),
+          step: S.String.pipe(T.Query()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          timeout: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/_prometheus/{index}/api/v1/query_range", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusQueryRange3Request" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          match__: __S(1760, __c55, 0).pipe(T.Query("match[]")),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/api/v1/series", code: 200 })),
+      ).annotate({ identifier: "PrometheusSeriesRequest" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(4672, __c146, 0),
+          warnings: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "PrometheusSeriesResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1728, __c54, 0));
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          match__: __S(1760, __c55, 0).pipe(T.Query("match[]")),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/api/v1/series", code: 200 })),
+      ).annotate({ identifier: "PrometheusSeries1Request" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          match__: __S(1760, __c55, 0).pipe(T.Query("match[]")),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/series", code: 200 })),
+      ).annotate({ identifier: "PrometheusSeries2Request" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          match__: __S(1760, __c55, 0).pipe(T.Query("match[]")),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_prometheus/{index}/api/v1/series", code: 200 })),
+      ).annotate({ identifier: "PrometheusSeries3Request" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/_prometheus/api/v1/status/buildinfo", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusStatusBuildinfoRequest" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application: S.String,
+          version: S.String,
+          revision: S.String,
+          buildDate: S.Unknown,
+        }),
+      ).annotate({ identifier: "PrometheusStatusBuildinfoBuildInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(4832, __c151, 0),
+        }),
+      ).annotate({ identifier: "PrometheusStatusBuildinfoResponse" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_prometheus/{index}/api/v1/status/buildinfo", code: 200 }),
+        ),
+      ).annotate({ identifier: "PrometheusStatusBuildinfo1Request" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connector_id: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          index_name: S.optional(S.String),
+          is_native: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          name: S.optional(S.String),
+          service_type: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}", code: 200 })),
+      ).annotate({ identifier: "PutConnectorRequest" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accept_data_loss: S.Boolean.pipe(T.Query()),
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+          timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_encryption/_reset", code: 200 })),
+      ).annotate({ identifier: "ResetEncryptionRequest" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          master_timeout: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_features/_reset", code: 200 })),
+      ).annotate({ identifier: "ResetFeaturesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+        }),
+      ).annotate({ identifier: "FeaturesTypesFeature" });
+    case 2:
+      return S.Array(__S(4961, __c155, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          features: __S(4962, __c155, 2),
+        }),
+      ).annotate({ identifier: "ResetFeaturesResponse" });
+  }
+}
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21077,6 +22550,190 @@ function __c134(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ConnectorSyncJobErrorRequest" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          context: S.optional(S.String),
+          context_setup: S.optional(__S(2496, __c78, 0)),
+          script: S.optional(__S(2464, __c77, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/_scripts/painless/_execute", code: 200 })),
+      ).annotate({ identifier: "ScriptsPainlessExecute1Request" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/_searchable_snapshots/cache/stats", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchableSnapshotsCacheStatsRequest" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reads: S.Number,
+          bytes_read_in_bytes: S.Unknown,
+          writes: S.Number,
+          bytes_written_in_bytes: S.Unknown,
+          evictions: S.Number,
+          num_regions: S.Number,
+          size_in_bytes: S.Unknown,
+          region_size_in_bytes: S.Unknown,
+        }),
+      ).annotate({ identifier: "SearchableSnapshotsCacheStatsShared" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          shared_cache: __S(5088, __c159, 0),
+        }),
+      ).annotate({ identifier: "SearchableSnapshotsCacheStatsNode" });
+    case 2:
+      return S.Record(S.String, __S(5089, __c159, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nodes: __S(5090, __c159, 2),
+        }),
+      ).annotate({ identifier: "SearchableSnapshotsCacheStatsResponse" });
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_searchable_snapshots/{node_id}/cache/stats", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchableSnapshotsCacheStats1Request" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/_searchable_snapshots/cache/clear", code: 200 })),
+      ).annotate({ identifier: "SearchableSnapshotsClearCacheRequest" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.String.pipe(T.Label()),
+          expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
+          allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+          ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/{index}/_searchable_snapshots/cache/clear", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchableSnapshotsClearCache1Request" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/_application/search_application/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchApplicationDeleteRequest" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/_application/search_application/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchApplicationGetRequest" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          indices: __S(1760, __c55, 0),
+          analytics_collection_name: S.optional(S.String),
+          template: S.optional(__S(2465, __c77, 1)),
+          name: S.String,
+          updated_at_millis: S.Number,
+        }),
+      ).annotate({ identifier: "SearchApplicationGetResponse" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          q: S.optional(S.String.pipe(T.Query())),
+          from: S.optional(S.Number.pipe(T.Query())),
+          size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/_application/search_application", code: 200 })),
+      ).annotate({ identifier: "SearchApplicationListRequest" });
+    case 1:
+      return S.Array(__S(5280, __c165, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          results: __S(5313, __c166, 1),
+        }),
+      ).annotate({ identifier: "SearchApplicationListResponse" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          create: S.optional(S.Boolean.pipe(T.Query())),
+          indices: __S(1760, __c55, 0),
+          analytics_collection_name: S.optional(S.String),
+          template: S.optional(__S(2465, __c77, 1)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/_application/search_application/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "SearchApplicationPutRequest" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          params: S.optional(__S(192, __c6, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/_application/search_application/{name}/_render_query",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SearchApplicationRenderQueryRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

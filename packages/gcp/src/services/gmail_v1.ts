@@ -95,27 +95,27 @@ export interface BatchDeleteUsersMessagesRequest extends BatchDeleteMessagesRequ
 export interface BatchDeleteUsersMessagesResponse {}
 /** Field values for a classification label. */
 export interface ClassificationLabelFieldValue {
-  /** Selection choice ID for the selection option. Should only be set if the field type is `SELECTION` in the Google Drive `Label.Field` object. Maps to the id field of the Google Drive `Label.Field.SelectionOptions` resource. */
-  selection?: string | undefined;
   /** Required. The field ID for the Classification Label Value. Maps to the ID field of the Google Drive `Label.Field` object. */
   fieldId?: string | undefined;
+  /** Selection choice ID for the selection option. Should only be set if the field type is `SELECTION` in the Google Drive `Label.Field` object. Maps to the id field of the Google Drive `Label.Field.SelectionOptions` resource. */
+  selection?: string | undefined;
 }
 export type ClassificationLabelFieldValueList = Array<ClassificationLabelFieldValue>;
 /** Classification Labels applied to the email message. Classification Labels are different from Gmail inbox labels. Only used for Google Workspace accounts. [Learn more about classification labels](https://support.google.com/a/answer/9292382). */
 export interface ClassificationLabelValue {
-  /** Required. The canonical or raw alphanumeric classification label ID. Maps to the ID field of the Google Drive Label resource. */
-  labelId?: string | undefined;
   /** Field values for the given classification label ID. */
   fields?: ClassificationLabelFieldValueList | undefined;
+  /** Required. The canonical or raw alphanumeric classification label ID. Maps to the ID field of the Google Drive Label resource. */
+  labelId?: string | undefined;
 }
 export type ClassificationLabelValueList = Array<ClassificationLabelValue>;
 export interface BatchModifyMessagesRequest {
+  /** A list of Classification Label values to remove from messages. */
+  removeClassificationLabelIds?: StringList | undefined;
   /** A list of label IDs to remove from messages. */
   removeLabelIds?: StringList | undefined;
   /** A list of Classification Label values to add. If a Classification Label with the same label ID is already applied to the message, fields with existing field IDs will be updated and fields with new field IDs will be added. There's a limit of 20 Classification Label values per request. If the message is already classified and the final total number of Classification Label values exceeds the maximum allowed number of Classification Label values per message, the modification fails. */
   addClassificationLabels?: ClassificationLabelValueList | undefined;
-  /** A list of Classification Label values to remove from messages. */
-  removeClassificationLabelIds?: StringList | undefined;
   /** The IDs of the messages to modify. There is a limit of 1000 ids per request. */
   ids?: StringList | undefined;
   /** A list of label IDs to add to messages. */
@@ -126,6 +126,7 @@ export interface BatchModifyUsersMessagesRequest extends BatchModifyMessagesRequ
   userId: string;
 }
 export interface BatchModifyUsersMessagesResponse {}
+export type MessagePartList = Array<MessagePart>;
 export interface MessagePartHeader {
   /** The value of the header after the `:` separator. For example, `someuser@example.com`. */
   value?: string | undefined;
@@ -135,94 +136,93 @@ export interface MessagePartHeader {
 export type MessagePartHeaderList = Array<MessagePartHeader>;
 /** The body of a single MIME message part. */
 export interface MessagePartBody {
+  /** When present, contains the ID of an external attachment that can be retrieved in a separate `messages.attachments.get` request. When not present, the entire content of the message part body is contained in the data field. */
+  attachmentId?: string | undefined;
   /** Number of bytes for the message part data (encoding notwithstanding). */
   size?: number | undefined;
   /** The body data of a MIME message part as a base64url encoded string. May be empty for MIME container types that have no message body or when the body data is sent as a separate attachment. An attachment ID is present if the body data is contained in a separate attachment. */
   data?: string | undefined;
-  /** When present, contains the ID of an external attachment that can be retrieved in a separate `messages.attachments.get` request. When not present, the entire content of the message part body is contained in the data field. */
-  attachmentId?: string | undefined;
 }
-export type MessagePartList = Array<MessagePart>;
 /** A single MIME message part. */
 export interface MessagePart {
-  /** The MIME type of the message part. */
-  mimeType?: string | undefined;
-  /** List of headers on this message part. For the top-level message part, representing the entire message payload, it will contain the standard RFC 2822 email headers such as `To`, `From`, and `Subject`. */
-  headers?: MessagePartHeaderList | undefined;
-  /** The immutable ID of the message part. */
-  partId?: string | undefined;
-  /** The message part body for this part, which may be empty for container MIME message parts. */
-  body?: MessagePartBody | undefined;
   /** The child MIME message parts of this part. This only applies to container MIME message parts, for example `multipart/*`. For non- container MIME message part types, such as `text/plain`, this field is empty. For more information, see RFC 1521. */
   parts?: MessagePartList | undefined;
+  /** The MIME type of the message part. */
+  mimeType?: string | undefined;
+  /** The immutable ID of the message part. */
+  partId?: string | undefined;
+  /** List of headers on this message part. For the top-level message part, representing the entire message payload, it will contain the standard RFC 2822 email headers such as `To`, `From`, and `Subject`. */
+  headers?: MessagePartHeaderList | undefined;
   /** The filename of the attachment. Only present if this message part represents an attachment. */
   filename?: string | undefined;
+  /** The message part body for this part, which may be empty for container MIME message parts. */
+  body?: MessagePartBody | undefined;
 }
 /** An email message. */
 export interface Message {
-  /** The ID of the thread the message belongs to. To add a message or draft to a thread, the following criteria must be met: 1. The requested `threadId` must be specified on the `Message` or `Draft.Message` you supply with your request. 2. The `References` and `In-Reply-To` headers must be set in compliance with the [RFC 2822](https://tools.ietf.org/html/rfc2822) standard. 3. The `Subject` headers must match. */
-  threadId?: string | undefined;
-  /** A short part of the message text. */
-  snippet?: string | undefined;
-  /** The entire email message in an RFC 2822 formatted and base64url encoded string. Returned in `messages.get` and `drafts.get` responses when the `format=RAW` parameter is supplied. @required gmail.users.drafts.create gmail.users.drafts.update */
-  raw?: string | undefined;
-  /** The parsed email structure in the message parts. */
-  payload?: MessagePart | undefined;
-  /** List of IDs of labels applied to this message. */
-  labelIds?: StringList | undefined;
-  /** The ID of the last history record that modified this message. */
-  historyId?: string | undefined;
-  /** The immutable ID of the message. */
-  id?: string | undefined;
   /** Estimated size in bytes of the message. */
   sizeEstimate?: number | undefined;
-  /** The internal message creation timestamp (epoch ms), which determines ordering in the inbox. For normal SMTP-received email, this represents the time the message was originally accepted by Google, which is more reliable than the `Date` header. However, for API-migrated mail, it can be configured by client to be based on the `Date` header. */
-  internalDate?: string | undefined;
   /** Classification Label values on the message. Available Classification Label schemas can be queried using the Google Drive Labels API. Each classification label ID must be unique. If duplicate IDs are provided, only one will be retained, and the selection is arbitrary. Only used for Google Workspace accounts. There's a limit of 20 Classification Label values per request. If the Classification Label values exceeds the maximum allowed number, the request fails. */
   classificationLabelValues?: ClassificationLabelValueList | undefined;
+  /** The entire email message in an RFC 2822 formatted and base64url encoded string. Returned in `messages.get` and `drafts.get` responses when the `format=RAW` parameter is supplied. @required gmail.users.drafts.create gmail.users.drafts.update */
+  raw?: string | undefined;
+  /** A short part of the message text. */
+  snippet?: string | undefined;
+  /** The ID of the last history record that modified this message. */
+  historyId?: string | undefined;
+  /** The internal message creation timestamp (epoch ms), which determines ordering in the inbox. For normal SMTP-received email, this represents the time the message was originally accepted by Google, which is more reliable than the `Date` header. However, for API-migrated mail, it can be configured by client to be based on the `Date` header. */
+  internalDate?: string | undefined;
+  /** The parsed email structure in the message parts. */
+  payload?: MessagePart | undefined;
+  /** The ID of the thread the message belongs to. To add a message or draft to a thread, the following criteria must be met: 1. The requested `threadId` must be specified on the `Message` or `Draft.Message` you supply with your request. 2. The `References` and `In-Reply-To` headers must be set in compliance with the [RFC 2822](https://tools.ietf.org/html/rfc2822) standard. 3. The `Subject` headers must match. */
+  threadId?: string | undefined;
+  /** List of IDs of labels applied to this message. */
+  labelIds?: StringList | undefined;
+  /** The immutable ID of the message. */
+  id?: string | undefined;
 }
 /** A draft email in the user's mailbox. */
 export interface Draft {
-  /** The message content of the draft. */
-  message?: Message | undefined;
   /** The immutable ID of the draft. */
   id?: string | undefined;
+  /** The message content of the draft. */
+  message?: Message | undefined;
 }
 export interface CreateUsersDraftsRequest extends Draft {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
 }
-export type LabelLabelListVisibilityEnum = "labelShow" | "labelShowIfUnread" | "labelHide";
+export type LabelTypeEnum = "system" | "user";
+export type LabelMessageListVisibilityEnum = "show" | "hide";
 export interface LabelColor {
   /** The background color represented as hex string #RRGGBB (ex #000000). This field is required in order to set the color of a label. Only the following predefined set of color values are allowed: \#000000, #434343, #666666, #999999, #cccccc, #efefef, #f3f3f3, #ffffff, \#fb4c2f, #ffad47, #fad165, #16a766, #43d692, #4a86e8, #a479e2, #f691b3, \#f6c5be, #ffe6c7, #fef1d1, #b9e4d0, #c6f3de, #c9daf8, #e4d7f5, #fcdee8, \#efa093, #ffd6a2, #fce8b3, #89d3b2, #a0eac9, #a4c2f4, #d0bcf1, #fbc8d9, \#e66550, #ffbc6b, #fcda83, #44b984, #68dfa9, #6d9eeb, #b694e8, #f7a7c0, \#cc3a21, #eaa041, #f2c960, #149e60, #3dc789, #3c78d8, #8e63ce, #e07798, \#ac2b16, #cf8933, #d5ae49, #0b804b, #2a9c68, #285bac, #653e9b, #b65775, \#822111, #a46a21, #aa8831, #076239, #1a764d, #1c4587, #41236d, #83334c, \#464646, #e7e7e7, #0d3472, #b6cff5, #0d3b44, #98d7e4, #3d188e, #e3d7ff, \#711a36, #fbd3e0, #8a1c0a, #f2b2a8, #7a2e0b, #ffc8af, #7a4706, #ffdeb5, \#594c05, #fbe983, #684e07, #fdedc1, #0b4f30, #b3efd3, #04502e, #a2dcc1, \#c2c2c2, #4986e7, #2da2bb, #b99aff, #994a64, #f691b2, #ff7537, #ffad46, \#662e37, #ebdbde, #cca6ac, #094228, #42d692, #16a765, #757575, #1e53b8, \#007286, #7858c3, #c2185b, #d93025, #54240e, #633e04, #521d28, #202124, \#083018 */
   backgroundColor?: string | undefined;
   /** The text color of the label, represented as hex string. This field is required in order to set the color of a label. Only the following predefined set of color values are allowed: \#000000, #434343, #666666, #999999, #cccccc, #efefef, #f3f3f3, #ffffff, \#fb4c2f, #ffad47, #fad165, #16a766, #43d692, #4a86e8, #a479e2, #f691b3, \#f6c5be, #ffe6c7, #fef1d1, #b9e4d0, #c6f3de, #c9daf8, #e4d7f5, #fcdee8, \#efa093, #ffd6a2, #fce8b3, #89d3b2, #a0eac9, #a4c2f4, #d0bcf1, #fbc8d9, \#e66550, #ffbc6b, #fcda83, #44b984, #68dfa9, #6d9eeb, #b694e8, #f7a7c0, \#cc3a21, #eaa041, #f2c960, #149e60, #3dc789, #3c78d8, #8e63ce, #e07798, \#ac2b16, #cf8933, #d5ae49, #0b804b, #2a9c68, #285bac, #653e9b, #b65775, \#822111, #a46a21, #aa8831, #076239, #1a764d, #1c4587, #41236d, #83334c, \#464646, #e7e7e7, #0d3472, #b6cff5, #0d3b44, #98d7e4, #3d188e, #e3d7ff, \#711a36, #fbd3e0, #8a1c0a, #f2b2a8, #7a2e0b, #ffc8af, #7a4706, #ffdeb5, \#594c05, #fbe983, #684e07, #fdedc1, #0b4f30, #b3efd3, #04502e, #a2dcc1, \#c2c2c2, #4986e7, #2da2bb, #b99aff, #994a64, #f691b2, #ff7537, #ffad46, \#662e37, #ebdbde, #cca6ac, #094228, #42d692, #16a765, #757575, #1e53b8, \#007286, #7858c3, #c2185b, #d93025, #54240e, #633e04, #521d28, #202124, \#083018 */
   textColor?: string | undefined;
 }
-export type LabelMessageListVisibilityEnum = "show" | "hide";
-export type LabelTypeEnum = "system" | "user";
+export type LabelLabelListVisibilityEnum = "labelShow" | "labelShowIfUnread" | "labelHide";
 /** Labels are used to categorize messages and threads within the user's mailbox. The maximum number of labels supported for a user's mailbox is 10,000. */
 export interface Label {
-  /** The visibility of the label in the label list in the Gmail web interface. */
-  labelListVisibility?: LabelLabelListVisibilityEnum | (string & {}) | undefined;
-  /** The color to assign to the label. Color is only available for labels that have their `type` set to `user`. */
-  color?: LabelColor | undefined;
-  /** The total number of messages with the label. */
-  messagesTotal?: number | undefined;
+  /** The display name of the label. */
+  name?: string | undefined;
+  /** The owner type for the label. User labels are created by the user and can be modified and deleted by the user and can be applied to any message or thread. System labels are internally created and cannot be added, modified, or deleted. System labels may be able to be applied to or removed from messages and threads under some circumstances but this is not guaranteed. For example, users can apply and remove the `INBOX` and `UNREAD` labels from messages and threads, but cannot apply or remove the `DRAFTS` or `SENT` labels from messages or threads. */
+  type?: LabelTypeEnum | (string & {}) | undefined;
   /** The number of unread threads with the label. */
   threadsUnread?: number | undefined;
   /** The total number of threads with the label. */
   threadsTotal?: number | undefined;
-  /** The display name of the label. */
-  name?: string | undefined;
-  /** The immutable ID of the label. */
-  id?: string | undefined;
   /** The number of unread messages with the label. */
   messagesUnread?: number | undefined;
+  /** The immutable ID of the label. */
+  id?: string | undefined;
   /** The visibility of messages with this label in the message list in the Gmail web interface. */
   messageListVisibility?: LabelMessageListVisibilityEnum | (string & {}) | undefined;
-  /** The owner type for the label. User labels are created by the user and can be modified and deleted by the user and can be applied to any message or thread. System labels are internally created and cannot be added, modified, or deleted. System labels may be able to be applied to or removed from messages and threads under some circumstances but this is not guaranteed. For example, users can apply and remove the `INBOX` and `UNREAD` labels from messages and threads, but cannot apply or remove the `DRAFTS` or `SENT` labels from messages or threads. */
-  type?: LabelTypeEnum | (string & {}) | undefined;
+  /** The color to assign to the label. Color is only available for labels that have their `type` set to `user`. */
+  color?: LabelColor | undefined;
+  /** The visibility of the label in the label list in the Gmail web interface. */
+  labelListVisibility?: LabelLabelListVisibilityEnum | (string & {}) | undefined;
+  /** The total number of messages with the label. */
+  messagesTotal?: number | undefined;
 }
 export interface CreateUsersLabelsRequest extends Label {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -237,12 +237,12 @@ export interface SignAndEncryptKeyPairs {
 }
 /** The client-side encryption (CSE) configuration for the email address of an authenticated user. Gmail uses CSE configurations to save drafts of client-side encrypted email messages, and to sign and send encrypted email messages. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface CseIdentity {
-  /** If a key pair is associated, the ID of the key pair, CseKeyPair. */
-  primaryKeyPairId?: string | undefined;
-  /** The email address for the sending identity. The email address must be the primary email address of the authenticated user. */
-  emailAddress?: string | undefined;
   /** The configuration of a CSE identity that uses different key pairs for signing and encryption. */
   signAndEncryptKeyPairs?: SignAndEncryptKeyPairs | undefined;
+  /** The email address for the sending identity. The email address must be the primary email address of the authenticated user. */
+  emailAddress?: string | undefined;
+  /** If a key pair is associated, the ID of the key pair, CseKeyPair. */
+  primaryKeyPairId?: string | undefined;
 }
 export interface CreateUsersSettingsCseIdentitiesRequest extends CseIdentity {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
@@ -250,11 +250,6 @@ export interface CreateUsersSettingsCseIdentitiesRequest extends CseIdentity {
 }
 export type CreateUsersSettingsCseKeypairsChainValidationEnum = "all" | "none";
 export type CseKeyPairEnablementStateEnum = "stateUnspecified" | "enabled" | "disabled";
-/** Metadata for hardware keys. If [hardware key encryption](https://support.google.com/a/answer/14153163) is set up for the Google Workspace organization, users can optionally store their private key on their smart card and use it to sign and decrypt email messages in Gmail by inserting their smart card into a reader attached to their Windows device. */
-export interface HardwareKeyMetadata {
-  /** Description about the hardware key. */
-  description?: string | undefined;
-}
 /** Metadata for a cryptographic key managed by an external key access control list service. For details about managing key access, see [Google Workspace CSE API Reference](https://developers.google.com/workspace/cse/reference). */
 export interface KaclsKeyMetadata {
   /** The URI of the key access control list service that manages the key. */
@@ -262,32 +257,37 @@ export interface KaclsKeyMetadata {
   /** Opaque data generated and used by the key access control list service. */
   kaclsData?: string | undefined;
 }
+/** Metadata for hardware keys. If [hardware key encryption](https://support.google.com/a/answer/14153163) is set up for the Google Workspace organization, users can optionally store their private key on their smart card and use it to sign and decrypt email messages in Gmail by inserting their smart card into a reader attached to their Windows device. */
+export interface HardwareKeyMetadata {
+  /** Description about the hardware key. */
+  description?: string | undefined;
+}
 /** Metadata for a private key instance. */
 export interface CsePrivateKeyMetadata {
-  /** Metadata for hardware keys. */
-  hardwareKeyMetadata?: HardwareKeyMetadata | undefined;
   /** Output only. The immutable ID for the private key metadata instance. */
   privateKeyMetadataId?: string | undefined;
   /** Metadata for a private key instance managed by an external key access control list service. The maximum size of the KACLS data field is 8 KiB. */
   kaclsKeyMetadata?: KaclsKeyMetadata | undefined;
+  /** Metadata for hardware keys. */
+  hardwareKeyMetadata?: HardwareKeyMetadata | undefined;
 }
 export type CsePrivateKeyMetadataList = Array<CsePrivateKeyMetadata>;
 /** A client-side encryption S/MIME key pair, which is comprised of a public key, its certificate chain, and metadata for its paired private key. Gmail uses the key pair to complete the following tasks: - Sign outgoing client-side encrypted messages. - Save and reopen drafts of client-side encrypted messages. - Save and reopen sent messages. - Decrypt incoming or archived S/MIME messages. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface CseKeyPair {
-  /** Output only. The current state of the key pair. */
-  enablementState?: CseKeyPairEnablementStateEnum | (string & {}) | undefined;
-  /** Metadata for instances of this key pair's private key. */
-  privateKeyMetadata?: CsePrivateKeyMetadataList | undefined;
   /** Output only. The email address identities that are specified on the leaf certificate. */
   subjectEmailAddresses?: StringList | undefined;
-  /** Output only. If a key pair is set to `DISABLED`, the time that the key pair's state changed from `ENABLED` to `DISABLED`. This field is present only when the key pair is in state `DISABLED`. */
-  disableTime?: string | undefined;
+  /** Output only. The current state of the key pair. */
+  enablementState?: CseKeyPairEnablementStateEnum | (string & {}) | undefined;
   /** Output only. The public key and its certificate chain, in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format. */
   pem?: string | undefined;
   /** Output only. The immutable ID for the client-side encryption S/MIME key pair. */
   keyPairId?: string | undefined;
+  /** Metadata for instances of this key pair's private key. */
+  privateKeyMetadata?: CsePrivateKeyMetadataList | undefined;
   /** Input only. The public key and its certificate chain. The chain must be in [PKCS#7](https://en.wikipedia.org/wiki/PKCS_7) format and use PEM encoding and ASCII armor. */
   pkcs7?: string | undefined;
+  /** Output only. If a key pair is set to `DISABLED`, the time that the key pair's state changed from `ENABLED` to `DISABLED`. This field is present only when the key pair is in state `DISABLED`. */
+  disableTime?: string | undefined;
 }
 export interface CreateUsersSettingsCseKeypairsRequest extends CseKeyPair {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
@@ -303,54 +303,54 @@ export type DelegateVerificationStatusEnum =
   | "expired";
 /** Settings for a delegate. Delegates can read, send, and delete messages, as well as view and add contacts, for the delegator's account. See "Set up mail delegation" for more information about delegates. */
 export interface Delegate {
-  /** The email address of the delegate. */
-  delegateEmail?: string | undefined;
   /** Indicates whether this address has been verified and can act as a delegate for the account. Read-only. */
   verificationStatus?: DelegateVerificationStatusEnum | (string & {}) | undefined;
+  /** The email address of the delegate. */
+  delegateEmail?: string | undefined;
 }
 export interface CreateUsersSettingsDelegatesRequest extends Delegate {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
 }
-/** A set of actions to perform on a message. */
-export interface FilterAction {
-  /** List of labels to add to the message. */
-  addLabelIds?: StringList | undefined;
-  /** List of labels to remove from the message. */
-  removeLabelIds?: StringList | undefined;
-  /** Email address that the message should be forwarded to. This effectively redirects the message to the address specified in this field, maintaining the original sender in the "From" field. */
-  forward?: string | undefined;
-}
 export type FilterCriteriaSizeComparisonEnum = "unspecified" | "smaller" | "larger";
 /** Message matching criteria. */
 export interface FilterCriteria {
-  /** Whether the message has any attachment. */
-  hasAttachment?: boolean | undefined;
   /** How the message size in bytes should be in relation to the size field. */
   sizeComparison?: FilterCriteriaSizeComparisonEnum | (string & {}) | undefined;
-  /** The size of the entire RFC822 message in bytes, including all headers and attachments. */
-  size?: number | undefined;
-  /** Whether the response should exclude chats. */
-  excludeChats?: boolean | undefined;
   /** The sender's display name or email address. */
   from?: string | undefined;
+  /** Whether the message has any attachment. */
+  hasAttachment?: boolean | undefined;
+  /** The size of the entire RFC822 message in bytes, including all headers and attachments. */
+  size?: number | undefined;
   /** Case-insensitive phrase found in the message's subject. Trailing and leading whitespace are be trimmed and adjacent spaces are collapsed. */
   subject?: string | undefined;
-  /** Only return messages matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. */
-  query?: string | undefined;
-  /** The recipient's display name or email address. Includes recipients in the "to", "cc", and "bcc" header fields. You can use simply the local part of the email address. For example, "example" and "example@" both match "example@gmail.com". This field is case-insensitive. */
-  to?: string | undefined;
   /** Only return messages not matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. */
   negatedQuery?: string | undefined;
+  /** The recipient's display name or email address. Includes recipients in the "to", "cc", and "bcc" header fields. You can use simply the local part of the email address. For example, "example" and "example@" both match "example@gmail.com". This field is case-insensitive. */
+  to?: string | undefined;
+  /** Only return messages matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. */
+  query?: string | undefined;
+  /** Whether the response should exclude chats. */
+  excludeChats?: boolean | undefined;
+}
+/** A set of actions to perform on a message. */
+export interface FilterAction {
+  /** List of labels to remove from the message. */
+  removeLabelIds?: StringList | undefined;
+  /** List of labels to add to the message. */
+  addLabelIds?: StringList | undefined;
+  /** Email address that the message should be forwarded to. This effectively redirects the message to the address specified in this field, maintaining the original sender in the "From" field. */
+  forward?: string | undefined;
 }
 /** Resource definition for Gmail filters. Filters apply to specific messages instead of an entire email thread. */
 export interface Filter {
-  /** Action that the filter performs. */
-  action?: FilterAction | undefined;
   /** The server assigned ID of the filter. */
   id?: string | undefined;
   /** Matching criteria for the filter. */
   criteria?: FilterCriteria | undefined;
+  /** Action that the filter performs. */
+  action?: FilterAction | undefined;
 }
 export interface CreateUsersSettingsFiltersRequest extends Filter {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -377,45 +377,45 @@ export type SmtpMsaSecurityModeEnum = "securityModeUnspecified" | "none" | "ssl"
 export interface SmtpMsa {
   /** The username that will be used for authentication with the SMTP service. This is a write-only field that can be specified in requests to create or update SendAs settings; it is never populated in responses. */
   username?: string | undefined;
+  /** The port of the SMTP service. Required. */
+  port?: number | undefined;
   /** The password that will be used for authentication with the SMTP service. This is a write-only field that can be specified in requests to create or update SendAs settings; it is never populated in responses. */
   password?: string | undefined;
   /** The hostname of the SMTP service. Required. */
   host?: string | undefined;
-  /** The port of the SMTP service. Required. */
-  port?: number | undefined;
   /** The protocol that will be used to secure communication with the SMTP service. Required. */
   securityMode?: SmtpMsaSecurityModeEnum | (string & {}) | undefined;
 }
 /** Settings associated with a send-as alias, which can be either the primary login address associated with the account or a custom "from" address. Send-as aliases correspond to the "Send Mail As" feature in the web interface. The send-as alias must be a valid email address. */
 export interface SendAs {
-  /** An optional HTML signature that is included in messages composed with this alias in the Gmail web UI. This signature is added to new emails only. */
-  signature?: string | undefined;
-  /** Whether this address is the primary address used to login to the account. Every Gmail account has exactly one primary address, and it cannot be deleted from the collection of send-as aliases. This field is read-only. */
-  isPrimary?: boolean | undefined;
-  /** Indicates whether this address has been verified for use as a send-as alias. Read-only. This setting only applies to custom "from" aliases. */
-  verificationStatus?: SendAsVerificationStatusEnum | (string & {}) | undefined;
   /** An optional email address that is included in a "Reply-To:" header for mail sent using this alias. If this is empty, Gmail will not generate a "Reply-To:" header. */
   replyToAddress?: string | undefined;
-  /** The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
-  sendAsEmail?: string | undefined;
-  /** A name that appears in the "From:" header for mail sent using this alias. For custom "from" addresses, when this is empty, Gmail will populate the "From:" header with the name that is used for the primary address associated with the account. If the admin has disabled the ability for users to update their name format, requests to update this field for the primary login will silently fail. */
-  displayName?: string | undefined;
-  /** Whether this address is selected as the default "From:" address in situations such as composing a new message or sending a vacation auto-reply. Every Gmail account has exactly one default send-as address, so the only legal value that clients may write to this field is `true`. Changing this from `false` to `true` for an address will result in this field becoming `false` for the other previous default address. */
-  isDefault?: boolean | undefined;
-  /** An optional SMTP service that will be used as an outbound relay for mail sent using this alias. If this is empty, outbound mail will be sent directly from Gmail's servers to the destination SMTP service. This setting only applies to custom "from" aliases. */
-  smtpMsa?: SmtpMsa | undefined;
   /** Whether Gmail should treat this address as an alias for the user's primary email address. This setting only applies to custom "from" aliases. */
   treatAsAlias?: boolean | undefined;
+  /** Indicates whether this address has been verified for use as a send-as alias. Read-only. This setting only applies to custom "from" aliases. */
+  verificationStatus?: SendAsVerificationStatusEnum | (string & {}) | undefined;
+  /** A name that appears in the "From:" header for mail sent using this alias. For custom "from" addresses, when this is empty, Gmail will populate the "From:" header with the name that is used for the primary address associated with the account. If the admin has disabled the ability for users to update their name format, requests to update this field for the primary login will silently fail. */
+  displayName?: string | undefined;
+  /** The email address that appears in the "From:" header for mail sent using this alias. This is read-only for all operations except create. */
+  sendAsEmail?: string | undefined;
+  /** An optional SMTP service that will be used as an outbound relay for mail sent using this alias. If this is empty, outbound mail will be sent directly from Gmail's servers to the destination SMTP service. This setting only applies to custom "from" aliases. */
+  smtpMsa?: SmtpMsa | undefined;
+  /** Whether this address is selected as the default "From:" address in situations such as composing a new message or sending a vacation auto-reply. Every Gmail account has exactly one default send-as address, so the only legal value that clients may write to this field is `true`. Changing this from `false` to `true` for an address will result in this field becoming `false` for the other previous default address. */
+  isDefault?: boolean | undefined;
+  /** Whether this address is the primary address used to login to the account. Every Gmail account has exactly one primary address, and it cannot be deleted from the collection of send-as aliases. This field is read-only. */
+  isPrimary?: boolean | undefined;
+  /** An optional HTML signature that is included in messages composed with this alias in the Gmail web UI. This signature is added to new emails only. */
+  signature?: string | undefined;
 }
 export interface CreateUsersSettingsSendAsRequest extends SendAs {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
 }
 export interface DeleteUsersDraftsRequest {
-  /** The ID of the draft to delete. */
-  id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
+  /** The ID of the draft to delete. */
+  id: string;
 }
 export interface DeleteUsersDraftsResponse {}
 export interface DeleteUsersLabelsRequest {
@@ -433,10 +433,10 @@ export interface DeleteUsersMessagesRequest {
 }
 export interface DeleteUsersMessagesResponse {}
 export interface DeleteUsersSettingsCseIdentitiesRequest {
-  /** The primary email address associated with the client-side encryption identity configuration that's removed. */
-  cseEmailAddress: string;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
+  /** The primary email address associated with the client-side encryption identity configuration that's removed. */
+  cseEmailAddress: string;
 }
 export interface DeleteUsersSettingsCseIdentitiesResponse {}
 export interface DeleteUsersSettingsDelegatesRequest {
@@ -447,10 +447,10 @@ export interface DeleteUsersSettingsDelegatesRequest {
 }
 export interface DeleteUsersSettingsDelegatesResponse {}
 export interface DeleteUsersSettingsFiltersRequest {
-  /** The ID of the filter to be deleted. */
-  id: string;
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
+  /** The ID of the filter to be deleted. */
+  id: string;
 }
 export interface DeleteUsersSettingsFiltersResponse {}
 export interface DeleteUsersSettingsForwardingAddressesRequest {
@@ -461,35 +461,35 @@ export interface DeleteUsersSettingsForwardingAddressesRequest {
 }
 export interface DeleteUsersSettingsForwardingAddressesResponse {}
 export interface DeleteUsersSettingsSendAsRequest {
-  /** The send-as alias to be deleted. */
-  sendAsEmail: string;
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
+  /** The send-as alias to be deleted. */
+  sendAsEmail: string;
 }
 export interface DeleteUsersSettingsSendAsResponse {}
 export interface DeleteUsersSettingsSendAsSmimeInfoRequest {
   /** The immutable ID for the SmimeInfo. */
   id: string;
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The email address that appears in the "From:" header for mail sent using this alias. */
   sendAsEmail: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface DeleteUsersSettingsSendAsSmimeInfoResponse {}
 export interface DeleteUsersThreadsRequest {
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** ID of the Thread to delete. */
   id: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface DeleteUsersThreadsResponse {}
 /** Requests to turn off a client-side encryption key pair. */
 export interface DisableCseKeyPairRequest {}
 export interface DisableUsersSettingsCseKeypairsRequest {
-  /** The identifier of the key pair to turn off. */
-  keyPairId: string;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
+  /** The identifier of the key pair to turn off. */
+  keyPairId: string;
   /** Request body */
   body?: DisableCseKeyPairRequest | undefined;
 }
@@ -533,12 +533,12 @@ export type ImapSettingsExpungeBehaviorEnum =
   | "deleteForever";
 /** IMAP settings for an account. */
 export interface ImapSettings {
-  /** Whether IMAP is enabled for the account. */
-  enabled?: boolean | undefined;
   /** An optional limit on the number of messages that an IMAP folder may contain. Legal values are 0, 1000, 2000, 5000 or 10000. A value of zero is interpreted to mean that there is no limit. */
   maxFolderSize?: number | undefined;
   /** If this value is true, Gmail will immediately expunge a message when it is marked as deleted in IMAP. Otherwise, Gmail will wait for an update from the client before expunging messages marked as deleted. */
   autoExpunge?: boolean | undefined;
+  /** Whether IMAP is enabled for the account. */
+  enabled?: boolean | undefined;
   /** The action that will be executed on a message when it is marked as deleted and expunged from the last visible IMAP folder. */
   expungeBehavior?: ImapSettingsExpungeBehaviorEnum | (string & {}) | undefined;
 }
@@ -555,23 +555,23 @@ export interface GetPopUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
 }
+export type PopSettingsAccessWindowEnum =
+  | "accessWindowUnspecified"
+  | "disabled"
+  | "fromNowOn"
+  | "allMail";
 export type PopSettingsDispositionEnum =
   | "dispositionUnspecified"
   | "leaveInInbox"
   | "archive"
   | "trash"
   | "markRead";
-export type PopSettingsAccessWindowEnum =
-  | "accessWindowUnspecified"
-  | "disabled"
-  | "fromNowOn"
-  | "allMail";
 /** POP settings for an account. */
 export interface PopSettings {
-  /** The action that will be executed on a message after it has been fetched via POP. */
-  disposition?: PopSettingsDispositionEnum | (string & {}) | undefined;
   /** The range of messages which are accessible via POP. */
   accessWindow?: PopSettingsAccessWindowEnum | (string & {}) | undefined;
+  /** The action that will be executed on a message after it has been fetched via POP. */
+  disposition?: PopSettingsDispositionEnum | (string & {}) | undefined;
 }
 export interface GetProfileUsersRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -590,12 +590,12 @@ export interface Profile {
 }
 export type GetUsersDraftsFormatEnum = "minimal" | "full" | "raw" | "metadata";
 export interface GetUsersDraftsRequest {
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The format to return the draft in. */
   format?: GetUsersDraftsFormatEnum | (string & {}) | undefined;
   /** The ID of the draft to retrieve. */
   id: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface GetUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -605,28 +605,28 @@ export interface GetUsersLabelsRequest {
 }
 export type GetUsersMessagesFormatEnum = "minimal" | "full" | "raw" | "metadata";
 export interface GetUsersMessagesRequest {
+  /** When given and format is `METADATA`, only include headers specified. */
+  metadataHeaders?: StringList | undefined;
   /** The ID of the message to retrieve. This ID is usually retrieved using `messages.list`. The ID is also contained in the result when a message is inserted (`messages.insert`) or imported (`messages.import`). */
   id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The format to return the message in. */
   format?: GetUsersMessagesFormatEnum | (string & {}) | undefined;
-  /** When given and format is `METADATA`, only include headers specified. */
-  metadataHeaders?: StringList | undefined;
 }
 export interface GetUsersMessagesAttachmentsRequest {
+  /** The ID of the attachment. */
+  id: string;
   /** The ID of the message containing the attachment. */
   messageId: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** The ID of the attachment. */
-  id: string;
 }
 export interface GetUsersSettingsCseIdentitiesRequest {
-  /** The primary email address associated with the client-side encryption identity configuration that's retrieved. */
-  cseEmailAddress: string;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
+  /** The primary email address associated with the client-side encryption identity configuration that's retrieved. */
+  cseEmailAddress: string;
 }
 export interface GetUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
@@ -647,50 +647,50 @@ export interface GetUsersSettingsFiltersRequest {
   id: string;
 }
 export interface GetUsersSettingsForwardingAddressesRequest {
-  /** User's email address. The special value "me" can be used to indicate the authenticated user. */
-  userId: string;
   /** The forwarding address to be retrieved. */
   forwardingEmail: string;
-}
-export interface GetUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
+}
+export interface GetUsersSettingsSendAsRequest {
   /** The send-as alias to be retrieved. */
   sendAsEmail: string;
+  /** User's email address. The special value "me" can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface GetUsersSettingsSendAsSmimeInfoRequest {
-  /** The immutable ID for the SmimeInfo. */
-  id: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** The email address that appears in the "From:" header for mail sent using this alias. */
   sendAsEmail: string;
+  /** The immutable ID for the SmimeInfo. */
+  id: string;
 }
 /** An S/MIME email config. */
 export interface SmimeInfo {
-  /** The immutable ID for the SmimeInfo. */
-  id?: string | undefined;
-  /** PEM formatted X509 concatenated certificate string (standard base64 encoding). Format used for returning key, which includes public key as well as certificate chain (not private key). */
-  pem?: string | undefined;
-  /** The S/MIME certificate issuer's common name. */
-  issuerCn?: string | undefined;
+  /** Encrypted key password, when key is encrypted. */
+  encryptedKeyPassword?: string | undefined;
   /** PKCS#12 format containing a single private/public key pair and certificate chain. This format is only accepted from client for creating a new SmimeInfo and is never returned, because the private key is not intended to be exported. PKCS#12 may be encrypted, in which case encryptedKeyPassword should be set appropriately. */
   pkcs12?: string | undefined;
   /** When the certificate expires (in milliseconds since epoch). */
   expiration?: string | undefined;
   /** Whether this SmimeInfo is the default one for this user's send-as address. */
   isDefault?: boolean | undefined;
-  /** Encrypted key password, when key is encrypted. */
-  encryptedKeyPassword?: string | undefined;
+  /** The immutable ID for the SmimeInfo. */
+  id?: string | undefined;
+  /** The S/MIME certificate issuer's common name. */
+  issuerCn?: string | undefined;
+  /** PEM formatted X509 concatenated certificate string (standard base64 encoding). Format used for returning key, which includes public key as well as certificate chain (not private key). */
+  pem?: string | undefined;
 }
 export type GetUsersThreadsFormatEnum = "full" | "metadata" | "minimal";
 export interface GetUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
-  /** The format to return the messages in. */
-  format?: GetUsersThreadsFormatEnum | (string & {}) | undefined;
   /** When given and format is METADATA, only include headers specified. */
   metadataHeaders?: StringList | undefined;
+  /** The format to return the messages in. */
+  format?: GetUsersThreadsFormatEnum | (string & {}) | undefined;
   /** The ID of the thread to retrieve. */
   id: string;
 }
@@ -699,12 +699,12 @@ export type MessageList = Array<Message>;
 export interface Thread {
   /** The ID of the last history record that modified this thread. */
   historyId?: string | undefined;
+  /** The list of messages in the thread. */
+  messages?: MessageList | undefined;
   /** A short part of the message text. */
   snippet?: string | undefined;
   /** The unique ID of the thread. */
   id?: string | undefined;
-  /** The list of messages in the thread. */
-  messages?: MessageList | undefined;
 }
 export interface GetVacationUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -712,62 +712,62 @@ export interface GetVacationUsersSettingsRequest {
 }
 /** Vacation auto-reply settings for an account. These settings correspond to the "Vacation responder" feature in the web interface. */
 export interface VacationSettings {
-  /** Optional text to prepend to the subject line in vacation responses. In order to enable auto-replies, either the response subject or the response body must be nonempty. */
-  responseSubject?: string | undefined;
-  /** Flag that determines whether responses are sent to recipients who are outside of the user's domain. This feature is only available for Google Workspace users. */
-  restrictToDomain?: boolean | undefined;
-  /** Flag that determines whether responses are sent to recipients who are not in the user's list of contacts. */
-  restrictToContacts?: boolean | undefined;
   /** An optional end time for sending auto-replies (epoch ms). When this is specified, Gmail will automatically reply only to messages that it receives before the end time. If both `startTime` and `endTime` are specified, `startTime` must precede `endTime`. */
   endTime?: string | undefined;
-  /** Response body in plain text format. If both `response_body_plain_text` and `response_body_html` are specified, `response_body_html` will be used. */
-  responseBodyPlainText?: string | undefined;
-  /** Response body in HTML format. Gmail will sanitize the HTML before storing it. If both `response_body_plain_text` and `response_body_html` are specified, `response_body_html` will be used. */
-  responseBodyHtml?: string | undefined;
-  /** An optional start time for sending auto-replies (epoch ms). When this is specified, Gmail will automatically reply only to messages that it receives after the start time. If both `startTime` and `endTime` are specified, `startTime` must precede `endTime`. */
-  startTime?: string | undefined;
   /** Flag that controls whether Gmail automatically replies to messages. */
   enableAutoReply?: boolean | undefined;
+  /** An optional start time for sending auto-replies (epoch ms). When this is specified, Gmail will automatically reply only to messages that it receives after the start time. If both `startTime` and `endTime` are specified, `startTime` must precede `endTime`. */
+  startTime?: string | undefined;
+  /** Flag that determines whether responses are sent to recipients who are not in the user's list of contacts. */
+  restrictToContacts?: boolean | undefined;
+  /** Response body in HTML format. Gmail will sanitize the HTML before storing it. If both `response_body_plain_text` and `response_body_html` are specified, `response_body_html` will be used. */
+  responseBodyHtml?: string | undefined;
+  /** Flag that determines whether responses are sent to recipients who are outside of the user's domain. This feature is only available for Google Workspace users. */
+  restrictToDomain?: boolean | undefined;
+  /** Optional text to prepend to the subject line in vacation responses. In order to enable auto-replies, either the response subject or the response body must be nonempty. */
+  responseSubject?: string | undefined;
+  /** Response body in plain text format. If both `response_body_plain_text` and `response_body_html` are specified, `response_body_html` will be used. */
+  responseBodyPlainText?: string | undefined;
 }
 export type ImportUsersMessagesInternalDateSourceEnum = "receivedTime" | "dateHeader";
 export interface ImportUsersMessagesRequest extends Message {
   /** Process calendar invites in the email and add any extracted meetings to the Google Calendar for this user. */
   processForCalendar?: boolean | undefined;
-  /** Source for Gmail's internal date of the message. */
-  internalDateSource?: ImportUsersMessagesInternalDateSourceEnum | (string & {}) | undefined;
   /** Ignore the Gmail spam classifier decision and never mark this email as SPAM in the mailbox. */
   neverMarkSpam?: boolean | undefined;
-  /** Mark the email as permanently deleted (not TRASH) and only visible in Google Vault to a Vault administrator. Only used for Google Workspace accounts. */
-  deleted?: boolean | undefined;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
+  /** Mark the email as permanently deleted (not TRASH) and only visible in Google Vault to a Vault administrator. Only used for Google Workspace accounts. */
+  deleted?: boolean | undefined;
+  /** Source for Gmail's internal date of the message. */
+  internalDateSource?: ImportUsersMessagesInternalDateSourceEnum | (string & {}) | undefined;
 }
 export type InsertUsersMessagesInternalDateSourceEnum = "receivedTime" | "dateHeader";
 export interface InsertUsersMessagesRequest extends Message {
-  /** Mark the email as permanently deleted (not TRASH) and only visible in Google Vault to a Vault administrator. Only used for Google Workspace accounts. */
-  deleted?: boolean | undefined;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** Source for Gmail's internal date of the message. */
   internalDateSource?: InsertUsersMessagesInternalDateSourceEnum | (string & {}) | undefined;
+  /** Mark the email as permanently deleted (not TRASH) and only visible in Google Vault to a Vault administrator. Only used for Google Workspace accounts. */
+  deleted?: boolean | undefined;
 }
 export interface InsertUsersSettingsSendAsSmimeInfoRequest extends SmimeInfo {
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The email address that appears in the "From:" header for mail sent using this alias. */
   sendAsEmail: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface ListUsersDraftsRequest {
+  /** Maximum number of drafts to return. This field defaults to 100. The maximum allowed value for this field is 500. */
+  maxResults?: number | undefined;
+  /** Include drafts from `SPAM` and `TRASH` in the results. */
+  includeSpamTrash?: boolean | undefined;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** Only return draft messages matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. */
   q?: string | undefined;
-  /** Include drafts from `SPAM` and `TRASH` in the results. */
-  includeSpamTrash?: boolean | undefined;
   /** Page token to retrieve a specific page of results in the list. */
   pageToken?: string | undefined;
-  /** Maximum number of drafts to return. This field defaults to 100. The maximum allowed value for this field is 500. */
-  maxResults?: number | undefined;
 }
 export type DraftList = Array<Draft>;
 export interface ListDraftsResponse {
@@ -787,51 +787,51 @@ export type ListUsersHistoryHistoryTypesEnumList = Array<
   ListUsersHistoryHistoryTypesEnum | (string & {})
 >;
 export interface ListUsersHistoryRequest {
-  /** Maximum number of history records to return. This field defaults to 100. The maximum allowed value for this field is 500. */
-  maxResults?: number | undefined;
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
-  /** Required. Returns history records after the specified `startHistoryId`. The supplied `startHistoryId` should be obtained from the `historyId` of a message, thread, or previous `list` response. History IDs increase chronologically but are not contiguous with random gaps in between valid IDs. Supplying an invalid or out of date `startHistoryId` typically returns an `HTTP 404` error code. A `historyId` is typically valid for at least a week, but in some rare circumstances may be valid for only a few hours. If you receive an `HTTP 404` error response, your application should perform a full sync. If you receive no `nextPageToken` in the response, there are no updates to retrieve and you can store the returned `historyId` for a future request. */
-  startHistoryId?: string | undefined;
-  /** Page token to retrieve a specific page of results in the list. */
-  pageToken?: string | undefined;
-  /** Only return messages with a label matching the ID. */
-  labelId?: string | undefined;
   /** History types to be returned by the function */
   historyTypes?: ListUsersHistoryHistoryTypesEnumList | undefined;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
+  /** Page token to retrieve a specific page of results in the list. */
+  pageToken?: string | undefined;
+  /** Required. Returns history records after the specified `startHistoryId`. The supplied `startHistoryId` should be obtained from the `historyId` of a message, thread, or previous `list` response. History IDs increase chronologically but are not contiguous with random gaps in between valid IDs. Supplying an invalid or out of date `startHistoryId` typically returns an `HTTP 404` error code. A `historyId` is typically valid for at least a week, but in some rare circumstances may be valid for only a few hours. If you receive an `HTTP 404` error response, your application should perform a full sync. If you receive no `nextPageToken` in the response, there are no updates to retrieve and you can store the returned `historyId` for a future request. */
+  startHistoryId?: string | undefined;
+  /** Maximum number of history records to return. This field defaults to 100. The maximum allowed value for this field is 500. */
+  maxResults?: number | undefined;
+  /** Only return messages with a label matching the ID. */
+  labelId?: string | undefined;
 }
+export interface HistoryLabelAdded {
+  message?: Message | undefined;
+  /** Label IDs added to the message. */
+  labelIds?: StringList | undefined;
+}
+export type HistoryLabelAddedList = Array<HistoryLabelAdded>;
 export interface HistoryMessageAdded {
   message?: Message | undefined;
 }
 export type HistoryMessageAddedList = Array<HistoryMessageAdded>;
 export interface HistoryLabelRemoved {
+  message?: Message | undefined;
   /** Label IDs removed from the message. */
   labelIds?: StringList | undefined;
-  message?: Message | undefined;
 }
 export type HistoryLabelRemovedList = Array<HistoryLabelRemoved>;
-export interface HistoryLabelAdded {
-  /** Label IDs added to the message. */
-  labelIds?: StringList | undefined;
-  message?: Message | undefined;
-}
-export type HistoryLabelAddedList = Array<HistoryLabelAdded>;
 export type HistoryMessageDeleted = HistoryMessageAdded;
 export type HistoryMessageDeletedList = Array<HistoryMessageAdded>;
 /** A record of a change to the user's mailbox. Each history change may affect multiple messages in multiple ways. */
 export interface History {
+  /** Labels added to messages in this history record. */
+  labelsAdded?: HistoryLabelAddedList | undefined;
+  /** The mailbox sequence ID. */
+  id?: string | undefined;
   /** Messages added to the mailbox in this history record. */
   messagesAdded?: HistoryMessageAddedList | undefined;
   /** Labels removed from messages in this history record. */
   labelsRemoved?: HistoryLabelRemovedList | undefined;
-  /** Labels added to messages in this history record. */
-  labelsAdded?: HistoryLabelAddedList | undefined;
-  /** List of messages changed in this history record. The fields for specific change types, such as `messagesAdded` may duplicate messages in this field. We recommend using the specific change-type fields instead of this. */
-  messages?: MessageList | undefined;
-  /** The mailbox sequence ID. */
-  id?: string | undefined;
   /** Messages deleted (not Trashed) from the mailbox in this history record. */
   messagesDeleted?: HistoryMessageDeletedList | undefined;
+  /** List of messages changed in this history record. The fields for specific change types, such as `messagesAdded` may duplicate messages in this field. We recommend using the specific change-type fields instead of this. */
+  messages?: MessageList | undefined;
 }
 export type HistoryList = Array<History>;
 export interface ListHistoryResponse {
@@ -852,41 +852,41 @@ export interface ListLabelsResponse {
   labels?: LabelList | undefined;
 }
 export interface ListUsersMessagesRequest {
+  /** Only return messages with labels that match all of the specified label IDs. Messages in a thread might have labels that other messages in the same thread don't have. To learn more, see [Manage labels on messages and threads](https://developers.google.com/workspace/gmail/api/guides/labels#manage_labels_on_messages_threads). */
+  labelIds?: StringList | undefined;
+  /** Page token to retrieve a specific page of results in the list. */
+  pageToken?: string | undefined;
   /** Maximum number of messages to return. This field defaults to 100. The maximum allowed value for this field is 500. */
   maxResults?: number | undefined;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
   /** Include messages from `SPAM` and `TRASH` in the results. */
   includeSpamTrash?: boolean | undefined;
   /** Only return messages matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. Parameter cannot be used when accessing the api using the gmail.metadata scope. */
   q?: string | undefined;
-  /** Page token to retrieve a specific page of results in the list. */
-  pageToken?: string | undefined;
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
-  /** Only return messages with labels that match all of the specified label IDs. Messages in a thread might have labels that other messages in the same thread don't have. To learn more, see [Manage labels on messages and threads](https://developers.google.com/workspace/gmail/api/guides/labels#manage_labels_on_messages_threads). */
-  labelIds?: StringList | undefined;
 }
 export interface ListMessagesResponse {
-  /** Token to retrieve the next page of results in the list. */
-  nextPageToken?: string | undefined;
   /** List of messages. Note that each message resource contains only an `id` and a `threadId`. Additional message details can be fetched using the messages.get method. */
   messages?: MessageList | undefined;
+  /** Token to retrieve the next page of results in the list. */
+  nextPageToken?: string | undefined;
   /** Estimated total number of results. */
   resultSizeEstimate?: number | undefined;
 }
 export interface ListUsersSettingsCseIdentitiesRequest {
-  /** The number of identities to return. If not provided, the page size will default to 20 entries. */
-  pageSize?: number | undefined;
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
+  /** The number of identities to return. If not provided, the page size will default to 20 entries. */
+  pageSize?: number | undefined;
   /** Pagination token indicating which page of identities to return. If the token is not supplied, then the API will return the first page of results. */
   pageToken?: string | undefined;
 }
 export type CseIdentityList = Array<CseIdentity>;
 export interface ListCseIdentitiesResponse {
-  /** Pagination token to be passed to a subsequent ListCseIdentities call in order to retrieve the next page of identities. If this value is not returned or is the empty string, then no further pages remain. */
-  nextPageToken?: string | undefined;
   /** One page of the list of CSE identities configured for the user. */
   cseIdentities?: CseIdentityList | undefined;
+  /** Pagination token to be passed to a subsequent ListCseIdentities call in order to retrieve the next page of identities. If this value is not returned or is the empty string, then no further pages remain. */
+  nextPageToken?: string | undefined;
 }
 export interface ListUsersSettingsCseKeypairsRequest {
   /** Pagination token indicating which page of key pairs to return. If the token is not supplied, then the API will return the first page of results. */
@@ -898,10 +898,10 @@ export interface ListUsersSettingsCseKeypairsRequest {
 }
 export type CseKeyPairList = Array<CseKeyPair>;
 export interface ListCseKeyPairsResponse {
-  /** One page of the list of CSE key pairs installed for the user. */
-  cseKeyPairs?: CseKeyPairList | undefined;
   /** Pagination token to be passed to a subsequent ListCseKeyPairs call in order to retrieve the next page of key pairs. If this value is not returned, then no further pages remain. */
   nextPageToken?: string | undefined;
+  /** One page of the list of CSE key pairs installed for the user. */
+  cseKeyPairs?: CseKeyPairList | undefined;
 }
 export interface ListUsersSettingsDelegatesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -944,10 +944,10 @@ export interface ListSendAsResponse {
   sendAs?: SendAsList | undefined;
 }
 export interface ListUsersSettingsSendAsSmimeInfoRequest {
-  /** The email address that appears in the "From:" header for mail sent using this alias. */
-  sendAsEmail: string;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
+  /** The email address that appears in the "From:" header for mail sent using this alias. */
+  sendAsEmail: string;
 }
 export type SmimeInfoList = Array<SmimeInfo>;
 export interface ListSmimeInfoResponse {
@@ -955,43 +955,43 @@ export interface ListSmimeInfoResponse {
   smimeInfo?: SmimeInfoList | undefined;
 }
 export interface ListUsersThreadsRequest {
-  /** Only return threads with labels that match all of the specified label IDs. */
-  labelIds?: StringList | undefined;
-  /** Page token to retrieve a specific page of results in the list. */
-  pageToken?: string | undefined;
   /** Only return threads matching the specified query. Supports the same query format as the Gmail search box. For example, `"from:someuser@example.com rfc822msgid: is:unread"`. Parameter cannot be used when accessing the api using the gmail.metadata scope. */
   q?: string | undefined;
+  /** Only return threads with labels that match all of the specified label IDs. */
+  labelIds?: StringList | undefined;
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
   /** Include threads from `SPAM` and `TRASH` in the results. */
   includeSpamTrash?: boolean | undefined;
   /** Maximum number of threads to return. This field defaults to 100. The maximum allowed value for this field is 500. */
   maxResults?: number | undefined;
+  /** Page token to retrieve a specific page of results in the list. */
+  pageToken?: string | undefined;
 }
 export type ThreadList = Array<Thread>;
 export interface ListThreadsResponse {
-  /** Page token to retrieve the next page of results in the list. */
-  nextPageToken?: string | undefined;
   /** List of threads. Note that each thread resource does not contain a list of `messages`. The list of `messages` for a given thread can be fetched using the [`threads.get`](https://developers.google.com/workspace/gmail/api/v1/reference/users/threads/get) method. */
   threads?: ThreadList | undefined;
   /** Estimated total number of results. */
   resultSizeEstimate?: number | undefined;
+  /** Page token to retrieve the next page of results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ModifyMessageRequest {
-  /** A list of Classification Label values to remove from this message. */
-  removeClassificationLabelIds?: StringList | undefined;
-  /** A list IDs of labels to remove from this message. You can remove up to 100 labels with each update. */
-  removeLabelIds?: StringList | undefined;
-  /** A list of classification label values to add. If a Classification Label with the same label ID is already applied to the message, fields with existing field IDs will be updated and fields with new field IDs will be added. There's a limit of 20 Classification Label values per request. If the message is already classified and the final total number of Classification Label values exceeds the maximum allowed number of Classification Label values per message, the modification fails. */
-  addClassificationLabels?: ClassificationLabelValueList | undefined;
   /** A list of IDs of labels to add to this message. You can add up to 100 labels with each update. */
   addLabelIds?: StringList | undefined;
+  /** A list IDs of labels to remove from this message. You can remove up to 100 labels with each update. */
+  removeLabelIds?: StringList | undefined;
+  /** A list of Classification Label values to remove from this message. */
+  removeClassificationLabelIds?: StringList | undefined;
+  /** A list of classification label values to add. If a Classification Label with the same label ID is already applied to the message, fields with existing field IDs will be updated and fields with new field IDs will be added. There's a limit of 20 Classification Label values per request. If the message is already classified and the final total number of Classification Label values exceeds the maximum allowed number of Classification Label values per message, the modification fails. */
+  addClassificationLabels?: ClassificationLabelValueList | undefined;
 }
 export interface ModifyUsersMessagesRequest extends ModifyMessageRequest {
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The ID of the message to modify. */
   id: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface ModifyThreadRequest {
   /** A list of IDs of labels to add to this thread. You can add up to 100 labels with each update. */
@@ -1008,10 +1008,10 @@ export interface ModifyUsersThreadsRequest extends ModifyThreadRequest {
 /** Request to obliterate a CSE key pair. */
 export type ObliterateCseKeyPairRequest = DisableCseKeyPairRequest;
 export interface ObliterateUsersSettingsCseKeypairsRequest {
-  /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
-  userId: string;
   /** The identifier of the key pair to obliterate. */
   keyPairId: string;
+  /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
+  userId: string;
   /** Request body */
   body?: DisableCseKeyPairRequest | undefined;
 }
@@ -1029,10 +1029,10 @@ export interface PatchUsersSettingsCseIdentitiesRequest extends Omit<CseIdentity
   userId: string;
 }
 export interface PatchUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
-  /** The send-as alias to be updated. */
-  sendAsEmail: string;
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
+  /** The send-as alias to be updated. */
+  sendAsEmail: string;
 }
 export interface SendUsersDraftsRequest extends Draft {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -1045,10 +1045,10 @@ export interface SendUsersMessagesRequest extends Message {
 export interface SetDefaultUsersSettingsSendAsSmimeInfoRequest {
   /** The immutable ID for the SmimeInfo. */
   id: string;
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The email address that appears in the "From:" header for mail sent using this alias. */
   sendAsEmail: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface SetDefaultUsersSettingsSendAsSmimeInfoResponse {}
 export interface StopUsersRequest {
@@ -1063,16 +1063,16 @@ export interface TrashUsersMessagesRequest {
   userId: string;
 }
 export interface TrashUsersThreadsRequest {
-  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
-  userId: string;
   /** The ID of the thread to Trash. */
   id: string;
-}
-export interface UntrashUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
+}
+export interface UntrashUsersMessagesRequest {
   /** The ID of the message to remove from Trash. */
   id: string;
+  /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface UntrashUsersThreadsRequest {
   /** The ID of the thread to remove from Trash. */
@@ -1109,10 +1109,10 @@ export interface UpdateUsersLabelsRequest extends Omit<Label, "id"> {
   id: string;
 }
 export interface UpdateUsersSettingsSendAsRequest extends Omit<SendAs, "sendAsEmail"> {
-  /** User's email address. The special value "me" can be used to indicate the authenticated user. */
-  userId: string;
   /** The send-as alias to be updated. */
   sendAsEmail: string;
+  /** User's email address. The special value "me" can be used to indicate the authenticated user. */
+  userId: string;
 }
 export interface UpdateVacationUsersSettingsRequest extends VacationSettings {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
@@ -1125,18 +1125,18 @@ export interface VerifyUsersSettingsSendAsRequest {
   sendAsEmail: string;
 }
 export interface VerifyUsersSettingsSendAsResponse {}
-export type WatchRequestLabelFilterActionEnum = "include" | "exclude";
 export type WatchRequestLabelFilterBehaviorEnum = "include" | "exclude";
+export type WatchRequestLabelFilterActionEnum = "include" | "exclude";
 /** Set up or update a new push notification watch on this user's mailbox. */
 export interface WatchRequest {
-  /** Filtering behavior of `labelIds list` specified. This field is deprecated because it caused incorrect behavior in some cases; use `label_filter_behavior` instead. */
-  labelFilterAction?: WatchRequestLabelFilterActionEnum | (string & {}) | undefined;
   /** List of label_ids to restrict notifications about. By default, if unspecified, all changes are pushed out. If specified then dictates which labels are required for a push notification to be generated. */
   labelIds?: StringList | undefined;
-  /** A fully qualified Google Cloud Pub/Sub API topic name to publish the events to. This topic name **must** already exist in Cloud Pub/Sub and you **must** have already granted gmail "publish" permission on it. For example, "projects/my-project-identifier/topics/my-topic-name" (using the Cloud Pub/Sub "v1" topic naming format). Note that the "my-project-identifier" portion must exactly match your Google developer project id (the one executing this watch request). */
-  topicName?: string | undefined;
   /** Filtering behavior of `labelIds list` specified. This field replaces `label_filter_action`; if set, `label_filter_action` is ignored. */
   labelFilterBehavior?: WatchRequestLabelFilterBehaviorEnum | (string & {}) | undefined;
+  /** A fully qualified Google Cloud Pub/Sub API topic name to publish the events to. This topic name **must** already exist in Cloud Pub/Sub and you **must** have already granted gmail "publish" permission on it. For example, "projects/my-project-identifier/topics/my-topic-name" (using the Cloud Pub/Sub "v1" topic naming format). Note that the "my-project-identifier" portion must exactly match your Google developer project id (the one executing this watch request). */
+  topicName?: string | undefined;
+  /** Filtering behavior of `labelIds list` specified. This field is deprecated because it caused incorrect behavior in some cases; use `label_filter_behavior` instead. */
+  labelFilterAction?: WatchRequestLabelFilterActionEnum | (string & {}) | undefined;
 }
 export interface WatchUsersRequest extends WatchRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
@@ -2743,8 +2743,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          delegateEmail: S.optional(S.String),
           verificationStatus: S.optional(S.String),
+          delegateEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Delegate" });
   }
@@ -2773,31 +2773,31 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addLabelIds: S.optional(__S(640, __c40, 0)),
-          removeLabelIds: S.optional(__S(640, __c40, 0)),
-          forward: S.optional(S.String),
+          sizeComparison: S.optional(S.String),
+          from: S.optional(S.String),
+          hasAttachment: S.optional(S.Boolean),
+          size: S.optional(S.Number),
+          subject: S.optional(S.String),
+          negatedQuery: S.optional(S.String),
+          to: S.optional(S.String),
+          query: S.optional(S.String),
+          excludeChats: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "FilterAction" });
+      ).annotate({ identifier: "FilterCriteria" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hasAttachment: S.optional(S.Boolean),
-          sizeComparison: S.optional(S.String),
-          size: S.optional(S.Number),
-          excludeChats: S.optional(S.Boolean),
-          from: S.optional(S.String),
-          subject: S.optional(S.String),
-          query: S.optional(S.String),
-          to: S.optional(S.String),
-          negatedQuery: S.optional(S.String),
+          removeLabelIds: S.optional(__S(640, __c40, 0)),
+          addLabelIds: S.optional(__S(640, __c40, 0)),
+          forward: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FilterCriteria" });
+      ).annotate({ identifier: "FilterAction" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(48, __c3, 0)),
           id: S.optional(S.String),
-          criteria: S.optional(__S(49, __c3, 1)),
+          criteria: S.optional(__S(48, __c3, 0)),
+          action: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "Filter" });
   }
@@ -2857,24 +2857,24 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
+          port: S.optional(S.Number),
           password: S.optional(S.String),
           host: S.optional(S.String),
-          port: S.optional(S.Number),
           securityMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "SmtpMsa" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signature: S.optional(S.String),
-          isPrimary: S.optional(S.Boolean),
-          verificationStatus: S.optional(S.String),
           replyToAddress: S.optional(S.String),
-          sendAsEmail: S.optional(S.String),
-          displayName: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-          smtpMsa: S.optional(__S(112, __c7, 0)),
           treatAsAlias: S.optional(S.Boolean),
+          verificationStatus: S.optional(S.String),
+          displayName: S.optional(S.String),
+          sendAsEmail: S.optional(S.String),
+          smtpMsa: S.optional(__S(112, __c7, 0)),
+          isDefault: S.optional(S.Boolean),
+          isPrimary: S.optional(S.Boolean),
+          signature: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendAs" });
   }
@@ -2884,8 +2884,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2935,8 +2935,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cseEmailAddress: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          cseEmailAddress: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2969,8 +2969,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3003,8 +3003,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sendAsEmail: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          sendAsEmail: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3021,8 +3021,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
           sendAsEmail: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3038,8 +3038,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3055,8 +3055,8 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keyPairId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          keyPairId: S.String.pipe(T.Label()),
           body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -3135,9 +3135,9 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
           maxFolderSize: S.optional(S.Number),
           autoExpunge: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean),
           expungeBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImapSettings" });
@@ -3190,8 +3190,8 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disposition: S.optional(S.String),
           accessWindow: S.optional(S.String),
+          disposition: S.optional(S.String),
         }),
       ).annotate({ identifier: "PopSettings" });
   }
@@ -3226,9 +3226,9 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3261,10 +3261,10 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          metadataHeaders: S.optional(__S(640, __c40, 0).pipe(T.Query())),
           id: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          metadataHeaders: S.optional(__S(640, __c40, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3280,9 +3280,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
           messageId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3298,8 +3298,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cseEmailAddress: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          cseEmailAddress: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3366,8 +3366,8 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           forwardingEmail: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3422,8 +3422,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           sendAsEmail: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3439,9 +3439,9 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           sendAsEmail: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3457,13 +3457,13 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          pem: S.optional(S.String),
-          issuerCn: S.optional(S.String),
+          encryptedKeyPassword: S.optional(S.String),
           pkcs12: S.optional(S.String),
           expiration: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          encryptedKeyPassword: S.optional(S.String),
+          id: S.optional(S.String),
+          issuerCn: S.optional(S.String),
+          pem: S.optional(S.String),
         }),
       ).annotate({ identifier: "SmimeInfo" });
   }
@@ -3474,8 +3474,8 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
-          format: S.optional(S.String.pipe(T.Query())),
           metadataHeaders: S.optional(__S(640, __c40, 0).pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3499,9 +3499,9 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           historyId: S.optional(S.String),
+          messages: S.optional(__S(720, __c45, 0)),
           snippet: S.optional(S.String),
           id: S.optional(S.String),
-          messages: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "Thread" });
   }
@@ -3527,14 +3527,14 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          responseSubject: S.optional(S.String),
-          restrictToDomain: S.optional(S.Boolean),
-          restrictToContacts: S.optional(S.Boolean),
           endTime: S.optional(S.String),
-          responseBodyPlainText: S.optional(S.String),
-          responseBodyHtml: S.optional(S.String),
-          startTime: S.optional(S.String),
           enableAutoReply: S.optional(S.Boolean),
+          startTime: S.optional(S.String),
+          restrictToContacts: S.optional(S.Boolean),
+          responseBodyHtml: S.optional(S.String),
+          restrictToDomain: S.optional(S.Boolean),
+          responseSubject: S.optional(S.String),
+          responseBodyPlainText: S.optional(S.String),
         }),
       ).annotate({ identifier: "VacationSettings" });
   }
@@ -3547,10 +3547,10 @@ function __c49(j: number): any {
           __S(1108, __c69, 4),
           S.Struct({
             processForCalendar: S.optional(S.Boolean.pipe(T.Query())),
-            internalDateSource: S.optional(S.String.pipe(T.Query())),
             neverMarkSpam: S.optional(S.Boolean.pipe(T.Query())),
-            deleted: S.optional(S.Boolean.pipe(T.Query())),
             userId: S.String.pipe(T.Label()),
+            deleted: S.optional(S.Boolean.pipe(T.Query())),
+            internalDateSource: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3569,9 +3569,9 @@ function __c50(j: number): any {
         S.Extend(
           __S(1108, __c69, 4),
           S.Struct({
-            deleted: S.optional(S.Boolean.pipe(T.Query())),
             userId: S.String.pipe(T.Label()),
             internalDateSource: S.optional(S.String.pipe(T.Query())),
+            deleted: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3590,8 +3590,8 @@ function __c51(j: number): any {
         S.Extend(
           __S(688, __c43, 0),
           S.Struct({
-            userId: S.String.pipe(T.Label()),
             sendAsEmail: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3608,11 +3608,11 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          includeSpamTrash: S.optional(S.Boolean.pipe(T.Query())),
           userId: S.String.pipe(T.Label()),
           q: S.optional(S.String.pipe(T.Query())),
-          includeSpamTrash: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3640,12 +3640,12 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          userId: S.String.pipe(T.Label()),
-          startHistoryId: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          labelId: S.optional(S.String.pipe(T.Query())),
           historyTypes: S.optional(__S(848, __c53, 0).pipe(T.Query())),
+          userId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          startHistoryId: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          labelId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3658,28 +3658,28 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(__S(1108, __c69, 4)),
+          labelIds: S.optional(__S(640, __c40, 0)),
         }),
-      ).annotate({ identifier: "HistoryMessageAdded" });
+      ).annotate({ identifier: "HistoryLabelAdded" });
     case 3:
       return S.Array(__S(850, __c53, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labelIds: S.optional(__S(640, __c40, 0)),
           message: S.optional(__S(1108, __c69, 4)),
         }),
-      ).annotate({ identifier: "HistoryLabelRemoved" });
+      ).annotate({ identifier: "HistoryMessageAdded" });
     case 5:
       return S.Array(__S(852, __c53, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          messagesAdded: S.optional(__S(851, __c53, 3)),
-          labelsRemoved: S.optional(__S(853, __c53, 5)),
-          labelsAdded: S.optional(__S(853, __c53, 5)),
-          messages: S.optional(__S(720, __c45, 0)),
+          labelsAdded: S.optional(__S(851, __c53, 3)),
           id: S.optional(S.String),
-          messagesDeleted: S.optional(__S(851, __c53, 3)),
+          messagesAdded: S.optional(__S(853, __c53, 5)),
+          labelsRemoved: S.optional(__S(851, __c53, 3)),
+          messagesDeleted: S.optional(__S(853, __c53, 5)),
+          messages: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "History" });
     case 7:
@@ -3723,9 +3723,9 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          removeClassificationLabelIds: S.optional(__S(640, __c40, 0)),
           removeLabelIds: S.optional(__S(640, __c40, 0)),
           addClassificationLabels: S.optional(__S(899, __c56, 3)),
-          removeClassificationLabelIds: S.optional(__S(640, __c40, 0)),
           ids: S.optional(__S(640, __c40, 0)),
           addLabelIds: S.optional(__S(640, __c40, 0)),
         }),
@@ -3752,8 +3752,8 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          selection: S.optional(S.String),
           fieldId: S.optional(S.String),
+          selection: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClassificationLabelFieldValue" });
     case 1:
@@ -3761,8 +3761,8 @@ function __c56(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labelId: S.optional(S.String),
           fields: S.optional(__S(897, __c56, 1)),
+          labelId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClassificationLabelValue" });
     case 3:
@@ -3774,12 +3774,12 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          labelIds: S.optional(__S(640, __c40, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          userId: S.String.pipe(T.Label()),
           includeSpamTrash: S.optional(S.Boolean.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          userId: S.String.pipe(T.Label()),
-          labelIds: S.optional(__S(640, __c40, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3791,8 +3791,8 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           messages: S.optional(__S(720, __c45, 0)),
+          nextPageToken: S.optional(S.String),
           resultSizeEstimate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListMessagesResponse" });
@@ -3803,8 +3803,8 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           userId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3819,8 +3819,8 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           cseIdentities: S.optional(__S(929, __c58, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCseIdentitiesResponse" });
   }
@@ -3846,8 +3846,8 @@ function __c59(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cseKeyPairs: S.optional(__S(945, __c59, 1)),
           nextPageToken: S.optional(S.String),
+          cseKeyPairs: S.optional(__S(945, __c59, 1)),
         }),
       ).annotate({ identifier: "ListCseKeyPairsResponse" });
   }
@@ -3953,8 +3953,8 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sendAsEmail: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          sendAsEmail: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3978,12 +3978,12 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labelIds: S.optional(__S(640, __c40, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
+          labelIds: S.optional(__S(640, __c40, 0).pipe(T.Query())),
           userId: S.String.pipe(T.Label()),
           includeSpamTrash: S.optional(S.Boolean.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3997,9 +3997,9 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           threads: S.optional(__S(1041, __c65, 1)),
           resultSizeEstimate: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThreadsResponse" });
   }
@@ -4009,10 +4009,10 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          removeClassificationLabelIds: S.optional(__S(640, __c40, 0)),
-          removeLabelIds: S.optional(__S(640, __c40, 0)),
-          addClassificationLabels: S.optional(__S(899, __c56, 3)),
           addLabelIds: S.optional(__S(640, __c40, 0)),
+          removeLabelIds: S.optional(__S(640, __c40, 0)),
+          removeClassificationLabelIds: S.optional(__S(640, __c40, 0)),
+          addClassificationLabels: S.optional(__S(899, __c56, 3)),
         }),
       ).annotate({ identifier: "ModifyMessageRequest" });
     case 1:
@@ -4020,8 +4020,8 @@ function __c66(j: number): any {
         S.Extend(
           __S(1056, __c66, 0),
           S.Struct({
-            userId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4057,9 +4057,9 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          attachmentId: S.optional(S.String),
           size: S.optional(S.Number),
           data: S.optional(S.String),
-          attachmentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessagePartBody" });
   }
@@ -4067,40 +4067,40 @@ function __c68(j: number): any {
 function __c69(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1107, __c69, 3)));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessagePartHeader" });
-    case 1:
-      return S.Array(__S(1104, __c69, 0));
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1107, __c69, 3)));
+      return S.Array(__S(1105, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          parts: S.optional(__S(1104, __c69, 0)),
           mimeType: S.optional(S.String),
-          headers: S.optional(__S(1105, __c69, 1)),
           partId: S.optional(S.String),
-          body: S.optional(__S(1088, __c68, 0)),
-          parts: S.optional(__S(1106, __c69, 2)),
+          headers: S.optional(__S(1106, __c69, 2)),
           filename: S.optional(S.String),
+          body: S.optional(__S(1088, __c68, 0)),
         }),
       ).annotate({ identifier: "MessagePart" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          threadId: S.optional(S.String),
-          snippet: S.optional(S.String),
-          raw: S.optional(S.String),
-          payload: S.optional(__S(1107, __c69, 3)),
-          labelIds: S.optional(__S(640, __c40, 0)),
-          historyId: S.optional(S.String),
-          id: S.optional(S.String),
           sizeEstimate: S.optional(S.Number),
-          internalDate: S.optional(S.String),
           classificationLabelValues: S.optional(__S(899, __c56, 3)),
+          raw: S.optional(S.String),
+          snippet: S.optional(S.String),
+          historyId: S.optional(S.String),
+          internalDate: S.optional(S.String),
+          payload: S.optional(__S(1107, __c69, 3)),
+          threadId: S.optional(S.String),
+          labelIds: S.optional(__S(640, __c40, 0)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Message" });
   }
@@ -4110,8 +4110,8 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(1108, __c69, 4)),
           id: S.optional(S.String),
+          message: S.optional(__S(1108, __c69, 4)),
         }),
       ).annotate({ identifier: "Draft" });
   }
@@ -4148,8 +4148,8 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           keyPairId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
           body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -4208,8 +4208,8 @@ function __c75(j: number): any {
         S.Extend(
           __S(113, __c7, 1),
           S.Struct({
-            sendAsEmail: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
+            sendAsEmail: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4265,8 +4265,8 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
           sendAsEmail: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4341,16 +4341,16 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labelListVisibility: S.optional(S.String),
-          color: S.optional(__S(1312, __c82, 0)),
-          messagesTotal: S.optional(S.Number),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
           threadsUnread: S.optional(S.Number),
           threadsTotal: S.optional(S.Number),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
           messagesUnread: S.optional(S.Number),
+          id: S.optional(S.String),
           messageListVisibility: S.optional(S.String),
-          type: S.optional(S.String),
+          color: S.optional(__S(1312, __c82, 0)),
+          labelListVisibility: S.optional(S.String),
+          messagesTotal: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Label" });
   }
@@ -4360,8 +4360,8 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4377,8 +4377,8 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4529,8 +4529,8 @@ function __c92(j: number): any {
         S.Extend(
           __S(113, __c7, 1),
           S.Struct({
-            userId: S.String.pipe(T.Label()),
             sendAsEmail: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4573,9 +4573,9 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryKeyPairId: S.optional(S.String),
-          emailAddress: S.optional(S.String),
           signAndEncryptKeyPairs: S.optional(__S(1504, __c94, 0)),
+          emailAddress: S.optional(S.String),
+          primaryKeyPairId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CseIdentity" });
   }
@@ -4621,10 +4621,10 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labelFilterAction: S.optional(S.String),
           labelIds: S.optional(__S(640, __c40, 0)),
-          topicName: S.optional(S.String),
           labelFilterBehavior: S.optional(S.String),
+          topicName: S.optional(S.String),
+          labelFilterAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "WatchRequest" });
     case 1:
@@ -4676,22 +4676,22 @@ function __c99(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HardwareKeyMetadata" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           kaclsUri: S.optional(S.String),
           kaclsData: S.optional(S.String),
         }),
       ).annotate({ identifier: "KaclsKeyMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HardwareKeyMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hardwareKeyMetadata: S.optional(__S(1584, __c99, 0)),
           privateKeyMetadataId: S.optional(S.String),
-          kaclsKeyMetadata: S.optional(__S(1585, __c99, 1)),
+          kaclsKeyMetadata: S.optional(__S(1584, __c99, 0)),
+          hardwareKeyMetadata: S.optional(__S(1585, __c99, 1)),
         }),
       ).annotate({ identifier: "CsePrivateKeyMetadata" });
     case 3:
@@ -4699,13 +4699,13 @@ function __c99(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          enablementState: S.optional(S.String),
-          privateKeyMetadata: S.optional(__S(1587, __c99, 3)),
           subjectEmailAddresses: S.optional(__S(640, __c40, 0)),
-          disableTime: S.optional(S.String),
+          enablementState: S.optional(S.String),
           pem: S.optional(S.String),
           keyPairId: S.optional(S.String),
+          privateKeyMetadata: S.optional(__S(1587, __c99, 3)),
           pkcs7: S.optional(S.String),
+          disableTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CseKeyPair" });
   }

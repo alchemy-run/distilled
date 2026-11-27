@@ -4,6 +4,7 @@ export * as backup from "./backup.ts";
 export * as billing from "./billing.ts";
 export * as clickPipes from "./click_pipes.ts";
 export * as organization from "./organization.ts";
+export * as postgres from "./postgres.ts";
 export * as prometheus from "./prometheus.ts";
 export * as queryApiEndpoints from "./query_api_endpoints.ts";
 export * as roleManagement from "./role_management.ts";

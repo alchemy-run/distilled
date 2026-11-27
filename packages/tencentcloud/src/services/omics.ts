@@ -305,6 +305,9 @@ export interface HPCCluster {
   SchedulerVersion?: string | undefined;
   VPCCIDRBlock?: string | undefined;
   ConfirmDeadline?: string | undefined;
+  StatusReason?: string | undefined;
+  IsolateTime?: string | undefined;
+  Message?: string | undefined;
 }
 export type HPCClusterList = Array<HPCCluster>;
 export interface DescribeHPCClustersResponse {
@@ -364,6 +367,7 @@ export interface HPCNode {
   Name?: string | undefined;
   QueueName?: string | undefined;
   Status?: string | undefined;
+  IsExistingNode?: boolean | undefined;
 }
 export type HPCNodeList = Array<HPCNode>;
 export interface DescribeHPCNodesResponse {
@@ -1609,6 +1613,7 @@ function __c2(j: number): any {
           Name: S.optional(S.String),
           QueueName: S.optional(S.String),
           Status: S.optional(S.String),
+          IsExistingNode: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "HPCNode" });
     case 6:
@@ -2720,6 +2725,9 @@ function __c43(j: number): any {
           SchedulerVersion: S.optional(S.String),
           VPCCIDRBlock: S.optional(S.String),
           ConfirmDeadline: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          IsolateTime: S.optional(S.String),
+          Message: S.optional(S.String),
         }),
       ).annotate({ identifier: "HPCCluster" });
     case 2:

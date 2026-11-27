@@ -865,7 +865,41 @@ export interface ListOrgCustomPatternsRequest {
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string | undefined;
 }
-export type ListOrgCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
+/** The state of the custom pattern. */
+export type SecretScanningCustomPatternWithDryRunState = "published" | "unpublished";
+/** List of regexes that the secret must match. */
+export type SecretScanningCustomPatternWithDryRunMustMatchList = Array<string>;
+/** List of regexes that the secret must not match. */
+export type SecretScanningCustomPatternWithDryRunMustNotMatchList = Array<string>;
+/** A custom pattern for secret scanning. */
+export interface SecretScanningCustomPatternWithDryRun {
+  /** The ID of the custom pattern. */
+  id: number;
+  /** The name of the custom pattern. */
+  name: string;
+  /** The regular expression of the custom pattern. */
+  pattern: string;
+  /** A URL-friendly identifier for the custom pattern, derived from its name. */
+  slug: string;
+  /** The state of the custom pattern. */
+  state: SecretScanningCustomPatternWithDryRunState;
+  /** Whether push protection is enabled for this custom pattern. */
+  push_protection_enabled: boolean;
+  /** The start delimiter regex for the custom pattern. */
+  start_delimiter?: string | null | undefined;
+  /** The end delimiter regex for the custom pattern. */
+  end_delimiter?: string | null | undefined;
+  /** List of regexes that the secret must match. */
+  must_match?: SecretScanningCustomPatternWithDryRunMustMatchList | null | undefined;
+  /** List of regexes that the secret must not match. */
+  must_not_match?: SecretScanningCustomPatternWithDryRunMustNotMatchList | null | undefined;
+  custom_pattern_version?: string | null | undefined;
+  /** The date and time the custom pattern was created in ISO 8601 format. */
+  created_at?: string | undefined;
+  /** The date and time the custom pattern was last updated in ISO 8601 format. */
+  updated_at?: string | undefined;
+}
+export type ListOrgCustomPatternsResponseBodyList = Array<SecretScanningCustomPatternWithDryRun>;
 export type ListOrgCustomPatternsResponse = ListOrgCustomPatternsResponseBodyList;
 export interface ListOrgPatternConfigsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -943,7 +977,7 @@ export interface ListRepoCustomPatternsRequest {
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string | undefined;
 }
-export type ListRepoCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
+export type ListRepoCustomPatternsResponseBodyList = Array<SecretScanningCustomPatternWithDryRun>;
 export type ListRepoCustomPatternsResponse = ListRepoCustomPatternsResponseBodyList;
 /** Sets the validity of the secret scanning alert. Can be `active`, `inactive`, or `null` to clear the override. */
 export type UpdateAlertRequestValidity = "active" | "inactive";

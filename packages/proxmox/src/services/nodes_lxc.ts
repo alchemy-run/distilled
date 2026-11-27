@@ -187,6 +187,7 @@ export interface GetNodesByNodeLxcByVmidConfigResult {
   lock?: GetNodesByNodeLxcByVmidConfigResultLock | undefined;
   lxc?: GetNodesByNodeLxcByVmidConfigResultLxc | undefined;
   memory?: number | undefined;
+  meta?: string | undefined;
   "mp[n]"?: string | undefined;
   nameserver?: string | undefined;
   "net[n]"?: string | undefined;
@@ -212,8 +213,10 @@ export interface GetNodesByNodeLxcByVmidFeatureRequest {
   snapname?: string | undefined;
   vmid: number;
 }
+export type GetNodesByNodeLxcByVmidFeatureResultNodes = Array<string>;
 export interface GetNodesByNodeLxcByVmidFeatureResult {
   hasFeature: boolean | 0 | 1;
+  nodes?: GetNodesByNodeLxcByVmidFeatureResultNodes | undefined;
 }
 export type GetNodesByNodeLxcByVmidFeatureResponse = GetNodesByNodeLxcByVmidFeatureResult;
 export interface GetNodesByNodeLxcByVmidFirewallRequest {
@@ -457,20 +460,9 @@ export interface GetNodesByNodeLxcByVmidMigrateRequest {
 }
 export type GetNodesByNodeLxcByVmidMigrateResultAllowedNodes = Array<string>;
 export type GetNodesByNodeLxcByVmidMigrateResultDependentHaResources = Array<string>;
-export type GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItemCause =
-  | "node-affinity"
-  | "resource-affinity";
-export interface GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem {
-  cause: GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItemCause;
-  sid: string;
-}
-export type GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResources =
-  Array<GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem>;
-export interface GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodes {
-  "blocking-ha-resources"?:
-    | GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResources
-    | undefined;
-}
+export type GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodes = {
+  [key: string]: unknown | undefined;
+};
 export interface GetNodesByNodeLxcByVmidMigrateResult {
   "allowed-nodes"?: GetNodesByNodeLxcByVmidMigrateResultAllowedNodes | undefined;
   "dependent-ha-resources"?: GetNodesByNodeLxcByVmidMigrateResultDependentHaResources | undefined;
@@ -602,6 +594,7 @@ export interface GetNodesByNodeLxcByVmidStatusCurrentResult {
   status: GetNodesByNodeLxcByVmidStatusCurrentResultStatus;
   tags?: string | undefined;
   template?: boolean | 0 | 1 | undefined;
+  uid?: string | undefined;
   uptime?: number | undefined;
   vmid: number;
 }
@@ -649,6 +642,7 @@ export type PostNodesByNodeLxcRequestOstype =
   | "nixos"
   | "unmanaged";
 export interface PostNodesByNodeLxcRequest {
+  "allow-identity-mismatch"?: boolean | 0 | 1 | undefined;
   arch?: PostNodesByNodeLxcRequestArch | (string & {}) | undefined;
   bwlimit?: number | undefined;
   cmode?: PostNodesByNodeLxcRequestCmode | (string & {}) | undefined;
@@ -773,6 +767,7 @@ export interface PostNodesByNodeLxcByVmidMigrateRequest {
   node: string;
   online?: boolean | 0 | 1 | undefined;
   restart?: boolean | 0 | 1 | undefined;
+  "skip-config-check"?: boolean | 0 | 1 | undefined;
   target: string;
   "target-storage"?: string | undefined;
   timeout?: number | undefined;
@@ -1836,6 +1831,7 @@ export interface PostNodesByNodeLxcByVmidMtunnelResult {
 }
 export type PostNodesByNodeLxcByVmidMtunnelResponse = PostNodesByNodeLxcByVmidMtunnelResult;
 export interface PostNodesByNodeLxcByVmidRemoteMigrateRequest {
+  "allow-new-uid"?: boolean | 0 | 1 | undefined;
   bwlimit?: number | undefined;
   delete?: boolean | 0 | 1 | undefined;
   node: string;
@@ -2812,7 +2808,7 @@ export const getNodesByNodeLxcByVmidMigrate: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetNodesByNodeLxcByVmidMigrateRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<GetNodesByNodeLxcByVmidMigrateResponse>,
+  output: __S(170, __c21, 2) as any as S.Schema<GetNodesByNodeLxcByVmidMigrateResponse>,
   errors: [GuestNotFound],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -3565,6 +3561,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hasFeature: S.Union([S.Boolean, S.Literals([0, 1])]),
+          nodes: S.optional(__S(552, __c69, 0)),
         }),
       ).annotate({ identifier: "GetNodesByNodeLxcByVmidFeatureResult" });
     case 2:
@@ -3966,31 +3963,14 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cause: S.String,
-          sid: S.String,
-        }),
-      ).annotate({
-        identifier: "GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem",
-      });
-    case 2:
-      return S.Array(__S(169, __c21, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          "blocking-ha-resources": S.optional(__S(170, __c21, 2)),
-        }),
-      ).annotate({ identifier: "GetNodesByNodeLxcByVmidMigrateResultNotAllowedNodes" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           "allowed-nodes": S.optional(__S(552, __c69, 0)),
           "dependent-ha-resources": S.optional(__S(552, __c69, 0)),
-          "not-allowed-nodes": S.optional(__S(171, __c21, 3)),
+          "not-allowed-nodes": S.optional(__S(32, __c4, 0)),
           running: S.Union([S.Boolean, S.Literals([0, 1])]),
         }),
       ).annotate({ identifier: "GetNodesByNodeLxcByVmidMigrateResult" });
-    case 5:
-      return S.suspend(() => __S(172, __c21, 4).pipe(T.RawResponseRoot())).annotate({
+    case 2:
+      return S.suspend(() => __S(169, __c21, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeLxcByVmidMigrateResponse",
       });
   }
@@ -4208,6 +4188,7 @@ function __c31(j: number): any {
           status: S.String,
           tags: S.optional(S.String),
           template: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          uid: S.optional(S.String),
           uptime: S.optional(S.Number),
           vmid: S.Number,
         }),
@@ -4247,6 +4228,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
+            "allow-identity-mismatch": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             arch: S.optional(S.String),
             bwlimit: S.optional(S.Number),
             cmode: S.optional(S.String),
@@ -4431,6 +4413,7 @@ function __c40(j: number): any {
           node: S.String.pipe(T.Label()),
           online: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           restart: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "skip-config-check": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           target: S.String,
           "target-storage": S.optional(S.String),
           timeout: S.optional(S.Number),
@@ -4488,6 +4471,7 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "allow-new-uid": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           bwlimit: S.optional(S.Number),
           delete: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           node: S.String.pipe(T.Label()),
@@ -5039,6 +5023,7 @@ function __c68(j: number): any {
             lock: S.optional(S.String),
             lxc: S.optional(__S(545, __c68, 1)),
             memory: S.optional(S.Number),
+            meta: S.optional(S.String),
             nameserver: S.optional(S.String),
             onboot: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             ostype: S.optional(S.String),

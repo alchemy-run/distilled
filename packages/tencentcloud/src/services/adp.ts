@@ -181,6 +181,23 @@ export interface AgentPluginCredentialConfig {
   CredentialId?: string | undefined;
   ParamList?: AgentPluginCredentialParamList | undefined;
 }
+export interface ConnectorResourceRef {
+  ResourceId: string;
+  Type: number;
+  Name?: string | undefined;
+}
+export type ConnectorResourceRefList = Array<ConnectorResourceRef>;
+export interface ConnectorResource {
+  Type?: number | undefined;
+  ResourceId?: string | undefined;
+  Name?: string | undefined;
+  AncestorList?: ConnectorResourceRefList | undefined;
+}
+export type ConnectorResourceList = Array<ConnectorResource>;
+export interface ConnectorKnowledgeScope {
+  Enabled?: boolean | undefined;
+  ResourceList?: ConnectorResourceList | undefined;
+}
 export interface AgentPluginConfig {
   PluginId?: string | undefined;
   HeaderParameterList?: AgentPluginParameterList | undefined;
@@ -189,6 +206,7 @@ export interface AgentPluginConfig {
   AuthType?: number | undefined;
   OAuthConsent?: number | undefined;
   CredentialConfig?: AgentPluginCredentialConfig | undefined;
+  KnowledgeScope?: ConnectorKnowledgeScope | undefined;
 }
 export type AgentPluginConfigList = Array<AgentPluginConfig>;
 export interface AgentSkillConfig {
@@ -217,6 +235,11 @@ export interface AgentExternalToolConfig {
   Parameters?: RequestParamList | undefined;
 }
 export type AgentExternalToolConfigList = Array<AgentExternalToolConfig>;
+export interface AgentBuiltinToolConfig {
+  Name?: string | undefined;
+  Disabled?: boolean | undefined;
+}
+export type AgentBuiltinToolConfigList = Array<AgentBuiltinToolConfig>;
 export interface AgentSpec {
   Profile?: AgentProfile | undefined;
   Instructions?: string | undefined;
@@ -226,6 +249,9 @@ export interface AgentSpec {
   SkillList?: AgentSkillConfigList | undefined;
   AdvancedConfig?: AgentAdvancedConfig | undefined;
   ExternalToolList?: AgentExternalToolConfigList | undefined;
+  ProviderType?: number | undefined;
+  ReferenceAppId?: string | undefined;
+  BuiltinToolList?: AgentBuiltinToolConfigList | undefined;
 }
 export interface CreateAgentRequest {
   AppId: string;
@@ -332,9 +358,32 @@ export type AppTriggerParamSchemaList = Array<AppTriggerParamSchema>;
 export interface AppTriggerWebhookParamSchemaConfig {
   SchemaList?: AppTriggerParamSchemaList | undefined;
 }
+export interface AppTriggerWebhookCredential {
+  CredentialId?: string | undefined;
+  Name?: string | undefined;
+  Status?: number | undefined;
+}
+export interface AppTriggerGongfengWebhookConfig {
+  EventList: StringList;
+  ProjectId: string;
+  BranchRuleList?: StringList | undefined;
+  MRActionList?: StringList | undefined;
+}
+export interface AppTriggerTAPDWebhookConfig {
+  EventList: StringList;
+  ProjectId: string;
+}
+export interface AppTriggerWebhookConfigExt {
+  CredentialId: string;
+  Credential?: AppTriggerWebhookCredential | undefined;
+  GongfengConfig?: AppTriggerGongfengWebhookConfig | undefined;
+  TAPDConfig?: AppTriggerTAPDWebhookConfig | undefined;
+}
 export interface AppTriggerWebhookConfig {
   ParamSchemaConfig?: AppTriggerWebhookParamSchemaConfig | undefined;
+  WebhookConfigExt?: AppTriggerWebhookConfigExt | null | undefined;
   WebhookKey?: string | undefined;
+  WebhookProvider?: number | undefined;
   WebhookToken?: string | Redacted.Redacted<string> | undefined;
   WebhookUrl?: string | undefined;
 }
@@ -343,6 +392,7 @@ export interface TriggerConfig {
   WebhookConfig?: AppTriggerWebhookConfig | undefined;
 }
 export interface CreateAppTriggerRequest {
+  AgentId?: string | undefined;
   AppId?: string | undefined;
   ExecuteConfig?: ExecuteConfig | undefined;
   ExecuteType?: number | undefined;
@@ -558,6 +608,7 @@ export interface ApiKeyAuthConfig {
   KeyLocation: number;
   KeyParamName: string;
   KeyParamValue: string;
+  KeyValueUsage?: number | undefined;
 }
 export interface AccessKeyParamConfig {
   FieldType?: number | undefined;
@@ -735,6 +786,33 @@ export interface CreatePluginResponse {
   PluginId?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface PromptTemplateSpec {
+  CategoryKey?: string | undefined;
+  CustomVariableList?: StringList | undefined;
+  Description?: string | undefined;
+  LabelIdList?: StringList | undefined;
+  Name?: string | undefined;
+  PromptContent?: string | undefined;
+}
+export interface CreatePromptTemplateRequest {
+  SpaceId: string;
+  Spec: PromptTemplateSpec;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreatePromptTemplateResponse {
+  PromptTemplateId?: string | null | undefined;
+  RequestId?: string | undefined;
+}
+export interface CreatePromptTemplateLabelRequest {
+  Content: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreatePromptTemplateLabelResponse {
+  PromptTemplateLabelId?: string | null | undefined;
+  RequestId?: string | undefined;
+}
 export interface CreateQAGenerationTaskRequest {
   DocIdList: StringList;
   KbId: string;
@@ -908,6 +986,7 @@ export interface Variable {
   EndpointList?: StringList | undefined;
   IsBuiltin?: boolean | undefined;
   EnableSandbox?: boolean | undefined;
+  ValueScope?: number | undefined;
 }
 export interface CreateVariableRequest {
   AppId: string;
@@ -1080,6 +1159,23 @@ export interface DeletePluginRequest {
 export interface DeletePluginResponse {
   RequestId?: string | undefined;
 }
+export interface DeletePromptTemplateRequest {
+  SpaceId: string;
+  PromptTemplateId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DeletePromptTemplateResponse {
+  RequestId?: string | undefined;
+}
+export interface DeletePromptTemplateLabelRequest {
+  PromptTemplateLabelId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DeletePromptTemplateLabelResponse {
+  RequestId?: string | undefined;
+}
 export interface DeleteQAListRequest {
   KbId: string;
   QaIdList: StringList;
@@ -1188,6 +1284,21 @@ export interface AgentSkill {
   CurrentVersion?: string | undefined;
 }
 export type AgentSkillList = Array<AgentSkill>;
+export interface ReferenceAppDetail {
+  Name?: string | undefined;
+  AppMode?: number | undefined;
+  MainAgentName?: string | undefined;
+  SubAgentNameList?: StringList | undefined;
+  Creator?: string | undefined;
+  UpdateTime?: string | undefined;
+}
+export interface AgentBuiltinTool {
+  Config?: AgentBuiltinToolConfig | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  BillingType?: number | undefined;
+}
+export type AgentBuiltinToolList = Array<AgentBuiltinTool>;
 export interface AgentDetail {
   AgentId?: string | undefined;
   Profile?: AgentProfile | undefined;
@@ -1198,6 +1309,11 @@ export interface AgentDetail {
   SkillList?: AgentSkillList | undefined;
   AdvancedConfig?: AgentAdvancedConfig | undefined;
   ExternalToolList?: AgentExternalToolConfigList | undefined;
+  ProviderType?: number | undefined;
+  ReferenceAppId?: string | undefined;
+  ReferenceAppStatus?: number | undefined;
+  ReferenceApp?: ReferenceAppDetail | null | undefined;
+  BuiltinToolList?: AgentBuiltinToolList | undefined;
 }
 export interface DescribeAgentDetailResponse {
   Agent?: AgentDetail | undefined;
@@ -1247,6 +1363,8 @@ export interface AgentSummary {
   AgentId?: string | undefined;
   Profile?: AgentProfile | undefined;
   AdvancedConfig?: AgentAdvancedConfig | undefined;
+  ProviderType?: number | undefined;
+  ReferenceAppStatus?: number | undefined;
 }
 export type AgentSummaryList = Array<AgentSummary>;
 export interface DescribeAgentSummaryListResponse {
@@ -1430,6 +1548,8 @@ export type MultiModalQAModel = AIOptimizeModel;
 export type MultiModalUnderstandingModel = AIOptimizeModel;
 export type PromptRewriteModel = AIOptimizeModel;
 export type ThinkModel = AIOptimizeModel;
+export type FileSplitModel = AIOptimizeModel;
+export type HeaderExtractModel = AIOptimizeModel;
 export interface AppModelConfig {
   AiOptimizeModel: AIOptimizeModel | null;
   FileParseModel: FileParseModel | null;
@@ -1438,6 +1558,8 @@ export interface AppModelConfig {
   MultiModalUnderstandingModel: AIOptimizeModel | null;
   PromptRewriteModel: AIOptimizeModel | null;
   ThinkModel: AIOptimizeModel | null;
+  FileSplitModel?: AIOptimizeModel | null | undefined;
+  HeaderExtractModel?: AIOptimizeModel | null | undefined;
 }
 export interface AppWebSearchConfig {
   ApiKey: string | Redacted.Redacted<string>;
@@ -1599,6 +1721,7 @@ export interface TriggerStatus {
   WebhookStatus?: AppTriggerWebhookStatus | undefined;
 }
 export interface AppTrigger {
+  AgentId?: string | undefined;
   AppId?: string | undefined;
   ExecuteConfig?: ExecuteConfig | undefined;
   ExecuteType?: number | undefined;
@@ -1710,6 +1833,7 @@ export interface AppTriggerSummary {
   TriggerType?: number | undefined;
   UnreadRunLogCount?: string | undefined;
   UserId?: string | undefined;
+  WebhookProvider?: number | undefined;
 }
 export type AppTriggerSummaryList = Array<AppTriggerSummary>;
 export interface DescribeAppTriggerSummaryListResponse {
@@ -2001,6 +2125,68 @@ export interface DescribeConversationMessageListRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface ConversationMessageExtraInfo {
+  AgentIcon?: string | undefined;
+  AgentName?: string | undefined;
+  Elapsed?: string | undefined;
+  ParentMessageId?: string | undefined;
+  RelatedRecordId?: string | undefined;
+  StartTime?: string | undefined;
+  ToolIcon?: string | undefined;
+  ToolName?: string | undefined;
+  TraceId?: string | undefined;
+  CanFeedback?: boolean | undefined;
+  CanRate?: boolean | undefined;
+  EndTime?: string | undefined;
+  HasRead?: boolean | undefined;
+  IsModelGenerated?: boolean | undefined;
+  ReasonList?: StringList | undefined;
+  ReplyMethod?: number | undefined;
+  Score?: number | undefined;
+  SubAgentRunId?: string | undefined;
+  IsSubAgent?: boolean | undefined;
+  SubAgentThreadId?: string | undefined;
+  IsTeammate?: boolean | undefined;
+  TeammateName?: string | undefined;
+  WorkflowNodeName?: string | undefined;
+}
+export interface ConversationFileInfo {
+  CreateTime: string;
+  DocId: string;
+  FileName: string;
+  FileSize: string;
+  FileType: string;
+  FileUrl: string;
+  LocalPath?: string | undefined;
+  AuditStatus?: number | undefined;
+}
+export interface ConversationQuestionAnswer {
+  Question?: string | undefined;
+  SelectedLabelList?: StringList | undefined;
+  SelectedLabels?: StringList | undefined;
+}
+export type ConversationQuestionAnswerList = Array<ConversationQuestionAnswer>;
+export interface ConversationQuestionOption {
+  Description?: string | undefined;
+  Label?: string | undefined;
+}
+export type ConversationQuestionOptionList = Array<ConversationQuestionOption>;
+export interface ConversationQuestion {
+  Index?: number | undefined;
+  Question?: string | undefined;
+  Required?: boolean | undefined;
+  Type?: number | undefined;
+  OptionList?: ConversationQuestionOptionList | undefined;
+  Options?: ConversationQuestionOptionList | undefined;
+}
+export type ConversationQuestionList = Array<ConversationQuestion>;
+export interface ConversationQuestionnaire {
+  Title?: string | undefined;
+  AnswerList?: ConversationQuestionAnswerList | undefined;
+  Answers?: ConversationQuestionAnswerList | undefined;
+  QuestionList?: ConversationQuestionList | undefined;
+  Questions?: ConversationQuestionList | undefined;
+}
 export interface ConversationQuoteInfo {
   Index?: number | undefined;
   Position?: number | undefined;
@@ -2018,6 +2204,21 @@ export interface ConversationAgentTask {
   Status?: string | undefined;
 }
 export type ConversationAgentTaskList = Array<ConversationAgentTask>;
+export interface ConversationWidget {
+  EncodedWidget?: string | undefined;
+  Payload?: string | undefined;
+  Position?: number | undefined;
+  State?: string | undefined;
+  View?: string | undefined;
+  WidgetId?: string | undefined;
+  WidgetRunId?: string | undefined;
+}
+export interface ConversationWidgetAction {
+  ActionType?: string | undefined;
+  Payload?: string | undefined;
+  WidgetId?: string | undefined;
+  WidgetRunId?: string | undefined;
+}
 export interface ConversationMcpApp {
   PluginId?: string | undefined;
   ResourceUri?: string | undefined;
@@ -2031,9 +2232,11 @@ export interface ConversationContent {
   CustomParams?: StringList | undefined;
   CustomVariablesData?: string | null | undefined;
   EnterpriseCharts?: string | null | undefined;
+  File?: ConversationFileInfo | null | undefined;
   OptionCardList?: StringList | undefined;
   OptionCards?: StringList | undefined;
   OptionMode?: number | null | undefined;
+  Questionnaire?: ConversationQuestionnaire | null | undefined;
   QuoteInfoList?: ConversationQuoteInfoList | undefined;
   QuoteInfos?: ConversationQuoteInfoList | undefined;
   ReferenceList?: ConversationReferenceList | undefined;
@@ -2041,12 +2244,15 @@ export interface ConversationContent {
   RelatedRecordId?: string | null | undefined;
   TaskList?: ConversationAgentTaskList | undefined;
   Tasks?: ConversationAgentTaskList | undefined;
+  Widget?: ConversationWidget | null | undefined;
+  WidgetAction?: ConversationWidgetAction | null | undefined;
   WorkflowInput?: string | null | undefined;
   McpApp?: ConversationMcpApp | null | undefined;
 }
 export type ConversationContentList = Array<ConversationContent>;
 export interface ConversationMessage {
   ConversationId?: string | undefined;
+  ExtraInfo?: ConversationMessageExtraInfo | null | undefined;
   Icon?: string | undefined;
   MessageId?: string | undefined;
   Name?: string | undefined;
@@ -2121,6 +2327,7 @@ export interface ContentFilter {
 }
 export interface DocParseConfig {
   ContentFilter?: ContentFilter | null | undefined;
+  ParseStrategy?: number | undefined;
   SplitRule?: string | undefined;
 }
 export interface CategoryPath {
@@ -2230,10 +2437,23 @@ export interface DescribeKBRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface CharacterSize {
+  MaxCharSize?: string | undefined;
+  OverCharSize?: string | undefined;
+  UsedCharSize?: string | undefined;
+}
+export interface ByteCapacity {
+  MaxCapacity?: string | undefined;
+  ExceededInvalidCapacity?: string | undefined;
+  UsedCapacity?: string | undefined;
+}
 export interface KBCapacity {
   MaxCharSize?: string | undefined;
   OverCharSize?: string | undefined;
   UsedCharSize?: string | undefined;
+  CharacterSize?: CharacterSize | null | undefined;
+  ByteCapacity?: ByteCapacity | null | undefined;
+  CapacityStatus?: number | null | undefined;
 }
 export interface KBPermission {
   CanDelete?: boolean | undefined;
@@ -2686,6 +2906,94 @@ export interface DescribePluginSummaryListResponse {
   TotalCount?: number | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribePromptTemplateRequest {
+  PromptTemplateId: string;
+  SpaceId?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export type PromptTemplateCategory = AuditLogMetaField;
+export interface Audit {
+  CreateTime?: string | undefined;
+  Creator?: string | undefined;
+  CreatorName?: string | undefined;
+  Operator?: string | undefined;
+  OperatorName?: string | undefined;
+  UpdateTime?: string | undefined;
+}
+export interface PromptTemplateProfile {
+  Category?: AuditLogMetaField | null | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  PromptTemplateId?: string | undefined;
+  PromptTemplateType?: number | undefined;
+  SpaceId?: string | undefined;
+  Audit?: Audit | undefined;
+}
+export interface PromptTemplateLabel {
+  Content?: string | undefined;
+  PromptTemplateLabelId?: string | undefined;
+  PromptTemplateLabelType?: number | undefined;
+}
+export type PromptTemplateLabelList = Array<PromptTemplateLabel>;
+export interface PromptTemplate {
+  Profile?: PromptTemplateProfile | null | undefined;
+  CustomVariableList?: StringList | undefined;
+  LabelList?: PromptTemplateLabelList | undefined;
+  PromptContent?: string | undefined;
+}
+export interface DescribePromptTemplateResponse {
+  PromptTemplate?: PromptTemplate | null | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribePromptTemplateCategoryListRequest {
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export type PromptTemplateCategoryList = Array<AuditLogMetaField>;
+export interface PromptTemplateCategoryGroup {
+  CategoryList?: PromptTemplateCategoryList | undefined;
+  Module?: string | undefined;
+}
+export type PromptTemplateCategoryGroupList = Array<PromptTemplateCategoryGroup>;
+export interface DescribePromptTemplateCategoryListResponse {
+  CategoryGroupList?: PromptTemplateCategoryGroupList | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribePromptTemplateLabelListRequest {
+  PageNumber: number;
+  PageSize: number;
+  Query?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface DescribePromptTemplateLabelListResponse {
+  PromptTemplateLabelList?: PromptTemplateLabelList | undefined;
+  TotalCount?: number | undefined;
+  RequestId?: string | undefined;
+}
+export interface DescribePromptTemplateSummaryListRequest {
+  PageNumber: number;
+  PageSize: number;
+  FilterList?: FilterList | undefined;
+  IsFavorite?: boolean | undefined;
+  Query?: string | undefined;
+  SpaceId?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface PromptTemplateSummary {
+  Profile?: PromptTemplateProfile | null | undefined;
+  LabelList?: PromptTemplateLabelList | undefined;
+  IsFavorite?: boolean | undefined;
+  PermissionIdList?: StringList | undefined;
+}
+export type PromptTemplateSummaryList = Array<PromptTemplateSummary>;
+export interface DescribePromptTemplateSummaryListResponse {
+  PromptTemplateSummaryList?: PromptTemplateSummaryList | undefined;
+  TotalCount?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface DescribeQARequest {
   KbId: string;
   QaId: string;
@@ -2817,6 +3125,8 @@ export interface ResourcePackageInfo {
   KnowledgeCapacity?: number | undefined;
   KnowledgeUsage?: number | undefined;
   ResourceStatus?: number | undefined;
+  CloudDiskCapacity?: number | undefined;
+  CloudDiskUsage?: number | undefined;
 }
 export interface AddOnPackageInfo {
   AddOnTotal?: number | undefined;
@@ -3167,15 +3477,6 @@ export interface ConversationFileCollection {
   SupportedFileTypeList?: StringList | undefined;
   SupportedFileTypes?: StringList | undefined;
 }
-export interface ConversationWidget {
-  EncodedWidget?: string | undefined;
-  Payload?: string | undefined;
-  Position?: number | undefined;
-  State?: string | undefined;
-  View?: string | undefined;
-  WidgetId?: string | undefined;
-  WidgetRunId?: string | undefined;
-}
 export interface ReplyContent {
   Type?: string | undefined;
   Text?: string | null | undefined;
@@ -3242,6 +3543,15 @@ export interface FavoritePluginRequest {
   region?: string | undefined;
 }
 export interface FavoritePluginResponse {
+  RequestId?: string | undefined;
+}
+export interface FavoritePromptTemplateRequest {
+  SpaceId: string;
+  PromptTemplateId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface FavoritePromptTemplateResponse {
   RequestId?: string | undefined;
 }
 export interface FavoriteSkillRequest {
@@ -3327,6 +3637,7 @@ export interface ModifyAppTriggerRequest {
   region?: string | undefined;
 }
 export interface ModifyAppTriggerResponse {
+  Credential?: AppTriggerWebhookCredential | undefined;
   RequestId?: string | undefined;
 }
 export interface CategoryModifyFields {
@@ -3463,6 +3774,19 @@ export interface ModifyLabelResponse {
   TermList?: LabelTermList | undefined;
   RequestId?: string | undefined;
 }
+export interface ModifyMessageRecordFeedbackRequest {
+  RecordId: string;
+  AppKey?: string | undefined;
+  Score?: number | undefined;
+  ReasonList?: StringList | undefined;
+  FeedbackContent?: string | undefined;
+  AppId?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyMessageRecordFeedbackResponse {
+  RequestId?: string | undefined;
+}
 export interface ModifyMsgRecordCategoryRequest {
   AppId: string;
   CategoryId: string;
@@ -3486,6 +3810,17 @@ export interface ModifyPluginRequest {
   region?: string | undefined;
 }
 export interface ModifyPluginResponse {
+  RequestId?: string | undefined;
+}
+export interface ModifyPromptTemplateRequest {
+  SpaceId: string;
+  PromptTemplateId: string;
+  UpdateMask: FieldMask;
+  Spec: PromptTemplateSpec;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyPromptTemplateResponse {
   RequestId?: string | undefined;
 }
 export interface SimilarQuestionModifySpec {
@@ -3634,16 +3969,6 @@ export interface ResumeAppTriggerRequest {
 }
 export interface ResumeAppTriggerResponse {
   RequestId?: string | undefined;
-}
-export interface ConversationFileInfo {
-  CreateTime: string;
-  DocId: string;
-  FileName: string;
-  FileSize: string;
-  FileType: string;
-  FileUrl: string;
-  LocalPath?: string | undefined;
-  AuditStatus?: number | undefined;
 }
 export type ConversationFileInfoList = Array<ConversationFileInfo>;
 export interface ResumeWorkflowRunRequest {
@@ -3859,6 +4184,15 @@ export interface UnfavoritePluginRequest {
 export interface UnfavoritePluginResponse {
   RequestId?: string | undefined;
 }
+export interface UnfavoritePromptTemplateRequest {
+  SpaceId: string;
+  PromptTemplateId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface UnfavoritePromptTemplateResponse {
+  RequestId?: string | undefined;
+}
 export interface UnfavoriteSkillRequest {
   SkillId: string;
   SpaceId: string;
@@ -3909,8 +4243,8 @@ export const copyAgentFromApp: API.OperationMethod<
   CopyAgentFromAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<CopyAgentFromAppRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<CopyAgentFromAppResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<CopyAgentFromAppRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<CopyAgentFromAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3926,8 +4260,8 @@ export const copyApp: API.OperationMethod<
   CopyAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CopyAppRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<CopyAppResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CopyAppRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<CopyAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3943,8 +4277,8 @@ export const createAgent: API.OperationMethod<
   CreateAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CreateAgentRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<CreateAgentResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateAgentRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<CreateAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3960,8 +4294,8 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<CreateAppRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<CreateAppResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<CreateAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3977,8 +4311,8 @@ export const createAppTrigger: API.OperationMethod<
   CreateAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreateAppTriggerRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<CreateAppTriggerResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<CreateAppTriggerRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<CreateAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3994,8 +4328,8 @@ export const createCategory: API.OperationMethod<
   CreateCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<CreateCategoryRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<CreateCategoryResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<CreateCategoryRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<CreateCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4011,8 +4345,8 @@ export const createChannel: API.OperationMethod<
   CreateChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<CreateChannelRequest>,
-  output: __S(5217, __c163, 1) as any as S.Schema<CreateChannelResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<CreateChannelRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<CreateChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4028,8 +4362,8 @@ export const createConversation: API.OperationMethod<
   CreateConversationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<CreateConversationRequest>,
-  output: __S(5697, __c178, 1) as any as S.Schema<CreateConversationResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<CreateConversationRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<CreateConversationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4079,8 +4413,8 @@ export const createMsgRecordCategory: API.OperationMethod<
   CreateMsgRecordCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateMsgRecordCategoryRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<CreateMsgRecordCategoryResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<CreateMsgRecordCategoryRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<CreateMsgRecordCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4096,14 +4430,48 @@ export const createPlugin: API.OperationMethod<
   CreatePluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreatePluginRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<CreatePluginResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreatePluginRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<CreatePluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePlugin",
+}));
+
+export type CreatePromptTemplateError = TencentCloudOpError;
+export const createPromptTemplate: API.OperationMethod<
+  CreatePromptTemplateRequest,
+  CreatePromptTemplateResponse,
+  CreatePromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1760, __c55, 0) as any as S.Schema<CreatePromptTemplateRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<CreatePromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePromptTemplate",
+}));
+
+export type CreatePromptTemplateLabelError = TencentCloudOpError;
+export const createPromptTemplateLabel: API.OperationMethod<
+  CreatePromptTemplateLabelRequest,
+  CreatePromptTemplateLabelResponse,
+  CreatePromptTemplateLabelError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2016, __c63, 0) as any as S.Schema<CreatePromptTemplateLabelRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<CreatePromptTemplateLabelResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePromptTemplateLabel",
 }));
 
 export type CreateQAGenerationTaskError = TencentCloudOpError;
@@ -4113,8 +4481,8 @@ export const createQAGenerationTask: API.OperationMethod<
   CreateQAGenerationTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<CreateQAGenerationTaskRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<CreateQAGenerationTaskResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CreateQAGenerationTaskRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<CreateQAGenerationTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4130,8 +4498,8 @@ export const createQAList: API.OperationMethod<
   CreateQAListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1570, __c49, 2) as any as S.Schema<CreateQAListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<CreateQAListResponse>,
+  input: __S(2082, __c65, 2) as any as S.Schema<CreateQAListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<CreateQAListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4147,8 +4515,8 @@ export const createRelease: API.OperationMethod<
   CreateReleaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateReleaseRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<CreateReleaseResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateReleaseRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CreateReleaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4164,8 +4532,8 @@ export const createSimilarQuestion: API.OperationMethod<
   CreateSimilarQuestionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateSimilarQuestionRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<CreateSimilarQuestionResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateSimilarQuestionRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<CreateSimilarQuestionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4181,8 +4549,8 @@ export const createSkill: API.OperationMethod<
   CreateSkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CreateSkillRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<CreateSkillResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateSkillRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<CreateSkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4198,8 +4566,8 @@ export const createSkillShare: API.OperationMethod<
   CreateSkillShareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<CreateSkillShareRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<CreateSkillShareResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<CreateSkillShareRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CreateSkillShareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4215,8 +4583,8 @@ export const createSpace: API.OperationMethod<
   CreateSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CreateSpaceRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<CreateSpaceResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CreateSpaceRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<CreateSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4232,8 +4600,8 @@ export const createSSEToken: API.OperationMethod<
   CreateSSETokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateSSETokenRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<CreateSSETokenResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateSSETokenRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<CreateSSETokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4249,8 +4617,8 @@ export const createVariable: API.OperationMethod<
   CreateVariableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateVariableRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<CreateVariableResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CreateVariableRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<CreateVariableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4266,8 +4634,8 @@ export const createWebSocketToken: API.OperationMethod<
   CreateWebSocketTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<CreateWebSocketTokenRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<CreateWebSocketTokenResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateWebSocketTokenRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<CreateWebSocketTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4283,8 +4651,8 @@ export const createWorkflowRun: API.OperationMethod<
   CreateWorkflowRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreateWorkflowRunRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<CreateWorkflowRunResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateWorkflowRunRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<CreateWorkflowRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4300,8 +4668,8 @@ export const createWorkspaceCredential: API.OperationMethod<
   CreateWorkspaceCredentialError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateWorkspaceCredentialRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<CreateWorkspaceCredentialResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<CreateWorkspaceCredentialRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<CreateWorkspaceCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4317,8 +4685,8 @@ export const deleteAgent: API.OperationMethod<
   DeleteAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteAgentRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteAgentResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteAgentRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4334,8 +4702,8 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteAppResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4351,8 +4719,8 @@ export const deleteAppTrigger: API.OperationMethod<
   DeleteAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteAppTriggerRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteAppTriggerResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<DeleteAppTriggerRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4368,8 +4736,8 @@ export const deleteCategory: API.OperationMethod<
   DeleteCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeleteCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteCategoryResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<DeleteCategoryRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4385,8 +4753,8 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteChannelRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteChannelResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<DeleteChannelRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4402,8 +4770,8 @@ export const deleteConversation: API.OperationMethod<
   DeleteConversationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<DeleteConversationRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteConversationResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DeleteConversationRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteConversationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4419,8 +4787,8 @@ export const deleteDocList: API.OperationMethod<
   DeleteDocListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeleteDocListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<DeleteDocListResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DeleteDocListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<DeleteDocListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4436,8 +4804,8 @@ export const deleteKB: API.OperationMethod<
   DeleteKBError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DeleteKBRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteKBResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DeleteKBRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteKBResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4453,8 +4821,8 @@ export const deleteLabelList: API.OperationMethod<
   DeleteLabelListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteLabelListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<DeleteLabelListResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DeleteLabelListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<DeleteLabelListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4470,8 +4838,8 @@ export const deleteMsgRecordCategory: API.OperationMethod<
   DeleteMsgRecordCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DeleteMsgRecordCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteMsgRecordCategoryResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteMsgRecordCategoryRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteMsgRecordCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4487,14 +4855,48 @@ export const deletePlugin: API.OperationMethod<
   DeletePluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeletePluginRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeletePluginResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeletePluginRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeletePluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePlugin",
+}));
+
+export type DeletePromptTemplateError = TencentCloudOpError;
+export const deletePromptTemplate: API.OperationMethod<
+  DeletePromptTemplateRequest,
+  DeletePromptTemplateResponse,
+  DeletePromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3136, __c98, 0) as any as S.Schema<DeletePromptTemplateRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeletePromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePromptTemplate",
+}));
+
+export type DeletePromptTemplateLabelError = TencentCloudOpError;
+export const deletePromptTemplateLabel: API.OperationMethod<
+  DeletePromptTemplateLabelRequest,
+  DeletePromptTemplateLabelResponse,
+  DeletePromptTemplateLabelError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3360, __c105, 0) as any as S.Schema<DeletePromptTemplateLabelRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeletePromptTemplateLabelResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePromptTemplateLabel",
 }));
 
 export type DeleteQAListError = TencentCloudOpError;
@@ -4504,8 +4906,8 @@ export const deleteQAList: API.OperationMethod<
   DeleteQAListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DeleteQAListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<DeleteQAListResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteQAListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<DeleteQAListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4521,8 +4923,8 @@ export const deleteSkill: API.OperationMethod<
   DeleteSkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteSkillRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteSkillResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteSkillRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteSkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4538,8 +4940,8 @@ export const deleteSkillShare: API.OperationMethod<
   DeleteSkillShareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DeleteSkillShareRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<DeleteSkillShareResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteSkillShareRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteSkillShareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4555,8 +4957,8 @@ export const deleteSpace: API.OperationMethod<
   DeleteSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeleteSpaceRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteSpaceResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteSpaceRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4572,8 +4974,8 @@ export const deleteVariable: API.OperationMethod<
   DeleteVariableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<DeleteVariableRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<DeleteVariableResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteVariableRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<DeleteVariableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4589,8 +4991,8 @@ export const describeAccountList: API.OperationMethod<
   DescribeAccountListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DescribeAccountListRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<DescribeAccountListResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DescribeAccountListRequest>,
+  output: __S(3554, __c111, 2) as any as S.Schema<DescribeAccountListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4606,8 +5008,8 @@ export const describeAgentDetail: API.OperationMethod<
   DescribeAgentDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DescribeAgentDetailRequest>,
-  output: __S(3080, __c96, 8) as any as S.Schema<DescribeAgentDetailResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DescribeAgentDetailRequest>,
+  output: __S(3659, __c114, 11) as any as S.Schema<DescribeAgentDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4623,8 +5025,8 @@ export const describeAgentReleasePreviewList: API.OperationMethod<
   DescribeAgentReleasePreviewListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DescribeAgentReleasePreviewListRequest>,
-  output: __S(3109, __c97, 5) as any as S.Schema<DescribeAgentReleasePreviewListResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DescribeAgentReleasePreviewListRequest>,
+  output: __S(3685, __c115, 5) as any as S.Schema<DescribeAgentReleasePreviewListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4640,8 +5042,8 @@ export const describeAgentSummaryList: API.OperationMethod<
   DescribeAgentSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DescribeAgentSummaryListRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<DescribeAgentSummaryListResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DescribeAgentSummaryListRequest>,
+  output: __S(3715, __c116, 3) as any as S.Schema<DescribeAgentSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4657,8 +5059,8 @@ export const describeApp: API.OperationMethod<
   DescribeAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DescribeAppRequest>,
-  output: __S(3181, __c99, 13) as any as S.Schema<DescribeAppResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DescribeAppRequest>,
+  output: __S(3789, __c118, 13) as any as S.Schema<DescribeAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4674,8 +5076,8 @@ export const describeAppStatisticsOverview: API.OperationMethod<
   DescribeAppStatisticsOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DescribeAppStatisticsOverviewRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<DescribeAppStatisticsOverviewResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<DescribeAppStatisticsOverviewRequest>,
+  output: __S(4003, __c125, 3) as any as S.Schema<DescribeAppStatisticsOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4691,8 +5093,8 @@ export const describeAppSummaryList: API.OperationMethod<
   DescribeAppSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DescribeAppSummaryListRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<DescribeAppSummaryListResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DescribeAppSummaryListRequest>,
+  output: __S(4068, __c127, 4) as any as S.Schema<DescribeAppSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4708,8 +5110,8 @@ export const describeAppTrigger: API.OperationMethod<
   DescribeAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DescribeAppTriggerRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<DescribeAppTriggerResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DescribeAppTriggerRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<DescribeAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4725,8 +5127,8 @@ export const describeAppTriggerInstance: API.OperationMethod<
   DescribeAppTriggerInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<DescribeAppTriggerInstanceRequest>,
-  output: __S(3618, __c113, 2) as any as S.Schema<DescribeAppTriggerInstanceResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<DescribeAppTriggerInstanceRequest>,
+  output: __S(4194, __c131, 2) as any as S.Schema<DescribeAppTriggerInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4742,8 +5144,8 @@ export const describeAppTriggerRunLogList: API.OperationMethod<
   DescribeAppTriggerRunLogListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DescribeAppTriggerRunLogListRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<DescribeAppTriggerRunLogListResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<DescribeAppTriggerRunLogListRequest>,
+  output: __S(4227, __c132, 3) as any as S.Schema<DescribeAppTriggerRunLogListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4759,8 +5161,8 @@ export const describeAppTriggerSummaryList: API.OperationMethod<
   DescribeAppTriggerSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DescribeAppTriggerSummaryListRequest>,
-  output: __S(3683, __c115, 3) as any as S.Schema<DescribeAppTriggerSummaryListResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<DescribeAppTriggerSummaryListRequest>,
+  output: __S(4259, __c133, 3) as any as S.Schema<DescribeAppTriggerSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4776,8 +5178,8 @@ export const describeAuditLogList: API.OperationMethod<
   DescribeAuditLogListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<DescribeAuditLogListRequest>,
-  output: __S(3715, __c116, 3) as any as S.Schema<DescribeAuditLogListResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<DescribeAuditLogListRequest>,
+  output: __S(4291, __c134, 3) as any as S.Schema<DescribeAuditLogListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4793,8 +5195,8 @@ export const describeAuditLogMeta: API.OperationMethod<
   DescribeAuditLogMetaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DescribeAuditLogMetaRequest>,
-  output: __S(3747, __c117, 3) as any as S.Schema<DescribeAuditLogMetaResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DescribeAuditLogMetaRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<DescribeAuditLogMetaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4810,8 +5212,8 @@ export const describeCategoryList: API.OperationMethod<
   DescribeCategoryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<DescribeCategoryListRequest>,
-  output: __S(3779, __c118, 3) as any as S.Schema<DescribeCategoryListResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<DescribeCategoryListRequest>,
+  output: __S(4419, __c138, 3) as any as S.Schema<DescribeCategoryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4827,8 +5229,8 @@ export const describeChannel: API.OperationMethod<
   DescribeChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<DescribeChannelRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<DescribeChannelResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<DescribeChannelRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<DescribeChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4844,8 +5246,8 @@ export const describeChannelList: API.OperationMethod<
   DescribeChannelListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DescribeChannelListRequest>,
-  output: __S(3938, __c123, 2) as any as S.Schema<DescribeChannelListResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<DescribeChannelListRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<DescribeChannelListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4861,8 +5263,8 @@ export const describeConcurrencyLimitDetailList: API.OperationMethod<
   DescribeConcurrencyLimitDetailListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DescribeConcurrencyLimitDetailListRequest>,
-  output: __S(3971, __c124, 3) as any as S.Schema<DescribeConcurrencyLimitDetailListResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<DescribeConcurrencyLimitDetailListRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<DescribeConcurrencyLimitDetailListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4878,8 +5280,8 @@ export const describeConflictQA: API.OperationMethod<
   DescribeConflictQAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<DescribeConflictQARequest>,
-  output: __S(4035, __c126, 3) as any as S.Schema<DescribeConflictQAResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<DescribeConflictQARequest>,
+  output: __S(4771, __c149, 3) as any as S.Schema<DescribeConflictQAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4895,8 +5297,8 @@ export const describeConflictQASummaryList: API.OperationMethod<
   DescribeConflictQASummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<DescribeConflictQASummaryListRequest>,
-  output: __S(4163, __c130, 3) as any as S.Schema<DescribeConflictQASummaryListResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<DescribeConflictQASummaryListRequest>,
+  output: __S(4803, __c150, 3) as any as S.Schema<DescribeConflictQASummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4912,8 +5314,8 @@ export const describeConsumptionDetailList: API.OperationMethod<
   DescribeConsumptionDetailListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DescribeConsumptionDetailListRequest>,
-  output: __S(4197, __c131, 5) as any as S.Schema<DescribeConsumptionDetailListResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<DescribeConsumptionDetailListRequest>,
+  output: __S(4837, __c151, 5) as any as S.Schema<DescribeConsumptionDetailListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4929,8 +5331,8 @@ export const describeConversation: API.OperationMethod<
   DescribeConversationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<DescribeConversationRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<DescribeConversationResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<DescribeConversationRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<DescribeConversationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4946,8 +5348,8 @@ export const describeConversationList: API.OperationMethod<
   DescribeConversationListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<DescribeConversationListRequest>,
-  output: __S(4259, __c133, 3) as any as S.Schema<DescribeConversationListResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<DescribeConversationListRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<DescribeConversationListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4963,8 +5365,8 @@ export const describeConversationMessageList: API.OperationMethod<
   DescribeConversationMessageListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<DescribeConversationMessageListRequest>,
-  output: __S(4306, __c134, 18) as any as S.Schema<DescribeConversationMessageListResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<DescribeConversationMessageListRequest>,
+  output: __S(4955, __c154, 27) as any as S.Schema<DescribeConversationMessageListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4980,8 +5382,8 @@ export const describeDoc: API.OperationMethod<
   DescribeDocError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<DescribeDocRequest>,
-  output: __S(4322, __c135, 2) as any as S.Schema<DescribeDocResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<DescribeDocRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<DescribeDocResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4997,8 +5399,8 @@ export const describeDocSummaryList: API.OperationMethod<
   DescribeDocSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<DescribeDocSummaryListRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<DescribeDocSummaryListResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<DescribeDocSummaryListRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<DescribeDocSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5014,8 +5416,8 @@ export const describeKB: API.OperationMethod<
   DescribeKBError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<DescribeKBRequest>,
-  output: __S(4578, __c143, 2) as any as S.Schema<DescribeKBResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<DescribeKBRequest>,
+  output: __S(5348, __c167, 4) as any as S.Schema<DescribeKBResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5031,8 +5433,8 @@ export const describeKBSummaryList: API.OperationMethod<
   DescribeKBSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<DescribeKBSummaryListRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<DescribeKBSummaryListResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<DescribeKBSummaryListRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<DescribeKBSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5048,8 +5450,8 @@ export const describeLabel: API.OperationMethod<
   DescribeLabelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<DescribeLabelRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<DescribeLabelResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<DescribeLabelRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<DescribeLabelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5065,8 +5467,8 @@ export const describeLabelSummaryList: API.OperationMethod<
   DescribeLabelSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<DescribeLabelSummaryListRequest>,
-  output: __S(4802, __c150, 2) as any as S.Schema<DescribeLabelSummaryListResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<DescribeLabelSummaryListRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<DescribeLabelSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5082,8 +5484,8 @@ export const describeLatestRelease: API.OperationMethod<
   DescribeLatestReleaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<DescribeLatestReleaseRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<DescribeLatestReleaseResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<DescribeLatestReleaseRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<DescribeLatestReleaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5099,8 +5501,8 @@ export const describeMetricOverviewList: API.OperationMethod<
   DescribeMetricOverviewListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<DescribeMetricOverviewListRequest>,
-  output: __S(4899, __c153, 3) as any as S.Schema<DescribeMetricOverviewListResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<DescribeMetricOverviewListRequest>,
+  output: __S(5603, __c175, 3) as any as S.Schema<DescribeMetricOverviewListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5116,8 +5518,8 @@ export const describeModelList: API.OperationMethod<
   DescribeModelListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DescribeModelListRequest>,
-  output: __S(4940, __c154, 12) as any as S.Schema<DescribeModelListResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<DescribeModelListRequest>,
+  output: __S(5644, __c176, 12) as any as S.Schema<DescribeModelListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5133,8 +5535,8 @@ export const describeMsgRecordCategoryList: API.OperationMethod<
   DescribeMsgRecordCategoryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<DescribeMsgRecordCategoryListRequest>,
-  output: __S(4964, __c155, 4) as any as S.Schema<DescribeMsgRecordCategoryListResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<DescribeMsgRecordCategoryListRequest>,
+  output: __S(5668, __c177, 4) as any as S.Schema<DescribeMsgRecordCategoryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5150,8 +5552,8 @@ export const describeMsgRecordList: API.OperationMethod<
   DescribeMsgRecordListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4993, __c156, 1) as any as S.Schema<DescribeMsgRecordListRequest>,
-  output: __S(4998, __c156, 6) as any as S.Schema<DescribeMsgRecordListResponse>,
+  input: __S(5697, __c178, 1) as any as S.Schema<DescribeMsgRecordListRequest>,
+  output: __S(5702, __c178, 6) as any as S.Schema<DescribeMsgRecordListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5167,8 +5569,8 @@ export const describeNodeBatchRun: API.OperationMethod<
   DescribeNodeBatchRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<DescribeNodeBatchRunRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<DescribeNodeBatchRunResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<DescribeNodeBatchRunRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<DescribeNodeBatchRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5184,8 +5586,8 @@ export const describeNodeRunDetail: API.OperationMethod<
   DescribeNodeRunDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<DescribeNodeRunDetailRequest>,
-  output: __S(5064, __c158, 8) as any as S.Schema<DescribeNodeRunDetailResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<DescribeNodeRunDetailRequest>,
+  output: __S(5832, __c182, 8) as any as S.Schema<DescribeNodeRunDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5201,8 +5603,8 @@ export const describePlugin: API.OperationMethod<
   DescribePluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<DescribePluginRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<DescribePluginResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<DescribePluginRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<DescribePluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5218,14 +5620,82 @@ export const describePluginSummaryList: API.OperationMethod<
   DescribePluginSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<DescribePluginSummaryListRequest>,
-  output: __S(5189, __c162, 5) as any as S.Schema<DescribePluginSummaryListResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<DescribePluginSummaryListRequest>,
+  output: __S(5957, __c186, 5) as any as S.Schema<DescribePluginSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribePluginSummaryList",
+}));
+
+export type DescribePromptTemplateError = TencentCloudOpError;
+export const describePromptTemplate: API.OperationMethod<
+  DescribePromptTemplateRequest,
+  DescribePromptTemplateResponse,
+  DescribePromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5984, __c187, 0) as any as S.Schema<DescribePromptTemplateRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<DescribePromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribePromptTemplate",
+}));
+
+export type DescribePromptTemplateCategoryListError = TencentCloudOpError;
+export const describePromptTemplateCategoryList: API.OperationMethod<
+  DescribePromptTemplateCategoryListRequest,
+  DescribePromptTemplateCategoryListResponse,
+  DescribePromptTemplateCategoryListError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6080, __c190, 0) as any as S.Schema<DescribePromptTemplateCategoryListRequest>,
+  output: __S(6083, __c190, 3) as any as S.Schema<DescribePromptTemplateCategoryListResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribePromptTemplateCategoryList",
+}));
+
+export type DescribePromptTemplateLabelListError = TencentCloudOpError;
+export const describePromptTemplateLabelList: API.OperationMethod<
+  DescribePromptTemplateLabelListRequest,
+  DescribePromptTemplateLabelListResponse,
+  DescribePromptTemplateLabelListError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6112, __c191, 0) as any as S.Schema<DescribePromptTemplateLabelListRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<DescribePromptTemplateLabelListResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribePromptTemplateLabelList",
+}));
+
+export type DescribePromptTemplateSummaryListError = TencentCloudOpError;
+export const describePromptTemplateSummaryList: API.OperationMethod<
+  DescribePromptTemplateSummaryListRequest,
+  DescribePromptTemplateSummaryListResponse,
+  DescribePromptTemplateSummaryListError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6144, __c192, 0) as any as S.Schema<DescribePromptTemplateSummaryListRequest>,
+  output: __S(6147, __c192, 3) as any as S.Schema<DescribePromptTemplateSummaryListResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribePromptTemplateSummaryList",
 }));
 
 export type DescribeQAError = TencentCloudOpError;
@@ -5235,8 +5705,8 @@ export const describeQA: API.OperationMethod<
   DescribeQAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<DescribeQARequest>,
-  output: __S(5285, __c165, 5) as any as S.Schema<DescribeQAResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<DescribeQARequest>,
+  output: __S(6181, __c193, 5) as any as S.Schema<DescribeQAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5252,8 +5722,8 @@ export const describeQASummaryList: API.OperationMethod<
   DescribeQASummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<DescribeQASummaryListRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<DescribeQASummaryListResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DescribeQASummaryListRequest>,
+  output: __S(6242, __c195, 2) as any as S.Schema<DescribeQASummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5269,8 +5739,8 @@ export const describeReleaseList: API.OperationMethod<
   DescribeReleaseListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<DescribeReleaseListRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<DescribeReleaseListResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DescribeReleaseListRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<DescribeReleaseListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5286,8 +5756,8 @@ export const describeReleaseSummary: API.OperationMethod<
   DescribeReleaseSummaryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<DescribeReleaseSummaryRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<DescribeReleaseSummaryResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DescribeReleaseSummaryRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<DescribeReleaseSummaryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5303,8 +5773,8 @@ export const describeResourceSummary: API.OperationMethod<
   DescribeResourceSummaryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<DescribeResourceSummaryRequest>,
-  output: __S(5443, __c170, 3) as any as S.Schema<DescribeResourceSummaryResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DescribeResourceSummaryRequest>,
+  output: __S(6371, __c199, 3) as any as S.Schema<DescribeResourceSummaryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5320,8 +5790,8 @@ export const describeSkillCategoryList: API.OperationMethod<
   DescribeSkillCategoryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<DescribeSkillCategoryListRequest>,
-  output: __S(5475, __c171, 3) as any as S.Schema<DescribeSkillCategoryListResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<DescribeSkillCategoryListRequest>,
+  output: __S(6403, __c200, 3) as any as S.Schema<DescribeSkillCategoryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5337,8 +5807,8 @@ export const describeSkillDetail: API.OperationMethod<
   DescribeSkillDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<DescribeSkillDetailRequest>,
-  output: __S(5507, __c172, 3) as any as S.Schema<DescribeSkillDetailResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<DescribeSkillDetailRequest>,
+  output: __S(6435, __c201, 3) as any as S.Schema<DescribeSkillDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5354,8 +5824,8 @@ export const describeSkillReferenceList: API.OperationMethod<
   DescribeSkillReferenceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<DescribeSkillReferenceListRequest>,
-  output: __S(5603, __c175, 3) as any as S.Schema<DescribeSkillReferenceListResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<DescribeSkillReferenceListRequest>,
+  output: __S(6531, __c204, 3) as any as S.Schema<DescribeSkillReferenceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5371,8 +5841,8 @@ export const describeSkillSummaryList: API.OperationMethod<
   DescribeSkillSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<DescribeSkillSummaryListRequest>,
-  output: __S(5634, __c176, 2) as any as S.Schema<DescribeSkillSummaryListResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<DescribeSkillSummaryListRequest>,
+  output: __S(6562, __c205, 2) as any as S.Schema<DescribeSkillSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5388,8 +5858,8 @@ export const describeSpaceList: API.OperationMethod<
   DescribeSpaceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<DescribeSpaceListRequest>,
-  output: __S(5667, __c177, 3) as any as S.Schema<DescribeSpaceListResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<DescribeSpaceListRequest>,
+  output: __S(6595, __c206, 3) as any as S.Schema<DescribeSpaceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5405,8 +5875,8 @@ export const describeSystemVariableList: API.OperationMethod<
   DescribeSystemVariableListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<DescribeSystemVariableListRequest>,
-  output: __S(5731, __c179, 3) as any as S.Schema<DescribeSystemVariableListResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<DescribeSystemVariableListRequest>,
+  output: __S(6627, __c207, 3) as any as S.Schema<DescribeSystemVariableListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5422,8 +5892,8 @@ export const describeUsageDetailList: API.OperationMethod<
   DescribeUsageDetailListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<DescribeUsageDetailListRequest>,
-  output: __S(5766, __c180, 6) as any as S.Schema<DescribeUsageDetailListResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DescribeUsageDetailListRequest>,
+  output: __S(6662, __c208, 6) as any as S.Schema<DescribeUsageDetailListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5439,8 +5909,8 @@ export const describeUsageSummaryList: API.OperationMethod<
   DescribeUsageSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<DescribeUsageSummaryListRequest>,
-  output: __S(5830, __c182, 6) as any as S.Schema<DescribeUsageSummaryListResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeUsageSummaryListRequest>,
+  output: __S(198, __c6, 6) as any as S.Schema<DescribeUsageSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5456,8 +5926,8 @@ export const describeVariable: API.OperationMethod<
   DescribeVariableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<DescribeVariableRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<DescribeVariableResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DescribeVariableRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<DescribeVariableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5473,8 +5943,8 @@ export const describeVariableList: API.OperationMethod<
   DescribeVariableListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<DescribeVariableListRequest>,
-  output: __S(5890, __c184, 2) as any as S.Schema<DescribeVariableListResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DescribeVariableListRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<DescribeVariableListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5490,8 +5960,8 @@ export const describeWorkflowRun: API.OperationMethod<
   DescribeWorkflowRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<DescribeWorkflowRunRequest>,
-  output: __S(5930, __c185, 10) as any as S.Schema<DescribeWorkflowRunResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DescribeWorkflowRunRequest>,
+  output: __S(297, __c9, 9) as any as S.Schema<DescribeWorkflowRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5507,8 +5977,8 @@ export const describeWorkflowRunSummaryList: API.OperationMethod<
   DescribeWorkflowRunSummaryListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DescribeWorkflowRunSummaryListRequest>,
-  output: __S(5986, __c187, 2) as any as S.Schema<DescribeWorkflowRunSummaryListResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DescribeWorkflowRunSummaryListRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<DescribeWorkflowRunSummaryListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5524,8 +5994,8 @@ export const exportQA: API.OperationMethod<
   ExportQAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<ExportQARequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<ExportQAResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ExportQARequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<ExportQAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5541,14 +6011,31 @@ export const favoritePlugin: API.OperationMethod<
   FavoritePluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<FavoritePluginRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<FavoritePluginResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<FavoritePluginRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<FavoritePluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FavoritePlugin",
+}));
+
+export type FavoritePromptTemplateError = TencentCloudOpError;
+export const favoritePromptTemplate: API.OperationMethod<
+  FavoritePromptTemplateRequest,
+  FavoritePromptTemplateResponse,
+  FavoritePromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<FavoritePromptTemplateRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<FavoritePromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FavoritePromptTemplate",
 }));
 
 export type FavoriteSkillError = TencentCloudOpError;
@@ -5558,8 +6045,8 @@ export const favoriteSkill: API.OperationMethod<
   FavoriteSkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<FavoriteSkillRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<FavoriteSkillResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<FavoriteSkillRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<FavoriteSkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5575,8 +6062,8 @@ export const importDocList: API.OperationMethod<
   ImportDocListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c6, 4) as any as S.Schema<ImportDocListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ImportDocListResponse>,
+  input: __S(516, __c16, 4) as any as S.Schema<ImportDocListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ImportDocListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5592,8 +6079,8 @@ export const modifyAgent: API.OperationMethod<
   ModifyAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ModifyAgentRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyAgentResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ModifyAgentRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5609,8 +6096,8 @@ export const modifyApp: API.OperationMethod<
   ModifyAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(258, __c8, 2) as any as S.Schema<ModifyAppRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<ModifyAppResponse>,
+  input: __S(642, __c20, 2) as any as S.Schema<ModifyAppRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<ModifyAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5626,8 +6113,8 @@ export const modifyAppTrigger: API.OperationMethod<
   ModifyAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ModifyAppTriggerRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyAppTriggerResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ModifyAppTriggerRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<ModifyAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5643,8 +6130,8 @@ export const modifyCategory: API.OperationMethod<
   ModifyCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<ModifyCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyCategoryResponse>,
+  input: __S(705, __c22, 1) as any as S.Schema<ModifyCategoryRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5660,8 +6147,8 @@ export const modifyChannel: API.OperationMethod<
   ModifyChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ModifyChannelRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyChannelResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ModifyChannelRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5677,8 +6164,8 @@ export const modifyConflictQA: API.OperationMethod<
   ModifyConflictQAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ModifyConflictQARequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyConflictQAResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ModifyConflictQARequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyConflictQAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5694,8 +6181,8 @@ export const modifyConversation: API.OperationMethod<
   ModifyConversationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ModifyConversationRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyConversationResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ModifyConversationRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyConversationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5711,8 +6198,8 @@ export const modifyDoc: API.OperationMethod<
   ModifyDocError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c14, 1) as any as S.Schema<ModifyDocRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyDocResponse>,
+  input: __S(833, __c26, 1) as any as S.Schema<ModifyDocRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyDocResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5728,8 +6215,8 @@ export const modifyDocList: API.OperationMethod<
   ModifyDocListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ModifyDocListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ModifyDocListResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ModifyDocListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ModifyDocListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5745,8 +6232,8 @@ export const modifyKB: API.OperationMethod<
   ModifyKBError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(609, __c19, 1) as any as S.Schema<ModifyKBRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyKBResponse>,
+  input: __S(929, __c29, 1) as any as S.Schema<ModifyKBRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyKBResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5762,14 +6249,31 @@ export const modifyLabel: API.OperationMethod<
   ModifyLabelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(643, __c20, 3) as any as S.Schema<ModifyLabelRequest>,
-  output: __S(644, __c20, 4) as any as S.Schema<ModifyLabelResponse>,
+  input: __S(995, __c31, 3) as any as S.Schema<ModifyLabelRequest>,
+  output: __S(996, __c31, 4) as any as S.Schema<ModifyLabelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyLabel",
+}));
+
+export type ModifyMessageRecordFeedbackError = TencentCloudOpError;
+export const modifyMessageRecordFeedback: API.OperationMethod<
+  ModifyMessageRecordFeedbackRequest,
+  ModifyMessageRecordFeedbackResponse,
+  ModifyMessageRecordFeedbackError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<ModifyMessageRecordFeedbackRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyMessageRecordFeedbackResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyMessageRecordFeedback",
 }));
 
 export type ModifyMsgRecordCategoryError = TencentCloudOpError;
@@ -5779,8 +6283,8 @@ export const modifyMsgRecordCategory: API.OperationMethod<
   ModifyMsgRecordCategoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ModifyMsgRecordCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyMsgRecordCategoryResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ModifyMsgRecordCategoryRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyMsgRecordCategoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5796,14 +6300,31 @@ export const modifyPlugin: API.OperationMethod<
   ModifyPluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ModifyPluginRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyPluginResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ModifyPluginRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyPluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyPlugin",
+}));
+
+export type ModifyPromptTemplateError = TencentCloudOpError;
+export const modifyPromptTemplate: API.OperationMethod<
+  ModifyPromptTemplateRequest,
+  ModifyPromptTemplateResponse,
+  ModifyPromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c35, 0) as any as S.Schema<ModifyPromptTemplateRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyPromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyPromptTemplate",
 }));
 
 export type ModifyQAError = TencentCloudOpError;
@@ -5813,8 +6334,8 @@ export const modifyQA: API.OperationMethod<
   ModifyQAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(739, __c23, 3) as any as S.Schema<ModifyQARequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyQAResponse>,
+  input: __S(1155, __c36, 3) as any as S.Schema<ModifyQARequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyQAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5830,8 +6351,8 @@ export const modifyQAList: API.OperationMethod<
   ModifyQAListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ModifyQAListRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ModifyQAListResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ModifyQAListRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ModifyQAListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5847,8 +6368,8 @@ export const modifySkill: API.OperationMethod<
   ModifySkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ModifySkillRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifySkillResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ModifySkillRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifySkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5864,8 +6385,8 @@ export const modifySpace: API.OperationMethod<
   ModifySpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ModifySpaceRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifySpaceResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ModifySpaceRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifySpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5881,8 +6402,8 @@ export const modifyVariable: API.OperationMethod<
   ModifyVariableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ModifyVariableRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ModifyVariableResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ModifyVariableRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ModifyVariableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5898,8 +6419,8 @@ export const pauseAppTrigger: API.OperationMethod<
   PauseAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<PauseAppTriggerRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<PauseAppTriggerResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<PauseAppTriggerRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<PauseAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5915,8 +6436,8 @@ export const readMCPResource: API.OperationMethod<
   ReadMCPResourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ReadMCPResourceRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<ReadMCPResourceResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ReadMCPResourceRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ReadMCPResourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5932,8 +6453,8 @@ export const releaseSkill: API.OperationMethod<
   ReleaseSkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ReleaseSkillRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ReleaseSkillResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ReleaseSkillRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ReleaseSkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5949,8 +6470,8 @@ export const resetConversation: API.OperationMethod<
   ResetConversationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ResetConversationRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<ResetConversationResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ResetConversationRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ResetConversationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5966,8 +6487,8 @@ export const resumeAppTrigger: API.OperationMethod<
   ResumeAppTriggerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ResumeAppTriggerRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ResumeAppTriggerResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ResumeAppTriggerRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ResumeAppTriggerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5983,8 +6504,8 @@ export const resumeWorkflowRun: API.OperationMethod<
   ResumeWorkflowRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1090, __c34, 2) as any as S.Schema<ResumeWorkflowRunRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ResumeWorkflowRunResponse>,
+  input: __S(1601, __c50, 1) as any as S.Schema<ResumeWorkflowRunRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<ResumeWorkflowRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6000,8 +6521,8 @@ export const retryRelease: API.OperationMethod<
   RetryReleaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<RetryReleaseRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<RetryReleaseResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<RetryReleaseRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<RetryReleaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6017,8 +6538,8 @@ export const rollbackRelease: API.OperationMethod<
   RollbackReleaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<RollbackReleaseRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<RollbackReleaseResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<RollbackReleaseRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<RollbackReleaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6034,8 +6555,8 @@ export const runAppTriggerNow: API.OperationMethod<
   RunAppTriggerNowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<RunAppTriggerNowRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<RunAppTriggerNowResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<RunAppTriggerNowRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<RunAppTriggerNowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6051,8 +6572,8 @@ export const saveWorkflowDebugContext: API.OperationMethod<
   SaveWorkflowDebugContextError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1218, __c38, 2) as any as S.Schema<SaveWorkflowDebugContextRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<SaveWorkflowDebugContextResponse>,
+  input: __S(1730, __c54, 2) as any as S.Schema<SaveWorkflowDebugContextRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<SaveWorkflowDebugContextResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6068,8 +6589,8 @@ export const saveWorkflowToolNodeOutput: API.OperationMethod<
   SaveWorkflowToolNodeOutputError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<SaveWorkflowToolNodeOutputRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<SaveWorkflowToolNodeOutputResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<SaveWorkflowToolNodeOutputRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<SaveWorkflowToolNodeOutputResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6085,8 +6606,8 @@ export const searchKnowledge: API.OperationMethod<
   SearchKnowledgeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1423, __c44, 15) as any as S.Schema<SearchKnowledgeRequest>,
-  output: __S(1432, __c44, 24) as any as S.Schema<SearchKnowledgeResponse>,
+  input: __S(1871, __c58, 15) as any as S.Schema<SearchKnowledgeRequest>,
+  output: __S(1880, __c58, 24) as any as S.Schema<SearchKnowledgeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6102,8 +6623,8 @@ export const stopWorkflowRunList: API.OperationMethod<
   StopWorkflowRunListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<StopWorkflowRunListRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<StopWorkflowRunListResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<StopWorkflowRunListRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<StopWorkflowRunListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6119,14 +6640,31 @@ export const unfavoritePlugin: API.OperationMethod<
   UnfavoritePluginError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UnfavoritePluginRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<UnfavoritePluginResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<UnfavoritePluginRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<UnfavoritePluginResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnfavoritePlugin",
+}));
+
+export type UnfavoritePromptTemplateError = TencentCloudOpError;
+export const unfavoritePromptTemplate: API.OperationMethod<
+  UnfavoritePromptTemplateRequest,
+  UnfavoritePromptTemplateResponse,
+  UnfavoritePromptTemplateError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<UnfavoritePromptTemplateRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<UnfavoritePromptTemplateResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnfavoritePromptTemplate",
 }));
 
 export type UnfavoriteSkillError = TencentCloudOpError;
@@ -6136,8 +6674,8 @@ export const unfavoriteSkill: API.OperationMethod<
   UnfavoriteSkillError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UnfavoriteSkillRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<UnfavoriteSkillResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<UnfavoriteSkillRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<UnfavoriteSkillResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6273,38 +6811,62 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CheckType: S.optional(S.Number),
-          HandleType: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DeDuplicateStrategy" });
+          ResourceType: S.Number,
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          SpaceId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeUsageSummaryList" }),
+        ),
+      ).annotate({ identifier: "DescribeUsageSummaryListRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.suspend(() =>
+        S.Struct({
+          CallCount: S.optional(S.Number),
+          ConsumptionPU: S.optional(S.Number),
+          IsDefaultKB: S.optional(S.Boolean),
+          ModelName: S.optional(S.String),
+          ResourceConsumptionList: S.optional(__S(6689, __c209, 1)),
+        }),
+      ).annotate({ identifier: "ModelUsageSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FileId: S.String,
-          CategoryId: S.optional(S.String),
-          DeDuplicateStrategyList: S.optional(__S(193, __c6, 1)),
-          EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          ExternalLink: S.optional(S.NullOr(__S(4384, __c137, 0))),
-          LabelRefList: S.optional(__S(1601, __c50, 1)),
-          ParseConfig: S.optional(S.NullOr(__S(4353, __c136, 1))),
-          Switch: S.optional(S.NullOr(__S(4385, __c137, 1))),
-          UpdatePeriod: S.optional(S.NullOr(__S(4354, __c136, 2))),
-          UserAccessConfig: S.optional(S.NullOr(__S(4355, __c136, 3))),
+          ResourceConsumptionList: S.optional(__S(6689, __c209, 1)),
         }),
-      ).annotate({ identifier: "DocImportSpec" });
+      ).annotate({ identifier: "PlatformUsageSummary" });
     case 3:
-      return S.Array(__S(194, __c6, 2));
+      return S.suspend(() =>
+        S.Struct({
+          CallCount: S.optional(S.Number),
+          ResourceConsumptionList: S.optional(__S(6689, __c209, 1)),
+        }),
+      ).annotate({ identifier: "PluginUsageSummary" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          DocList: __S(195, __c6, 3),
-          KbId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ImportDocList" })),
-      ).annotate({ identifier: "ImportDocListRequest" });
+          Model: S.optional(__S(193, __c6, 1)),
+          Platform: S.optional(__S(194, __c6, 2)),
+          Plugin: S.optional(__S(195, __c6, 3)),
+          SourceId: S.optional(S.String),
+          SourceName: S.optional(S.String),
+          ViewType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UsageSummary" });
+    case 5:
+      return S.Array(__S(196, __c6, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.String),
+          UsageSummaryList: S.optional(__S(197, __c6, 5)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeUsageSummaryListResponse" });
   }
 }
 function __c7(j: number): any {
@@ -6312,13 +6874,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AppId: S.optional(S.String),
-          AgentId: S.optional(S.String),
-          Agent: S.optional(__S(2757, __c86, 5)),
-          UpdateMask: S.optional(__S(3360, __c105, 0)),
+          AppId: S.String,
+          VariableId: S.String,
+          ModuleType: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyAgent" })),
-      ).annotate({ identifier: "ModifyAgentRequest" });
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeVariable" })),
+      ).annotate({ identifier: "DescribeVariableRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Variable: S.optional(__S(2592, __c81, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeVariableResponse" });
   }
 }
 function __c8(j: number): any {
@@ -6326,35 +6894,28 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FileVolumeMount: S.optional(__S(3228, __c100, 28)),
-          Action: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AppFileVolumeMount" });
+          AppId: S.String,
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          ModuleType: S.optional(S.Number),
+          NeedInternalVariable: S.optional(S.Boolean),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          Query: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeVariableList" }),
+        ),
+      ).annotate({ identifier: "DescribeVariableListRequest" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AppId: S.String,
-          AppMode: S.optional(S.Number),
-          Avatar: S.optional(S.String),
-          Config: S.optional(__S(3227, __c100, 27)),
-          Description: S.optional(S.String),
-          Name: S.optional(S.String),
-          SharedKbIdList: S.optional(__S(64, __c2, 0)),
-          FileVolumeMountList: S.optional(__S(257, __c8, 1)),
-          UpdateMask: S.optional(__S(3360, __c105, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyApp" })),
-      ).annotate({ identifier: "ModifyAppRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.optional(S.String),
-          UpdateTime: S.optional(S.String),
+          TotalCount: S.optional(S.Number),
+          VariableList: S.optional(__S(257, __c8, 1)),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ModifyAppResponse" });
+      ).annotate({ identifier: "DescribeVariableListResponse" });
   }
 }
 function __c9(j: number): any {
@@ -6362,15 +6923,74 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AppId: S.optional(S.String),
-          Scope: S.optional(S.Number),
-          Trigger: S.optional(__S(3520, __c110, 0)),
-          TriggerId: S.optional(S.String),
-          UpdateMask: S.optional(__S(3360, __c105, 0)),
-          UserId: S.optional(S.String),
+          AppId: S.String,
+          WorkflowRunId: S.String,
+          SubWorkflowNodePath: S.optional(S.String),
+          IncludeWorkflowGraph: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyAppTrigger" })),
-      ).annotate({ identifier: "ModifyAppTriggerRequest" });
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeWorkflowRun" })),
+      ).annotate({ identifier: "DescribeWorkflowRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MaxFileCount: S.optional(S.Number),
+          SupportedFileTypeList: S.optional(__S(64, __c2, 0)),
+          SupportedFileTypes: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ConversationFileCollection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.String),
+          Text: S.optional(S.NullOr(S.String)),
+          OptionCardList: S.optional(S.NullOr(__S(64, __c2, 0))),
+          FileCollection: S.optional(S.NullOr(__S(289, __c9, 1))),
+          Widget: S.optional(S.NullOr(__S(4960, __c155, 0))),
+        }),
+      ).annotate({ identifier: "ReplyContent" });
+    case 3:
+      return S.Array(__S(290, __c9, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ContentList: S.optional(__S(291, __c9, 3)),
+        }),
+      ).annotate({ identifier: "ReplyMessage" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Output: S.optional(S.String),
+          LatestMessage: S.optional(S.NullOr(__S(292, __c9, 4))),
+        }),
+      ).annotate({ identifier: "WorkflowRunOutput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Query: S.optional(S.String),
+          MainModelName: S.optional(S.String),
+          CustomVariableList: S.optional(__S(1345, __c42, 1)),
+          WorkflowGraph: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkflowRunMetadata" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          WorkflowRunSummary: S.optional(__S(323, __c10, 3)),
+          WorkflowRunOutput: S.optional(__S(293, __c9, 5)),
+          WorkflowRunMetadata: S.optional(__S(294, __c9, 6)),
+        }),
+      ).annotate({ identifier: "WorkflowRun" });
+    case 8:
+      return S.Array(__S(5856, __c183, 0));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          WorkflowRun: S.optional(__S(295, __c9, 7)),
+          NodeRunList: S.optional(__S(296, __c9, 8)),
+          SubWorkflowNodePath: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeWorkflowRunResponse" });
   }
 }
 function __c10(j: number): any {
@@ -6378,20 +6998,37 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          AppId: S.optional(S.String),
+          WorkflowRunId: S.optional(S.String),
+          WorkflowId: S.optional(S.String),
           Name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CategoryModifyFields" });
+      ).annotate({ identifier: "WorkflowRunProfile" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CategoryId: S.String,
-          CategoryType: S.Number,
-          Fields: __S(320, __c10, 0),
-          KbId: S.String,
-          UpdateMask: __S(3360, __c105, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyCategory" })),
-      ).annotate({ identifier: "ModifyCategoryRequest" });
+          Status: S.optional(S.Number),
+          FailMessage: S.optional(S.String),
+          TotalTokens: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WorkflowRunResult" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CreateTime: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkflowRunTime" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Domain: S.optional(S.Number),
+          WorkflowRunProfile: S.optional(__S(320, __c10, 0)),
+          WorkflowRunResult: S.optional(__S(321, __c10, 1)),
+          WorkflowRunTime: S.optional(__S(322, __c10, 2)),
+        }),
+      ).annotate({ identifier: "WorkflowRunSummary" });
   }
 }
 function __c11(j: number): any {
@@ -6400,13 +7037,29 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          ChannelId: S.String,
-          Scene: S.optional(S.Number),
-          Spec: S.optional(__S(5261, __c164, 13)),
-          UpdateMask: S.optional(__S(3360, __c105, 0)),
+          PageSize: S.Number,
+          PageNumber: S.Number,
+          Domain: S.Number,
+          FilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyChannel" })),
-      ).annotate({ identifier: "ModifyChannelRequest" });
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "DescribeWorkflowRunSummaryList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeWorkflowRunSummaryListRequest" });
+    case 1:
+      return S.Array(__S(323, __c10, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          WorkflowRunSummaryList: S.optional(__S(353, __c11, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeWorkflowRunSummaryListResponse" });
   }
 }
 function __c12(j: number): any {
@@ -6415,13 +7068,18 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          ConflictGroupId: S.optional(S.String),
-          IsIgnoreAll: S.optional(S.Boolean),
-          QaIdList: S.optional(__S(64, __c2, 0)),
-          Resolution: S.optional(S.Number),
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          Query: S.optional(__S(5312, __c166, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyConflictQA" })),
-      ).annotate({ identifier: "ModifyConflictQARequest" });
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ExportQA" })),
+      ).annotate({ identifier: "ExportQARequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ExportTaskId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExportQAResponse" });
   }
 }
 function __c13(j: number): any {
@@ -6429,18 +7087,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Type: S.Number,
-          AppId: S.optional(S.String),
-          AppKey: S.optional(S.String),
-          LoginSubAccountUin: S.optional(S.String),
-          LoginUin: S.optional(S.String),
-          ShareCode: S.optional(S.String),
-          UserId: S.optional(S.String),
-          ConversationId: S.optional(S.String),
-          Title: S.optional(S.String),
+          PluginId: S.String,
+          SpaceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyConversation" })),
-      ).annotate({ identifier: "ModifyConversationRequest" });
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "FavoritePlugin" })),
+      ).annotate({ identifier: "FavoritePluginRequest" });
   }
 }
 function __c14(j: number): any {
@@ -6448,28 +7099,13 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CategoryId: S.optional(S.String),
-          EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          ExternalLink: S.optional(S.NullOr(__S(4384, __c137, 0))),
-          LabelRefList: S.optional(__S(1601, __c50, 1)),
-          Name: S.optional(S.String),
-          ParseConfig: S.optional(S.NullOr(__S(4353, __c136, 1))),
-          Switch: S.optional(S.NullOr(__S(4385, __c137, 1))),
-          UpdatePeriod: S.optional(S.NullOr(__S(4354, __c136, 2))),
-          UserAccessConfig: S.optional(S.NullOr(__S(4355, __c136, 3))),
-        }),
-      ).annotate({ identifier: "DocModifyFields" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          DocId: S.String,
-          Fields: __S(448, __c14, 0),
-          KbId: S.String,
-          UpdateMask: __S(3360, __c105, 0),
+          SpaceId: S.String,
+          PromptTemplateId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyDoc" })),
-      ).annotate({ identifier: "ModifyDocRequest" });
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "FavoritePromptTemplate" }),
+        ),
+      ).annotate({ identifier: "FavoritePromptTemplateRequest" });
   }
 }
 function __c15(j: number): any {
@@ -6477,17 +7113,11 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DocIdList: __S(64, __c2, 0),
-          KbId: S.String,
-          CategoryId: S.optional(S.String),
-          EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(__S(1665, __c52, 1)),
-          ExternalLink: S.optional(__S(4384, __c137, 0)),
-          LabelRefList: S.optional(__S(512, __c16, 0)),
-          Switch: S.optional(__S(4385, __c137, 1)),
+          SkillId: S.String,
+          SpaceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyDocList" })),
-      ).annotate({ identifier: "ModifyDocListRequest" });
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "FavoriteSkill" })),
+      ).annotate({ identifier: "FavoriteSkillRequest" });
   }
 }
 function __c16(j: number): any {
@@ -6495,9 +7125,38 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ItemList: S.optional(__S(1601, __c50, 1)),
+          CheckType: S.optional(S.Number),
+          HandleType: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LabelRefIdentityList" });
+      ).annotate({ identifier: "DeDuplicateStrategy" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FileId: S.String,
+          CategoryId: S.optional(S.String),
+          DeDuplicateStrategyList: S.optional(__S(513, __c16, 1)),
+          EffectiveDomain: S.optional(S.Number),
+          ExpirationPolicy: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          ExternalLink: S.optional(S.NullOr(__S(5088, __c159, 0))),
+          LabelRefList: S.optional(__S(2113, __c66, 1)),
+          ParseConfig: S.optional(S.NullOr(__S(5057, __c158, 1))),
+          Switch: S.optional(S.NullOr(__S(5089, __c159, 1))),
+          UpdatePeriod: S.optional(S.NullOr(__S(5058, __c158, 2))),
+          UserAccessConfig: S.optional(S.NullOr(__S(5059, __c158, 3))),
+        }),
+      ).annotate({ identifier: "DocImportSpec" });
+    case 3:
+      return S.Array(__S(514, __c16, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          DocList: __S(515, __c16, 3),
+          KbId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ImportDocList" })),
+      ).annotate({ identifier: "ImportDocListRequest" });
   }
 }
 function __c17(j: number): any {
@@ -6540,6 +7199,206 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          AppId: S.optional(S.String),
+          AgentId: S.optional(S.String),
+          Agent: S.optional(__S(3206, __c100, 6)),
+          UpdateMask: S.optional(__S(3968, __c124, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyAgent" })),
+      ).annotate({ identifier: "ModifyAgentRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileVolumeMount: S.optional(__S(3836, __c119, 28)),
+          Action: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AppFileVolumeMount" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          AppMode: S.optional(S.Number),
+          Avatar: S.optional(S.String),
+          Config: S.optional(__S(3835, __c119, 27)),
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          SharedKbIdList: S.optional(__S(64, __c2, 0)),
+          FileVolumeMountList: S.optional(__S(641, __c20, 1)),
+          UpdateMask: S.optional(__S(3968, __c124, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyApp" })),
+      ).annotate({ identifier: "ModifyAppRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.optional(S.String),
+          UpdateTime: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModifyAppResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.optional(S.String),
+          Scope: S.optional(S.Number),
+          Trigger: S.optional(__S(4128, __c129, 0)),
+          TriggerId: S.optional(S.String),
+          UpdateMask: S.optional(__S(3968, __c124, 0)),
+          UserId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyAppTrigger" })),
+      ).annotate({ identifier: "ModifyAppTriggerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Credential: S.optional(__S(4596, __c143, 20)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModifyAppTriggerResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CategoryModifyFields" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryId: S.String,
+          CategoryType: S.Number,
+          Fields: __S(704, __c22, 0),
+          KbId: S.String,
+          UpdateMask: __S(3968, __c124, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyCategory" })),
+      ).annotate({ identifier: "ModifyCategoryRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          ChannelId: S.String,
+          Scene: S.optional(S.Number),
+          Spec: S.optional(__S(5773, __c180, 13)),
+          UpdateMask: S.optional(__S(3968, __c124, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyChannel" })),
+      ).annotate({ identifier: "ModifyChannelRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KbId: S.String,
+          ConflictGroupId: S.optional(S.String),
+          IsIgnoreAll: S.optional(S.Boolean),
+          QaIdList: S.optional(__S(64, __c2, 0)),
+          Resolution: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyConflictQA" })),
+      ).annotate({ identifier: "ModifyConflictQARequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.Number,
+          AppId: S.optional(S.String),
+          AppKey: S.optional(S.String),
+          LoginSubAccountUin: S.optional(S.String),
+          LoginUin: S.optional(S.String),
+          ShareCode: S.optional(S.String),
+          UserId: S.optional(S.String),
+          ConversationId: S.optional(S.String),
+          Title: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyConversation" })),
+      ).annotate({ identifier: "ModifyConversationRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryId: S.optional(S.String),
+          EffectiveDomain: S.optional(S.Number),
+          ExpirationPolicy: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          ExternalLink: S.optional(S.NullOr(__S(5088, __c159, 0))),
+          LabelRefList: S.optional(__S(2113, __c66, 1)),
+          Name: S.optional(S.String),
+          ParseConfig: S.optional(S.NullOr(__S(5057, __c158, 1))),
+          Switch: S.optional(S.NullOr(__S(5089, __c159, 1))),
+          UpdatePeriod: S.optional(S.NullOr(__S(5058, __c158, 2))),
+          UserAccessConfig: S.optional(S.NullOr(__S(5059, __c158, 3))),
+        }),
+      ).annotate({ identifier: "DocModifyFields" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DocId: S.String,
+          Fields: __S(832, __c26, 0),
+          KbId: S.String,
+          UpdateMask: __S(3968, __c124, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyDoc" })),
+      ).annotate({ identifier: "ModifyDocRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DocIdList: __S(64, __c2, 0),
+          KbId: S.String,
+          CategoryId: S.optional(S.String),
+          EffectiveDomain: S.optional(S.Number),
+          ExpirationPolicy: S.optional(__S(2177, __c68, 1)),
+          ExternalLink: S.optional(__S(5088, __c159, 0)),
+          LabelRefList: S.optional(__S(896, __c28, 0)),
+          Switch: S.optional(__S(5089, __c159, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyDocList" })),
+      ).annotate({ identifier: "ModifyDocListRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ItemList: S.optional(__S(2113, __c66, 1)),
+        }),
+      ).annotate({ identifier: "LabelRefIdentityList" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Action: S.optional(S.Number),
         }),
       ).annotate({ identifier: "KBModifyExtendFields" });
@@ -6548,14 +7407,29 @@ function __c19(j: number): any {
         S.Struct({
           KbId: S.String,
           Spec: __S(128, __c4, 0),
-          UpdateMask: __S(3360, __c105, 0),
-          ExtendFields: S.optional(__S(608, __c19, 0)),
+          UpdateMask: __S(3968, __c124, 0),
+          ExtendFields: S.optional(__S(928, __c29, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyKB" })),
       ).annotate({ identifier: "ModifyKBRequest" });
   }
 }
-function __c20(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          AppId: S.String,
+          ParentId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "CreateMsgRecordCategory" }),
+        ),
+      ).annotate({ identifier: "CreateMsgRecordCategoryRequest" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6567,21 +7441,21 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "LabelTermModifyItem" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          TermModifyList: S.optional(__S(641, __c20, 1)),
+          TermModifyList: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "LabelModifyFields" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Fields: __S(642, __c20, 2),
+          Fields: __S(994, __c31, 2),
           KbId: S.String,
           LabelId: S.String,
-          UpdateMask: __S(3360, __c105, 0),
+          UpdateMask: __S(3968, __c124, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyLabel" })),
       ).annotate({ identifier: "ModifyLabelRequest" });
@@ -6594,7 +7468,29 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ModifyLabelResponse" });
   }
 }
-function __c21(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RecordId: S.String,
+          AppKey: S.optional(S.String),
+          Score: S.optional(S.Number),
+          ReasonList: S.optional(__S(64, __c2, 0)),
+          FeedbackContent: S.optional(S.String),
+          AppId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "ModifyMessageRecordFeedback",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyMessageRecordFeedbackRequest" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6609,17 +7505,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ModifyMsgRecordCategoryRequest" });
   }
 }
-function __c22(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PluginId: S.String,
           PluginVersion: S.Number,
-          Profile: S.optional(__S(1376, __c43, 0)),
-          Config: S.optional(__S(1390, __c43, 14)),
-          UpdateMask: S.optional(__S(3360, __c105, 0)),
-          ToolList: S.optional(__S(1361, __c42, 17)),
+          Profile: S.optional(__S(1408, __c44, 0)),
+          Config: S.optional(__S(1422, __c44, 14)),
+          UpdateMask: S.optional(__S(3968, __c124, 0)),
+          ToolList: S.optional(__S(1393, __c43, 17)),
           LoginUin: S.optional(S.String),
           LoginSubAccountUin: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6627,7 +7523,23 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ModifyPluginRequest" });
   }
 }
-function __c23(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SpaceId: S.String,
+          PromptTemplateId: S.String,
+          UpdateMask: __S(3968, __c124, 0),
+          Spec: __S(1792, __c56, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "ModifyPromptTemplate" }),
+        ),
+      ).annotate({ identifier: "ModifyPromptTemplateRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6638,7 +7550,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "SimilarQuestionModifySpec" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6646,27 +7558,27 @@ function __c23(j: number): any {
           CategoryId: S.optional(S.String),
           DocId: S.optional(S.String),
           EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(S.NullOr(__S(1665, __c52, 1))),
+          ExpirationPolicy: S.optional(S.NullOr(__S(2177, __c68, 1))),
           IsAccepted: S.optional(S.Boolean),
-          LabelRefList: S.optional(__S(1601, __c50, 1)),
+          LabelRefList: S.optional(__S(2113, __c66, 1)),
           Question: S.optional(S.String),
           QuestionDescription: S.optional(S.String),
-          SimilarQuestionList: S.optional(__S(737, __c23, 1)),
+          SimilarQuestionList: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "QAModifyFields" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Fields: __S(738, __c23, 2),
+          Fields: __S(1154, __c36, 2),
           KbId: S.String,
           QaId: S.String,
-          UpdateMask: __S(3360, __c105, 0),
+          UpdateMask: __S(3968, __c124, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyQA" })),
       ).annotate({ identifier: "ModifyQARequest" });
   }
 }
-function __c24(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6675,15 +7587,15 @@ function __c24(j: number): any {
           QaIdList: __S(64, __c2, 0),
           CategoryId: S.optional(S.String),
           EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(__S(1665, __c52, 1)),
+          ExpirationPolicy: S.optional(__S(2177, __c68, 1)),
           IsAccepted: S.optional(S.Boolean),
-          LabelRefList: S.optional(__S(512, __c16, 0)),
+          LabelRefList: S.optional(__S(896, __c28, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyQAList" })),
       ).annotate({ identifier: "ModifyQAListRequest" });
   }
 }
-function __c25(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6701,7 +7613,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ModifySkillRequest" });
   }
 }
-function __c26(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6709,25 +7621,330 @@ function __c26(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           SpaceId: S.optional(S.String),
-          FieldMask: S.optional(__S(3360, __c105, 0)),
+          FieldMask: S.optional(__S(3968, __c124, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifySpace" })),
       ).annotate({ identifier: "ModifySpaceRequest" });
   }
 }
-function __c27(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          Variable: S.optional(__S(2080, __c65, 0)),
+          Variable: S.optional(__S(2592, __c81, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ModifyVariable" })),
       ).annotate({ identifier: "ModifyVariableRequest" });
   }
 }
-function __c28(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Profile: __S(1408, __c44, 0),
+          Config: __S(1422, __c44, 14),
+          SpaceId: S.String,
+          ToolList: S.optional(__S(1393, __c43, 17)),
+          LoginUin: S.optional(S.String),
+          LoginSubAccountUin: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreatePlugin" })),
+      ).annotate({ identifier: "CreatePluginRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PluginId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreatePluginResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BillingAttribute" });
+    case 1:
+      return S.Array(__S(1344, __c42, 0));
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BillingUnit: S.optional(S.Number),
+          CashPrice: S.optional(S.Number),
+          PuPrice: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BasicBilling" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BillingAttributeList: S.optional(__S(1345, __c42, 1)),
+          BillingUnit: S.optional(S.Number),
+          CashPrice: S.optional(S.Number),
+          PuPrice: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ComplexBillingItem" });
+    case 2:
+      return S.Array(__S(1377, __c43, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ComplexList: S.optional(__S(1378, __c43, 2)),
+        }),
+      ).annotate({ identifier: "ComplexBilling" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          BillingUnit: S.optional(S.Number),
+          InputCashPrice: S.optional(S.Number),
+          InputPuPrice: S.optional(S.Number),
+          OutputCashPrice: S.optional(S.Number),
+          OutputPuPrice: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DuplexBilling" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          BasicBilling: S.optional(__S(1376, __c43, 0)),
+          BillingType: S.optional(S.Number),
+          ComplexBilling: S.optional(__S(1379, __c43, 3)),
+          DuplexBilling: S.optional(__S(1380, __c43, 4)),
+        }),
+      ).annotate({ identifier: "ToolBilling" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Request: S.optional(S.String),
+          Response: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ToolExample" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          RenderMode: S.optional(S.Number),
+          SubParams: S.optional(S.suspend(() => __S(1384, __c43, 8))),
+          Type: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResponseParam" });
+    case 8:
+      return S.Array(__S(1383, __c43, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Body: S.optional(__S(3233, __c101, 1)),
+          Example: S.optional(__S(1382, __c43, 6)),
+          ExternalApiUrl: S.optional(S.String),
+          Header: S.optional(__S(3233, __c101, 1)),
+          Method: S.optional(S.String),
+          Outputs: S.optional(__S(1384, __c43, 8)),
+          Query: S.optional(__S(3233, __c101, 1)),
+          StreamMode: S.optional(S.Number),
+          Url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApiToolConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          Inputs: S.optional(__S(3233, __c101, 1)),
+          Outputs: S.optional(__S(1384, __c43, 8)),
+        }),
+      ).annotate({ identifier: "AppToolConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Code: S.optional(S.String),
+          Example: S.optional(__S(1382, __c43, 6)),
+          Inputs: S.optional(__S(3233, __c101, 1)),
+          Outputs: S.optional(__S(1384, __c43, 8)),
+        }),
+      ).annotate({ identifier: "CodeToolConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceUri: S.optional(S.String),
+          Visibility: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "MCPToolUIMeta" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          Ui: S.optional(__S(1388, __c43, 12)),
+        }),
+      ).annotate({ identifier: "MCPToolMeta" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          Inputs: S.optional(__S(3233, __c101, 1)),
+          Outputs: S.optional(__S(1384, __c43, 8)),
+          Meta: S.optional(S.NullOr(__S(1389, __c43, 13))),
+          SupportsApps: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MCPToolConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          ApiToolConfig: S.optional(__S(1385, __c43, 9)),
+          AppToolConfig: S.optional(__S(1386, __c43, 10)),
+          CodeToolConfig: S.optional(__S(1387, __c43, 11)),
+          MCPToolConfig: S.optional(__S(1390, __c43, 14)),
+        }),
+      ).annotate({ identifier: "ToolConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          Billing: S.optional(S.NullOr(__S(1381, __c43, 5))),
+          CallCount: S.optional(S.Number),
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          PluginId: S.optional(S.String),
+          ToolAccessMode: S.optional(S.Number),
+          ToolConfig: S.optional(S.NullOr(__S(1391, __c43, 15))),
+          ToolId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Tool" });
+    case 17:
+      return S.Array(__S(1392, __c43, 16));
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Author: S.optional(S.String),
+          Description: S.optional(S.String),
+          IconUrl: S.optional(S.String),
+          Name: S.optional(S.String),
+          PluginClass: S.optional(S.Number),
+          PluginKind: S.optional(S.Number),
+          PluginSource: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PluginProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          KeyLocation: S.Number,
+          KeyParamName: S.String,
+          KeyParamValue: S.String,
+          KeyValueUsage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ApiKeyAuthConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FieldType: S.optional(S.Number),
+          IsRequired: S.optional(S.Boolean),
+          ParamName: S.optional(S.String),
+          ParamValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccessKeyParamConfig" });
+    case 3:
+      return S.Array(__S(1410, __c44, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RoleName: S.String,
+          KeyLocation: S.optional(S.Number),
+          SecretIdName: S.optional(S.String),
+          SecretKeyName: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          ParamList: S.optional(__S(1411, __c44, 3)),
+          SupportRoleAuth: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CamAuthConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AuthorizationUrl: S.optional(S.String),
+          ClientId: S.optional(S.String),
+          ClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          ScopeList: S.optional(__S(64, __c2, 0)),
+          TokenUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuthConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          KeyLocation: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AccessKeyPassThroughConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ParamList: S.optional(__S(1411, __c44, 3)),
+          PassThroughConfig: S.optional(S.NullOr(__S(1414, __c44, 6))),
+          UsageMode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AccessKeyAuthConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          AuthType: S.Number,
+          ApiKeyAuthConfig: S.optional(S.NullOr(__S(1409, __c44, 1))),
+          CamAuthConfig: S.optional(S.NullOr(__S(1412, __c44, 4))),
+          OAuthConfig: S.optional(S.NullOr(__S(1413, __c44, 5))),
+          AccessKeyAuthConfig: S.optional(__S(1415, __c44, 7)),
+        }),
+      ).annotate({ identifier: "AuthConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          AuthConfig: S.optional(S.NullOr(__S(1416, __c44, 8))),
+        }),
+      ).annotate({ identifier: "ApiPluginConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+        }),
+      ).annotate({ identifier: "AppPluginConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          IsGlobalHidden: S.optional(S.Boolean),
+          IsRequired: S.optional(S.Boolean),
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PluginParam" });
+    case 12:
+      return S.Array(__S(1419, __c44, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          ExternalMCPServerUrl: S.optional(S.String),
+          MCPServerUrl: S.optional(S.String),
+          MCPTransport: S.optional(S.Number),
+          PluginHeader: S.optional(__S(1420, __c44, 12)),
+          PluginQuery: S.optional(__S(1420, __c44, 12)),
+          SSEReadTimeout: S.optional(S.Number),
+          Timeout: S.optional(S.Number),
+          AuthConfig: S.optional(__S(1416, __c44, 8)),
+          SupportsApps: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MCPPluginConfig" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          ApiPluginConfig: S.optional(S.NullOr(__S(1417, __c44, 9))),
+          AppPluginConfig: S.optional(S.NullOr(__S(1418, __c44, 10))),
+          MCPPluginConfig: S.optional(S.NullOr(__S(1421, __c44, 13))),
+        }),
+      ).annotate({ identifier: "PluginConfig" });
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6741,22 +7958,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PauseAppTriggerRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          AppId: S.String,
-          ParentId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "CreateMsgRecordCategory" }),
-        ),
-      ).annotate({ identifier: "CreateMsgRecordCategoryRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6778,18 +7980,18 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "MCPResourceContents" });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Contents: S.optional(__S(962, __c30, 2)),
+          Contents: S.optional(__S(1474, __c46, 2)),
           ResourceMeta: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReadMCPResourceResponse" });
   }
 }
-function __c31(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6802,7 +8004,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ReleaseSkillRequest" });
   }
 }
-function __c32(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6827,7 +8029,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ResetConversationResponse" });
   }
 }
-function __c33(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6841,36 +8043,23 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ResumeAppTriggerRequest" });
   }
 }
-function __c34(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CreateTime: S.String,
-          DocId: S.String,
-          FileName: S.String,
-          FileSize: S.String,
-          FileType: S.String,
-          FileUrl: S.String,
-          LocalPath: S.optional(S.String),
-          AuditStatus: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ConversationFileInfo" });
+      return S.Array(__S(4992, __c156, 0));
     case 1:
-      return S.Array(__S(1088, __c34, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
           WorkflowRunId: S.String,
           Query: S.optional(S.String),
-          FileList: S.optional(__S(1089, __c34, 1)),
+          FileList: S.optional(__S(1600, __c50, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ResumeWorkflowRun" })),
       ).annotate({ identifier: "ResumeWorkflowRunRequest" });
   }
 }
-function __c35(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6882,7 +8071,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "RetryReleaseRequest" });
   }
 }
-function __c36(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6894,7 +8083,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "RollbackReleaseRequest" });
   }
 }
-function __c37(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6915,7 +8104,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RunAppTriggerNowResponse" });
   }
 }
-function __c38(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6925,12 +8114,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "AppVariableValue" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           AppId: S.optional(S.String),
-          AppVariableValueList: S.optional(__S(1217, __c38, 1)),
+          AppVariableValueList: S.optional(__S(1729, __c54, 1)),
           SessionId: S.optional(S.String),
           UserId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6940,7 +8129,43 @@ function __c38(j: number): any {
       ).annotate({ identifier: "SaveWorkflowDebugContextRequest" });
   }
 }
-function __c39(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SpaceId: S.String,
+          Spec: __S(1792, __c56, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "CreatePromptTemplate" }),
+        ),
+      ).annotate({ identifier: "CreatePromptTemplateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateId: S.optional(S.NullOr(S.String)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreatePromptTemplateResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryKey: S.optional(S.String),
+          CustomVariableList: S.optional(__S(64, __c2, 0)),
+          Description: S.optional(S.String),
+          LabelIdList: S.optional(__S(64, __c2, 0)),
+          Name: S.optional(S.String),
+          PromptContent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromptTemplateSpec" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6962,311 +8187,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SaveWorkflowToolNodeOutputResponse" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Profile: __S(1376, __c43, 0),
-          Config: __S(1390, __c43, 14),
-          SpaceId: S.String,
-          ToolList: S.optional(__S(1361, __c42, 17)),
-          LoginUin: S.optional(S.String),
-          LoginSubAccountUin: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreatePlugin" })),
-      ).annotate({ identifier: "CreatePluginRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          PluginId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreatePluginResponse" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BillingAttribute" });
-    case 1:
-      return S.Array(__S(1312, __c41, 0));
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          BillingUnit: S.optional(S.Number),
-          CashPrice: S.optional(S.Number),
-          PuPrice: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BasicBilling" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          BillingAttributeList: S.optional(__S(1313, __c41, 1)),
-          BillingUnit: S.optional(S.Number),
-          CashPrice: S.optional(S.Number),
-          PuPrice: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ComplexBillingItem" });
-    case 2:
-      return S.Array(__S(1345, __c42, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ComplexList: S.optional(__S(1346, __c42, 2)),
-        }),
-      ).annotate({ identifier: "ComplexBilling" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          BillingUnit: S.optional(S.Number),
-          InputCashPrice: S.optional(S.Number),
-          InputPuPrice: S.optional(S.Number),
-          OutputCashPrice: S.optional(S.Number),
-          OutputPuPrice: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DuplexBilling" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          BasicBilling: S.optional(__S(1344, __c42, 0)),
-          BillingType: S.optional(S.Number),
-          ComplexBilling: S.optional(__S(1347, __c42, 3)),
-          DuplexBilling: S.optional(__S(1348, __c42, 4)),
-        }),
-      ).annotate({ identifier: "ToolBilling" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          Request: S.optional(S.String),
-          Response: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolExample" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          Description: S.optional(S.String),
-          Name: S.optional(S.String),
-          RenderMode: S.optional(S.Number),
-          SubParams: S.optional(S.suspend(() => __S(1352, __c42, 8))),
-          Type: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ResponseParam" });
-    case 8:
-      return S.Array(__S(1351, __c42, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          Body: S.optional(__S(2785, __c87, 1)),
-          Example: S.optional(__S(1350, __c42, 6)),
-          ExternalApiUrl: S.optional(S.String),
-          Header: S.optional(__S(2785, __c87, 1)),
-          Method: S.optional(S.String),
-          Outputs: S.optional(__S(1352, __c42, 8)),
-          Query: S.optional(__S(2785, __c87, 1)),
-          StreamMode: S.optional(S.Number),
-          Url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApiToolConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          Inputs: S.optional(__S(2785, __c87, 1)),
-          Outputs: S.optional(__S(1352, __c42, 8)),
-        }),
-      ).annotate({ identifier: "AppToolConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          Code: S.optional(S.String),
-          Example: S.optional(__S(1350, __c42, 6)),
-          Inputs: S.optional(__S(2785, __c87, 1)),
-          Outputs: S.optional(__S(1352, __c42, 8)),
-        }),
-      ).annotate({ identifier: "CodeToolConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          ResourceUri: S.optional(S.String),
-          Visibility: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "MCPToolUIMeta" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          Ui: S.optional(__S(1356, __c42, 12)),
-        }),
-      ).annotate({ identifier: "MCPToolMeta" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          Inputs: S.optional(__S(2785, __c87, 1)),
-          Outputs: S.optional(__S(1352, __c42, 8)),
-          Meta: S.optional(S.NullOr(__S(1357, __c42, 13))),
-          SupportsApps: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MCPToolConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          ApiToolConfig: S.optional(__S(1353, __c42, 9)),
-          AppToolConfig: S.optional(__S(1354, __c42, 10)),
-          CodeToolConfig: S.optional(__S(1355, __c42, 11)),
-          MCPToolConfig: S.optional(__S(1358, __c42, 14)),
-        }),
-      ).annotate({ identifier: "ToolConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          Billing: S.optional(S.NullOr(__S(1349, __c42, 5))),
-          CallCount: S.optional(S.Number),
-          Description: S.optional(S.String),
-          Name: S.optional(S.String),
-          PluginId: S.optional(S.String),
-          ToolAccessMode: S.optional(S.Number),
-          ToolConfig: S.optional(S.NullOr(__S(1359, __c42, 15))),
-          ToolId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Tool" });
-    case 17:
-      return S.Array(__S(1360, __c42, 16));
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Author: S.optional(S.String),
-          Description: S.optional(S.String),
-          IconUrl: S.optional(S.String),
-          Name: S.optional(S.String),
-          PluginClass: S.optional(S.Number),
-          PluginKind: S.optional(S.Number),
-          PluginSource: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PluginProfile" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          KeyLocation: S.Number,
-          KeyParamName: S.String,
-          KeyParamValue: S.String,
-        }),
-      ).annotate({ identifier: "ApiKeyAuthConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          FieldType: S.optional(S.Number),
-          IsRequired: S.optional(S.Boolean),
-          ParamName: S.optional(S.String),
-          ParamValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccessKeyParamConfig" });
-    case 3:
-      return S.Array(__S(1378, __c43, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          RoleName: S.String,
-          KeyLocation: S.optional(S.Number),
-          SecretIdName: S.optional(S.String),
-          SecretKeyName: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ParamList: S.optional(__S(1379, __c43, 3)),
-          SupportRoleAuth: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CamAuthConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          AuthorizationUrl: S.optional(S.String),
-          ClientId: S.optional(S.String),
-          ClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ScopeList: S.optional(__S(64, __c2, 0)),
-          TokenUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OAuthConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          KeyLocation: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AccessKeyPassThroughConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          ParamList: S.optional(__S(1379, __c43, 3)),
-          PassThroughConfig: S.optional(S.NullOr(__S(1382, __c43, 6))),
-          UsageMode: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AccessKeyAuthConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          AuthType: S.Number,
-          ApiKeyAuthConfig: S.optional(S.NullOr(__S(1377, __c43, 1))),
-          CamAuthConfig: S.optional(S.NullOr(__S(1380, __c43, 4))),
-          OAuthConfig: S.optional(S.NullOr(__S(1381, __c43, 5))),
-          AccessKeyAuthConfig: S.optional(__S(1383, __c43, 7)),
-        }),
-      ).annotate({ identifier: "AuthConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          AuthConfig: S.optional(S.NullOr(__S(1384, __c43, 8))),
-        }),
-      ).annotate({ identifier: "ApiPluginConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-        }),
-      ).annotate({ identifier: "AppPluginConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          IsGlobalHidden: S.optional(S.Boolean),
-          IsRequired: S.optional(S.Boolean),
-          Name: S.optional(S.String),
-          Value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PluginParam" });
-    case 12:
-      return S.Array(__S(1387, __c43, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          ExternalMCPServerUrl: S.optional(S.String),
-          MCPServerUrl: S.optional(S.String),
-          MCPTransport: S.optional(S.Number),
-          PluginHeader: S.optional(__S(1388, __c43, 12)),
-          PluginQuery: S.optional(__S(1388, __c43, 12)),
-          SSEReadTimeout: S.optional(S.Number),
-          Timeout: S.optional(S.Number),
-          AuthConfig: S.optional(__S(1384, __c43, 8)),
-          SupportsApps: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MCPPluginConfig" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          ApiPluginConfig: S.optional(S.NullOr(__S(1385, __c43, 9))),
-          AppPluginConfig: S.optional(S.NullOr(__S(1386, __c43, 10))),
-          MCPPluginConfig: S.optional(S.NullOr(__S(1389, __c43, 13))),
-        }),
-      ).annotate({ identifier: "PluginConfig" });
-  }
-}
-function __c44(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7285,9 +8206,9 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ExpirationAwareness: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          GraphRag: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          TableEnhancement: S.optional(S.NullOr(__S(4096, __c128, 0))),
+          ExpirationAwareness: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          GraphRag: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          TableEnhancement: S.optional(S.NullOr(__S(4544, __c142, 0))),
         }),
       ).annotate({ identifier: "RetrievalOption" });
     case 3:
@@ -7298,7 +8219,7 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "RerankConfig" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1413, __c44, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1861, __c58, 5)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7306,37 +8227,37 @@ function __c44(j: number): any {
           FilterValueList: S.optional(__S(64, __c2, 0)),
           LabelId: S.optional(S.String),
           LogicOp: S.optional(S.Number),
-          SearchFilterList: S.optional(__S(1412, __c44, 4)),
+          SearchFilterList: S.optional(__S(1860, __c58, 4)),
         }),
       ).annotate({ identifier: "SearchFilter" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           OnlyRetrievalSelectedLabel: S.optional(S.Boolean),
-          SearchFilter: S.optional(S.NullOr(__S(1413, __c44, 5))),
+          SearchFilter: S.optional(S.NullOr(__S(1861, __c58, 5))),
         }),
       ).annotate({ identifier: "SearchFilterConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          DbRetrievalConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          DocRetrievalConfig: S.optional(S.NullOr(__S(1409, __c44, 1))),
+          DbRetrievalConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          DocRetrievalConfig: S.optional(S.NullOr(__S(1857, __c58, 1))),
           KbId: S.optional(S.String),
-          OptionConfig: S.optional(S.NullOr(__S(1410, __c44, 2))),
-          QaRetrievalConfig: S.optional(S.NullOr(__S(1409, __c44, 1))),
-          RerankConfig: S.optional(S.NullOr(__S(1411, __c44, 3))),
-          SearchFilterConfig: S.optional(S.NullOr(__S(1414, __c44, 6))),
+          OptionConfig: S.optional(S.NullOr(__S(1858, __c58, 2))),
+          QaRetrievalConfig: S.optional(S.NullOr(__S(1857, __c58, 1))),
+          RerankConfig: S.optional(S.NullOr(__S(1859, __c58, 3))),
+          SearchFilterConfig: S.optional(S.NullOr(__S(1862, __c58, 6))),
           StrategyType: S.optional(S.Number),
-          TextToSqlModel: S.optional(S.NullOr(__S(3232, __c101, 0))),
+          TextToSqlModel: S.optional(S.NullOr(__S(3840, __c120, 0))),
         }),
       ).annotate({ identifier: "KBRetrievalConfig" });
     case 8:
-      return S.Array(__S(1415, __c44, 7));
+      return S.Array(__S(1863, __c58, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          FinalRerankConfig: S.optional(S.NullOr(__S(1408, __c44, 0))),
-          KbRetrievalList: S.optional(__S(1416, __c44, 8)),
+          FinalRerankConfig: S.optional(S.NullOr(__S(1856, __c58, 0))),
+          KbRetrievalList: S.optional(__S(1864, __c58, 8)),
           KnowledgeType: S.optional(S.Number),
           RecallCount: S.optional(S.Number),
         }),
@@ -7365,21 +8286,21 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "KVPair" });
     case 13:
-      return S.Array(__S(1420, __c44, 12));
+      return S.Array(__S(1868, __c58, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          BillingTagList: S.optional(__S(1421, __c44, 13)),
+          BillingTagList: S.optional(__S(1869, __c58, 13)),
           FinanceSubBusinessType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchBilling" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          AdvancedConfig: __S(1417, __c44, 9),
-          Input: __S(1418, __c44, 10),
-          Context: S.optional(__S(1419, __c44, 11)),
-          SearchBilling: S.optional(__S(1422, __c44, 14)),
+          AdvancedConfig: __S(1865, __c58, 9),
+          Input: __S(1866, __c58, 10),
+          Context: S.optional(__S(1867, __c58, 11)),
+          SearchBilling: S.optional(__S(1870, __c58, 14)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "SearchKnowledge" })),
       ).annotate({ identifier: "SearchKnowledgeRequest" });
@@ -7423,16 +8344,16 @@ function __c44(j: number): any {
         S.Struct({
           Confidence: S.optional(S.Number),
           KnowledgeType: S.optional(S.Number),
-          RecallTypeList: S.optional(__S(3296, __c103, 0)),
-          ResultPayload: S.optional(S.NullOr(__S(1424, __c44, 16))),
+          RecallTypeList: S.optional(__S(3904, __c122, 0)),
+          ResultPayload: S.optional(S.NullOr(__S(1872, __c58, 16))),
           ResultType: S.optional(S.Number),
-          SimilarQuestionExtra: S.optional(S.NullOr(__S(1425, __c44, 17))),
-          SnippetProfile: S.optional(S.NullOr(__S(1426, __c44, 18))),
-          SourceInfo: S.optional(S.NullOr(__S(1427, __c44, 19))),
+          SimilarQuestionExtra: S.optional(S.NullOr(__S(1873, __c58, 17))),
+          SnippetProfile: S.optional(S.NullOr(__S(1874, __c58, 18))),
+          SourceInfo: S.optional(S.NullOr(__S(1875, __c58, 19))),
         }),
       ).annotate({ identifier: "KnowledgeResult" });
     case 21:
-      return S.Array(__S(1428, __c44, 20));
+      return S.Array(__S(1876, __c58, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -7443,18 +8364,18 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "TokenUsage" });
     case 23:
-      return S.Array(__S(1430, __c44, 22));
+      return S.Array(__S(1878, __c58, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          KnowledgeList: S.optional(__S(1429, __c44, 21)),
-          TokenUsageList: S.optional(__S(1431, __c44, 23)),
+          KnowledgeList: S.optional(__S(1877, __c58, 21)),
+          TokenUsageList: S.optional(__S(1879, __c58, 23)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchKnowledgeResponse" });
   }
 }
-function __c45(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7474,7 +8395,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "StopWorkflowRunListResponse" });
   }
 }
-function __c46(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7486,7 +8407,21 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UnfavoritePluginRequest" });
   }
 }
-function __c47(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SpaceId: S.String,
+          PromptTemplateId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "UnfavoritePromptTemplate" }),
+        ),
+      ).annotate({ identifier: "UnfavoritePromptTemplateRequest" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7498,7 +8433,27 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UnfavoriteSkillRequest" });
   }
 }
-function __c48(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Content: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "CreatePromptTemplateLabel" }),
+        ),
+      ).annotate({ identifier: "CreatePromptTemplateLabelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateLabelId: S.optional(S.NullOr(S.String)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreatePromptTemplateLabelResponse" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7519,7 +8474,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateQAGenerationTaskResponse" });
   }
 }
-function __c49(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7529,25 +8484,25 @@ function __c49(j: number): any {
           CategoryId: S.optional(S.String),
           DocId: S.optional(S.String),
           EffectiveDomain: S.optional(S.Number),
-          ExpirationPolicy: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          LabelRefList: S.optional(__S(1601, __c50, 1)),
+          ExpirationPolicy: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          LabelRefList: S.optional(__S(2113, __c66, 1)),
           QuestionDescription: S.optional(S.String),
           SimilarQuestionList: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "QACreateSpec" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          QaList: __S(1569, __c49, 1),
+          QaList: __S(2081, __c65, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateQAList" })),
       ).annotate({ identifier: "CreateQAListRequest" });
   }
 }
-function __c50(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7557,10 +8512,10 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "LabelRefIdentity" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(2112, __c66, 0));
   }
 }
-function __c51(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7571,17 +8526,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "OperationResult" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ResultList: S.optional(__S(1633, __c51, 1)),
+          ResultList: S.optional(__S(2145, __c67, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateQAListResponse" });
   }
 }
-function __c52(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7593,26 +8548,26 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          EffectivePeriod: S.optional(S.NullOr(__S(1664, __c52, 0))),
+          EffectivePeriod: S.optional(S.NullOr(__S(2176, __c68, 0))),
           ExpireBehavior: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExpirationPolicy" });
   }
 }
-function __c53(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          AppShareAccessControl: S.optional(__S(1762, __c55, 2)),
+          AppShareAccessControl: S.optional(__S(2274, __c71, 2)),
           ChannelIdList: S.optional(__S(64, __c2, 0)),
-          CorpShareConfig: S.optional(__S(1763, __c55, 3)),
+          CorpShareConfig: S.optional(__S(2275, __c71, 3)),
           Description: S.optional(S.String),
           IsDevToRelease: S.optional(S.Boolean),
           IsPublishAsTemplate: S.optional(S.Boolean),
-          PortalShareConfig: S.optional(__S(4096, __c128, 0)),
-          A2AConfig: S.optional(__S(4096, __c128, 0)),
+          PortalShareConfig: S.optional(__S(4544, __c142, 0)),
+          A2AConfig: S.optional(__S(4544, __c142, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateRelease" })),
       ).annotate({ identifier: "CreateReleaseRequest" });
@@ -7626,7 +8581,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateReleaseResponse" });
   }
 }
-function __c54(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7638,10 +8593,10 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "Identity" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(2240, __c70, 0));
   }
 }
-function __c55(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7651,13 +8606,13 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "AppShareWhitelistItem" });
     case 1:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           AccessType: S.optional(S.Number),
           Enabled: S.optional(S.Boolean),
-          Whitelist: S.optional(__S(1761, __c55, 1)),
+          Whitelist: S.optional(__S(2273, __c71, 1)),
         }),
       ).annotate({ identifier: "AppShareAccessControl" });
     case 3:
@@ -7666,12 +8621,12 @@ function __c55(j: number): any {
           Enabled: S.optional(S.Boolean),
           ShareScope: S.optional(S.Number),
           TagIdList: S.optional(__S(64, __c2, 0)),
-          ShareScopeList: S.optional(__S(1729, __c54, 1)),
+          ShareScopeList: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "CorpShareConfig" });
   }
 }
-function __c56(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7693,7 +8648,27 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateSimilarQuestionResponse" });
   }
 }
-function __c57(j: number): any {
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          TargetAppId: S.optional(S.String),
+          Kind: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CopyAgentFromApp" })),
+      ).annotate({ identifier: "CopyAgentFromAppRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ParentAgentId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CopyAgentFromAppResponse" });
+  }
+}
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7720,7 +8695,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateSkillResponse" });
   }
 }
-function __c58(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7729,13 +8704,13 @@ function __c58(j: number): any {
           SkillId: S.String,
           SpaceId: S.String,
           VersionId: S.String,
-          CorpShareConfig: S.optional(__S(1920, __c60, 0)),
+          CorpShareConfig: S.optional(__S(2464, __c77, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateSkillShare" })),
       ).annotate({ identifier: "CreateSkillShareRequest" });
   }
 }
-function __c59(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7746,38 +8721,18 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateSkillShareResponse" });
   }
 }
-function __c60(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ShareScope: S.optional(S.Number),
-          ShareScopeList: S.optional(__S(1729, __c54, 1)),
+          ShareScopeList: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "SkillCorpShareConfig" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          TargetAppId: S.optional(S.String),
-          Kind: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CopyAgentFromApp" })),
-      ).annotate({ identifier: "CopyAgentFromAppRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ParentAgentId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CopyAgentFromAppResponse" });
-  }
-}
-function __c62(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7796,7 +8751,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateSpaceResponse" });
   }
 }
-function __c63(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7816,13 +8771,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateSSETokenResponse" });
   }
 }
-function __c64(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          Variable: S.optional(__S(2080, __c65, 0)),
+          Variable: S.optional(__S(2592, __c81, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateVariable" })),
       ).annotate({ identifier: "CreateVariableRequest" });
@@ -7835,7 +8790,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateVariableResponse" });
   }
 }
-function __c65(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7851,11 +8806,12 @@ function __c65(j: number): any {
           EndpointList: S.optional(__S(64, __c2, 0)),
           IsBuiltin: S.optional(S.Boolean),
           EnableSandbox: S.optional(S.Boolean),
+          ValueScope: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Variable" });
   }
 }
-function __c66(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7883,7 +8839,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateWebSocketTokenResponse" });
   }
 }
-function __c67(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7891,7 +8847,7 @@ function __c67(j: number): any {
           AppId: S.String,
           Domain: S.Number,
           Query: S.optional(S.String),
-          CustomVariableList: S.optional(__S(1313, __c41, 1)),
+          CustomVariableList: S.optional(__S(1345, __c42, 1)),
           UserId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateWorkflowRun" })),
@@ -7906,7 +8862,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateWorkflowRunResponse" });
   }
 }
-function __c68(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7934,7 +8890,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceCredentialResponse" });
   }
 }
-function __c69(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7947,7 +8903,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteAgentRequest" });
   }
 }
-function __c70(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7957,7 +8913,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteAgentResponse" });
   }
 }
-function __c71(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7969,34 +8925,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.optional(S.String),
-          Scope: S.optional(S.Number),
-          TriggerId: S.optional(S.String),
-          UserId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteAppTrigger" })),
-      ).annotate({ identifier: "DeleteAppTriggerRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CategoryId: S.String,
-          CategoryType: S.Number,
-          KbId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteCategory" })),
-      ).annotate({ identifier: "DeleteCategoryRequest" });
-  }
-}
-function __c74(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8015,7 +8944,34 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CopyAppResponse" });
   }
 }
-function __c75(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.optional(S.String),
+          Scope: S.optional(S.Number),
+          TriggerId: S.optional(S.String),
+          UserId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteAppTrigger" })),
+      ).annotate({ identifier: "DeleteAppTriggerRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryId: S.String,
+          CategoryType: S.Number,
+          KbId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteCategory" })),
+      ).annotate({ identifier: "DeleteCategoryRequest" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8028,7 +8984,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeleteChannelRequest" });
   }
 }
-function __c76(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8044,7 +9000,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteConversationRequest" });
   }
 }
-function __c77(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8056,7 +9012,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteDocListRequest" });
   }
 }
-function __c78(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8068,7 +9024,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteKBRequest" });
   }
 }
-function __c79(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8080,7 +9036,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteLabelListRequest" });
   }
 }
-function __c80(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8094,7 +9050,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteMsgRecordCategoryRequest" });
   }
 }
-function __c81(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8107,51 +9063,27 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeletePluginRequest" });
   }
 }
-function __c82(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          KbId: S.String,
-          QaIdList: __S(64, __c2, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteQAList" })),
-      ).annotate({ identifier: "DeleteQAListRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SkillId: S.String,
           SpaceId: S.String,
+          PromptTemplateId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteSkill" })),
-      ).annotate({ identifier: "DeleteSkillRequest" });
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DeletePromptTemplate" }),
+        ),
+      ).annotate({ identifier: "DeletePromptTemplateRequest" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ApplyRemark: S.String,
-          SkillId: S.String,
-          SpaceId: S.String,
-          VersionId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteSkillShare" })),
-      ).annotate({ identifier: "DeleteSkillShareRequest" });
-  }
-}
-function __c85(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          Agent: S.optional(__S(2757, __c86, 5)),
+          Agent: S.optional(__S(3206, __c100, 6)),
           Kind: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateAgent" })),
@@ -8165,18 +9097,18 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateAgentResponse" });
   }
 }
-function __c86(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Config: S.optional(__S(2826, __c88, 10)),
+          Config: S.optional(__S(3274, __c102, 10)),
         }),
       ).annotate({ identifier: "AgentToolConfig" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(3200, __c100, 0));
     case 2:
-      return S.Array(__S(2830, __c88, 14));
+      return S.Array(__S(3283, __c102, 19));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8184,43 +9116,48 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "AgentSkillConfig" });
     case 4:
-      return S.Array(__S(2755, __c86, 3));
+      return S.Array(__S(3203, __c100, 3));
     case 5:
+      return S.Array(__S(3286, __c102, 22));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          Profile: S.optional(__S(2848, __c89, 0)),
+          Profile: S.optional(__S(3296, __c103, 0)),
           Instructions: S.optional(S.String),
-          Model: S.optional(__S(2816, __c88, 0)),
-          ToolList: S.optional(__S(2753, __c86, 1)),
-          PluginList: S.optional(__S(2754, __c86, 2)),
-          SkillList: S.optional(__S(2756, __c86, 4)),
-          AdvancedConfig: S.optional(__S(2849, __c89, 1)),
-          ExternalToolList: S.optional(__S(2832, __c88, 16)),
+          Model: S.optional(__S(3264, __c102, 0)),
+          ToolList: S.optional(__S(3201, __c100, 1)),
+          PluginList: S.optional(__S(3202, __c100, 2)),
+          SkillList: S.optional(__S(3204, __c100, 4)),
+          AdvancedConfig: S.optional(__S(3297, __c103, 1)),
+          ExternalToolList: S.optional(__S(3285, __c102, 21)),
+          ProviderType: S.optional(S.Number),
+          ReferenceAppId: S.optional(S.String),
+          BuiltinToolList: S.optional(__S(3205, __c100, 5)),
         }),
       ).annotate({ identifier: "AgentSpec" });
   }
 }
-function __c87(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AnyOf: S.optional(S.suspend(() => __S(2785, __c87, 1))),
+          AnyOf: S.optional(S.suspend(() => __S(3233, __c101, 1))),
           DefaultValue: S.optional(S.String),
           Description: S.optional(S.String),
           IsGlobalHidden: S.optional(S.Boolean),
           IsRequired: S.optional(S.Boolean),
           Name: S.optional(S.String),
-          OneOf: S.optional(S.suspend(() => __S(2785, __c87, 1))),
-          SubParams: S.optional(S.suspend(() => __S(2785, __c87, 1))),
+          OneOf: S.optional(S.suspend(() => __S(3233, __c101, 1))),
+          SubParams: S.optional(S.suspend(() => __S(3233, __c101, 1))),
           Type: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RequestParam" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(3232, __c101, 0));
   }
 }
-function __c88(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8229,7 +9166,7 @@ function __c88(j: number): any {
           Alias: S.optional(S.String),
           ContextWordsLimit: S.optional(S.Number),
           InstructionsWordsLimit: S.optional(S.Number),
-          ModelParameters: S.optional(S.NullOr(__S(2880, __c90, 0))),
+          ModelParameters: S.optional(S.NullOr(__S(3328, __c104, 0))),
         }),
       ).annotate({ identifier: "AgentModelConfig" });
     case 1:
@@ -8249,8 +9186,8 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InputType: S.optional(S.Number),
-          UserInputValue: S.optional(S.NullOr(__S(2817, __c88, 1))),
-          SystemVariable: S.optional(S.NullOr(__S(2818, __c88, 2))),
+          UserInputValue: S.optional(S.NullOr(__S(3265, __c102, 1))),
+          SystemVariable: S.optional(S.NullOr(__S(3266, __c102, 2))),
           CustomVariableId: S.optional(S.String),
           EnvVariableId: S.optional(S.String),
           AppVariableId: S.optional(S.String),
@@ -8263,47 +9200,47 @@ function __c88(j: number): any {
           Description: S.optional(S.String),
           Type: S.optional(S.Number),
           IsRequired: S.optional(S.Boolean),
-          SubParameterList: S.optional(S.NullOr(S.suspend(() => __S(2821, __c88, 5)))),
+          SubParameterList: S.optional(S.NullOr(S.suspend(() => __S(3269, __c102, 5)))),
           IsHidden: S.optional(S.Boolean),
-          OneOfList: S.optional(S.NullOr(S.suspend(() => __S(2821, __c88, 5)))),
-          AnyOfList: S.optional(S.NullOr(S.suspend(() => __S(2821, __c88, 5)))),
-          Input: S.optional(S.NullOr(__S(2819, __c88, 3))),
+          OneOfList: S.optional(S.NullOr(S.suspend(() => __S(3269, __c102, 5)))),
+          AnyOfList: S.optional(S.NullOr(S.suspend(() => __S(3269, __c102, 5)))),
+          Input: S.optional(S.NullOr(__S(3267, __c102, 3))),
         }),
       ).annotate({ identifier: "AgentToolInputParameter" });
     case 5:
-      return S.Array(__S(2820, __c88, 4));
+      return S.Array(__S(3268, __c102, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Type: S.optional(S.Number),
-          SubParameterList: S.optional(S.suspend(() => __S(2823, __c88, 7))),
+          SubParameterList: S.optional(S.suspend(() => __S(3271, __c102, 7))),
           RenderMode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentToolOutputParameter" });
     case 7:
-      return S.Array(__S(2822, __c88, 6));
+      return S.Array(__S(3270, __c102, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           IsRequired: S.optional(S.Boolean),
-          Input: S.optional(__S(2819, __c88, 3)),
+          Input: S.optional(__S(3267, __c102, 3)),
         }),
       ).annotate({ identifier: "AgentPluginParameter" });
     case 9:
-      return S.Array(__S(2824, __c88, 8));
+      return S.Array(__S(3272, __c102, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           PluginId: S.optional(S.String),
           ToolId: S.optional(S.String),
           Description: S.optional(S.String),
-          InputList: S.optional(S.NullOr(__S(2821, __c88, 5))),
-          OutputList: S.optional(S.NullOr(__S(2823, __c88, 7))),
-          HeaderParameterList: S.optional(S.NullOr(__S(2825, __c88, 9))),
-          QueryParameterList: S.optional(S.NullOr(__S(2825, __c88, 9))),
+          InputList: S.optional(S.NullOr(__S(3269, __c102, 5))),
+          OutputList: S.optional(S.NullOr(__S(3271, __c102, 7))),
+          HeaderParameterList: S.optional(S.NullOr(__S(3273, __c102, 9))),
+          QueryParameterList: S.optional(S.NullOr(__S(3273, __c102, 9))),
           ToolSource: S.optional(S.Number),
           IsDisabled: S.optional(S.Boolean),
         }),
@@ -8313,45 +9250,81 @@ function __c88(j: number): any {
         S.Struct({
           KeyLocation: S.optional(S.Number),
           Name: S.optional(S.String),
-          Input: S.optional(__S(2819, __c88, 3)),
+          Input: S.optional(__S(3267, __c102, 3)),
         }),
       ).annotate({ identifier: "AgentPluginCredentialParam" });
     case 12:
-      return S.Array(__S(2827, __c88, 11));
+      return S.Array(__S(3275, __c102, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           AuthValueSource: S.optional(S.Number),
           CredentialId: S.optional(S.String),
-          ParamList: S.optional(__S(2828, __c88, 12)),
+          ParamList: S.optional(__S(3276, __c102, 12)),
         }),
       ).annotate({ identifier: "AgentPluginCredentialConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
+          ResourceId: S.String,
+          Type: S.Number,
+          Name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectorResourceRef" });
+    case 15:
+      return S.Array(__S(3278, __c102, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.Number),
+          ResourceId: S.optional(S.String),
+          Name: S.optional(S.String),
+          AncestorList: S.optional(__S(3279, __c102, 15)),
+        }),
+      ).annotate({ identifier: "ConnectorResource" });
+    case 17:
+      return S.Array(__S(3280, __c102, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          ResourceList: S.optional(__S(3281, __c102, 17)),
+        }),
+      ).annotate({ identifier: "ConnectorKnowledgeScope" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
           PluginId: S.optional(S.String),
-          HeaderParameterList: S.optional(__S(2825, __c88, 9)),
-          QueryParameterList: S.optional(__S(2825, __c88, 9)),
+          HeaderParameterList: S.optional(__S(3273, __c102, 9)),
+          QueryParameterList: S.optional(__S(3273, __c102, 9)),
           EnableCamRoleAuth: S.optional(S.Boolean),
           AuthType: S.optional(S.Number),
           OAuthConsent: S.optional(S.Number),
-          CredentialConfig: S.optional(__S(2829, __c88, 13)),
+          CredentialConfig: S.optional(__S(3277, __c102, 13)),
+          KnowledgeScope: S.optional(__S(3282, __c102, 18)),
         }),
       ).annotate({ identifier: "AgentPluginConfig" });
-    case 15:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Parameters: S.optional(__S(2785, __c87, 1)),
+          Parameters: S.optional(__S(3233, __c101, 1)),
         }),
       ).annotate({ identifier: "AgentExternalToolConfig" });
-    case 16:
-      return S.Array(__S(2831, __c88, 15));
+    case 21:
+      return S.Array(__S(3284, __c102, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Disabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AgentBuiltinToolConfig" });
   }
 }
-function __c89(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8373,7 +9346,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "AgentAdvancedConfig" });
   }
 }
-function __c90(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8394,7 +9367,58 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ModelParams" });
   }
 }
-function __c91(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateLabelId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DeletePromptTemplateLabel" }),
+        ),
+      ).annotate({ identifier: "DeletePromptTemplateLabelRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KbId: S.String,
+          QaIdList: __S(64, __c2, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteQAList" })),
+      ).annotate({ identifier: "DeleteQAListRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SkillId: S.String,
+          SpaceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteSkill" })),
+      ).annotate({ identifier: "DeleteSkillRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplyRemark: S.String,
+          SkillId: S.String,
+          SpaceId: S.String,
+          VersionId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DeleteSkillShare" })),
+      ).annotate({ identifier: "DeleteSkillShareRequest" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8405,7 +9429,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteSpaceRequest" });
   }
 }
-function __c92(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8418,30 +9442,30 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteVariableRequest" });
   }
 }
-function __c93(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeAccountList" })),
       ).annotate({ identifier: "DescribeAccountListRequest" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(3616, __c113, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.String),
-          AccountList: S.optional(__S(2977, __c93, 1)),
+          AccountList: S.optional(__S(3553, __c111, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAccountListResponse" });
   }
 }
-function __c94(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8452,10 +9476,10 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(3008, __c94, 0));
+      return S.Array(__S(3584, __c112, 0));
   }
 }
-function __c95(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8467,7 +9491,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "AccountInfo" });
   }
 }
-function __c96(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8480,7 +9504,7 @@ function __c96(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Config: S.optional(__S(2826, __c88, 10)),
+          Config: S.optional(__S(3274, __c102, 10)),
           Name: S.optional(S.String),
           Status: S.optional(S.Number),
           StreamMode: S.optional(S.Number),
@@ -8488,11 +9512,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "AgentTool" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Config: S.optional(__S(2830, __c88, 14)),
+          Config: S.optional(__S(3283, __c102, 19)),
           Name: S.optional(S.String),
           IconUrl: S.optional(S.String),
           Description: S.optional(S.String),
@@ -8502,7 +9526,7 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "AgentPlugin" });
     case 4:
-      return S.Array(__S(3075, __c96, 3));
+      return S.Array(__S(3651, __c114, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -8517,31 +9541,58 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "AgentSkill" });
     case 6:
-      return S.Array(__S(3077, __c96, 5));
+      return S.Array(__S(3653, __c114, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          AgentId: S.optional(S.String),
-          Profile: S.optional(__S(2848, __c89, 0)),
-          Instructions: S.optional(S.String),
-          Model: S.optional(__S(2816, __c88, 0)),
-          ToolList: S.optional(__S(3074, __c96, 2)),
-          PluginList: S.optional(__S(3076, __c96, 4)),
-          SkillList: S.optional(__S(3078, __c96, 6)),
-          AdvancedConfig: S.optional(__S(2849, __c89, 1)),
-          ExternalToolList: S.optional(__S(2832, __c88, 16)),
+          Name: S.optional(S.String),
+          AppMode: S.optional(S.Number),
+          MainAgentName: S.optional(S.String),
+          SubAgentNameList: S.optional(__S(64, __c2, 0)),
+          Creator: S.optional(S.String),
+          UpdateTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AgentDetail" });
+      ).annotate({ identifier: "ReferenceAppDetail" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Agent: S.optional(__S(3079, __c96, 7)),
+          Config: S.optional(__S(3286, __c102, 22)),
+          DisplayName: S.optional(S.String),
+          Description: S.optional(S.String),
+          BillingType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AgentBuiltinTool" });
+    case 9:
+      return S.Array(__S(3656, __c114, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          AgentId: S.optional(S.String),
+          Profile: S.optional(__S(3296, __c103, 0)),
+          Instructions: S.optional(S.String),
+          Model: S.optional(__S(3264, __c102, 0)),
+          ToolList: S.optional(__S(3650, __c114, 2)),
+          PluginList: S.optional(__S(3652, __c114, 4)),
+          SkillList: S.optional(__S(3654, __c114, 6)),
+          AdvancedConfig: S.optional(__S(3297, __c103, 1)),
+          ExternalToolList: S.optional(__S(3285, __c102, 21)),
+          ProviderType: S.optional(S.Number),
+          ReferenceAppId: S.optional(S.String),
+          ReferenceAppStatus: S.optional(S.Number),
+          ReferenceApp: S.optional(S.NullOr(__S(3655, __c114, 7))),
+          BuiltinToolList: S.optional(__S(3657, __c114, 9)),
+        }),
+      ).annotate({ identifier: "AgentDetail" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Agent: S.optional(__S(3658, __c114, 10)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAgentDetailResponse" });
   }
 }
-function __c97(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8550,7 +9601,7 @@ function __c97(j: number): any {
           PageNumber: S.Number,
           PageSize: S.Number,
           Query: S.optional(S.String),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -8570,7 +9621,7 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "AgentRelease" });
     case 2:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(3681, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8580,29 +9631,29 @@ function __c97(j: number): any {
           Action: S.optional(S.Number),
           ActionDescription: S.optional(S.String),
           Message: S.optional(S.String),
-          ReleaseList: S.optional(__S(3106, __c97, 2)),
+          ReleaseList: S.optional(__S(3682, __c115, 2)),
         }),
       ).annotate({ identifier: "AgentReleasePreview" });
     case 4:
-      return S.Array(__S(3107, __c97, 3));
+      return S.Array(__S(3683, __c115, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ReleaseList: S.optional(__S(3108, __c97, 4)),
+          ReleaseList: S.optional(__S(3684, __c115, 4)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAgentReleasePreviewListResponse" });
   }
 }
-function __c98(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Scope: S.optional(S.Number),
           AppId: S.optional(S.String),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageSize: S.optional(S.Number),
           PageNumber: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -8614,30 +9665,54 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AgentId: S.optional(S.String),
-          Profile: S.optional(__S(2848, __c89, 0)),
-          AdvancedConfig: S.optional(__S(2849, __c89, 1)),
+          Profile: S.optional(__S(3296, __c103, 0)),
+          AdvancedConfig: S.optional(__S(3297, __c103, 1)),
+          ProviderType: S.optional(S.Number),
+          ReferenceAppStatus: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentSummary" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          AgentList: S.optional(__S(3138, __c98, 2)),
+          AgentList: S.optional(__S(3714, __c116, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAgentSummaryListResponse" });
   }
 }
-function __c99(j: number): any {
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SpaceId: S.String,
+          AppMode: S.optional(S.Number),
+          Avatar: S.optional(S.String),
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateApp" })),
+      ).annotate({ identifier: "CreateAppRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAppResponse" });
+  }
+}
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
           Domain: S.optional(S.Number),
-          FieldMask: S.optional(__S(3360, __c105, 0)),
+          FieldMask: S.optional(__S(3968, __c124, 0)),
           StatusType: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeApp" })),
@@ -8655,7 +9730,7 @@ function __c99(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AppealingStatus: S.optional(S.NullOr(__S(3169, __c99, 1))),
+          AppealingStatus: S.optional(S.NullOr(__S(3777, __c118, 1))),
         }),
       ).annotate({ identifier: "AppAppeal" });
     case 3:
@@ -8673,10 +9748,10 @@ function __c99(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Appeal: S.optional(S.NullOr(__S(3170, __c99, 2))),
-          SearchResourceStatus: S.optional(S.NullOr(__S(3171, __c99, 3))),
-          SpecialStatusInfo: S.optional(S.NullOr(__S(3172, __c99, 4))),
-          SubStatus: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          Appeal: S.optional(S.NullOr(__S(3778, __c118, 2))),
+          SearchResourceStatus: S.optional(S.NullOr(__S(3779, __c118, 3))),
+          SpecialStatusInfo: S.optional(S.NullOr(__S(3780, __c118, 4))),
+          SubStatus: S.optional(S.NullOr(__S(3936, __c123, 0))),
         }),
       ).annotate({ identifier: "AppAuxiliaryInfo" });
     case 6:
@@ -8702,7 +9777,7 @@ function __c99(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          AccessControl: S.optional(S.NullOr(__S(1762, __c55, 2))),
+          AccessControl: S.optional(S.NullOr(__S(2274, __c71, 2))),
           ShareUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppShareURLInfo" });
@@ -8714,35 +9789,35 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "AppSharedKbInfo" });
     case 10:
-      return S.Array(__S(3177, __c99, 9));
+      return S.Array(__S(3785, __c118, 9));
     case 11:
-      return S.Array(__S(3228, __c100, 28));
+      return S.Array(__S(3836, __c119, 28));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          AuxiliaryInfo: S.optional(S.NullOr(__S(3173, __c99, 5))),
-          Config: S.optional(S.NullOr(__S(3227, __c100, 27))),
-          Metadata: S.optional(S.NullOr(__S(3174, __c99, 6))),
-          SecretInfo: S.optional(S.NullOr(__S(3175, __c99, 7))),
-          ShareUrlInfo: S.optional(S.NullOr(__S(3176, __c99, 8))),
-          Status: S.optional(S.NullOr(__S(3264, __c102, 0))),
-          CorpShareConfig: S.optional(S.NullOr(__S(1763, __c55, 3))),
-          SharedKbList: S.optional(S.NullOr(__S(3178, __c99, 10))),
-          PortalShareConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          FileVolumeMountList: S.optional(S.NullOr(__S(3179, __c99, 11))),
-          A2AConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
+          AuxiliaryInfo: S.optional(S.NullOr(__S(3781, __c118, 5))),
+          Config: S.optional(S.NullOr(__S(3835, __c119, 27))),
+          Metadata: S.optional(S.NullOr(__S(3782, __c118, 6))),
+          SecretInfo: S.optional(S.NullOr(__S(3783, __c118, 7))),
+          ShareUrlInfo: S.optional(S.NullOr(__S(3784, __c118, 8))),
+          Status: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          CorpShareConfig: S.optional(S.NullOr(__S(2275, __c71, 3))),
+          SharedKbList: S.optional(S.NullOr(__S(3786, __c118, 10))),
+          PortalShareConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          FileVolumeMountList: S.optional(S.NullOr(__S(3787, __c118, 11))),
+          A2AConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
         }),
       ).annotate({ identifier: "App" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          App: S.optional(__S(3180, __c99, 12)),
+          App: S.optional(__S(3788, __c118, 12)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppResponse" });
   }
 }
-function __c100(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8752,15 +9827,15 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "IntentAchievementInfo" });
     case 1:
-      return S.Array(__S(3200, __c100, 0));
+      return S.Array(__S(3808, __c119, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           EnableContextRewrite: S.Boolean,
           EnableImageTextRetrieval: S.Boolean,
           ReplyFlexibility: S.Number,
-          DialogCustomConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          IntentAchievement: S.optional(__S(3201, __c100, 1)),
+          DialogCustomConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          IntentAchievement: S.optional(__S(3809, __c119, 1)),
         }),
       ).annotate({ identifier: "AppAdvancedConf" });
     case 3:
@@ -8783,11 +9858,11 @@ function __c100(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          DigitalHuman: S.NullOr(__S(3203, __c100, 3)),
+          DigitalHuman: S.NullOr(__S(3811, __c119, 3)),
           EnableDigitalHuman: S.Boolean,
           EnableVoiceCall: S.Boolean,
           EnableVoiceInteract: S.Boolean,
-          Voice: S.NullOr(__S(3204, __c100, 4)),
+          Voice: S.NullOr(__S(3812, __c119, 4)),
         }),
       ).annotate({ identifier: "AICallConfig" });
     case 6:
@@ -8803,19 +9878,19 @@ function __c100(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          InputBoxButtons: S.optional(__S(3296, __c103, 0)),
+          InputBoxButtons: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "InputBoxConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          AiCall: S.NullOr(__S(3205, __c100, 5)),
-          BackgroundImage: S.NullOr(__S(3206, __c100, 6)),
+          AiCall: S.NullOr(__S(3813, __c119, 5)),
+          BackgroundImage: S.NullOr(__S(3814, __c119, 6)),
           EnableFallbackReply: S.Boolean,
           EnableRecommended: S.Boolean,
           EnableWebSearch: S.Boolean,
           FallbackReply: S.String,
-          InputBoxConfig: S.NullOr(__S(3207, __c100, 7)),
+          InputBoxConfig: S.NullOr(__S(3815, __c119, 7)),
           Method: S.Number,
           RecommendPromptMode: S.Number,
           EnableNewMessageInterrupt: S.optional(S.Boolean),
@@ -8830,9 +9905,9 @@ function __c100(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Advanced: S.NullOr(__S(3202, __c100, 2)),
-          Conversation: S.NullOr(__S(3208, __c100, 8)),
-          Role: S.NullOr(__S(3209, __c100, 9)),
+          Advanced: S.NullOr(__S(3810, __c119, 2)),
+          Conversation: S.NullOr(__S(3816, __c119, 8)),
+          Role: S.NullOr(__S(3817, __c119, 9)),
         }),
       ).annotate({ identifier: "AppExperienceConfig" });
     case 11:
@@ -8847,7 +9922,7 @@ function __c100(j: number): any {
         S.Struct({
           Enabled: S.Boolean,
           LongMemoryDay: S.Number,
-          Model: S.NullOr(__S(3232, __c101, 0)),
+          Model: S.NullOr(__S(3840, __c120, 0)),
           PromptContent: S.String,
           PromptMode: S.Number,
         }),
@@ -8863,7 +9938,7 @@ function __c100(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          AgentCollaboration: S.NullOr(__S(3213, __c100, 13)),
+          AgentCollaboration: S.NullOr(__S(3821, __c119, 13)),
         }),
       ).annotate({ identifier: "MultiAgentConfig" });
     case 15:
@@ -8894,23 +9969,23 @@ function __c100(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          AgentTeamConfig: S.optional(S.NullOr(__S(3216, __c100, 16))),
-          LongMemoryConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          ChannelContextTimeoutConfig: S.optional(S.NullOr(__S(3217, __c100, 17))),
+          AgentTeamConfig: S.optional(S.NullOr(__S(3824, __c119, 16))),
+          LongMemoryConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          ChannelContextTimeoutConfig: S.optional(S.NullOr(__S(3825, __c119, 17))),
         }),
       ).annotate({ identifier: "ClawAgentConfig" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          MultiAgentConfig: S.NullOr(__S(3214, __c100, 14)),
-          SingleWorkflowConfig: S.NullOr(__S(3215, __c100, 15)),
-          ClawAgentConfig: S.optional(S.NullOr(__S(3218, __c100, 18))),
+          MultiAgentConfig: S.NullOr(__S(3822, __c119, 14)),
+          SingleWorkflowConfig: S.NullOr(__S(3823, __c119, 15)),
+          ClawAgentConfig: S.optional(S.NullOr(__S(3826, __c119, 18))),
         }),
       ).annotate({ identifier: "AppModeConfig" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          Model: S.NullOr(__S(3232, __c101, 0)),
+          Model: S.NullOr(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "AIOptimizeModel" });
     case 21:
@@ -8922,7 +9997,7 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "SupportedFileType" });
     case 22:
-      return S.Array(__S(3221, __c100, 21));
+      return S.Array(__S(3829, __c119, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -8934,19 +10009,21 @@ function __c100(j: number): any {
           EnableFormulaEnhancement: S.optional(S.NullOr(S.Boolean)),
           EnableLLMEnhancement: S.optional(S.NullOr(S.Boolean)),
           OutputHtmlTable: S.optional(S.NullOr(S.Boolean)),
-          SupportedFileList: S.optional(__S(3222, __c100, 22)),
+          SupportedFileList: S.optional(__S(3830, __c119, 22)),
         }),
       ).annotate({ identifier: "FileParseModel" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          AiOptimizeModel: S.NullOr(__S(3220, __c100, 20)),
-          FileParseModel: S.NullOr(__S(3223, __c100, 23)),
-          GenerateModel: S.NullOr(__S(3220, __c100, 20)),
-          MultiModalQaModel: S.NullOr(__S(3220, __c100, 20)),
-          MultiModalUnderstandingModel: S.NullOr(__S(3220, __c100, 20)),
-          PromptRewriteModel: S.NullOr(__S(3220, __c100, 20)),
-          ThinkModel: S.NullOr(__S(3220, __c100, 20)),
+          AiOptimizeModel: S.NullOr(__S(3828, __c119, 20)),
+          FileParseModel: S.NullOr(__S(3831, __c119, 23)),
+          GenerateModel: S.NullOr(__S(3828, __c119, 20)),
+          MultiModalQaModel: S.NullOr(__S(3828, __c119, 20)),
+          MultiModalUnderstandingModel: S.NullOr(__S(3828, __c119, 20)),
+          PromptRewriteModel: S.NullOr(__S(3828, __c119, 20)),
+          ThinkModel: S.NullOr(__S(3828, __c119, 20)),
+          FileSplitModel: S.optional(S.NullOr(__S(3828, __c119, 20))),
+          HeaderExtractModel: S.optional(S.NullOr(__S(3828, __c119, 20))),
         }),
       ).annotate({ identifier: "AppModelConfig" });
     case 25:
@@ -8967,13 +10044,13 @@ function __c100(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          Experience: S.NullOr(__S(3210, __c100, 10)),
-          Greeting: S.NullOr(__S(3211, __c100, 11)),
-          Memory: S.NullOr(__S(3212, __c100, 12)),
-          Mode: S.NullOr(__S(3219, __c100, 19)),
-          Model: S.NullOr(__S(3224, __c100, 24)),
-          WebSearch: S.NullOr(__S(3225, __c100, 25)),
-          Workflow: S.NullOr(__S(3226, __c100, 26)),
+          Experience: S.NullOr(__S(3818, __c119, 10)),
+          Greeting: S.NullOr(__S(3819, __c119, 11)),
+          Memory: S.NullOr(__S(3820, __c119, 12)),
+          Mode: S.NullOr(__S(3827, __c119, 19)),
+          Model: S.NullOr(__S(3832, __c119, 24)),
+          WebSearch: S.NullOr(__S(3833, __c119, 25)),
+          Workflow: S.NullOr(__S(3834, __c119, 26)),
         }),
       ).annotate({ identifier: "AppConfig" });
     case 28:
@@ -8989,7 +10066,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "FileVolumeMount" });
   }
 }
-function __c101(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8997,12 +10074,12 @@ function __c101(j: number): any {
           Alias: S.optional(S.String),
           HistoryLimit: S.optional(S.Number),
           ModelId: S.optional(S.String),
-          ModelParams: S.optional(S.NullOr(__S(2880, __c90, 0))),
+          ModelParams: S.optional(S.NullOr(__S(3328, __c104, 0))),
         }),
       ).annotate({ identifier: "ModelDetailInfo" });
   }
 }
-function __c102(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9013,24 +10090,24 @@ function __c102(j: number): any {
       ).annotate({ identifier: "AppStatusInfo" });
   }
 }
-function __c103(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c104(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ApprovalId: S.optional(S.String),
-          SubStatusList: S.optional(__S(3296, __c103, 0)),
+          SubStatusList: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "AppSubStatusInfo" });
   }
 }
-function __c105(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9040,17 +10117,17 @@ function __c105(j: number): any {
       ).annotate({ identifier: "FieldMask" });
   }
 }
-function __c106(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppType: S.Number,
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
           SpaceId: S.String,
           AppId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9069,21 +10146,21 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "Distribution" });
     case 2:
-      return S.Array(__S(3393, __c106, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           AvgFirstTokenTime: S.optional(S.String),
           AvgTotalTokenTime: S.optional(S.String),
           CallSuccessRate: S.optional(S.Number),
-          ReplyTypeDistributionList: S.optional(__S(3394, __c106, 2)),
+          ReplyTypeDistributionList: S.optional(__S(4002, __c125, 2)),
           TotalCallCount: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppStatisticsOverviewResponse" });
   }
 }
-function __c107(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9101,13 +10178,13 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ViewScope" });
   }
 }
-function __c108(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SpaceId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -9134,26 +10211,26 @@ function __c108(j: number): any {
           AppMode: S.optional(S.Number),
           Avatar: S.optional(S.String),
           Name: S.optional(S.String),
-          OperationInfo: S.optional(S.NullOr(__S(3457, __c108, 1))),
-          Status: S.optional(S.NullOr(__S(3264, __c102, 0))),
-          SubStatus: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          OperationInfo: S.optional(S.NullOr(__S(4065, __c127, 1))),
+          Status: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          SubStatus: S.optional(S.NullOr(__S(3936, __c123, 0))),
           PermissionIdList: S.optional(__S(64, __c2, 0)),
           Description: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppSummary" });
     case 3:
-      return S.Array(__S(3458, __c108, 2));
+      return S.Array(__S(4066, __c127, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          AppSummaryList: S.optional(__S(3459, __c108, 3)),
+          AppSummaryList: S.optional(__S(4067, __c127, 3)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppSummaryListResponse" });
   }
 }
-function __c109(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9168,36 +10245,37 @@ function __c109(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Trigger: S.optional(__S(3520, __c110, 0)),
+          Trigger: S.optional(__S(4128, __c129, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppTriggerResponse" });
   }
 }
-function __c110(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          AgentId: S.optional(S.String),
           AppId: S.optional(S.String),
-          ExecuteConfig: S.optional(__S(4134, __c129, 6)),
+          ExecuteConfig: S.optional(__S(4582, __c143, 6)),
           ExecuteType: S.optional(S.Number),
           FailedCount: S.optional(S.String),
-          PushConfig: S.optional(__S(4135, __c129, 7)),
+          PushConfig: S.optional(__S(4583, __c143, 7)),
           Scope: S.optional(S.Number),
           Status: S.optional(S.Number),
           SuccessCount: S.optional(S.String),
-          TriggerConfig: S.optional(__S(4149, __c129, 21)),
+          TriggerConfig: S.optional(__S(4601, __c143, 25)),
           TriggerId: S.optional(S.String),
           TriggerName: S.optional(S.String),
-          TriggerStatus: S.optional(__S(3554, __c111, 2)),
+          TriggerStatus: S.optional(__S(4162, __c130, 2)),
           TriggerType: S.optional(S.Number),
           UserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppTrigger" });
   }
 }
-function __c111(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9216,37 +10294,15 @@ function __c111(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ScheduledStatus: S.optional(__S(3552, __c111, 0)),
+          ScheduledStatus: S.optional(__S(4160, __c130, 0)),
           Scope: S.optional(S.Number),
           UserId: S.optional(S.String),
-          WebhookStatus: S.optional(__S(3553, __c111, 1)),
+          WebhookStatus: S.optional(__S(4161, __c130, 1)),
         }),
       ).annotate({ identifier: "TriggerStatus" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SpaceId: S.String,
-          AppMode: S.optional(S.Number),
-          Avatar: S.optional(S.String),
-          Description: S.optional(S.String),
-          Name: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateApp" })),
-      ).annotate({ identifier: "CreateAppRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAppResponse" });
-  }
-}
-function __c113(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9285,19 +10341,19 @@ function __c113(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Instance: S.optional(__S(3617, __c113, 1)),
+          Instance: S.optional(__S(4193, __c131, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppTriggerInstanceResponse" });
   }
 }
-function __c114(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.optional(S.String),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Scope: S.optional(S.Number),
@@ -9335,24 +10391,24 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "AppTriggerRunLog" });
     case 2:
-      return S.Array(__S(3649, __c114, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RunLogList: S.optional(__S(3650, __c114, 2)),
+          RunLogList: S.optional(__S(4226, __c132, 2)),
           TotalCount: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppTriggerRunLogListResponse" });
   }
 }
-function __c115(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.optional(S.String),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -9379,25 +10435,26 @@ function __c115(j: number): any {
           SuccessCount: S.optional(S.String),
           TriggerId: S.optional(S.String),
           TriggerName: S.optional(S.String),
-          TriggerStatus: S.optional(__S(3554, __c111, 2)),
+          TriggerStatus: S.optional(__S(4162, __c130, 2)),
           TriggerType: S.optional(S.Number),
           UnreadRunLogCount: S.optional(S.String),
           UserId: S.optional(S.String),
+          WebhookProvider: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppTriggerSummary" });
     case 2:
-      return S.Array(__S(3681, __c115, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.String),
-          TriggerList: S.optional(__S(3682, __c115, 2)),
+          TriggerList: S.optional(__S(4258, __c133, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAppTriggerSummaryListResponse" });
   }
 }
-function __c116(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9405,7 +10462,7 @@ function __c116(j: number): any {
           SpaceId: S.optional(S.String),
           Limit: S.optional(S.Number),
           SearchAfter: S.optional(__S(64, __c2, 0)),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeAuditLogList" }),
@@ -9414,7 +10471,7 @@ function __c116(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AccountInfo: S.optional(__S(3040, __c95, 0)),
+          AccountInfo: S.optional(__S(3616, __c113, 0)),
           AppId: S.optional(S.String),
           AppName: S.optional(S.String),
           OperateTime: S.optional(S.String),
@@ -9425,18 +10482,18 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "AuditLog" });
     case 2:
-      return S.Array(__S(3713, __c116, 1));
+      return S.Array(__S(4289, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AuditLogList: S.optional(__S(3714, __c116, 2)),
+          AuditLogList: S.optional(__S(4290, __c134, 2)),
           SearchAfter: S.optional(__S(64, __c2, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditLogListResponse" });
   }
 }
-function __c117(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9449,33 +10506,41 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Key: S.optional(S.String),
-          Name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuditLogMetaField" });
-    case 2:
-      return S.Array(__S(3745, __c117, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Actions: S.optional(__S(3746, __c117, 2)),
-          BizObjects: S.optional(__S(3746, __c117, 2)),
+          Actions: S.optional(__S(4384, __c137, 0)),
+          BizObjects: S.optional(__S(4384, __c137, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditLogMetaResponse" });
   }
 }
-function __c118(j: number): any {
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.optional(S.String),
+          Name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditLogMetaField" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4352, __c136, 0));
+  }
+}
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
-          SummaryListSwitch: S.optional(__S(3808, __c119, 0)),
+          SummaryListSwitch: S.optional(__S(4448, __c139, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeCategoryList" }),
@@ -9488,26 +10553,26 @@ function __c118(j: number): any {
           CanDelete: S.optional(S.Boolean),
           CanEdit: S.optional(S.Boolean),
           CategoryId: S.optional(S.String),
-          ChildList: S.optional(S.suspend(() => __S(3778, __c118, 2))),
+          ChildList: S.optional(S.suspend(() => __S(4418, __c138, 2))),
           IsLeaf: S.optional(S.Boolean),
           ItemCount: S.optional(S.Number),
-          MetaValue: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          MetaValue: S.optional(S.NullOr(__S(4480, __c140, 0))),
           Name: S.optional(S.String),
         }),
       ).annotate({ identifier: "KBCategory" });
     case 2:
-      return S.Array(__S(3777, __c118, 1));
+      return S.Array(__S(4417, __c138, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CategoryList: S.optional(__S(3778, __c118, 2)),
+          CategoryList: S.optional(__S(4418, __c138, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCategoryListResponse" });
   }
 }
-function __c119(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9517,7 +10582,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "SummaryListSwitch" });
   }
 }
-function __c120(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9531,168 +10596,18 @@ function __c120(j: number): any {
       ).annotate({ identifier: "MetaValue" });
   }
 }
-function __c121(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AppId: S.String,
-          ChannelId: S.String,
-          Scene: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeChannel" })),
-      ).annotate({ identifier: "DescribeChannelRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Channel: S.optional(__S(3904, __c122, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeChannelResponse" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ChannelId: S.optional(S.String),
-          ChannelStatus: S.optional(S.Number),
-          ConnectStatus: S.optional(S.Number),
-          CreateTime: S.optional(S.String),
-          Spec: S.optional(S.NullOr(__S(5261, __c164, 13))),
-          UpdateTime: S.optional(S.String),
-          Updater: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Channel" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          Scene: S.optional(S.Number),
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          PageNumber: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeChannelList" })),
-      ).annotate({ identifier: "DescribeChannelListRequest" });
-    case 1:
-      return S.Array(__S(3904, __c122, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ChannelList: S.optional(__S(3937, __c123, 1)),
-          TotalCount: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeChannelListResponse" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          PageNumber: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "adp",
-            version: "2026-05-20",
-            action: "DescribeConcurrencyLimitDetailList",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeConcurrencyLimitDetailListRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CallSource: S.optional(__S(4000, __c125, 0)),
-          EventTime: S.optional(S.String),
-          ModelName: S.optional(S.String),
-          RequestQuery: S.optional(S.String),
-          SpaceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConcurrencyLimitDetail" });
-    case 2:
-      return S.Array(__S(3969, __c124, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ConcurrencyLimitDetailList: S.optional(__S(3970, __c124, 2)),
-          TotalCount: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeConcurrencyLimitDetailListResponse" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DeploymentUuid: S.optional(S.String),
-          SpaceId: S.optional(S.String),
-          SpaceName: S.optional(S.String),
-          SubjectId: S.optional(S.String),
-          SubjectName: S.optional(S.String),
-          SubjectType: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CallSource" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ConflictGroupId: S.String,
-          KbId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeConflictQA" })),
-      ).annotate({ identifier: "DescribeConflictQARequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Answer: S.optional(S.String),
-          EffectiveDomain: S.optional(S.Number),
-          FileName: S.optional(S.String),
-          FileType: S.optional(S.String),
-          QaId: S.optional(S.String),
-          Question: S.optional(S.String),
-          SourceType: S.optional(S.Number),
-          UpdateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConflictQA" });
-    case 2:
-      return S.Array(__S(4033, __c126, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ConflictQaList: S.optional(__S(4034, __c126, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeConflictQAResponse" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
+          AgentId: S.optional(S.String),
           AppId: S.optional(S.String),
-          ExecuteConfig: S.optional(__S(4134, __c129, 6)),
+          ExecuteConfig: S.optional(__S(4582, __c143, 6)),
           ExecuteType: S.optional(S.Number),
-          PushConfig: S.optional(__S(4135, __c129, 7)),
+          PushConfig: S.optional(__S(4583, __c143, 7)),
           Scope: S.optional(S.Number),
-          TriggerConfig: S.optional(__S(4149, __c129, 21)),
+          TriggerConfig: S.optional(__S(4601, __c143, 25)),
           TriggerName: S.optional(S.String),
           TriggerType: S.optional(S.Number),
           UserId: S.optional(S.String),
@@ -9708,7 +10623,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateAppTriggerResponse" });
   }
 }
-function __c128(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9718,7 +10633,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ManualOnlySchedule" });
   }
 }
-function __c129(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9732,29 +10647,29 @@ function __c129(j: number): any {
         S.Struct({
           ParamName: S.optional(S.String),
           ParamType: S.optional(S.Number),
-          Value: S.optional(__S(4128, __c129, 0)),
+          Value: S.optional(__S(4576, __c143, 0)),
         }),
       ).annotate({ identifier: "AppTriggerParamBinding" });
     case 2:
-      return S.Array(__S(4129, __c129, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ParamList: S.optional(__S(4130, __c129, 2)),
+          ParamList: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "AppTriggerParamBindingConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           ExecutePrompt: S.optional(S.String),
-          ParamBindingsApi: S.optional(__S(4131, __c129, 3)),
+          ParamBindingsApi: S.optional(__S(4579, __c143, 3)),
         }),
       ).annotate({ identifier: "AppTriggerPromptExecuteConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ParamBindingsApi: S.optional(__S(4131, __c129, 3)),
-          ParamBindingsWorkflow: S.optional(__S(4131, __c129, 3)),
+          ParamBindingsApi: S.optional(__S(4579, __c143, 3)),
+          ParamBindingsWorkflow: S.optional(__S(4579, __c143, 3)),
           WorkflowId: S.optional(S.String),
           WorkflowName: S.optional(S.String),
         }),
@@ -9762,8 +10677,8 @@ function __c129(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          PromptConfig: S.optional(__S(4132, __c129, 4)),
-          WorkflowConfig: S.optional(__S(4133, __c129, 5)),
+          PromptConfig: S.optional(__S(4580, __c143, 4)),
+          WorkflowConfig: S.optional(__S(4581, __c143, 5)),
         }),
       ).annotate({ identifier: "ExecuteConfig" });
     case 7:
@@ -9809,30 +10724,30 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "WeeklyTime" });
     case 13:
-      return S.Array(__S(4140, __c129, 12));
+      return S.Array(__S(4588, __c143, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          Times: S.optional(__S(4141, __c129, 13)),
+          Times: S.optional(__S(4589, __c143, 13)),
         }),
       ).annotate({ identifier: "WeeklySchedule" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          Cron: S.optional(__S(4136, __c129, 8)),
-          Daily: S.optional(__S(4137, __c129, 9)),
-          Interval: S.optional(__S(4138, __c129, 10)),
-          ManualOnly: S.optional(__S(4096, __c128, 0)),
-          Once: S.optional(__S(4139, __c129, 11)),
+          Cron: S.optional(__S(4584, __c143, 8)),
+          Daily: S.optional(__S(4585, __c143, 9)),
+          Interval: S.optional(__S(4586, __c143, 10)),
+          ManualOnly: S.optional(__S(4544, __c142, 0)),
+          Once: S.optional(__S(4587, __c143, 11)),
           ScheduleType: S.optional(S.Number),
           Timezone: S.optional(S.String),
-          Weekly: S.optional(__S(4142, __c129, 14)),
+          Weekly: S.optional(__S(4590, __c143, 14)),
         }),
       ).annotate({ identifier: "TimerScheduleConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          Schedule: S.optional(__S(4143, __c129, 15)),
+          Schedule: S.optional(__S(4591, __c143, 15)),
         }),
       ).annotate({ identifier: "AppTriggerScheduleConfig" });
     case 17:
@@ -9841,42 +10756,228 @@ function __c129(j: number): any {
           ParamName: S.optional(S.String),
           ParamType: S.optional(S.Number),
           Required: S.optional(S.Boolean),
-          SubParamList: S.optional(S.suspend(() => __S(4146, __c129, 18))),
+          SubParamList: S.optional(S.suspend(() => __S(4594, __c143, 18))),
         }),
       ).annotate({ identifier: "AppTriggerParamSchema" });
     case 18:
-      return S.Array(__S(4145, __c129, 17));
+      return S.Array(__S(4593, __c143, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          SchemaList: S.optional(__S(4146, __c129, 18)),
+          SchemaList: S.optional(__S(4594, __c143, 18)),
         }),
       ).annotate({ identifier: "AppTriggerWebhookParamSchemaConfig" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          ParamSchemaConfig: S.optional(__S(4147, __c129, 19)),
+          CredentialId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AppTriggerWebhookCredential" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          EventList: __S(64, __c2, 0),
+          ProjectId: S.String,
+          BranchRuleList: S.optional(__S(64, __c2, 0)),
+          MRActionList: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "AppTriggerGongfengWebhookConfig" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          EventList: __S(64, __c2, 0),
+          ProjectId: S.String,
+        }),
+      ).annotate({ identifier: "AppTriggerTAPDWebhookConfig" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          CredentialId: S.String,
+          Credential: S.optional(__S(4596, __c143, 20)),
+          GongfengConfig: S.optional(__S(4597, __c143, 21)),
+          TAPDConfig: S.optional(__S(4598, __c143, 22)),
+        }),
+      ).annotate({ identifier: "AppTriggerWebhookConfigExt" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          ParamSchemaConfig: S.optional(__S(4595, __c143, 19)),
+          WebhookConfigExt: S.optional(S.NullOr(__S(4599, __c143, 23))),
           WebhookKey: S.optional(S.String),
+          WebhookProvider: S.optional(S.Number),
           WebhookToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           WebhookUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppTriggerWebhookConfig" });
-    case 21:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          ScheduledConfig: S.optional(__S(4144, __c129, 16)),
-          WebhookConfig: S.optional(__S(4148, __c129, 20)),
+          ScheduledConfig: S.optional(__S(4592, __c143, 16)),
+          WebhookConfig: S.optional(__S(4600, __c143, 24)),
         }),
       ).annotate({ identifier: "TriggerConfig" });
   }
 }
-function __c130(j: number): any {
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          ChannelId: S.String,
+          Scene: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeChannel" })),
+      ).annotate({ identifier: "DescribeChannelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Channel: S.optional(__S(4640, __c145, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeChannelResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.optional(S.String),
+          ChannelStatus: S.optional(S.Number),
+          ConnectStatus: S.optional(S.Number),
+          CreateTime: S.optional(S.String),
+          Spec: S.optional(S.NullOr(__S(5773, __c180, 13))),
+          UpdateTime: S.optional(S.String),
+          Updater: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Channel" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          Scene: S.optional(S.Number),
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeChannelList" })),
+      ).annotate({ identifier: "DescribeChannelListRequest" });
+    case 1:
+      return S.Array(__S(4640, __c145, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelList: S.optional(__S(4673, __c146, 1)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeChannelListResponse" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "DescribeConcurrencyLimitDetailList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeConcurrencyLimitDetailListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CallSource: S.optional(__S(4736, __c148, 0)),
+          EventTime: S.optional(S.String),
+          ModelName: S.optional(S.String),
+          RequestQuery: S.optional(S.String),
+          SpaceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConcurrencyLimitDetail" });
+    case 2:
+      return S.Array(__S(4705, __c147, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConcurrencyLimitDetailList: S.optional(__S(4706, __c147, 2)),
+          TotalCount: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeConcurrencyLimitDetailListResponse" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DeploymentUuid: S.optional(S.String),
+          SpaceId: S.optional(S.String),
+          SpaceName: S.optional(S.String),
+          SubjectId: S.optional(S.String),
+          SubjectName: S.optional(S.String),
+          SubjectType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CallSource" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConflictGroupId: S.String,
+          KbId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeConflictQA" })),
+      ).annotate({ identifier: "DescribeConflictQARequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Answer: S.optional(S.String),
+          EffectiveDomain: S.optional(S.Number),
+          FileName: S.optional(S.String),
+          FileType: S.optional(S.String),
+          QaId: S.optional(S.String),
+          Question: S.optional(S.String),
+          SourceType: S.optional(S.Number),
+          UpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConflictQA" });
+    case 2:
+      return S.Array(__S(4769, __c149, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConflictQaList: S.optional(__S(4770, __c149, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeConflictQAResponse" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9895,25 +10996,25 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "ConflictQASummary" });
     case 2:
-      return S.Array(__S(4161, __c130, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ConflictQaList: S.optional(__S(4162, __c130, 2)),
+          ConflictQaList: S.optional(__S(4802, __c150, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConflictQASummaryListResponse" });
   }
 }
-function __c131(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9945,28 +11046,28 @@ function __c131(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Classification: S.optional(__S(4193, __c131, 1)),
+          Classification: S.optional(__S(4833, __c151, 1)),
           EventTime: S.optional(S.String),
           MetricSourceType: S.optional(S.Number),
           Name: S.optional(S.String),
           SpaceName: S.optional(S.String),
-          Usage: S.optional(__S(4194, __c131, 2)),
+          Usage: S.optional(__S(4834, __c151, 2)),
           UserName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumptionDetail" });
     case 4:
-      return S.Array(__S(4195, __c131, 3));
+      return S.Array(__S(4835, __c151, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ConsumptionDetailList: S.optional(__S(4196, __c131, 4)),
+          ConsumptionDetailList: S.optional(__S(4836, __c151, 4)),
           TotalCount: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConsumptionDetailListResponse" });
   }
 }
-function __c132(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9998,7 +11099,7 @@ function __c132(j: number): any {
           CreateTime: S.optional(S.String),
           Type: S.optional(S.Number),
           UpdateTime: S.optional(S.String),
-          Workspace: S.optional(S.NullOr(__S(4225, __c132, 1))),
+          Workspace: S.optional(S.NullOr(__S(4865, __c152, 1))),
           Title: S.optional(S.String),
           AgentId: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -10006,7 +11107,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DescribeConversationResponse" });
   }
 }
-function __c133(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10040,19 +11141,19 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "Conversation" });
     case 2:
-      return S.Array(__S(4257, __c133, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ConversationList: S.optional(__S(4258, __c133, 2)),
-          Conversations: S.optional(__S(4258, __c133, 2)),
+          ConversationList: S.optional(__S(4898, __c153, 2)),
+          Conversations: S.optional(__S(4898, __c153, 2)),
           TotalCount: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConversationListResponse" });
   }
 }
-function __c134(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10079,13 +11180,83 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          AgentIcon: S.optional(S.String),
+          AgentName: S.optional(S.String),
+          Elapsed: S.optional(S.String),
+          ParentMessageId: S.optional(S.String),
+          RelatedRecordId: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          ToolIcon: S.optional(S.String),
+          ToolName: S.optional(S.String),
+          TraceId: S.optional(S.String),
+          CanFeedback: S.optional(S.Boolean),
+          CanRate: S.optional(S.Boolean),
+          EndTime: S.optional(S.String),
+          HasRead: S.optional(S.Boolean),
+          IsModelGenerated: S.optional(S.Boolean),
+          ReasonList: S.optional(__S(64, __c2, 0)),
+          ReplyMethod: S.optional(S.Number),
+          Score: S.optional(S.Number),
+          SubAgentRunId: S.optional(S.String),
+          IsSubAgent: S.optional(S.Boolean),
+          SubAgentThreadId: S.optional(S.String),
+          IsTeammate: S.optional(S.Boolean),
+          TeammateName: S.optional(S.String),
+          WorkflowNodeName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationMessageExtraInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Question: S.optional(S.String),
+          SelectedLabelList: S.optional(__S(64, __c2, 0)),
+          SelectedLabels: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ConversationQuestionAnswer" });
+    case 3:
+      return S.Array(__S(4930, __c154, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          Label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationQuestionOption" });
+    case 5:
+      return S.Array(__S(4932, __c154, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Index: S.optional(S.Number),
+          Question: S.optional(S.String),
+          Required: S.optional(S.Boolean),
+          Type: S.optional(S.Number),
+          OptionList: S.optional(__S(4933, __c154, 5)),
+          Options: S.optional(__S(4933, __c154, 5)),
+        }),
+      ).annotate({ identifier: "ConversationQuestion" });
+    case 7:
+      return S.Array(__S(4934, __c154, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          Title: S.optional(S.String),
+          AnswerList: S.optional(__S(4931, __c154, 3)),
+          Answers: S.optional(__S(4931, __c154, 3)),
+          QuestionList: S.optional(__S(4935, __c154, 7)),
+          Questions: S.optional(__S(4935, __c154, 7)),
+        }),
+      ).annotate({ identifier: "ConversationQuestionnaire" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           Index: S.optional(S.Number),
           Position: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConversationQuoteInfo" });
-    case 2:
-      return S.Array(__S(4289, __c134, 1));
-    case 3:
+    case 10:
+      return S.Array(__S(4937, __c154, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           Index: S.optional(S.Number),
@@ -10093,9 +11264,9 @@ function __c134(j: number): any {
           Type: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConversationReference" });
-    case 4:
-      return S.Array(__S(4291, __c134, 3));
-    case 5:
+    case 12:
+      return S.Array(__S(4939, __c154, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           Content: S.optional(S.String),
@@ -10103,9 +11274,18 @@ function __c134(j: number): any {
           Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationAgentTask" });
-    case 6:
-      return S.Array(__S(4293, __c134, 5));
-    case 7:
+    case 14:
+      return S.Array(__S(4941, __c154, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          ActionType: S.optional(S.String),
+          Payload: S.optional(S.String),
+          WidgetId: S.optional(S.String),
+          WidgetRunId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationWidgetAction" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
           PluginId: S.optional(S.String),
@@ -10114,7 +11294,7 @@ function __c134(j: number): any {
           ToolResult: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ConversationMcpApp" });
-    case 8:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           Text: S.optional(S.String),
@@ -10123,26 +11303,31 @@ function __c134(j: number): any {
           CustomParams: S.optional(__S(64, __c2, 0)),
           CustomVariablesData: S.optional(S.NullOr(S.String)),
           EnterpriseCharts: S.optional(S.NullOr(S.String)),
+          File: S.optional(S.NullOr(__S(4992, __c156, 0))),
           OptionCardList: S.optional(__S(64, __c2, 0)),
           OptionCards: S.optional(__S(64, __c2, 0)),
           OptionMode: S.optional(S.NullOr(S.Number)),
-          QuoteInfoList: S.optional(__S(4290, __c134, 2)),
-          QuoteInfos: S.optional(__S(4290, __c134, 2)),
-          ReferenceList: S.optional(__S(4292, __c134, 4)),
-          References: S.optional(__S(4292, __c134, 4)),
+          Questionnaire: S.optional(S.NullOr(__S(4936, __c154, 8))),
+          QuoteInfoList: S.optional(__S(4938, __c154, 10)),
+          QuoteInfos: S.optional(__S(4938, __c154, 10)),
+          ReferenceList: S.optional(__S(4940, __c154, 12)),
+          References: S.optional(__S(4940, __c154, 12)),
           RelatedRecordId: S.optional(S.NullOr(S.String)),
-          TaskList: S.optional(__S(4294, __c134, 6)),
-          Tasks: S.optional(__S(4294, __c134, 6)),
+          TaskList: S.optional(__S(4942, __c154, 14)),
+          Tasks: S.optional(__S(4942, __c154, 14)),
+          Widget: S.optional(S.NullOr(__S(4960, __c155, 0))),
+          WidgetAction: S.optional(S.NullOr(__S(4943, __c154, 15))),
           WorkflowInput: S.optional(S.NullOr(S.String)),
-          McpApp: S.optional(S.NullOr(__S(4295, __c134, 7))),
+          McpApp: S.optional(S.NullOr(__S(4944, __c154, 16))),
         }),
       ).annotate({ identifier: "ConversationContent" });
-    case 9:
-      return S.Array(__S(4296, __c134, 8));
-    case 10:
+    case 18:
+      return S.Array(__S(4945, __c154, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           ConversationId: S.optional(S.String),
+          ExtraInfo: S.optional(S.NullOr(__S(4929, __c154, 1))),
           Icon: S.optional(S.String),
           MessageId: S.optional(S.String),
           Name: S.optional(S.String),
@@ -10151,14 +11336,14 @@ function __c134(j: number): any {
           Status: S.optional(S.String),
           StatusDesc: S.optional(S.String),
           Title: S.optional(S.String),
-          ContentList: S.optional(__S(4297, __c134, 9)),
-          Contents: S.optional(__S(4297, __c134, 9)),
+          ContentList: S.optional(__S(4946, __c154, 18)),
+          Contents: S.optional(__S(4946, __c154, 18)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationMessage" });
-    case 11:
-      return S.Array(__S(4298, __c134, 10));
-    case 12:
+    case 20:
+      return S.Array(__S(4947, __c154, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           Elapsed: S.optional(S.String),
@@ -10166,7 +11351,7 @@ function __c134(j: number): any {
           TotalCost: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationRecordTimeUsage" });
-    case 13:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           InputTokens: S.optional(S.String),
@@ -10176,56 +11361,89 @@ function __c134(j: number): any {
           ReasoningTokens: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationRecordTokenUsage" });
-    case 14:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           Code: S.optional(S.String),
           Message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationRecordErrorInfo" });
-    case 15:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           RecordId: S.optional(S.String),
           RelatedRecordId: S.optional(S.String),
-          TimeUsage: S.optional(S.NullOr(__S(4300, __c134, 12))),
-          TokenUsage: S.optional(S.NullOr(__S(4301, __c134, 13))),
-          ErrorInfo: S.optional(S.NullOr(__S(4302, __c134, 14))),
+          TimeUsage: S.optional(S.NullOr(__S(4949, __c154, 21))),
+          TokenUsage: S.optional(S.NullOr(__S(4950, __c154, 22))),
+          ErrorInfo: S.optional(S.NullOr(__S(4951, __c154, 23))),
           Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationRecordSummary" });
-    case 16:
-      return S.Array(__S(4303, __c134, 15));
-    case 17:
+    case 25:
+      return S.Array(__S(4952, __c154, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           ResetTime: S.optional(S.String),
           ResetThroughRecordId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationResetInfo" });
-    case 18:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           FirstRecordId: S.optional(S.String),
           HasMoreAfter: S.optional(S.Boolean),
           HasMoreBefore: S.optional(S.Boolean),
           LastRecordId: S.optional(S.String),
-          MessageList: S.optional(__S(4299, __c134, 11)),
-          RecordSummaryList: S.optional(S.NullOr(__S(4304, __c134, 16))),
-          ResetInfo: S.optional(S.NullOr(__S(4305, __c134, 17))),
+          MessageList: S.optional(__S(4948, __c154, 20)),
+          RecordSummaryList: S.optional(S.NullOr(__S(4953, __c154, 25))),
+          ResetInfo: S.optional(S.NullOr(__S(4954, __c154, 26))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConversationMessageListResponse" });
   }
 }
-function __c135(j: number): any {
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EncodedWidget: S.optional(S.String),
+          Payload: S.optional(S.String),
+          Position: S.optional(S.Number),
+          State: S.optional(S.String),
+          View: S.optional(S.String),
+          WidgetId: S.optional(S.String),
+          WidgetRunId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationWidget" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreateTime: S.String,
+          DocId: S.String,
+          FileName: S.String,
+          FileSize: S.String,
+          FileType: S.String,
+          FileUrl: S.String,
+          LocalPath: S.optional(S.String),
+          AuditStatus: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ConversationFileInfo" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DocId: S.String,
           KbId: S.String,
-          ReadMask: S.optional(__S(3360, __c105, 0)),
+          ReadMask: S.optional(__S(3968, __c124, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeDoc" })),
       ).annotate({ identifier: "DescribeDocRequest" });
@@ -10233,24 +11451,24 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CosUrl: S.optional(S.String),
-          ExternalLink: S.optional(S.NullOr(__S(4384, __c137, 0))),
+          ExternalLink: S.optional(S.NullOr(__S(5088, __c159, 0))),
         }),
       ).annotate({ identifier: "DocLink" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DocLink: S.optional(S.NullOr(__S(4321, __c135, 1))),
-          ParseConfig: S.optional(S.NullOr(__S(4353, __c136, 1))),
-          Summary: S.optional(S.NullOr(__S(4420, __c138, 4))),
-          Switch: S.optional(S.NullOr(__S(4385, __c137, 1))),
-          UpdatePeriod: S.optional(S.NullOr(__S(4354, __c136, 2))),
-          UserAccessConfig: S.optional(S.NullOr(__S(4355, __c136, 3))),
+          DocLink: S.optional(S.NullOr(__S(5025, __c157, 1))),
+          ParseConfig: S.optional(S.NullOr(__S(5057, __c158, 1))),
+          Summary: S.optional(S.NullOr(__S(5124, __c160, 4))),
+          Switch: S.optional(S.NullOr(__S(5089, __c159, 1))),
+          UpdatePeriod: S.optional(S.NullOr(__S(5058, __c158, 2))),
+          UserAccessConfig: S.optional(S.NullOr(__S(5059, __c158, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDocResponse" });
   }
 }
-function __c136(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10263,7 +11481,8 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContentFilter: S.optional(S.NullOr(__S(4352, __c136, 0))),
+          ContentFilter: S.optional(S.NullOr(__S(5056, __c158, 0))),
+          ParseStrategy: S.optional(S.Number),
           SplitRule: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocParseConfig" });
@@ -10283,7 +11502,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "UserAccessConfig" });
   }
 }
-function __c137(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10301,7 +11520,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DocSwitch" });
   }
 }
-function __c138(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10327,32 +11546,32 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Modifier: S.optional(S.NullOr(__S(4448, __c139, 0))),
-          Permission: S.optional(S.NullOr(__S(4417, __c138, 1))),
+          Modifier: S.optional(S.NullOr(__S(5152, __c161, 0))),
+          Permission: S.optional(S.NullOr(__S(5121, __c160, 1))),
         }),
       ).annotate({ identifier: "DocOperator" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CompletedTaskTypeList: S.optional(__S(3296, __c103, 0)),
-          OngoingTaskTypeList: S.optional(__S(3296, __c103, 0)),
+          CompletedTaskTypeList: S.optional(__S(3904, __c122, 0)),
+          OngoingTaskTypeList: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "DocTaskStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CategoryPath: S.optional(S.NullOr(__S(4480, __c140, 0))),
+          CategoryPath: S.optional(S.NullOr(__S(5184, __c162, 0))),
           DocId: S.optional(S.String),
-          KnowledgeScope: S.optional(S.NullOr(__S(4483, __c140, 3))),
-          Lifecycle: S.optional(S.NullOr(__S(4484, __c140, 4))),
-          Metadata: S.optional(S.NullOr(__S(4416, __c138, 0))),
-          OperatorInfo: S.optional(S.NullOr(__S(4418, __c138, 2))),
-          TaskStatus: S.optional(S.NullOr(__S(4419, __c138, 3))),
+          KnowledgeScope: S.optional(S.NullOr(__S(5187, __c162, 3))),
+          Lifecycle: S.optional(S.NullOr(__S(5188, __c162, 4))),
+          Metadata: S.optional(S.NullOr(__S(5120, __c160, 0))),
+          OperatorInfo: S.optional(S.NullOr(__S(5122, __c160, 2))),
+          TaskStatus: S.optional(S.NullOr(__S(5123, __c160, 3))),
         }),
       ).annotate({ identifier: "DocSummary" });
   }
 }
-function __c139(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10363,7 +11582,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "Operator" });
   }
 }
-function __c140(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10383,19 +11602,19 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "LabelRef" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(5185, __c162, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           EffectiveDomain: S.optional(S.Number),
-          LabelRefList: S.optional(__S(4482, __c140, 2)),
+          LabelRefList: S.optional(__S(5186, __c162, 2)),
         }),
       ).annotate({ identifier: "KnowledgeScope" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           CreateTime: S.optional(S.String),
-          ExpirationPolicy: S.optional(S.NullOr(__S(1665, __c52, 1))),
+          ExpirationPolicy: S.optional(S.NullOr(__S(2177, __c68, 1))),
           Status: S.optional(S.Number),
           StatusDesc: S.optional(S.String),
           StatusMessage: S.optional(S.String),
@@ -10404,46 +11623,71 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DocLifecycle" });
   }
 }
-function __c141(j: number): any {
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryType: S.Number,
+          KbId: S.String,
+          Name: S.String,
+          ParentCategoryId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateCategory" })),
+      ).annotate({ identifier: "CreateCategoryRequest" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCategoryResponse" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Query: S.optional(__S(4544, __c142, 0)),
-          SummaryListSwitch: S.optional(__S(3808, __c119, 0)),
+          Query: S.optional(__S(5312, __c166, 0)),
+          SummaryListSwitch: S.optional(__S(4448, __c139, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeDocSummaryList" }),
         ),
       ).annotate({ identifier: "DescribeDocSummaryListRequest" });
     case 1:
-      return S.Array(__S(4420, __c138, 4));
+      return S.Array(__S(5124, __c160, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DocList: S.optional(__S(4513, __c141, 1)),
+          DocList: S.optional(__S(5281, __c165, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDocSummaryListResponse" });
   }
 }
-function __c142(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Query: S.optional(S.String),
-          QueryScopeList: S.optional(__S(3296, __c103, 0)),
+          QueryScopeList: S.optional(__S(3904, __c122, 0)),
         }),
       ).annotate({ identifier: "DocQuery" });
   }
 }
-function __c143(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10460,22 +11704,41 @@ function __c143(j: number): any {
           OverCharSize: S.optional(S.String),
           UsedCharSize: S.optional(S.String),
         }),
-      ).annotate({ identifier: "KBCapacity" });
+      ).annotate({ identifier: "CharacterSize" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          MaxCapacity: S.optional(S.String),
+          ExceededInvalidCapacity: S.optional(S.String),
+          UsedCapacity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ByteCapacity" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          MaxCharSize: S.optional(S.String),
+          OverCharSize: S.optional(S.String),
+          UsedCharSize: S.optional(S.String),
+          CharacterSize: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          ByteCapacity: S.optional(S.NullOr(__S(5346, __c167, 2))),
+          CapacityStatus: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "KBCapacity" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           AppIdList: S.optional(__S(64, __c2, 0)),
-          CapacityInfo: S.optional(S.NullOr(__S(4577, __c143, 1))),
+          CapacityInfo: S.optional(S.NullOr(__S(5347, __c167, 3))),
           EsConfig: S.optional(S.NullOr(__S(160, __c5, 0))),
           ModelConfig: S.optional(S.NullOr(__S(161, __c5, 1))),
-          Owner: S.optional(S.NullOr(__S(4448, __c139, 0))),
-          Summary: S.optional(S.NullOr(__S(4610, __c144, 2))),
+          Owner: S.optional(S.NullOr(__S(5152, __c161, 0))),
+          Summary: S.optional(S.NullOr(__S(5378, __c168, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeKBResponse" });
   }
 }
-function __c144(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10490,40 +11753,40 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IsSpaceShared: S.optional(S.Boolean),
-          SharedSpaceList: S.optional(S.NullOr(__S(1729, __c54, 1))),
-          SubStatus: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          SharedSpaceList: S.optional(S.NullOr(__S(2241, __c70, 1))),
+          SubStatus: S.optional(S.NullOr(__S(3936, __c123, 0))),
           Enable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "KBSpaceShare" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AppList: S.optional(__S(1729, __c54, 1)),
+          AppList: S.optional(__S(2241, __c70, 1)),
           CreateTime: S.optional(S.String),
-          Creator: S.optional(S.NullOr(__S(4448, __c139, 0))),
+          Creator: S.optional(S.NullOr(__S(5152, __c161, 0))),
           Description: S.optional(S.String),
           DocCount: S.optional(S.Number),
           IsExceeded: S.optional(S.Boolean),
           KbId: S.optional(S.String),
           KbType: S.optional(S.Number),
-          LatestOperator: S.optional(S.NullOr(__S(4448, __c139, 0))),
+          LatestOperator: S.optional(S.NullOr(__S(5152, __c161, 0))),
           Name: S.optional(S.String),
-          Permission: S.optional(S.NullOr(__S(4608, __c144, 0))),
-          ProcessingFlagList: S.optional(__S(3296, __c103, 0)),
+          Permission: S.optional(S.NullOr(__S(5376, __c168, 0))),
+          ProcessingFlagList: S.optional(__S(3904, __c122, 0)),
           SharedSubType: S.optional(S.Number),
           UpdateTime: S.optional(S.String),
-          SpaceShare: S.optional(S.NullOr(__S(4609, __c144, 1))),
+          SpaceShare: S.optional(S.NullOr(__S(5377, __c168, 1))),
         }),
       ).annotate({ identifier: "KBSummary" });
   }
 }
-function __c145(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SpaceId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -10533,25 +11796,25 @@ function __c145(j: number): any {
         ),
       ).annotate({ identifier: "DescribeKBSummaryListRequest" });
     case 1:
-      return S.Array(__S(4610, __c144, 2));
+      return S.Array(__S(5378, __c168, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          KbList: S.optional(__S(4641, __c145, 1)),
+          KbList: S.optional(__S(5409, __c169, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeKBSummaryListResponse" });
   }
 }
-function __c146(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
           LabelId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           LastTermId: S.optional(S.String),
           Limit: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -10561,19 +11824,19 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Summary: S.optional(S.NullOr(__S(4704, __c147, 0))),
+          Summary: S.optional(S.NullOr(__S(5472, __c171, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLabelResponse" });
   }
 }
-function __c147(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           LabelId: S.optional(S.String),
-          MetaValue: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          MetaValue: S.optional(S.NullOr(__S(4480, __c140, 0))),
           Name: S.optional(S.String),
           RefCount: S.optional(S.Number),
           TermList: S.optional(__S(577, __c18, 1)),
@@ -10582,60 +11845,35 @@ function __c147(j: number): any {
       ).annotate({ identifier: "LabelSummary" });
   }
 }
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CategoryType: S.Number,
-          KbId: S.String,
-          Name: S.String,
-          ParentCategoryId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateCategory" })),
-      ).annotate({ identifier: "CreateCategoryRequest" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CategoryId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCategoryResponse" });
-  }
-}
-function __c150(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
-          SummaryListSwitch: S.optional(__S(3808, __c119, 0)),
+          SummaryListSwitch: S.optional(__S(4448, __c139, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeLabelSummaryList" }),
         ),
       ).annotate({ identifier: "DescribeLabelSummaryListRequest" });
     case 1:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(5472, __c171, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          LabelList: S.optional(__S(4801, __c150, 1)),
+          LabelList: S.optional(__S(5505, __c172, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLabelSummaryListResponse" });
   }
 }
-function __c151(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10650,13 +11888,13 @@ function __c151(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IsChanged: S.optional(S.Boolean),
-          ReleaseSummary: S.optional(__S(4864, __c152, 0)),
+          ReleaseSummary: S.optional(__S(5568, __c174, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLatestReleaseResponse" });
   }
 }
-function __c152(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10666,24 +11904,24 @@ function __c152(j: number): any {
           ReleaseId: S.optional(S.String),
           Status: S.optional(S.Number),
           StatusDescription: S.optional(S.String),
-          AppShareAccessControl: S.optional(S.NullOr(__S(1762, __c55, 2))),
+          AppShareAccessControl: S.optional(S.NullOr(__S(2274, __c71, 2))),
           ChannelIdList: S.optional(__S(64, __c2, 0)),
-          CorpShareConfig: S.optional(S.NullOr(__S(1763, __c55, 3))),
-          PortalShareConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          A2AConfig: S.optional(S.NullOr(__S(4096, __c128, 0))),
+          CorpShareConfig: S.optional(S.NullOr(__S(2275, __c71, 3))),
+          PortalShareConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
+          A2AConfig: S.optional(S.NullOr(__S(4544, __c142, 0))),
         }),
       ).annotate({ identifier: "ReleaseSummary" });
   }
 }
-function __c153(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceType: S.Number,
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           SpaceId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10700,24 +11938,24 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "MetricOverview" });
     case 2:
-      return S.Array(__S(4897, __c153, 1));
+      return S.Array(__S(5601, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MetricList: S.optional(__S(4898, __c153, 2)),
+          MetricList: S.optional(__S(5602, __c175, 2)),
           TotalCount: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMetricOverviewListResponse" });
   }
 }
-function __c154(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ModelScene: S.Number,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -10735,7 +11973,7 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "ModelBadge" });
     case 2:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(5633, __c176, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10775,7 +12013,7 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "ModelParameter" });
     case 7:
-      return S.Array(__S(4934, __c154, 6));
+      return S.Array(__S(5638, __c176, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -10798,30 +12036,30 @@ function __c154(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          BadgeList: S.optional(S.NullOr(__S(4930, __c154, 2))),
-          DeveloperInfo: S.optional(S.NullOr(__S(4931, __c154, 3))),
-          LimitInfo: S.optional(S.NullOr(__S(4932, __c154, 4))),
-          ModelBasic: S.optional(S.NullOr(__S(4933, __c154, 5))),
-          ParameterList: S.optional(S.NullOr(__S(4935, __c154, 7))),
-          PropertyList: S.optional(S.NullOr(__S(1313, __c41, 1))),
-          ProviderInfo: S.optional(S.NullOr(__S(4936, __c154, 8))),
-          StatusInfo: S.optional(S.NullOr(__S(4937, __c154, 9))),
+          BadgeList: S.optional(S.NullOr(__S(5634, __c176, 2))),
+          DeveloperInfo: S.optional(S.NullOr(__S(5635, __c176, 3))),
+          LimitInfo: S.optional(S.NullOr(__S(5636, __c176, 4))),
+          ModelBasic: S.optional(S.NullOr(__S(5637, __c176, 5))),
+          ParameterList: S.optional(S.NullOr(__S(5639, __c176, 7))),
+          PropertyList: S.optional(S.NullOr(__S(1345, __c42, 1))),
+          ProviderInfo: S.optional(S.NullOr(__S(5640, __c176, 8))),
+          StatusInfo: S.optional(S.NullOr(__S(5641, __c176, 9))),
           TagList: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "Model" });
     case 11:
-      return S.Array(__S(4938, __c154, 10));
+      return S.Array(__S(5642, __c176, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          ModelList: S.optional(__S(4939, __c154, 11)),
+          ModelList: S.optional(__S(5643, __c176, 11)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeModelListResponse" });
   }
 }
-function __c155(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10848,24 +12086,24 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CategoryId: S.optional(S.String),
-          Children: S.optional(S.suspend(() => __S(4963, __c155, 3))),
+          Children: S.optional(S.suspend(() => __S(5667, __c177, 3))),
           Name: S.optional(S.String),
-          Permission: S.optional(__S(4961, __c155, 1)),
+          Permission: S.optional(__S(5665, __c177, 1)),
           TotalCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "MsgRecordCategory" });
     case 3:
-      return S.Array(__S(4962, __c155, 2));
+      return S.Array(__S(5666, __c177, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CategoryList: S.optional(__S(4963, __c155, 3)),
+          CategoryList: S.optional(__S(5667, __c177, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMsgRecordCategoryListResponse" });
   }
 }
-function __c156(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10878,10 +12116,10 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Sort: S.optional(__S(4992, __c156, 0)),
+          Sort: S.optional(__S(5696, __c178, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeMsgRecordList" }),
@@ -10924,20 +12162,20 @@ function __c156(j: number): any {
           Question: S.optional(S.String),
           RecordId: S.optional(S.String),
           ReplyMethod: S.optional(S.Number),
-          Result: S.optional(__S(4994, __c156, 2)),
+          Result: S.optional(__S(5698, __c178, 2)),
           Score: S.optional(S.Number),
           SessionId: S.optional(S.String),
-          Source: S.optional(__S(4995, __c156, 3)),
+          Source: S.optional(__S(5699, __c178, 3)),
           TraceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MsgRecord" });
     case 5:
-      return S.Array(__S(4996, __c156, 4));
+      return S.Array(__S(5700, __c178, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           HasMore: S.optional(S.Boolean),
-          MsgRecordList: S.optional(__S(4997, __c156, 5)),
+          MsgRecordList: S.optional(__S(5701, __c178, 5)),
           NextCursor: S.optional(S.String),
           PrevCursor: S.optional(S.String),
           TotalCount: S.optional(S.String),
@@ -10946,266 +12184,13 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DescribeMsgRecordListResponse" });
   }
 }
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.optional(S.String),
-          Index: S.optional(S.Number),
-          NodeId: S.optional(S.String),
-          SubWorkflowNodePath: S.optional(S.String),
-          WorkflowRunId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeNodeBatchRun" }),
-        ),
-      ).annotate({ identifier: "DescribeNodeBatchRunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          FailCode: S.optional(S.String),
-          FailMessage: S.optional(S.String),
-          Input: S.optional(S.String),
-          InputRef: S.optional(S.String),
-          Output: S.optional(S.String),
-          OutputRef: S.optional(S.String),
-          Status: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeNodeBatchRunResponse" });
-  }
-}
-function __c158(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AppId: S.String,
-          NodeRunId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeNodeRunDetail" }),
-        ),
-      ).annotate({ identifier: "DescribeNodeRunDetailRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Input: S.optional(S.String),
-          Output: S.optional(S.String),
-          OriginalOutput: S.optional(S.String),
-          InputRef: S.optional(S.String),
-          OutputRef: S.optional(S.String),
-          OriginalOutputRef: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeRunContent" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          FailedCount: S.optional(S.Number),
-          SuccessCount: S.optional(S.Number),
-          TotalCount: S.optional(S.Number),
-          FailedIndexList: S.optional(__S(3296, __c103, 0)),
-          JustCompletedIndexList: S.optional(__S(3296, __c103, 0)),
-          RunningIndexList: S.optional(__S(3296, __c103, 0)),
-          SuccessIndexList: S.optional(__S(3296, __c103, 0)),
-        }),
-      ).annotate({ identifier: "BatchRunSummary" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          BatchRunSummary: S.optional(S.NullOr(__S(5058, __c158, 2))),
-          EndTime: S.optional(S.String),
-          StartTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeRunExecution" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          Log: S.optional(S.String),
-          LogRef: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeRunLog" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          FirstTokenCostMs: S.optional(S.Number),
-          InputTokens: S.optional(S.Number),
-          ModelName: S.optional(S.String),
-          OutputTokens: S.optional(S.Number),
-          TotalCostMs: S.optional(S.Number),
-          TotalTokens: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Statistic" });
-    case 6:
-      return S.Array(__S(5061, __c158, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          NodeRun: S.optional(S.NullOr(__S(5088, __c159, 0))),
-          NodeRunContent: S.optional(S.NullOr(__S(5057, __c158, 1))),
-          NodeRunExecution: S.optional(S.NullOr(__S(5059, __c158, 3))),
-          NodeRunLog: S.optional(S.NullOr(__S(5060, __c158, 4))),
-          StatisticList: S.optional(__S(5062, __c158, 6)),
-        }),
-      ).annotate({ identifier: "NodeRunDetail" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          NodeRunDetail: S.optional(__S(5063, __c158, 7)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeNodeRunDetailResponse" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NodeRunId: S.optional(S.String),
-          NodeId: S.optional(S.String),
-          WorkflowRunId: S.optional(S.String),
-          NodeName: S.optional(S.String),
-          NodeType: S.optional(S.Number),
-          Status: S.optional(S.Number),
-          FailMessage: S.optional(S.String),
-          TotalCostMs: S.optional(S.Number),
-          TotalTokens: S.optional(S.Number),
-          FailCode: S.optional(S.String),
-          BranchIndexList: S.optional(__S(3296, __c103, 0)),
-        }),
-      ).annotate({ identifier: "NodeRun" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PluginId: S.String,
-          SpaceId: S.String,
-          FieldMask: S.optional(__S(3360, __c105, 0)),
-          Module: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribePlugin" })),
-      ).annotate({ identifier: "DescribePluginRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Config: S.optional(S.NullOr(__S(1390, __c43, 14))),
-          CreateTime: S.optional(S.String),
-          Operation: S.optional(S.NullOr(__S(5152, __c161, 0))),
-          PluginId: S.optional(S.String),
-          PluginVersion: S.optional(S.Number),
-          Profile: S.optional(S.NullOr(__S(1376, __c43, 0))),
-          Statistics: S.optional(S.NullOr(__S(5153, __c161, 1))),
-          Status: S.optional(S.Number),
-          ToolList: S.optional(S.NullOr(__S(1361, __c42, 17))),
-          UpdateTime: S.optional(S.String),
-          UserState: S.optional(S.NullOr(__S(5154, __c161, 2))),
-        }),
-      ).annotate({ identifier: "Plugin" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Plugin: S.optional(__S(5121, __c160, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribePluginResponse" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AllowExternalAccess: S.optional(S.Boolean),
-          BillingType: S.optional(S.Number),
-          CategoryKey: S.optional(S.String),
-          Introduction: S.optional(S.String),
-          IsRecommended: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PluginOperation" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CallCount: S.optional(S.Number),
-          ToolCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PluginStatistics" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          IsFavorite: S.optional(S.Boolean),
-          IsInWhiteList: S.optional(S.Boolean),
-          WhiteListType: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PluginUserState" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SpaceId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          IsFavoriteOnly: S.optional(S.Boolean),
-          Module: S.optional(S.Number),
-          PageNumber: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          Query: S.optional(S.String),
-          SortType: S.optional(S.Number),
-          PluginSpaceRelation: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "DescribePluginSummaryList" }),
-        ),
-      ).annotate({ identifier: "DescribePluginSummaryListRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ToolId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolSummary" });
-    case 2:
-      return S.Array(__S(5185, __c162, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Config: S.optional(__S(1390, __c43, 14)),
-          IsShared: S.optional(S.Boolean),
-          Operation: S.optional(__S(5152, __c161, 0)),
-          PluginId: S.optional(S.String),
-          Profile: S.optional(__S(1376, __c43, 0)),
-          SpaceId: S.optional(S.String),
-          Statistics: S.optional(__S(5153, __c161, 1)),
-          Status: S.optional(S.Number),
-          ToolList: S.optional(__S(5186, __c162, 2)),
-          UserState: S.optional(__S(5154, __c161, 2)),
-          UpdateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PluginSummary" });
-    case 4:
-      return S.Array(__S(5187, __c162, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          PluginList: S.optional(__S(5188, __c162, 4)),
-          TotalCount: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribePluginSummaryListResponse" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          Spec: S.optional(__S(5261, __c164, 13)),
+          Spec: S.optional(__S(5773, __c180, 13)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateChannel" })),
       ).annotate({ identifier: "CreateChannelRequest" });
@@ -11219,7 +12204,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "CreateChannelResponse" });
   }
 }
-function __c164(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11287,7 +12272,7 @@ function __c164(j: number): any {
         S.Struct({
           AgentSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           Avatar: S.optional(S.String),
-          Callback: S.optional(__S(5255, __c164, 7)),
+          Callback: S.optional(__S(5767, __c180, 7)),
           CustomerServiceId: S.optional(S.String),
           Name: S.optional(S.String),
           ShareCodeUrl: S.optional(S.String),
@@ -11297,7 +12282,7 @@ function __c164(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Callback: S.optional(__S(5255, __c164, 7)),
+          Callback: S.optional(__S(5767, __c180, 7)),
           ThirdChannelCorpId: S.optional(S.String),
           ThirdChannelId: S.optional(S.String),
           WecomAgentId: S.optional(S.String),
@@ -11308,7 +12293,7 @@ function __c164(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Callback: S.optional(__S(5255, __c164, 7)),
+          Callback: S.optional(__S(5767, __c180, 7)),
           RobotName: S.optional(S.String),
           WecomCorpId: S.optional(S.String),
           WecomRobotId: S.optional(S.String),
@@ -11325,8 +12310,8 @@ function __c164(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          Callback: S.optional(S.NullOr(__S(5258, __c164, 10))),
-          Websocket: S.optional(S.NullOr(__S(5259, __c164, 11))),
+          Callback: S.optional(S.NullOr(__S(5770, __c180, 10))),
+          Websocket: S.optional(S.NullOr(__S(5771, __c180, 11))),
         }),
       ).annotate({ identifier: "WecomRobotChannelConfig" });
     case 13:
@@ -11335,24 +12320,448 @@ function __c164(j: number): any {
           ChannelName: S.optional(S.String),
           ChannelType: S.optional(S.Number),
           Description: S.optional(S.String),
-          DingTalk: S.optional(S.NullOr(__S(5248, __c164, 0))),
-          Lark: S.optional(S.NullOr(__S(5249, __c164, 1))),
-          Line: S.optional(S.NullOr(__S(5250, __c164, 2))),
+          DingTalk: S.optional(S.NullOr(__S(5760, __c180, 0))),
+          Lark: S.optional(S.NullOr(__S(5761, __c180, 1))),
+          Line: S.optional(S.NullOr(__S(5762, __c180, 2))),
           Scene: S.optional(S.Number),
-          Telegram: S.optional(S.NullOr(__S(5251, __c164, 3))),
-          UserAgent: S.optional(S.NullOr(__S(5252, __c164, 4))),
-          Wechat: S.optional(S.NullOr(__S(5253, __c164, 5))),
-          WechatClawBot: S.optional(S.NullOr(__S(5254, __c164, 6))),
-          WechatCustomerService: S.optional(S.NullOr(__S(5256, __c164, 8))),
-          WecomApp: S.optional(S.NullOr(__S(5257, __c164, 9))),
-          WecomRobot: S.optional(S.NullOr(__S(5260, __c164, 12))),
+          Telegram: S.optional(S.NullOr(__S(5763, __c180, 3))),
+          UserAgent: S.optional(S.NullOr(__S(5764, __c180, 4))),
+          Wechat: S.optional(S.NullOr(__S(5765, __c180, 5))),
+          WechatClawBot: S.optional(S.NullOr(__S(5766, __c180, 6))),
+          WechatCustomerService: S.optional(S.NullOr(__S(5768, __c180, 8))),
+          WecomApp: S.optional(S.NullOr(__S(5769, __c180, 9))),
+          WecomRobot: S.optional(S.NullOr(__S(5772, __c180, 12))),
           ShareGroupConversation: S.optional(S.NullOr(S.Boolean)),
           IsDebug: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "ChannelSpec" });
   }
 }
-function __c165(j: number): any {
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.optional(S.String),
+          Index: S.optional(S.Number),
+          NodeId: S.optional(S.String),
+          SubWorkflowNodePath: S.optional(S.String),
+          WorkflowRunId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeNodeBatchRun" }),
+        ),
+      ).annotate({ identifier: "DescribeNodeBatchRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FailCode: S.optional(S.String),
+          FailMessage: S.optional(S.String),
+          Input: S.optional(S.String),
+          InputRef: S.optional(S.String),
+          Output: S.optional(S.String),
+          OutputRef: S.optional(S.String),
+          Status: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeNodeBatchRunResponse" });
+  }
+}
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AppId: S.String,
+          NodeRunId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeNodeRunDetail" }),
+        ),
+      ).annotate({ identifier: "DescribeNodeRunDetailRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Input: S.optional(S.String),
+          Output: S.optional(S.String),
+          OriginalOutput: S.optional(S.String),
+          InputRef: S.optional(S.String),
+          OutputRef: S.optional(S.String),
+          OriginalOutputRef: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeRunContent" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FailedCount: S.optional(S.Number),
+          SuccessCount: S.optional(S.Number),
+          TotalCount: S.optional(S.Number),
+          FailedIndexList: S.optional(__S(3904, __c122, 0)),
+          JustCompletedIndexList: S.optional(__S(3904, __c122, 0)),
+          RunningIndexList: S.optional(__S(3904, __c122, 0)),
+          SuccessIndexList: S.optional(__S(3904, __c122, 0)),
+        }),
+      ).annotate({ identifier: "BatchRunSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          BatchRunSummary: S.optional(S.NullOr(__S(5826, __c182, 2))),
+          EndTime: S.optional(S.String),
+          StartTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeRunExecution" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Log: S.optional(S.String),
+          LogRef: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeRunLog" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          FirstTokenCostMs: S.optional(S.Number),
+          InputTokens: S.optional(S.Number),
+          ModelName: S.optional(S.String),
+          OutputTokens: S.optional(S.Number),
+          TotalCostMs: S.optional(S.Number),
+          TotalTokens: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Statistic" });
+    case 6:
+      return S.Array(__S(5829, __c182, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          NodeRun: S.optional(S.NullOr(__S(5856, __c183, 0))),
+          NodeRunContent: S.optional(S.NullOr(__S(5825, __c182, 1))),
+          NodeRunExecution: S.optional(S.NullOr(__S(5827, __c182, 3))),
+          NodeRunLog: S.optional(S.NullOr(__S(5828, __c182, 4))),
+          StatisticList: S.optional(__S(5830, __c182, 6)),
+        }),
+      ).annotate({ identifier: "NodeRunDetail" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          NodeRunDetail: S.optional(__S(5831, __c182, 7)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeNodeRunDetailResponse" });
+  }
+}
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NodeRunId: S.optional(S.String),
+          NodeId: S.optional(S.String),
+          WorkflowRunId: S.optional(S.String),
+          NodeName: S.optional(S.String),
+          NodeType: S.optional(S.Number),
+          Status: S.optional(S.Number),
+          FailMessage: S.optional(S.String),
+          TotalCostMs: S.optional(S.Number),
+          TotalTokens: S.optional(S.Number),
+          FailCode: S.optional(S.String),
+          BranchIndexList: S.optional(__S(3904, __c122, 0)),
+        }),
+      ).annotate({ identifier: "NodeRun" });
+  }
+}
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PluginId: S.String,
+          SpaceId: S.String,
+          FieldMask: S.optional(__S(3968, __c124, 0)),
+          Module: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribePlugin" })),
+      ).annotate({ identifier: "DescribePluginRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Config: S.optional(S.NullOr(__S(1422, __c44, 14))),
+          CreateTime: S.optional(S.String),
+          Operation: S.optional(S.NullOr(__S(5920, __c185, 0))),
+          PluginId: S.optional(S.String),
+          PluginVersion: S.optional(S.Number),
+          Profile: S.optional(S.NullOr(__S(1408, __c44, 0))),
+          Statistics: S.optional(S.NullOr(__S(5921, __c185, 1))),
+          Status: S.optional(S.Number),
+          ToolList: S.optional(S.NullOr(__S(1393, __c43, 17))),
+          UpdateTime: S.optional(S.String),
+          UserState: S.optional(S.NullOr(__S(5922, __c185, 2))),
+        }),
+      ).annotate({ identifier: "Plugin" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Plugin: S.optional(__S(5889, __c184, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePluginResponse" });
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AllowExternalAccess: S.optional(S.Boolean),
+          BillingType: S.optional(S.Number),
+          CategoryKey: S.optional(S.String),
+          Introduction: S.optional(S.String),
+          IsRecommended: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PluginOperation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CallCount: S.optional(S.Number),
+          ToolCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PluginStatistics" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          IsFavorite: S.optional(S.Boolean),
+          IsInWhiteList: S.optional(S.Boolean),
+          WhiteListType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PluginUserState" });
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SpaceId: S.String,
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          IsFavoriteOnly: S.optional(S.Boolean),
+          Module: S.optional(S.Number),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          Query: S.optional(S.String),
+          SortType: S.optional(S.Number),
+          PluginSpaceRelation: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribePluginSummaryList" }),
+        ),
+      ).annotate({ identifier: "DescribePluginSummaryListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ToolId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ToolSummary" });
+    case 2:
+      return S.Array(__S(5953, __c186, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Config: S.optional(__S(1422, __c44, 14)),
+          IsShared: S.optional(S.Boolean),
+          Operation: S.optional(__S(5920, __c185, 0)),
+          PluginId: S.optional(S.String),
+          Profile: S.optional(__S(1408, __c44, 0)),
+          SpaceId: S.optional(S.String),
+          Statistics: S.optional(__S(5921, __c185, 1)),
+          Status: S.optional(S.Number),
+          ToolList: S.optional(__S(5954, __c186, 2)),
+          UserState: S.optional(__S(5922, __c185, 2)),
+          UpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PluginSummary" });
+    case 4:
+      return S.Array(__S(5955, __c186, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          PluginList: S.optional(__S(5956, __c186, 4)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePluginSummaryListResponse" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateId: S.String,
+          SpaceId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "adp", version: "2026-05-20", action: "DescribePromptTemplate" }),
+        ),
+      ).annotate({ identifier: "DescribePromptTemplateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Profile: S.optional(S.NullOr(__S(6049, __c189, 1))),
+          CustomVariableList: S.optional(__S(64, __c2, 0)),
+          LabelList: S.optional(__S(6017, __c188, 1)),
+          PromptContent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromptTemplate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplate: S.optional(S.NullOr(__S(5985, __c187, 1))),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePromptTemplateResponse" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Content: S.optional(S.String),
+          PromptTemplateLabelId: S.optional(S.String),
+          PromptTemplateLabelType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PromptTemplateLabel" });
+    case 1:
+      return S.Array(__S(6016, __c188, 0));
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreateTime: S.optional(S.String),
+          Creator: S.optional(S.String),
+          CreatorName: S.optional(S.String),
+          Operator: S.optional(S.String),
+          OperatorName: S.optional(S.String),
+          UpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Audit" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Category: S.optional(S.NullOr(__S(4352, __c136, 0))),
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          PromptTemplateId: S.optional(S.String),
+          PromptTemplateType: S.optional(S.Number),
+          SpaceId: S.optional(S.String),
+          Audit: S.optional(__S(6048, __c189, 0)),
+        }),
+      ).annotate({ identifier: "PromptTemplateProfile" });
+  }
+}
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "DescribePromptTemplateCategoryList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribePromptTemplateCategoryListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryList: S.optional(__S(4384, __c137, 0)),
+          Module: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromptTemplateCategoryGroup" });
+    case 2:
+      return S.Array(__S(6081, __c190, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CategoryGroupList: S.optional(__S(6082, __c190, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePromptTemplateCategoryListResponse" });
+  }
+}
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PageNumber: S.Number,
+          PageSize: S.Number,
+          Query: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "DescribePromptTemplateLabelList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribePromptTemplateLabelListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateLabelList: S.optional(__S(6017, __c188, 1)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePromptTemplateLabelListResponse" });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PageNumber: S.Number,
+          PageSize: S.Number,
+          FilterList: S.optional(__S(3585, __c112, 1)),
+          IsFavorite: S.optional(S.Boolean),
+          Query: S.optional(S.String),
+          SpaceId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "adp",
+            version: "2026-05-20",
+            action: "DescribePromptTemplateSummaryList",
+          }),
+        ),
+      ).annotate({ identifier: "DescribePromptTemplateSummaryListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Profile: S.optional(S.NullOr(__S(6049, __c189, 1))),
+          LabelList: S.optional(__S(6017, __c188, 1)),
+          IsFavorite: S.optional(S.Boolean),
+          PermissionIdList: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "PromptTemplateSummary" });
+    case 2:
+      return S.Array(__S(6145, __c192, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PromptTemplateSummaryList: S.optional(__S(6146, __c192, 2)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePromptTemplateSummaryListResponse" });
+  }
+}
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11370,7 +12779,7 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "QASegmentHighlight" });
     case 2:
-      return S.Array(__S(5281, __c165, 1));
+      return S.Array(__S(6177, __c193, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11380,21 +12789,21 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "SimilarQuestion" });
     case 4:
-      return S.Array(__S(5283, __c165, 3));
+      return S.Array(__S(6179, __c193, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          HighlightList: S.optional(__S(5282, __c165, 2)),
+          HighlightList: S.optional(__S(6178, __c193, 2)),
           PageContent: S.optional(S.String),
           QuestionDescription: S.optional(S.String),
-          SimilarQuestionList: S.optional(__S(5284, __c165, 4)),
-          Summary: S.optional(S.NullOr(__S(5317, __c166, 5))),
+          SimilarQuestionList: S.optional(__S(6180, __c193, 4)),
+          Summary: S.optional(S.NullOr(__S(6213, __c194, 5))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeQAResponse" });
   }
 }
-function __c166(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11417,8 +12826,8 @@ function __c166(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Modifier: S.optional(S.NullOr(__S(4448, __c139, 0))),
-          Permission: S.optional(S.NullOr(__S(5313, __c166, 1))),
+          Modifier: S.optional(S.NullOr(__S(5152, __c161, 0))),
+          Permission: S.optional(S.NullOr(__S(6209, __c194, 1))),
         }),
       ).annotate({ identifier: "QAOperator" });
     case 3:
@@ -11442,49 +12851,74 @@ function __c166(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          CategoryPath: S.optional(S.NullOr(__S(4480, __c140, 0))),
-          KnowledgeScope: S.optional(S.NullOr(__S(4483, __c140, 3))),
-          Lifecycle: S.optional(S.NullOr(__S(4484, __c140, 4))),
-          Metadata: S.optional(S.NullOr(__S(5312, __c166, 0))),
-          OperatorInfo: S.optional(S.NullOr(__S(5314, __c166, 2))),
+          CategoryPath: S.optional(S.NullOr(__S(5184, __c162, 0))),
+          KnowledgeScope: S.optional(S.NullOr(__S(5187, __c162, 3))),
+          Lifecycle: S.optional(S.NullOr(__S(5188, __c162, 4))),
+          Metadata: S.optional(S.NullOr(__S(6208, __c194, 0))),
+          OperatorInfo: S.optional(S.NullOr(__S(6210, __c194, 2))),
           QaId: S.optional(S.String),
-          SimilarQuestion: S.optional(S.NullOr(__S(5315, __c166, 3))),
-          SourceInfo: S.optional(S.NullOr(__S(5316, __c166, 4))),
+          SimilarQuestion: S.optional(S.NullOr(__S(6211, __c194, 3))),
+          SourceInfo: S.optional(S.NullOr(__S(6212, __c194, 4))),
         }),
       ).annotate({ identifier: "QASummary" });
   }
 }
-function __c167(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Query: S.optional(__S(4544, __c142, 0)),
-          SummaryListSwitch: S.optional(__S(3808, __c119, 0)),
+          Query: S.optional(__S(5312, __c166, 0)),
+          SummaryListSwitch: S.optional(__S(4448, __c139, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "adp", version: "2026-05-20", action: "DescribeQASummaryList" }),
         ),
       ).annotate({ identifier: "DescribeQASummaryListRequest" });
     case 1:
-      return S.Array(__S(5317, __c166, 5));
+      return S.Array(__S(6213, __c194, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NotAcceptedCount: S.optional(S.Number),
           PendingVerifyCount: S.optional(S.Number),
-          QaList: S.optional(__S(5345, __c167, 1)),
+          QaList: S.optional(__S(6241, __c195, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeQASummaryListResponse" });
   }
 }
-function __c168(j: number): any {
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.Number,
+          AppId: S.optional(S.String),
+          AppKey: S.optional(S.String),
+          LoginSubAccountUin: S.optional(S.String),
+          LoginUin: S.optional(S.String),
+          ShareCode: S.optional(S.String),
+          UserId: S.optional(S.String),
+          AgentId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateConversation" })),
+      ).annotate({ identifier: "CreateConversationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ConversationId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateConversationResponse" });
+  }
+}
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11513,18 +12947,18 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "ReleaseRecord" });
     case 2:
-      return S.Array(__S(5377, __c168, 1));
+      return S.Array(__S(6305, __c197, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ReleaseList: S.optional(__S(5378, __c168, 2)),
+          ReleaseList: S.optional(__S(6306, __c197, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeReleaseListResponse" });
   }
 }
-function __c169(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11539,13 +12973,13 @@ function __c169(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ReleaseSummary: S.optional(__S(4864, __c152, 0)),
+          ReleaseSummary: S.optional(__S(5568, __c174, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeReleaseSummaryResponse" });
   }
 }
-function __c170(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11564,6 +12998,8 @@ function __c170(j: number): any {
           KnowledgeCapacity: S.optional(S.Number),
           KnowledgeUsage: S.optional(S.Number),
           ResourceStatus: S.optional(S.Number),
+          CloudDiskCapacity: S.optional(S.Number),
+          CloudDiskUsage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ResourcePackageInfo" });
     case 2:
@@ -11583,14 +13019,14 @@ function __c170(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ResourcePackage: S.optional(__S(5441, __c170, 1)),
-          AddOnPackage: S.optional(__S(5442, __c170, 2)),
+          ResourcePackage: S.optional(__S(6369, __c199, 1)),
+          AddOnPackage: S.optional(__S(6370, __c199, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeResourceSummaryResponse" });
   }
 }
-function __c171(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11608,47 +13044,47 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "SkillCategory" });
     case 2:
-      return S.Array(__S(5473, __c171, 1));
+      return S.Array(__S(6401, __c200, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CategoryList: S.optional(__S(5474, __c171, 2)),
+          CategoryList: S.optional(__S(6402, __c200, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSkillCategoryListResponse" });
   }
 }
-function __c172(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SkillId: S.String,
           SpaceId: S.String,
-          VersionFilterList: S.optional(__S(3009, __c94, 1)),
+          VersionFilterList: S.optional(__S(3585, __c112, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeSkillDetail" })),
       ).annotate({ identifier: "DescribeSkillDetailRequest" });
     case 1:
-      return S.Array(__S(5570, __c174, 2));
+      return S.Array(__S(6498, __c203, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ReferenceSummaryList: S.optional(__S(5538, __c173, 2)),
-          SkillSummary: S.optional(__S(5576, __c174, 8)),
-          VersionList: S.optional(__S(5505, __c172, 1)),
+          ReferenceSummaryList: S.optional(__S(6466, __c202, 2)),
+          SkillSummary: S.optional(__S(6504, __c203, 8)),
+          VersionList: S.optional(__S(6433, __c201, 1)),
         }),
       ).annotate({ identifier: "SkillDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SkillDetail: S.optional(__S(5506, __c172, 2)),
+          SkillDetail: S.optional(__S(6434, __c201, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSkillDetailResponse" });
   }
 }
-function __c173(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11667,14 +13103,14 @@ function __c173(j: number): any {
           SpaceId: S.optional(S.String),
           SpaceName: S.optional(S.String),
           Owner: S.optional(S.String),
-          AppIdentity: S.optional(__S(5536, __c173, 0)),
+          AppIdentity: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({ identifier: "SkillReferenceSummary" });
     case 2:
-      return S.Array(__S(5537, __c173, 1));
+      return S.Array(__S(6465, __c202, 1));
   }
 }
-function __c174(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11699,7 +13135,7 @@ function __c174(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AnalysisInfo: S.optional(S.NullOr(__S(5569, __c174, 1))),
+          AnalysisInfo: S.optional(S.NullOr(__S(6497, __c203, 1))),
           Version: S.optional(S.String),
           VersionId: S.optional(S.String),
           VersionStatus: S.optional(S.Number),
@@ -11735,7 +13171,7 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "SkillNotice" });
     case 5:
-      return S.Array(__S(5572, __c174, 4));
+      return S.Array(__S(6500, __c203, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11745,28 +13181,28 @@ function __c174(j: number): any {
           ShareVersionId: S.optional(S.String),
           SkillId: S.optional(S.String),
           Status: S.optional(S.Number),
-          CorpShareConfig: S.optional(__S(1920, __c60, 0)),
+          CorpShareConfig: S.optional(__S(2464, __c77, 0)),
         }),
       ).annotate({ identifier: "SkillShare" });
     case 7:
-      return S.Array(__S(5574, __c174, 6));
+      return S.Array(__S(6502, __c203, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ClassificationInfo: S.optional(S.NullOr(__S(5568, __c174, 0))),
-          CurrentVersionInfo: S.optional(S.NullOr(__S(5570, __c174, 2))),
+          ClassificationInfo: S.optional(S.NullOr(__S(6496, __c203, 0))),
+          CurrentVersionInfo: S.optional(S.NullOr(__S(6498, __c203, 2))),
           IsFavorite: S.optional(S.Boolean),
-          Profile: S.optional(S.NullOr(__S(5571, __c174, 3))),
+          Profile: S.optional(S.NullOr(__S(6499, __c203, 3))),
           SkillId: S.optional(S.String),
-          NoticeList: S.optional(__S(5573, __c174, 5)),
+          NoticeList: S.optional(__S(6501, __c203, 5)),
           PermissionIdList: S.optional(__S(64, __c2, 0)),
-          ShareList: S.optional(__S(5575, __c174, 7)),
+          ShareList: S.optional(__S(6503, __c203, 7)),
           SkillStatus: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SkillSummary" });
   }
 }
-function __c175(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11781,31 +13217,31 @@ function __c175(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ReferenceSummaryList: S.optional(__S(5538, __c173, 2)),
+          ReferenceSummaryList: S.optional(__S(6466, __c202, 2)),
           ReferenceType: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SkillReferenceGroup" });
     case 2:
-      return S.Array(__S(5601, __c175, 1));
+      return S.Array(__S(6529, __c204, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ReferenceList: S.optional(__S(5602, __c175, 2)),
+          ReferenceList: S.optional(__S(6530, __c204, 2)),
           AllowForceModify: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSkillReferenceListResponse" });
   }
 }
-function __c176(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SpaceId: S.String,
           FavoriteOnly: S.optional(S.Boolean),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           Query: S.optional(S.String),
@@ -11815,18 +13251,18 @@ function __c176(j: number): any {
         ),
       ).annotate({ identifier: "DescribeSkillSummaryListRequest" });
     case 1:
-      return S.Array(__S(5576, __c174, 8));
+      return S.Array(__S(6504, __c203, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SkillSummaryList: S.optional(__S(5633, __c176, 1)),
+          SkillSummaryList: S.optional(__S(6561, __c205, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSkillSummaryListResponse" });
   }
 }
-function __c177(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11847,43 +13283,18 @@ function __c177(j: number): any {
         }),
       ).annotate({ identifier: "Space" });
     case 2:
-      return S.Array(__S(5665, __c177, 1));
+      return S.Array(__S(6593, __c206, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.String),
-          SpaceList: S.optional(__S(5666, __c177, 2)),
+          SpaceList: S.optional(__S(6594, __c206, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSpaceListResponse" });
   }
 }
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.Number,
-          AppId: S.optional(S.String),
-          AppKey: S.optional(S.String),
-          LoginSubAccountUin: S.optional(S.String),
-          LoginUin: S.optional(S.String),
-          ShareCode: S.optional(S.String),
-          UserId: S.optional(S.String),
-          AgentId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "CreateConversation" })),
-      ).annotate({ identifier: "CreateConversationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ConversationId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateConversationResponse" });
-  }
-}
-function __c179(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11902,25 +13313,25 @@ function __c179(j: number): any {
         }),
       ).annotate({ identifier: "SystemVariable" });
     case 2:
-      return S.Array(__S(5729, __c179, 1));
+      return S.Array(__S(6625, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SystemVariableList: S.optional(__S(5730, __c179, 2)),
+          SystemVariableList: S.optional(__S(6626, __c207, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSystemVariableListResponse" });
   }
 }
-function __c180(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceType: S.Number,
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
-          FilterList: S.optional(__S(3009, __c94, 1)),
+          TimeRange: __S(4032, __c126, 0),
+          ViewScope: __S(4033, __c126, 1),
+          FilterList: S.optional(__S(3585, __c112, 1)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           SpaceId: S.optional(S.String),
@@ -11949,43 +13360,43 @@ function __c180(j: number): any {
           ConsumptionPU: S.optional(S.Number),
           IsDefaultKB: S.optional(S.Boolean),
           ModelName: S.optional(S.String),
-          ResourceConsumptionList: S.optional(__S(5793, __c181, 1)),
+          ResourceConsumptionList: S.optional(__S(6689, __c209, 1)),
         }),
       ).annotate({ identifier: "ModelUsageDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           PluginName: S.optional(S.String),
-          ResourceConsumptionList: S.optional(__S(5793, __c181, 1)),
+          ResourceConsumptionList: S.optional(__S(6689, __c209, 1)),
           ToolName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluginUsageDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CallSource: S.optional(__S(4000, __c125, 0)),
-          DocumentParse: S.optional(__S(5761, __c180, 1)),
+          CallSource: S.optional(__S(4736, __c148, 0)),
+          DocumentParse: S.optional(__S(6657, __c208, 1)),
           DosageId: S.optional(S.String),
           EventTime: S.optional(S.String),
-          Model: S.optional(__S(5762, __c180, 2)),
-          Plugin: S.optional(__S(5763, __c180, 3)),
+          Model: S.optional(__S(6658, __c208, 2)),
+          Plugin: S.optional(__S(6659, __c208, 3)),
           TraceId: S.optional(S.String),
           UserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsageDetail" });
     case 5:
-      return S.Array(__S(5764, __c180, 4));
+      return S.Array(__S(6660, __c208, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.String),
-          UsageDetailList: S.optional(__S(5765, __c180, 5)),
+          UsageDetailList: S.optional(__S(6661, __c208, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUsageDetailListResponse" });
   }
 }
-function __c181(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11996,319 +13407,7 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "ResourceConsumption" });
     case 1:
-      return S.Array(__S(5792, __c181, 0));
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ResourceType: S.Number,
-          TimeRange: __S(3424, __c107, 0),
-          ViewScope: __S(3425, __c107, 1),
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          PageNumber: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          SpaceId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeUsageSummaryList" }),
-        ),
-      ).annotate({ identifier: "DescribeUsageSummaryListRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          CallCount: S.optional(S.Number),
-          ConsumptionPU: S.optional(S.Number),
-          IsDefaultKB: S.optional(S.Boolean),
-          ModelName: S.optional(S.String),
-          ResourceConsumptionList: S.optional(__S(5793, __c181, 1)),
-        }),
-      ).annotate({ identifier: "ModelUsageSummary" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ResourceConsumptionList: S.optional(__S(5793, __c181, 1)),
-        }),
-      ).annotate({ identifier: "PlatformUsageSummary" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          CallCount: S.optional(S.Number),
-          ResourceConsumptionList: S.optional(__S(5793, __c181, 1)),
-        }),
-      ).annotate({ identifier: "PluginUsageSummary" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          Model: S.optional(__S(5825, __c182, 1)),
-          Platform: S.optional(__S(5826, __c182, 2)),
-          Plugin: S.optional(__S(5827, __c182, 3)),
-          SourceId: S.optional(S.String),
-          SourceName: S.optional(S.String),
-          ViewType: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "UsageSummary" });
-    case 5:
-      return S.Array(__S(5828, __c182, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.String),
-          UsageSummaryList: S.optional(__S(5829, __c182, 5)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeUsageSummaryListResponse" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          VariableId: S.String,
-          ModuleType: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeVariable" })),
-      ).annotate({ identifier: "DescribeVariableRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Variable: S.optional(__S(2080, __c65, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeVariableResponse" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          ModuleType: S.optional(S.Number),
-          NeedInternalVariable: S.optional(S.Boolean),
-          PageNumber: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          Query: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "adp", version: "2026-05-20", action: "DescribeVariableList" }),
-        ),
-      ).annotate({ identifier: "DescribeVariableListRequest" });
-    case 1:
-      return S.Array(__S(2080, __c65, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          VariableList: S.optional(__S(5889, __c184, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeVariableListResponse" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          WorkflowRunId: S.String,
-          SubWorkflowNodePath: S.optional(S.String),
-          IncludeWorkflowGraph: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "DescribeWorkflowRun" })),
-      ).annotate({ identifier: "DescribeWorkflowRunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          MaxFileCount: S.optional(S.Number),
-          SupportedFileTypeList: S.optional(__S(64, __c2, 0)),
-          SupportedFileTypes: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "ConversationFileCollection" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          EncodedWidget: S.optional(S.String),
-          Payload: S.optional(S.String),
-          Position: S.optional(S.Number),
-          State: S.optional(S.String),
-          View: S.optional(S.String),
-          WidgetId: S.optional(S.String),
-          WidgetRunId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConversationWidget" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.optional(S.String),
-          Text: S.optional(S.NullOr(S.String)),
-          OptionCardList: S.optional(S.NullOr(__S(64, __c2, 0))),
-          FileCollection: S.optional(S.NullOr(__S(5921, __c185, 1))),
-          Widget: S.optional(S.NullOr(__S(5922, __c185, 2))),
-        }),
-      ).annotate({ identifier: "ReplyContent" });
-    case 4:
-      return S.Array(__S(5923, __c185, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          ContentList: S.optional(__S(5924, __c185, 4)),
-        }),
-      ).annotate({ identifier: "ReplyMessage" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          Output: S.optional(S.String),
-          LatestMessage: S.optional(S.NullOr(__S(5925, __c185, 5))),
-        }),
-      ).annotate({ identifier: "WorkflowRunOutput" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          Query: S.optional(S.String),
-          MainModelName: S.optional(S.String),
-          CustomVariableList: S.optional(__S(1313, __c41, 1)),
-          WorkflowGraph: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkflowRunMetadata" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          WorkflowRunSummary: S.optional(__S(5955, __c186, 3)),
-          WorkflowRunOutput: S.optional(__S(5926, __c185, 6)),
-          WorkflowRunMetadata: S.optional(__S(5927, __c185, 7)),
-        }),
-      ).annotate({ identifier: "WorkflowRun" });
-    case 9:
-      return S.Array(__S(5088, __c159, 0));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          WorkflowRun: S.optional(__S(5928, __c185, 8)),
-          NodeRunList: S.optional(__S(5929, __c185, 9)),
-          SubWorkflowNodePath: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeWorkflowRunResponse" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.optional(S.String),
-          WorkflowRunId: S.optional(S.String),
-          WorkflowId: S.optional(S.String),
-          Name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkflowRunProfile" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Status: S.optional(S.Number),
-          FailMessage: S.optional(S.String),
-          TotalTokens: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WorkflowRunResult" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          CreateTime: S.optional(S.String),
-          StartTime: S.optional(S.String),
-          EndTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkflowRunTime" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Domain: S.optional(S.Number),
-          WorkflowRunProfile: S.optional(__S(5952, __c186, 0)),
-          WorkflowRunResult: S.optional(__S(5953, __c186, 1)),
-          WorkflowRunTime: S.optional(__S(5954, __c186, 2)),
-        }),
-      ).annotate({ identifier: "WorkflowRunSummary" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AppId: S.String,
-          PageSize: S.Number,
-          PageNumber: S.Number,
-          Domain: S.Number,
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "adp",
-            version: "2026-05-20",
-            action: "DescribeWorkflowRunSummaryList",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeWorkflowRunSummaryListRequest" });
-    case 1:
-      return S.Array(__S(5955, __c186, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          WorkflowRunSummaryList: S.optional(__S(5985, __c187, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeWorkflowRunSummaryListResponse" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          KbId: S.String,
-          FilterList: S.optional(__S(3009, __c94, 1)),
-          Query: S.optional(__S(4544, __c142, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "ExportQA" })),
-      ).annotate({ identifier: "ExportQARequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ExportTaskId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExportQAResponse" });
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PluginId: S.String,
-          SpaceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "FavoritePlugin" })),
-      ).annotate({ identifier: "FavoritePluginRequest" });
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SkillId: S.String,
-          SpaceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "adp", version: "2026-05-20", action: "FavoriteSkill" })),
-      ).annotate({ identifier: "FavoriteSkillRequest" });
+      return S.Array(__S(6688, __c209, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -209,6 +209,14 @@ export interface BetaWorkersVersionsProfileRequest {
   profileType?: BetaWorkersVersionsProfileRequestProfileType | (string & {}) | undefined;
 }
 export interface BetaWorkersVersionsProfileResponse {}
+export interface BetaWorkersCreateRequestObservabilityAgents {
+  /** Whether Agents observability is enabled for the Worker. */
+  enabled?: boolean | undefined;
+  /** The sampling rate for Agents observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
+  headSamplingRate?: number | undefined;
+  /** Whether Agents observability data is persisted for the Worker. */
+  persist?: boolean | undefined;
+}
 export interface BetaWorkersCreateRequestObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
   enabled?: boolean | undefined;
@@ -246,6 +254,8 @@ export interface BetaWorkersCreateRequestObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersCreateRequestObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -278,6 +288,8 @@ export interface BetaWorkersCreateRequestPreviewsBaseConfigLimits {
   /** The number of subrequests this Worker can make per request. */
   subrequests?: number | undefined;
 }
+export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateRequestObservabilityAgents;
 export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
 export type BetaWorkersCreateRequestPreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -319,6 +331,8 @@ export interface BetaWorkersCreateRequestPreviewsBaseConfigObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersCreateRequestPreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -457,6 +471,14 @@ export interface CreateBetaWorkerRequest {
   /** Other Workers that should consume logs from the Worker. */
   tailConsumers?: BetaWorkersCreateRequestTailConsumersList | undefined;
 }
+export interface BetaWorkersCreateResponseObservabilityAgents {
+  /** Whether Agents observability is enabled for the Worker. */
+  enabled?: boolean | null | undefined;
+  /** The sampling rate for Agents observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
+  headSamplingRate?: number | null | undefined;
+  /** Whether Agents observability data is persisted for the Worker. */
+  persist?: boolean | null | undefined;
+}
 export interface BetaWorkersCreateResponseObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
   enabled?: boolean | null | undefined;
@@ -494,6 +516,8 @@ export interface BetaWorkersCreateResponseObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersCreateResponseObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -607,6 +631,8 @@ export interface BetaWorkersCreateResponsePreviewsBaseConfigLimits {
   /** The number of subrequests this Worker can make per request. */
   subrequests?: number | null | undefined;
 }
+export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersCreateResponsePreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -650,6 +676,8 @@ export interface BetaWorkersCreateResponsePreviewsBaseConfigObservabilityTraces 
     | undefined;
 }
 export interface BetaWorkersCreateResponsePreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -1323,6 +1351,11 @@ export interface BetaWorkersVersionsCreateRequestContainersItem {
 }
 export type BetaWorkersVersionsCreateRequestContainersList =
   Array<BetaWorkersVersionsCreateRequestContainersItem>;
+export type BetaWorkersVersionsCreateRequestEnvValue =
+  BetaWorkersCreateRequestPreviewsBaseConfigEnvValue;
+export type BetaWorkersVersionsCreateRequestEnvMap = {
+  [key: string]: BetaWorkersCreateRequestPreviewsBaseConfigEnvValue | undefined;
+};
 export type BetaWorkersVersionsCreateRequestExportsValueWorkerType = "worker";
 export interface BetaWorkersVersionsCreateRequestExportsValueWorkerCache {
   /** Whether caching is enabled for this entrypoint. */
@@ -1617,7 +1650,7 @@ export interface CreateBetaWorkerVersionRequest {
   annotations?: BetaWorkersVersionsCreateRequestAnnotations | undefined;
   /** Configuration for assets within a Worker. */
   assets?: BetaWorkersVersionsCreateRequestAssets | undefined;
-  /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
+  /** Bindings attached to the version, as an array of objects that each name themselves. A create or patch request can send `bindings` or `env`, and a read returns both. A request that sends both fails with error 10021. */
   bindings?: BetaWorkersVersionsCreateRequestBindingsList | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersCreateRequestPreviewsBaseConfigCacheOptions | undefined;
@@ -1627,6 +1660,8 @@ export interface CreateBetaWorkerVersionRequest {
   compatibilityFlags?: BetaWorkersVersionsCreateRequestCompatibilityFlagsList | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateRequestContainersList | undefined;
+  /** Bindings attached to the version, as a map from binding name to binding. Each value holds the same payload as the matching `bindings` entry, without `name`. Reads derive `env` from `bindings`, so the two fields always list the same bindings and `env` carries nothing extra. Reads omit secret values in both fields. */
+  env?: BetaWorkersVersionsCreateRequestEnvMap | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
   exports?: BetaWorkersVersionsCreateRequestExportsMap | undefined;
   /** Resource limits enforced at runtime. */
@@ -2197,6 +2232,11 @@ export interface BetaWorkersVersionsCreateResponseContainersItem {
 }
 export type BetaWorkersVersionsCreateResponseContainersList =
   Array<BetaWorkersVersionsCreateResponseContainersItem>;
+export type BetaWorkersVersionsCreateResponseEnvValue =
+  BetaWorkersCreateRequestPreviewsBaseConfigEnvValue;
+export type BetaWorkersVersionsCreateResponseEnvMap = {
+  [key: string]: BetaWorkersCreateRequestPreviewsBaseConfigEnvValue | undefined;
+};
 export type BetaWorkersVersionsCreateResponseExportsValueWorkerType = "worker";
 export type BetaWorkersVersionsCreateResponseExportsValueWorkerCache =
   BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
@@ -2644,7 +2684,7 @@ export interface CreateBetaWorkerVersionResponse {
   authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
   authorId?: string | null | undefined;
-  /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
+  /** Bindings attached to the version, as an array of objects that each name themselves. A create or patch request can send `bindings` or `env`, and a read returns both. A request that sends both fails with error 10021. */
   bindings?: BetaWorkersVersionsCreateResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
@@ -2654,6 +2694,8 @@ export interface CreateBetaWorkerVersionResponse {
   compatibilityFlags?: BetaWorkersVersionsCreateResponseCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsCreateResponseContainersList | null | undefined;
+  /** Bindings attached to the version, as a map from binding name to binding. Each value holds the same payload as the matching `bindings` entry, without `name`. Reads derive `env` from `bindings`, so the two fields always list the same bindings and `env` carries nothing extra. Reads omit secret values in both fields. */
+  env?: BetaWorkersVersionsCreateResponseEnvMap | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
   exports?: BetaWorkersVersionsCreateResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
@@ -2703,6 +2745,8 @@ export interface GetBetaWorkerRequest {
   /** Identifier for the Worker, which can be ID or name. */
   workerId: string;
 }
+export type BetaWorkersGetResponseObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersGetResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersGetResponseObservabilityLogsDestinationsList = Array<string>;
@@ -2733,6 +2777,8 @@ export interface BetaWorkersGetResponseObservabilityTraces {
   propagationPolicy?: BetaWorkersGetResponseObservabilityTracesPropagationPolicy | null | undefined;
 }
 export interface BetaWorkersGetResponseObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -2793,6 +2839,8 @@ export type BetaWorkersGetResponsePreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersGetResponsePreviewsBaseConfigLimits =
   BetaWorkersCreateResponsePreviewsBaseConfigLimits;
+export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersGetResponsePreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -2836,6 +2884,8 @@ export interface BetaWorkersGetResponsePreviewsBaseConfigObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersGetResponsePreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -3487,6 +3537,11 @@ export type BetaWorkersVersionsGetResponseContainersItem =
   BetaWorkersVersionsCreateResponseContainersItem;
 export type BetaWorkersVersionsGetResponseContainersList =
   Array<BetaWorkersVersionsCreateResponseContainersItem>;
+export type BetaWorkersVersionsGetResponseEnvValue =
+  BetaWorkersCreateRequestPreviewsBaseConfigEnvValue;
+export type BetaWorkersVersionsGetResponseEnvMap = {
+  [key: string]: BetaWorkersCreateRequestPreviewsBaseConfigEnvValue | undefined;
+};
 export type BetaWorkersVersionsGetResponseExportsValueWorkerType = "worker";
 export type BetaWorkersVersionsGetResponseExportsValueWorkerCache =
   BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
@@ -3912,7 +3967,7 @@ export interface GetBetaWorkerVersionResponse {
   authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
   authorId?: string | null | undefined;
-  /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
+  /** Bindings attached to the version, as an array of objects that each name themselves. A create or patch request can send `bindings` or `env`, and a read returns both. A request that sends both fails with error 10021. */
   bindings?: BetaWorkersVersionsGetResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
@@ -3922,6 +3977,8 @@ export interface GetBetaWorkerVersionResponse {
   compatibilityFlags?: BetaWorkersVersionsGetResponseCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsGetResponseContainersList | null | undefined;
+  /** Bindings attached to the version, as a map from binding name to binding. Each value holds the same payload as the matching `bindings` entry, without `name`. Reads derive `env` from `bindings`, so the two fields always list the same bindings and `env` carries nothing extra. Reads omit secret values in both fields. */
+  env?: BetaWorkersVersionsGetResponseEnvMap | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
   exports?: BetaWorkersVersionsGetResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
@@ -3961,6 +4018,8 @@ export interface ListBetaWorkersRequest {
   /** Items per-page. */
   perPage?: number | undefined;
 }
+export type BetaWorkersListResultItemObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersListResultItemObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersListResultItemObservabilityLogsDestinationsList = Array<string>;
@@ -3996,6 +4055,8 @@ export interface BetaWorkersListResultItemObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersListResultItemObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -4056,6 +4117,8 @@ export type BetaWorkersListResultItemPreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersListResultItemPreviewsBaseConfigLimits =
   BetaWorkersCreateResponsePreviewsBaseConfigLimits;
+export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersListResultItemPreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -4099,6 +4162,8 @@ export interface BetaWorkersListResultItemPreviewsBaseConfigObservabilityTraces 
     | undefined;
 }
 export interface BetaWorkersListResultItemPreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -4766,6 +4831,11 @@ export type BetaWorkersVersionsListResultItemContainersItem =
   BetaWorkersVersionsCreateResponseContainersItem;
 export type BetaWorkersVersionsListResultItemContainersList =
   Array<BetaWorkersVersionsCreateResponseContainersItem>;
+export type BetaWorkersVersionsListResultItemEnvValue =
+  BetaWorkersCreateRequestPreviewsBaseConfigEnvValue;
+export type BetaWorkersVersionsListResultItemEnvMap = {
+  [key: string]: BetaWorkersCreateRequestPreviewsBaseConfigEnvValue | undefined;
+};
 export type BetaWorkersVersionsListResultItemExportsValueWorkerType = "worker";
 export type BetaWorkersVersionsListResultItemExportsValueWorkerCache =
   BetaWorkersVersionsCreateRequestExportsValueWorkerCache;
@@ -5194,7 +5264,7 @@ export interface BetaWorkersVersionsListResultItem {
   authorEmail?: string | null | undefined;
   /** Identifier of the user who created the version. */
   authorId?: string | null | undefined;
-  /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
+  /** Bindings attached to the version, as an array of objects that each name themselves. A create or patch request can send `bindings` or `env`, and a read returns both. A request that sends both fails with error 10021. */
   bindings?: BetaWorkersVersionsListResultItemBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
   cacheOptions?: BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions | null | undefined;
@@ -5204,6 +5274,8 @@ export interface BetaWorkersVersionsListResultItem {
   compatibilityFlags?: BetaWorkersVersionsListResultItemCompatibilityFlagsList | null | undefined;
   /** List of containers attached to a Worker. Containers can only be attached to Durable Object classes of this Worker script. */
   containers?: BetaWorkersVersionsListResultItemContainersList | null | undefined;
+  /** Bindings attached to the version, as a map from binding name to binding. Each value holds the same payload as the matching `bindings` entry, without `name`. Reads derive `env` from `bindings`, so the two fields always list the same bindings and `env` carries nothing extra. Reads omit secret values in both fields. */
+  env?: BetaWorkersVersionsListResultItemEnvMap | null | undefined;
   /** Declarative exports for the version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. On reads, tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. `exports` and `migrations` are mutually exclusive on upload. */
   exports?: BetaWorkersVersionsListResultItemExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
@@ -5236,6 +5308,7 @@ export interface ListBetaWorkerVersionsResponse {
   /** Pagination info from the envelope's `result_info`. */
   resultInfo?: ResultInfo | null | undefined;
 }
+export type BetaWorkersEditRequestObservabilityAgents = BetaWorkersCreateRequestObservabilityAgents;
 export type BetaWorkersEditRequestObservabilityIssues = BetaWorkersCreateRequestObservabilityIssues;
 export type BetaWorkersEditRequestObservabilityLogsDestinationsList = Array<string>;
 export interface BetaWorkersEditRequestObservabilityLogs {
@@ -5268,6 +5341,8 @@ export interface BetaWorkersEditRequestObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersEditRequestObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5296,6 +5371,8 @@ export type BetaWorkersEditRequestPreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersEditRequestPreviewsBaseConfigLimits =
   BetaWorkersCreateRequestPreviewsBaseConfigLimits;
+export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateRequestObservabilityAgents;
 export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
 export type BetaWorkersEditRequestPreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -5337,6 +5414,8 @@ export interface BetaWorkersEditRequestPreviewsBaseConfigObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersEditRequestPreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5450,6 +5529,8 @@ export interface PatchBetaWorkerRequest {
   /** Template configuration used when creating new Previews for this Worker. */
   previewsBaseConfig?: BetaWorkersEditRequestPreviewsBaseConfig | undefined;
 }
+export type BetaWorkersEditResponseObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersEditResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersEditResponseObservabilityLogsDestinationsList = Array<string>;
@@ -5485,6 +5566,8 @@ export interface BetaWorkersEditResponseObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersEditResponseObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5545,6 +5628,8 @@ export type BetaWorkersEditResponsePreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersEditResponsePreviewsBaseConfigLimits =
   BetaWorkersCreateResponsePreviewsBaseConfigLimits;
+export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersEditResponsePreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -5588,6 +5673,8 @@ export interface BetaWorkersEditResponsePreviewsBaseConfigObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersEditResponsePreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5708,6 +5795,8 @@ export interface PatchBetaWorkerResponse {
   /** Template configuration used when creating new Previews for this Worker. */
   previewsBaseConfig?: BetaWorkersEditResponsePreviewsBaseConfig | null | undefined;
 }
+export type BetaWorkersUpdateRequestObservabilityAgents =
+  BetaWorkersCreateRequestObservabilityAgents;
 export type BetaWorkersUpdateRequestObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
 export type BetaWorkersUpdateRequestObservabilityLogsDestinationsList = Array<string>;
@@ -5743,6 +5832,8 @@ export interface BetaWorkersUpdateRequestObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersUpdateRequestObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5765,6 +5856,8 @@ export type BetaWorkersUpdateRequestPreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersUpdateRequestPreviewsBaseConfigLimits =
   BetaWorkersCreateRequestPreviewsBaseConfigLimits;
+export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateRequestObservabilityAgents;
 export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateRequestObservabilityIssues;
 export type BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -5806,6 +5899,8 @@ export interface BetaWorkersUpdateRequestPreviewsBaseConfigObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersUpdateRequestPreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateRequestObservabilityAgents | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -5925,6 +6020,8 @@ export interface UpdateBetaWorkerRequest {
   /** Other Workers that should consume logs from the Worker. */
   tailConsumers?: BetaWorkersUpdateRequestTailConsumersList | undefined;
 }
+export type BetaWorkersUpdateResponseObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersUpdateResponseObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersUpdateResponseObservabilityLogsDestinationsList = Array<string>;
@@ -5960,6 +6057,8 @@ export interface BetaWorkersUpdateResponseObservabilityTraces {
     | undefined;
 }
 export interface BetaWorkersUpdateResponseObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -6020,6 +6119,8 @@ export type BetaWorkersUpdateResponsePreviewsBaseConfigEnvMap = {
 };
 export type BetaWorkersUpdateResponsePreviewsBaseConfigLimits =
   BetaWorkersCreateResponsePreviewsBaseConfigLimits;
+export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityAgents =
+  BetaWorkersCreateResponseObservabilityAgents;
 export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityIssues =
   BetaWorkersCreateResponseObservabilityIssues;
 export type BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityLogsDestinationsList =
@@ -6063,6 +6164,8 @@ export interface BetaWorkersUpdateResponsePreviewsBaseConfigObservabilityTraces 
     | undefined;
 }
 export interface BetaWorkersUpdateResponsePreviewsBaseConfigObservability {
+  /** Agents observability settings for the Worker. */
+  agents?: BetaWorkersCreateResponseObservabilityAgents | null | undefined;
   /** Whether observability is enabled for the Worker. */
   enabled?: boolean | null | undefined;
   /** The sampling rate for observability. From 0 to 1 (1 = 100%, 0.1 = 10%). */
@@ -6647,17 +6750,18 @@ function __c0(j: number): any {
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
           authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
           bindings: S.optional(S.NullOr(__S(5, __c0, 5))),
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(320, __c10, 0)).pipe(T.Body("compatibility_flags")),
           ),
           containers: S.optional(S.NullOr(__S(423, __c13, 7))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
           exports: S.optional(S.NullOr(__S(7, __c0, 7))),
           exportsReconciliation: S.optional(
             S.NullOr(__S(434, __c13, 18)).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           migrations: S.optional(S.NullOr(__S(8, __c0, 8))),
@@ -6703,13 +6807,13 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
-          env: S.optional(S.NullOr(__S(353, __c11, 1))),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(359, __c11, 7))),
+          observability: S.optional(S.NullOr(__S(358, __c11, 6))),
           placement: S.optional(S.NullOr(__S(33, __c1, 1))),
-          tailConsumers: S.optional(S.NullOr(__S(355, __c11, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(353, __c11, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersListResultItemPreviewsBaseConfig" });
     case 3:
@@ -6719,11 +6823,11 @@ function __c1(j: number): any {
           createdOn: S.String.pipe(T.Body("created_on")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(359, __c11, 7),
-          references: __S(368, __c11, 16),
-          subdomain: __S(369, __c11, 17),
+          observability: __S(358, __c11, 6),
+          references: __S(367, __c11, 15),
+          subdomain: __S(368, __c11, 16),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(
@@ -6979,17 +7083,18 @@ function __c2(j: number): any {
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
           authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
           bindings: S.optional(S.NullOr(__S(69, __c2, 5))),
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(320, __c10, 0)).pipe(T.Body("compatibility_flags")),
           ),
           containers: S.optional(S.NullOr(__S(423, __c13, 7))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
           exports: S.optional(S.NullOr(__S(71, __c2, 7))),
           exportsReconciliation: S.optional(
             S.NullOr(__S(434, __c13, 18)).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           migrations: S.optional(S.NullOr(__S(72, __c2, 8))),
@@ -7033,12 +7138,12 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cacheOptions: S.optional(__S(288, __c9, 0).pipe(T.Body("cache_options"))),
-          env: S.optional(__S(353, __c11, 1)),
+          env: S.optional(__S(322, __c10, 2)),
           limits: S.optional(__S(289, __c9, 1)),
           logpush: S.optional(S.Boolean),
-          observability: S.optional(__S(259, __c8, 3)),
+          observability: S.optional(__S(260, __c8, 4)),
           placement: S.optional(__S(96, __c3, 0)),
-          tailConsumers: S.optional(__S(355, __c11, 3).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(353, __c11, 1).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersEditRequestPreviewsBaseConfig" });
     case 2:
@@ -7048,10 +7153,10 @@ function __c3(j: number): any {
           workerId: S.String.pipe(T.Label("worker_id")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(259, __c8, 3),
-          subdomain: __S(260, __c8, 4),
+          observability: __S(260, __c8, 4),
+          subdomain: __S(261, __c8, 5),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           previewsBaseConfig: S.optional(__S(97, __c3, 1).pipe(T.Body("previews_base_config"))),
         })
           .pipe(
@@ -7079,13 +7184,13 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
-          env: S.optional(S.NullOr(__S(353, __c11, 1))),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(359, __c11, 7))),
+          observability: S.optional(S.NullOr(__S(358, __c11, 6))),
           placement: S.optional(S.NullOr(__S(99, __c3, 3))),
-          tailConsumers: S.optional(S.NullOr(__S(355, __c11, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(353, __c11, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersEditResponsePreviewsBaseConfig" });
     case 5:
@@ -7095,11 +7200,11 @@ function __c3(j: number): any {
           createdOn: S.String.pipe(T.Body("created_on")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(359, __c11, 7),
-          references: __S(368, __c11, 16),
-          subdomain: __S(369, __c11, 17),
+          observability: __S(358, __c11, 6),
+          references: __S(367, __c11, 15),
+          subdomain: __S(368, __c11, 16),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(
@@ -7128,12 +7233,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cacheOptions: S.optional(__S(288, __c9, 0).pipe(T.Body("cache_options"))),
-          env: S.optional(__S(353, __c11, 1)),
+          env: S.optional(__S(322, __c10, 2)),
           limits: S.optional(__S(289, __c9, 1)),
           logpush: S.optional(S.Boolean),
-          observability: S.optional(__S(259, __c8, 3)),
+          observability: S.optional(__S(260, __c8, 4)),
           placement: S.optional(__S(128, __c4, 0)),
-          tailConsumers: S.optional(__S(355, __c11, 3).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(353, __c11, 1).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersUpdateRequestPreviewsBaseConfig" });
     case 2:
@@ -7143,11 +7248,11 @@ function __c4(j: number): any {
           workerId: S.String.pipe(T.Label("worker_id")),
           name: S.String,
           logpush: S.optional(S.Boolean),
-          observability: S.optional(__S(259, __c8, 3)),
+          observability: S.optional(__S(260, __c8, 4)),
           previewsBaseConfig: S.optional(__S(129, __c4, 1).pipe(T.Body("previews_base_config"))),
-          subdomain: S.optional(__S(260, __c8, 4)),
+          subdomain: S.optional(__S(261, __c8, 5)),
           tags: S.optional(__S(320, __c10, 0)),
-          tailConsumers: S.optional(__S(355, __c11, 3).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(353, __c11, 1).pipe(T.Body("tail_consumers"))),
         })
           .pipe(
             T.Http({
@@ -7174,13 +7279,13 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
-          env: S.optional(S.NullOr(__S(353, __c11, 1))),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(359, __c11, 7))),
+          observability: S.optional(S.NullOr(__S(358, __c11, 6))),
           placement: S.optional(S.NullOr(__S(131, __c4, 3))),
-          tailConsumers: S.optional(S.NullOr(__S(355, __c11, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(353, __c11, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersUpdateResponsePreviewsBaseConfig" });
     case 5:
@@ -7190,11 +7295,11 @@ function __c4(j: number): any {
           createdOn: S.String.pipe(T.Body("created_on")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(359, __c11, 7),
-          references: __S(368, __c11, 16),
-          subdomain: __S(369, __c11, 17),
+          observability: __S(358, __c11, 6),
+          references: __S(367, __c11, 15),
+          subdomain: __S(368, __c11, 16),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(
@@ -7255,12 +7360,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cacheOptions: S.optional(__S(288, __c9, 0).pipe(T.Body("cache_options"))),
-          env: S.optional(__S(353, __c11, 1)),
+          env: S.optional(__S(322, __c10, 2)),
           limits: S.optional(__S(289, __c9, 1)),
           logpush: S.optional(S.Boolean),
-          observability: S.optional(__S(259, __c8, 3)),
+          observability: S.optional(__S(260, __c8, 4)),
           placement: S.optional(__S(224, __c7, 0)),
-          tailConsumers: S.optional(__S(355, __c11, 3).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(353, __c11, 1).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestPreviewsBaseConfig" });
     case 2:
@@ -7269,11 +7374,11 @@ function __c7(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           logpush: S.optional(S.Boolean),
-          observability: S.optional(__S(259, __c8, 3)),
+          observability: S.optional(__S(260, __c8, 4)),
           previewsBaseConfig: S.optional(__S(225, __c7, 1).pipe(T.Body("previews_base_config"))),
-          subdomain: S.optional(__S(260, __c8, 4)),
+          subdomain: S.optional(__S(261, __c8, 5)),
           tags: S.optional(__S(320, __c10, 0)),
-          tailConsumers: S.optional(__S(355, __c11, 3).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(__S(353, __c11, 1).pipe(T.Body("tail_consumers"))),
         })
           .pipe(
             T.Http({ method: "POST", uri: "/accounts/{account_id}/workers/workers", code: 200 }),
@@ -7296,13 +7401,13 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
-          env: S.optional(S.NullOr(__S(353, __c11, 1))),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(359, __c11, 7))),
+          observability: S.optional(S.NullOr(__S(358, __c11, 6))),
           placement: S.optional(S.NullOr(__S(227, __c7, 3))),
-          tailConsumers: S.optional(S.NullOr(__S(355, __c11, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(353, __c11, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponsePreviewsBaseConfig" });
     case 5:
@@ -7312,11 +7417,11 @@ function __c7(j: number): any {
           createdOn: S.String.pipe(T.Body("created_on")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(359, __c11, 7),
-          references: __S(368, __c11, 16),
-          subdomain: __S(369, __c11, 17),
+          observability: __S(358, __c11, 6),
+          references: __S(367, __c11, 15),
+          subdomain: __S(368, __c11, 16),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(
@@ -7332,9 +7437,17 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
+          headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
+          persist: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BetaWorkersCreateRequestObservabilityAgents" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestObservabilityIssues" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(__S(320, __c10, 0)),
@@ -7344,7 +7457,7 @@ function __c8(j: number): any {
           persist: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestObservabilityLogs" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(__S(320, __c10, 0)),
@@ -7354,18 +7467,19 @@ function __c8(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Body("propagation_policy"))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestObservabilityTraces" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
+          agents: S.optional(__S(256, __c8, 0)),
           enabled: S.optional(S.Boolean),
           headSamplingRate: S.optional(S.Number.pipe(T.Body("head_sampling_rate"))),
-          issues: S.optional(__S(256, __c8, 0)),
-          logs: S.optional(__S(257, __c8, 1)),
+          issues: S.optional(__S(257, __c8, 1)),
+          logs: S.optional(__S(258, __c8, 2)),
           redactQueryString: S.optional(S.Boolean.pipe(T.Body("redact_query_string"))),
-          traces: S.optional(__S(258, __c8, 2)),
+          traces: S.optional(__S(259, __c8, 3)),
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestObservability" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -7401,11 +7515,19 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BetaWorkersCreateRequestPreviewsBaseConfigEnvValue" });
+    case 2:
+      return S.Record(S.String, __S(321, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           enabled: S.Boolean,
           crossVersionCache: S.optional(S.NullOr(S.Boolean).pipe(T.Body("cross_version_cache"))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponsePreviewsBaseConfigCacheOptions" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           cpuMs: S.optional(S.NullOr(S.Number).pipe(T.Body("cpu_ms"))),
@@ -7419,26 +7541,26 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaWorkersCreateRequestPreviewsBaseConfigEnvValue" });
-    case 1:
-      return S.Record(S.String, __S(352, __c11, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String,
         }),
       ).annotate({ identifier: "BetaWorkersCreateRequestPreviewsBaseConfigTailConsumersItem" });
+    case 1:
+      return S.Array(__S(352, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.NullOr(S.Boolean)),
+          headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
+          persist: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "BetaWorkersCreateResponseObservabilityAgents" });
     case 3:
-      return S.Array(__S(354, __c11, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseObservabilityIssues" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(S.NullOr(__S(320, __c10, 0))),
@@ -7448,7 +7570,7 @@ function __c11(j: number): any {
           persist: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseObservabilityLogs" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           destinations: S.optional(S.NullOr(__S(320, __c10, 0))),
@@ -7458,18 +7580,19 @@ function __c11(j: number): any {
           propagationPolicy: S.optional(S.NullOr(S.String).pipe(T.Body("propagation_policy"))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseObservabilityTraces" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
+          agents: S.optional(S.NullOr(__S(354, __c11, 2))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           headSamplingRate: S.optional(S.NullOr(S.Number).pipe(T.Body("head_sampling_rate"))),
-          issues: S.optional(S.NullOr(__S(356, __c11, 4))),
-          logs: S.optional(S.NullOr(__S(357, __c11, 5))),
+          issues: S.optional(S.NullOr(__S(355, __c11, 3))),
+          logs: S.optional(S.NullOr(__S(356, __c11, 4))),
           redactQueryString: S.optional(S.NullOr(S.Boolean).pipe(T.Body("redact_query_string"))),
-          traces: S.optional(S.NullOr(__S(358, __c11, 6))),
+          traces: S.optional(S.NullOr(__S(357, __c11, 5))),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseObservability" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           namespaceId: S.String.pipe(T.Body("namespace_id")),
@@ -7480,9 +7603,9 @@ function __c11(j: number): any {
       ).annotate({
         identifier: "BetaWorkersCreateResponseReferencesDispatchNamespaceOutboundsItem",
       });
+    case 8:
+      return S.Array(__S(359, __c11, 7));
     case 9:
-      return S.Array(__S(360, __c11, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7492,9 +7615,9 @@ function __c11(j: number): any {
           zoneName: S.String.pipe(T.Body("zone_name")),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseReferencesDomainsItem" });
+    case 10:
+      return S.Array(__S(361, __c11, 9));
     case 11:
-      return S.Array(__S(362, __c11, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
           queueConsumerId: S.String.pipe(T.Body("queue_consumer_id")),
@@ -7502,30 +7625,30 @@ function __c11(j: number): any {
           queueName: S.String.pipe(T.Body("queue_name")),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseReferencesQueuesItem" });
+    case 12:
+      return S.Array(__S(363, __c11, 11));
     case 13:
-      return S.Array(__S(364, __c11, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseReferencesWorkersItem" });
+    case 14:
+      return S.Array(__S(365, __c11, 13));
     case 15:
-      return S.Array(__S(366, __c11, 14));
-    case 16:
       return S.suspend(() =>
         S.Struct({
-          dispatchNamespaceOutbounds: __S(361, __c11, 9).pipe(
+          dispatchNamespaceOutbounds: __S(360, __c11, 8).pipe(
             T.Body("dispatch_namespace_outbounds"),
           ),
-          domains: __S(363, __c11, 11),
-          durableObjects: __S(361, __c11, 9).pipe(T.Body("durable_objects")),
-          queues: __S(365, __c11, 13),
-          workers: __S(367, __c11, 15),
+          domains: __S(362, __c11, 10),
+          durableObjects: __S(360, __c11, 8).pipe(T.Body("durable_objects")),
+          queues: __S(364, __c11, 12),
+          workers: __S(366, __c11, 14),
         }),
       ).annotate({ identifier: "BetaWorkersCreateResponseReferences" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.NullOr(S.Boolean)),
@@ -7775,6 +7898,7 @@ function __c12(j: number): any {
           compatibilityDate: S.optional(S.String.pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(__S(320, __c10, 0).pipe(T.Body("compatibility_flags"))),
           containers: S.optional(__S(391, __c12, 7)),
+          env: S.optional(__S(322, __c10, 2)),
           exports: S.optional(__S(393, __c12, 9)),
           limits: S.optional(__S(289, __c9, 1)),
           mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
@@ -8013,17 +8137,18 @@ function __c12(j: number): any {
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
           authorId: S.optional(S.NullOr(S.String).pipe(T.Body("author_id"))),
           bindings: S.optional(S.NullOr(__S(401, __c12, 17))),
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
           compatibilityDate: S.optional(S.NullOr(S.String).pipe(T.Body("compatibility_date"))),
           compatibilityFlags: S.optional(
             S.NullOr(__S(320, __c10, 0)).pipe(T.Body("compatibility_flags")),
           ),
           containers: S.optional(S.NullOr(__S(423, __c13, 7))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
           exports: S.optional(S.NullOr(__S(403, __c12, 19))),
           exportsReconciliation: S.optional(
             S.NullOr(__S(434, __c13, 18)).pipe(T.Body("exports_reconciliation")),
           ),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           mainModule: S.optional(S.NullOr(S.String).pipe(T.Body("main_module"))),
           migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
           migrations: S.optional(S.NullOr(__S(404, __c12, 20))),
@@ -8231,13 +8356,13 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cacheOptions: S.optional(S.NullOr(__S(321, __c10, 1)).pipe(T.Body("cache_options"))),
-          env: S.optional(S.NullOr(__S(353, __c11, 1))),
-          limits: S.optional(S.NullOr(__S(322, __c10, 2))),
+          cacheOptions: S.optional(S.NullOr(__S(323, __c10, 3)).pipe(T.Body("cache_options"))),
+          env: S.optional(S.NullOr(__S(322, __c10, 2))),
+          limits: S.optional(S.NullOr(__S(324, __c10, 4))),
           logpush: S.optional(S.NullOr(S.Boolean)),
-          observability: S.optional(S.NullOr(__S(359, __c11, 7))),
+          observability: S.optional(S.NullOr(__S(358, __c11, 6))),
           placement: S.optional(S.NullOr(__S(513, __c16, 1))),
-          tailConsumers: S.optional(S.NullOr(__S(355, __c11, 3)).pipe(T.Body("tail_consumers"))),
+          tailConsumers: S.optional(S.NullOr(__S(353, __c11, 1)).pipe(T.Body("tail_consumers"))),
         }),
       ).annotate({ identifier: "BetaWorkersGetResponsePreviewsBaseConfig" });
     case 3:
@@ -8247,11 +8372,11 @@ function __c16(j: number): any {
           createdOn: S.String.pipe(T.Body("created_on")),
           logpush: S.Boolean,
           name: S.String,
-          observability: __S(359, __c11, 7),
-          references: __S(368, __c11, 16),
-          subdomain: __S(369, __c11, 17),
+          observability: __S(358, __c11, 6),
+          references: __S(367, __c11, 15),
+          subdomain: __S(368, __c11, 16),
           tags: __S(320, __c10, 0),
-          tailConsumers: __S(355, __c11, 3).pipe(T.Body("tail_consumers")),
+          tailConsumers: __S(353, __c11, 1).pipe(T.Body("tail_consumers")),
           updatedOn: S.String.pipe(T.Body("updated_on")),
           deployedOn: S.optional(S.NullOr(S.String).pipe(T.Body("deployed_on"))),
           previewsBaseConfig: S.optional(

@@ -73,7 +73,7 @@ export interface GetPullRequestCreationCapForOrgResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean | undefined;
+  include_drafts: boolean;
 }
 export interface GetPullRequestCreationCapForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -87,7 +87,7 @@ export interface GetPullRequestCreationCapForRepoResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean | undefined;
+  include_drafts: boolean;
 }
 export interface GetRestrictionsForAuthenticatedUserRequest {}
 /** The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect. */
@@ -187,7 +187,7 @@ export interface UpdatePullRequestCreationCapForOrgResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean | undefined;
+  include_drafts: boolean;
 }
 export interface UpdatePullRequestCreationCapForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -207,7 +207,7 @@ export interface UpdatePullRequestCreationCapForRepoResponse {
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
   /** Whether draft pull requests count toward the pull request creation cap */
-  include_drafts?: boolean | undefined;
+  include_drafts: boolean;
 }
 export type GetPullRequestBypassListForRepoError = GithubOpError;
 /** Get pull request creation cap bypass list for a repository Lists the users that are on the pull request creation cap bypass list for a repository. Users on this list can create pull requests regardless of any configured pull request creation cap. Only users with maintainer permissions can view the bypass list. */
@@ -571,7 +571,7 @@ function __c2(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           max_open_pull_requests: S.Number,
-          include_drafts: S.optional(S.Boolean),
+          include_drafts: S.Boolean,
         }),
       ).annotate({ identifier: "GetPullRequestCreationCapForOrgResponse" });
   }

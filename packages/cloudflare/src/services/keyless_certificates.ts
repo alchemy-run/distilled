@@ -168,6 +168,10 @@ export interface GetKeylessCertificateResponse {
 export interface ListKeylessCertificatesRequest {
   /** Identifier. */
   zoneId: string;
+  /** Page number of Keyless SSL configurations, starting at 1. */
+  page?: number | undefined;
+  /** Number of Keyless SSL configurations per page. */
+  perPage?: number | undefined;
 }
 export type ListResultItemPermissionsList = Array<string>;
 export type ListResultItemStatus = "active" | "deleted";
@@ -446,6 +450,8 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/keyless_certificates", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),

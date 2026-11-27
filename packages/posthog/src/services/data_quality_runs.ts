@@ -141,7 +141,7 @@ export interface DataQualityCheckRun {
 export type ListDataQualityRunsCheckRunsResponseBodyList = Array<DataQualityCheckRun>;
 export type ListDataQualityRunsCheckRunsResponse = ListDataQualityRunsCheckRunsResponseBodyList;
 export type CreateDataQualityRunError = PosthogOpError;
-/** Run checks now: the ones named by check_ids, every enabled check on the subject named by subject_type and subject_uuid, or every enabled check in the project when neither is given. Returns the suite run to poll for the report. */
+/** Run checks now: the ones named by check_ids, every enabled check on the subject named by subject_type and subject_uuid, or every enabled check in the project when neither is given. Returns the suite run to poll for the report. Each call counts as one run request, however many checks it runs and whatever the response. Each caller can send 20 run requests a minute and 60 an hour, and each project 180 an hour. */
 export const createDataQualityRun: API.OperationMethod<
   CreateDataQualityRunRequest,
   DataQualitySuiteRun,

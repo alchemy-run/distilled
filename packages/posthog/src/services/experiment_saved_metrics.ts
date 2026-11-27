@@ -66,7 +66,7 @@ export interface CreateExperimentSavedMetricsRequest {
   name?: string | undefined;
   /** Short description of what the metric measures. */
   description?: string | null | undefined;
-  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
+  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
   query?: unknown | undefined;
   tags?: CreateExperimentSavedMetricsRequestTagsList | undefined;
 }
@@ -114,7 +114,7 @@ export interface ExperimentSavedMetric {
   name?: string | undefined;
   /** Short description of what the metric measures. */
   description?: string | null | undefined;
-  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
+  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
   query?: unknown | undefined;
   created_by?: UserBasic | null | undefined;
   created_at?: string | undefined;
@@ -138,17 +138,30 @@ export interface GetExperimentSavedMetricsRequest {
   /** A unique integer value identifying this experiment saved metric. */
   id: number;
 }
+export type ListExperimentSavedMetricsRequestMetricType =
+  | "funnel"
+  | "mean"
+  | "quantile"
+  | "ratio"
+  | "retention"
+  | "trend";
 export interface ListExperimentSavedMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Filter to shared metrics created by the given user(s). Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them. */
+  created_by_id?: string | undefined;
   /** Filter to shared metrics whose query references this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference. Use this for reuse discovery (find a metric by what it measures); distinct from 'search', which matches the metric's own name/description/tags. */
   event?: string | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
+  /** Filter by metric type. 'funnel' also matches legacy funnel metrics, and 'trend' matches legacy trend metrics. */
+  metric_type?: ListExperimentSavedMetricsRequestMetricType | (string & {}) | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
   /** A search term. */
   search?: string | undefined;
+  /** JSON-encoded list of tag names. Returns shared metrics carrying at least one of the given tags, e.g. `["growth", "checkout"]`. */
+  tags?: string | undefined;
 }
 export type PaginatedExperimentSavedMetricListResultsList = Array<ExperimentSavedMetric>;
 export interface PaginatedExperimentSavedMetricList {
@@ -167,7 +180,7 @@ export interface UpdateExperimentSavedMetricsRequest {
   name?: string | undefined;
   /** Short description of what the metric measures. */
   description?: string | null | undefined;
-  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
+  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
   query?: unknown | undefined;
   tags?: UpdateExperimentSavedMetricsRequestTagsList | undefined;
 }
@@ -181,7 +194,7 @@ export interface UpdateExperimentSavedMetricsPartialRequest {
   name?: string | undefined;
   /** Short description of what the metric measures. */
   description?: string | null | undefined;
-  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
+  /** ExperimentMetric JSON. Must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event). Legacy kinds (ExperimentTrendsQuery, ExperimentFunnelsQuery) are rejected for new shared metrics. */
   query?: unknown | undefined;
   tags?: UpdateExperimentSavedMetricsPartialRequestTagsList | undefined;
 }
@@ -403,10 +416,13 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          created_by_id: S.optional(S.String.pipe(T.Query())),
           event: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          metric_type: S.optional(S.String.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

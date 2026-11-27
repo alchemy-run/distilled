@@ -133,11 +133,17 @@ export interface Annotation {
   dashboard_item?: number | null | undefined;
   /** Optional dashboard ID to attach this annotation to. Must belong to the current project. */
   dashboard_id?: number | null | undefined;
+  /** Name of the dashboard in `dashboard_id`, or null when there is none. */
   dashboard_name?: string | null | undefined;
+  /** Short ID of the insight in `dashboard_item`, or null when there is none. */
   insight_short_id?: string | null | undefined;
+  /** Name of the insight in `dashboard_item`, or null when it has none. */
   insight_name?: string | null | undefined;
+  /** Generated name of the insight in `dashboard_item`, shown when the insight has no name. */
   insight_derived_name?: string | null | undefined;
+  /** User who created the annotation. */
   created_by?: UserBasic | null | undefined;
+  /** When the annotation was created. */
   created_at?: string | null | undefined;
   updated_at?: string | undefined;
   /** Soft-delete flag. Set to true to hide the annotation, or false to restore it. */

@@ -60,6 +60,7 @@ export class Conflict
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(128, __c4, 0)),
           /*@__PURE__*/ S.suspend(() => __S(96, __c3, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           S.String,
         ]),
       ),
@@ -68,7 +69,11 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: CompanyCreationConflictErrorResponse | ConflictResponse | string;
+  declare readonly body?:
+    | CompanyCreationConflictErrorResponse
+    | ConflictResponse
+    | ConflictOrResourceErrorResponse
+    | string;
 }
 
 export class Forbidden
@@ -78,8 +83,9 @@ export class Forbidden
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(4800, __c150, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(4800, __c150, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(4768, __c149, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(4768, __c149, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(4768, __c149, 0)),
           /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
           S.String,
         ]),
@@ -91,6 +97,7 @@ export class Forbidden
 {
   declare readonly body?:
     | ForbiddenResponse
+    | CountryFormForbiddenResponse
     | PayslipFileForbiddenResponse
     | IntegrationsScimErrorResponse
     | string;
@@ -124,9 +131,9 @@ export class UnprocessableEntity
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(10024, __c313, 8)),
+          /*@__PURE__*/ S.suspend(() => __S(10056, __c314, 8)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(10028, __c313, 12)),
+          /*@__PURE__*/ S.suspend(() => __S(10060, __c314, 12)),
           S.String,
         ]),
       ),
@@ -409,17 +416,17 @@ export interface CreateCompanyManagerRequest {
   role: string;
 }
 export interface CompanyManagerBillingContactStatus {
-  /** Whether this manager will become the primary billing contact once they have an active login */
+  /** Deprecated. Always false. */
   is_pending_primary_billing_contact: boolean;
   /** Whether this manager is the primary billing contact for the legal entity */
   is_primary_billing_contact: boolean;
   /** Slug of the legal entity */
   legal_entity_slug: string;
 }
-/** The legal entities this manager is a billing contact for. */
+/** The legal entities this manager receives Remote invoices for. Each listed legal entity has one primary billing contact: the manager chosen as primary, or the company owner when none is chosen. The owner is listed as primary on those legal entities even without being chosen as a recipient. The list can leave out legal entities the caller can't access, so it can be empty. */
 export type CompanyManagerBillingContactsList = Array<CompanyManagerBillingContactStatus>;
 export interface CompanyManager {
-  /** The legal entities this manager is a billing contact for. */
+  /** The legal entities this manager receives Remote invoices for. Each listed legal entity has one primary billing contact: the manager chosen as primary, or the company owner when none is chosen. The owner is listed as primary on those legal entities even without being chosen as a recipient. The list can leave out legal entities the caller can't access, so it can be empty. */
   billing_contacts: CompanyManagerBillingContactsList;
   /** Company ID */
   company_id: string;
@@ -1343,7 +1350,7 @@ export interface CreateDocumentRequest {
   employment_id: string;
   /** The file content, base64-encoded. */
   file: string;
-  /** A more specific classification within the type (e.g., "ir_35" for a UK contractor tax determination). */
+  /** A more specific classification within the type (e.g., "ir_35" for a UK contractor tax determination). For `type: document`, any value is accepted. */
   sub_type?: string | undefined;
   /** The broad category of the file (e.g., "contract", "id", "tax_document"). */
   type?: string | undefined;
@@ -1438,6 +1445,7 @@ export interface TimeoffDocumentParams {
 /** Timeoff days params */
 export interface TimeoffDaysParams {
   day?: string | undefined;
+  /** The hours taken off on this day. When the employee's work schedule decides the day, leave it out to book the scheduled time. Hours above the scheduled time are rejected, and a day with no scheduled time books 0. */
   hours?: number | undefined;
 }
 export type CreateEmployeeTimeoffRequestTimeoffDaysList = Array<TimeoffDaysParams>;
@@ -1533,16 +1541,24 @@ export interface Timeoff {
   approver_id?: string | null | undefined;
   /** Whether this time off was automatically created by the system (e.g., public holidays) rather than requested by the employee. */
   automatic?: boolean | undefined;
-  /** The reason provided when the time off was cancelled. Null if not cancelled. */
+  /** The most recent reason given for cancelling this time off or requesting its cancellation. A declined cancellation request does not clear it. Null or absent when no reason was given or nothing was cancelled. */
   cancel_reason?: string | null | undefined;
   cancelled_at?: string | null | undefined;
+  /** The unique identifier (UUID) of the user who entered the time off: the employee or contractor themselves, or a manager of the company (the `user_id` of `GET /v1/company-managers`; a manager who has since left the company keeps their id here but is no longer listed there). Null or absent when Remote staff entered it, for automatic time offs such as public holidays, for time offs entered by Remote's automated processes, and when no creator was recorded. */
+  created_by_id?: string | null | undefined;
+  /** The most recent reason given for declining this time off or a request to cancel it. A later edit, approval or cancellation does not clear it. Null or absent when no reason was given or nothing was declined. */
+  decline_reason?: string | null | undefined;
   document?: File | undefined;
+  /** The reason given with the most recent edit of this time off, by a person or by one of Remote's own processes. Null or absent when never edited. */
+  edit_reason?: string | null | undefined;
   /** The unique identifier (UUID) of the employment this time off belongs to. */
   employment_id: string;
   /** The last day of the time off period (ISO 8601 date). */
   end_date: string;
   /** The unique identifier (UUID) of the time off record. */
   id: string;
+  /** When the time off was requested or entered, as a UTC date-time. */
+  inserted_at?: string | undefined;
   leave_policy: LeavePolicy;
   /** Identifier of the leave policy this time off was booked against. For employments on the leave-type model this is the leave type's UUID, the same value `GET /leave-policies/details/{employment_id}` returns and `POST /timeoff` accepts. Otherwise it is the UUID of the custom company leave policy variant, and is null for standard leave types. */
   leave_policy_variant_id?: string | null | undefined;
@@ -1558,6 +1574,8 @@ export interface Timeoff {
   timezone: string;
   /** The total number of minutes taken off across all `timeoff_days`. Always equals the sum of the per-day `minutes` values. */
   total_minutes: number;
+  /** When the time off was last changed, as a UTC date-time, at or after `inserted_at`. */
+  updated_at?: string | undefined;
 }
 export interface TimeoffResponseData {
   timeoff: Timeoff;
@@ -1615,6 +1633,18 @@ export type EmploymentLifecycleStage =
   | "remote_enrollment"
   | "onboarded"
   | "offboarded";
+/** EOR hiring model the active contract is under. Null when it has none. */
+export type EmploymentBasicResponseEorHiringModel =
+  | "deu_solutions"
+  | "deu_aug"
+  | "deu_aug_de3"
+  | "deu_solutions_legacy"
+  | "cze_consulting"
+  | "cze_tea"
+  | "fra_wage_portage"
+  | "fra_consulting"
+  | "ita_apl"
+  | "ita_consulting";
 /** The type of employment. */
 export type EmploymentBasicResponseType = "employee" | "contractor";
 /** A lightweight employment representation returned after creation. Contains basic identification, country, and status fields but not the full onboarding details or country-specific form data. */
@@ -1628,6 +1658,8 @@ export interface EmploymentBasicResponse {
   /** When this employment was created. */
   created_at?: string | undefined;
   employment_lifecycle_stage?: EmploymentLifecycleStage | undefined;
+  /** EOR hiring model the active contract is under. Null when it has none. */
+  eor_hiring_model?: EmploymentBasicResponseEorHiringModel | null | undefined;
   /** The employee's full name. */
   full_name?: string | undefined;
   id?: string | undefined;
@@ -1723,7 +1755,7 @@ export interface ContractorInvoicePreviewResponseData {
 export interface ContractorInvoicePreviewResponse {
   data: ContractorInvoicePreviewResponseData;
 }
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0AllowancesDetailsList =
   Array<string>;
 /** A file attached to the engagement agreement details. To upload a new file, send its `name` and its base64-encoded `content`. To keep a file uploaded previously, send back the `name` and `id` returned by the show endpoint instead. Every entry must do one or the other -- an entry carrying neither is rejected, and an `id` that does not belong to this record is rejected too. Files that are not included in the payload are deleted. Only the properties below are accepted; any other one is rejected. In particular a file's `sub_type` is derived from the field it is attached to and cannot be set by the caller. */
 export interface EngagementAgreementDetailsFileParams {
@@ -1738,15 +1770,15 @@ export interface EngagementAgreementDetailsFileParams {
   /** The file's media type. */
   type?: string | undefined;
 }
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CbaDocumentList =
   Array<EngagementAgreementDetailsFileParams>;
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CovenantsList =
   Array<string>;
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0WorkingDaysList =
   Array<string>;
-export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails {
+export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0 {
   allowances_details?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0AllowancesDetailsList
     | null
     | undefined;
   available_pto?: number | null | undefined;
@@ -1754,11 +1786,11 @@ export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgree
   business_expenses?: string | null | undefined;
   cba?: string | null | undefined;
   cba_document?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CbaDocumentList
     | null
     | undefined;
   covenants?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CovenantsList
     | null
     | undefined;
   has_allowances?: string | null | undefined;
@@ -1785,27 +1817,70 @@ export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgree
   similar_work_conditions_details?: string | null | undefined;
   work_hours_per_week?: number | null | undefined;
   working_days?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0WorkingDaysList
     | null
     | undefined;
 }
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedEquipmentList =
+  Array<string>;
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedTrainingList =
+  Array<string>;
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1WorkingDaysList =
+  Array<string>;
+export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1 {
+  arduous_work_premium_percentage?: number | null | undefined;
+  available_pto?: number | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  night_work_premium_percentage?: number | null | undefined;
+  obstacle_to_work_premium_percentage?: number | null | undefined;
+  on_call_premium_percentage?: number | null | undefined;
+  overtime_premium_percentage?: number | null | undefined;
+  probation_period_months?: number | null | undefined;
+  provided_equipment?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedEquipmentList
+    | null
+    | undefined;
+  provided_training?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedTrainingList
+    | null
+    | undefined;
+  public_holiday_work_premium_percentage?: number | null | undefined;
+  similar_role_job_title?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  weekend_work_premium_percentage?: number | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1WorkingDaysList
+    | null
+    | undefined;
+}
+/** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_v1_countries_country_code_form) endpoint passing the country code and the `engagement_agreement_details` form name. */
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails =
+  | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0
+  | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1;
 export interface CreateEmploymentEngagementAgreementDetailRequest {
   /** Employment ID */
   employment_id: string;
   /** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_v1_countries_country_code_form) endpoint passing the country code and the `engagement_agreement_details` form name. */
   engagement_agreement_details: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails;
 }
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList2 =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0AllowancesDetailsList2 =
   Array<string>;
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList2 =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CbaDocumentList2 =
   Array<EngagementAgreementDetailsFileParams>;
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList2 =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CovenantsList2 =
   Array<string>;
-export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList2 =
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0WorkingDaysList2 =
   Array<string>;
-export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails2 {
+export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase02 {
   allowances_details?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList2
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0AllowancesDetailsList2
     | null
     | undefined;
   available_pto?: number | null | undefined;
@@ -1813,11 +1888,11 @@ export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgree
   business_expenses?: string | null | undefined;
   cba?: string | null | undefined;
   cba_document?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList2
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CbaDocumentList2
     | null
     | undefined;
   covenants?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList2
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0CovenantsList2
     | null
     | undefined;
   has_allowances?: string | null | undefined;
@@ -1844,10 +1919,53 @@ export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgree
   similar_work_conditions_details?: string | null | undefined;
   work_hours_per_week?: number | null | undefined;
   working_days?:
-    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList2
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase0WorkingDaysList2
     | null
     | undefined;
 }
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedEquipmentList2 =
+  Array<string>;
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedTrainingList2 =
+  Array<string>;
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1WorkingDaysList2 =
+  Array<string>;
+export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase12 {
+  arduous_work_premium_percentage?: number | null | undefined;
+  available_pto?: number | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  night_work_premium_percentage?: number | null | undefined;
+  obstacle_to_work_premium_percentage?: number | null | undefined;
+  on_call_premium_percentage?: number | null | undefined;
+  overtime_premium_percentage?: number | null | undefined;
+  probation_period_months?: number | null | undefined;
+  provided_equipment?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedEquipmentList2
+    | null
+    | undefined;
+  provided_training?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1ProvidedTrainingList2
+    | null
+    | undefined;
+  public_holiday_work_premium_percentage?: number | null | undefined;
+  similar_role_job_title?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  weekend_work_premium_percentage?: number | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase1WorkingDaysList2
+    | null
+    | undefined;
+}
+/** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_v1_countries_country_code_form) endpoint passing the country code and the `engagement_agreement_details` form name. */
+export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails2 =
+  | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase02
+  | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCase12;
 export interface CreateEmploymentEngagementAgreementDetailRequest2 {
   /** Employment ID */
   employment_id: string;
@@ -3034,6 +3152,15 @@ export type CreateSandboxContractorsEmploymentRateRequestPayFrequency =
   | "bi_weekly"
   | "semi_monthly"
   | "monthly";
+/** Seeds the rate from a signed Statement of Work, whether or not Statements of Work are turned on for the company. Omit it to set the main rate as an employer's rate edit does. */
+export interface SandboxStatementOfWorkParams {
+  /** The Statement of Work's name, which can't be blank. Another Statement of Work of the contractor with the same name, ignoring case and spaces, can't start on the same date. */
+  name?: string | null | undefined;
+  /** The last day of the services. Omit it for services with no end date. */
+  service_end_date?: string | null | undefined;
+  /** The day the services start, and the rate with them. */
+  service_start_date: string;
+}
 /** The unit the amount is paid per. */
 export type CreateSandboxContractorsEmploymentRateRequestType =
   | "hourly"
@@ -3052,6 +3179,7 @@ export interface CreateSandboxContractorsEmploymentRateRequest {
     | (string & {})
     | null
     | undefined;
+  statement_of_work?: SandboxStatementOfWorkParams | undefined;
   /** The unit the amount is paid per. */
   type: CreateSandboxContractorsEmploymentRateRequestType | (string & {});
 }
@@ -3064,6 +3192,15 @@ export interface MoneyResponse {
 }
 /** How often the contractor is paid. Always null for `one_off` rates. Can be null for a recurring rate when the company did not record a frequency. */
 export type ContractorRatePayFrequency = "weekly" | "bi_weekly" | "semi_monthly" | "monthly";
+/** The Statement of Work that established the rate. Null when no Statement of Work record backs the rate: a rate the company entered or edited itself, or a rate from a Statement of Work signed before Remote kept a record of each Statement of Work. When the company edits a rate after its Statement of Work is signed, the edit is listed as a new main rate with a null `statement_of_work`, and the signed rate stays listed with its reference while that Statement of Work is in force. The main rate is listed whatever its Statement of Work's state, so its reference can name one that was later replaced or ended. A new version of a signed Statement of Work is a new record: its rate has a new `id` and a `version` one higher. The Statement of Work's name is on its document: read it from the contract documents endpoints with `contract_document_id`. */
+export interface ContractorRateStatementOfWork {
+  /** ID of the signed document that carries the Statement of Work, as the contract documents endpoints return it. For a Statement of Work inside a Contractor Services Agreement, the agreement's document. */
+  contract_document_id: string;
+  /** Unique identifier of this version of the Statement of Work. Edits made before signature keep it; each new version gets a new one. */
+  id: string;
+  /** 1 for a new Statement of Work, one higher for each new version that replaces it. */
+  version: number;
+}
 /** The unit the amount is paid per. */
 export type ContractorRateType = "hourly" | "daily" | "weekly" | "monthly" | "one_off";
 /** A rate configured for a contractor, with the dates of the contract it is paid under and, when a Statement of Work established it, that Statement of Work's service dates. `type` discriminates the payment mode: `one_off` is a single payment on completion of services; any other value is paid per pay period, where `type` is the calculation unit and `pay_frequency` the invoicing cadence. `type` and `pay_frequency` list every value Remote stores. A new value is announced as an API change before it appears. */
@@ -3081,6 +3218,7 @@ export interface ContractorRate {
   service_end_date: string | null;
   /** Date the services under the Statement of Work that established this rate begin. Null when no Statement of Work record established the rate: one the company recorded itself, or one signed before Remote recorded service terms. */
   service_start_date: string | null;
+  statement_of_work: ContractorRateStatementOfWork | null;
   /** The unit the amount is paid per. */
   type: ContractorRateType;
 }
@@ -3302,14 +3440,14 @@ export type WebhookTriggerBillingParamsDocumentType =
   | "prefunding_credit_note"
   | "reconciliation_credit_note"
   | "credit_note"
-  | "eor_reserve_credit_note"
   | "contractor_management_invoice"
+  | "eor_reserve_credit_note"
   | "cor_service_invoice"
   | "eor_reserve_invoice"
   | "payroll_service_invoice"
-  | "remote_plan_invoice"
   | "peo_payroll_invoice"
-  | "peo_service_invoice";
+  | "peo_service_invoice"
+  | "remote_plan_invoice";
 export type WebhookTriggerBillingParamsEventType = "billing_document.issued";
 export interface WebhookTriggerBillingParams {
   document_type: WebhookTriggerBillingParamsDocumentType | (string & {});
@@ -4224,23 +4362,23 @@ export interface GetBillingDocumentPdfRequest {
   /** The billing document's ID */
   billing_document_id: string;
 }
-export type GetBillingDocumentPdfResponse = string;
+export interface GetBillingDocumentPdfResponse {}
 export type GetBillingDocumentsRequestType =
-  | "reconciliation_credit_note"
   | "credit_note"
-  | "prefunding_credit_note"
-  | "eor_reserve_credit_note"
-  | "supplemental_service_credit_note"
-  | "reconciliation_invoice"
   | "contractor_management_invoice"
-  | "cor_service_invoice"
-  | "eor_reserve_invoice"
-  | "prefunding_invoice"
+  | "reconciliation_credit_note"
+  | "eor_reserve_credit_note"
   | "supplemental_service_invoice"
+  | "cor_service_invoice"
+  | "supplemental_service_credit_note"
+  | "prefunding_invoice"
+  | "eor_reserve_invoice"
   | "payroll_service_invoice"
-  | "remote_plan_invoice"
+  | "reconciliation_invoice"
   | "peo_payroll_invoice"
-  | "peo_service_invoice";
+  | "peo_service_invoice"
+  | "prefunding_credit_note"
+  | "remote_plan_invoice";
 export interface GetBillingDocumentsRequest {
   /** The month for the billing documents (in ISO-8601 format) */
   period?: string | undefined;
@@ -4252,21 +4390,21 @@ export interface GetBillingDocumentsRequest {
   page_size?: number | undefined;
 }
 export type BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType =
-  | "reconciliation_credit_note"
   | "credit_note"
-  | "prefunding_credit_note"
-  | "eor_reserve_credit_note"
-  | "supplemental_service_credit_note"
-  | "reconciliation_invoice"
   | "contractor_management_invoice"
-  | "cor_service_invoice"
-  | "eor_reserve_invoice"
-  | "prefunding_invoice"
+  | "reconciliation_credit_note"
+  | "eor_reserve_credit_note"
   | "supplemental_service_invoice"
+  | "cor_service_invoice"
+  | "supplemental_service_credit_note"
+  | "prefunding_invoice"
+  | "eor_reserve_invoice"
   | "payroll_service_invoice"
-  | "remote_plan_invoice"
+  | "reconciliation_invoice"
   | "peo_payroll_invoice"
-  | "peo_service_invoice";
+  | "peo_service_invoice"
+  | "prefunding_credit_note"
+  | "remote_plan_invoice";
 export interface BillingDocumentsResponseDataBillingDocumentsItem {
   /** The entity issuing the billing document. Null if not applicable. */
   bill_from?: string | null | undefined;
@@ -4310,6 +4448,13 @@ export interface BulkEmploymentImportJobColumnMappingSourceColumnsItem {
 /** The data columns to map to */
 export type BulkEmploymentImportJobColumnMappingSourceColumnsList =
   Array<BulkEmploymentImportJobColumnMappingSourceColumnsItem>;
+/** The names of file columns last mapped to fields this import doesn't have. Unless mapped again, they are not imported. */
+export type BulkEmploymentImportJobColumnMappingUnavailableColumnsList = Array<string>;
+export type BulkEmploymentImportJobColumnMappingUnmappedColumnsItem =
+  BulkEmploymentImportJobColumnMappingSourceColumnsItem;
+/** The file columns not mapped to any field */
+export type BulkEmploymentImportJobColumnMappingUnmappedColumnsList =
+  Array<BulkEmploymentImportJobColumnMappingSourceColumnsItem>;
 /** The column mapping for the import job. For times when imported data columns do not match the schema fields and need to be manually mapped to the correct schema fields. */
 export interface BulkEmploymentImportJobColumnMapping {
   /** The column names that have been automatically mapped by Tiger (rawr!) and maybe also by AI. */
@@ -4318,8 +4463,12 @@ export interface BulkEmploymentImportJobColumnMapping {
   mapping: unknown;
   /** The data columns to map to */
   source_columns: BulkEmploymentImportJobColumnMappingSourceColumnsList;
+  /** The names of file columns last mapped to fields this import doesn't have. Unless mapped again, they are not imported. */
+  unavailable_columns?: BulkEmploymentImportJobColumnMappingUnavailableColumnsList | undefined;
   /** The number of columns that have not been mapped */
   unmapped_column_count: number;
+  /** The file columns not mapped to any field */
+  unmapped_columns?: BulkEmploymentImportJobColumnMappingUnmappedColumnsList | undefined;
   /** The number of required schema field paths that have not been mapped */
   unmapped_required_field_count: number;
 }
@@ -4347,6 +4496,8 @@ export interface PersonalDetails {
   surname?: string | null | undefined;
   title?: PersonalDetailsTitle | null | undefined;
 }
+/** Names of fields redacted because the caller lacks the required attribute permission */
+export type MinimalUserRedactedFieldsList = Array<string>;
 export type MinimalUserStatus =
   | "active"
   | "cancelled"
@@ -4362,6 +4513,8 @@ export interface MinimalUser {
   name: string;
   personal_details?: PersonalDetails | null | undefined;
   profile_picture?: string | null | undefined;
+  /** Names of fields redacted because the caller lacks the required attribute permission */
+  redacted_fields?: MinimalUserRedactedFieldsList | undefined;
   slug: string;
   status?: MinimalUserStatus | undefined;
 }
@@ -4395,12 +4548,12 @@ export type AccountsAssignedRolesItemDataScope =
   | "rps"
   | "secondary_reports"
   | "direct_reports"
-  | "direct_and_indirect_reports"
+  | "assigned_billing_legal_entities"
   | "employment_countries"
+  | "direct_and_indirect_reports"
   | "employment_departments"
   | "employment_company_structure_nodes"
-  | "onboarding_reports"
-  | "assigned_billing_legal_entities";
+  | "onboarding_reports";
 export type AccountsAssignedRolesItemType = "default" | "custom" | "template" | "owner";
 export interface AccountsAssignedRolesItem {
   data_scope?: AccountsAssignedRolesItemDataScope | undefined;
@@ -4453,10 +4606,26 @@ export interface BulkEmploymentImportJobInsertedByCase1 {
 export type BulkEmploymentImportJobInsertedBy =
   | MinimalUser
   | BulkEmploymentImportJobInsertedByCase1;
+export type BulkEmploymentImportJobLastReuploadSummaryMode =
+  | "merge_or_add"
+  | "merge_only"
+  | "append";
+/** What the last merge or append did to the draft. Null after a replace, or while a newly uploaded file still waits for its columns to be matched. The counts stay until the next upload or replace: editing, deleting or fixing rows does not clear them, and a cancelled merge or append file (`cancel-reupload`) brings them back. */
+export interface BulkEmploymentImportJobLastReuploadSummary {
+  /** Rows added below the existing ones. */
+  added: number;
+  /** Rows that matched an existing row and were updated. */
+  merged: number;
+  mode: BulkEmploymentImportJobLastReuploadSummaryMode;
+  /** Rows left out: no matching row in "Update existing rows only", or already imported. */
+  skipped: number;
+}
 export interface BulkEmploymentImportJobLegalEntity {
   name?: string | undefined;
   slug?: string | undefined;
 }
+/** The mode of a merge or append re-upload that waits for its columns to be matched, with `stage` at `column_mapping`. While it is set, the rows are still the ones from before that file. Null otherwise: it is cleared once the mapping is confirmed, and `last_reupload_summary` then carries the counts. A `cancel-reupload` clears it too and brings back the previous `last_reupload_summary`. */
+export type BulkEmploymentImportJobPendingReuploadMode = "merge_or_add" | "merge_only" | "append";
 /** Row-data fields this uploader matches on when a re-uploaded CSV is merged into the draft. Empty when the uploader cannot merge. */
 export type BulkEmploymentImportJobReuploadMergeFieldsList = Array<string>;
 export type BulkEmploymentImportJobReuploadModesItem =
@@ -4481,6 +4650,10 @@ export type BulkEmploymentImportJobStatus =
   | "finished"
   | "failed";
 export interface BulkEmploymentImportJob {
+  /** True while a merge or append file uploaded from review waits for its columns to be matched, outside an upload session. `cancel-reupload` then takes the job back to review with its rows, status, column mapping and `last_reupload_summary` as they were (it is refused while the job is `in_progress`). */
+  can_cancel_reupload?: boolean | undefined;
+  /** Identifies the columns of the job's current file: its headers, in order. It changes when a file with other columns is uploaded. */
+  column_data_hash?: string | null | undefined;
   /** The column mapping for the import job. For times when imported data columns do not match the schema fields and need to be manually mapped to the correct schema fields. */
   column_mapping?: BulkEmploymentImportJobColumnMapping | null | undefined;
   /** The name to be displayed for the user interface */
@@ -4495,10 +4668,14 @@ export interface BulkEmploymentImportJob {
   inserted_at: string;
   /** Someone registered in Remote using a unique email address. */
   inserted_by: BulkEmploymentImportJobInsertedBy;
+  /** What the last merge or append did to the draft. Null after a replace, or while a newly uploaded file still waits for its columns to be matched. The counts stay until the next upload or replace: editing, deleting or fixing rows does not clear them, and a cancelled merge or append file (`cancel-reupload`) brings them back. */
+  last_reupload_summary?: BulkEmploymentImportJobLastReuploadSummary | null | undefined;
   legal_entity?: BulkEmploymentImportJobLegalEntity | null | undefined;
   /** The metadata for the import job */
   metadata: unknown;
   name: string;
+  /** The mode of a merge or append re-upload that waits for its columns to be matched, with `stage` at `column_mapping`. While it is set, the rows are still the ones from before that file. Null otherwise: it is cleared once the mapping is confirmed, and `last_reupload_summary` then carries the counts. A `cancel-reupload` clears it too and brings back the previous `last_reupload_summary`. */
+  pending_reupload_mode?: BulkEmploymentImportJobPendingReuploadMode | null | undefined;
   /** The number of processed rows, regardless of success or failure */
   processed_count: number;
   /** Row-data fields this uploader matches on when a re-uploaded CSV is merged into the draft. Empty when the uploader cannot merge. */
@@ -4549,6 +4726,16 @@ export interface ImportJobRowsResponseDataAggregatesEmployingLegalEntityCounts {
   /** Employing legal entities of the successful rows; after submission, of the added rows */
   successful: number;
 }
+/** Why `count` is 0 though the upload may change locked fields, so nothing is copied to legal entity pay items: `propagation_disabled` when copying from imports isn't turned on for this importer (checked first), `no_templates_update_permission` when the importer can't update country pay items */
+export type ImportJobRowsResponseDataAggregatesLockedFieldOverwriteSkippedReason =
+  | "propagation_disabled"
+  | "no_templates_update_permission";
+/** Country pay item uploads only: how many active legal entity pay items submitting the upload will overwrite, because it changes their country pay item's locked fields. An upper bound, counted when the file was last validated. `null` before validation, after a row is edited until the file is validated again, and when validation couldn't check the changes */
+export interface ImportJobRowsResponseDataAggregatesLockedFieldOverwrite {
+  count: number;
+  /** Why `count` is 0 though the upload may change locked fields, so nothing is copied to legal entity pay items: `propagation_disabled` when copying from imports isn't turned on for this importer (checked first), `no_templates_update_permission` when the importer can't update country pay items */
+  skipped_reason: ImportJobRowsResponseDataAggregatesLockedFieldOverwriteSkippedReason | null;
+}
 /** The stage of the import job. * `creation` - The import job is in the creation stage, which means the rows are being created. * `column_mapping` - The import job is in the column mapping stage, which means the CSV headers are being mapped to JSON schema fields. * `validation` - The import job is in the validation stage, which means the rows are being validated. * `submission` - The import job is in the submission stage, which means the rows are being submitted. */
 export type ImportJobRowsResponseDataAggregatesTeamMemberCountsJobStage =
   | "creation"
@@ -4582,6 +4769,11 @@ export interface ImportJobRowsResponseDataAggregates {
   employing_legal_entity_counts?:
     | ImportJobRowsResponseDataAggregatesEmployingLegalEntityCounts
     | undefined;
+  /** Country pay item uploads only: how many active legal entity pay items submitting the upload will overwrite, because it changes their country pay item's locked fields. An upper bound, counted when the file was last validated. `null` before validation, after a row is edited until the file is validated again, and when validation couldn't check the changes */
+  locked_field_overwrite?:
+    | ImportJobRowsResponseDataAggregatesLockedFieldOverwrite
+    | null
+    | undefined;
   /** Distinct team members across the complete import job, counted once even when they are split across several table records. `needs_changes` and `ready_to_submit` are mutually exclusive; `successfully_assigned` and `failed_to_assign` are subsets of `ready_to_submit`. The counts describe the job as of `job_stage`: the same rows count as needing changes before submission and as failed to assign afterwards. */
   team_member_counts?: ImportJobRowsResponseDataAggregatesTeamMemberCounts | undefined;
   [key: string]: unknown;
@@ -4590,7 +4782,7 @@ export interface ImportJobRowsResponseDataCountsByColumnValue {
   error: number;
   valid: number;
 }
-/** Per-column error and valid row counts, keyed by the column's field path. Counts every row that is not deleted or skipped, or only the rows in `filter[status]` when it is given. `counts_by_status` always counts the whole job */
+/** Per-column error and valid row counts, keyed by the column's field path. `error` counts each row once that has a field-level validation error or a current submission error with that field name; submission errors of successful and imported rows are not counted. Counts every row that is not deleted or skipped, or only the rows in `filter[status]` when it is given. `counts_by_status` always counts the whole job */
 export type ImportJobRowsResponseDataCountsByColumnMap = {
   [key: string]: ImportJobRowsResponseDataCountsByColumnValue | undefined;
 };
@@ -4618,6 +4810,15 @@ export type ImportJobRowMetadataInviteOutcome =
   | "reminder_sent"
   | "notification_sent"
   | "already_onboarded";
+/** An array of note messages for the given field */
+export type ImportJobRowMetadataJobTitleEligibilityNotesValueCase0List = Array<string>;
+export type ImportJobRowMetadataJobTitleEligibilityNotesValue =
+  | ImportJobRowMetadataJobTitleEligibilityNotesValueCase0List
+  | unknown;
+/** Non-blocking advisory notes for a row that still passed validation, nested by field path exactly like `errors` */
+export type ImportJobRowMetadataJobTitleEligibilityNotesMap = {
+  [key: string]: ImportJobRowMetadataJobTitleEligibilityNotesValue | undefined;
+};
 export interface ImportJobRowMetadataLoginEmailSignalsPersonal {
   registered?: boolean | undefined;
 }
@@ -4629,10 +4830,12 @@ export interface ImportJobRowMetadataLoginEmailSignals {
   sso_enforced?: boolean | undefined;
   work?: ImportJobRowMetadataLoginEmailSignalsPersonal | undefined;
 }
-/** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. */
+/** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. For job-title-eligibility-checked imports, a row that still passed validation may carry a `job_title_eligibility_notes` object with non-blocking advisory notes, nested by field path exactly like `errors`. */
 export interface ImportJobRowMetadata {
   /** Bulk Global Payroll invitations only: what the row's employee was sent. `already_onboarded` means they were already on the platform, so nothing was due. */
   invite_outcome?: ImportJobRowMetadataInviteOutcome | undefined;
+  /** Non-blocking advisory notes for a row that still passed validation, nested by field path exactly like `errors` */
+  job_title_eligibility_notes?: ImportJobRowMetadataJobTitleEligibilityNotesMap | undefined;
   /** Per-row review-step signals for login email selection, present only when the feature is enabled. `sso_enforced` reflects whether SSO login is enforced for the row's category. `personal` and `work` report, for each provided email, whether it is already registered on another account. */
   login_email_signals?: ImportJobRowMetadataLoginEmailSignals | undefined;
 }
@@ -4674,7 +4877,7 @@ export interface ImportJobRowError {
   field_name?: string | null | undefined;
   messages: ImportJobRowErrorMessagesList;
 }
-/** The row's errors outside the requested `column_fields`, then its submission errors unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
+/** The row's validation errors outside the requested `column_fields`, then its submission errors with no field name or for a field outside them, unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
 export type ImportJobRowRowLevelErrorsList = Array<ImportJobRowError>;
 export type ImportJobRowStatus =
   | "successful"
@@ -4690,14 +4893,14 @@ export interface ImportJobRow {
   data: ImportDataRow;
   /** Fields with their error messages */
   errors: ImportJobRowErrorsMap;
-  /** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. */
+  /** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. For job-title-eligibility-checked imports, a row that still passed validation may carry a `job_title_eligibility_notes` object with non-blocking advisory notes, nested by field path exactly like `errors`. */
   metadata?: ImportJobRowMetadata | undefined;
   row_error_details?: ImportJobRowRowErrorDetails | undefined;
   row_errors?: unknown | undefined;
-  /** The row's errors outside the requested `column_fields`, then its submission errors unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
+  /** The row's validation errors outside the requested `column_fields`, then its submission errors with no field name or for a field outside them, unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
   row_level_errors?: ImportJobRowRowLevelErrorsList | undefined;
   row_number: number;
-  /** The id of the schema variant this row's fields follow, a key of `row_schema_variants` on the job-scoped json-schema response. `null` when the row uses the job-level schema. Only present for job types with per-row schema variants. */
+  /** The id of the schema variant this row's fields follow, a key of `row_schema_variants` on the job-scoped json-schema response. `null`, or an id `row_schema_variants` does not list, when the row uses the job-level schema. Only present for job types with per-row schema variants. */
   schema_variant_id?: string | null | undefined;
   status?: ImportJobRowStatus | undefined;
   submission_errors?: ImportJobRowSubmissionErrorsList | undefined;
@@ -4721,7 +4924,7 @@ export interface ImportJobRowsResponseDataRows {
 export interface ImportJobRowsResponseData {
   /** Import-type-specific aggregates computed over the complete import job */
   aggregates?: ImportJobRowsResponseDataAggregates | undefined;
-  /** Per-column error and valid row counts, keyed by the column's field path. Counts every row that is not deleted or skipped, or only the rows in `filter[status]` when it is given. `counts_by_status` always counts the whole job */
+  /** Per-column error and valid row counts, keyed by the column's field path. `error` counts each row once that has a field-level validation error or a current submission error with that field name; submission errors of successful and imported rows are not counted. Counts every row that is not deleted or skipped, or only the rows in `filter[status]` when it is given. `counts_by_status` always counts the whole job */
   counts_by_column?: ImportJobRowsResponseDataCountsByColumnMap | undefined;
   counts_by_status: ImportJobRowsResponseDataCountsByStatus;
   current_page: number;
@@ -5499,6 +5702,41 @@ export interface ListContractorInvoiceSchedulesResponseData {
 export interface ListContractorInvoiceSchedulesResponse {
   data?: ListContractorInvoiceSchedulesResponseData | undefined;
 }
+export interface GetContractorInvoiceSequenceRequest {}
+export type ContractorInvoiceSequenceFieldScope = "company" | "contractor";
+export type ContractorInvoiceSequenceFieldType =
+  | "date_format"
+  | "text"
+  | "invoice_counter"
+  | "custom_field"
+  | "employment_short_slug";
+/** One part of the invoice number. Which other properties are set depends on `type`: `date_format` sets `format`, `text` sets `text`, `invoice_counter` sets `scope`, `padding`, `reset_frequency` and `initial_number`, and `custom_field` sets `custom_field_definition_slug`. */
+export interface ContractorInvoiceSequenceField {
+  custom_field_definition_slug?: string | undefined;
+  format?: string | undefined;
+  initial_number?: number | undefined;
+  padding?: number | undefined;
+  reset_frequency?: string | undefined;
+  scope?: ContractorInvoiceSequenceFieldScope | undefined;
+  text?: string | undefined;
+  type: ContractorInvoiceSequenceFieldType;
+}
+/** Ordered list of fields that make up the invoice number. */
+export type ContractorInvoiceSequenceFieldsList = Array<ContractorInvoiceSequenceField>;
+/** The company's contractor invoice sequence. When it is enabled, invoice numbers are generated from it and a number sent on an invoice schedule is not used. */
+export interface ContractorInvoiceSequence {
+  enabled: boolean;
+  /** Ordered list of fields that make up the invoice number. */
+  fields: ContractorInvoiceSequenceFieldsList;
+  id: string;
+}
+export interface ContractorInvoiceSequenceResponseData {
+  contractor_invoice_sequence: ContractorInvoiceSequence;
+}
+/** Response schema to show the company's contractor invoice sequence */
+export interface ContractorInvoiceSequenceResponse {
+  data: ContractorInvoiceSequenceResponseData;
+}
 export type GetContractorsCorTerminationRequestsRequestStatus =
   | "initiated"
   | "executed"
@@ -5692,7 +5930,7 @@ export interface EligibilityQuestionnaireJSONSchemaResponse {
   data?: EligibilityQuestionnaireJSONSchemaResponseData | undefined;
 }
 export interface GetCostCalculatorCountriesRequest {
-  /** If the premium benefits should be included in the response */
+  /** If the premium benefits should be included in the response. Defaults to false. */
   include_premium_benefits?: boolean | undefined;
 }
 /** - active: country is ready to onboard employee - coming_soon: country is in process of getting ready */
@@ -5716,7 +5954,7 @@ export interface CostCalculatorListCountryResponse {
 export interface GetCostCalculatorRegionFieldsRequest {
   /** Slug */
   slug: string;
-  /** If the premium benefits should be included in the response */
+  /** If the premium benefits should be included in the response. Defaults to false. */
   include_premium_benefits?: boolean | undefined;
 }
 export type JSONSchemaResponseDataSchemaPropertiesMap = { [key: string]: unknown | undefined };
@@ -5751,7 +5989,7 @@ export interface GetCountryRequest {
   country_code: string;
   /** Name of the desired form */
   form: string;
-  /** Required for `contract_amendment`, `global_payroll_contract_details` and `global_payroll_state_taxes` forms. Optional for `contract_details`, where it tailors the schema to that employment. */
+  /** Required for `contract_amendment`, `global_payroll_contract_details` and `global_payroll_state_taxes` forms. Optional for `contract_details` and `administrative_details`, where it tailors the schema to that employment, and for `engagement_agreement_details`, where the schema is returned only if that employment's contract takes engagement agreement details. */
   employment_id?: string | undefined;
   /** Two-letter US state code. Required for `global_payroll_state_taxes` (e.g. `NY`). */
   jurisdiction?: string | undefined;
@@ -5888,16 +6126,9 @@ export interface EmploymentCustomFieldValueResponseData {
 export interface EmploymentCustomFieldValueResponse {
   data: EmploymentCustomFieldValueResponseData;
 }
-export type GetDirectOffboardingsRequestEmploymentModel = "global_payroll";
-export interface GetDirectOffboardingsRequest {
-  /** Filter by employment ID */
-  employment_id?: string | undefined;
-  /** Filter by employment model. Currently only 'global_payroll' is supported. */
-  employment_model?: GetDirectOffboardingsRequestEmploymentModel | (string & {}) | undefined;
-  /** Starts fetching records after the given page */
-  page?: number | undefined;
-  /** Number of items per page */
-  page_size?: number | undefined;
+export interface GetDirectOffboardingRequest {
+  /** Direct offboarding ID */
+  id: string;
 }
 /** The current status of the offboarding. */
 export type DirectOffboardingStatus =
@@ -5930,6 +6161,24 @@ export interface DirectOffboarding {
   termination_date?: string | null | undefined;
   /** The type of offboarding. */
   type: DirectOffboardingType;
+}
+export interface DirectOffboardingResponseData {
+  direct_offboarding: DirectOffboarding;
+}
+/** Response containing one offboarding of a global payroll employment. */
+export interface DirectOffboardingResponse {
+  data: DirectOffboardingResponseData;
+}
+export type GetDirectOffboardingsRequestEmploymentModel = "global_payroll";
+export interface GetDirectOffboardingsRequest {
+  /** Filter by employment ID */
+  employment_id?: string | undefined;
+  /** Filter by employment model. Currently only 'global_payroll' is supported. */
+  employment_model?: GetDirectOffboardingsRequestEmploymentModel | (string & {}) | undefined;
+  /** Starts fetching records after the given page */
+  page?: number | undefined;
+  /** Number of items per page */
+  page_size?: number | undefined;
 }
 export type ListDirectOffboardingResponseDataDirectOffboardingsList = Array<DirectOffboarding>;
 export interface ListDirectOffboardingResponseData {
@@ -6247,11 +6496,33 @@ export type UnlimitedDaysandHoursResponseType = "unlimited";
 export interface UnlimitedDaysandHoursResponse {
   type: UnlimitedDaysandHoursResponseType;
 }
-export type LimitedDaysandHoursResponseType = "limited";
-export interface LimitedDaysandHoursResponse {
+export interface LimitedDaysandHoursResponseBreakdownCase0 {
   days: number;
+}
+export interface LimitedDaysandHoursResponseBreakdownCase1 {
+  hours: number;
+  minutes: number;
+}
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LimitedDaysandHoursResponseBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
+export type LimitedDaysandHoursResponseType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LimitedDaysandHoursResponseUnit = "days" | "hours";
+/** A limited amount of leave. Read `unit`, `value` and `breakdown`: they are counted in the unit the policy counts leave in, and need no conversion. `days` and `hours` are the legacy pair, encoded with an 8-hour day for clients that have not moved yet; do not sum or show them for new work. */
+export interface LimitedDaysandHoursResponse {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LimitedDaysandHoursResponseBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
+  days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LimitedDaysandHoursResponseType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LimitedDaysandHoursResponseUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
 /** The annual balance represents the balance for the current entitlement period. Unlike the regular balance, it does not account for accrued value and only considers the annual entitlement as the basis for calculations. */
 export type LeavePolicySummaryAnnualBalance =
@@ -6263,12 +6534,28 @@ export type LeavePolicySummaryAnnualEntitlement =
   | LimitedDaysandHoursResponse;
 /** The balance is the entitlement minus the taken timeoff (i.e 10 entitlement - 3 taken = 7 balance) */
 export type LeavePolicySummaryBalance = UnlimitedDaysandHoursResponse | LimitedDaysandHoursResponse;
+export type LeavePolicySummaryBookedBreakdownCase0 = LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryBookedBreakdownCase1 = LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryBookedBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryBookedType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryBookedUnit = "days" | "hours";
 /** Includes all upcoming requested time off. */
 export interface LeavePolicySummaryBooked {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryBookedBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryBookedType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryBookedUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
 /** The current entitlement is the accrued time entitled for the employee plus any other extra entitlements (such as carryover). */
 export type LeavePolicySummaryCurrentEntitlement =
@@ -6338,40 +6625,126 @@ export interface EmployeeLeavePolicy {
   name: string;
   unit: EmployeeLeavePolicyUnit;
 }
+export type LeavePolicySummaryPendingApprovalBreakdownCase0 =
+  LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryPendingApprovalBreakdownCase1 =
+  LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryPendingApprovalBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryPendingApprovalType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryPendingApprovalUnit = "days" | "hours";
 /** Includes requested timeoffs (not approved) in the past or in the future. */
 export interface LeavePolicySummaryPendingApproval {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryPendingApprovalBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryPendingApprovalType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryPendingApprovalUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
+export type LeavePolicySummaryTakenBreakdownCase0 = LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryTakenBreakdownCase1 = LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryTakenBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryTakenType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryTakenUnit = "days" | "hours";
 /** Includes all time off (past and future, pending or approved). */
 export interface LeavePolicySummaryTaken {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryTakenBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryTakenType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryTakenUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
+export type LeavePolicySummaryUpcomingApprovedBreakdownCase0 =
+  LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryUpcomingApprovedBreakdownCase1 =
+  LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryUpcomingApprovedBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryUpcomingApprovedType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryUpcomingApprovedUnit = "days" | "hours";
 /** Includes all upcoming approved time off. */
 export interface LeavePolicySummaryUpcomingApproved {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryUpcomingApprovedBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryUpcomingApprovedType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryUpcomingApprovedUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
+export type LeavePolicySummaryUpcomingRequestedBreakdownCase0 =
+  LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryUpcomingRequestedBreakdownCase1 =
+  LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryUpcomingRequestedBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryUpcomingRequestedType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryUpcomingRequestedUnit = "days" | "hours";
 /** Includes all upcoming requested time off. */
 export interface LeavePolicySummaryUpcomingRequested {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryUpcomingRequestedBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryUpcomingRequestedType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryUpcomingRequestedUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
+export type LeavePolicySummaryUsedBreakdownCase0 = LimitedDaysandHoursResponseBreakdownCase0;
+export type LeavePolicySummaryUsedBreakdownCase1 = LimitedDaysandHoursResponseBreakdownCase1;
+/** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+export type LeavePolicySummaryUsedBreakdown =
+  | LimitedDaysandHoursResponseBreakdownCase0
+  | LimitedDaysandHoursResponseBreakdownCase1;
 export type LeavePolicySummaryUsedType = "limited";
+/** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+export type LeavePolicySummaryUsedUnit = "days" | "hours";
 /** Includes only approved time off in the past. */
 export interface LeavePolicySummaryUsed {
+  /** The same amount split for display. On a days policy only `days` (the same fraction as `value`), because a day has no fixed length in hours. On an hours policy `hours` and the remaining `minutes`. */
+  breakdown?: LeavePolicySummaryUsedBreakdown | undefined;
+  /** Legacy. Whole days of an 8-hour day. */
   days: number;
+  /** Legacy. Hours left over after `days`, of an 8-hour day. */
   hours: number;
   type: LeavePolicySummaryUsedType;
+  /** The unit the leave policy counts leave in. `value` and `breakdown` are in this unit. */
+  unit?: LeavePolicySummaryUsedUnit | undefined;
+  /** The amount as a decimal in `unit`, rounded to two decimals: day fractions on a days policy, hours on an hours policy. Show it as is. Do not add rounded values up: use the totals Tiger returns. */
+  value?: number | undefined;
 }
 /** Leave Policy Summary */
 export interface LeavePolicySummary {
@@ -6579,6 +6952,18 @@ export interface EmploymentShowResponseDataEmploymentContractorSettings {
   /** Whether the contractor requires work confirmation before submitting invoices. */
   requires_work_confirmation?: boolean | undefined;
 }
+/** EOR hiring model the active contract is under. Null when it has none. */
+export type EmploymentShowResponseDataEmploymentEorHiringModel =
+  | "deu_solutions"
+  | "deu_aug"
+  | "deu_aug_de3"
+  | "deu_solutions_legacy"
+  | "cze_consulting"
+  | "cze_tea"
+  | "fra_wage_portage"
+  | "fra_consulting"
+  | "ita_apl"
+  | "ita_consulting";
 /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
 export type EmploymentShowResponseDataEmploymentContractorType = "standard" | "cor" | "plus";
 export interface EmploymentShowResponseDataEmploymentContractorRateAmountCurrency {
@@ -6680,6 +7065,8 @@ export interface EmploymentShowResponseDataEmployment {
   short_id?: string | undefined;
   /** Name of related department, if any. Otherwise, null. */
   department?: string | null | undefined;
+  /** Whether the Statement of Work (SOW) of an active Contractor of Record (COR) employment has rolled over. Only present for contractor employments, and `null` unless the employment is an active COR employment. - `true`: the SOW is past its `expiration_date`. If the contractor keeps providing services, the SOW continues month to month on the same terms until it is replaced or ended, so no new SOW is needed. It is based on `expiration_date` and does not show whether services continue. - `false`: the SOW has not passed its `expiration_date` (it is still `false` on that date), or it has none. It stays `true` while a termination is in progress. Before telling a contractor the SOW continues, check `GET /contractors/cor-termination-requests?employment_id={id}&status=initiated` or subscribe to the `employment.contractor_of_record_termination.initiated` webhook. */
+  sow_rolled_over?: boolean | null | undefined;
   /** The email address of the employee's manager. Null if no manager is assigned. */
   manager_email: string | null;
   provisional_start_date?: string | undefined;
@@ -6695,6 +7082,8 @@ export interface EmploymentShowResponseDataEmployment {
   /** Contractor-specific settings. Only present for contractor employments. */
   contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null | undefined;
   employment_lifecycle_stage: EmploymentLifecycleStage;
+  /** EOR hiring model the active contract is under. Null when it has none. */
+  eor_hiring_model?: EmploymentShowResponseDataEmploymentEorHiringModel | null | undefined;
   /** Administrative information. Its properties may vary depending on the country. */
   administrative_details: unknown;
   /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
@@ -6728,6 +7117,8 @@ export interface EmploymentShowResponseDataEmployment {
   department_id?: string | null | undefined;
   /** The full name of the employee's manager. */
   manager?: string | undefined;
+  /** Whether this employment takes engagement agreement details. Only EOR employments take them, and it depends on the country and the hiring model of the active contract. When false, saving engagement agreement details for this employment returns a 404. */
+  requires_engagement_agreement_details?: boolean | undefined;
   /** The email address the employee uses to log in to the Remote platform. */
   login_email: string;
   /** A unique reference code for the employment record in a non-Remote system. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
@@ -6742,6 +7133,8 @@ export interface EmploymentShowResponseDataEmployment {
   bank_account_details: EmploymentShowResponseDataEmploymentBankAccountDetailsList;
   /** Documents associated with this employment (e.g., contracts, tax forms, identity documents). */
   files: EmploymentShowResponseDataEmploymentFilesList;
+  /** Whether an active discount fully waives the offboarding service charge (Termination) for this employment. The charge applies to a termination, and to a cancellation before the start date made by the customer. - `true`: a discount fully waives the charge, so the employer is not charged it on the reconciliation invoice. - `false`: no active discount fully waives the charge. Whether the charge applies to a given offboarding is decided separately, so `false` does not guarantee that the employer is charged. */
+  is_offboarding_service_charge_waived?: boolean | null | undefined;
   /** The unique identifier (UUID) of the currently active contract for this employment. */
   active_contract_id?: string | undefined;
   /** The unique identifier (UUID) of the legal entity that engaged this employment. */
@@ -6759,6 +7152,8 @@ export interface EmploymentShowResponseDataEmployment {
   manager_employment_id: string | null;
   /** The timestamp when this employment record was created. */
   created_at: string;
+  /** `true` when the employee is linked to an integration, such as an HRIS sync, and every Remote notification to them is turned off. Remote then doesn't invite them, and sends them only the emails it must, such as documents to sign. `false` otherwise. */
+  emails_blocked_by_integration?: boolean | undefined;
   /** Most updated termination date for the offboarding. This date is subject to change through the offboarding process even after it is finalized. */
   termination_date?: string | null | undefined;
 }
@@ -6872,6 +7267,8 @@ export type EmploymentsBenefitOffersListBenefitOffersDataList =
   Array<UnifiedEmploymentBenefitOffer>;
 /** The list of benefit offers for an employment schema */
 export interface EmploymentsBenefitOffersListBenefitOffers {
+  /** Whether the current benefit selection passes the check that runs when the employee is invited, as a company user sees it. True when the country has no benefits to choose. False when the selection is missing, out of date or not allowed, and when the employment has no contract yet. For a contractor or direct employee, which cannot have benefit offers, true when there are none and false when there are some. */
+  benefits_valid: boolean;
   data: EmploymentsBenefitOffersListBenefitOffersDataList;
 }
 /** Use latest version */
@@ -7136,7 +7533,7 @@ export interface GetEmploymentEmploymentAgreementDownloadRequest {
   /** Employment ID */
   employment_id: string;
 }
-export type GetEmploymentEmploymentAgreementDownloadResponse = string;
+export interface GetEmploymentEmploymentAgreementDownloadResponse {}
 export interface GetEmploymentEmploymentAgreementPreviewRequest {
   /** Employment ID */
   employment_id: string;
@@ -7154,7 +7551,7 @@ export interface GetEmploymentEngagementAgreementDetailsRequest {
   /** Employment ID */
   employment_id: string;
 }
-export type EmploymentEngagementAgreementDetailsResponseDataDetailsAllowancesDetailsList =
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase0AllowancesDetailsList =
   Array<string>;
 /** A file attached to the engagement agreement details. */
 export interface EngagementAgreementDetailsFile {
@@ -7163,13 +7560,15 @@ export interface EngagementAgreementDetailsFile {
   /** The file name, including its extension. */
   name: string;
 }
-export type EmploymentEngagementAgreementDetailsResponseDataDetailsCbaDocumentList =
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase0CbaDocumentList =
   Array<EngagementAgreementDetailsFile>;
-export type EmploymentEngagementAgreementDetailsResponseDataDetailsCovenantsList = Array<string>;
-export type EmploymentEngagementAgreementDetailsResponseDataDetailsWorkingDaysList = Array<string>;
-export interface EmploymentEngagementAgreementDetailsResponseDataDetails {
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase0CovenantsList =
+  Array<string>;
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase0WorkingDaysList =
+  Array<string>;
+export interface EmploymentEngagementAgreementDetailsResponseDataDetailsCase0 {
   allowances_details?:
-    | EmploymentEngagementAgreementDetailsResponseDataDetailsAllowancesDetailsList
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase0AllowancesDetailsList
     | null
     | undefined;
   available_pto?: number | null | undefined;
@@ -7177,11 +7576,11 @@ export interface EmploymentEngagementAgreementDetailsResponseDataDetails {
   business_expenses?: string | null | undefined;
   cba?: string | null | undefined;
   cba_document?:
-    | EmploymentEngagementAgreementDetailsResponseDataDetailsCbaDocumentList
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase0CbaDocumentList
     | null
     | undefined;
   covenants?:
-    | EmploymentEngagementAgreementDetailsResponseDataDetailsCovenantsList
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase0CovenantsList
     | null
     | undefined;
   has_allowances?: string | null | undefined;
@@ -7208,10 +7607,52 @@ export interface EmploymentEngagementAgreementDetailsResponseDataDetails {
   similar_work_conditions_details?: string | null | undefined;
   work_hours_per_week?: number | null | undefined;
   working_days?:
-    | EmploymentEngagementAgreementDetailsResponseDataDetailsWorkingDaysList
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase0WorkingDaysList
     | null
     | undefined;
 }
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase1ProvidedEquipmentList =
+  Array<string>;
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase1ProvidedTrainingList =
+  Array<string>;
+export type EmploymentEngagementAgreementDetailsResponseDataDetailsCase1WorkingDaysList =
+  Array<string>;
+export interface EmploymentEngagementAgreementDetailsResponseDataDetailsCase1 {
+  arduous_work_premium_percentage?: number | null | undefined;
+  available_pto?: number | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  night_work_premium_percentage?: number | null | undefined;
+  obstacle_to_work_premium_percentage?: number | null | undefined;
+  on_call_premium_percentage?: number | null | undefined;
+  overtime_premium_percentage?: number | null | undefined;
+  probation_period_months?: number | null | undefined;
+  provided_equipment?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase1ProvidedEquipmentList
+    | null
+    | undefined;
+  provided_training?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase1ProvidedTrainingList
+    | null
+    | undefined;
+  public_holiday_work_premium_percentage?: number | null | undefined;
+  similar_role_job_title?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  weekend_work_premium_percentage?: number | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCase1WorkingDaysList
+    | null
+    | undefined;
+}
+export type EmploymentEngagementAgreementDetailsResponseDataDetails =
+  | EmploymentEngagementAgreementDetailsResponseDataDetailsCase0
+  | EmploymentEngagementAgreementDetailsResponseDataDetailsCase1;
 export interface EmploymentEngagementAgreementDetailsResponseData {
   details: EmploymentEngagementAgreementDetailsResponseDataDetails;
   slug: string;
@@ -7226,9 +7667,9 @@ export interface GetEmploymentEngagementAgreementDetailsRequest2 {
 export interface GetEmploymentFilesRequest {
   /** Employment ID */
   employment_id: string;
-  /** Filter by file type (optional) */
+  /** Filter by file type (optional). Common values: `contract`, `document`, `tax_document`, `id`. */
   type?: string | undefined;
-  /** Filter by file sub_type (optional) */
+  /** Filter by file sub_type (optional). For example `personal_id`, `w_9_form` or `employer_managed_document`. */
   sub_type?: string | undefined;
   /** Starts fetching records after the given page */
   page?: number | undefined;
@@ -7488,6 +7929,18 @@ export type EmploymentType =
   | "global_payroll_employee";
 /** Contractor-specific settings. Only present for contractor employments. */
 export type EmploymentContractorSettings = EmploymentShowResponseDataEmploymentContractorSettings;
+/** EOR hiring model the active contract is under. Null when it has none. */
+export type EmploymentEorHiringModel =
+  | "deu_solutions"
+  | "deu_aug"
+  | "deu_aug_de3"
+  | "deu_solutions_legacy"
+  | "cze_consulting"
+  | "cze_tea"
+  | "fra_wage_portage"
+  | "fra_consulting"
+  | "ita_apl"
+  | "ita_consulting";
 /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
 export type EmploymentContractorType = "standard" | "cor" | "plus";
 export type EmploymentContractorRateAmountCurrency =
@@ -7524,6 +7977,8 @@ export interface Employment {
   short_id?: string | undefined;
   /** Name of related department, if any. Otherwise, null. */
   department?: string | null | undefined;
+  /** Whether the Statement of Work (SOW) of an active Contractor of Record (COR) employment has rolled over. Only present for contractor employments, and `null` unless the employment is an active COR employment. - `true`: the SOW is past its `expiration_date`. If the contractor keeps providing services, the SOW continues month to month on the same terms until it is replaced or ended, so no new SOW is needed. It is based on `expiration_date` and does not show whether services continue. - `false`: the SOW has not passed its `expiration_date` (it is still `false` on that date), or it has none. It stays `true` while a termination is in progress. Before telling a contractor the SOW continues, check `GET /contractors/cor-termination-requests?employment_id={id}&status=initiated` or subscribe to the `employment.contractor_of_record_termination.initiated` webhook. */
+  sow_rolled_over?: boolean | null | undefined;
   /** The email address of the employee's manager. Null if no manager is assigned. */
   manager_email: string | null;
   provisional_start_date?: string | undefined;
@@ -7539,6 +7994,8 @@ export interface Employment {
   /** Contractor-specific settings. Only present for contractor employments. */
   contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null | undefined;
   employment_lifecycle_stage: EmploymentLifecycleStage;
+  /** EOR hiring model the active contract is under. Null when it has none. */
+  eor_hiring_model?: EmploymentEorHiringModel | null | undefined;
   /** Administrative information. Its properties may vary depending on the country. */
   administrative_details: unknown;
   /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
@@ -7572,6 +8029,8 @@ export interface Employment {
   department_id?: string | null | undefined;
   /** The full name of the employee's manager. */
   manager?: string | undefined;
+  /** Whether this employment takes engagement agreement details. Only EOR employments take them, and it depends on the country and the hiring model of the active contract. When false, saving engagement agreement details for this employment returns a 404. */
+  requires_engagement_agreement_details?: boolean | undefined;
   /** The email address the employee uses to log in to the Remote platform. */
   login_email: string;
   /** A unique reference code for the employment record in a non-Remote system. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
@@ -7586,6 +8045,8 @@ export interface Employment {
   bank_account_details: EmploymentBankAccountDetailsList;
   /** Documents associated with this employment (e.g., contracts, tax forms, identity documents). */
   files: EmploymentFilesList;
+  /** Whether an active discount fully waives the offboarding service charge (Termination) for this employment. The charge applies to a termination, and to a cancellation before the start date made by the customer. - `true`: a discount fully waives the charge, so the employer is not charged it on the reconciliation invoice. - `false`: no active discount fully waives the charge. Whether the charge applies to a given offboarding is decided separately, so `false` does not guarantee that the employer is charged. */
+  is_offboarding_service_charge_waived?: boolean | null | undefined;
   /** The unique identifier (UUID) of the currently active contract for this employment. */
   active_contract_id?: string | undefined;
   /** The unique identifier (UUID) of the legal entity that engaged this employment. */
@@ -8354,7 +8815,7 @@ export interface GetPayrollRunGlReportDownloadRequest {
   /** The GL report's ID */
   gl_report_id: string;
 }
-export type GetPayrollRunGlReportDownloadResponse = string;
+export interface GetPayrollRunGlReportDownloadResponse {}
 export interface GetPayrollRunsRequest {
   /** Filters payroll runs where period_start or period_end match the given date */
   payroll_period?: string | undefined;
@@ -8586,11 +9047,11 @@ export interface GetSandboxCompanyFeatureFlagsRequest {
   /** Company ID */
   company_id: string;
 }
-/** `company`: the state is for the company in the path and can differ between companies. The other company flags are evaluated for the company admin the API acts as (the token's user, or the company owner for an integration token). The two `job_title_eligibility_check_*` flags are set per company instead. `environment`: the state is the same for every company in this environment. */
+/** `company`: the state is for the company in the path, and can differ between companies. The two `job_title_eligibility_check_*` flags are set per company instead. Any other flag that depends on the caller is evaluated for the token's user with a Company-scoped access token (either kind) or a Customer API token. A Client credentials access token has no user, so it gets the company owner's state, for reference only: the endpoints these flags change don't accept that token, so use one of the other tokens to see the state for its user. `environment`: the state is the same for every company in this environment. */
 export type FeatureFlagAppliesTo = "company" | "environment";
 /** A feature flag that changes how the Remote API behaves, and whether it is on. */
 export interface FeatureFlag {
-  /** `company`: the state is for the company in the path and can differ between companies. The other company flags are evaluated for the company admin the API acts as (the token's user, or the company owner for an integration token). The two `job_title_eligibility_check_*` flags are set per company instead. `environment`: the state is the same for every company in this environment. */
+  /** `company`: the state is for the company in the path, and can differ between companies. The two `job_title_eligibility_check_*` flags are set per company instead. Any other flag that depends on the caller is evaluated for the token's user with a Company-scoped access token (either kind) or a Customer API token. A Client credentials access token has no user, so it gets the company owner's state, for reference only: the endpoints these flags change don't accept that token, so use one of the other tokens to see the state for its user. `environment`: the state is the same for every company in this environment. */
   applies_to: FeatureFlagAppliesTo;
   /** What the flag changes in the Remote API when it is on. */
   description: string;
@@ -8853,6 +9314,8 @@ export interface GetTimesheetRequest {
   /** Timesheet ID */
   id: string;
 }
+/** For `on_call` entries only: whether the on-call time was restricted (`restricted`: working, or had to stay at or near the workplace) or not (`unrestricted`: only had to be reachable). Empty when not answered, which counts as restricted. */
+export type TimeTrackingOnCallRestriction = "restricted" | "unrestricted";
 /** Hours breakdown by type of day (regular working day, weekend, or public holiday) for a specific time of day (day or night). */
 export interface TypeOfDayBreakdown {
   holiday: HoursAndMinutes;
@@ -8864,7 +9327,7 @@ export interface TimeBreakdown {
   day: TypeOfDayBreakdown;
   night: TypeOfDayBreakdown;
 }
-/** The category of time being tracked (e.g., regular hours, overtime, on-call, break time). */
+/** The category of time being tracked (e.g., regular hours, overtime, on-call, break time). `time_off` and `public_holiday` are system-generated, and cannot be set when creating a timesheet. `top_up` is system-generated too but never appears in this array: top-ups come back in `top_up_time_trackings`. */
 export type TimeTrackingType =
   | "regular_hours"
   | "overtime"
@@ -8872,8 +9335,9 @@ export type TimeTrackingType =
   | "break"
   | "unpaid_break"
   | "time_off"
-  | "public_holiday";
-/** A single time tracking entry within a timesheet, representing a block of work with clock-in/out times. Includes detailed breakdowns of hours by type (regular, overtime, night, weekend, holiday). */
+  | "public_holiday"
+  | "top_up";
+/** A single time tracking entry within a timesheet, representing a block of time with clock-in/out times: work, a break, or time off. Includes detailed breakdowns of hours by type (regular, overtime, night, weekend, holiday). Top-ups are not logged time and come back in `top_up_time_trackings`, under their own schema. */
 export interface TimeTracking {
   clock_in: string;
   clock_out: string;
@@ -8887,15 +9351,43 @@ export interface TimeTracking {
   night_hours: HoursAndMinutes;
   /** Optional free-text notes about this time tracking entry, such as project or task details. */
   notes: string | null;
+  /** For `on_call` entries only: whether the on-call time was restricted (`restricted`: working, or had to stay at or near the workplace) or not (`unrestricted`: only had to be reachable). Empty when not answered, which counts as restricted. */
+  on_call_restriction?: TimeTrackingOnCallRestriction | null | undefined;
   time_breakdown: TimeBreakdown;
   timezone: string;
   total_hours: HoursAndMinutes;
-  /** The category of time being tracked (e.g., regular hours, overtime, on-call, break time). */
+  /** The category of time being tracked (e.g., regular hours, overtime, on-call, break time). `time_off` and `public_holiday` are system-generated, and cannot be set when creating a timesheet. `top_up` is system-generated too but never appears in this array: top-ups come back in `top_up_time_trackings`. */
   type: TimeTrackingType;
   weekend_hours: HoursAndMinutes;
 }
-/** The individual time tracking entries that make up this timesheet. */
+/** The entries recorded against this timesheet: regular hours, overtime, on-call and breaks that were logged, plus the time off and public holidays Remote writes. Do not add these up for worked time: breaks, time off and public holidays are in here too. Read `total_hours` instead. Top-ups are never among these entries: they come back in `top_up_time_trackings`. */
 export type TimesheetTimeTrackingsList = Array<TimeTracking>;
+/** The total of `top_up_time_trackings`: hours Remote pays on top of the hours logged on the timesheet. It covers every reason a top-up is written and is not worked time, so it is not included in `total_hours`. */
+export type TimesheetTopUpHours = HoursAndMinutes;
+/** Why Remote wrote the top-up. `guaranteed_hours`: the week's worked time, plus the paid breaks the policy counts, is below the contract's guaranteed hours. `minimum_engagement`: a call-in is shorter than the policy's minimum paid time. `late_cancellation`: an employer cancelled, shortened or moved a shift inside the paid notice window, and the worker is paid the hours lost. `late_schedule_change`: an employer added, lengthened or moved a shift inside the paid notice window, and the policy pays a fixed number of hours for each such change (US predictive scheduling). Null only for an entry the system never writes. */
+export type TopUpTimeTrackingReason =
+  | "guaranteed_hours"
+  | "minimum_engagement"
+  | "late_cancellation"
+  | "late_schedule_change";
+/** Always `top_up`: the entry pays hours the employee did not work. */
+export type TopUpTimeTrackingType = "top_up";
+/** An entry Remote writes to pay hours the employee did not work, such as the guaranteed hours on their contract. It is never worked time and never carries a work interval: `total_hours` is the amount this entry pays, and `date` is the day the entry is filed under. A `guaranteed_hours` entry covers the whole timesheet week, so its amount is not one day's pay. */
+export interface TopUpTimeTracking {
+  /** The day this entry is filed under. A `minimum_engagement`, `late_cancellation` or `late_schedule_change` entry is filed under the local day of the call-in, or of the shift the change was about, in the entry's timezone. A `guaranteed_hours` entry is filed under the last day of the timesheet week, or the last day in that week the contract guarantees hours; its `total_hours` covers the whole week, so it is not that day's pay. */
+  date: string;
+  /** Free-text notes about this entry. Always present; both top-up writers set one. */
+  notes: string | null;
+  /** Why Remote wrote the top-up. `guaranteed_hours`: the week's worked time, plus the paid breaks the policy counts, is below the contract's guaranteed hours. `minimum_engagement`: a call-in is shorter than the policy's minimum paid time. `late_cancellation`: an employer cancelled, shortened or moved a shift inside the paid notice window, and the worker is paid the hours lost. `late_schedule_change`: an employer added, lengthened or moved a shift inside the paid notice window, and the policy pays a fixed number of hours for each such change (US predictive scheduling). Null only for an entry the system never writes. */
+  reason: TopUpTimeTrackingReason | null;
+  total_hours: HoursAndMinutes;
+  /** Always `top_up`: the entry pays hours the employee did not work. */
+  type: TopUpTimeTrackingType;
+}
+/** Entries Remote writes to pay hours the employee did not work, such as the guaranteed hours on their contract or the minimum paid time of a call-in. Filled when approval processing writes them, so re-read a timesheet that was just approved. A send back or reopen before payroll took them removes them, and approving again writes them afresh; a timesheet reopened after payroll already took its top-ups keeps them. */
+export type TimesheetTopUpTimeTrackingsList = Array<TopUpTimeTracking>;
+/** The worked time on this timesheet: the clocked time of the regular, overtime and on-call entries. Paid breaks, time off and top-ups are not included, so this is the number to use for worked hours. */
+export type TimesheetTotalHours = HoursAndMinutes;
 /** A timesheet represents an employee's recorded working hours for a specific date range. It contains aggregated hour totals and individual time tracking entries. Timesheets progress through a lifecycle: open (draft) -> submitted -> approved -> processed, or they may be sent back for revision. */
 export interface Timesheet {
   /** Whether this timesheet requires explicit approval before it can be processed. When false, the timesheet may be auto-approved based on the company's configuration. */
@@ -8916,9 +9408,14 @@ export interface Timesheet {
   status: TimesheetStatus;
   /** The timestamp when the employee submitted this timesheet for approval. Null if the timesheet has not been submitted yet (status is `open`). */
   submitted_at: string | null;
-  /** The individual time tracking entries that make up this timesheet. */
+  /** The entries recorded against this timesheet: regular hours, overtime, on-call and breaks that were logged, plus the time off and public holidays Remote writes. Do not add these up for worked time: breaks, time off and public holidays are in here too. Read `total_hours` instead. Top-ups are never among these entries: they come back in `top_up_time_trackings`. */
   time_trackings: TimesheetTimeTrackingsList;
   timeoff_hours?: HoursAndMinutes | undefined;
+  /** The total of `top_up_time_trackings`: hours Remote pays on top of the hours logged on the timesheet. It covers every reason a top-up is written and is not worked time, so it is not included in `total_hours`. */
+  top_up_hours: HoursAndMinutes;
+  /** Entries Remote writes to pay hours the employee did not work, such as the guaranteed hours on their contract or the minimum paid time of a call-in. Filled when approval processing writes them, so re-read a timesheet that was just approved. A send back or reopen before payroll took them removes them, and approving again writes them afresh; a timesheet reopened after payroll already took its top-ups keeps them. */
+  top_up_time_trackings: TimesheetTopUpTimeTrackingsList;
+  /** The worked time on this timesheet: the clocked time of the regular, overtime and on-call entries. Paid breaks, time off and top-ups are not included, so this is the number to use for worked hours. */
   total_hours: HoursAndMinutes;
   unpaid_break_hours: HoursAndMinutes;
   weekend_hours: HoursAndMinutes;
@@ -9371,27 +9868,27 @@ export interface PatchV1CompaniesCompanyId2Request {
   tax_number?: string | undefined;
 }
 export interface CompanyManagerBillingContact {
-  /** Whether this manager is the primary billing contact for the legal entity */
+  /** Whether this manager should be the primary billing contact for the legal entity. True replaces the current primary contact. */
   is_primary_billing_contact: boolean;
   /** Slug of the legal entity */
   legal_entity_slug: string;
 }
-/** The legal entities to assign or unassign this manager as billing contact for. */
+/** Every legal entity this manager should be a billing contact for. Each must be listed by the caller's GET and covered by one of their roles with permission to update billing communications, or the call returns 404. A role assigned to some legal entities only limits the caller to those, even where another role covers the whole company. Legal entities left out that the caller can change stop having this manager as a billing contact. */
 export type PatchV1CompanyManagersUserIdRequestBillingContactForList =
   Array<CompanyManagerBillingContact>;
 export interface PatchV1CompanyManagersUserIdRequest {
   /** User ID */
   user_id: string;
-  /** The legal entities to assign or unassign this manager as billing contact for. */
+  /** Every legal entity this manager should be a billing contact for. Each must be listed by the caller's GET and covered by one of their roles with permission to update billing communications, or the call returns 404. A role assigned to some legal entities only limits the caller to those, even where another role covers the whole company. Legal entities left out that the caller can change stop having this manager as a billing contact. */
   billing_contact_for: PatchV1CompanyManagersUserIdRequestBillingContactForList;
 }
-/** The legal entities to assign or unassign this manager as billing contact for. */
+/** Every legal entity this manager should be a billing contact for. Each must be listed by the caller's GET and covered by one of their roles with permission to update billing communications, or the call returns 404. A role assigned to some legal entities only limits the caller to those, even where another role covers the whole company. Legal entities left out that the caller can change stop having this manager as a billing contact. */
 export type PatchV1CompanyManagersUserId2RequestBillingContactForList =
   Array<CompanyManagerBillingContact>;
 export interface PatchV1CompanyManagersUserId2Request {
   /** User ID */
   user_id: string;
-  /** The legal entities to assign or unassign this manager as billing contact for. */
+  /** Every legal entity this manager should be a billing contact for. Each must be listed by the caller's GET and covered by one of their roles with permission to update billing communications, or the call returns 404. A role assigned to some legal entities only limits the caller to those, even where another role covers the whole company. Legal entities left out that the caller can change stop having this manager as a billing contact. */
   billing_contact_for: PatchV1CompanyManagersUserId2RequestBillingContactForList;
 }
 /** List of invoice items that composes the overall invoice amount. */
@@ -10095,9 +10592,19 @@ export interface PutEmploymentAddressDetailsRequest {
   /** Home address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `address_details` as path parameters. */
   address_details: unknown;
 }
+/** Use latest version */
+export type PutEmploymentAdministrativeDetailsRequestAdministrativeDetailsJsonSchemaVersionCase1 =
+  "latest";
+export type PutEmploymentAdministrativeDetailsRequestAdministrativeDetailsJsonSchemaVersion =
+  | number
+  | PutEmploymentAdministrativeDetailsRequestAdministrativeDetailsJsonSchemaVersionCase1;
 export interface PutEmploymentAdministrativeDetailsRequest {
   /** Employment ID */
   employment_id: string;
+  /** Version of the administrative_details form schema */
+  administrative_details_json_schema_version?:
+    | PutEmploymentAdministrativeDetailsRequestAdministrativeDetailsJsonSchemaVersion
+    | undefined;
   /** Administrative information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `administrative_details` as path parameters. */
   administrative_details: unknown;
 }
@@ -10567,10 +11074,50 @@ export interface ConflictResponse {
   /** A human-readable message describing the conflict and the expected state. */
   message?: string | undefined;
 }
+/** A machine-readable error code identifying the specific type of resource error. */
+export type ResourceErrorResponseMessageCode =
+  | "resource_not_eligible"
+  | "resource_already_exists"
+  | "action_unrecognized"
+  | "action_invalid"
+  | "parameter_value_invalid"
+  | "resource_not_found"
+  | "resource_restricted"
+  | "parameter_invalid_date"
+  | "resource_invalid_state"
+  | "parameter_value_unknown"
+  | "request_body_empty"
+  | "request_internal_server_error"
+  | "parameter_required_missing"
+  | "parameter_one_of_required_missing"
+  | "parameter_too_many"
+  | "parameter_unknown"
+  | "parameter_map_empty"
+  | "request_idempotency_in_progress"
+  | "request_idempotency_key_reused"
+  | "resource_not_supported_for_country";
+export interface ResourceErrorResponseMessage {
+  /** A machine-readable error code identifying the specific type of resource error. */
+  code?: ResourceErrorResponseMessageCode | undefined;
+  /** A human-readable message explaining the error and how to resolve it. */
+  message?: string | undefined;
+  /** The unique identifier of the specific resource that caused the error. May be null if the resource has not been created yet. */
+  resource_id?: string | null | undefined;
+  /** The type of resource that caused the error (e.g., "termination_request", "employment"). */
+  resource_type?: string | undefined;
+}
+/** Returned when an operation fails due to a resource-level conflict or constraint. Includes a structured error with a machine-readable code, a human-readable message, and the type and ID of the affected resource. */
+export interface ResourceErrorResponse {
+  message: ResourceErrorResponseMessage;
+}
+/** Returned when the request conflicts with the current state of a resource (HTTP 409): either a plain message, or a structured error whose `message` object carries a machine-readable `code`. */
+export type ConflictOrResourceErrorResponse = ConflictResponse | ResourceErrorResponse;
 /** Returned when the authenticated user or token does not have permission to perform the requested action. Check that the token has the required OAuth2 scopes and that the user has the necessary role. */
 export interface ForbiddenResponse {
   message: string;
 }
+/** Returned when the token lacks a required scope or role, and, for `administrative_details` with an `employment_id`, when none of the roles the token acts with holds both the `people-employment` and the `people-sensitive-details` read permissions. An employment outside the data scope of those roles answers 404. */
+export type CountryFormForbiddenResponse = ForbiddenResponse;
 /** Returned when the user the token acts for has no role that holds all the permissions this download needs, or can't open the payslip's file. A payslip outside the data scope of those roles answers 404. */
 export type PayslipFileForbiddenResponse = ForbiddenResponse;
 /** Returned when the requested resource does not exist or is not accessible with the current authentication credentials. */
@@ -10780,8 +11327,8 @@ export const createCompanyPricingPlan: API.OperationMethod<
   CreateCompanyPricingPlanError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateCompanyPricingPlanRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<CreatePricingPlanResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreateCompanyPricingPlanRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<CreatePricingPlanResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10798,8 +11345,8 @@ export const createContractAmendment: API.OperationMethod<
   CreateContractAmendmentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateContractAmendmentRequest>,
-  output: __S(1284, __c40, 4) as any as S.Schema<ContractAmendmentResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateContractAmendmentRequest>,
+  output: __S(1252, __c39, 4) as any as S.Schema<ContractAmendmentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10819,8 +11366,8 @@ export const createContractAmendmentsAutomatable: API.OperationMethod<
   CreateContractAmendmentsAutomatableError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateContractAmendmentsAutomatableRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<ContractAmendmentAutomatableResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<CreateContractAmendmentsAutomatableRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ContractAmendmentAutomatableResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10841,8 +11388,8 @@ export const createContractorInvoiceSchedule: API.OperationMethod<
   CreateContractorInvoiceScheduleError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c69, 2) as any as S.Schema<CreateContractorInvoiceScheduleRequest>,
-  output: __S(10024, __c313, 8) as any as S.Schema<BulkContractorInvoiceScheduleCreateResponse>,
+  input: __S(2178, __c68, 2) as any as S.Schema<CreateContractorInvoiceScheduleRequest>,
+  output: __S(10056, __c314, 8) as any as S.Schema<BulkContractorInvoiceScheduleCreateResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10863,8 +11410,8 @@ export const createContractorsEligibilityQuestionnaire: API.OperationMethod<
   CreateContractorsEligibilityQuestionnaireError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2593, __c81, 1) as any as S.Schema<CreateContractorsEligibilityQuestionnaireRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<EligibilityQuestionnaireResponse>,
+  input: __S(2561, __c80, 1) as any as S.Schema<CreateContractorsEligibilityQuestionnaireRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<EligibilityQuestionnaireResponse>,
   errors: [Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10886,8 +11433,8 @@ export const createContractorsEmploymentActivate: API.OperationMethod<
   CreateContractorsEmploymentActivateError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<CreateContractorsEmploymentActivateRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateContractorsEmploymentActivateRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10908,11 +11455,11 @@ export const createContractorsEmploymentContractDocument: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3616,
-    __c113,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<CreateContractorsEmploymentContractDocumentRequest>,
-  output: __S(3619, __c113, 3) as any as S.Schema<CreateContractDocumentResponse>,
+  output: __S(3587, __c112, 3) as any as S.Schema<CreateContractDocumentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10938,7 +11485,7 @@ export const createContractorsEmploymentContractDocumentSign: API.OperationMetho
     __c125,
     0,
   ) as any as S.Schema<CreateContractorsEmploymentContractDocumentSignRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10961,11 +11508,11 @@ export const createContractorsEmploymentContractorCorSubscription: API.Operation
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4416,
-    __c138,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<CreateContractorsEmploymentContractorCorSubscriptionRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -10986,11 +11533,11 @@ export const createContractorsEmploymentContractorPlusSubscription: API.Operatio
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4832,
-    __c151,
+    4800,
+    __c150,
     0,
   ) as any as S.Schema<CreateContractorsEmploymentContractorPlusSubscriptionRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11013,11 +11560,11 @@ export const createContractorsEmploymentCorTerminationRequest: API.OperationMeth
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5248,
-    __c164,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<CreateContractorsEmploymentCorTerminationRequestRequest>,
-  output: __S(5250, __c164, 2) as any as S.Schema<CorTerminationRequestCreatedResponse>,
+  output: __S(5218, __c163, 2) as any as S.Schema<CorTerminationRequestCreatedResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11039,8 +11586,8 @@ export const createContractorsEmploymentDeactivate: API.OperationMethod<
   CreateContractorsEmploymentDeactivateError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<CreateContractorsEmploymentDeactivateRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<CreateContractorsEmploymentDeactivateRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11062,8 +11609,8 @@ export const createContractorsEmploymentTimesheet: API.OperationMethod<
   CreateContractorsEmploymentTimesheetError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6018, __c188, 2) as any as S.Schema<CreateContractorsEmploymentTimesheetRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<ContractorTimesheetResponse>,
+  input: __S(5986, __c187, 2) as any as S.Schema<CreateContractorsEmploymentTimesheetRequest>,
+  output: __S(5991, __c187, 7) as any as S.Schema<ContractorTimesheetResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11080,8 +11627,8 @@ export const createCostCalculatorEstimation: API.OperationMethod<
   CreateCostCalculatorEstimationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateCostCalculatorEstimationRequest>,
-  output: __S(6506, __c203, 10) as any as S.Schema<CostCalculatorEstimateResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<CreateCostCalculatorEstimationRequest>,
+  output: __S(6474, __c202, 10) as any as S.Schema<CostCalculatorEstimateResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11098,8 +11645,8 @@ export const createCostCalculatorEstimationCsv: API.OperationMethod<
   CreateCostCalculatorEstimationCsvError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateCostCalculatorEstimationCsvRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<CostCalculatorEstimateCSVResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<CreateCostCalculatorEstimationCsvRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<CostCalculatorEstimateCSVResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11116,8 +11663,8 @@ export const createCostCalculatorEstimationPdf: API.OperationMethod<
   CreateCostCalculatorEstimationPdfError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<CreateCostCalculatorEstimationPdfRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<CostCalculatorEstimatePDFResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<CreateCostCalculatorEstimationPdfRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<CostCalculatorEstimatePDFResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11138,8 +11685,8 @@ export const createCurrencyConverter: API.OperationMethod<
   CreateCurrencyConverterError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<CreateCurrencyConverterRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ConvertCurrencyResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<CreateCurrencyConverterRequest>,
+  output: __S(7938, __c248, 2) as any as S.Schema<ConvertCurrencyResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11156,8 +11703,8 @@ export const createCurrencyConverterEffective: API.OperationMethod<
   CreateCurrencyConverterEffectiveError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<CreateCurrencyConverterEffectiveRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ConvertCurrencyResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<CreateCurrencyConverterEffectiveRequest>,
+  output: __S(7938, __c248, 2) as any as S.Schema<ConvertCurrencyResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11174,8 +11721,8 @@ export const createCurrencyConverterRaw: API.OperationMethod<
   CreateCurrencyConverterRawError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<CreateCurrencyConverterRawRequest>,
-  output: __S(7970, __c249, 2) as any as S.Schema<ConvertCurrencyResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<CreateCurrencyConverterRawRequest>,
+  output: __S(7938, __c248, 2) as any as S.Schema<ConvertCurrencyResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11192,8 +11739,8 @@ export const createCustomField: API.OperationMethod<
   CreateCustomFieldError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<CreateCustomFieldRequest>,
-  output: __S(9058, __c283, 2) as any as S.Schema<CreateEmploymentCustomFieldResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<CreateCustomFieldRequest>,
+  output: __S(9026, __c282, 2) as any as S.Schema<CreateEmploymentCustomFieldResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11203,15 +11750,15 @@ export const createCustomField: API.OperationMethod<
 }));
 
 export type CreateDocumentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Upload file Uploads a file associated with a specified employment. Please contact api-support@remote.com to request access to this endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Upload file Uploads a file associated with a specified employment. `type` and `sub_type` label the file. For `type: document`, `sub_type` can be any value. Some other types, such as `id`, `tax_document` and `contract`, check the `sub_type`, and what is accepted can depend on the employment's country. Please contact api-support@remote.com to request access to this endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const createDocument: API.OperationMethod<
   CreateDocumentRequest,
   UploadFileResponse,
   CreateDocumentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<CreateDocumentRequest>,
-  output: __S(9409, __c294, 1) as any as S.Schema<UploadFileResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<CreateDocumentRequest>,
+  output: __S(9441, __c295, 1) as any as S.Schema<UploadFileResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11233,8 +11780,8 @@ export const createEmployeeDocument: API.OperationMethod<
   CreateEmployeeDocumentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<CreateEmployeeDocumentRequest>,
-  output: __S(9409, __c294, 1) as any as S.Schema<UploadFileResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<CreateEmployeeDocumentRequest>,
+  output: __S(9441, __c295, 1) as any as S.Schema<UploadFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11255,8 +11802,8 @@ export const createEmployeeExpens: API.OperationMethod<
   CreateEmployeeExpensError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<CreateEmployeeExpensRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<CreateEmployeeExpensRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11277,8 +11824,8 @@ export const createEmployeeTimeoff: API.OperationMethod<
   CreateEmployeeTimeoffError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<CreateEmployeeTimeoffRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<CreateEmployeeTimeoffRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11299,8 +11846,8 @@ export const createEmployeeTimeoffCancel: API.OperationMethod<
   CreateEmployeeTimeoffCancelError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<CreateEmployeeTimeoffCancelRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<CreateEmployeeTimeoffCancelRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11322,8 +11869,8 @@ export const createEmployment: API.OperationMethod<
   CreateEmploymentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateEmploymentRequest>,
-  output: __S(9794, __c306, 2) as any as S.Schema<EmploymentCreationResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<CreateEmploymentRequest>,
+  output: __S(9826, __c307, 2) as any as S.Schema<EmploymentCreationResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11343,8 +11890,8 @@ export const createEmploymentContractEligibility: API.OperationMethod<
   CreateEmploymentContractEligibilityError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<CreateEmploymentContractEligibilityRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9856, __c308, 0) as any as S.Schema<CreateEmploymentContractEligibilityRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11365,8 +11912,8 @@ export const createEmploymentContractOrigin: API.OperationMethod<
   CreateEmploymentContractOriginError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<CreateEmploymentContractOriginRequest>,
-  output: __S(9857, __c308, 1) as any as S.Schema<ContractOriginResponse>,
+  input: __S(9888, __c309, 0) as any as S.Schema<CreateEmploymentContractOriginRequest>,
+  output: __S(9889, __c309, 1) as any as S.Schema<ContractOriginResponse>,
   errors: [BadRequest, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11387,8 +11934,8 @@ export const createEmploymentContractorInvoicesPreview: API.OperationMethod<
   CreateEmploymentContractorInvoicesPreviewError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<CreateEmploymentContractorInvoicesPreviewRequest>,
-  output: __S(9922, __c310, 2) as any as S.Schema<ContractorInvoicePreviewResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<CreateEmploymentContractorInvoicesPreviewRequest>,
+  output: __S(9954, __c311, 2) as any as S.Schema<ContractorInvoicePreviewResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11404,15 +11951,15 @@ export type CreateEmploymentEngagementAgreementDetailError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. In some countries the details apply only to some contracts, depending on the contract's hiring model. For a contract they don't apply to, this returns 404 "Engagement agreement details form not found for this employment's contract." This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const createEmploymentEngagementAgreementDetail: API.OperationMethod<
   CreateEmploymentEngagementAgreementDetailRequest,
   SuccessResponse,
   CreateEmploymentEngagementAgreementDetailError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<CreateEmploymentEngagementAgreementDetailRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<CreateEmploymentEngagementAgreementDetailRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11428,7 +11975,7 @@ export type CreateEmploymentEngagementAgreementDetail2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. In some countries the details apply only to some contracts, depending on the contract's hiring model. For a contract they don't apply to, this returns 404 "Engagement agreement details form not found for this employment's contract." This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const createEmploymentEngagementAgreementDetail2: API.OperationMethod<
   CreateEmploymentEngagementAgreementDetailRequest2,
   SuccessResponse,
@@ -11440,7 +11987,7 @@ export const createEmploymentEngagementAgreementDetail2: API.OperationMethod<
     __c316,
     0,
   ) as any as S.Schema<CreateEmploymentEngagementAgreementDetailRequest2>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11455,7 +12002,7 @@ export type CreateEmploymentInviteError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Invite employment Invite an employment to start the self-enrollment. Requirements for the invitation to succeed: * Employment needs to have the following JSON Schema forms filled: `contract_details` and `pricing_plan_details` * `provisional_start_date` must consider the minimum onboarding time of the employment's country If there are validations errors, they are returned with a Conflict HTTP Status (409) and a descriptive message. HTTP Status OK (200) is returned in case of success. In case of the following error message: `"Please reselect benefits - the previous selection is no longer available"` it means that the benefit options have been updated and the employment's benefits are no longer compliant with the new schema. In this case, reselect benefits by updating `contract_details` JSON Schema form. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Invite employment Invite an employment to start the self-enrollment. Requirements for the invitation to succeed: * Employment needs to have the following JSON Schema forms filled: `contract_details` and `pricing_plan_details` * `provisional_start_date` must consider the minimum onboarding time of the employment's country * An employment waiting for its onboarding reserve (`created_awaiting_reserve`) is invited only when Remote has unblocked onboarding for its legal entity. Otherwise the request returns 409. If there are validations errors, they are returned with a Conflict HTTP Status (409) and a descriptive message. HTTP Status OK (200) is returned in case of success. A company restricted by Compliance also gets a 409: when it can't hire new employees, or when it is restricted from incentive pay and the employment's `contract_details` has a signing bonus. In the signing bonus case, the 409 is a resource error with the code `resource_restricted` for the employment. In case of the following error message: `"Please reselect benefits - the previous selection is no longer available"` it means that the benefit options have been updated and the employment's benefits are no longer compliant with the new schema. In this case, reselect benefits by updating `contract_details` JSON Schema form. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const createEmploymentInvite: API.OperationMethod<
   CreateEmploymentInviteRequest,
   SuccessResponse,
@@ -11463,7 +12010,7 @@ export const createEmploymentInvite: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<CreateEmploymentInviteRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11522,7 +12069,7 @@ export const createIdentityVerificationDecline: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<CreateIdentityVerificationDeclineRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11540,7 +12087,7 @@ export const createIdentityVerificationVerify: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<CreateIdentityVerificationVerifyRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11665,7 +12212,7 @@ export const createOnboardingEmploymentPreOnboardingDocumentSign: API.OperationM
     __c335,
     0,
   ) as any as S.Schema<CreateOnboardingEmploymentPreOnboardingDocumentSignRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11834,7 +12381,7 @@ export const createRiskReserve: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<CreateRiskReserveRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11885,7 +12432,7 @@ export const createSandboxCompanyBypassEligibilityCheck: API.OperationMethod<
     __c357,
     0,
   ) as any as S.Schema<CreateSandboxCompanyBypassEligibilityCheckRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11933,7 +12480,7 @@ export const createSandboxCompanyLegalEntityActivateGlobalPayroll: API.Operation
     __c359,
     0,
   ) as any as S.Schema<CreateSandboxCompanyLegalEntityActivateGlobalPayrollRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11959,7 +12506,7 @@ export const createSandboxCompanyLegalEntitySetCreditRiskStatus: API.OperationMe
     __c360,
     0,
   ) as any as S.Schema<CreateSandboxCompanyLegalEntitySetCreditRiskStatusRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -11986,7 +12533,7 @@ export const createSandboxContractorInvoicesInitiatePayment: API.OperationMethod
     __c361,
     0,
   ) as any as S.Schema<CreateSandboxContractorInvoicesInitiatePaymentRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12000,15 +12547,15 @@ export type CreateSandboxContractorsEmploymentRateError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Seed a contractor rate Sets the contractor's main rate, the same way an employer's rate edit does. A main rate without a `service_start_date` is updated in place and keeps its `id`. A main rate with one belongs to a Statement of Work and is kept: seeding adds a new main rate beside it, and the list endpoint returns both while that Statement of Work is in force. This lets the rate endpoints be exercised without going through contract signature. Contractor of Record contractors, including ones not active yet, and Contractor Management Plus contractors whose contract is signed cannot be seeded, since their Statement of Work sets the rate: the endpoint returns `422`. The currency is derived from the legal entity the contractor is paid in by. A rate in a currency the contractor cannot be paid in is rejected with `422`. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+/** Seed a contractor rate Sets the contractor's main rate, the same way an employer's rate edit does. A main rate without a `service_start_date` is updated in place and keeps its `id`. A main rate with one belongs to a Statement of Work and is kept: seeding adds a new main rate beside it, and the list endpoint returns both while that Statement of Work is in force. This lets the rate endpoints be exercised without going through contract signature. Without `statement_of_work`, Contractor of Record contractors, including ones not active yet, and Contractor Management Plus contractors whose contract is signed cannot be seeded, since their Statement of Work sets the rate: the endpoint returns `422`. The currency is derived from the legal entity the contractor is paid in by. A rate in a currency the contractor cannot be paid in is rejected with `422`. With `statement_of_work`, the rate comes from a signed Statement of Work instead, made from Remote's templates as signature makes one, so the rate carries the Statement of Work's service dates and its contract documents are listed and open like any other. A contractor with no signed Contractor Services Agreement from Remote's template gets one, signed, which holds their first Statement of Work and sets the main rate. Each later seed adds a Statement of Work document, whose rate is the main rate only when the contractor has none. This works for Contractor Management, Contractor Management Plus and Contractor of Record contractors, whether or not Statements of Work are turned on for the company, but only for an active contractor. The company's owner makes and signs the documents for the company, so the partner needs only the contractor rate permissions this endpoint asks for. No email or in-app notification is sent, and the checks an employer's rate change goes through, such as a Contractor of Record contractor's risk reserve, are skipped. As when an employer makes a new contract document, the contractor's documents that are not signed yet, such as a draft agreement, are archived. The `contract_document.status.changed` webhook fires for the signed document and for each archived one, as when an employer makes and signs a document. Without `pay_frequency` a rate is invoiced monthly; a `one_off` rate is paid on completion of the services and takes no `pay_frequency`. The Statement of Work goes through the contractor's own contract details form, so its rules apply: for a Contractor Management Plus contractor a `service_start_date` in the past is rejected with `422`, while other contractors' Statements of Work may start in the past. A name another Statement of Work of the contractor already has with the same start date, a blank name, an end date before the start date, an `amount` with more than two decimal places or a `pay_frequency` on a `one_off` rate is rejected with `422`, and nothing is seeded. Seeds without a name are never treated as duplicates. A contractor whose Contractor Management Plus upgrade waits for its agreement to be signed is rejected with `422` too: seed once the upgrade has started, which happens shortly after the agreement is signed, or cancel the upgrade with a `downgrade` first. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxContractorsEmploymentRate: API.OperationMethod<
   CreateSandboxContractorsEmploymentRateRequest,
   SandboxContractorRateResponse,
   CreateSandboxContractorsEmploymentRateError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<CreateSandboxContractorsEmploymentRateRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<SandboxContractorRateResponse>,
+  input: __S(11585, __c362, 1) as any as S.Schema<CreateSandboxContractorsEmploymentRateRequest>,
+  output: __S(11586, __c362, 2) as any as S.Schema<SandboxContractorRateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12030,7 +12577,7 @@ export const createSandboxEmployment: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<CreateSandboxEmploymentRequest>,
-  output: __S(9794, __c306, 2) as any as S.Schema<EmploymentCreationResponse>,
+  output: __S(9826, __c307, 2) as any as S.Schema<EmploymentCreationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12129,7 +12676,7 @@ export const createSandboxWebhookCallbacksTrigger: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<CreateSandboxWebhookCallbacksTriggerRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12188,7 +12735,7 @@ export const createTimeoff: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<CreateTimeoffRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12206,7 +12753,7 @@ export const createTimeoffApprove: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<CreateTimeoffApproveRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12224,7 +12771,7 @@ export const createTimeoffCancel: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<CreateTimeoffCancelRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12242,7 +12789,7 @@ export const createTimeoffCancelRequestApprove: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<CreateTimeoffCancelRequestApproveRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12264,7 +12811,7 @@ export const createTimeoffCancelRequestDecline: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<CreateTimeoffCancelRequestDeclineRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12282,7 +12829,7 @@ export const createTimeoffDecline: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<CreateTimeoffDeclineRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12354,7 +12901,7 @@ export const createWebhookEventsReplay: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<CreateWebhookEventsReplayRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12372,7 +12919,7 @@ export const deleteCompanyManager: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<DeleteCompanyManagerRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12425,7 +12972,7 @@ export const deleteIncentive: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<DeleteIncentiveRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12473,7 +13020,7 @@ export const deleteOnboardingEmploymentPreOnboardingRequirementAcknowledge: API.
     __c391,
     0,
   ) as any as S.Schema<DeleteOnboardingEmploymentPreOnboardingRequirementAcknowledgeRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12496,7 +13043,7 @@ export const deletePayItem: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<DeletePayItemRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12518,7 +13065,7 @@ export const deleteSandboxEmployment: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<DeleteSandboxEmploymentRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12536,7 +13083,7 @@ export const deleteWebhookCallback: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<DeleteWebhookCallbackRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12808,7 +13355,7 @@ export const getBillingDocumentPdf: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetBillingDocumentPdfRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<GetBillingDocumentPdfResponse>,
+  output: __S(11264, __c352, 0) as any as S.Schema<GetBillingDocumentPdfResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12825,8 +13372,8 @@ export const getBillingDocuments: API.OperationMethod<
   GetBillingDocumentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetBillingDocumentsRequest>,
-  output: __S(548, __c17, 4) as any as S.Schema<BillingDocumentsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetBillingDocumentsRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<BillingDocumentsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12843,8 +13390,8 @@ export const getBulkEmploymentJob: API.OperationMethod<
   GetBulkEmploymentJobError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetBulkEmploymentJobRequest>,
-  output: __S(582, __c18, 6) as any as S.Schema<BulkEmploymentImportJobResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetBulkEmploymentJobRequest>,
+  output: __S(551, __c17, 7) as any as S.Schema<BulkEmploymentImportJobResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12861,8 +13408,8 @@ export const getBulkEmploymentJobRows: API.OperationMethod<
   GetBulkEmploymentJobRowsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetBulkEmploymentJobRowsRequest>,
-  output: __S(635, __c19, 27) as any as S.Schema<ImportJobRowsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetBulkEmploymentJobRowsRequest>,
+  output: __S(605, __c18, 29) as any as S.Schema<ImportJobRowsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12879,8 +13426,8 @@ export const getCompanies: API.OperationMethod<
   GetCompaniesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetCompaniesRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<CompaniesResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetCompaniesRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<CompaniesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12897,7 +13444,7 @@ export const getCompaniesSchema: API.OperationMethod<
   GetCompaniesSchemaError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetCompaniesSchemaRequest>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetCompaniesSchemaRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CompanyFormResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -12915,8 +13462,8 @@ export const getCompany: API.OperationMethod<
   GetCompanyError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetCompanyRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<CompanyResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetCompanyRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<CompanyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12933,8 +13480,8 @@ export const getCompanyActions: API.OperationMethod<
   GetCompanyActionsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetCompanyActionsRequest>,
-  output: __S(996, __c31, 4) as any as S.Schema<CompanyActionsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetCompanyActionsRequest>,
+  output: __S(964, __c30, 4) as any as S.Schema<CompanyActionsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12951,8 +13498,8 @@ export const getCompanyComplianceProfile: API.OperationMethod<
   GetCompanyComplianceProfileError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetCompanyComplianceProfileRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<CompanyComplianceProfileResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetCompanyComplianceProfileRequest>,
+  output: __S(995, __c31, 3) as any as S.Schema<CompanyComplianceProfileResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12973,8 +13520,8 @@ export const getCompanyCostCenterAllocations: API.OperationMethod<
   GetCompanyCostCenterAllocationsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetCompanyCostCenterAllocationsRequest>,
-  output: __S(1060, __c33, 4) as any as S.Schema<ListCompanyCostCenterAllocationsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetCompanyCostCenterAllocationsRequest>,
+  output: __S(1028, __c32, 4) as any as S.Schema<ListCompanyCostCenterAllocationsResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -12991,8 +13538,8 @@ export const getCompanyCurrencies: API.OperationMethod<
   GetCompanyCurrenciesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetCompanyCurrenciesRequest>,
-  output: __S(1124, __c35, 4) as any as S.Schema<CompanyCurrenciesResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetCompanyCurrenciesRequest>,
+  output: __S(1092, __c34, 4) as any as S.Schema<CompanyCurrenciesResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13009,8 +13556,8 @@ export const getCompanyDepartments: API.OperationMethod<
   GetCompanyDepartmentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetCompanyDepartmentsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<ListCompanyDepartmentsPaginatedResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetCompanyDepartmentsRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<ListCompanyDepartmentsPaginatedResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13031,11 +13578,11 @@ export const getCompanyEmploymentOnboardingReservesStatus: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<GetCompanyEmploymentOnboardingReservesStatusRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<OnboardingReservesStatusResponse>,
+  output: __S(1154, __c36, 2) as any as S.Schema<OnboardingReservesStatusResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13052,8 +13599,8 @@ export const getCompanyLegalEntities: API.OperationMethod<
   GetCompanyLegalEntitiesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetCompanyLegalEntitiesRequest>,
-  output: __S(1220, __c38, 4) as any as S.Schema<ListCompanyLegalEntitiesResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetCompanyLegalEntitiesRequest>,
+  output: __S(1188, __c37, 4) as any as S.Schema<ListCompanyLegalEntitiesResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13070,10 +13617,10 @@ export const getCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   GetCompanyLegalEntityAdministrativeDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetCompanyLegalEntityAdministrativeDetailsRequest>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetCompanyLegalEntityAdministrativeDetailsRequest>,
   output: __S(
-    1344,
-    __c42,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GetCompanyLegalEntityAdministrativeDetailsResponse>,
   errors: [NotFound],
@@ -13092,8 +13639,8 @@ export const getCompanyLegalEntityContractorEligibility: API.OperationMethod<
   GetCompanyLegalEntityContractorEligibilityError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetCompanyLegalEntityContractorEligibilityRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<ContractorEligibilityResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetCompanyLegalEntityContractorEligibilityRequest>,
+  output: __S(1348, __c42, 4) as any as S.Schema<ContractorEligibilityResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13110,8 +13657,8 @@ export const getCompanyLegalEntityPayCodes: API.OperationMethod<
   GetCompanyLegalEntityPayCodesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetCompanyLegalEntityPayCodesRequest>,
-  output: __S(1413, __c44, 5) as any as S.Schema<ListPayCodesResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetCompanyLegalEntityPayCodesRequest>,
+  output: __S(1381, __c43, 5) as any as S.Schema<ListPayCodesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13128,8 +13675,8 @@ export const getCompanyManager: API.OperationMethod<
   GetCompanyManagerError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetCompanyManagerRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<CompanyManagerResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetCompanyManagerRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CompanyManagerResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13146,8 +13693,8 @@ export const getCompanyManagers: API.OperationMethod<
   GetCompanyManagersError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetCompanyManagersRequest>,
-  output: __S(1507, __c47, 3) as any as S.Schema<CompanyManagersResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetCompanyManagersRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<CompanyManagersResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13164,8 +13711,8 @@ export const getCompanyPricingPlans: API.OperationMethod<
   GetCompanyPricingPlansError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetCompanyPricingPlansRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<ListCompanyPricingPlansResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetCompanyPricingPlansRequest>,
+  output: __S(1507, __c47, 3) as any as S.Schema<ListCompanyPricingPlansResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13182,8 +13729,8 @@ export const getCompanyProductPrices: API.OperationMethod<
   GetCompanyProductPricesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetCompanyProductPricesRequest>,
-  output: __S(1572, __c49, 4) as any as S.Schema<ListProductPricesResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetCompanyProductPricesRequest>,
+  output: __S(1540, __c48, 4) as any as S.Schema<ListProductPricesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13200,8 +13747,8 @@ export const getCompanyWebhookCallbacks: API.OperationMethod<
   GetCompanyWebhookCallbacksError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetCompanyWebhookCallbacksRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<ListWebhookCallbacksResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetCompanyWebhookCallbacksRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<ListWebhookCallbacksResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13218,8 +13765,8 @@ export const getContractAmendment: API.OperationMethod<
   GetContractAmendmentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetContractAmendmentRequest>,
-  output: __S(1284, __c40, 4) as any as S.Schema<ContractAmendmentResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetContractAmendmentRequest>,
+  output: __S(1252, __c39, 4) as any as S.Schema<ContractAmendmentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13236,8 +13783,8 @@ export const getContractAmendments: API.OperationMethod<
   GetContractAmendmentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetContractAmendmentsRequest>,
-  output: __S(1668, __c52, 4) as any as S.Schema<ListContractAmendmentResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetContractAmendmentsRequest>,
+  output: __S(1636, __c51, 4) as any as S.Schema<ListContractAmendmentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13254,7 +13801,7 @@ export const getContractAmendmentsSchema: API.OperationMethod<
   GetContractAmendmentsSchemaError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetContractAmendmentsSchemaRequest>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetContractAmendmentsSchemaRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<ContractAmendmentFormResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -13272,8 +13819,8 @@ export const getContractorInvoice: API.OperationMethod<
   GetContractorInvoiceError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetContractorInvoiceRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<ContractorInvoiceResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetContractorInvoiceRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<ContractorInvoiceResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13290,8 +13837,8 @@ export const getContractorInvoices: API.OperationMethod<
   GetContractorInvoicesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetContractorInvoicesRequest>,
-  output: __S(1827, __c57, 3) as any as S.Schema<ListContractorInvoicesResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetContractorInvoicesRequest>,
+  output: __S(1795, __c56, 3) as any as S.Schema<ListContractorInvoicesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13313,8 +13860,8 @@ export const getContractorInvoiceSchedule: API.OperationMethod<
   GetContractorInvoiceScheduleError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetContractorInvoiceScheduleRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetContractorInvoiceScheduleRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13331,14 +13878,32 @@ export const getContractorInvoiceSchedules: API.OperationMethod<
   GetContractorInvoiceSchedulesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetContractorInvoiceSchedulesRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<ListContractorInvoiceSchedulesResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetContractorInvoiceSchedulesRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListContractorInvoiceSchedulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetContractorInvoiceSchedules",
+}));
+
+export type GetContractorInvoiceSequenceError = Forbidden | NotFound | RemoteOpError;
+/** Show the Contractor Invoice Sequence Shows the company's contractor invoice sequence: the pattern its contractor invoice numbers follow. Returns 404 when the company has no sequence, or when its sequence is turned off. In that case invoice numbers aren't generated from a sequence, and the number sent when creating an invoice schedule is used. When the sequence is enabled, invoice numbers come from it and a number sent on a schedule is not used. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+export const getContractorInvoiceSequence: API.OperationMethod<
+  GetContractorInvoiceSequenceRequest,
+  ContractorInvoiceSequenceResponse,
+  GetContractorInvoiceSequenceError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<GetContractorInvoiceSequenceRequest>,
+  output: __S(1957, __c61, 5) as any as S.Schema<ContractorInvoiceSequenceResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: RemoteServiceErrors,
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorInvoiceSequence",
 }));
 
 export type GetContractorsCorTerminationRequestsError = Forbidden | NotFound | RemoteOpError;
@@ -13442,11 +14007,11 @@ export const getContractorsEmploymentCorTerminationRequest: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2176,
-    __c68,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GetContractorsEmploymentCorTerminationRequestRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<CorTerminationRequestResponse>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CorTerminationRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13460,7 +14025,7 @@ export type GetContractorsEmploymentRatesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List the rates of a contractor Lists the rates configured for a contractor, whatever the origin of their contract: rates agreed through a Remote-managed services agreement and statement of work, and rates recorded by the company on its own paper, are returned in the same shape. What the response contains: - The **configured** rate -- not amounts that were scheduled, invoiced, or paid. - The contractor's main rate, the one Show Employment returns as `contractor_rate`. It can belong to a Statement of Work whose services have not started yet. When a Statement of Work established it, its `service_start_date` says when it applies. - The rate of every signed Statement of Work that has not been replaced or ended, including one whose services have not started. A Statement of Work past its planned end date keeps its rate listed: the engagement continues month to month until it is replaced or ended. - Not listed: rates of replaced or ended Statements of Work other than the main rate, terms of an unsigned Statement of Work, and a rate a later edit or signature replaced, unless a Statement of Work still in force established it, in which case both the new and the original rate are listed. - The stored rate, even when the contractor's contract has already expired. `contract_start_date` and `contract_expiration_date` describe the contract the rate is paid under, not where the rate came from; `service_start_date` and `service_end_date` describe the Statement of Work that established the rate and are null when none did. `type` and `pay_frequency` list every value Remote stores; a new value is announced as an API change. See the field descriptions for how each is derived. A contractor with no rate, and an employment that is not a contractor, both return an empty list. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+/** List the rates of a contractor Lists the rates configured for a contractor, whatever the origin of their contract: rates agreed through a Remote-managed services agreement and statement of work, and rates recorded by the company on its own paper, are returned in the same shape. What the response contains: - The **configured** rate -- not amounts that were scheduled, invoiced, or paid. - The contractor's main rate, the one Show Employment returns as `contractor_rate`. It can belong to a Statement of Work whose services have not started yet. When a Statement of Work established it, its `service_start_date` says when it applies. - The rate of every signed Statement of Work that has not been replaced or ended, including one whose services have not started. A Statement of Work past its planned end date keeps its rate listed: the engagement continues month to month until it is replaced or ended. - Not listed: rates of replaced or ended Statements of Work other than the main rate, terms of an unsigned Statement of Work, and a rate a later edit or signature replaced, unless a Statement of Work still in force established it, in which case both the new and the original rate are listed. - The stored rate, even when the contractor's contract has already expired. `contract_start_date` and `contract_expiration_date` describe the contract the rate is paid under, not where the rate came from; `service_start_date` and `service_end_date` describe the Statement of Work that established the rate and are null when none did. `statement_of_work` identifies that Statement of Work and its signed document, and is null when none did. `type` and `pay_frequency` list every value Remote stores; a new value is announced as an API change. See the field descriptions for how each is derived. A contractor with no rate, and an employment that is not a contractor, both return an empty list. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getContractorsEmploymentRates: API.OperationMethod<
   GetContractorsEmploymentRatesRequest,
   ListContractorRatesResponse,
@@ -13556,8 +14121,13 @@ export const getCountries: API.OperationMethod<
   span: "GetCountries",
 }));
 
-export type GetCountryError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show form schema Returns the json schema of a supported form. Possible form names are: ``` - address_details - administrative_details - bank_account_details - employment_basic_information - contractor_basic_information - contractor_contract_details - billing_address_details - contract_details - emergency_contact - emergency_contact_details - employment_document_details - engagement_agreement_details - personal_details - pricing_plan_details - company_basic_information - global_payroll_administrative_details - global_payroll_bank_account_details - global_payroll_basic_information - global_payroll_contract_details - global_payroll_federal_taxes - global_payroll_state_taxes - global_payroll_personal_details - benefit_renewal_request - hris_personal_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. However, the `address_details` and `company_basic_information` forms can be accessed using client_credentials authentication (without a company). The `global_payroll_contract_details` form requires the `employment_id` query parameter, because its fields depend on the employment. For example, `overtime_eligible` is shown and required only when the employment's legal entity is not on Time & Attendance 2.0. A request without `employment_id` returns 400. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+export type GetCountryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Show form schema Returns the json schema of a supported form. Possible form names are: ``` - address_details - administrative_details - bank_account_details - employment_basic_information - contractor_basic_information - contractor_contract_details - billing_address_details - contract_details - emergency_contact - emergency_contact_details - employment_document_details - engagement_agreement_details - personal_details - pricing_plan_details - company_basic_information - global_payroll_administrative_details - global_payroll_bank_account_details - global_payroll_basic_information - global_payroll_contract_details - global_payroll_federal_taxes - global_payroll_state_taxes - global_payroll_personal_details - benefit_renewal_request - hris_personal_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. However, the `address_details` and `company_basic_information` forms can be accessed using client_credentials authentication (without a company). The `global_payroll_contract_details` form requires the `employment_id` query parameter, because its fields depend on the employment. For example, `overtime_eligible` is shown and required only when the employment's legal entity is not on Time & Attendance 2.0. A request without `employment_id` returns 400. The `engagement_agreement_details` form takes an optional `employment_id`. With it, the schema is returned only when that employment's contract takes engagement agreement details (in the Czech Republic and Germany this depends on its hiring model); otherwise the response is 404. A country without this form still returns 422, as for other forms. The `administrative_details` form takes an optional `employment_id`. With it, the schema is tailored to that employment: its legal entity, its status, its contract details and the administrative details already saved for it. For example, in the United Kingdom stored values such as the P45 figures are returned as hidden constants; in France and Italy some Remote legal entities get extra fields; fields that can no longer change for an active employment are returned read-only. The employment must be a full-time EOR employment with an active contract in the requested country, the employments that `PUT /v1/employments/{employment_id}/administrative-details` saves against this form (otherwise 400). Because the schema carries saved values, the caller needs a role with both the `people-employment` and the `people-sensitive-details` read permissions (otherwise 403) whose data scope covers the employment (otherwise 404). Saving the details takes `employee-administrative-details` update instead, so a role may save them without being able to read this tailored schema. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getCountry: API.OperationMethod<
   GetCountryRequest,
   CountryFormResponse,
@@ -13566,7 +14136,7 @@ export const getCountry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetCountryRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CountryFormResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
   retry: Retry.Retry,
@@ -13644,8 +14214,8 @@ export const getCustomFields: API.OperationMethod<
   GetCustomFieldsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetCustomFieldsRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ListEmploymentCustomFieldsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetCustomFieldsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<ListEmploymentCustomFieldsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13672,6 +14242,24 @@ export const getCustomFieldValue: API.OperationMethod<
   span: "GetCustomFieldValue",
 }));
 
+export type GetDirectOffboardingError = Forbidden | NotFound | RemoteOpError;
+/** Show Direct Offboarding Returns one offboarding of a global payroll employment by its ID. An offboarding the list endpoint doesn't show you answers 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+export const getDirectOffboarding: API.OperationMethod<
+  GetDirectOffboardingRequest,
+  DirectOffboardingResponse,
+  GetDirectOffboardingError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2720, __c85, 0) as any as S.Schema<GetDirectOffboardingRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<DirectOffboardingResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: RemoteServiceErrors,
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectOffboarding",
+}));
+
 export type GetDirectOffboardingsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
 /** List Direct Offboardings Lists offboardings for global payroll employments, optionally filtered by employment ID. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getDirectOffboardings: API.OperationMethod<
@@ -13680,8 +14268,8 @@ export const getDirectOffboardings: API.OperationMethod<
   GetDirectOffboardingsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetDirectOffboardingsRequest>,
-  output: __S(2724, __c85, 4) as any as S.Schema<ListDirectOffboardingResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetDirectOffboardingsRequest>,
+  output: __S(2787, __c87, 3) as any as S.Schema<ListDirectOffboardingResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13698,8 +14286,8 @@ export const getEmployeeAddress: API.OperationMethod<
   GetEmployeeAddressError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetEmployeeAddressRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetEmployeeAddressRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13716,8 +14304,8 @@ export const getEmployeeBankAccount: API.OperationMethod<
   GetEmployeeBankAccountError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetEmployeeBankAccountRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetEmployeeBankAccountRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13726,17 +14314,17 @@ export const getEmployeeBankAccount: API.OperationMethod<
   span: "GetEmployeeBankAccount",
 }));
 
-export type GetEmployeeCurrentError = Forbidden | RemoteOpError;
-/** Get employee token identity Returns user and company information for the authenticated employee. ## Authentication This endpoint accepts any one of the following token types: - **Employee-scoped access token** (`OAuth2Assertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by the employee through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export type GetEmployeeCurrentError = BadRequest | Forbidden | RemoteOpError;
+/** Get employee token identity Returns user and company information for the authenticated employee. Works while the employee is still onboarding, so it can confirm which employee a token belongs to before the employment is active. An offboarded employee gets 400, or 401 once their user account is closed. ## Authentication This endpoint accepts any one of the following token types: - **Employee-scoped access token** (`OAuth2Assertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by the employee through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const getEmployeeCurrent: API.OperationMethod<
   GetEmployeeCurrentRequest,
   SuccessResponse,
   GetEmployeeCurrentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetEmployeeCurrentRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
-  errors: [Forbidden],
+  input: __S(2944, __c92, 0) as any as S.Schema<GetEmployeeCurrentRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
+  errors: [BadRequest, Forbidden],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
   retry: Retry.Retry,
@@ -13752,8 +14340,8 @@ export const getEmployeeDocument: API.OperationMethod<
   GetEmployeeDocumentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetEmployeeDocumentRequest>,
-  output: __S(2915, __c91, 3) as any as S.Schema<DownloadDocumentResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetEmployeeDocumentRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<DownloadDocumentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13770,8 +14358,8 @@ export const getEmployeeDocuments: API.OperationMethod<
   GetEmployeeDocumentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetEmployeeDocumentsRequest>,
-  output: __S(2946, __c92, 2) as any as S.Schema<ListDocumentsResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetEmployeeDocumentsRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ListDocumentsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13788,8 +14376,8 @@ export const getEmployeeEmergencyContact: API.OperationMethod<
   GetEmployeeEmergencyContactError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetEmployeeEmergencyContactRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<GetEmployeeEmergencyContactRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13806,8 +14394,8 @@ export const getEmployeeExpenseCategories: API.OperationMethod<
   GetEmployeeExpenseCategoriesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetEmployeeExpenseCategoriesRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<ListExpenseCategoriesResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetEmployeeExpenseCategoriesRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListExpenseCategoriesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13824,8 +14412,8 @@ export const getEmployeeExpenses: API.OperationMethod<
   GetEmployeeExpensesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetEmployeeExpensesRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetEmployeeExpensesRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13846,8 +14434,8 @@ export const getEmployeeFederalTaxes: API.OperationMethod<
   GetEmployeeFederalTaxesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetEmployeeFederalTaxesRequest>,
-  output: __S(3202, __c100, 2) as any as S.Schema<EmployeeFederalTaxesResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetEmployeeFederalTaxesRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<EmployeeFederalTaxesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13864,8 +14452,8 @@ export const getEmployeeIncentives: API.OperationMethod<
   GetEmployeeIncentivesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetEmployeeIncentivesRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetEmployeeIncentivesRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13882,8 +14470,8 @@ export const getEmployeeLeavePolicies: API.OperationMethod<
   GetEmployeeLeavePoliciesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetEmployeeLeavePoliciesRequest>,
-  output: __S(3298, __c103, 2) as any as S.Schema<ListLeavePoliciesDetailsResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetEmployeeLeavePoliciesRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<ListLeavePoliciesDetailsResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13900,8 +14488,8 @@ export const getEmployeeLeavePoliciesSummary: API.OperationMethod<
   GetEmployeeLeavePoliciesSummaryError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetEmployeeLeavePoliciesSummaryRequest>,
-  output: __S(3364, __c105, 4) as any as S.Schema<ListLeavePoliciesSummaryResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetEmployeeLeavePoliciesSummaryRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<ListLeavePoliciesSummaryResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13918,8 +14506,8 @@ export const getEmployeePayslipFiles: API.OperationMethod<
   GetEmployeePayslipFilesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetEmployeePayslipFilesRequest>,
-  output: __S(3398, __c106, 6) as any as S.Schema<ListPayslipFilesResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetEmployeePayslipFilesRequest>,
+  output: __S(3462, __c108, 6) as any as S.Schema<ListPayslipFilesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13936,8 +14524,8 @@ export const getEmployeePayslips: API.OperationMethod<
   GetEmployeePayslipsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetEmployeePayslipsRequest>,
-  output: __S(3431, __c107, 7) as any as S.Schema<ListEmployeePayslipsResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetEmployeePayslipsRequest>,
+  output: __S(3495, __c109, 7) as any as S.Schema<ListEmployeePayslipsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13954,8 +14542,8 @@ export const getEmployeePersonalDetails: API.OperationMethod<
   GetEmployeePersonalDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetEmployeePersonalDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<GetEmployeePersonalDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13972,8 +14560,8 @@ export const getEmployeePersonalInformation: API.OperationMethod<
   GetEmployeePersonalInformationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetEmployeePersonalInformationRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetEmployeePersonalInformationRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -13990,8 +14578,8 @@ export const getEmployeeStateTax: API.OperationMethod<
   GetEmployeeStateTaxError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetEmployeeStateTaxRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<EmployeeStateTaxesResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetEmployeeStateTaxRequest>,
+  output: __S(3618, __c113, 2) as any as S.Schema<EmployeeStateTaxesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14008,8 +14596,8 @@ export const getEmployeeTimeoff: API.OperationMethod<
   GetEmployeeTimeoffError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetEmployeeTimeoffRequest>,
-  output: __S(3586, __c112, 2) as any as S.Schema<ListTimeoffResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetEmployeeTimeoffRequest>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ListTimeoffResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14026,8 +14614,8 @@ export const getEmployeeTimesheets: API.OperationMethod<
   GetEmployeeTimesheetsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetEmployeeTimesheetsRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetEmployeeTimesheetsRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14049,8 +14637,8 @@ export const getEmployment: API.OperationMethod<
   GetEmploymentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetEmploymentRequest>,
-  output: __S(3683, __c115, 3) as any as S.Schema<EmploymentShowResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetEmploymentRequest>,
+  output: __S(3747, __c117, 3) as any as S.Schema<EmploymentShowResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14067,8 +14655,8 @@ export const getEmploymentBackgroundCheck: API.OperationMethod<
   GetEmploymentBackgroundCheckError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetEmploymentBackgroundCheckRequest>,
-  output: __S(3749, __c117, 5) as any as S.Schema<BackgroundChecksBackgroundCheckResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetEmploymentBackgroundCheckRequest>,
+  output: __S(3813, __c119, 5) as any as S.Schema<BackgroundChecksBackgroundCheckResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14090,8 +14678,8 @@ export const getEmploymentBasicInformation: API.OperationMethod<
   GetEmploymentBasicInformationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetEmploymentBasicInformationRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetEmploymentBasicInformationRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14112,8 +14700,8 @@ export const getEmploymentBenefitOffers: API.OperationMethod<
   GetEmploymentBenefitOffersError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetEmploymentBenefitOffersRequest>,
-  output: __S(3814, __c119, 6) as any as S.Schema<EmploymentsBenefitOffersListBenefitOffers>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetEmploymentBenefitOffersRequest>,
+  output: __S(3878, __c121, 6) as any as S.Schema<EmploymentsBenefitOffersListBenefitOffers>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14134,7 +14722,7 @@ export const getEmploymentBenefitOffersSchema: API.OperationMethod<
   GetEmploymentBenefitOffersSchemaError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetEmploymentBenefitOffersSchemaRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetEmploymentBenefitOffersSchemaRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<UnifiedEmploymentsBenefitOffersJSONSchemaResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -14155,8 +14743,8 @@ export const getEmploymentCompanyStructureNodes: API.OperationMethod<
   GetEmploymentCompanyStructureNodesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetEmploymentCompanyStructureNodesRequest>,
-  output: __S(3878, __c121, 6) as any as S.Schema<CompanyStructureNodesResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetEmploymentCompanyStructureNodesRequest>,
+  output: __S(3942, __c123, 6) as any as S.Schema<CompanyStructureNodesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14170,15 +14758,15 @@ export type GetEmploymentContractDocumentsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List contract documents for an employment Only contractor employment types are supported. Lists contract documents for a specific employment with pagination, filtering by status, and sorted by updated_at descending (latest first). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+/** List contract documents for an employment Only contractor employment types are supported. Lists contract documents for a specific employment with pagination, filtering by status, and sorted by updated_at descending (latest first). Some of these documents also exist as files, listed by List employment files, with a different ID. For example, once a contractor agreement is signed, its PDF can also be stored as a file. The API doesn't link the two. To avoid storing the same document twice, read [Working with Files](https://developer.remote.com/docs/working-with-files). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getEmploymentContractDocuments: API.OperationMethod<
   GetEmploymentContractDocumentsRequest,
   IndexContractDocumentsResponse,
   GetEmploymentContractDocumentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetEmploymentContractDocumentsRequest>,
-  output: __S(3910, __c122, 6) as any as S.Schema<IndexContractDocumentsResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetEmploymentContractDocumentsRequest>,
+  output: __S(3974, __c124, 6) as any as S.Schema<IndexContractDocumentsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14199,8 +14787,8 @@ export const getEmploymentContracts: API.OperationMethod<
   GetEmploymentContractsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetEmploymentContractsRequest>,
-  output: __S(3941, __c123, 5) as any as S.Schema<ListEmploymentContractResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetEmploymentContractsRequest>,
+  output: __S(4037, __c126, 5) as any as S.Schema<ListEmploymentContractResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14222,11 +14810,11 @@ export const getEmploymentContractsEmploymentPendingChanges: API.OperationMethod
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<GetEmploymentContractsEmploymentPendingChangesRequest>,
-  output: __S(3972, __c124, 4) as any as S.Schema<EmploymentContractPendingChangesResponse>,
+  output: __S(4068, __c127, 4) as any as S.Schema<EmploymentContractPendingChangesResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14248,8 +14836,8 @@ export const getEmploymentCostCenterAllocations: API.OperationMethod<
   GetEmploymentCostCenterAllocationsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetEmploymentCostCenterAllocationsRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<ListCostCenterAllocationsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetEmploymentCostCenterAllocationsRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<ListCostCenterAllocationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14266,8 +14854,8 @@ export const getEmploymentCustomFields: API.OperationMethod<
   GetEmploymentCustomFieldsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetEmploymentCustomFieldsRequest>,
-  output: __S(4068, __c127, 4) as any as S.Schema<ListEmploymentCustomFieldValuePaginatedResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetEmploymentCustomFieldsRequest>,
+  output: __S(4132, __c129, 4) as any as S.Schema<ListEmploymentCustomFieldValuePaginatedResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14287,8 +14875,12 @@ export const getEmploymentEmploymentAgreementDownload: API.OperationMethod<
   GetEmploymentEmploymentAgreementDownloadError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetEmploymentEmploymentAgreementDownloadRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<GetEmploymentEmploymentAgreementDownloadResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetEmploymentEmploymentAgreementDownloadRequest>,
+  output: __S(
+    11264,
+    __c352,
+    0,
+  ) as any as S.Schema<GetEmploymentEmploymentAgreementDownloadResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14308,8 +14900,8 @@ export const getEmploymentEmploymentAgreementPreview: API.OperationMethod<
   GetEmploymentEmploymentAgreementPreviewError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetEmploymentEmploymentAgreementPreviewRequest>,
-  output: __S(4130, __c129, 2) as any as S.Schema<EmploymentAgreementPreviewResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetEmploymentEmploymentAgreementPreviewRequest>,
+  output: __S(4194, __c131, 2) as any as S.Schema<EmploymentAgreementPreviewResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14331,8 +14923,8 @@ export const getEmploymentEngagementAgreementDetails: API.OperationMethod<
   GetEmploymentEngagementAgreementDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetEmploymentEngagementAgreementDetailsRequest>,
-  output: __S(4194, __c131, 2) as any as S.Schema<EmploymentEngagementAgreementDetailsResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetEmploymentEngagementAgreementDetailsRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<EmploymentEngagementAgreementDetailsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14354,8 +14946,8 @@ export const getEmploymentEngagementAgreementDetails2: API.OperationMethod<
   GetEmploymentEngagementAgreementDetails2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetEmploymentEngagementAgreementDetailsRequest2>,
-  output: __S(4194, __c131, 2) as any as S.Schema<EmploymentEngagementAgreementDetailsResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetEmploymentEngagementAgreementDetailsRequest2>,
+  output: __S(4257, __c133, 1) as any as S.Schema<EmploymentEngagementAgreementDetailsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14365,15 +14957,15 @@ export const getEmploymentEngagementAgreementDetails2: API.OperationMethod<
 }));
 
 export type GetEmploymentFilesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List employment files Lists files associated with a specific employment. Supports filtering by file type and sub_type. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+/** List employment files Lists files associated with a specific employment. Supports filtering by file type and sub_type. These are the most common types. Other types and sub types exist, and each file in the response shows its `type` and `sub_type`. - `contract`: signed contracts. For contractors, this includes contractor services agreements (CSAs), statements of work (SOWs), and custom contractor agreements created from a template. A contractor's contract only appears once everyone has signed it. - `document`: other documents. Files with `sub_type: employer_managed_document` are documents the company created in Remote from one of its templates and had signed. - `tax_document`: tax forms, such as W-9s (`sub_type: w_9_form`). - `id`: identity documents, such as `sub_type: personal_id`. For contractors, some documents exist both as a file and as a contract document, with different IDs. The API doesn't link them. To avoid storing the same document twice, read [Working with Files](https://developer.remote.com/docs/working-with-files). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getEmploymentFiles: API.OperationMethod<
   GetEmploymentFilesRequest,
   ListFilesResponse,
   GetEmploymentFilesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetEmploymentFilesRequest>,
-  output: __S(4292, __c134, 4) as any as S.Schema<ListFilesResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetEmploymentFilesRequest>,
+  output: __S(4324, __c135, 4) as any as S.Schema<ListFilesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14390,8 +14982,8 @@ export const getEmploymentJob: API.OperationMethod<
   GetEmploymentJobError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetEmploymentJobRequest>,
-  output: __S(4326, __c135, 6) as any as S.Schema<EmploymentJobResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetEmploymentJobRequest>,
+  output: __S(4358, __c136, 6) as any as S.Schema<EmploymentJobResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14408,8 +15000,8 @@ export const getEmploymentOnboardingSteps: API.OperationMethod<
   GetEmploymentOnboardingStepsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetEmploymentOnboardingStepsRequest>,
-  output: __S(4358, __c136, 6) as any as S.Schema<EmploymentOnboardingStepsResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetEmploymentOnboardingStepsRequest>,
+  output: __S(4422, __c138, 6) as any as S.Schema<EmploymentOnboardingStepsResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14431,8 +15023,8 @@ export const getEmployments: API.OperationMethod<
   GetEmploymentsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetEmploymentsRequest>,
-  output: __S(4388, __c137, 4) as any as S.Schema<ListEmploymentsResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetEmploymentsRequest>,
+  output: __S(4452, __c139, 4) as any as S.Schema<ListEmploymentsResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14449,8 +15041,8 @@ export const getEmploymentsBulk: API.OperationMethod<
   GetEmploymentsBulkError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetEmploymentsBulkRequest>,
-  output: __S(4450, __c139, 2) as any as S.Schema<EmploymentsBulkResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetEmploymentsBulkRequest>,
+  output: __S(4482, __c140, 2) as any as S.Schema<EmploymentsBulkResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14467,7 +15059,7 @@ export const getExpens: API.OperationMethod<
   GetExpensError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetExpensRequest>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetExpensRequest>,
   output: __S(10273, __c321, 1) as any as S.Schema<ExpenseResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -14485,8 +15077,8 @@ export const getExpenses: API.OperationMethod<
   GetExpensesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetExpensesRequest>,
-  output: __S(4547, __c142, 3) as any as S.Schema<ListExpenseResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetExpensesRequest>,
+  output: __S(4579, __c143, 3) as any as S.Schema<ListExpenseResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14507,8 +15099,8 @@ export const getExpensesCategories: API.OperationMethod<
   GetExpensesCategoriesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetExpensesCategoriesRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<ListExpenseCategoriesResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetExpensesCategoriesRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListExpenseCategoriesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14530,7 +15122,7 @@ export const getExpensReceipt: API.OperationMethod<
   GetExpensReceiptError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetExpensReceiptRequest>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetExpensReceiptRequest>,
   output: __S(11264, __c352, 0) as any as S.Schema<GetExpensReceiptResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -14541,15 +15133,15 @@ export const getExpensReceipt: API.OperationMethod<
 }));
 
 export type GetFileError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Download file Downloads a file. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+/** Download file Downloads a file. The file is returned in `content` as a base64 data URI. Its MIME type comes from the extension in the file's `name`, not from the file's bytes. For example, `id.pdf` returns `data:application/pdf;base64,...` and `id.png` returns `data:image/png;base64,...`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getFile: API.OperationMethod<
   GetFileRequest,
   DownloadFileResponse,
   GetFileError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetFileRequest>,
-  output: __S(4643, __c145, 3) as any as S.Schema<DownloadFileResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetFileRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<DownloadFileResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14566,8 +15158,8 @@ export const getHelpCenterArticle: API.OperationMethod<
   GetHelpCenterArticleError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetHelpCenterArticleRequest>,
-  output: __S(4675, __c146, 3) as any as S.Schema<HelpCenterArticleResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetHelpCenterArticleRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<HelpCenterArticleResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14584,8 +15176,8 @@ export const getIdentityCurrent: API.OperationMethod<
   GetIdentityCurrentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetIdentityCurrentRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<GetIdentityCurrentResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetIdentityCurrentRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<GetIdentityCurrentResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14602,8 +15194,8 @@ export const getIdentityVerification: API.OperationMethod<
   GetIdentityVerificationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetIdentityVerificationRequest>,
-  output: __S(4739, __c148, 3) as any as S.Schema<IdentityVerificationResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetIdentityVerificationRequest>,
+  output: __S(4835, __c151, 3) as any as S.Schema<IdentityVerificationResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14620,7 +15212,7 @@ export const getIncentive: API.OperationMethod<
   GetIncentiveError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetIncentiveRequest>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetIncentiveRequest>,
   output: __S(10401, __c325, 1) as any as S.Schema<IncentiveResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -14638,8 +15230,8 @@ export const getIncentives: API.OperationMethod<
   GetIncentivesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetIncentivesRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<ListIncentivesResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetIncentivesRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<ListIncentivesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14660,8 +15252,8 @@ export const getIncentivesRecurring: API.OperationMethod<
   GetIncentivesRecurringError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetIncentivesRecurringRequest>,
-  output: __S(4899, __c153, 3) as any as S.Schema<ListRecurringIncentivesResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetIncentivesRecurringRequest>,
+  output: __S(4931, __c154, 3) as any as S.Schema<ListRecurringIncentivesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14678,8 +15270,8 @@ export const getJobTitleScreening: API.OperationMethod<
   GetJobTitleScreeningError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetJobTitleScreeningRequest>,
-  output: __S(4933, __c154, 5) as any as S.Schema<JobTitleScreeningResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetJobTitleScreeningRequest>,
+  output: __S(4965, __c155, 5) as any as S.Schema<JobTitleScreeningResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14696,8 +15288,8 @@ export const getLeavePoliciesDetail: API.OperationMethod<
   GetLeavePoliciesDetailError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetLeavePoliciesDetailRequest>,
-  output: __S(3298, __c103, 2) as any as S.Schema<ListLeavePoliciesDetailsResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetLeavePoliciesDetailRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<ListLeavePoliciesDetailsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14714,8 +15306,8 @@ export const getLeavePoliciesSummary: API.OperationMethod<
   GetLeavePoliciesSummaryError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetLeavePoliciesSummaryRequest>,
-  output: __S(3364, __c105, 4) as any as S.Schema<ListLeavePoliciesSummaryResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetLeavePoliciesSummaryRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<ListLeavePoliciesSummaryResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14732,7 +15324,7 @@ export const getOffboarding: API.OperationMethod<
   GetOffboardingError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetOffboardingRequest>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetOffboardingRequest>,
   output: __S(10657, __c333, 1) as any as S.Schema<OffboardingResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -14750,8 +15342,8 @@ export const getOffboardingById: API.OperationMethod<
   GetOffboardingByIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetOffboardingByIdRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<V2OffboardingResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetOffboardingByIdRequest>,
+  output: __S(5090, __c159, 2) as any as S.Schema<V2OffboardingResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14768,8 +15360,8 @@ export const getOffboardings: API.OperationMethod<
   GetOffboardingsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetOffboardingsRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<ListOffboardingResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetOffboardingsRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<ListOffboardingResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14786,8 +15378,8 @@ export const getOffboardings2: API.OperationMethod<
   GetOffboardings2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetOffboardingsRequest2>,
-  output: __S(5187, __c162, 3) as any as S.Schema<V2ListOffboardingResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetOffboardingsRequest2>,
+  output: __S(5251, __c164, 3) as any as S.Schema<V2ListOffboardingResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14808,8 +15400,8 @@ export const getOffboardingsEmployment: API.OperationMethod<
   GetOffboardingsEmploymentError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetOffboardingsEmploymentRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<ListOffboardingResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetOffboardingsEmploymentRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<ListOffboardingResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14830,11 +15422,11 @@ export const getOnboardingEmploymentPreOnboardingDocument: API.OperationMethod<
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5280,
-    __c165,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<GetOnboardingEmploymentPreOnboardingDocumentRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<ShowPreOnboardingDocumentResponse>,
+  output: __S(5314, __c166, 2) as any as S.Schema<ShowPreOnboardingDocumentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14855,11 +15447,11 @@ export const getOnboardingEmploymentPreOnboardingRequirements: API.OperationMeth
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5312,
-    __c166,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<GetOnboardingEmploymentPreOnboardingRequirementsRequest>,
-  output: __S(5315, __c166, 3) as any as S.Schema<IndexPreOnboardingRequirementsResponse>,
+  output: __S(5347, __c167, 3) as any as S.Schema<IndexPreOnboardingRequirementsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14881,8 +15473,8 @@ export const getPayItems: API.OperationMethod<
   GetPayItemsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<GetPayItemsRequest>,
-  output: __S(5347, __c167, 3) as any as S.Schema<ListPayItemsResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetPayItemsRequest>,
+  output: __S(5379, __c168, 3) as any as S.Schema<ListPayItemsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14899,8 +15491,8 @@ export const getPayrollCalendar: API.OperationMethod<
   GetPayrollCalendarError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetPayrollCalendarRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<PayrollCalendarsResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetPayrollCalendarRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PayrollCalendarsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14917,8 +15509,8 @@ export const getPayrollCalendars: API.OperationMethod<
   GetPayrollCalendarsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetPayrollCalendarsRequest>,
-  output: __S(5444, __c170, 4) as any as S.Schema<PayrollCalendarsEORResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetPayrollCalendarsRequest>,
+  output: __S(5476, __c171, 4) as any as S.Schema<PayrollCalendarsEORResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14935,8 +15527,8 @@ export const getPayrollRun: API.OperationMethod<
   GetPayrollRunError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetPayrollRunRequest>,
-  output: __S(5474, __c171, 2) as any as S.Schema<PayrollRunResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetPayrollRunRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<PayrollRunResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14953,8 +15545,8 @@ export const getPayrollRunEmployeeDetails: API.OperationMethod<
   GetPayrollRunEmployeeDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetPayrollRunEmployeeDetailsRequest>,
-  output: __S(5538, __c173, 2) as any as S.Schema<EmployeeDetailsResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetPayrollRunEmployeeDetailsRequest>,
+  output: __S(5570, __c174, 2) as any as S.Schema<EmployeeDetailsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -14971,7 +15563,7 @@ export const getPayrollRunGlReport: API.OperationMethod<
   GetPayrollRunGlReportError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetPayrollRunGlReportRequest>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetPayrollRunGlReportRequest>,
   output: __S(10978, __c343, 2) as any as S.Schema<GLReportResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
@@ -14989,8 +15581,8 @@ export const getPayrollRunGlReportDownload: API.OperationMethod<
   GetPayrollRunGlReportDownloadError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetPayrollRunGlReportDownloadRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<GetPayrollRunGlReportDownloadResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetPayrollRunGlReportDownloadRequest>,
+  output: __S(11264, __c352, 0) as any as S.Schema<GetPayrollRunGlReportDownloadResponse>,
   errors: [NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15007,8 +15599,8 @@ export const getPayrollRuns: API.OperationMethod<
   GetPayrollRunsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetPayrollRunsRequest>,
-  output: __S(5635, __c176, 3) as any as S.Schema<ListPayrollRunResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetPayrollRunsRequest>,
+  output: __S(5699, __c178, 3) as any as S.Schema<ListPayrollRunResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15030,7 +15622,7 @@ export const getPayslipDownload: API.OperationMethod<
   GetPayslipDownloadError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetPayslipDownloadRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetPayslipDownloadRequest>,
   output: __S(11264, __c352, 0) as any as S.Schema<GetPayslipDownloadResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15048,7 +15640,7 @@ export const getPayslipPdf: API.OperationMethod<
   GetPayslipPdfError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetPayslipPdfRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetPayslipPdfRequest>,
   output: __S(11264, __c352, 0) as any as S.Schema<GetPayslipPdfResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15066,8 +15658,8 @@ export const getPayslips: API.OperationMethod<
   GetPayslipsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetPayslipsRequest>,
-  output: __S(5764, __c180, 4) as any as S.Schema<ListPayslipsResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetPayslipsRequest>,
+  output: __S(5796, __c181, 4) as any as S.Schema<ListPayslipsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15084,8 +15676,8 @@ export const getPricingPlanPartnerTemplates: API.OperationMethod<
   GetPricingPlanPartnerTemplatesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetPricingPlanPartnerTemplatesRequest>,
-  output: __S(5796, __c181, 4) as any as S.Schema<ListPricingPlanPartnerTemplatesResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetPricingPlanPartnerTemplatesRequest>,
+  output: __S(5828, __c182, 4) as any as S.Schema<ListPricingPlanPartnerTemplatesResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15102,7 +15694,7 @@ export const getProbationCompletionLetter: API.OperationMethod<
   GetProbationCompletionLetterError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetProbationCompletionLetterRequest>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetProbationCompletionLetterRequest>,
   output: __S(11042, __c345, 2) as any as S.Schema<ProbationCompletionLetterResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15120,7 +15712,7 @@ export const getProbationExtension: API.OperationMethod<
   GetProbationExtensionError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetProbationExtensionRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetProbationExtensionRequest>,
   output: __S(11106, __c347, 2) as any as S.Schema<ProbationExtensionResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15138,7 +15730,7 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetProjectRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(11201, __c350, 1) as any as S.Schema<ProjectResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15156,8 +15748,8 @@ export const getProjectEligibleLeads: API.OperationMethod<
   GetProjectEligibleLeadsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetProjectEligibleLeadsRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<ListEligibleLeadsResponse>,
+  input: __S(5953, __c186, 1) as any as S.Schema<GetProjectEligibleLeadsRequest>,
+  output: __S(5954, __c186, 2) as any as S.Schema<ListEligibleLeadsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15174,8 +15766,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(5955, __c186, 3) as any as S.Schema<ListProjectsResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(6051, __c189, 3) as any as S.Schema<ListProjectsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15192,8 +15784,8 @@ export const getResignation: API.OperationMethod<
   GetResignationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetResignationRequest>,
-  output: __S(5986, __c187, 2) as any as S.Schema<ResignationResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetResignationRequest>,
+  output: __S(6082, __c190, 2) as any as S.Schema<ResignationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15215,7 +15807,7 @@ export const getResignationResignationLetter: API.OperationMethod<
   GetResignationResignationLetterError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetResignationResignationLetterRequest>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetResignationResignationLetterRequest>,
   output: __S(11264, __c352, 0) as any as S.Schema<GetResignationResignationLetterResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15231,15 +15823,15 @@ export type GetSandboxCompanyFeatureFlagsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List feature flags Lists the feature flags that change how the Remote API behaves for a company, whether each is on, and what it changes. Use it to see why a flow behaves the way it does in Sandbox, for example why contractors are invited without the pricing plan and contract details steps. `applies_to` says who a flag's state is for: `company` flags can differ between companies; `environment` flags are the same for every company in the environment. The other `company` flags are evaluated for the company admin the API acts as (the token's user, or the company owner for an integration token). The two `job_title_eligibility_check_*` flags are set per company instead, and are not evaluated for the admin. Only flags that change the public API are listed, and the list can change. A flag that is removed no longer changes anything: its behaviour is then the same for every company, so check the API changelog. The state in Sandbox doesn't tell you the state in production. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
+/** List feature flags Lists the feature flags that change how the Remote API behaves for a company, whether each is on, and what it changes. Use it to see why a flow behaves the way it does in Sandbox, for example why contractors are invited without the pricing plan and contract details steps. `applies_to` says who a flag's state is for: `company` flags can differ between companies; `environment` flags are the same for every company in the environment. The two `job_title_eligibility_check_*` flags are set per company instead, and are not evaluated for the caller. Any other `company` flag that depends on the caller is evaluated for the token's user with a Company-scoped access token (either kind) or a Customer API token. A Client credentials access token has no user, so it gets the company owner's state, for reference only: the endpoints these flags change don't accept that token, so use one of the other tokens to see the state for its user. Only flags that change the public API are listed, and the list can change. A flag that is removed no longer changes anything: its behaviour is then the same for every company, so check the API changelog. The state in Sandbox doesn't tell you the state in production. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:read` and `all:write` work too. */
 export const getSandboxCompanyFeatureFlags: API.OperationMethod<
   GetSandboxCompanyFeatureFlagsRequest,
   FeatureFlagsResponse,
   GetSandboxCompanyFeatureFlagsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetSandboxCompanyFeatureFlagsRequest>,
-  output: __S(6116, __c191, 4) as any as S.Schema<FeatureFlagsResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetSandboxCompanyFeatureFlagsRequest>,
+  output: __S(6148, __c192, 4) as any as S.Schema<FeatureFlagsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15249,15 +15841,15 @@ export const getSandboxCompanyFeatureFlags: API.OperationMethod<
 }));
 
 export type GetScimGroupError = Forbidden | NotFound | RemoteOpError;
-/** Get group by ID via SCIM v2.0 Retrieves a single group (department) for the authenticated company by group ID ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+/** Get group by ID via SCIM v2.0 Retrieves a single group (department) for the authenticated company by group ID. When your integration enforces role data scopes, a group outside the data scope of the roles the token acts with answers 404, and the group lists only the members inside that scope. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimGroup: API.OperationMethod<
   GetScimGroupRequest,
   IntegrationsScimGroup,
   GetScimGroupError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetScimGroupRequest>,
-  output: __S(6178, __c193, 2) as any as S.Schema<IntegrationsScimGroup>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetScimGroupRequest>,
+  output: __S(6210, __c194, 2) as any as S.Schema<IntegrationsScimGroup>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15267,15 +15859,15 @@ export const getScimGroup: API.OperationMethod<
 }));
 
 export type GetScimGroupsError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** List groups via SCIM v2.0 Retrieves a list of groups (departments) for the authenticated company following SCIM 2.0 standard ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+/** List groups via SCIM v2.0 Retrieves a list of groups (departments) for the authenticated company following SCIM 2.0 standard. When your integration enforces role data scopes, it lists only the groups the roles the token acts with can see (all of them, unless a role is scoped by department), each with only the members inside that scope. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimGroups: API.OperationMethod<
   GetScimGroupsRequest,
   IntegrationsScimGroupListResponse,
   GetScimGroupsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetScimGroupsRequest>,
-  output: __S(6242, __c195, 2) as any as S.Schema<IntegrationsScimGroupListResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetScimGroupsRequest>,
+  output: __S(6274, __c196, 2) as any as S.Schema<IntegrationsScimGroupListResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15285,15 +15877,15 @@ export const getScimGroups: API.OperationMethod<
 }));
 
 export type GetScimUserError = Forbidden | NotFound | RemoteOpError;
-/** Get user by ID via SCIM v2.0 Retrieves a single user for the authenticated company by user ID ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+/** Get user by ID via SCIM v2.0 Retrieves a single user for the authenticated company by user ID. When your integration enforces role data scopes, a user outside the data scope of the roles the token acts with answers 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimUser: API.OperationMethod<
   GetScimUserRequest,
   IntegrationsScimUser,
   GetScimUserError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetScimUserRequest>,
-  output: __S(6309, __c197, 5) as any as S.Schema<IntegrationsScimUser>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetScimUserRequest>,
+  output: __S(6341, __c198, 5) as any as S.Schema<IntegrationsScimUser>,
   errors: [Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15303,15 +15895,15 @@ export const getScimUser: API.OperationMethod<
 }));
 
 export type GetScimUsersError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** List users via SCIM v2.0 Retrieves a list of users for the authenticated company following SCIM 2.0 standard ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Client credentials access token** (`OAuth2ClientCredentials`) -- obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+/** List users via SCIM v2.0 Retrieves a list of users for the authenticated company following SCIM 2.0 standard. When your integration enforces role data scopes, it lists and counts only the users inside the data scope of the roles the token acts with. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimUsers: API.OperationMethod<
   GetScimUsersRequest,
   IntegrationsScimUserListResponse,
   GetScimUsersError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<GetScimUsersRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<IntegrationsScimUserListResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetScimUsersRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<IntegrationsScimUserListResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15328,8 +15920,8 @@ export const getSsoConfiguration: API.OperationMethod<
   GetSsoConfigurationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetSsoConfigurationRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<SSOConfigurationResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetSsoConfigurationRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<SSOConfigurationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15346,8 +15938,8 @@ export const getSsoConfigurationDetails: API.OperationMethod<
   GetSsoConfigurationDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetSsoConfigurationDetailsRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<SSOConfigurationDetailsResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetSsoConfigurationDetailsRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<SSOConfigurationDetailsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15364,7 +15956,7 @@ export const getTestSchema: API.OperationMethod<
   GetTestSchemaError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetTestSchemaRequest>,
+  input: __S(6592, __c206, 0) as any as S.Schema<GetTestSchemaRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<CompanyFormResponse>,
   errors: [],
   serviceErrors: RemoteServiceErrors,
@@ -15382,8 +15974,8 @@ export const getTimeoff: API.OperationMethod<
   GetTimeoffError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetTimeoffRequest>,
-  output: __S(3586, __c112, 2) as any as S.Schema<ListTimeoffResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetTimeoffRequest>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ListTimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15400,8 +15992,8 @@ export const getTimeoffById: API.OperationMethod<
   GetTimeoffByIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetTimeoffByIdRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetTimeoffByIdRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15418,8 +16010,8 @@ export const getTimeoffTypes: API.OperationMethod<
   GetTimeoffTypesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetTimeoffTypesRequest>,
-  output: __S(6660, __c208, 4) as any as S.Schema<ListTimeoffTypesResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetTimeoffTypesRequest>,
+  output: __S(6692, __c209, 4) as any as S.Schema<ListTimeoffTypesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15436,8 +16028,8 @@ export const getTimesheet: API.OperationMethod<
   GetTimesheetError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetTimesheetRequest>,
-  output: __S(6690, __c209, 2) as any as S.Schema<TimesheetResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetTimesheetRequest>,
+  output: __S(6722, __c210, 2) as any as S.Schema<TimesheetResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15454,8 +16046,8 @@ export const getTimesheets: API.OperationMethod<
   GetTimesheetsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetTimesheetsRequest>,
-  output: __S(6755, __c211, 3) as any as S.Schema<ListTimesheetsResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetTimesheetsRequest>,
+  output: __S(6787, __c212, 3) as any as S.Schema<ListTimesheetsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15472,8 +16064,8 @@ export const getTravelLetterRequest: API.OperationMethod<
   GetTravelLetterRequestError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetTravelLetterRequestRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<TravelLetterResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetTravelLetterRequestRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<TravelLetterResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15490,8 +16082,8 @@ export const getTravelLetterRequests: API.OperationMethod<
   GetTravelLetterRequestsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetTravelLetterRequestsRequest>,
-  output: __S(6915, __c216, 3) as any as S.Schema<ListTravelLettersResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<GetTravelLetterRequestsRequest>,
+  output: __S(6947, __c217, 3) as any as S.Schema<ListTravelLettersResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15513,8 +16105,8 @@ export const getV1ContractorInvoicesIdPayInDetails: API.OperationMethod<
   GetV1ContractorInvoicesIdPayInDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetV1ContractorInvoicesIdPayInDetailsRequest>,
-  output: __S(6950, __c217, 6) as any as S.Schema<ContractorInvoicePayInDetailsResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetV1ContractorInvoicesIdPayInDetailsRequest>,
+  output: __S(6982, __c218, 6) as any as S.Schema<ContractorInvoicePayInDetailsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15531,8 +16123,8 @@ export const getWebhookEvents: API.OperationMethod<
   GetWebhookEventsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetWebhookEventsRequest>,
-  output: __S(6980, __c218, 4) as any as S.Schema<ListWebhookEventsResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetWebhookEventsRequest>,
+  output: __S(7012, __c219, 4) as any as S.Schema<ListWebhookEventsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15549,8 +16141,8 @@ export const getWorkAuthorizationRequest: API.OperationMethod<
   GetWorkAuthorizationRequestError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetWorkAuthorizationRequestRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetWorkAuthorizationRequestRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15567,8 +16159,8 @@ export const getWorkAuthorizationRequests: API.OperationMethod<
   GetWorkAuthorizationRequestsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetWorkAuthorizationRequestsRequest>,
-  output: __S(7107, __c222, 3) as any as S.Schema<ListWorkAuthorizationRequestsResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetWorkAuthorizationRequestsRequest>,
+  output: __S(7203, __c225, 3) as any as S.Schema<ListWorkAuthorizationRequestsResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15589,8 +16181,8 @@ export const patchV1CompaniesCompanyId: API.OperationMethod<
   PatchV1CompaniesCompanyIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<PatchV1CompaniesCompanyIdRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<CompanyResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<PatchV1CompaniesCompanyIdRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<CompanyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15611,8 +16203,8 @@ export const patchV1CompaniesCompanyId2: API.OperationMethod<
   PatchV1CompaniesCompanyId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<PatchV1CompaniesCompanyId2Request>,
-  output: __S(961, __c30, 1) as any as S.Schema<CompanyResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<PatchV1CompaniesCompanyId2Request>,
+  output: __S(929, __c29, 1) as any as S.Schema<CompanyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15626,15 +16218,15 @@ export type PatchV1CompanyManagersUserIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Update a Company Manager's billing contact assignment Replaces the legal entities a Company Manager is a billing contact for, among the legal entities the caller can change (see below). After the call they receive Remote invoices for the legal entities in `billing_contact_for`, each marked primary or not, and stop being a billing contact for the other legal entities the caller can change. Send an empty list to remove them from all of those (the company owner stays primary where no one else is, see below). - Making the manager primary replaces the legal entity's current primary contact. Removing or demoting a primary contact is allowed: the company owner then receives the invoices until someone else is made primary. - The company owner is the primary billing contact for every legal entity where no one else is primary, whether or not they are listed. For the owner, listing such a legal entity as primary changes nothing, and leaving it out does not remove them; make someone else primary instead. Listing it as not primary adds the owner as a regular contact there, and they stay primary until someone else is made primary. - The manager does not need permission to read billing, or a confirmed account, to be added or made primary. - A newly added contact also receives contractor invoices, and removing a contact stops both. - Contacts who only receive contractor invoices are not shown by this API and are left unchanged, unless their legal entity is listed, in which case they also start receiving Remote invoices. - Every listed legal entity must have an active billing account and appear only once. A newly created legal entity's billing account may not be active yet; retry once it is. Adding the manager to a legal entity that already has 15 invoice recipients, counting ones this API doesn't show, also fails. Any of these returns 422 and changes nothing. - The legal entities the caller can change are the ones the same caller's GET lists that one of their roles with permission to update billing communications also covers. Listing any other legal entity returns 404, and the call leaves the manager as they are everywhere else, so sending back what GET returned never removes the manager from a legal entity GET didn't show. If any of the caller's roles is assigned to some legal entities only, the caller can change only those, even where another of their roles covers the whole company. GET can still list legal entities this call refuses: ones no role with permission to update billing communications covers, and, on integrations that don't limit callers to the legal entities they can access, any legal entity outside those roles or outside a role assigned to some legal entities. A caller with no role that can read team members can change no legal entity: an empty list changes nothing, and any other list returns 404. Changing a deleted manager returns 404. Deleting the manager is still refused while they are primary for any legal entity, including ones the caller can't see. - The response lists the manager's billing contacts only on the legal entities the caller can access, also on integrations that don't limit callers to those. So the response can leave out legal entities the same caller's GET lists. Requires permission to update billing communications. If your integration checks callers' roles, it also requires permission to update team members. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const patchV1CompanyManagersUserId: API.OperationMethod<
   PatchV1CompanyManagersUserIdRequest,
   CompanyManagerResponse,
   PatchV1CompanyManagersUserIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<PatchV1CompanyManagersUserIdRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<CompanyManagerResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<PatchV1CompanyManagersUserIdRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CompanyManagerResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15648,15 +16240,15 @@ export type PatchV1CompanyManagersUserId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Update a Company Manager's billing contact assignment Replaces the legal entities a Company Manager is a billing contact for, among the legal entities the caller can change (see below). After the call they receive Remote invoices for the legal entities in `billing_contact_for`, each marked primary or not, and stop being a billing contact for the other legal entities the caller can change. Send an empty list to remove them from all of those (the company owner stays primary where no one else is, see below). - Making the manager primary replaces the legal entity's current primary contact. Removing or demoting a primary contact is allowed: the company owner then receives the invoices until someone else is made primary. - The company owner is the primary billing contact for every legal entity where no one else is primary, whether or not they are listed. For the owner, listing such a legal entity as primary changes nothing, and leaving it out does not remove them; make someone else primary instead. Listing it as not primary adds the owner as a regular contact there, and they stay primary until someone else is made primary. - The manager does not need permission to read billing, or a confirmed account, to be added or made primary. - A newly added contact also receives contractor invoices, and removing a contact stops both. - Contacts who only receive contractor invoices are not shown by this API and are left unchanged, unless their legal entity is listed, in which case they also start receiving Remote invoices. - Every listed legal entity must have an active billing account and appear only once. A newly created legal entity's billing account may not be active yet; retry once it is. Adding the manager to a legal entity that already has 15 invoice recipients, counting ones this API doesn't show, also fails. Any of these returns 422 and changes nothing. - The legal entities the caller can change are the ones the same caller's GET lists that one of their roles with permission to update billing communications also covers. Listing any other legal entity returns 404, and the call leaves the manager as they are everywhere else, so sending back what GET returned never removes the manager from a legal entity GET didn't show. If any of the caller's roles is assigned to some legal entities only, the caller can change only those, even where another of their roles covers the whole company. GET can still list legal entities this call refuses: ones no role with permission to update billing communications covers, and, on integrations that don't limit callers to the legal entities they can access, any legal entity outside those roles or outside a role assigned to some legal entities. A caller with no role that can read team members can change no legal entity: an empty list changes nothing, and any other list returns 404. Changing a deleted manager returns 404. Deleting the manager is still refused while they are primary for any legal entity, including ones the caller can't see. - The response lists the manager's billing contacts only on the legal entities the caller can access, also on integrations that don't limit callers to those. So the response can leave out legal entities the same caller's GET lists. Requires permission to update billing communications. If your integration checks callers' roles, it also requires permission to update team members. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const patchV1CompanyManagersUserId2: API.OperationMethod<
   PatchV1CompanyManagersUserId2Request,
   CompanyManagerResponse,
   PatchV1CompanyManagersUserId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<PatchV1CompanyManagersUserId2Request>,
-  output: __S(1472, __c46, 0) as any as S.Schema<CompanyManagerResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<PatchV1CompanyManagersUserId2Request>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CompanyManagerResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15677,8 +16269,8 @@ export const patchV1ContractorInvoiceSchedulesId: API.OperationMethod<
   PatchV1ContractorInvoiceSchedulesIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<PatchV1ContractorInvoiceSchedulesIdRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<PatchV1ContractorInvoiceSchedulesIdRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15699,8 +16291,8 @@ export const patchV1ContractorInvoiceSchedulesId2: API.OperationMethod<
   PatchV1ContractorInvoiceSchedulesId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<PatchV1ContractorInvoiceSchedulesId2Request>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<PatchV1ContractorInvoiceSchedulesId2Request>,
+  output: __S(1889, __c59, 1) as any as S.Schema<ContractorInvoiceScheduleResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15722,8 +16314,8 @@ export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId: API.OperationMe
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7424,
-    __c232,
+    7456,
+    __c233,
     0,
   ) as any as S.Schema<PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<EmploymentCustomFieldValueResponse>,
@@ -15748,8 +16340,8 @@ export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId2: API.OperationM
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7456,
-    __c233,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2Request>,
   output: __S(2690, __c84, 2) as any as S.Schema<EmploymentCustomFieldValueResponse>,
@@ -15773,8 +16365,8 @@ export const patchV1EmployeeTimeoffId: API.OperationMethod<
   PatchV1EmployeeTimeoffIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<PatchV1EmployeeTimeoffIdRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<PatchV1EmployeeTimeoffIdRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15795,8 +16387,8 @@ export const patchV1EmployeeTimeoffId2: API.OperationMethod<
   PatchV1EmployeeTimeoffId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<PatchV1EmployeeTimeoffId2Request>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<PatchV1EmployeeTimeoffId2Request>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15818,8 +16410,8 @@ export const patchV1EmploymentsEmploymentId: API.OperationMethod<
   PatchV1EmploymentsEmploymentIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<PatchV1EmploymentsEmploymentIdRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<PatchV1EmploymentsEmploymentIdRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15841,8 +16433,8 @@ export const patchV1EmploymentsEmploymentId2: API.OperationMethod<
   PatchV1EmploymentsEmploymentId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<PatchV1EmploymentsEmploymentId2Request>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<PatchV1EmploymentsEmploymentId2Request>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15864,7 +16456,7 @@ export const patchV1ExpensesId: API.OperationMethod<
   PatchV1ExpensesIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<PatchV1ExpensesIdRequest>,
+  input: __S(7712, __c241, 0) as any as S.Schema<PatchV1ExpensesIdRequest>,
   output: __S(10273, __c321, 1) as any as S.Schema<ExpenseResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15887,7 +16479,7 @@ export const patchV1ExpensesId2: API.OperationMethod<
   PatchV1ExpensesId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<PatchV1ExpensesId2Request>,
+  input: __S(7744, __c242, 0) as any as S.Schema<PatchV1ExpensesId2Request>,
   output: __S(10273, __c321, 1) as any as S.Schema<ExpenseResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15910,7 +16502,7 @@ export const patchV1IncentivesId: API.OperationMethod<
   PatchV1IncentivesIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<PatchV1IncentivesIdRequest>,
+  input: __S(7776, __c243, 0) as any as S.Schema<PatchV1IncentivesIdRequest>,
   output: __S(10401, __c325, 1) as any as S.Schema<IncentiveResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15933,7 +16525,7 @@ export const patchV1IncentivesId2: API.OperationMethod<
   PatchV1IncentivesId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<PatchV1IncentivesId2Request>,
+  input: __S(7808, __c244, 0) as any as S.Schema<PatchV1IncentivesId2Request>,
   output: __S(10401, __c325, 1) as any as S.Schema<IncentiveResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -15956,8 +16548,8 @@ export const patchV1SandboxEmploymentsEmploymentId: API.OperationMethod<
   PatchV1SandboxEmploymentsEmploymentIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentIdRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentIdRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15979,8 +16571,8 @@ export const patchV1SandboxEmploymentsEmploymentId2: API.OperationMethod<
   PatchV1SandboxEmploymentsEmploymentId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentId2Request>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentId2Request>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -15997,8 +16589,8 @@ export const patchV1TimeoffId: API.OperationMethod<
   PatchV1TimeoffIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<PatchV1TimeoffIdRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<PatchV1TimeoffIdRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16015,8 +16607,8 @@ export const patchV1TimeoffId2: API.OperationMethod<
   PatchV1TimeoffId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<PatchV1TimeoffId2Request>,
-  output: __S(9665, __c302, 1) as any as S.Schema<TimeoffResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<PatchV1TimeoffId2Request>,
+  output: __S(9697, __c303, 1) as any as S.Schema<TimeoffResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16033,8 +16625,8 @@ export const patchV1TravelLetterRequestsId: API.OperationMethod<
   PatchV1TravelLetterRequestsIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<PatchV1TravelLetterRequestsIdRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<TravelLetterResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<PatchV1TravelLetterRequestsIdRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<TravelLetterResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16051,8 +16643,8 @@ export const patchV1TravelLetterRequestsId2: API.OperationMethod<
   PatchV1TravelLetterRequestsId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<PatchV1TravelLetterRequestsId2Request>,
-  output: __S(6881, __c215, 1) as any as S.Schema<TravelLetterResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<PatchV1TravelLetterRequestsId2Request>,
+  output: __S(6913, __c216, 1) as any as S.Schema<TravelLetterResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16072,8 +16664,8 @@ export const patchV1WorkAuthorizationRequestsId: API.OperationMethod<
   PatchV1WorkAuthorizationRequestsIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<PatchV1WorkAuthorizationRequestsIdRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<PatchV1WorkAuthorizationRequestsIdRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16093,8 +16685,8 @@ export const patchV1WorkAuthorizationRequestsId2: API.OperationMethod<
   PatchV1WorkAuthorizationRequestsId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<PatchV1WorkAuthorizationRequestsId2Request>,
-  output: __S(7073, __c221, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<PatchV1WorkAuthorizationRequestsId2Request>,
+  output: __S(7169, __c224, 1) as any as S.Schema<WorkAuthorizationRequestResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16116,8 +16708,8 @@ export const patchV2EmploymentsEmploymentId: API.OperationMethod<
   PatchV2EmploymentsEmploymentIdError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<PatchV2EmploymentsEmploymentIdRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<PatchV2EmploymentsEmploymentIdRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16139,8 +16731,8 @@ export const patchV2EmploymentsEmploymentId2: API.OperationMethod<
   PatchV2EmploymentsEmploymentId2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<PatchV2EmploymentsEmploymentId2Request>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<PatchV2EmploymentsEmploymentId2Request>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16161,11 +16753,11 @@ export const postV1EmploymentsEmploymentIdRiskReserveProofOfPayments: API.Operat
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8192,
-    __c256,
+    8224,
+    __c257,
     0,
   ) as any as S.Schema<PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<RiskReserveProofOfPaymentResponse>,
+  output: __S(8256, __c258, 0) as any as S.Schema<RiskReserveProofOfPaymentResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16187,11 +16779,11 @@ export const postV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsAppro
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8256,
-    __c258,
+    8288,
+    __c259,
     0,
   ) as any as S.Schema<PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApproveRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<RiskReserveProofOfPaymentResponse>,
+  output: __S(8256, __c258, 0) as any as S.Schema<RiskReserveProofOfPaymentResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16212,10 +16804,10 @@ export const putCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   PutCompanyLegalEntityAdministrativeDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<PutCompanyLegalEntityAdministrativeDetailsRequest>,
+  input: __S(8352, __c261, 0) as any as S.Schema<PutCompanyLegalEntityAdministrativeDetailsRequest>,
   output: __S(
-    1344,
-    __c42,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<PutCompanyLegalEntityAdministrativeDetailsResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity],
@@ -16239,8 +16831,8 @@ export const putEmployeeAddress: API.OperationMethod<
   PutEmployeeAddressError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<PutEmployeeAddressRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<PutEmployeeAddressRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16255,15 +16847,15 @@ export type PutEmployeeBankAccountError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employee bank account Upserts the authenticated employee's bank account details. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Authentication This endpoint accepts any one of the following token types: - **Employee-scoped access token** (`OAuth2Assertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by the employee through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Update employee bank account Upserts the authenticated employee's bank account details. For Global Payroll employees whose salary Remote pays out, a change to the bank details replaces the account with a new default account that the company admin must approve, as does sending a denied account's details again. Salary is held until the admin approves. Changing only the label, or sending exactly the same details again, keeps the account as it is. A change returns 422 while a payment is in progress, while the account is under compliance review, or when the account is used in a payment split. Deleted accounts are not listed. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Authentication This endpoint accepts any one of the following token types: - **Employee-scoped access token** (`OAuth2Assertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by the employee through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const putEmployeeBankAccount: API.OperationMethod<
   PutEmployeeBankAccountRequest,
   EmploymentDetailsOnlyResponse,
   PutEmployeeBankAccountError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<PutEmployeeBankAccountRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<PutEmployeeBankAccountRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16285,8 +16877,8 @@ export const putEmployeeEmergencyContact: API.OperationMethod<
   PutEmployeeEmergencyContactError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<PutEmployeeEmergencyContactRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<PutEmployeeEmergencyContactRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16308,8 +16900,8 @@ export const putEmployeeFederalTaxes: API.OperationMethod<
   PutEmployeeFederalTaxesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<PutEmployeeFederalTaxesRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<PutEmployeeFederalTaxesRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16331,8 +16923,8 @@ export const putEmployeePersonalDetails: API.OperationMethod<
   PutEmployeePersonalDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<PutEmployeePersonalDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<PutEmployeePersonalDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16354,8 +16946,8 @@ export const putEmployeeStateTax: API.OperationMethod<
   PutEmployeeStateTaxError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<PutEmployeeStateTaxRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(8544, __c267, 0) as any as S.Schema<PutEmployeeStateTaxRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16378,8 +16970,8 @@ export const putEmploymentAddressDetails: API.OperationMethod<
   PutEmploymentAddressDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<PutEmploymentAddressDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<PutEmploymentAddressDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16402,8 +16994,8 @@ export const putEmploymentAdministrativeDetails: API.OperationMethod<
   PutEmploymentAdministrativeDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<PutEmploymentAdministrativeDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<PutEmploymentAdministrativeDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16426,8 +17018,8 @@ export const putEmploymentBankAccountDetails: API.OperationMethod<
   PutEmploymentBankAccountDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<PutEmploymentBankAccountDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<PutEmploymentBankAccountDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16449,8 +17041,8 @@ export const putEmploymentBasicInformation: API.OperationMethod<
   PutEmploymentBasicInformationError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<PutEmploymentBasicInformationRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<PutEmploymentBasicInformationRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16472,8 +17064,8 @@ export const putEmploymentBasicInformation2: API.OperationMethod<
   PutEmploymentBasicInformation2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<PutEmploymentBasicInformationRequest2>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<PutEmploymentBasicInformationRequest2>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16494,8 +17086,8 @@ export const putEmploymentBenefitOffers: API.OperationMethod<
   PutEmploymentBenefitOffersError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<PutEmploymentBenefitOffersRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<PutEmploymentBenefitOffersRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16511,15 +17103,15 @@ export type PutEmploymentBillingAddressDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update billing address details Updates employment's billing address details. The billing address is replaced: optional fields that aren't sent are cleared. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Update billing address details Updates employment's billing address details. The billing address is replaced: optional fields that aren't sent are cleared. The billing address belongs to the employee's bank account. If the employee has a bank account, only its address changes: the bank details, country and currency stay as they are. The stored bank details are checked again, so the update returns 422 when they no longer pass a check, while the bank account is on compliance review, or when the bank account has no country (set the bank account details first). Updating the address of an existing bank account can send the employee a "Bank Account Updated" email. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const putEmploymentBillingAddressDetails: API.OperationMethod<
   PutEmploymentBillingAddressDetailsRequest,
   EmploymentDetailsOnlyResponse,
   PutEmploymentBillingAddressDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<PutEmploymentBillingAddressDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<PutEmploymentBillingAddressDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16542,8 +17134,8 @@ export const putEmploymentContractDetails: API.OperationMethod<
   PutEmploymentContractDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<PutEmploymentContractDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<PutEmploymentContractDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16566,8 +17158,8 @@ export const putEmploymentEmergencyContact: API.OperationMethod<
   PutEmploymentEmergencyContactError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<PutEmploymentEmergencyContactRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<PutEmploymentEmergencyContactRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16590,8 +17182,8 @@ export const putEmploymentFederalTaxes: API.OperationMethod<
   PutEmploymentFederalTaxesError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<PutEmploymentFederalTaxesRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<PutEmploymentFederalTaxesRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16614,8 +17206,8 @@ export const putEmploymentFederalTaxes2: API.OperationMethod<
   PutEmploymentFederalTaxes2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<PutEmploymentFederalTaxesRequest2>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<PutEmploymentFederalTaxesRequest2>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16637,8 +17229,8 @@ export const putEmploymentPersonalDetails: API.OperationMethod<
   PutEmploymentPersonalDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<PutEmploymentPersonalDetailsRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<EmploymentResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<PutEmploymentPersonalDetailsRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<EmploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16661,8 +17253,8 @@ export const putEmploymentPersonalDetails2: API.OperationMethod<
   PutEmploymentPersonalDetails2Error,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<PutEmploymentPersonalDetailsRequest2>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<PutEmploymentPersonalDetailsRequest2>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16685,8 +17277,8 @@ export const putEmploymentPricingPlanDetails: API.OperationMethod<
   PutEmploymentPricingPlanDetailsError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<PutEmploymentPricingPlanDetailsRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<PutEmploymentPricingPlanDetailsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<EmploymentDetailsOnlyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16707,8 +17299,8 @@ export const putResignationValidate: API.OperationMethod<
   PutResignationValidateError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<PutResignationValidateRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<PutResignationValidateRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16729,8 +17321,8 @@ export const putSandboxCompanyDefaultLegalEntity: API.OperationMethod<
   PutSandboxCompanyDefaultLegalEntityError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<PutSandboxCompanyDefaultLegalEntityRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<PutSandboxCompanyDefaultLegalEntityRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16751,8 +17343,8 @@ export const putSandboxContractAmendmentApprove: API.OperationMethod<
   PutSandboxContractAmendmentApproveError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<PutSandboxContractAmendmentApproveRequest>,
-  output: __S(1284, __c40, 4) as any as S.Schema<ContractAmendmentResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<PutSandboxContractAmendmentApproveRequest>,
+  output: __S(1252, __c39, 4) as any as S.Schema<ContractAmendmentResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16773,8 +17365,8 @@ export const putSandboxContractAmendmentCancel: API.OperationMethod<
   PutSandboxContractAmendmentCancelError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<PutSandboxContractAmendmentCancelRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<PutSandboxContractAmendmentCancelRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16791,8 +17383,8 @@ export const updateBenefitRenewalRequest: API.OperationMethod<
   UpdateBenefitRenewalRequestError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<UpdateBenefitRenewalRequestRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<UpdateBenefitRenewalRequestRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16809,8 +17401,8 @@ export const updateCancelOnboarding: API.OperationMethod<
   UpdateCancelOnboardingError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<UpdateCancelOnboardingRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<SuccessResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<UpdateCancelOnboardingRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<SuccessResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16833,8 +17425,8 @@ export const updatePayItem: API.OperationMethod<
   UpdatePayItemError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<UpdatePayItemRequest>,
-  output: __S(9282, __c290, 2) as any as S.Schema<PayItemResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<UpdatePayItemRequest>,
+  output: __S(9314, __c291, 2) as any as S.Schema<PayItemResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
@@ -16851,7 +17443,7 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<UpdateProjectRequest>,
+  input: __S(9344, __c292, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(11201, __c350, 1) as any as S.Schema<ProjectResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -16869,7 +17461,7 @@ export const updateWebhookCallback: API.OperationMethod<
   UpdateWebhookCallbackError,
   RemoteOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<UpdateWebhookCallbackRequest>,
+  input: __S(9376, __c293, 0) as any as S.Schema<UpdateWebhookCallbackRequest>,
   output: __S(12289, __c384, 1) as any as S.Schema<WebhookCallbackResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
@@ -17230,14 +17822,6 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetBillingDocumentPdfResponse",
-      });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           period: S.optional(S.String.pipe(T.Query())),
@@ -17256,11 +17840,11 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "BillingDocumentsResponseDataBillingDocumentsItem" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          billing_documents: __S(546, __c17, 2),
+          billing_documents: __S(514, __c16, 2),
           current_page: S.Number,
           total_count: S.Number,
           total_pages: S.Number,
@@ -17269,12 +17853,12 @@ function __c17(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(547, __c17, 3),
+          data: __S(515, __c16, 3),
         }),
       ).annotate({ identifier: "BillingDocumentsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17291,28 +17875,41 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "BulkEmploymentImportJobColumnMappingSourceColumnsItem" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           auto_mapped_columns: S.optional(__S(0, __c0, 0)),
           mapping: S.Unknown,
-          source_columns: __S(578, __c18, 2),
+          source_columns: __S(546, __c17, 2),
+          unavailable_columns: S.optional(__S(0, __c0, 0)),
           unmapped_column_count: S.Number,
+          unmapped_columns: S.optional(__S(546, __c17, 2)),
           unmapped_required_field_count: S.Number,
         }),
       ).annotate({ identifier: "BulkEmploymentImportJobColumnMapping" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          added: S.Number,
+          merged: S.Number,
+          mode: S.String,
+          skipped: S.Number,
+        }),
+      ).annotate({ identifier: "BulkEmploymentImportJobLastReuploadSummary" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           slug: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkEmploymentImportJobLegalEntity" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          column_mapping: S.optional(S.NullOr(__S(579, __c18, 3))),
+          can_cancel_reupload: S.optional(S.Boolean),
+          column_data_hash: S.optional(S.NullOr(S.String)),
+          column_mapping: S.optional(S.NullOr(__S(547, __c17, 3))),
           display_name: S.optional(S.String),
           errors: S.optional(__S(0, __c0, 0)),
           failed_count: S.Number,
@@ -17321,9 +17918,11 @@ function __c18(j: number): any {
           imported_count: S.optional(S.Number),
           inserted_at: S.String,
           inserted_by: S.Unknown,
-          legal_entity: S.optional(S.NullOr(__S(580, __c18, 4))),
+          last_reupload_summary: S.optional(S.NullOr(__S(548, __c17, 4))),
+          legal_entity: S.optional(S.NullOr(__S(549, __c17, 5))),
           metadata: S.Unknown,
           name: S.String,
+          pending_reupload_mode: S.optional(S.NullOr(S.String)),
           processed_count: S.Number,
           reupload_merge_fields: S.optional(__S(0, __c0, 0)),
           reupload_modes: S.optional(__S(10688, __c334, 0)),
@@ -17334,15 +17933,15 @@ function __c18(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "BulkEmploymentImportJob" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(581, __c18, 5),
+          data: __S(550, __c17, 6),
         }),
       ).annotate({ identifier: "BulkEmploymentImportJobResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17362,7 +17961,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ImportJobRowsResponseDataAggregatesEmployingCountriesItem" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -17372,7 +17971,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ImportJobRowsResponseDataAggregatesEmployingLegalEntitiesItem" });
     case 4:
-      return S.Array(__S(611, __c19, 3));
+      return S.Array(__S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -17383,6 +17982,13 @@ function __c19(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          count: S.Number,
+          skipped_reason: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ImportJobRowsResponseDataAggregatesLockedFieldOverwrite" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           failed_to_assign: S.Number,
           job_stage: S.String,
           needs_changes: S.Number,
@@ -17391,28 +17997,29 @@ function __c19(j: number): any {
           total: S.Number,
         }),
       ).annotate({ identifier: "ImportJobRowsResponseDataAggregatesTeamMemberCounts" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            employing_countries: S.optional(__S(610, __c19, 2)),
-            employing_legal_entities: S.optional(__S(612, __c19, 4)),
-            employing_legal_entity_counts: S.optional(__S(613, __c19, 5)),
-            team_member_counts: S.optional(__S(614, __c19, 6)),
+            employing_countries: S.optional(__S(578, __c18, 2)),
+            employing_legal_entities: S.optional(__S(580, __c18, 4)),
+            employing_legal_entity_counts: S.optional(__S(581, __c18, 5)),
+            locked_field_overwrite: S.optional(S.NullOr(__S(582, __c18, 6))),
+            team_member_counts: S.optional(__S(583, __c18, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ImportJobRowsResponseDataAggregates" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           error: S.Number,
           valid: S.Number,
         }),
       ).annotate({ identifier: "ImportJobRowsResponseDataCountsByColumnValue" });
-    case 9:
-      return S.Record(S.String, __S(616, __c19, 8));
     case 10:
+      return S.Record(S.String, __S(585, __c18, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           deleted: S.Number,
@@ -17425,50 +18032,53 @@ function __c19(j: number): any {
           unprocessable: S.Number,
         }),
       ).annotate({ identifier: "ImportJobRowsResponseDataCountsByStatus" });
-    case 11:
-      return S.Record(S.String, S.Unknown);
     case 12:
+      return S.Record(S.String, S.Unknown);
+    case 13:
+      return S.Record(S.String, S.Unknown);
+    case 14:
       return S.suspend(() =>
         S.Struct({
           registered: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ImportJobRowMetadataLoginEmailSignalsPersonal" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          personal: S.optional(__S(620, __c19, 12)),
+          personal: S.optional(__S(590, __c18, 14)),
           sso_enforced: S.optional(S.Boolean),
-          work: S.optional(__S(620, __c19, 12)),
+          work: S.optional(__S(590, __c18, 14)),
         }),
       ).annotate({ identifier: "ImportJobRowMetadataLoginEmailSignals" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           invite_outcome: S.optional(S.String),
-          login_email_signals: S.optional(__S(621, __c19, 13)),
+          job_title_eligibility_notes: S.optional(__S(589, __c18, 13)),
+          login_email_signals: S.optional(__S(591, __c18, 15)),
         }),
       ).annotate({ identifier: "ImportJobRowMetadata" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           user_type: S.String,
         }),
       ).annotate({ identifier: "ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesItem" });
-    case 16:
-      return S.Array(__S(623, __c19, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(593, __c18, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          roles: S.optional(__S(624, __c19, 16)),
+          roles: S.optional(__S(594, __c18, 18)),
           slug: S.String,
         }),
       ).annotate({ identifier: "ImportJobRowRowErrorDetailsAmbiguousItemCreatedBy" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           amount: S.NullOr(S.Number),
-          created_by: S.NullOr(__S(625, __c19, 17)),
+          created_by: S.NullOr(__S(595, __c18, 19)),
           effective_date: S.NullOr(S.String),
           employee_identifier: S.NullOr(S.String),
           end_date: S.NullOr(S.String),
@@ -17478,15 +18088,15 @@ function __c19(j: number): any {
           slug: S.String,
         }),
       ).annotate({ identifier: "ImportJobRowRowErrorDetailsAmbiguousItem" });
-    case 19:
-      return S.Array(__S(626, __c19, 18));
-    case 20:
+    case 21:
+      return S.Array(__S(596, __c18, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          ambiguous: S.optional(__S(627, __c19, 19)),
+          ambiguous: S.optional(__S(597, __c18, 21)),
         }),
       ).annotate({ identifier: "ImportJobRowRowErrorDetails" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.NullOr(S.String)),
@@ -17494,66 +18104,66 @@ function __c19(j: number): any {
           messages: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ImportJobRowError" });
-    case 22:
-      return S.Array(__S(629, __c19, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(640, __c20, 0),
-          errors: __S(619, __c19, 11),
-          metadata: S.optional(__S(622, __c19, 14)),
-          row_error_details: S.optional(__S(628, __c19, 20)),
-          row_errors: S.optional(S.Unknown),
-          row_level_errors: S.optional(__S(630, __c19, 22)),
-          row_number: S.Number,
-          schema_variant_id: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.String),
-          submission_errors: S.optional(__S(630, __c19, 22)),
-        }),
-      ).annotate({ identifier: "ImportJobRow" });
     case 24:
-      return S.Array(__S(631, __c19, 23));
+      return S.Array(__S(599, __c18, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          failures: __S(632, __c19, 24),
-          imported: __S(632, __c19, 24),
-          pending: __S(632, __c19, 24),
-          retryable: __S(632, __c19, 24),
-          skipped: __S(632, __c19, 24),
-          successes: __S(632, __c19, 24),
-          unprocessable: __S(632, __c19, 24),
+          data: __S(608, __c19, 0),
+          errors: __S(588, __c18, 12),
+          metadata: S.optional(__S(592, __c18, 16)),
+          row_error_details: S.optional(__S(598, __c18, 22)),
+          row_errors: S.optional(S.Unknown),
+          row_level_errors: S.optional(__S(600, __c18, 24)),
+          row_number: S.Number,
+          schema_variant_id: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          submission_errors: S.optional(__S(600, __c18, 24)),
         }),
-      ).annotate({ identifier: "ImportJobRowsResponseDataRows" });
+      ).annotate({ identifier: "ImportJobRow" });
     case 26:
+      return S.Array(__S(601, __c18, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          aggregates: S.optional(__S(615, __c19, 7)),
-          counts_by_column: S.optional(__S(617, __c19, 9)),
-          counts_by_status: __S(618, __c19, 10),
+          failures: __S(602, __c18, 26),
+          imported: __S(602, __c18, 26),
+          pending: __S(602, __c18, 26),
+          retryable: __S(602, __c18, 26),
+          skipped: __S(602, __c18, 26),
+          successes: __S(602, __c18, 26),
+          unprocessable: __S(602, __c18, 26),
+        }),
+      ).annotate({ identifier: "ImportJobRowsResponseDataRows" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          aggregates: S.optional(__S(584, __c18, 8)),
+          counts_by_column: S.optional(__S(586, __c18, 10)),
+          counts_by_status: __S(587, __c18, 11),
           current_page: S.Number,
           match_count: S.optional(S.Number),
-          ordered_rows: S.optional(__S(9952, __c311, 0)),
-          rows: __S(633, __c19, 25),
+          ordered_rows: S.optional(__S(9984, __c312, 0)),
+          rows: __S(603, __c18, 27),
           total_count: S.Number,
           total_pages: S.Number,
         }),
       ).annotate({ identifier: "ImportJobRowsResponseData" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          data: __S(634, __c19, 26),
+          data: __S(604, __c18, 28),
         }),
       ).annotate({ identifier: "ImportJobRowsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17567,15 +18177,31 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pricing_plan: __S(704, __c22, 0),
+          pricing_plan: __S(672, __c21, 0),
         }),
       ).annotate({ identifier: "CreatePricingPlanResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(673, __c21, 1),
+          data: __S(641, __c20, 1),
         }),
       ).annotate({ identifier: "CreatePricingPlanResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          base_price: __S(704, __c22, 0),
+          end_date: S.NullOr(S.String),
+          id: S.String,
+          price: __S(704, __c22, 0),
+          product: __S(736, __c23, 0),
+          start_date: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "PricingPlan" });
   }
 }
 function __c22(j: number): any {
@@ -17583,29 +18209,13 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          base_price: __S(736, __c23, 0),
-          end_date: S.NullOr(S.String),
-          id: S.String,
-          price: __S(736, __c23, 0),
-          product: __S(768, __c24, 0),
-          start_date: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "PricingPlan" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           amount: S.Number,
-          currency: __S(800, __c25, 0),
+          currency: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "Price" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17621,7 +18231,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Product" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17633,7 +18243,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CurrencyDefinition" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17642,16 +18252,16 @@ function __c26(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/companies", code: 200 })),
       ).annotate({ identifier: "GetCompaniesRequest" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          companies: S.optional(__S(833, __c26, 1)),
+          companies: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "CompaniesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17678,7 +18288,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "Company" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17690,7 +18300,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetCompaniesSchemaRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17700,23 +18310,23 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetCompanyRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          company: S.optional(__S(864, __c27, 0)),
+          company: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "CompanyResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(960, __c30, 0),
+          data: __S(928, __c29, 0),
         }),
       ).annotate({ identifier: "CompanyResponse" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17733,22 +18343,22 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "CompanyAction" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(961, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(994, __c31, 2)),
+          actions: S.optional(__S(962, __c30, 2)),
         }),
       ).annotate({ identifier: "CompanyActionsResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(995, __c31, 3),
+          data: __S(963, __c30, 3),
         }),
       ).annotate({ identifier: "CompanyActionsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17772,18 +18382,18 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          compliance_profile: __S(1025, __c32, 1),
+          compliance_profile: __S(993, __c31, 1),
         }),
       ).annotate({ identifier: "CompanyComplianceProfileResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1026, __c32, 2)),
+          data: S.optional(__S(994, __c31, 2)),
         }),
       ).annotate({ identifier: "CompanyComplianceProfileResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17804,18 +18414,18 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bill_to_legal_entity_id: S.optional(S.NullOr(S.String)),
-          cost_center_allocations: __S(1090, __c34, 2),
+          cost_center_allocations: __S(1058, __c33, 2),
           employment_id: S.String,
           engaged_by_legal_entity_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EmploymentWithCostCenterAllocations" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          employments: S.optional(__S(1058, __c33, 2)),
+          employments: S.optional(__S(1026, __c32, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -17823,12 +18433,12 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1059, __c33, 3)),
+          data: S.optional(__S(1027, __c32, 3)),
         }),
       ).annotate({ identifier: "ListCompanyCostCenterAllocationsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17841,7 +18451,7 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cost_center: __S(1088, __c34, 0),
+          cost_center: __S(1056, __c33, 0),
           effective_from: S.NullOr(S.String),
           effective_to: S.NullOr(S.String),
           id: S.String,
@@ -17850,10 +18460,10 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "CostCenterAllocation" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1057, __c33, 1));
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17867,22 +18477,22 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "CompanyCurrency" });
     case 2:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          company_currencies: __S(1122, __c35, 2),
+          company_currencies: __S(1090, __c34, 2),
         }),
       ).annotate({ identifier: "CompanyCurrenciesResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1123, __c35, 3)),
+          data: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "CompanyCurrenciesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17898,21 +18508,21 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          company_departments: __S(1153, __c36, 1),
+          company_departments: __S(1121, __c35, 1),
         }),
       ).annotate({ identifier: "ListCompanyDepartmentsPaginatedResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.Number,
-          data: __S(1154, __c36, 2),
+          data: __S(1122, __c35, 2),
           total_count: S.Number,
           total_pages: S.Number,
         }),
       ).annotate({ identifier: "ListCompanyDepartmentsPaginatedResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17937,12 +18547,12 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1185, __c37, 1),
+          data: __S(1153, __c36, 1),
         }),
       ).annotate({ identifier: "OnboardingReservesStatusResponse" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17965,12 +18575,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "CompanyLegalEntity" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          legal_entities: S.optional(__S(1218, __c38, 2)),
+          legal_entities: S.optional(__S(1186, __c37, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -17978,12 +18588,12 @@ function __c38(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1219, __c38, 3)),
+          data: S.optional(__S(1187, __c37, 3)),
         }),
       ).annotate({ identifier: "ListCompanyLegalEntitiesResponse" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17996,7 +18606,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateContractAmendmentRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18013,7 +18623,7 @@ function __c40(j: number): any {
           effective_date: S.optional(S.String),
           reason_for_change: S.optional(S.NullOr(S.String)),
           reason_for_change_description: S.optional(S.NullOr(S.String)),
-          salary_decrease_details: S.optional(S.NullOr(__S(1280, __c40, 0))),
+          salary_decrease_details: S.optional(S.NullOr(__S(1248, __c39, 0))),
         }),
       ).annotate({ identifier: "RequestDetails" });
     case 2:
@@ -18023,7 +18633,7 @@ function __c40(j: number): any {
           changes: S.Unknown,
           employment_id: S.String,
           id: S.String,
-          request_details: __S(1281, __c40, 1),
+          request_details: __S(1249, __c39, 1),
           requested_by: S.String,
           status: S.String,
           submitted_at: S.String,
@@ -18033,18 +18643,18 @@ function __c40(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contract_amendment: __S(1282, __c40, 2),
+          contract_amendment: __S(1250, __c39, 2),
         }),
       ).annotate({ identifier: "ContractAmendmentResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1283, __c40, 3)),
+          data: S.optional(__S(1251, __c39, 3)),
         }),
       ).annotate({ identifier: "ContractAmendmentResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18061,7 +18671,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetCompanyLegalEntityAdministrativeDetailsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18071,7 +18681,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetCompanyLegalEntityAdministrativeDetailsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18100,7 +18710,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cor: S.Boolean,
-          ineligibility_reasons: __S(1377, __c43, 1),
+          ineligibility_reasons: __S(1345, __c42, 1),
           plus: S.Boolean,
           standard: S.Boolean,
         }),
@@ -18108,19 +18718,19 @@ function __c43(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contractor_eligibility: __S(1378, __c43, 2),
+          contractor_eligibility: __S(1346, __c42, 2),
           cor_supported_country_codes: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ContractorEligibilityResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1379, __c43, 3),
+          data: __S(1347, __c42, 3),
         }),
       ).annotate({ identifier: "ContractorEligibilityResponse" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18151,7 +18761,7 @@ function __c44(j: number): any {
         S.Struct({
           category: S.String,
           code: S.String,
-          custom_configuration: S.optional(__S(1409, __c44, 1)),
+          custom_configuration: S.optional(__S(1377, __c43, 1)),
           description: S.optional(S.NullOr(S.String)),
           external_import_code: S.optional(S.NullOr(S.String)),
           name: S.String,
@@ -18160,12 +18770,12 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "PayCode" });
     case 3:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1378, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          pay_codes: S.optional(__S(1411, __c44, 3)),
+          pay_codes: S.optional(__S(1379, __c43, 3)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -18173,12 +18783,12 @@ function __c44(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1412, __c44, 4)),
+          data: S.optional(__S(1380, __c43, 4)),
         }),
       ).annotate({ identifier: "ListPayCodesResponse" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18188,7 +18798,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetCompanyManagerRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18198,7 +18808,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CompanyManagerResponse" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18213,7 +18823,7 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          company_managers: S.optional(__S(1505, __c47, 1)),
+          company_managers: S.optional(__S(1473, __c46, 1)),
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
@@ -18222,12 +18832,12 @@ function __c47(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1506, __c47, 2)),
+          data: S.optional(__S(1474, __c46, 2)),
         }),
       ).annotate({ identifier: "CompanyManagersResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18238,22 +18848,22 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "GetCompanyPricingPlansRequest" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pricing_plans: __S(1537, __c48, 1),
+          pricing_plans: __S(1505, __c47, 1),
         }),
       ).annotate({ identifier: "ListCompanyPricingPlansResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1538, __c48, 2),
+          data: __S(1506, __c47, 2),
         }),
       ).annotate({ identifier: "ListCompanyPricingPlansResponse" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18266,28 +18876,28 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          base_price: __S(736, __c23, 0),
+          base_price: __S(704, __c22, 0),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "ProductPrice" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          product_prices: __S(1570, __c49, 2),
+          product_prices: __S(1538, __c48, 2),
         }),
       ).annotate({ identifier: "ListProductPricesResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1571, __c49, 3),
+          data: __S(1539, __c48, 3),
         }),
       ).annotate({ identifier: "ListProductPricesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18302,12 +18912,12 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1601, __c50, 1),
+          data: __S(1569, __c49, 1),
         }),
       ).annotate({ identifier: "ListWebhookCallbacksResponse" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18317,7 +18927,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetContractAmendmentRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18342,11 +18952,11 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "MinimalContractAmendment" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contract_amendments: S.optional(__S(1666, __c52, 2)),
+          contract_amendments: S.optional(__S(1634, __c51, 2)),
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
@@ -18355,12 +18965,12 @@ function __c52(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1667, __c52, 3)),
+          data: S.optional(__S(1635, __c51, 3)),
         }),
       ).annotate({ identifier: "ListContractAmendmentResponse" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18381,12 +18991,12 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1697, __c53, 1)),
+          data: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "ContractAmendmentAutomatableResponse" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18399,7 +19009,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetContractAmendmentsSchemaRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18410,18 +19020,18 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contractor_invoice: __S(1795, __c56, 3),
+          contractor_invoice: __S(1763, __c55, 3),
         }),
       ).annotate({ identifier: "ContractorInvoiceResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1761, __c55, 1),
+          data: __S(1729, __c54, 1),
         }),
       ).annotate({ identifier: "ContractorInvoiceResponse" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18432,7 +19042,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "ContractorInvoiceItem" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1760, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18458,11 +19068,11 @@ function __c56(j: number): any {
           employment_id: S.optional(S.String),
           fx_rate: S.optional(S.NullOr(S.Number)),
           id: S.String,
-          items: __S(1793, __c56, 1),
+          items: __S(1761, __c55, 1),
           number: S.optional(S.NullOr(S.String)),
           paid_out_at: S.optional(S.NullOr(S.String)),
           pay_out_method: S.optional(S.NullOr(S.String)),
-          payment: S.optional(S.NullOr(__S(1794, __c56, 2))),
+          payment: S.optional(S.NullOr(__S(1762, __c55, 2))),
           processing_fee: S.optional(S.NullOr(S.Number)),
           processing_fee_currency: S.optional(S.NullOr(S.String)),
           processing_fee_payer: S.optional(S.NullOr(S.String)),
@@ -18475,7 +19085,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ContractorInvoice" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18498,11 +19108,11 @@ function __c57(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contractor-invoices", code: 200 })),
       ).annotate({ identifier: "GetContractorInvoicesRequest" });
     case 1:
-      return S.Array(__S(1795, __c56, 3));
+      return S.Array(__S(1763, __c55, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contractor_invoices: S.optional(__S(1825, __c57, 1)),
+          contractor_invoices: S.optional(__S(1793, __c56, 1)),
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
@@ -18511,12 +19121,12 @@ function __c57(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1826, __c57, 2)),
+          data: S.optional(__S(1794, __c56, 2)),
         }),
       ).annotate({ identifier: "ListContractorInvoicesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18526,16 +19136,16 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetContractorInvoiceScheduleRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
           employment_id: S.String,
           id: S.String,
-          items: __S(9985, __c312, 1),
+          items: __S(10017, __c313, 1),
           next_invoice_at: S.optional(S.NullOr(S.String)),
           note: S.optional(S.NullOr(S.String)),
           nr_occurrences: S.optional(S.NullOr(S.Number)),
@@ -18548,23 +19158,23 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ContractorInvoiceSchedule" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contractor_invoice_schedule: __S(1888, __c59, 0),
+          contractor_invoice_schedule: __S(1856, __c58, 0),
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1920, __c60, 0),
+          data: __S(1888, __c59, 0),
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleResponse" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18584,11 +19194,11 @@ function __c61(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contractor-invoice-schedules", code: 200 })),
       ).annotate({ identifier: "GetContractorInvoiceSchedulesRequest" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contractor_invoice_schedules: S.optional(__S(1953, __c61, 1)),
+          contractor_invoice_schedules: S.optional(__S(1921, __c60, 1)),
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
@@ -18597,9 +19207,54 @@ function __c61(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1954, __c61, 2)),
+          data: S.optional(__S(1922, __c60, 2)),
         }),
       ).annotate({ identifier: "ListContractorInvoiceSchedulesResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/v1/contractor-invoice-sequence", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetContractorInvoiceSequenceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          custom_field_definition_slug: S.optional(S.String),
+          format: S.optional(S.String),
+          initial_number: S.optional(S.Number),
+          padding: S.optional(S.Number),
+          reset_frequency: S.optional(S.String),
+          scope: S.optional(S.String),
+          text: S.optional(S.String),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ContractorInvoiceSequenceField" });
+    case 2:
+      return S.Array(__S(1953, __c61, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          fields: __S(1954, __c61, 2),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ContractorInvoiceSequence" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          contractor_invoice_sequence: __S(1955, __c61, 3),
+        }),
+      ).annotate({ identifier: "ContractorInvoiceSequenceResponseData" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1956, __c61, 4),
+        }),
+      ).annotate({ identifier: "ContractorInvoiceSequenceResponse" });
   }
 }
 function __c62(j: number): any {
@@ -18780,11 +19435,11 @@ function __c67(j: number): any {
         S.Struct({
           company_product: __S(2145, __c67, 1),
           company_product_discount: __S(2146, __c67, 2),
-          currency: __S(6592, __c206, 0),
-          eligibility_questionnaire: S.optional(__S(2624, __c82, 0)),
+          currency: __S(6560, __c205, 0),
+          eligibility_questionnaire: S.optional(__S(2592, __c81, 0)),
           is_termination_fees_enabled: S.optional(S.Boolean),
           price: __S(2147, __c67, 3),
-          product: __S(768, __c24, 0),
+          product: __S(736, __c23, 0),
           total_amount: S.NullOr(S.Number),
           total_discount: S.optional(S.Number),
           total_in_advance: S.optional(S.Number),
@@ -18802,6 +19457,32 @@ function __c67(j: number): any {
   }
 }
 function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.NullOr(S.String),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
+          employment_id: S.String,
+          items: __S(10017, __c313, 1),
+          note: S.optional(S.String),
+          nr_occurrences: S.optional(S.Number),
+          number: S.optional(S.String),
+          periodicity: S.String,
+          start_date: S.String,
+        }),
+      ).annotate({ identifier: "ContractorInvoiceScheduleCreateParams" });
+    case 1:
+      return S.Array(__S(2176, __c68, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contractor_invoice_schedules: __S(2177, __c68, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/contractor-invoice-schedules", code: 200 })),
+      ).annotate({ identifier: "CreateContractorInvoiceScheduleRequest" });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18824,32 +19505,6 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CorTerminationRequestResponse" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          currency: S.NullOr(S.String),
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
-          employment_id: S.String,
-          items: __S(9985, __c312, 1),
-          note: S.optional(S.String),
-          nr_occurrences: S.optional(S.Number),
-          number: S.optional(S.String),
-          periodicity: S.String,
-          start_date: S.String,
-        }),
-      ).annotate({ identifier: "ContractorInvoiceScheduleCreateParams" });
-    case 1:
-      return S.Array(__S(2208, __c69, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          contractor_invoice_schedules: __S(2209, __c69, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/contractor-invoice-schedules", code: 200 })),
-      ).annotate({ identifier: "CreateContractorInvoiceScheduleRequest" });
-  }
-}
 function __c70(j: number): any {
   switch (j) {
     case 0:
@@ -18865,7 +19520,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "GetContractorsEmploymentRatesRequest" });
     case 1:
-      return S.Array(__S(11617, __c363, 1));
+      return S.Array(__S(11618, __c363, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18920,14 +19575,14 @@ function __c72(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/cost-calculator/countries", code: 200 })),
       ).annotate({ identifier: "GetCostCalculatorCountriesRequest" });
     case 1:
-      return S.Array(__S(6529, __c204, 1));
+      return S.Array(__S(6497, __c203, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
           child_regions: __S(2305, __c72, 1),
           code: S.String,
-          currency: __S(6592, __c206, 0),
+          currency: __S(6560, __c205, 0),
           has_additional_fields: S.optional(S.Boolean),
           name: S.String,
           original_country_slug: S.String,
@@ -18962,7 +19617,7 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(640, __c20, 0),
+          properties: __S(608, __c19, 0),
           required: S.optional(__S(0, __c0, 0)),
           x_jsf_order: S.optional(__S(0, __c0, 0).pipe(T.Body("x-jsf-order"))),
         }),
@@ -19033,7 +19688,7 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schema: __S(640, __c20, 0),
+          schema: __S(608, __c19, 0),
           version: S.Number,
         }),
       ).annotate({ identifier: "ContractorContractDetailsResponseData" });
@@ -19099,42 +19754,13 @@ function __c79(j: number): any {
 function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          company_id: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields", code: 200 })),
-      ).annotate({ identifier: "GetCustomFieldsRequest" });
-    case 1:
-      return S.Array(__S(9088, __c284, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          current_page: S.optional(S.Number),
-          custom_fields: S.optional(__S(2561, __c80, 1)),
-          total_count: S.optional(S.Number),
-          total_pages: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListEmploymentCustomFieldsResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(2562, __c80, 2)),
-        }),
-      ).annotate({ identifier: "ListEmploymentCustomFieldsResponse" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
           json_schema_version: S.optional(S.Unknown.pipe(T.Query())),
           employment_slug: S.String,
-          responses: __S(2592, __c81, 0),
+          responses: __S(2560, __c80, 0),
           type: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/contractors/eligibility-questionnaire", code: 200 }),
@@ -19143,12 +19769,12 @@ function __c81(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2624, __c82, 0),
+          data: __S(2592, __c81, 0),
         }),
       ).annotate({ identifier: "EligibilityQuestionnaireResponse" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19161,6 +19787,35 @@ function __c82(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "EligibilityQuestionnaire" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          company_id: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields", code: 200 })),
+      ).annotate({ identifier: "GetCustomFieldsRequest" });
+    case 1:
+      return S.Array(__S(9056, __c283, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          current_page: S.optional(S.Number),
+          custom_fields: S.optional(__S(2625, __c82, 1)),
+          total_count: S.optional(S.Number),
+          total_pages: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListEmploymentCustomFieldsResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(2626, __c82, 2)),
+        }),
+      ).annotate({ identifier: "ListEmploymentCustomFieldsResponse" });
   }
 }
 function __c83(j: number): any {
@@ -19208,13 +19863,26 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          employment_id: S.optional(S.String.pipe(T.Query())),
-          employment_model: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/direct-offboardings", code: 200 })),
-      ).annotate({ identifier: "GetDirectOffboardingsRequest" });
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/direct-offboardings/{id}", code: 200 })),
+      ).annotate({ identifier: "GetDirectOffboardingRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          direct_offboarding: __S(2752, __c86, 0),
+        }),
+      ).annotate({ identifier: "DirectOffboardingResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(2721, __c85, 1),
+        }),
+      ).annotate({ identifier: "DirectOffboardingResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           employment_id: S.String,
@@ -19226,26 +19894,39 @@ function __c85(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "DirectOffboarding" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.optional(S.String.pipe(T.Query())),
+          employment_model: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/direct-offboardings", code: 200 })),
+      ).annotate({ identifier: "GetDirectOffboardingsRequest" });
+    case 1:
+      return S.Array(__S(2752, __c86, 0));
     case 2:
-      return S.Array(__S(2721, __c85, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          direct_offboardings: S.optional(__S(2722, __c85, 2)),
+          direct_offboardings: S.optional(__S(2785, __c87, 1)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListDirectOffboardingResponseData" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(2723, __c85, 3)),
+          data: S.optional(__S(2786, __c87, 2)),
         }),
       ).annotate({ identifier: "ListDirectOffboardingResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19255,20 +19936,20 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetEmployeeAddressRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address_details: S.optional(S.NullOr(S.Unknown)),
           administrative_details: S.optional(S.Unknown),
-          bank_account_details: S.optional(__S(2784, __c87, 0)),
+          bank_account_details: S.optional(__S(2848, __c89, 0)),
           basic_information: S.optional(S.Unknown),
           billing_address_details: S.optional(S.Unknown),
           contract_details: S.optional(S.Unknown),
@@ -19286,18 +19967,18 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          employment: S.optional(__S(2816, __c88, 0)),
+          employment: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "EmploymentDetailsOnlyResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2817, __c88, 1),
+          data: __S(2881, __c90, 1),
         }),
       ).annotate({ identifier: "EmploymentDetailsOnlyResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19307,7 +19988,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetEmployeeBankAccountRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19315,7 +19996,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetEmployeeCurrentRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19337,18 +20018,18 @@ function __c91(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(2913, __c91, 1)),
+          document: S.optional(__S(2977, __c93, 1)),
         }),
       ).annotate({ identifier: "DownloadDocumentResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2914, __c91, 2),
+          data: __S(2978, __c93, 2),
         }),
       ).annotate({ identifier: "DownloadDocumentResponse" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19366,7 +20047,7 @@ function __c92(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          documents: S.optional(__S(2976, __c93, 0)),
+          documents: S.optional(__S(3040, __c95, 0)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -19374,18 +20055,18 @@ function __c92(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(2945, __c92, 1)),
+          data: S.optional(__S(3009, __c94, 1)),
         }),
       ).annotate({ identifier: "ListDocumentsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9440, __c295, 0));
+      return S.Array(__S(9472, __c296, 0));
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19395,7 +20076,39 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetEmployeeEmergencyContactRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/contractors/employments/{employment_id}/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateContractorsEmploymentActivateRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SuccessResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(3136, __c98, 0),
+        }),
+      ).annotate({ identifier: "SuccessResponse" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19406,7 +20119,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetEmployeeExpenseCategoriesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19423,7 +20136,7 @@ function __c96(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           instructions: S.optional(S.NullOr(S.String)),
           is_selectable: S.optional(S.Boolean),
-          parent: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          parent: S.optional(S.NullOr(__S(3200, __c100, 0))),
           prompt: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.String),
           slug: S.optional(S.String),
@@ -19432,16 +20145,16 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ExpenseCategoryNode" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3074, __c96, 2)),
+          data: S.optional(__S(3202, __c100, 2)),
         }),
       ).annotate({ identifier: "ListExpenseCategoriesResponse" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19449,39 +20162,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetEmployeeExpensesRequest" });
   }
 }
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/contractors/employments/{employment_id}/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateContractorsEmploymentActivateRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SuccessResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3168, __c99, 0),
-        }),
-      ).annotate({ identifier: "SuccessResponse" });
-  }
-}
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19496,12 +20177,12 @@ function __c100(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3201, __c100, 1),
+          data: __S(3265, __c102, 1),
         }),
       ).annotate({ identifier: "EmployeeFederalTaxesResponse" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19509,7 +20190,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetEmployeeIncentivesRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19517,7 +20198,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetEmployeeLeavePoliciesRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19529,16 +20210,16 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "LeavePolicyDetails" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3360, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3297, __c103, 1),
+          data: __S(3361, __c105, 1),
         }),
       ).annotate({ identifier: "ListLeavePoliciesDetailsResponse" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19548,16 +20229,19 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetEmployeeLeavePoliciesSummaryRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          breakdown: S.optional(S.Unknown),
           days: S.Number,
           hours: S.Number,
           type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LimitedDaysandHoursResponse" });
+      ).annotate({ identifier: "LeavePolicySummaryBooked" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -19571,31 +20255,86 @@ function __c105(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annual_balance: S.Unknown,
-          annual_entitlement: S.Unknown,
-          balance: S.Unknown,
-          booked: __S(3360, __c105, 0),
-          current_entitlement: S.Unknown,
-          leave_policy: __S(3361, __c105, 1),
-          pending_approval: __S(3360, __c105, 0),
-          taken: __S(3360, __c105, 0),
-          upcoming_approved: __S(3360, __c105, 0),
-          upcoming_requested: __S(3360, __c105, 0),
-          used: __S(3360, __c105, 0),
-          working_hours_per_day: S.Number,
+          breakdown: S.optional(S.Unknown),
+          days: S.Number,
+          hours: S.Number,
+          type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LeavePolicySummary" });
+      ).annotate({ identifier: "LeavePolicySummaryPendingApproval" });
     case 3:
-      return S.Array(__S(3362, __c105, 2));
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: S.optional(S.Unknown),
+          days: S.Number,
+          hours: S.Number,
+          type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LeavePolicySummaryTaken" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3363, __c105, 3),
+          breakdown: S.optional(S.Unknown),
+          days: S.Number,
+          hours: S.Number,
+          type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LeavePolicySummaryUpcomingApproved" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: S.optional(S.Unknown),
+          days: S.Number,
+          hours: S.Number,
+          type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LeavePolicySummaryUpcomingRequested" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown: S.optional(S.Unknown),
+          days: S.Number,
+          hours: S.Number,
+          type: S.String,
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LeavePolicySummaryUsed" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          annual_balance: S.Unknown,
+          annual_entitlement: S.Unknown,
+          balance: S.Unknown,
+          booked: __S(3424, __c107, 0),
+          current_entitlement: S.Unknown,
+          leave_policy: __S(3425, __c107, 1),
+          pending_approval: __S(3426, __c107, 2),
+          taken: __S(3427, __c107, 3),
+          upcoming_approved: __S(3428, __c107, 4),
+          upcoming_requested: __S(3429, __c107, 5),
+          used: __S(3430, __c107, 6),
+          working_hours_per_day: S.Number,
+        }),
+      ).annotate({ identifier: "LeavePolicySummary" });
+    case 8:
+      return S.Array(__S(3431, __c107, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(3432, __c107, 8),
         }),
       ).annotate({ identifier: "ListLeavePoliciesSummaryResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19627,21 +20366,21 @@ function __c106(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          currency: S.optional(S.NullOr(__S(3393, __c106, 1))),
+          currency: S.optional(S.NullOr(__S(3457, __c108, 1))),
           id: S.String,
           name: S.String,
-          net_salary: S.optional(S.NullOr(__S(3394, __c106, 2))),
+          net_salary: S.optional(S.NullOr(__S(3458, __c108, 2))),
           period_end: S.optional(S.NullOr(S.String)),
           period_start: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PayslipFile" });
     case 4:
-      return S.Array(__S(3395, __c106, 3));
+      return S.Array(__S(3459, __c108, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          payslip_files: S.optional(__S(3396, __c106, 4)),
+          payslip_files: S.optional(__S(3460, __c108, 4)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -19649,12 +20388,12 @@ function __c106(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3397, __c106, 5)),
+          data: S.optional(__S(3461, __c108, 5)),
         }),
       ).annotate({ identifier: "ListPayslipFilesResponse" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19692,20 +20431,20 @@ function __c107(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          file: __S(3425, __c107, 1),
+          file: __S(3489, __c109, 1),
           has_employee_payroll_overviews: S.Boolean,
           payroll_output: S.optional(S.NullOr(S.Unknown)),
-          payroll_run: S.optional(S.NullOr(__S(3426, __c107, 2))),
-          payslip: __S(3427, __c107, 3),
+          payroll_run: S.optional(S.NullOr(__S(3490, __c109, 2))),
+          payslip: __S(3491, __c109, 3),
         }),
       ).annotate({ identifier: "PayslipItem" });
     case 5:
-      return S.Array(__S(3428, __c107, 4));
+      return S.Array(__S(3492, __c109, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          payslips: S.optional(__S(3429, __c107, 5)),
+          payslips: S.optional(__S(3493, __c109, 5)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -19713,12 +20452,12 @@ function __c107(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3430, __c107, 6)),
+          data: S.optional(__S(3494, __c109, 6)),
         }),
       ).annotate({ identifier: "ListEmployeePayslipsResponse" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19728,7 +20467,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetEmployeePersonalDetailsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19738,63 +20477,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetEmployeePersonalInformationRequest" });
   }
 }
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jurisdiction: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/employee/state-taxes/{jurisdiction}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetEmployeeStateTaxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          state_taxes: S.NullOr(S.Unknown),
-        }),
-      ).annotate({ identifier: "EmployeeStateTaxesResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3521, __c110, 1),
-        }),
-      ).annotate({ identifier: "EmployeeStateTaxesResponse" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/employee/timeoff", code: 200 })),
-      ).annotate({ identifier: "GetEmployeeTimeoffRequest" });
-  }
-}
 function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9635, __c301, 3));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          current_page: S.optional(S.Number),
-          timeoffs: S.optional(__S(3584, __c112, 0)),
-          total_count: S.optional(S.Number),
-          total_pages: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListTimeoffResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(3585, __c112, 1)),
-        }),
-      ).annotate({ identifier: "ListTimeoffResponse" });
-  }
-}
-function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19820,18 +20503,74 @@ function __c113(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contract_document: __S(3617, __c113, 1),
+          contract_document: __S(3585, __c112, 1),
         }),
       ).annotate({ identifier: "CreateContractDocumentResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3618, __c113, 2),
+          data: __S(3586, __c112, 2),
         }),
       ).annotate({ identifier: "CreateContractDocumentResponse" });
   }
 }
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jurisdiction: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/employee/state-taxes/{jurisdiction}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetEmployeeStateTaxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          state_taxes: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "EmployeeStateTaxesResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(3617, __c113, 1),
+        }),
+      ).annotate({ identifier: "EmployeeStateTaxesResponse" });
+  }
+}
 function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/employee/timeoff", code: 200 })),
+      ).annotate({ identifier: "GetEmployeeTimeoffRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(9667, __c302, 3));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          current_page: S.optional(S.Number),
+          timeoffs: S.optional(__S(3680, __c115, 0)),
+          total_count: S.optional(S.Number),
+          total_pages: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListTimeoffResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(3681, __c115, 1)),
+        }),
+      ).annotate({ identifier: "ListTimeoffResponse" });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19842,7 +20581,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetEmployeeTimesheetsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19858,18 +20597,20 @@ function __c115(j: number): any {
           personal_details: S.Unknown,
           short_id: S.optional(S.String),
           department: S.optional(S.NullOr(S.String)),
+          sow_rolled_over: S.optional(S.NullOr(S.Boolean)),
           manager_email: S.NullOr(S.String),
           provisional_start_date: S.optional(S.String),
           address_details: S.Unknown,
-          pricing_plan_details: __S(3712, __c116, 0),
+          pricing_plan_details: __S(3776, __c118, 0),
           full_name: S.String,
           partner_external_id: S.optional(S.NullOr(S.String)),
           type: S.String,
-          contractor_settings: S.optional(S.NullOr(__S(3713, __c116, 1))),
+          contractor_settings: S.optional(S.NullOr(__S(3777, __c118, 1))),
           employment_lifecycle_stage: S.String,
+          eor_hiring_model: S.optional(S.NullOr(S.String)),
           administrative_details: S.Unknown,
           contractor_type: S.optional(S.NullOr(S.String)),
-          contractor_rate: S.optional(S.NullOr(__S(3716, __c116, 4))),
+          contractor_rate: S.optional(S.NullOr(__S(3780, __c118, 4))),
           company_id: S.String,
           expiration_date: S.optional(S.NullOr(S.String)),
           work_address_details: S.Unknown,
@@ -19884,6 +20625,7 @@ function __c115(j: number): any {
           probation_period_end_date: S.optional(S.String),
           department_id: S.optional(S.NullOr(S.String)),
           manager: S.optional(S.String),
+          requires_engagement_agreement_details: S.optional(S.Boolean),
           login_email: S.String,
           external_id: S.optional(S.NullOr(S.String)),
           employment_model: S.NullOr(S.String),
@@ -19891,35 +20633,37 @@ function __c115(j: number): any {
           country: S.NullOr(__S(12994, __c406, 2)),
           user_status: S.optional(S.String),
           seniority_date: S.optional(S.String),
-          bank_account_details: __S(2784, __c87, 0),
-          files: __S(2976, __c93, 0),
+          bank_account_details: __S(2848, __c89, 0),
+          files: __S(3040, __c95, 0),
+          is_offboarding_service_charge_waived: S.optional(S.NullOr(S.Boolean)),
           active_contract_id: S.optional(S.String),
           engaged_by_legal_entity_id: S.optional(S.NullOr(S.String)),
           billing_address_details: S.Unknown,
-          onboarding_tasks: __S(3718, __c116, 6),
+          onboarding_tasks: __S(3782, __c118, 6),
           contract_details: S.Unknown,
           emergency_contact_details: S.Unknown,
           eligible_for_onboarding_cancellation: S.Boolean,
           manager_employment_id: S.NullOr(S.String),
           created_at: S.String,
+          emails_blocked_by_integration: S.optional(S.Boolean),
           termination_date: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EmploymentShowResponseDataEmployment" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          employment: S.optional(__S(3681, __c115, 1)),
+          employment: S.optional(__S(3745, __c117, 1)),
         }),
       ).annotate({ identifier: "EmploymentShowResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3682, __c115, 2),
+          data: __S(3746, __c117, 2),
         }),
       ).annotate({ identifier: "EmploymentShowResponse" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19946,13 +20690,13 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           amount: S.optional(S.Number),
-          currency: S.optional(__S(3714, __c116, 2)),
+          currency: S.optional(__S(3778, __c118, 2)),
         }),
       ).annotate({ identifier: "EmploymentShowResponseDataEmploymentContractorRateAmount" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(3715, __c116, 3)),
+          amount: S.optional(__S(3779, __c118, 3)),
           pay_frequency: S.optional(S.NullOr(S.String)),
           slug: S.optional(S.String),
           type: S.optional(S.String),
@@ -19968,20 +20712,20 @@ function __c116(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          address_details: __S(3717, __c116, 5),
-          administrative_details: __S(3717, __c116, 5),
-          bank_account_details: __S(3717, __c116, 5),
-          billing_address_details: __S(3717, __c116, 5),
-          contract_details: __S(3717, __c116, 5),
-          emergency_contact_details: __S(3717, __c116, 5),
-          employment_document_details: __S(3717, __c116, 5),
-          personal_details: __S(3717, __c116, 5),
-          pricing_plan_details: __S(3717, __c116, 5),
+          address_details: __S(3781, __c118, 5),
+          administrative_details: __S(3781, __c118, 5),
+          bank_account_details: __S(3781, __c118, 5),
+          billing_address_details: __S(3781, __c118, 5),
+          contract_details: __S(3781, __c118, 5),
+          emergency_contact_details: __S(3781, __c118, 5),
+          employment_document_details: __S(3781, __c118, 5),
+          personal_details: __S(3781, __c118, 5),
+          pricing_plan_details: __S(3781, __c118, 5),
         }),
       ).annotate({ identifier: "OnboardingTasks" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20006,11 +20750,11 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "BackgroundChecksBackgroundCheckRequestItem" });
     case 2:
-      return S.Array(__S(3745, __c117, 1));
+      return S.Array(__S(3809, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          background_check_request_items: __S(3746, __c117, 2),
+          background_check_request_items: __S(3810, __c119, 2),
           created_at: S.String,
           employment_id: S.String,
           id: S.String,
@@ -20020,18 +20764,18 @@ function __c117(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          background_check: __S(3747, __c117, 3),
+          background_check: __S(3811, __c119, 3),
         }),
       ).annotate({ identifier: "BackgroundChecksBackgroundCheckResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3748, __c117, 4),
+          data: __S(3812, __c119, 4),
         }),
       ).annotate({ identifier: "BackgroundChecksBackgroundCheckResponse" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20049,7 +20793,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetEmploymentBasicInformationRequest" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20075,7 +20819,7 @@ function __c119(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filter: S.NullOr(__S(3809, __c119, 1)),
+          filter: S.NullOr(__S(3873, __c121, 1)),
           name: S.NullOr(S.String),
           slug: S.String,
         }),
@@ -20091,21 +20835,22 @@ function __c119(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          benefit_group: __S(3810, __c119, 2),
-          benefit_tier: S.NullOr(__S(3811, __c119, 3)),
+          benefit_group: __S(3874, __c121, 2),
+          benefit_tier: S.NullOr(__S(3875, __c121, 3)),
         }),
       ).annotate({ identifier: "UnifiedEmploymentBenefitOffer" });
     case 5:
-      return S.Array(__S(3812, __c119, 4));
+      return S.Array(__S(3876, __c121, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3813, __c119, 5),
+          benefits_valid: S.Boolean,
+          data: __S(3877, __c121, 5),
         }),
       ).annotate({ identifier: "EmploymentsBenefitOffersListBenefitOffers" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20122,7 +20867,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetEmploymentBenefitOffersSchemaRequest" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20146,7 +20891,7 @@ function __c121(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(640, __c20, 0)),
+          attributes: S.optional(__S(608, __c19, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
         }),
@@ -20154,29 +20899,29 @@ function __c121(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(640, __c20, 0)),
-          company_structure: S.optional(__S(3873, __c121, 1)),
+          attributes: S.optional(__S(608, __c19, 0)),
+          company_structure: S.optional(__S(3937, __c123, 1)),
           id: S.String,
-          parent: S.optional(S.NullOr(__S(3874, __c121, 2))),
+          parent: S.optional(S.NullOr(__S(3938, __c123, 2))),
         }),
       ).annotate({ identifier: "CompanyStructureNode" });
     case 4:
-      return S.Array(__S(3875, __c121, 3));
+      return S.Array(__S(3939, __c123, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          company_structure_nodes: __S(3876, __c121, 4),
+          company_structure_nodes: __S(3940, __c123, 4),
         }),
       ).annotate({ identifier: "CompanyStructureNodesResponseData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3877, __c121, 5),
+          data: __S(3941, __c123, 5),
         }),
       ).annotate({ identifier: "CompanyStructureNodesResponse" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20208,25 +20953,25 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "ListSignatory" });
     case 2:
-      return S.Array(__S(3905, __c122, 1));
+      return S.Array(__S(3969, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           inserted_at: S.String,
           name: S.NullOr(S.String),
-          signatories: __S(3906, __c122, 2),
+          signatories: __S(3970, __c124, 2),
           status: S.String,
           type: S.String,
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ContractDocumentItem" });
     case 4:
-      return S.Array(__S(3907, __c122, 3));
+      return S.Array(__S(3971, __c124, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          contract_documents: __S(3908, __c122, 4),
+          contract_documents: __S(3972, __c124, 4),
           current_page: S.Number,
           total_count: S.Number,
           total_pages: S.Number,
@@ -20235,95 +20980,9 @@ function __c122(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3909, __c122, 5),
+          data: __S(3973, __c124, 5),
         }),
       ).annotate({ identifier: "IndexContractDocumentsResponse" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Query()),
-          only_active: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/employment-contracts", code: 200 })),
-      ).annotate({ identifier: "GetEmploymentContractsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.NullOr(S.Number),
-          currency_code: S.NullOr(S.String),
-          wage_type: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "Compensation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          activated_at: S.String,
-          amendment_contract_id: S.NullOr(S.String),
-          compensation: __S(3937, __c123, 1),
-          contract_details: S.Unknown,
-          contract_id: S.String,
-          country: __S(12994, __c406, 2),
-          effective_at: S.String,
-          job_title: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "EmploymentContract" });
-    case 3:
-      return S.Array(__S(3938, __c123, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          employment_contracts: __S(3939, __c123, 3),
-        }),
-      ).annotate({ identifier: "ListEmploymentContractResponseData" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3940, __c123, 4),
-        }),
-      ).annotate({ identifier: "ListEmploymentContractResponse" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/employment-contracts/{employment_id}/pending-changes",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetEmploymentContractsEmploymentPendingChangesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          changes: S.Unknown,
-          contract_id: S.String,
-          effective_at: S.String,
-          pending_action_for_activation: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ContractPendingChanges" });
-    case 2:
-      return S.Array(__S(3969, __c124, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pending_changes: __S(3970, __c124, 2),
-        }),
-      ).annotate({ identifier: "EmploymentContractPendingChangesResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3971, __c124, 3),
-        }),
-      ).annotate({ identifier: "EmploymentContractPendingChangesResponse" });
   }
 }
 function __c125(j: number): any {
@@ -20349,6 +21008,92 @@ function __c126(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          employment_id: S.String.pipe(T.Query()),
+          only_active: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/employment-contracts", code: 200 })),
+      ).annotate({ identifier: "GetEmploymentContractsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.NullOr(S.Number),
+          currency_code: S.NullOr(S.String),
+          wage_type: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "Compensation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          activated_at: S.String,
+          amendment_contract_id: S.NullOr(S.String),
+          compensation: __S(4033, __c126, 1),
+          contract_details: S.Unknown,
+          contract_id: S.String,
+          country: __S(12994, __c406, 2),
+          effective_at: S.String,
+          job_title: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "EmploymentContract" });
+    case 3:
+      return S.Array(__S(4034, __c126, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          employment_contracts: __S(4035, __c126, 3),
+        }),
+      ).annotate({ identifier: "ListEmploymentContractResponseData" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(4036, __c126, 4),
+        }),
+      ).annotate({ identifier: "ListEmploymentContractResponse" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/employment-contracts/{employment_id}/pending-changes",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetEmploymentContractsEmploymentPendingChangesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          changes: S.Unknown,
+          contract_id: S.String,
+          effective_at: S.String,
+          pending_action_for_activation: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ContractPendingChanges" });
+    case 2:
+      return S.Array(__S(4065, __c127, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          pending_changes: __S(4066, __c127, 2),
+        }),
+      ).annotate({ identifier: "EmploymentContractPendingChangesResponseData" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(4067, __c127, 3),
+        }),
+      ).annotate({ identifier: "EmploymentContractPendingChangesResponse" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           employment_id: S.String.pipe(T.Label()),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -20362,18 +21107,18 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cost_center_allocations: __S(1090, __c34, 2),
+          cost_center_allocations: __S(1058, __c33, 2),
         }),
       ).annotate({ identifier: "ListCostCenterAllocationsResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4033, __c126, 1),
+          data: __S(4097, __c128, 1),
         }),
       ).annotate({ identifier: "ListCostCenterAllocationsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20399,12 +21144,12 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "ListEmploymentCustomFieldValueResponse" });
     case 2:
-      return S.Array(__S(4065, __c127, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          custom_field_values: S.optional(__S(4066, __c127, 2)),
+          custom_field_values: S.optional(__S(4130, __c129, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -20412,12 +21157,12 @@ function __c127(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4067, __c127, 3)),
+          data: S.optional(__S(4131, __c129, 3)),
         }),
       ).annotate({ identifier: "ListEmploymentCustomFieldValuePaginatedResponse" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20433,7 +21178,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetEmploymentEmploymentAgreementDownloadRequest" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20450,18 +21195,18 @@ function __c129(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          employment_agreement: __S(9536, __c298, 0),
+          employment_agreement: __S(9568, __c299, 0),
         }),
       ).annotate({ identifier: "EmploymentAgreementPreviewResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4129, __c129, 1),
+          data: __S(4193, __c131, 1),
         }),
       ).annotate({ identifier: "EmploymentAgreementPreviewResponse" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20477,66 +21222,24 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetEmploymentEngagementAgreementDetailsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowances_details: S.optional(S.NullOr(__S(0, __c0, 0))),
-          available_pto: S.optional(S.NullOr(S.Number)),
-          break_time_per_day: S.optional(S.NullOr(S.Number)),
-          business_expenses: S.optional(S.NullOr(S.String)),
-          cba: S.optional(S.NullOr(S.String)),
-          cba_document: S.optional(S.NullOr(__S(4224, __c132, 0))),
-          covenants: S.optional(S.NullOr(__S(0, __c0, 0))),
-          has_allowances: S.optional(S.NullOr(S.String)),
-          has_bonus: S.optional(S.NullOr(S.String)),
-          has_business_expenses: S.optional(S.NullOr(S.String)),
-          has_business_presence: S.optional(S.String),
-          has_cba: S.optional(S.NullOr(S.String)),
-          has_commissions: S.optional(S.NullOr(S.String)),
-          has_covenants: S.optional(S.NullOr(S.String)),
-          has_illness_remuneration: S.optional(S.NullOr(S.String)),
-          has_overtime_compensation: S.optional(S.NullOr(S.String)),
-          has_pension_scheme: S.optional(S.NullOr(S.String)),
-          has_signing_bonus: S.optional(S.NullOr(S.String)),
-          has_similar_roles: S.optional(S.String),
-          has_similar_work_conditions: S.optional(S.NullOr(S.String)),
-          illness_remuneration_details: S.optional(S.NullOr(S.String)),
-          max_annual_gross_salary: S.optional(S.NullOr(S.Number)),
-          min_annual_gross_salary: S.optional(S.NullOr(S.Number)),
-          overtime_compensation_begins: S.optional(S.NullOr(S.Number)),
-          overtime_compensation_type: S.optional(S.NullOr(S.String)),
-          overtime_pay_percentage: S.optional(S.NullOr(S.Number)),
-          pension_scheme: S.optional(S.NullOr(S.String)),
-          similar_roles: S.optional(S.NullOr(S.String)),
-          similar_work_conditions_details: S.optional(S.NullOr(S.String)),
-          work_hours_per_week: S.optional(S.NullOr(S.Number)),
-          working_days: S.optional(S.NullOr(__S(0, __c0, 0))),
-        }),
-      ).annotate({ identifier: "EmploymentEngagementAgreementDetailsResponseDataDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          details: __S(4192, __c131, 0),
+          details: S.Unknown,
           slug: S.String,
         }),
       ).annotate({ identifier: "EmploymentEngagementAgreementDetailsResponseData" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4193, __c131, 1),
+          data: __S(4256, __c133, 0),
         }),
       ).annotate({ identifier: "EmploymentEngagementAgreementDetailsResponse" });
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(13024, __c407, 0));
-  }
-}
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20552,7 +21255,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetEmploymentEngagementAgreementDetailsRequest2" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20575,12 +21278,12 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "EmploymentFile" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          files: S.optional(__S(4290, __c134, 2)),
+          files: S.optional(__S(4322, __c135, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -20588,12 +21291,12 @@ function __c134(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4291, __c134, 3)),
+          data: S.optional(__S(4323, __c135, 3)),
         }),
       ).annotate({ identifier: "ListFilesResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20619,36 +21322,52 @@ function __c135(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          definition: S.optional(__S(4322, __c135, 2)),
+          definition: S.optional(__S(4354, __c136, 2)),
           value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "JobCustomFieldValuesItem" });
     case 4:
-      return S.Array(__S(4323, __c135, 3));
+      return S.Array(__S(4355, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          career_track: S.optional(S.NullOr(__S(4321, __c135, 1))),
+          career_track: S.optional(S.NullOr(__S(4353, __c136, 1))),
           code: S.optional(S.NullOr(S.String)),
-          custom_field_values: S.optional(__S(4324, __c135, 4)),
+          custom_field_values: S.optional(__S(4356, __c136, 4)),
           description: S.optional(S.NullOr(S.String)),
           id: S.String,
           identifier: S.String,
-          job_family: S.optional(S.NullOr(__S(4321, __c135, 1))),
-          job_level: S.optional(S.NullOr(__S(4321, __c135, 1))),
-          job_sub_family: S.optional(S.NullOr(__S(4321, __c135, 1))),
+          job_family: S.optional(S.NullOr(__S(4353, __c136, 1))),
+          job_level: S.optional(S.NullOr(__S(4353, __c136, 1))),
+          job_sub_family: S.optional(S.NullOr(__S(4353, __c136, 1))),
           label: S.String,
         }),
       ).annotate({ identifier: "Job" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4325, __c135, 5),
+          data: __S(4357, __c136, 5),
         }),
       ).annotate({ identifier: "EmploymentJobResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/contractors/employments/{employment_id}/contractor-cor-subscription",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateContractorsEmploymentContractorCorSubscriptionRequest" });
+  }
+}
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20676,7 +21395,7 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "SubStep" });
     case 2:
-      return S.Array(__S(4353, __c136, 1));
+      return S.Array(__S(4417, __c138, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -20686,27 +21405,27 @@ function __c136(j: number): any {
           label: S.String,
           started_at: S.optional(S.NullOr(S.String)),
           status: S.String,
-          sub_steps: __S(4354, __c136, 2),
+          sub_steps: __S(4418, __c138, 2),
           type: S.String,
         }),
       ).annotate({ identifier: "Step" });
     case 4:
-      return S.Array(__S(4355, __c136, 3));
+      return S.Array(__S(4419, __c138, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(4356, __c136, 4),
+          steps: __S(4420, __c138, 4),
         }),
       ).annotate({ identifier: "EmploymentOnboardingStepsResponseData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4357, __c136, 5),
+          data: __S(4421, __c138, 5),
         }),
       ).annotate({ identifier: "EmploymentOnboardingStepsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20746,12 +21465,12 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "MinimalEmployment" });
     case 2:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(4449, __c139, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          employments: S.optional(__S(4386, __c137, 2)),
+          employments: S.optional(__S(4450, __c139, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -20759,28 +21478,12 @@ function __c137(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4387, __c137, 3)),
+          data: S.optional(__S(4451, __c139, 3)),
         }),
       ).annotate({ identifier: "ListEmploymentsResponse" });
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/contractors/employments/{employment_id}/contractor-cor-subscription",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateContractorsEmploymentContractorCorSubscriptionRequest" });
-  }
-}
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20792,17 +21495,17 @@ function __c139(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/employments/bulk", code: 200 })),
       ).annotate({ identifier: "GetEmploymentsBulkRequest" });
     case 1:
-      return S.Array(__S(4480, __c140, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4449, __c139, 1),
+          data: __S(4481, __c140, 1),
           next_cursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "EmploymentsBulkResponse" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20810,18 +21513,20 @@ function __c140(j: number): any {
           personal_details: S.Unknown,
           short_id: S.optional(S.String),
           department: S.optional(S.NullOr(S.String)),
+          sow_rolled_over: S.optional(S.NullOr(S.Boolean)),
           manager_email: S.NullOr(S.String),
           provisional_start_date: S.optional(S.String),
           address_details: S.Unknown,
-          pricing_plan_details: __S(3712, __c116, 0),
+          pricing_plan_details: __S(3776, __c118, 0),
           full_name: S.String,
           partner_external_id: S.optional(S.NullOr(S.String)),
           type: S.String,
-          contractor_settings: S.optional(S.NullOr(__S(3713, __c116, 1))),
+          contractor_settings: S.optional(S.NullOr(__S(3777, __c118, 1))),
           employment_lifecycle_stage: S.String,
+          eor_hiring_model: S.optional(S.NullOr(S.String)),
           administrative_details: S.Unknown,
           contractor_type: S.optional(S.NullOr(S.String)),
-          contractor_rate: S.optional(S.NullOr(__S(3716, __c116, 4))),
+          contractor_rate: S.optional(S.NullOr(__S(3780, __c118, 4))),
           company_id: S.String,
           expiration_date: S.optional(S.NullOr(S.String)),
           work_address_details: S.Unknown,
@@ -20836,6 +21541,7 @@ function __c140(j: number): any {
           probation_period_end_date: S.optional(S.String),
           department_id: S.optional(S.NullOr(S.String)),
           manager: S.optional(S.String),
+          requires_engagement_agreement_details: S.optional(S.Boolean),
           login_email: S.String,
           external_id: S.optional(S.NullOr(S.String)),
           employment_model: S.NullOr(S.String),
@@ -20843,12 +21549,13 @@ function __c140(j: number): any {
           country: S.NullOr(__S(12994, __c406, 2)),
           user_status: S.optional(S.String),
           seniority_date: S.optional(S.String),
-          bank_account_details: __S(2784, __c87, 0),
-          files: __S(2976, __c93, 0),
+          bank_account_details: __S(2848, __c89, 0),
+          files: __S(3040, __c95, 0),
+          is_offboarding_service_charge_waived: S.optional(S.NullOr(S.Boolean)),
           active_contract_id: S.optional(S.String),
           engaged_by_legal_entity_id: S.optional(S.NullOr(S.String)),
           billing_address_details: S.Unknown,
-          onboarding_tasks: __S(3718, __c116, 6),
+          onboarding_tasks: __S(3782, __c118, 6),
           contract_details: S.Unknown,
           emergency_contact_details: S.Unknown,
           eligible_for_onboarding_cancellation: S.Boolean,
@@ -20858,7 +21565,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "Employment" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20868,7 +21575,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetExpensRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20884,7 +21591,7 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          expenses: S.optional(__S(4545, __c142, 1)),
+          expenses: S.optional(__S(4577, __c143, 1)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -20892,12 +21599,12 @@ function __c142(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4546, __c142, 2)),
+          data: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "ListExpenseResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20910,7 +21617,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetExpensesCategoriesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20927,7 +21634,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetExpensReceiptRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20949,18 +21656,18 @@ function __c145(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          file: __S(4641, __c145, 1),
+          file: __S(4673, __c146, 1),
         }),
       ).annotate({ identifier: "DownloadFileResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4642, __c145, 2),
+          data: __S(4674, __c146, 2),
         }),
       ).annotate({ identifier: "DownloadFileResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20980,18 +21687,18 @@ function __c146(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          help_center_article: __S(4673, __c146, 1),
+          help_center_article: __S(4705, __c147, 1),
         }),
       ).annotate({ identifier: "HelpCenterArticleResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4674, __c146, 2),
+          data: __S(4706, __c147, 2),
         }),
       ).annotate({ identifier: "HelpCenterArticleResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21003,50 +21710,7 @@ function __c147(j: number): any {
       });
   }
 }
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/identity-verification/{employment_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetIdentityVerificationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          contract_id: S.String,
-          employment_document: S.NullOr(__S(9440, __c295, 0)),
-          employment_image: S.NullOr(__S(9440, __c295, 0)),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "IdentityVerification" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          identity_verification_data: S.optional(__S(4737, __c148, 1)),
-        }),
-      ).annotate({ identifier: "IdentityVerificationResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(4738, __c148, 2),
-        }),
-      ).annotate({ identifier: "IdentityVerificationResponse" });
-  }
-}
 function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/incentives/{id}", code: 200 })),
-      ).annotate({ identifier: "GetIncentiveRequest" });
-  }
-}
-function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21056,7 +21720,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "BadRequestResponseCase0" });
   }
 }
-function __c151(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21073,7 +21737,50 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CreateContractorsEmploymentContractorPlusSubscriptionRequest" });
   }
 }
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/identity-verification/{employment_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetIdentityVerificationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contract_id: S.String,
+          employment_document: S.NullOr(__S(9472, __c296, 0)),
+          employment_image: S.NullOr(__S(9472, __c296, 0)),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "IdentityVerification" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          identity_verification_data: S.optional(__S(4833, __c151, 1)),
+        }),
+      ).annotate({ identifier: "IdentityVerificationResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(4834, __c151, 2),
+        }),
+      ).annotate({ identifier: "IdentityVerificationResponse" });
+  }
+}
 function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/incentives/{id}", code: 200 })),
+      ).annotate({ identifier: "GetIncentiveRequest" });
+  }
+}
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21098,12 +21805,12 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4865, __c152, 1)),
+          data: S.optional(__S(4897, __c153, 1)),
         }),
       ).annotate({ identifier: "ListIncentivesResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21121,7 +21828,7 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          recurring_incentives: S.optional(__S(4897, __c153, 1)),
+          recurring_incentives: S.optional(__S(4929, __c154, 1)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21129,12 +21836,12 @@ function __c153(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4898, __c153, 2)),
+          data: S.optional(__S(4930, __c154, 2)),
         }),
       ).annotate({ identifier: "ListRecurringIncentivesResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21153,13 +21860,13 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "JobTitleScreeningItem" });
     case 2:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
           id: S.String,
-          items: __S(4930, __c154, 2),
+          items: __S(4962, __c155, 2),
           status: S.String,
           updated_at: S.String,
         }),
@@ -21167,18 +21874,18 @@ function __c154(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          job_title_screening: S.optional(__S(4931, __c154, 3)),
+          job_title_screening: S.optional(__S(4963, __c155, 3)),
         }),
       ).annotate({ identifier: "JobTitleScreeningResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(4932, __c154, 4)),
+          data: S.optional(__S(4964, __c155, 4)),
         }),
       ).annotate({ identifier: "JobTitleScreeningResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21190,7 +21897,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetLeavePoliciesDetailRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21202,7 +21909,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetLeavePoliciesSummaryRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21212,7 +21919,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetOffboardingRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21223,18 +21930,18 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          offboarding: S.optional(__S(5088, __c159, 0)),
+          offboarding: S.optional(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "V2OffboardingResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5057, __c158, 1)),
+          data: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "V2OffboardingResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21252,7 +21959,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "V2Offboarding" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21266,7 +21973,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetOffboardingsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -21274,7 +21981,7 @@ function __c161(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          offboardings: S.optional(__S(5152, __c161, 0)),
+          offboardings: S.optional(__S(5184, __c162, 0)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21282,57 +21989,12 @@ function __c161(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5153, __c161, 1)),
+          data: S.optional(__S(5185, __c162, 1)),
         }),
       ).annotate({ identifier: "ListOffboardingResponse" });
   }
 }
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          include_confidential: S.optional(S.Boolean.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/offboardings", code: 200 })),
-      ).annotate({ identifier: "GetOffboardingsRequest2" });
-    case 1:
-      return S.Array(__S(5088, __c159, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          current_page: S.optional(S.Number),
-          offboardings: S.optional(__S(5185, __c162, 1)),
-          total_count: S.optional(S.Number),
-          total_pages: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "V2ListOffboardingResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(5186, __c162, 2)),
-        }),
-      ).annotate({ identifier: "V2ListOffboardingResponse" });
-  }
-}
 function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/offboardings/employments/{employment_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetOffboardingsEmploymentRequest" });
-  }
-}
-function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21358,12 +22020,57 @@ function __c164(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5249, __c164, 1),
+          data: __S(5217, __c163, 1),
         }),
       ).annotate({ identifier: "CorTerminationRequestCreatedResponse" });
   }
 }
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          include_confidential: S.optional(S.Boolean.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/offboardings", code: 200 })),
+      ).annotate({ identifier: "GetOffboardingsRequest2" });
+    case 1:
+      return S.Array(__S(5120, __c160, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          current_page: S.optional(S.Number),
+          offboardings: S.optional(__S(5249, __c164, 1)),
+          total_count: S.optional(S.Number),
+          total_pages: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "V2ListOffboardingResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(5250, __c164, 2)),
+        }),
+      ).annotate({ identifier: "V2ListOffboardingResponse" });
+  }
+}
 function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/offboardings/employments/{employment_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOffboardingsEmploymentRequest" });
+  }
+}
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21387,12 +22094,12 @@ function __c165(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5281, __c165, 1),
+          data: __S(5313, __c166, 1),
         }),
       ).annotate({ identifier: "ShowPreOnboardingDocumentResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21409,7 +22116,7 @@ function __c166(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          depends_on_requirement: S.NullOr(__S(5313, __c166, 1)),
+          depends_on_requirement: S.NullOr(__S(5345, __c167, 1)),
           description: S.String,
           freeze_employment_data: S.NullOr(S.Boolean),
           name: S.String,
@@ -21421,16 +22128,16 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "PreOnboardingRequirement" });
     case 2:
-      return S.Array(__S(5313, __c166, 1));
+      return S.Array(__S(5345, __c167, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5314, __c166, 2),
+          data: __S(5346, __c167, 2),
         }),
       ).annotate({ identifier: "IndexPreOnboardingRequirementsResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21450,7 +22157,7 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.Number,
-          pay_items: __S(5345, __c167, 1),
+          pay_items: __S(5377, __c168, 1),
           total_count: S.Number,
           total_pages: S.Number,
         }),
@@ -21458,12 +22165,12 @@ function __c167(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5346, __c167, 2),
+          data: __S(5378, __c168, 2),
         }),
       ).annotate({ identifier: "ListPayItemsResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21478,17 +22185,17 @@ function __c168(j: number): any {
         S.Struct({
           country: __S(12994, __c406, 2),
           cycle_frequency: S.String,
-          cycles: __S(5409, __c169, 1),
+          cycles: __S(5441, __c170, 1),
           owned_by_remote: S.Boolean,
         }),
       ).annotate({ identifier: "PayrollCalendar" });
     case 2:
-      return S.Array(__S(5377, __c168, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          payroll_calendars: S.optional(__S(5378, __c168, 2)),
+          payroll_calendars: S.optional(__S(5410, __c169, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21496,12 +22203,12 @@ function __c168(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5379, __c168, 3)),
+          data: S.optional(__S(5411, __c169, 3)),
         }),
       ).annotate({ identifier: "PayrollCalendarsResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21514,10 +22221,10 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "Cycle" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5440, __c170, 0));
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21533,17 +22240,17 @@ function __c170(j: number): any {
         S.Struct({
           country: __S(12994, __c406, 2),
           cycle_frequency: S.String,
-          cycles: __S(5409, __c169, 1),
+          cycles: __S(5441, __c170, 1),
           id: S.String,
         }),
       ).annotate({ identifier: "PayrollCalendarEOR" });
     case 2:
-      return S.Array(__S(5441, __c170, 1));
+      return S.Array(__S(5473, __c171, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          payroll_calendars: S.optional(__S(5442, __c170, 2)),
+          payroll_calendars: S.optional(__S(5474, __c171, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21551,12 +22258,12 @@ function __c170(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5443, __c170, 3)),
+          data: S.optional(__S(5475, __c171, 3)),
         }),
       ).annotate({ identifier: "PayrollCalendarsEORResponse" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21572,7 +22279,7 @@ function __c171(j: number): any {
           country: __S(12994, __c406, 2),
           currency_code: S.String,
           cutoff_date: S.optional(S.NullOr(S.String)),
-          employee_details: __S(5506, __c172, 2),
+          employee_details: __S(5538, __c173, 2),
           employer_contributions_total: S.Number,
           expected_payout_date: S.String,
           expenses_total: S.Number,
@@ -21590,12 +22297,12 @@ function __c171(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          payroll_run: S.optional(__S(5473, __c171, 1)),
+          payroll_run: S.optional(__S(5505, __c172, 1)),
         }),
       ).annotate({ identifier: "PayrollRunResponse" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21607,26 +22314,26 @@ function __c172(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          base_salary: __S(5504, __c172, 0),
-          benefits: __S(5504, __c172, 0),
-          deductions: __S(5504, __c172, 0),
-          employer_costs: __S(5504, __c172, 0),
+          base_salary: __S(5536, __c173, 0),
+          benefits: __S(5536, __c173, 0),
+          deductions: __S(5536, __c173, 0),
+          employer_costs: __S(5536, __c173, 0),
           employment_id: S.optional(S.String),
-          expenses: __S(5504, __c172, 0),
+          expenses: __S(5536, __c173, 0),
           full_name: S.NullOr(S.String),
-          gross_pay: __S(5504, __c172, 0),
-          incentives: __S(5504, __c172, 0),
-          net_pay: __S(5504, __c172, 0),
-          other: __S(5504, __c172, 0),
+          gross_pay: __S(5536, __c173, 0),
+          incentives: __S(5536, __c173, 0),
+          net_pay: __S(5536, __c173, 0),
+          other: __S(5536, __c173, 0),
           payslip_id: S.NullOr(S.String),
-          total_cost: __S(5504, __c172, 0),
+          total_cost: __S(5536, __c173, 0),
         }),
       ).annotate({ identifier: "EmployeeDetails" });
     case 2:
-      return S.Array(__S(5505, __c172, 1));
+      return S.Array(__S(5537, __c173, 1));
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21645,18 +22352,18 @@ function __c173(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          employee_details: __S(5506, __c172, 2),
+          employee_details: __S(5538, __c173, 2),
         }),
       ).annotate({ identifier: "EmployeeDetailsResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5537, __c173, 1),
+          data: __S(5569, __c174, 1),
         }),
       ).annotate({ identifier: "EmployeeDetailsResponse" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21673,7 +22380,23 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetPayrollRunGlReportRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/contractors/employments/{employment_id}/deactivate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateContractorsEmploymentDeactivateRequest" });
+  }
+}
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21690,7 +22413,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetPayrollRunGlReportDownloadRequest" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21717,32 +22440,16 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "MinimalPayrollRun" });
     case 2:
-      return S.Array(__S(5633, __c176, 1));
+      return S.Array(__S(5697, __c178, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          payroll_runs: S.optional(__S(5634, __c176, 2)),
+          payroll_runs: S.optional(__S(5698, __c178, 2)),
         }),
       ).annotate({ identifier: "ListPayrollRunResponse" });
   }
 }
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/contractors/employments/{employment_id}/deactivate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateContractorsEmploymentDeactivateRequest" });
-  }
-}
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21752,7 +22459,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetPayslipDownloadRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21762,7 +22469,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetPayslipPdfRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21788,12 +22495,12 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "Payslip" });
     case 2:
-      return S.Array(__S(5761, __c180, 1));
+      return S.Array(__S(5793, __c181, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          payslips: S.optional(__S(5762, __c180, 2)),
+          payslips: S.optional(__S(5794, __c181, 2)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21801,12 +22508,12 @@ function __c180(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5763, __c180, 3)),
+          data: S.optional(__S(5795, __c181, 3)),
         }),
       ).annotate({ identifier: "ListPayslipsResponse" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21817,31 +22524,31 @@ function __c181(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          base_price: __S(736, __c23, 0),
+          base_price: __S(704, __c22, 0),
           id: S.String,
           period: S.optional(S.Number),
-          price: __S(736, __c23, 0),
-          product: __S(768, __c24, 0),
+          price: __S(704, __c22, 0),
+          product: __S(736, __c23, 0),
           unlimited: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PricingPlanPartnerTemplate" });
     case 2:
-      return S.Array(__S(5793, __c181, 1));
+      return S.Array(__S(5825, __c182, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pricing_plan_partner_templates: __S(5794, __c181, 2),
+          pricing_plan_partner_templates: __S(5826, __c182, 2),
         }),
       ).annotate({ identifier: "ListPricingPlanPartnerTemplatesResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(5795, __c181, 3),
+          data: __S(5827, __c182, 3),
         }),
       ).annotate({ identifier: "ListPricingPlanPartnerTemplatesResponse" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21851,7 +22558,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetProbationCompletionLetterRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21861,7 +22568,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetProbationExtensionRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21871,21 +22578,108 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(13024, __c407, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/project-eligible-leads", code: 200 })),
       ).annotate({ identifier: "GetProjectEligibleLeadsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4224, __c132, 0),
+          data: __S(5952, __c186, 0),
         }),
       ).annotate({ identifier: "ListEligibleLeadsResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clock_in: S.String,
+          clock_out: S.String,
+          notes: S.optional(S.NullOr(S.String)),
+          timezone: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ContractorTimeTrackingParams" });
+    case 1:
+      return S.Array(__S(5984, __c187, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.String.pipe(T.Label()),
+          end_date: S.String,
+          start_date: S.String,
+          time_trackings: __S(5985, __c187, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/contractors/employments/{employment_id}/timesheets",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateContractorsEmploymentTimesheetRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clock_in: S.String,
+          clock_out: S.String,
+          notes: S.NullOr(S.String),
+          timezone: S.String,
+          total_hours: __S(6016, __c188, 0),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ContractorTimeTracking" });
+    case 4:
+      return S.Array(__S(5987, __c187, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          break_hours: __S(6016, __c188, 0),
+          country_code: S.String,
+          employment_id: S.String,
+          end_date: S.String,
+          id: S.String,
+          notes: S.NullOr(S.String),
+          on_call_hours: __S(6016, __c188, 0),
+          regular_hours: __S(6016, __c188, 0),
+          start_date: S.String,
+          status: S.String,
+          submitted_at: S.NullOr(S.String),
+          time_trackings: __S(5988, __c187, 4),
+          total_hours: __S(6016, __c188, 0),
+        }),
+      ).annotate({ identifier: "ContractorTimesheet" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          timesheet: __S(5989, __c187, 5),
+        }),
+      ).annotate({ identifier: "ContractorTimesheetResponseData" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(5990, __c187, 6)),
+        }),
+      ).annotate({ identifier: "ContractorTimesheetResponse" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hours: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HoursAndMinutes" });
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21901,7 +22695,7 @@ function __c186(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          projects: S.optional(__S(5953, __c186, 1)),
+          projects: S.optional(__S(6049, __c189, 1)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -21909,12 +22703,12 @@ function __c186(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5954, __c186, 2)),
+          data: S.optional(__S(6050, __c189, 2)),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21933,97 +22727,12 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(5985, __c187, 1)),
+          data: S.optional(__S(6081, __c190, 1)),
         }),
       ).annotate({ identifier: "ResignationResponse" });
   }
 }
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clock_in: S.String,
-          clock_out: S.String,
-          notes: S.optional(S.NullOr(S.String)),
-          timezone: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "ContractorTimeTrackingParams" });
-    case 1:
-      return S.Array(__S(6016, __c188, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          employment_id: S.String.pipe(T.Label()),
-          end_date: S.String,
-          start_date: S.String,
-          time_trackings: __S(6017, __c188, 1),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/contractors/employments/{employment_id}/timesheets",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateContractorsEmploymentTimesheetRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          clock_in: S.String,
-          clock_out: S.String,
-          notes: S.NullOr(S.String),
-          timezone: S.String,
-          total_hours: __S(6048, __c189, 0),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "ContractorTimeTracking" });
-    case 4:
-      return S.Array(__S(6019, __c188, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          break_hours: __S(6048, __c189, 0),
-          country_code: S.String,
-          employment_id: S.String,
-          end_date: S.String,
-          id: S.String,
-          notes: S.NullOr(S.String),
-          on_call_hours: __S(6048, __c189, 0),
-          regular_hours: __S(6048, __c189, 0),
-          start_date: S.String,
-          status: S.String,
-          submitted_at: S.NullOr(S.String),
-          time_trackings: __S(6020, __c188, 4),
-          total_hours: __S(6048, __c189, 0),
-        }),
-      ).annotate({ identifier: "ContractorTimesheet" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          timesheet: __S(6021, __c188, 5),
-        }),
-      ).annotate({ identifier: "ContractorTimesheetResponseData" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(6022, __c188, 6)),
-        }),
-      ).annotate({ identifier: "ContractorTimesheetResponse" });
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "HoursAndMinutes" });
-  }
-}
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22039,7 +22748,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetResignationResignationLetterRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22063,22 +22772,22 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "FeatureFlag" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6145, __c192, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          feature_flags: __S(6114, __c191, 2),
+          feature_flags: __S(6146, __c192, 2),
         }),
       ).annotate({ identifier: "FeatureFlagsResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6115, __c191, 3),
+          data: __S(6147, __c192, 3),
         }),
       ).annotate({ identifier: "FeatureFlagsResponse" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22088,7 +22797,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetScimGroupRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22099,20 +22808,20 @@ function __c193(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationsScimGroupMembersItem" });
     case 1:
-      return S.Array(__S(6176, __c193, 0));
+      return S.Array(__S(6208, __c194, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           id: S.String,
-          members: __S(6177, __c193, 1),
-          meta: S.optional(__S(6208, __c194, 0)),
+          members: __S(6209, __c194, 1),
+          meta: S.optional(__S(6240, __c195, 0)),
           schemas: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "IntegrationsScimGroup" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22124,7 +22833,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "IntegrationsScimGroupMeta" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22135,11 +22844,11 @@ function __c195(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Groups", code: 200 })),
       ).annotate({ identifier: "GetScimGroupsRequest" });
     case 1:
-      return S.Array(__S(6178, __c193, 2));
+      return S.Array(__S(6210, __c194, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Resources: __S(6241, __c195, 1),
+          Resources: __S(6273, __c196, 1),
           itemsPerPage: S.Number,
           schemas: __S(0, __c0, 0),
           startIndex: S.Number,
@@ -22148,7 +22857,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "IntegrationsScimGroupListResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22158,7 +22867,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetScimUserRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22169,7 +22878,7 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationsScimUserEmailsItem" });
     case 1:
-      return S.Array(__S(6304, __c197, 0));
+      return S.Array(__S(6336, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22194,7 +22903,7 @@ function __c197(j: number): any {
         S.Struct({
           department: S.optional(S.String),
           employeeNumber: S.optional(S.NullOr(S.String)),
-          manager: S.optional(__S(6307, __c197, 3)),
+          manager: S.optional(__S(6339, __c198, 3)),
         }),
       ).annotate({
         identifier: "IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20User",
@@ -22204,14 +22913,14 @@ function __c197(j: number): any {
         S.Struct({
           active: S.Boolean,
           displayName: S.optional(S.String),
-          emails: __S(6305, __c197, 1),
+          emails: __S(6337, __c198, 1),
           id: S.String,
-          meta: S.optional(__S(6208, __c194, 0)),
-          name: __S(6306, __c197, 2),
+          meta: S.optional(__S(6240, __c195, 0)),
+          name: __S(6338, __c198, 2),
           nickName: S.optional(S.String),
           schemas: __S(0, __c0, 0),
           urn_ietf_params_scim_schemas_extension_enterprise_2_0_User: S.optional(
-            __S(6308, __c197, 4).pipe(
+            __S(6340, __c198, 4).pipe(
               T.Body("urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"),
             ),
           ),
@@ -22220,7 +22929,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "IntegrationsScimUser" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22231,11 +22940,11 @@ function __c198(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Users", code: 200 })),
       ).annotate({ identifier: "GetScimUsersRequest" });
     case 1:
-      return S.Array(__S(6309, __c197, 5));
+      return S.Array(__S(6341, __c198, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Resources: __S(6337, __c198, 1),
+          Resources: __S(6369, __c199, 1),
           itemsPerPage: S.Number,
           schemas: __S(0, __c0, 0),
           startIndex: S.Number,
@@ -22244,7 +22953,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "IntegrationsScimUserListResponse" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22262,12 +22971,12 @@ function __c199(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6369, __c199, 1)),
+          data: S.optional(__S(6401, __c200, 1)),
         }),
       ).annotate({ identifier: "SSOConfigurationResponse" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22285,19 +22994,9 @@ function __c200(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6401, __c200, 1)),
+          data: S.optional(__S(6433, __c201, 1)),
         }),
       ).annotate({ identifier: "SSOConfigurationDetailsResponse" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          json_schema_version: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/test-schema", code: 200 })),
-      ).annotate({ identifier: "GetTestSchemaRequest" });
   }
 }
 function __c202(j: number): any {
@@ -22305,28 +23004,10 @@ function __c202(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          employment_id: S.optional(S.String.pipe(T.Query())),
-          timeoff_type: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          start_date: S.optional(S.String.pipe(T.Query())),
-          end_date: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          sort_by: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/timeoff", code: 200 })),
-      ).annotate({ identifier: "GetTimeoffRequest" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           company_name: S.optional(S.String),
           employer_currency_slug: S.String,
-          employments: __S(6564, __c205, 4),
-          global_discount: S.optional(__S(6562, __c205, 2)),
+          employments: __S(6532, __c204, 4),
+          global_discount: S.optional(__S(6530, __c204, 2)),
           include_benefits: S.optional(S.Boolean),
           include_cost_breakdowns: S.optional(S.Boolean),
           include_management_fee: S.optional(S.Boolean),
@@ -22354,7 +23035,7 @@ function __c203(j: number): any {
         }),
       ).annotate({ identifier: "CostCalculatorCost" });
     case 3:
-      return S.Array(__S(6498, __c203, 2));
+      return S.Array(__S(6466, __c202, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -22367,25 +23048,25 @@ function __c203(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          annual_benefits_breakdown: S.optional(__S(6499, __c203, 3)),
+          annual_benefits_breakdown: S.optional(__S(6467, __c202, 3)),
           annual_benefits_total: S.optional(S.Number),
-          annual_contributions_breakdown: S.optional(__S(6499, __c203, 3)),
+          annual_contributions_breakdown: S.optional(__S(6467, __c202, 3)),
           annual_contributions_total: S.Number,
           annual_gross_salary: S.Number,
           annual_indirect_tax: S.optional(S.Number),
           annual_management_fee: S.optional(S.Number),
           annual_total: S.Number,
-          currency: __S(6592, __c206, 0),
-          discount: S.optional(__S(6500, __c203, 4)),
-          extra_statutory_payments_breakdown: S.optional(__S(6499, __c203, 3)),
+          currency: __S(6560, __c205, 0),
+          discount: S.optional(__S(6468, __c202, 4)),
+          extra_statutory_payments_breakdown: S.optional(__S(6467, __c202, 3)),
           extra_statutory_payments_total: S.Number,
-          fringe_benefits_tax_breakdown: S.optional(__S(6499, __c203, 3)),
+          fringe_benefits_tax_breakdown: S.optional(__S(6467, __c202, 3)),
           fringe_benefits_tax_total: S.optional(S.Number),
-          monthly_benefits_breakdown: S.optional(__S(6499, __c203, 3)),
+          monthly_benefits_breakdown: S.optional(__S(6467, __c202, 3)),
           monthly_benefits_total: S.optional(S.Number),
-          monthly_contributions_breakdown: S.optional(__S(6499, __c203, 3)),
+          monthly_contributions_breakdown: S.optional(__S(6467, __c202, 3)),
           monthly_contributions_total: S.Number,
-          monthly_fringe_benefits_tax_breakdown: S.optional(__S(6499, __c203, 3)),
+          monthly_fringe_benefits_tax_breakdown: S.optional(__S(6467, __c202, 3)),
           monthly_fringe_benefits_tax_total: S.optional(S.Number),
           monthly_gross_salary: S.Number,
           monthly_indirect_tax: S.optional(S.Number),
@@ -22405,42 +23086,42 @@ function __c203(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          country: __S(6497, __c203, 1),
+          country: __S(6465, __c202, 1),
           country_benefits_details_url: S.NullOr(S.String),
           country_guide_url: S.NullOr(S.String),
-          employer_currency_costs: __S(6501, __c203, 5),
+          employer_currency_costs: __S(6469, __c202, 5),
           has_extra_statutory_payment: S.Boolean,
           has_fringe_benefits_tax: S.optional(S.Boolean),
-          indirect_tax_summary: S.optional(S.NullOr(__S(6502, __c203, 6))),
+          indirect_tax_summary: S.optional(S.NullOr(__S(6470, __c202, 6))),
           minimum_onboarding_time: S.NullOr(S.Number),
-          region: __S(6529, __c204, 1),
-          regional_currency_costs: __S(6501, __c203, 5),
+          region: __S(6497, __c203, 1),
+          regional_currency_costs: __S(6469, __c202, 5),
         }),
       ).annotate({ identifier: "CostCalculatorEmployment" });
     case 8:
-      return S.Array(__S(6503, __c203, 7));
+      return S.Array(__S(6471, __c202, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          employments: S.optional(__S(6504, __c203, 8)),
+          employments: S.optional(__S(6472, __c202, 8)),
         }),
       ).annotate({ identifier: "CostCalculatorEstimateResponseData" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6505, __c203, 9),
+          data: __S(6473, __c202, 9),
         }),
       ).annotate({ identifier: "CostCalculatorEstimateResponse" });
   }
 }
-function __c204(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6529, __c204, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6497, __c203, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          child_regions: S.optional(__S(6528, __c204, 0)),
+          child_regions: S.optional(__S(6496, __c203, 0)),
           code: S.optional(S.NullOr(S.String)),
           name: S.String,
           slug: S.String,
@@ -22449,7 +23130,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "MinimalRegion" });
   }
 }
-function __c205(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22459,7 +23140,7 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "CostCalculatorBenefitParam" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6528, __c204, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22478,8 +23159,8 @@ function __c205(j: number): any {
           annual_gross_salary_in_employer_currency: S.optional(S.Number),
           annual_total_cost: S.optional(S.Number),
           annual_total_cost_in_employer_currency: S.optional(S.Number),
-          benefits: S.optional(__S(6561, __c205, 1)),
-          discount: S.optional(__S(6562, __c205, 2)),
+          benefits: S.optional(__S(6529, __c204, 1)),
+          discount: S.optional(__S(6530, __c204, 2)),
           employment_term: S.optional(S.String),
           region_slug: S.String,
           regional_to_employer_exchange_rate: S.optional(S.String),
@@ -22487,10 +23168,10 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "CostCalculatorEmploymentParam" });
     case 4:
-      return S.Array(__S(6563, __c205, 3));
+      return S.Array(__S(6531, __c204, 3));
   }
 }
-function __c206(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22503,7 +23184,35 @@ function __c206(j: number): any {
       ).annotate({ identifier: "Currency" });
   }
 }
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          json_schema_version: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/test-schema", code: 200 })),
+      ).annotate({ identifier: "GetTestSchemaRequest" });
+  }
+}
 function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          employment_id: S.optional(S.String.pipe(T.Query())),
+          timeoff_type: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          start_date: S.optional(S.String.pipe(T.Query())),
+          end_date: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          sort_by: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/timeoff", code: 200 })),
+      ).annotate({ identifier: "GetTimeoffRequest" });
+  }
+}
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22513,7 +23222,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetTimeoffByIdRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22529,22 +23238,22 @@ function __c208(j: number): any {
         }),
       ).annotate({ identifier: "TimeoffTypeResponse" });
     case 2:
-      return S.Array(__S(6657, __c208, 1));
+      return S.Array(__S(6689, __c209, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          timeoff_types: __S(6658, __c208, 2),
+          timeoff_types: __S(6690, __c209, 2),
         }),
       ).annotate({ identifier: "ListTimeoffTypesResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6659, __c208, 3)),
+          data: S.optional(__S(6691, __c209, 3)),
         }),
       ).annotate({ identifier: "ListTimeoffTypesResponse" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22555,32 +23264,32 @@ function __c209(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timesheet: __S(6724, __c210, 4),
+          timesheet: __S(6758, __c211, 6),
         }),
       ).annotate({ identifier: "TimesheetResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6689, __c209, 1)),
+          data: S.optional(__S(6721, __c210, 1)),
         }),
       ).annotate({ identifier: "TimesheetResponse" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          holiday: __S(6048, __c189, 0),
-          regular: __S(6048, __c189, 0),
-          weekend: __S(6048, __c189, 0),
+          holiday: __S(6016, __c188, 0),
+          regular: __S(6016, __c188, 0),
+          weekend: __S(6016, __c188, 0),
         }),
       ).annotate({ identifier: "TypeOfDayBreakdown" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          day: __S(6720, __c210, 0),
-          night: __S(6720, __c210, 0),
+          day: __S(6752, __c211, 0),
+          night: __S(6752, __c211, 0),
         }),
       ).annotate({ identifier: "TimeBreakdown" });
     case 2:
@@ -22591,46 +23300,61 @@ function __c210(j: number): any {
           has_holiday_hours: S.Boolean,
           has_night_hours: S.Boolean,
           has_weekend_hours: S.Boolean,
-          holiday_hours: __S(6048, __c189, 0),
-          night_hours: __S(6048, __c189, 0),
+          holiday_hours: __S(6016, __c188, 0),
+          night_hours: __S(6016, __c188, 0),
           notes: S.NullOr(S.String),
-          time_breakdown: __S(6721, __c210, 1),
+          on_call_restriction: S.optional(S.NullOr(S.String)),
+          time_breakdown: __S(6753, __c211, 1),
           timezone: S.String,
-          total_hours: __S(6048, __c189, 0),
+          total_hours: __S(6016, __c188, 0),
           type: S.String,
-          weekend_hours: __S(6048, __c189, 0),
+          weekend_hours: __S(6016, __c188, 0),
         }),
       ).annotate({ identifier: "TimeTracking" });
     case 3:
-      return S.Array(__S(6722, __c210, 2));
+      return S.Array(__S(6754, __c211, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
+          date: S.String,
+          notes: S.NullOr(S.String),
+          reason: S.NullOr(S.String),
+          total_hours: __S(6016, __c188, 0),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "TopUpTimeTracking" });
+    case 5:
+      return S.Array(__S(6756, __c211, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           approval_required: S.Boolean,
-          break_hours: __S(6048, __c189, 0),
+          break_hours: __S(6016, __c188, 0),
           country_code: S.String,
           employment_id: S.String,
           end_date: S.String,
-          holiday_hours: __S(6048, __c189, 0),
+          holiday_hours: __S(6016, __c188, 0),
           id: S.String,
-          night_hours: __S(6048, __c189, 0),
+          night_hours: __S(6016, __c188, 0),
           notes: S.NullOr(S.String),
-          on_call_hours: __S(6048, __c189, 0),
-          overtime_hours: __S(6048, __c189, 0),
-          regular_hours: __S(6048, __c189, 0),
+          on_call_hours: __S(6016, __c188, 0),
+          overtime_hours: __S(6016, __c188, 0),
+          regular_hours: __S(6016, __c188, 0),
           start_date: S.String,
           status: S.String,
           submitted_at: S.NullOr(S.String),
-          time_trackings: __S(6723, __c210, 3),
-          timeoff_hours: S.optional(__S(6048, __c189, 0)),
-          total_hours: __S(6048, __c189, 0),
-          unpaid_break_hours: __S(6048, __c189, 0),
-          weekend_hours: __S(6048, __c189, 0),
+          time_trackings: __S(6755, __c211, 3),
+          timeoff_hours: S.optional(__S(6016, __c188, 0)),
+          top_up_hours: __S(6016, __c188, 0),
+          top_up_time_trackings: __S(6757, __c211, 5),
+          total_hours: __S(6016, __c188, 0),
+          unpaid_break_hours: __S(6016, __c188, 0),
+          weekend_hours: __S(6016, __c188, 0),
         }),
       ).annotate({ identifier: "Timesheet" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22643,12 +23367,12 @@ function __c211(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/timesheets", code: 200 })),
       ).annotate({ identifier: "GetTimesheetsRequest" });
     case 1:
-      return S.Array(__S(6724, __c210, 4));
+      return S.Array(__S(6758, __c211, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          timesheets: S.optional(__S(6753, __c211, 1)),
+          timesheets: S.optional(__S(6785, __c212, 1)),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
@@ -22656,12 +23380,12 @@ function __c211(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6754, __c211, 2)),
+          data: S.optional(__S(6786, __c212, 2)),
         }),
       ).annotate({ identifier: "ListTimesheetsResponse" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22671,7 +23395,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetTravelLetterRequestRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22683,7 +23407,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "TravelLetterUser" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22691,7 +23415,7 @@ function __c214(j: number): any {
           additional_information: S.String,
           destination_country: __S(12994, __c406, 2),
           embassy_address: S.String,
-          employer_approver: S.NullOr(__S(6816, __c213, 0)),
+          employer_approver: S.NullOr(__S(6848, __c214, 0)),
           employer_special_instructions: S.NullOr(S.String),
           id: S.String,
           reason: S.String,
@@ -22707,28 +23431,28 @@ function __c214(j: number): any {
           travel_document_number: S.String,
           travel_reason: S.String,
           travel_reason_details: S.String,
-          user: S.NullOr(__S(6816, __c213, 0)),
+          user: S.NullOr(__S(6848, __c214, 0)),
         }),
       ).annotate({ identifier: "TravelLetterRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          travel_letter_request: __S(6848, __c214, 0),
+          travel_letter_request: __S(6880, __c215, 0),
         }),
       ).annotate({ identifier: "TravelLetterResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6880, __c215, 0),
+          data: __S(6912, __c216, 0),
         }),
       ).annotate({ identifier: "TravelLetterResponse" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22743,25 +23467,25 @@ function __c216(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/travel-letter-requests", code: 200 })),
       ).annotate({ identifier: "GetTravelLetterRequestsRequest" });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          travel_letter_requests: S.optional(__S(6913, __c216, 1)),
+          travel_letter_requests: S.optional(__S(6945, __c217, 1)),
         }),
       ).annotate({ identifier: "ListTravelLettersResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6914, __c216, 2)),
+          data: S.optional(__S(6946, __c217, 2)),
         }),
       ).annotate({ identifier: "ListTravelLettersResponse" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22788,7 +23512,7 @@ function __c217(j: number): any {
           account_holder: S.NullOr(S.String),
           account_number: S.NullOr(S.String),
           ach_routing_number: S.NullOr(S.String),
-          address: S.NullOr(__S(6945, __c217, 1)),
+          address: S.NullOr(__S(6977, __c218, 1)),
           bank_code: S.NullOr(S.String),
           bank_name: S.NullOr(S.String),
           branch_code: S.NullOr(S.String),
@@ -22808,12 +23532,12 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "PayInBankAccount" });
     case 3:
-      return S.Array(__S(6946, __c217, 2));
+      return S.Array(__S(6978, __c218, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           amount_due: S.Number,
-          bank_accounts: S.NullOr(__S(6947, __c217, 3)),
+          bank_accounts: S.NullOr(__S(6979, __c218, 3)),
           currency: S.String,
           due_date: S.NullOr(S.String),
           pay_in_method: S.String,
@@ -22824,18 +23548,18 @@ function __c217(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pay_in_details: __S(6948, __c217, 4),
+          pay_in_details: __S(6980, __c218, 4),
         }),
       ).annotate({ identifier: "ContractorInvoicePayInDetailsResponseData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6949, __c217, 5),
+          data: __S(6981, __c218, 5),
         }),
       ).annotate({ identifier: "ContractorInvoicePayInDetailsResponse" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22863,25 +23587,58 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "WebhookEvent" });
     case 2:
-      return S.Array(__S(6977, __c218, 1));
+      return S.Array(__S(7009, __c219, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          webhook_events: S.optional(__S(6978, __c218, 2)),
+          webhook_events: S.optional(__S(7010, __c219, 2)),
         }),
       ).annotate({ identifier: "ListWebhookEventsResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6979, __c218, 3)),
+          data: S.optional(__S(7011, __c219, 3)),
         }),
       ).annotate({ identifier: "ListWebhookEventsResponse" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          company_name: S.optional(S.String),
+          employer_currency_slug: S.String,
+          employments: __S(6532, __c204, 4),
+          global_discount: S.optional(__S(6530, __c204, 2)),
+          include_benefits: S.optional(S.Boolean),
+          include_cost_breakdowns: S.optional(S.Boolean),
+          include_management_fee: S.optional(S.Boolean),
+          include_premium_benefits: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/cost-calculator/estimation-csv", code: 200 })),
+      ).annotate({ identifier: "CreateCostCalculatorEstimationCsvRequest" });
+  }
+}
+function __c221(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.String,
+        }),
+      ).annotate({ identifier: "CostCalculatorEstimateCSVResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(7072, __c221, 0),
+        }),
+      ).annotate({ identifier: "CostCalculatorEstimateCSVResponse" });
+  }
+}
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22891,14 +23648,14 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetWorkAuthorizationRequestRequest" });
   }
 }
-function __c220(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           additional_information: S.String,
           destination_country: __S(12994, __c406, 2),
-          employer_approver: S.NullOr(__S(6816, __c213, 0)),
+          employer_approver: S.NullOr(__S(6848, __c214, 0)),
           employer_special_instructions: S.NullOr(S.String),
           id: S.String,
           reason: S.String,
@@ -22907,30 +23664,30 @@ function __c220(j: number): any {
           travel_date_end: S.String,
           travel_date_start: S.String,
           travel_document_number: S.String,
-          user: S.NullOr(__S(6816, __c213, 0)),
+          user: S.NullOr(__S(6848, __c214, 0)),
           will_negotiate_or_sign_contracts: S.NullOr(S.Boolean),
           work_location: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WorkAuthorizationRequest" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          work_authorization_request: __S(7040, __c220, 0),
+          work_authorization_request: __S(7136, __c223, 0),
         }),
       ).annotate({ identifier: "WorkAuthorizationRequestResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7072, __c221, 0),
+          data: __S(7168, __c224, 0),
         }),
       ).annotate({ identifier: "WorkAuthorizationRequestResponse" });
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22945,58 +23702,25 @@ function __c222(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/work-authorization-requests", code: 200 })),
       ).annotate({ identifier: "GetWorkAuthorizationRequestsRequest" });
     case 1:
-      return S.Array(__S(7040, __c220, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
           total_count: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          work_authorization_requests: S.optional(__S(7105, __c222, 1)),
+          work_authorization_requests: S.optional(__S(7201, __c225, 1)),
         }),
       ).annotate({ identifier: "ListWorkAuthorizationRequestsResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(7106, __c222, 2)),
+          data: S.optional(__S(7202, __c225, 2)),
         }),
       ).annotate({ identifier: "ListWorkAuthorizationRequestsResponse" });
   }
 }
-function __c223(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          company_name: S.optional(S.String),
-          employer_currency_slug: S.String,
-          employments: __S(6564, __c205, 4),
-          global_discount: S.optional(__S(6562, __c205, 2)),
-          include_benefits: S.optional(S.Boolean),
-          include_cost_breakdowns: S.optional(S.Boolean),
-          include_management_fee: S.optional(S.Boolean),
-          include_premium_benefits: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/cost-calculator/estimation-csv", code: 200 })),
-      ).annotate({ identifier: "CreateCostCalculatorEstimationCsvRequest" });
-  }
-}
-function __c224(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          content: S.String,
-        }),
-      ).annotate({ identifier: "CostCalculatorEstimateCSVResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(7168, __c224, 0),
-        }),
-      ).annotate({ identifier: "CostCalculatorEstimateCSVResponse" });
-  }
-}
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23016,7 +23740,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "PatchV1CompaniesCompanyIdRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23036,18 +23760,18 @@ function __c226(j: number): any {
       ).annotate({ identifier: "PatchV1CompaniesCompanyId2Request" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.String.pipe(T.Label()),
-          billing_contact_for: __S(7297, __c228, 1),
+          billing_contact_for: __S(7329, __c229, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/company-managers/{user_id}", code: 200 })),
       ).annotate({ identifier: "PatchV1CompanyManagersUserIdRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23057,18 +23781,7 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "CompanyManagerBillingContact" });
     case 1:
-      return S.Array(__S(7296, __c228, 0));
-  }
-}
-function __c229(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String.pipe(T.Label()),
-          billing_contact_for: __S(7297, __c228, 1),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/company-managers/{user_id}", code: 200 })),
-      ).annotate({ identifier: "PatchV1CompanyManagersUserId2Request" });
+      return S.Array(__S(7328, __c229, 0));
   }
 }
 function __c230(j: number): any {
@@ -23076,10 +23789,21 @@ function __c230(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          user_id: S.String.pipe(T.Label()),
+          billing_contact_for: __S(7329, __c229, 1),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/company-managers/{user_id}", code: 200 })),
+      ).annotate({ identifier: "PatchV1CompanyManagersUserId2Request" });
+  }
+}
+function __c231(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           currency: S.optional(S.NullOr(S.String)),
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
-          items: S.optional(__S(9985, __c312, 1)),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
+          items: S.optional(__S(10017, __c313, 1)),
           note: S.optional(S.NullOr(S.String)),
           nr_occurrences: S.optional(S.NullOr(S.Number)),
           number: S.optional(S.NullOr(S.String)),
@@ -23090,15 +23814,15 @@ function __c230(j: number): any {
       ).annotate({ identifier: "PatchV1ContractorInvoiceSchedulesIdRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           currency: S.optional(S.NullOr(S.String)),
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
-          items: S.optional(__S(9985, __c312, 1)),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
+          items: S.optional(__S(10017, __c313, 1)),
           note: S.optional(S.NullOr(S.String)),
           nr_occurrences: S.optional(S.NullOr(S.Number)),
           number: S.optional(S.NullOr(S.String)),
@@ -23111,7 +23835,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "PatchV1ContractorInvoiceSchedulesId2Request" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23129,7 +23853,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23147,51 +23871,15 @@ function __c233(j: number): any {
       ).annotate({ identifier: "PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2Request" });
   }
 }
-function __c234(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          document: S.optional(__S(9536, __c298, 0)),
-          edit_reason: S.String,
-          end_date: S.optional(S.String),
-          leave_policy_variant_id: S.optional(S.String),
-          notes: S.optional(S.String),
-          start_date: S.optional(S.String),
-          timeoff_days: S.optional(__S(9697, __c303, 1)),
-          timezone: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/employee/timeoff/{id}", code: 200 })),
-      ).annotate({ identifier: "PatchV1EmployeeTimeoffIdRequest" });
-  }
-}
 function __c235(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          document: S.optional(__S(9536, __c298, 0)),
-          edit_reason: S.String,
-          end_date: S.optional(S.String),
-          leave_policy_variant_id: S.optional(S.String),
-          notes: S.optional(S.String),
-          start_date: S.optional(S.String),
-          timeoff_days: S.optional(__S(9697, __c303, 1)),
-          timezone: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/employee/timeoff/{id}", code: 200 })),
-      ).annotate({ identifier: "PatchV1EmployeeTimeoffId2Request" });
-  }
-}
-function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           company_name: S.optional(S.String),
           employer_currency_slug: S.String,
-          employments: __S(6564, __c205, 4),
-          global_discount: S.optional(__S(6562, __c205, 2)),
+          employments: __S(6532, __c204, 4),
+          global_discount: S.optional(__S(6530, __c204, 2)),
           include_benefits: S.optional(S.Boolean),
           include_cost_breakdowns: S.optional(S.Boolean),
           include_management_fee: S.optional(S.Boolean),
@@ -23200,7 +23888,43 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateCostCalculatorEstimationPdfRequest" });
   }
 }
+function __c236(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          document: S.optional(__S(9568, __c299, 0)),
+          edit_reason: S.String,
+          end_date: S.optional(S.String),
+          leave_policy_variant_id: S.optional(S.String),
+          notes: S.optional(S.String),
+          start_date: S.optional(S.String),
+          timeoff_days: S.optional(__S(9729, __c304, 1)),
+          timezone: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/employee/timeoff/{id}", code: 200 })),
+      ).annotate({ identifier: "PatchV1EmployeeTimeoffIdRequest" });
+  }
+}
 function __c237(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          document: S.optional(__S(9568, __c299, 0)),
+          edit_reason: S.String,
+          end_date: S.optional(S.String),
+          leave_policy_variant_id: S.optional(S.String),
+          notes: S.optional(S.String),
+          start_date: S.optional(S.String),
+          timeoff_days: S.optional(__S(9729, __c304, 1)),
+          timezone: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/employee/timeoff/{id}", code: 200 })),
+      ).annotate({ identifier: "PatchV1EmployeeTimeoffId2Request" });
+  }
+}
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23240,23 +23964,23 @@ function __c237(j: number): any {
       ).annotate({ identifier: "PatchV1EmploymentsEmploymentIdRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          employment: S.optional(__S(4480, __c140, 0)),
+          employment: S.optional(__S(4512, __c141, 0)),
         }),
       ).annotate({ identifier: "EmploymentResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7616, __c238, 0),
+          data: __S(7648, __c239, 0),
         }),
       ).annotate({ identifier: "EmploymentResponse" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23296,7 +24020,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "PatchV1EmploymentsEmploymentId2Request" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23307,7 +24031,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "PatchV1ExpensesIdRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23318,7 +24042,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "PatchV1ExpensesId2Request" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23335,7 +24059,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "PatchV1IncentivesIdRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23352,7 +24076,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "PatchV1IncentivesId2Request" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23367,7 +24091,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "PatchV1SandboxEmploymentsEmploymentIdRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23382,49 +24106,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "PatchV1SandboxEmploymentsEmploymentId2Request" });
   }
 }
-function __c246(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          approved_at: S.optional(S.String),
-          approver_id: S.optional(S.NullOr(S.String)),
-          cancel_reason: S.String,
-          document: S.optional(__S(9536, __c298, 0)),
-          edit_reason: S.String,
-          end_date: S.optional(S.String),
-          notes: S.optional(S.String),
-          start_date: S.optional(S.String),
-          status: S.optional(S.String),
-          timeoff_days: S.optional(__S(9697, __c303, 1)),
-          timezone: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/timeoff/{id}", code: 200 })),
-      ).annotate({ identifier: "PatchV1TimeoffIdRequest" });
-  }
-}
 function __c247(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          approved_at: S.optional(S.String),
-          approver_id: S.optional(S.NullOr(S.String)),
-          cancel_reason: S.String,
-          document: S.optional(__S(9536, __c298, 0)),
-          edit_reason: S.String,
-          end_date: S.optional(S.String),
-          notes: S.optional(S.String),
-          start_date: S.optional(S.String),
-          status: S.optional(S.String),
-          timeoff_days: S.optional(__S(9697, __c303, 1)),
-          timezone: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/timeoff/{id}", code: 200 })),
-      ).annotate({ identifier: "PatchV1TimeoffId2Request" });
-  }
-}
-function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23436,33 +24118,75 @@ function __c248(j: number): any {
       ).annotate({ identifier: "CreateCurrencyConverterRequest" });
   }
 }
-function __c249(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           exchange_rate: S.Number,
           source_amount: S.Number,
-          source_currency: __S(800, __c25, 0),
+          source_currency: __S(768, __c24, 0),
           target_amount: S.Number,
-          target_currency: __S(800, __c25, 0),
+          target_currency: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "ConvertCurrency" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          conversion_data: __S(7968, __c249, 0),
+          conversion_data: __S(7936, __c248, 0),
         }),
       ).annotate({ identifier: "ConvertCurrencyResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7969, __c249, 1),
+          data: __S(7937, __c248, 1),
         }),
       ).annotate({ identifier: "ConvertCurrencyResponse" });
   }
 }
+function __c249(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          approved_at: S.optional(S.String),
+          approver_id: S.optional(S.NullOr(S.String)),
+          cancel_reason: S.String,
+          document: S.optional(__S(9568, __c299, 0)),
+          edit_reason: S.String,
+          end_date: S.optional(S.String),
+          notes: S.optional(S.String),
+          start_date: S.optional(S.String),
+          status: S.optional(S.String),
+          timeoff_days: S.optional(__S(9729, __c304, 1)),
+          timezone: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/timeoff/{id}", code: 200 })),
+      ).annotate({ identifier: "PatchV1TimeoffIdRequest" });
+  }
+}
 function __c250(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          approved_at: S.optional(S.String),
+          approver_id: S.optional(S.NullOr(S.String)),
+          cancel_reason: S.String,
+          document: S.optional(__S(9568, __c299, 0)),
+          edit_reason: S.String,
+          end_date: S.optional(S.String),
+          notes: S.optional(S.String),
+          start_date: S.optional(S.String),
+          status: S.optional(S.String),
+          timeoff_days: S.optional(__S(9729, __c304, 1)),
+          timezone: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/timeoff/{id}", code: 200 })),
+      ).annotate({ identifier: "PatchV1TimeoffId2Request" });
+  }
+}
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23473,7 +24197,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "PatchV1TravelLetterRequestsIdRequest" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23484,7 +24208,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "PatchV1TravelLetterRequestsId2Request" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23495,7 +24219,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "PatchV1WorkAuthorizationRequestsIdRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23508,7 +24232,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "PatchV1WorkAuthorizationRequestsId2Request" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23524,7 +24248,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "PatchV2EmploymentsEmploymentIdRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23540,7 +24264,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "PatchV2EmploymentsEmploymentId2Request" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23558,17 +24282,17 @@ function __c256(j: number): any {
       ).annotate({ identifier: "PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(9888, __c309, 0)),
+          data: S.optional(__S(9920, __c310, 0)),
         }),
       ).annotate({ identifier: "RiskReserveProofOfPaymentResponse" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23586,7 +24310,19 @@ function __c258(j: number): any {
       });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          source_currency: S.String,
+          target_currency: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/currency-converter/effective", code: 200 })),
+      ).annotate({ identifier: "CreateCurrencyConverterEffectiveRequest" });
+  }
+}
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23605,7 +24341,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "PutCompanyLegalEntityAdministrativeDetailsRequest" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23616,19 +24352,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "PutEmployeeAddressRequest" });
   }
 }
-function __c261(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          source_currency: S.String,
-          target_currency: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/currency-converter/effective", code: 200 })),
-      ).annotate({ identifier: "CreateCurrencyConverterEffectiveRequest" });
-  }
-}
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23639,7 +24363,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "PutEmployeeBankAccountRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23650,7 +24374,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "PutEmployeeEmergencyContactRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23660,7 +24384,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "PutEmployeeFederalTaxesRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23671,7 +24395,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "PutEmployeePersonalDetailsRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23684,7 +24408,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "PutEmployeeStateTaxRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23702,12 +24426,13 @@ function __c267(j: number): any {
       ).annotate({ identifier: "PutEmploymentAddressDetailsRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           employment_id: S.String.pipe(T.Label()),
+          administrative_details_json_schema_version: S.optional(S.Unknown.pipe(T.Query())),
           administrative_details: S.Unknown,
         }).pipe(
           T.Http({
@@ -23719,7 +24444,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "PutEmploymentAdministrativeDetailsRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23737,7 +24462,19 @@ function __c269(j: number): any {
       ).annotate({ identifier: "PutEmploymentBankAccountDetailsRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          source_currency: S.String,
+          target_currency: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/currency-converter/raw", code: 200 })),
+      ).annotate({ identifier: "CreateCurrencyConverterRawRequest" });
+  }
+}
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23755,7 +24492,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "PutEmploymentBasicInformationRequest" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23774,19 +24511,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "PutEmploymentBasicInformationRequest2" });
   }
 }
-function __c272(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          source_currency: S.String,
-          target_currency: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/currency-converter/raw", code: 200 })),
-      ).annotate({ identifier: "CreateCurrencyConverterRawRequest" });
-  }
-}
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23803,7 +24528,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "PutEmploymentBenefitOffersRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23821,7 +24546,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "PutEmploymentBillingAddressDetailsRequest" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23840,7 +24565,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "PutEmploymentContractDetailsRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23858,7 +24583,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "PutEmploymentEmergencyContactRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23875,7 +24600,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "PutEmploymentFederalTaxesRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23892,7 +24617,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "PutEmploymentFederalTaxesRequest2" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23910,7 +24635,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "PutEmploymentPersonalDetailsRequest" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23928,7 +24653,45 @@ function __c280(j: number): any {
       ).annotate({ identifier: "PutEmploymentPersonalDetailsRequest2" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields", code: 200 })),
+      ).annotate({ identifier: "CreateCustomFieldRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          custom_field: __S(9056, __c283, 0),
+        }),
+      ).annotate({ identifier: "CreateEmploymentCustomFieldResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(9025, __c282, 1),
+        }),
+      ).annotate({ identifier: "CreateEmploymentCustomFieldResponse" });
+  }
+}
+function __c283(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data_entry_access: S.String,
+          id: S.String,
+          metadata: S.NullOr(S.Unknown),
+          name: S.String,
+          required: S.Boolean,
+          type: S.String,
+          visibility_scope: S.String,
+        }),
+      ).annotate({ identifier: "EmploymentCustomField" });
+  }
+}
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23946,7 +24709,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "PutEmploymentPricingPlanDetailsRequest" });
   }
 }
-function __c282(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23963,45 +24726,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "PutResignationValidateRequest" });
   }
 }
-function __c283(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields", code: 200 })),
-      ).annotate({ identifier: "CreateCustomFieldRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          custom_field: __S(9088, __c284, 0),
-        }),
-      ).annotate({ identifier: "CreateEmploymentCustomFieldResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(9057, __c283, 1),
-        }),
-      ).annotate({ identifier: "CreateEmploymentCustomFieldResponse" });
-  }
-}
-function __c284(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data_entry_access: S.String,
-          id: S.String,
-          metadata: S.NullOr(S.Unknown),
-          name: S.String,
-          required: S.Boolean,
-          type: S.String,
-          visibility_scope: S.String,
-        }),
-      ).annotate({ identifier: "EmploymentCustomField" });
-  }
-}
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24018,7 +24743,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "PutSandboxCompanyDefaultLegalEntityRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24034,7 +24759,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "PutSandboxContractAmendmentApproveRequest" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24050,7 +24775,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "PutSandboxContractAmendmentCancelRequest" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24067,7 +24792,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "UpdateBenefitRenewalRequestRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24080,7 +24805,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "UpdateCancelOnboardingRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24103,12 +24828,12 @@ function __c290(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9281, __c290, 1),
+          data: __S(9313, __c291, 1),
         }),
       ).annotate({ identifier: "PayItemResponse" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24125,7 +24850,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24138,7 +24863,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "UpdateWebhookCallbackRequest" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24153,23 +24878,23 @@ function __c293(j: number): any {
       ).annotate({ identifier: "CreateDocumentRequest" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          file: __S(9440, __c295, 0),
+          file: __S(9472, __c296, 0),
         }),
       ).annotate({ identifier: "UploadFileResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(9408, __c294, 0)),
+          data: S.optional(__S(9440, __c295, 0)),
         }),
       ).annotate({ identifier: "UploadFileResponse" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24183,7 +24908,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "File" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24202,7 +24927,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "CreateEmployeeDocumentRequest" });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24212,8 +24937,8 @@ function __c297(j: number): any {
           currency: S.String,
           expense_category_slug: S.optional(S.NullOr(S.String)),
           expense_date: S.String,
-          receipt: S.optional(__S(9536, __c298, 0)),
-          receipts: S.optional(__S(9568, __c299, 0)),
+          receipt: S.optional(__S(9568, __c299, 0)),
+          receipts: S.optional(__S(9600, __c300, 0)),
           tax_amount: S.optional(S.Number),
           timezone: S.optional(S.String),
           title: S.String,
@@ -24221,7 +24946,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "CreateEmployeeExpensRequest" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24232,29 +24957,29 @@ function __c298(j: number): any {
       ).annotate({ identifier: "Base64File" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9536, __c298, 0));
+      return S.Array(__S(9568, __c299, 0));
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(9536, __c298, 0)),
+          document: S.optional(__S(9568, __c299, 0)),
           end_date: S.String,
           leave_policy_variant_id: S.String,
           notes: S.optional(S.String),
           start_date: S.String,
-          timeoff_days: __S(9697, __c303, 1),
+          timeoff_days: __S(9729, __c304, 1),
           timezone: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v1/employee/timeoff", code: 200 })),
       ).annotate({ identifier: "CreateEmployeeTimeoffRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24273,7 +24998,7 @@ function __c301(j: number): any {
         }),
       ).annotate({ identifier: "TimeoffDay" });
     case 2:
-      return S.Array(__S(9633, __c301, 1));
+      return S.Array(__S(9665, __c302, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -24282,40 +25007,45 @@ function __c301(j: number): any {
           automatic: S.optional(S.Boolean),
           cancel_reason: S.optional(S.NullOr(S.String)),
           cancelled_at: S.optional(S.NullOr(S.String)),
-          document: S.optional(__S(9440, __c295, 0)),
+          created_by_id: S.optional(S.NullOr(S.String)),
+          decline_reason: S.optional(S.NullOr(S.String)),
+          document: S.optional(__S(9472, __c296, 0)),
+          edit_reason: S.optional(S.NullOr(S.String)),
           employment_id: S.String,
           end_date: S.String,
           id: S.String,
-          leave_policy: __S(9632, __c301, 0),
+          inserted_at: S.optional(S.String),
+          leave_policy: __S(9664, __c302, 0),
           leave_policy_variant_id: S.optional(S.NullOr(S.String)),
           notes: S.optional(S.NullOr(S.String)),
           start_date: S.String,
           status: S.String,
-          timeoff_days: __S(9634, __c301, 2),
+          timeoff_days: __S(9666, __c302, 2),
           timeoff_type: S.String,
           timezone: S.String,
           total_minutes: S.Number,
+          updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Timeoff" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeoff: __S(9635, __c301, 3),
+          timeoff: __S(9667, __c302, 3),
         }),
       ).annotate({ identifier: "TimeoffResponseData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9664, __c302, 0),
+          data: __S(9696, __c303, 0),
         }),
       ).annotate({ identifier: "TimeoffResponse" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24325,10 +25055,10 @@ function __c303(j: number): any {
         }),
       ).annotate({ identifier: "TimeoffDaysParams" });
     case 1:
-      return S.Array(__S(9696, __c303, 0));
+      return S.Array(__S(9728, __c304, 0));
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24339,7 +25069,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "CreateEmployeeTimeoffCancelRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24359,7 +25089,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateEmploymentRequest" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24369,6 +25099,7 @@ function __c306(j: number): any {
           country_code: S.optional(S.String),
           created_at: S.optional(S.String),
           employment_lifecycle_stage: S.optional(S.String),
+          eor_hiring_model: S.optional(S.NullOr(S.String)),
           full_name: S.optional(S.String),
           id: S.optional(S.String),
           job_title: S.optional(S.NullOr(S.String)),
@@ -24383,18 +25114,18 @@ function __c306(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          employment: S.optional(__S(9792, __c306, 0)),
+          employment: S.optional(__S(9824, __c307, 0)),
         }),
       ).annotate({ identifier: "EmploymentCreationResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(9793, __c306, 1)),
+          data: S.optional(__S(9825, __c307, 1)),
         }),
       ).annotate({ identifier: "EmploymentCreationResponse" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24412,7 +25143,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "CreateEmploymentContractEligibilityRequest" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24431,12 +25162,12 @@ function __c308(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9888, __c309, 0),
+          data: __S(9920, __c310, 0),
         }),
       ).annotate({ identifier: "ContractOriginResponse" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24447,14 +25178,14 @@ function __c309(j: number): any {
       ).annotate({ identifier: "ContractOriginResponseData" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           employment_id: S.String.pipe(T.Label()),
           currency: S.NullOr(S.String),
-          items: __S(9985, __c312, 1),
+          items: __S(10017, __c313, 1),
           note: S.optional(S.NullOr(S.String)),
           number: S.optional(S.NullOr(S.String)),
           start_date: S.String,
@@ -24469,24 +25200,24 @@ function __c310(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contractor_invoice_preview: __S(9536, __c298, 0),
+          contractor_invoice_preview: __S(9568, __c299, 0),
         }),
       ).annotate({ identifier: "ContractorInvoicePreviewResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9921, __c310, 1),
+          data: __S(9953, __c311, 1),
         }),
       ).annotate({ identifier: "ContractorInvoicePreviewResponse" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24496,10 +25227,10 @@ function __c312(j: number): any {
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleItem" });
     case 1:
-      return S.Array(__S(9984, __c312, 0));
+      return S.Array(__S(10016, __c313, 0));
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24509,14 +25240,14 @@ function __c313(j: number): any {
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItem" });
     case 1:
-      return S.Array(__S(10016, __c313, 0));
+      return S.Array(__S(10048, __c314, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           currency: S.optional(__S(0, __c0, 0)),
           custom_days: S.optional(__S(0, __c0, 0)),
           employment_id: S.optional(__S(0, __c0, 0)),
-          items: S.optional(__S(10017, __c313, 1)),
+          items: S.optional(__S(10049, __c314, 1)),
           note: S.optional(__S(0, __c0, 0)),
           nr_occurrences: S.optional(__S(0, __c0, 0)),
           number: S.optional(__S(0, __c0, 0)),
@@ -24528,10 +25259,10 @@ function __c313(j: number): any {
       return S.suspend(() =>
         S.Struct({
           currency: S.NullOr(S.String),
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
           employment_id: S.String,
-          errors: __S(10018, __c313, 2),
-          items: __S(9985, __c312, 1),
+          errors: __S(10050, __c314, 2),
+          items: __S(10017, __c313, 1),
           note: S.optional(S.String),
           nr_occurrences: S.optional(S.Number),
           number: S.optional(S.String),
@@ -24540,15 +25271,15 @@ function __c313(j: number): any {
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleCreateResponseFailure" });
     case 4:
-      return S.Array(__S(10019, __c313, 3));
+      return S.Array(__S(10051, __c314, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           currency: S.NullOr(S.String),
-          custom_days: S.optional(S.NullOr(__S(9952, __c311, 0))),
+          custom_days: S.optional(S.NullOr(__S(9984, __c312, 0))),
           employment_id: S.String,
           id: S.String,
-          items: __S(9985, __c312, 1),
+          items: __S(10017, __c313, 1),
           note: S.optional(S.String),
           nr_occurrences: S.optional(S.Number),
           number: S.optional(S.String),
@@ -24557,18 +25288,18 @@ function __c313(j: number): any {
         }),
       ).annotate({ identifier: "ContractorInvoiceScheduleCreateResponseSuccess" });
     case 6:
-      return S.Array(__S(10021, __c313, 5));
+      return S.Array(__S(10053, __c314, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          failures: __S(10020, __c313, 4),
-          successes: __S(10022, __c313, 6),
+          failures: __S(10052, __c314, 4),
+          successes: __S(10054, __c314, 6),
         }),
       ).annotate({ identifier: "BulkContractorInvoiceScheduleCreateResponseData" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(10023, __c313, 7),
+          data: __S(10055, __c314, 7),
         }),
       ).annotate({ identifier: "BulkContractorInvoiceScheduleCreateResponse" });
     case 9:
@@ -24582,24 +25313,24 @@ function __c313(j: number): any {
         }),
       ).annotate({ identifier: "TimeoffErrorResponseFieldErrorsItem" });
     case 11:
-      return S.Array(__S(10026, __c313, 10));
+      return S.Array(__S(10058, __c314, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(S.NullOr(__S(10025, __c313, 9))),
-          field_errors: __S(10027, __c313, 11),
+          errors: S.optional(S.NullOr(__S(10057, __c314, 9))),
+          field_errors: __S(10059, __c314, 11),
           message: S.String,
         }),
       ).annotate({ identifier: "TimeoffErrorResponse" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           employment_id: S.String.pipe(T.Label()),
-          engagement_agreement_details: __S(10082, __c315, 2),
+          engagement_agreement_details: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -24610,67 +25341,13 @@ function __c314(j: number): any {
       ).annotate({ identifier: "CreateEmploymentEngagementAgreementDetailRequest" });
   }
 }
-function __c315(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          content: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.String,
-          size: S.optional(S.Number),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EngagementAgreementDetailsFileParams" });
-    case 1:
-      return S.Array(__S(10080, __c315, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          allowances_details: S.optional(S.NullOr(__S(0, __c0, 0))),
-          available_pto: S.optional(S.NullOr(S.Number)),
-          break_time_per_day: S.optional(S.NullOr(S.Number)),
-          business_expenses: S.optional(S.NullOr(S.String)),
-          cba: S.optional(S.NullOr(S.String)),
-          cba_document: S.optional(S.NullOr(__S(10081, __c315, 1))),
-          covenants: S.optional(S.NullOr(__S(0, __c0, 0))),
-          has_allowances: S.optional(S.NullOr(S.String)),
-          has_bonus: S.optional(S.NullOr(S.String)),
-          has_business_expenses: S.optional(S.NullOr(S.String)),
-          has_business_presence: S.optional(S.String),
-          has_cba: S.optional(S.NullOr(S.String)),
-          has_commissions: S.optional(S.NullOr(S.String)),
-          has_covenants: S.optional(S.NullOr(S.String)),
-          has_illness_remuneration: S.optional(S.NullOr(S.String)),
-          has_overtime_compensation: S.optional(S.NullOr(S.String)),
-          has_pension_scheme: S.optional(S.NullOr(S.String)),
-          has_signing_bonus: S.optional(S.NullOr(S.String)),
-          has_similar_roles: S.optional(S.String),
-          has_similar_work_conditions: S.optional(S.NullOr(S.String)),
-          illness_remuneration_details: S.optional(S.NullOr(S.String)),
-          max_annual_gross_salary: S.optional(S.NullOr(S.Number)),
-          min_annual_gross_salary: S.optional(S.NullOr(S.Number)),
-          overtime_compensation_begins: S.optional(S.NullOr(S.Number)),
-          overtime_compensation_type: S.optional(S.NullOr(S.String)),
-          overtime_pay_percentage: S.optional(S.NullOr(S.Number)),
-          pension_scheme: S.optional(S.NullOr(S.String)),
-          similar_roles: S.optional(S.NullOr(S.String)),
-          similar_work_conditions_details: S.optional(S.NullOr(S.String)),
-          work_hours_per_week: S.optional(S.NullOr(S.Number)),
-          working_days: S.optional(S.NullOr(__S(0, __c0, 0))),
-        }),
-      ).annotate({
-        identifier: "CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails",
-      });
-  }
-}
 function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           employment_id: S.String.pipe(T.Label()),
-          engagement_agreement_details: __S(10082, __c315, 2),
+          engagement_agreement_details: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -24747,8 +25424,8 @@ function __c320(j: number): any {
           employment_id: S.String,
           expense_category_slug: S.optional(S.NullOr(S.String)),
           expense_date: S.String,
-          receipt: S.optional(__S(9536, __c298, 0)),
-          receipts: S.optional(__S(9568, __c299, 0)),
+          receipt: S.optional(__S(9568, __c299, 0)),
+          receipts: S.optional(__S(9600, __c300, 0)),
           reviewed_at: S.optional(S.String),
           reviewer_id: S.optional(S.String),
           tax_amount: S.optional(S.Number),
@@ -24989,8 +25666,8 @@ function __c332(j: number): any {
           reason_description: S.String,
           risk_assessment_reasons: __S(10688, __c334, 0),
           termination_reason: S.String,
-          termination_reason_files: S.optional(__S(9568, __c299, 0)),
-          timesheet_file: S.optional(__S(9536, __c298, 0)),
+          termination_reason_files: S.optional(__S(9600, __c300, 0)),
+          timesheet_file: S.optional(__S(9568, __c299, 0)),
           will_challenge_termination: S.Boolean,
           will_challenge_termination_description: S.optional(S.String),
         }),
@@ -25293,7 +25970,7 @@ function __c345(j: number): any {
         S.Struct({
           employment_id: S.String,
           id: S.String,
-          letter: S.NullOr(__S(9440, __c295, 0)),
+          letter: S.NullOr(__S(9472, __c296, 0)),
           status: S.String,
           submitted_at: S.String,
           zendesk_ticket_url: S.NullOr(S.String),
@@ -25323,7 +26000,7 @@ function __c346(j: number): any {
           duration_of_extension_in_days: S.Number,
           employment_id: S.String,
           reason_for_extension: S.String,
-          supporting_document: S.optional(__S(9536, __c298, 0)),
+          supporting_document: S.optional(__S(9568, __c299, 0)),
           was_employee_informed: S.Boolean,
         }).pipe(T.Http({ method: "POST", uri: "/v1/probation-extensions", code: 200 })),
       ).annotate({ identifier: "CreateProbationExtensionRequest" });
@@ -25626,9 +26303,18 @@ function __c362(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.NullOr(S.String)),
+          service_end_date: S.optional(S.NullOr(S.String)),
+          service_start_date: S.String,
+        }),
+      ).annotate({ identifier: "SandboxStatementOfWorkParams" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           employment_id: S.String.pipe(T.Label()),
           amount: S.String,
           pay_frequency: S.optional(S.NullOr(S.String)),
+          statement_of_work: S.optional(__S(11584, __c362, 0)),
           type: S.String,
         }).pipe(
           T.Http({
@@ -25638,10 +26324,10 @@ function __c362(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateSandboxContractorsEmploymentRateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(11617, __c363, 1),
+          data: __S(11618, __c363, 2),
         }),
       ).annotate({ identifier: "SandboxContractorRateResponse" });
   }
@@ -25652,10 +26338,18 @@ function __c363(j: number): any {
       return S.suspend(() =>
         S.Struct({
           amount: S.String,
-          currency: __S(800, __c25, 0),
+          currency: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "MoneyResponse" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contract_document_id: S.String,
+          id: S.String,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "ContractorRateStatementOfWork" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           amount: __S(11616, __c363, 0),
@@ -25665,6 +26359,7 @@ function __c363(j: number): any {
           pay_frequency: S.NullOr(S.String),
           service_end_date: S.NullOr(S.String),
           service_start_date: S.NullOr(S.String),
+          statement_of_work: S.NullOr(__S(11617, __c363, 1)),
           type: S.String,
         }),
       ).annotate({ identifier: "ContractorRate" });
@@ -25877,13 +26572,13 @@ function __c373(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(9536, __c298, 0)),
+          document: S.optional(__S(9568, __c299, 0)),
           employment_id: S.String,
           end_date: S.String,
           leave_policy_variant_id: S.optional(S.String),
           notes: S.optional(S.String),
           start_date: S.String,
-          timeoff_days: __S(9697, __c303, 1),
+          timeoff_days: __S(9729, __c304, 1),
           timeoff_type: S.optional(S.String),
           timezone: S.String,
           approved_at: S.String,
@@ -26382,7 +27077,7 @@ function __c404(j: number): any {
         S.Struct({
           benefit_offers_by_employment: __S(12936, __c404, 8),
           company_id: S.String,
-          currency: __S(6592, __c206, 0),
+          currency: __S(6560, __c205, 0),
         }),
       ).annotate({ identifier: "BenefitOfferByEmploymentResponseData" });
     case 10:

@@ -564,7 +564,7 @@ export interface UsageGetResultItem {
   invoiceIssuerName: string;
   /** Name of the entity that made the services available for purchase. */
   serviceProviderName: string;
-  /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
+  /** The unique identifier for the billable metric in the Cloudflare catalog. For cost billed under a since-archived billable metric this is the metric's catalog public id (a UUID) rather than its usage metric name, so it stays separate from the live metric that replaced it. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
   billedCost?: number | null | undefined;
@@ -1284,7 +1284,7 @@ export interface UsageGetAccountUsageV2ResultItem {
   invoiceIssuerName: string;
   /** Name of the entity that made the services available for purchase. */
   serviceProviderName: string;
-  /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
+  /** The unique identifier for the billable metric in the Cloudflare catalog. For cost billed under a since-archived billable metric this is the metric's catalog public id (a UUID) rather than its usage metric name, so it stays separate from the live metric that replaced it. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
   billedCost?: number | null | undefined;

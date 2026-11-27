@@ -199,6 +199,8 @@ export interface GetVulnerabilityDiscoveryReportResponseReportFindingsItemLocati
   file: string;
   line: number;
   route: string;
+  /** Repository the file is in, present only when it is not the finding's repository (another repository of the same report). `file` is then relative to that repository. */
+  repo?: string | null | undefined;
 }
 export interface GetVulnerabilityDiscoveryReportResponseReportFindingsItemReachabilityItem {
   consumer: string;
@@ -333,14 +335,14 @@ export interface GetVulnerabilityDiscoveryReportResponseReportFindingsItem {
     | GetVulnerabilityDiscoveryReportResponseReportFindingsItemImpactIdsList
     | null
     | undefined;
-  /** One bounded unresolved proof question. Optional on legacy report revisions. */
+  /** One bounded unresolved proof question. For a finding in a pending proof state, it names what must be checked, in the source, public information, a measurement or with the owning team that `proof_state` names, to prove or refute the finding. Optional on legacy report revisions. */
   openQuestion?: string | null | undefined;
   /** Method used or needed to close the proof. Optional on legacy report revisions. */
   proofMethod?:
     | GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofMethod
     | null
     | undefined;
-  /** Current proof lifecycle state. Optional on legacy report revisions. */
+  /** Current proof lifecycle state. `closed` means the finding is proven. A pending state means the path through the scanned repository is confirmed and one question the scanned source cannot settle, stated in `open_question`, is still open: `pending_source` waits on a dependency's or runtime's source, `pending_public` on public information, `pending_experiment` on a measurement, and `pending_team` on a fact the owning team knows, such as a deployment or consumer detail. The report's conditions and severity assume it resolves in the attacker's favour. Optional on legacy report revisions. */
   proofState?:
     | GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofState
     | null
@@ -903,14 +905,14 @@ export interface VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesI
     | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemImpactIdsList
     | null
     | undefined;
-  /** One bounded unresolved proof question. Optional on legacy report revisions. */
+  /** One bounded unresolved proof question. For a finding in a pending proof state, it names what must be checked, in the source, public information, a measurement or with the owning team that `proof_state` names, to prove or refute the finding. Optional on legacy report revisions. */
   openQuestion?: string | null | undefined;
   /** Method used or needed to close the proof. Optional on legacy report revisions. */
   proofMethod?:
     | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofMethod
     | null
     | undefined;
-  /** Current proof lifecycle state. Optional on legacy report revisions. */
+  /** Current proof lifecycle state. `closed` means the finding is proven. A pending state means the path through the scanned repository is confirmed and one question the scanned source cannot settle, stated in `open_question`, is still open: `pending_source` waits on a dependency's or runtime's source, `pending_public` on public information, `pending_experiment` on a measurement, and `pending_team` on a fact the owning team knows, such as a deployment or consumer detail. The report's conditions and severity assume it resolves in the attacker's favour. Optional on legacy report revisions. */
   proofState?:
     | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofState
     | null
@@ -1365,6 +1367,7 @@ function __c6(j: number): any {
           file: S.String,
           line: S.Number,
           route: S.String,
+          repo: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
         identifier: "GetVulnerabilityDiscoveryReportResponseReportFindingsItemLocation",

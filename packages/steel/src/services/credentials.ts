@@ -31,7 +31,7 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -47,7 +47,7 @@ export class Conflict
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
@@ -63,7 +63,7 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -73,11 +73,15 @@ export class NotFound
   declare readonly body?: ErrorResponse | string;
 }
 
+/** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+export type CreateCredentialRequestAdditionalOriginsList = Array<string>;
 /** Value for the credential */
 export type CreateCredentialRequestValueMap = {
   [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 export interface CreateCredentialRequest {
+  /** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+  additionalOrigins?: CreateCredentialRequestAdditionalOriginsList | undefined;
   /** Label for the credential */
   label?: string | undefined;
   /** The namespace the credential is stored against. Defaults to "default". */
@@ -89,7 +93,11 @@ export interface CreateCredentialRequest {
   /** Value for the credential */
   value: CreateCredentialRequestValueMap;
 }
+/** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+export type CredentialMetadataAdditionalOriginsList = Array<string>;
 export interface CredentialMetadata {
+  /** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+  additionalOrigins?: CredentialMetadataAdditionalOriginsList | undefined;
   /** Date and time the credential was created */
   createdAt: string;
   /** Label for the credential */
@@ -120,7 +128,11 @@ export interface ListCredentialsRequest {
   /** website origin the credential is for */
   origin?: string | undefined;
 }
+/** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+export type CredentialListCredentialsItemAdditionalOriginsList = Array<string>;
 export interface CredentialListCredentialsItem {
+  /** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. */
+  additionalOrigins?: CredentialListCredentialsItemAdditionalOriginsList | undefined;
   /** Date and time the credential was created */
   createdAt: string;
   /** Label for the credential */
@@ -136,11 +148,15 @@ export type CredentialListCredentialsList = Array<CredentialListCredentialsItem>
 export interface CredentialList {
   credentials: CredentialListCredentialsList;
 }
+/** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. Replaces the current list; [] clears it. */
+export type UpdateCredentialRequestAdditionalOriginsList = Array<string>;
 /** Value for the credential */
 export type UpdateCredentialRequestValueMap = {
   [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 export interface UpdateCredentialRequest {
+  /** Canonical http(s) origins, besides `origin`, this credential may be filled on, such as its login host or identity provider (e.g. `https://login.example.com`). Only the credential's origin and these ever match a page, exactly; at most 20. Replaces the current list; [] clears it. */
+  additionalOrigins?: UpdateCredentialRequestAdditionalOriginsList | undefined;
   /** Label for the credential */
   label?: string | undefined;
   /** The namespace the credential is stored against. Defaults to "default". */
@@ -158,11 +174,15 @@ export interface ErrorResponseContextItem {
   params: unknown;
 }
 export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+export type ErrorResponseDetailsMap = { [key: string]: unknown | undefined };
 /** An error response from the API */
 export interface ErrorResponse {
   /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
   code?: string | undefined;
   context?: ErrorResponseContextList | undefined;
+  /** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+  details?: ErrorResponseDetailsMap | undefined;
   error?: string | undefined;
   linkToDocs?: string | undefined;
   message: string;
@@ -172,6 +192,8 @@ export interface ErrorResponse {
   retryAfterSeconds?: number | undefined;
   /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
   retryable?: boolean | undefined;
+  /** Where a person turns on the refused feature, e.g. verifying the account. Pass it to your user. */
+  unlockUrl?: string | undefined;
 }
 export type CreateCredentialError = BadRequest | Conflict | SteelOpError;
 /** Stores credentials Encrypts and stores credentials for an origin */
@@ -182,7 +204,7 @@ export const createCredential: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateCredentialRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
+  output: __S(9, __c2, 1) as any as S.Schema<CredentialMetadata>,
   errors: [BadRequest, Conflict],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -236,7 +258,7 @@ export const updateCredential: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<UpdateCredentialRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
+  output: __S(9, __c2, 1) as any as S.Schema<CredentialMetadata>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -259,16 +281,20 @@ function __c0(j: number): any {
     case 1:
       return S.Array(__S(0, __c0, 0));
     case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           context: S.optional(__S(1, __c0, 1)),
+          details: S.optional(__S(2, __c0, 2)),
           error: S.optional(S.String),
           linkToDocs: S.optional(S.String),
           message: S.String,
           param: S.optional(S.String),
           retryAfterSeconds: S.optional(S.Number),
           retryable: S.optional(S.Boolean),
+          unlockUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
@@ -278,6 +304,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          additionalOrigins: S.optional(__S(8, __c2, 0)),
           label: S.optional(S.String),
           namespace: S.optional(S.String),
           origin: S.optional(S.String),
@@ -290,8 +317,11 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
+          additionalOrigins: S.optional(__S(8, __c2, 0)),
           createdAt: S.String,
           label: S.optional(S.String),
           namespace: S.optional(S.String),
@@ -336,7 +366,7 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/credentials", code: 200 })),
       ).annotate({ identifier: "ListCredentialsRequest" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(9, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -350,6 +380,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          additionalOrigins: S.optional(__S(8, __c2, 0)),
           label: S.optional(S.String),
           namespace: S.optional(S.String),
           origin: S.optional(S.String),

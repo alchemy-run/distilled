@@ -58,17 +58,35 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Destination IDs to delete, as returned when the destination was created. */
+/** HogFunction IDs of the destination, as returned when it was created. */
 export type AlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
+/** Destination IDs from the destinations list or from creating the destination, to delete with their HogFunctions. */
+export type AlertsDestinationsDeleteCreateRequestDestinationIdsList = Array<string>;
 export interface AlertsDestinationsDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this alert configuration. */
   id: string;
-  /** Destination IDs to delete, as returned when the destination was created. */
-  hog_function_ids: AlertsDestinationsDeleteCreateRequestHogFunctionIdsList;
+  /** HogFunction IDs of the destination, as returned when it was created. */
+  hog_function_ids?: AlertsDestinationsDeleteCreateRequestHogFunctionIdsList | undefined;
+  /** Destination IDs from the destinations list or from creating the destination, to delete with their HogFunctions. */
+  destination_ids?: AlertsDestinationsDeleteCreateRequestDestinationIdsList | undefined;
 }
 export interface AlertsDestinationsDeleteCreateResponse {}
+/** Every HogFunction of the customized destination, from the destinations list. */
+export type AlertsDestinationsResetCreateRequestHogFunctionIdsList = Array<string>;
+export interface AlertsDestinationsResetCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** Every HogFunction of the customized destination, from the destinations list. */
+  hog_function_ids: AlertsDestinationsResetCreateRequestHogFunctionIdsList;
+}
+export interface AlertResetDestinationResponse {
+  /** The destination's new ID on the alerts platform, which now sends it. */
+  id: string;
+}
 export interface AlertsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -287,9 +305,27 @@ export interface EnsembleDetectorConfig {
   operator?: EnsembleOperator | (string & {}) | undefined;
   type?: string | undefined;
 }
+export type LLMDetectorModel = "claude-haiku-5-5" | "gpt-6-luna";
 export interface LLMDetectorConfig {
   /** What counts as unusual or interesting for this metric, in your own words. Optional. */
   instructions?: string | null | undefined;
+  /** The model that judges each check: claude-haiku-5-5 or gpt-6-luna. Optional. When it is not set, the alert uses claude-haiku-5-5. */
+  model?: LLMDetectorModel | (string & {}) | null | undefined;
+  type?: string | undefined;
+}
+export interface ForecastSideRule {
+  /** The value is at least this far from the expected value, in the series' units */
+  min_absolute_change?: number | null | undefined;
+  /** The value is at least this fraction away from the expected value. 1 = 100% */
+  min_relative_change?: number | null | undefined;
+  /** The value is beyond this forecast quantile. Above: 0.55 to 0.95 in steps of 0.05, or 0.99. Below: 0.01, or 0.05 to 0.45 in steps of 0.05. */
+  quantile?: number | null | undefined;
+}
+export interface ForecastDetectorConfig {
+  /** Rule for a value higher than expected. Omit to ignore that side. */
+  above?: ForecastSideRule | null | undefined;
+  /** Rule for a value lower than expected. Omit to ignore that side. */
+  below?: ForecastSideRule | null | undefined;
   type?: string | undefined;
 }
 /** Detector configuration types */
@@ -307,7 +343,8 @@ export type DetectorConfig =
   | LOFDetectorConfig
   | OCSVMDetectorConfig
   | ECODDetectorConfig
-  | LLMDetectorConfig;
+  | LLMDetectorConfig
+  | ForecastDetectorConfig;
 /** * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
 export type CalculationIntervalEnum =
   | "real_time"
@@ -329,7 +366,7 @@ export interface AlertScheduleRestriction {
   blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 /** * `notify` - Notify * `suppress` - Suppress */
-export type InvestigationInconclusiveActionEnum = "notify" | "suppress";
+export type AlertInvestigationInconclusiveActionEnum = "notify" | "suppress";
 export interface CreateAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -366,7 +403,7 @@ export interface CreateAlertRequest {
   investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
   investigation_inconclusive_action?:
-    | InvestigationInconclusiveActionEnum
+    | AlertInvestigationInconclusiveActionEnum
     | (string & {})
     | undefined;
 }
@@ -467,6 +504,10 @@ export interface Alert {
   insight_display_name?: string | undefined;
   /** Whether this alert can use the AI detector, judged for the person who created it, since scheduled checks run as the creator. Only computed when retrieving a single alert; null elsewhere. */
   llm_detector_available?: boolean | null | undefined;
+  /** Whether this alert can open PagerDuty incidents. Add one with destinations/pagerduty. */
+  pagerduty_available: boolean;
+  /** How many active notification destinations the alert sends to, such as Slack channels and webhooks, each counted once. Subscribed users are not included. */
+  destination_count: number;
   /** Human-readable name for the alert. */
   name?: string | undefined;
   /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
@@ -508,7 +549,7 @@ export interface Alert {
   /** When enabled (and investigation_agent_enabled is on), the first fire of an episode is held until the investigation agent produces a verdict, and that notification is suppressed when the verdict is false_positive (and optionally when inconclusive). Later fires of the same episode notify without waiting. A safety-net task force-fires after a few minutes if the investigation stalls. */
   investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
-  investigation_inconclusive_action?: InvestigationInconclusiveActionEnum | undefined;
+  investigation_inconclusive_action?: AlertInvestigationInconclusiveActionEnum | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
   search_match_type?: SearchMatchTypeEnum | null | undefined;
 }
@@ -528,11 +569,59 @@ export interface CreateAlertsDestinationRequest {
   /** Channel name shown on the destination, for example product-alerts. */
   slack_channel_name?: string | undefined;
 }
+/** HogFunction IDs of the new destination. Empty when the alerts platform checks the alert, since the platform sends the destination's message itself until someone customizes it. */
+export type AlertCreatedDestinationResponseHogFunctionIdsList = Array<string>;
+export interface AlertCreatedDestinationResponse {
+  /** The new destination's ID, the `id` that listing the alert's destinations shows. Delete the destination by passing it in `destination_ids`. Null when the alert is not on the alerts platform, in which case `hog_function_ids` identifies the destination. */
+  id: string | null;
+  /** HogFunction IDs of the new destination. Empty when the alerts platform checks the alert, since the platform sends the destination's message itself until someone customizes it. */
+  hog_function_ids: AlertCreatedDestinationResponseHogFunctionIdsList;
+}
+/** The destination's `hog_function_ids` from the destinations list, when it has HogFunctions. */
+export type CreateAlertsDestinationsCustomizeRequestHogFunctionIdsList = Array<string>;
+export interface CreateAlertsDestinationsCustomizeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** The destination's `id` from the destinations list. Use it for a destination with no HogFunctions. */
+  destination_id?: string | null | undefined;
+  /** The destination's `hog_function_ids` from the destinations list, when it has HogFunctions. */
+  hog_function_ids?: CreateAlertsDestinationsCustomizeRequestHogFunctionIdsList | undefined;
+}
 /** IDs of the created destination. Pass them to destinations/delete to remove it. */
 export type AlertDestinationResponseHogFunctionIdsList = Array<string>;
 export interface AlertDestinationResponse {
   /** IDs of the created destination. Pass them to destinations/delete to remove it. */
   hog_function_ids: AlertDestinationResponseHogFunctionIdsList;
+}
+/** * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+export type PagerDutySeverityEnum = "critical" | "error" | "warning" | "info";
+/** * `us` - us * `eu` - eu */
+export type PagerDutyRegionEnum = "us" | "eu";
+export interface CreateAlertsDestinationsPagerdutyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** The 32-character integration key of a PagerDuty Events API v2 integration. */
+  pagerduty_routing_key: string;
+  /** Severity of the incidents the alert opens. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+  pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
+  /** Region of the PagerDuty account. * `us` - us * `eu` - eu */
+  pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
+}
+/** * `discord` - discord * `teams` - teams * `webhook` - webhook */
+export type AlertCreateUrlDestinationTypeEnum = "discord" | "teams" | "webhook";
+export interface CreateAlertsDestinationsWebhookRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+  /** Destination type: a Discord or Microsoft Teams channel, or any webhook. * `discord` - discord * `teams` - teams * `webhook` - webhook */
+  type: AlertCreateUrlDestinationTypeEnum | (string & {});
+  /** The https URL to send to. Its path and query are a credential, so reads show only the host. */
+  webhook_url: string;
 }
 /** Numeric insight ID or saved insight short ID to simulate the detector on. */
 export type CreateAlertsSimulateRequestInsight = number | string;
@@ -558,7 +647,7 @@ export interface CreateAlertsSimulateRequest {
 export type AlertSimulateResponseDataList = Array<number>;
 /** Date labels for each point. */
 export type AlertSimulateResponseDatesList = Array<string>;
-/** Score for each point. Null can mean insufficient data or a valid unscored point. The AI detector has no score, so every point is null in an AI preview. */
+/** Score for each point. Null can mean insufficient data or a valid unscored point. The AI and forecast detectors have no score, so every point is null in their previews. */
 export type AlertSimulateResponseScoresList = Array<number | null>;
 /** Indices of points flagged as anomalies. */
 export type AlertSimulateResponseTriggeredIndicesList = Array<number>;
@@ -568,6 +657,30 @@ export type AlertSimulateResponseSubDetectorScoresItemMap = { [key: string]: unk
 /** Per-sub-detector scores for ensemble detectors. Each entry has 'type' and 'scores' fields. */
 export type AlertSimulateResponseSubDetectorScoresList =
   Array<AlertSimulateResponseSubDetectorScoresItemMap>;
+/** Expected value (the 0.5 forecast quantile) for each point. Null for a point that was not scored: it has fewer than 30 points before it, or it is older than the points the preview scores. */
+export type ForecastSimulationExpectedList = Array<number | null>;
+/** Lower end of the forecast range for each point, at `lower_quantile`. Null for an unscored point. */
+export type ForecastSimulationLowerList = Array<number | null>;
+/** Upper end of the forecast range for each point, at `upper_quantile`. Null for an unscored point. */
+export type ForecastSimulationUpperList = Array<number | null>;
+/** * `above` - Above the forecast * `below` - Below the forecast */
+export type ForecastSideEnum = "above" | "below";
+/** Side of the forecast that fired for each point: 'above' or 'below'. Null when the point did not fire or was not scored. */
+export type ForecastSimulationFiredSideList = Array<ForecastSideEnum | null>;
+export interface ForecastSimulation {
+  /** Forecast quantile that `lower` holds, for example 0.05. */
+  lower_quantile: number;
+  /** Forecast quantile that `upper` holds, for example 0.95. */
+  upper_quantile: number;
+  /** Expected value (the 0.5 forecast quantile) for each point. Null for a point that was not scored: it has fewer than 30 points before it, or it is older than the points the preview scores. */
+  expected: ForecastSimulationExpectedList;
+  /** Lower end of the forecast range for each point, at `lower_quantile`. Null for an unscored point. */
+  lower: ForecastSimulationLowerList;
+  /** Upper end of the forecast range for each point, at `upper_quantile`. Null for an unscored point. */
+  upper: ForecastSimulationUpperList;
+  /** Side of the forecast that fired for each point: 'above' or 'below'. Null when the point did not fire or was not scored. */
+  fired_side: ForecastSimulationFiredSideList;
+}
 /** Data values for each point. */
 export type BreakdownSimulationResultDataList = Array<number>;
 /** Date labels for each point. */
@@ -603,6 +716,8 @@ export interface BreakdownSimulationResult {
   anomaly_count?: number | undefined;
   /** Per-sub-detector scores for ensemble detectors. */
   sub_detector_scores?: BreakdownSimulationResultSubDetectorScoresList | undefined;
+  /** Forecast detector only: the one-step forecast of each point, for drawing the expected range. */
+  forecast?: ForecastSimulation | undefined;
 }
 /** Per-breakdown-value simulation results. Present only when the insight has breakdowns (up to 25 values). */
 export type AlertSimulateResponseBreakdownResultsList = Array<BreakdownSimulationResult>;
@@ -619,7 +734,7 @@ export interface AlertSimulateResponse {
   data?: AlertSimulateResponseDataList | undefined;
   /** Date labels for each point. */
   dates?: AlertSimulateResponseDatesList | undefined;
-  /** Score for each point. Null can mean insufficient data or a valid unscored point. The AI detector has no score, so every point is null in an AI preview. */
+  /** Score for each point. Null can mean insufficient data or a valid unscored point. The AI and forecast detectors have no score, so every point is null in their previews. */
   scores?: AlertSimulateResponseScoresList | undefined;
   /** Indices of points flagged as anomalies. */
   triggered_indices?: AlertSimulateResponseTriggeredIndicesList | undefined;
@@ -633,6 +748,8 @@ export interface AlertSimulateResponse {
   anomaly_count?: number | undefined;
   /** Per-sub-detector scores for ensemble detectors. Each entry has 'type' and 'scores' fields. */
   sub_detector_scores?: AlertSimulateResponseSubDetectorScoresList | undefined;
+  /** Forecast detector only: the one-step forecast of each point, for drawing the expected range. */
+  forecast?: ForecastSimulation | undefined;
   /** AI detector only: the model's reason for its verdict on the latest point. */
   rationale?: string | undefined;
   /** AI detector only: the shape the model saw at the latest point, or 'none'. */
@@ -645,6 +762,8 @@ export interface CreateAlertsTakeOwnershipRequest {
   project_id: string;
   /** A UUID string identifying this alert configuration. */
   id: string;
+  /** New owner's user UUID. Must be an active organization member. Defaults to yourself. */
+  user_uuid?: string | undefined;
 }
 export interface CreateAlertsTestDeliveryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -666,6 +785,25 @@ export interface GetAlertRequest {
   checks_limit?: number | undefined;
   /** Number of newest checks to skip (0-based). Use with checks_limit for pagination. Default 0. */
   checks_offset?: number | undefined;
+}
+export type GetAlertsPagerdutyAvailabilityRequestCalculationInterval =
+  | "real_time"
+  | "every_15_minutes"
+  | "hourly"
+  | "daily"
+  | "weekly"
+  | "monthly";
+export interface GetAlertsPagerdutyAvailabilityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** How often the new alert is checked. * `real_time` - real_time * `every_15_minutes` - every_15_minutes * `hourly` - hourly * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
+  calculation_interval: GetAlertsPagerdutyAvailabilityRequestCalculationInterval | (string & {});
+  /** Whether the new alert runs the investigation agent. */
+  investigation_agent_enabled?: boolean | undefined;
+}
+export interface AlertPagerDutyAvailability {
+  /** Whether a new alert with these settings can open PagerDuty incidents. */
+  available: boolean;
 }
 export interface ListAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -692,6 +830,54 @@ export interface PaginatedAlertList {
   previous?: string | null | undefined;
   results?: PaginatedAlertListResultsList | undefined;
 }
+export interface ListAlertsDestinationsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this alert configuration. */
+  id: string;
+}
+/** The HogFunctions that send for the destination. Empty once they are gone. */
+export type AlertDestinationListItemHogFunctionIdsList = Array<string>;
+/** * `slack` - Slack * `discord` - Discord * `webhook` - Webhook * `teams` - Microsoft Teams * `pagerduty` - PagerDuty * `incident_io` - incident.io * `email` - Email * `in_app` - In-app notification */
+export type DestinationTypeEnum =
+  | "slack"
+  | "discord"
+  | "webhook"
+  | "teams"
+  | "pagerduty"
+  | "incident_io"
+  | "email"
+  | "in_app";
+export interface AlertDestinationListItem {
+  /** The destination's ID on the alerts platform. Null for a destination added before the platform kept one, which `hog_function_ids` identifies instead. */
+  id: string | null;
+  /** The HogFunctions that send for the destination. Empty once they are gone. */
+  hog_function_ids: AlertDestinationListItemHogFunctionIdsList;
+  /** Notification destination type. * `slack` - Slack * `discord` - Discord * `webhook` - Webhook * `teams` - Microsoft Teams * `pagerduty` - PagerDuty * `incident_io` - incident.io * `email` - Email * `in_app` - In-app notification */
+  type: DestinationTypeEnum;
+  /** Whether the destination sends. */
+  enabled: boolean;
+  /** Whether a test delivery reaches the destination, through its HogFunctions or natively. */
+  hears_firing: boolean;
+  /** Whether someone edited the destination's message, so it no longer sends the standard one. */
+  message_customized: boolean;
+  /** Slack workspace integration ID. */
+  slack_workspace_id?: number | undefined;
+  /** Slack channel ID. */
+  slack_channel_id?: string | undefined;
+  /** Slack channel name, when it was saved. */
+  slack_channel_name?: string | undefined;
+  /** Webhook URL reduced to scheme and host. The path and query carry the secret. */
+  webhook_url?: string | undefined;
+  /** PagerDuty integration key reduced to its last four characters. */
+  pagerduty_routing_key?: string | undefined;
+  /** Severity of the incidents it opens. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
+  pagerduty_severity?: PagerDutySeverityEnum | undefined;
+  /** Region of the PagerDuty account. * `us` - us * `eu` - eu */
+  pagerduty_region?: PagerDutyRegionEnum | undefined;
+}
+export type ListAlertsDestinationsResponseBodyList = Array<AlertDestinationListItem>;
+export type ListAlertsDestinationsResponse = ListAlertsDestinationsResponseBodyList;
 /** User IDs to subscribe to this alert. Note: Response returns full UserBasicSerializer object. */
 export type UpdateAlertRequestSubscribedUsersList = Array<number>;
 export interface UpdateAlertRequest {
@@ -732,7 +918,7 @@ export interface UpdateAlertRequest {
   investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
   investigation_inconclusive_action?:
-    | InvestigationInconclusiveActionEnum
+    | AlertInvestigationInconclusiveActionEnum
     | (string & {})
     | undefined;
 }
@@ -776,7 +962,7 @@ export interface UpdateAlertsPartialRequest {
   investigation_gates_notifications?: boolean | undefined;
   /** How to handle an 'inconclusive' verdict: whether gated notifications fire and whether the investigation surfaces in the Signals inbox. 'notify' is the safe default -- an agent that can't be sure is itself useful signal. False positives never reach the inbox regardless of this setting. * `notify` - Notify * `suppress` - Suppress */
   investigation_inconclusive_action?:
-    | InvestigationInconclusiveActionEnum
+    | AlertInvestigationInconclusiveActionEnum
     | (string & {})
     | undefined;
 }
@@ -788,14 +974,32 @@ export const alertsDestinationsDeleteCreate: API.OperationMethod<
   AlertsDestinationsDeleteCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<AlertsDestinationsDeleteCreateRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<AlertsDestinationsDeleteCreateResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<AlertsDestinationsDeleteCreateRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<AlertsDestinationsDeleteCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AlertsDestinationsDeleteCreate",
+}));
+
+export type AlertsDestinationsResetCreateError = PosthogOpError;
+/** Send a customized destination's standard message again. Its HogFunctions are deleted, with their edits, and the alerts platform sends it from then on. Only an alert the alerts platform checks can be reset. */
+export const alertsDestinationsResetCreate: API.OperationMethod<
+  AlertsDestinationsResetCreateRequest,
+  AlertResetDestinationResponse,
+  AlertsDestinationsResetCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<AlertsDestinationsResetCreateRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<AlertResetDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertsDestinationsResetCreate",
 }));
 
 export type AlertsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -805,8 +1009,8 @@ export const alertsDestroy: API.OperationMethod<
   AlertsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<AlertsDestroyRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<AlertsDestroyResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<AlertsDestroyRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<AlertsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -822,8 +1026,8 @@ export const createAlert: API.OperationMethod<
   CreateAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateAlertRequest>,
-  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateAlertRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -833,15 +1037,15 @@ export const createAlert: API.OperationMethod<
 }));
 
 export type CreateAlertsDestinationError = PosthogOpError;
-/** Send this alert to a Slack channel as well as by email. The workspace must already be connected to the project. The returned IDs identify the destination. */
+/** Send this alert to a Slack channel as well as by email. The workspace must already be connected to the project. The returned `id` identifies the destination. */
 export const createAlertsDestination: API.OperationMethod<
   CreateAlertsDestinationRequest,
-  AlertDestinationResponse,
+  AlertCreatedDestinationResponse,
   CreateAlertsDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateAlertsDestinationRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<AlertDestinationResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateAlertsDestinationRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<AlertCreatedDestinationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -850,16 +1054,70 @@ export const createAlertsDestination: API.OperationMethod<
   span: "CreateAlertsDestination",
 }));
 
+export type CreateAlertsDestinationsCustomizeError = PosthogOpError;
+/** Make a destination's message editable. A destination that sends the standard message from the alerts platform gets HogFunctions with that message and stops sending from the platform. A destination that already has HogFunctions keeps them. Returns the HogFunction IDs to edit. */
+export const createAlertsDestinationsCustomize: API.OperationMethod<
+  CreateAlertsDestinationsCustomizeRequest,
+  AlertDestinationResponse,
+  CreateAlertsDestinationsCustomizeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<CreateAlertsDestinationsCustomizeRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<AlertDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsDestinationsCustomize",
+}));
+
+export type CreateAlertsDestinationsPagerdutyError = PosthogOpError;
+/** Open a PagerDuty incident when this alert starts firing, and resolve it when the alert stops. Only an alert whose pagerduty_available is true can take one. The returned `id` identifies the destination. */
+export const createAlertsDestinationsPagerduty: API.OperationMethod<
+  CreateAlertsDestinationsPagerdutyRequest,
+  AlertCreatedDestinationResponse,
+  CreateAlertsDestinationsPagerdutyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<CreateAlertsDestinationsPagerdutyRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<AlertCreatedDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsDestinationsPagerduty",
+}));
+
+export type CreateAlertsDestinationsWebhookError = PosthogOpError;
+/** Send this alert's firings to a Discord or Microsoft Teams channel, or to any webhook. The returned `id` identifies the destination. */
+export const createAlertsDestinationsWebhook: API.OperationMethod<
+  CreateAlertsDestinationsWebhookRequest,
+  AlertCreatedDestinationResponse,
+  CreateAlertsDestinationsWebhookError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateAlertsDestinationsWebhookRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<AlertCreatedDestinationResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsDestinationsWebhook",
+}));
+
 export type CreateAlertsSimulateError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI detector makes a real model call, so that mode needs the 'alert:write' scope. */
+/** Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI and forecast detectors make real model calls, so those modes need the 'alert:write' scope. The forecast detector scores every point with a one-step forecast from the points before it. */
 export const createAlertsSimulate: API.OperationMethod<
   CreateAlertsSimulateRequest,
   AlertSimulateResponse,
   CreateAlertsSimulateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateAlertsSimulateRequest>,
-  output: __S(213, __c13, 5) as any as S.Schema<AlertSimulateResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateAlertsSimulateRequest>,
+  output: __S(23, __c1, 7) as any as S.Schema<AlertSimulateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -869,15 +1127,15 @@ export const createAlertsSimulate: API.OperationMethod<
 }));
 
 export type CreateAlertsTakeOwnershipError = PosthogOpError;
-/** Make the requesting user the owner of this alert and enable it. Checks run with the owner's access, so this is how an alert continues after its owner left. */
+/** Take ownership of this alert and enable it. Only organization admins can assign another member. The new owner needs access to its content. Checks run with the owner's access, so this is how an alert continues after its owner left. */
 export const createAlertsTakeOwnership: API.OperationMethod<
   CreateAlertsTakeOwnershipRequest,
   Alert,
   CreateAlertsTakeOwnershipError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateAlertsTakeOwnershipRequest>,
-  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateAlertsTakeOwnershipRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<Alert>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -894,8 +1152,8 @@ export const createAlertsTestDelivery: API.OperationMethod<
   CreateAlertsTestDeliveryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateAlertsTestDeliveryRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateAlertsTestDeliveryResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateAlertsTestDeliveryRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<CreateAlertsTestDeliveryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -911,14 +1169,32 @@ export const getAlert: API.OperationMethod<
   GetAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetAlertRequest>,
-  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetAlertRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAlert",
+}));
+
+export type GetAlertsPagerdutyAvailabilityError = PosthogOpError;
+/** Whether a new alert with these settings could open PagerDuty incidents once it is created. */
+export const getAlertsPagerdutyAvailability: API.OperationMethod<
+  GetAlertsPagerdutyAvailabilityRequest,
+  AlertPagerDutyAvailability,
+  GetAlertsPagerdutyAvailabilityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<GetAlertsPagerdutyAvailabilityRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<AlertPagerDutyAvailability>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertsPagerdutyAvailability",
 }));
 
 export type ListAlertsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -928,14 +1204,32 @@ export const listAlerts: API.OperationMethod<
   ListAlertsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ListAlertsRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<PaginatedAlertList>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListAlertsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<PaginatedAlertList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAlerts",
+}));
+
+export type ListAlertsDestinationsError = PosthogOpError;
+/** This alert's notification destinations, one entry per destination, with credential-bearing URL components removed. Subscribers are listed on the alert instead. */
+export const listAlertsDestinations: API.OperationMethod<
+  ListAlertsDestinationsRequest,
+  ListAlertsDestinationsResponse,
+  ListAlertsDestinationsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<ListAlertsDestinationsRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ListAlertsDestinationsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsDestinations",
 }));
 
 export type UpdateAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -945,8 +1239,8 @@ export const updateAlert: API.OperationMethod<
   UpdateAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateAlertRequest>,
-  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  input: __S(128, __c8, 0) as any as S.Schema<UpdateAlertRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -962,8 +1256,8 @@ export const updateAlertsPartial: API.OperationMethod<
   UpdateAlertsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateAlertsPartialRequest>,
-  output: __S(189, __c11, 13) as any as S.Schema<Alert>,
+  input: __S(144, __c9, 0) as any as S.Schema<UpdateAlertsPartialRequest>,
+  output: __S(285, __c17, 13) as any as S.Schema<Alert>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -980,362 +1274,19 @@ function __c0(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          checks_date_from: S.optional(S.String.pipe(T.Query())),
-          checks_date_to: S.optional(S.String.pipe(T.Query())),
-          checks_limit: S.optional(S.Number.pipe(T.Query())),
-          checks_offset: S.optional(S.Number.pipe(T.Query())),
+          type: S.String,
+          webhook_url: S.String,
         }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/webhook/",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "GetAlertRequest" });
+      ).annotate({ identifier: "CreateAlertsDestinationsWebhookRequest" });
   }
 }
 function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          created_by: S.optional(S.String.pipe(T.Query())),
-          has_detector: S.optional(S.Boolean.pipe(T.Query())),
-          insight_id: S.optional(S.Number.pipe(T.Query())),
-          insight_tag: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
-      ).annotate({ identifier: "ListAlertsRequest" });
-    case 1:
-      return S.Array(__S(189, __c11, 13));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(17, __c1, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedAlertList" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          insight: S.optional(S.Number),
-          name: S.optional(S.String),
-          subscribed_users: S.optional(__S(160, __c10, 0)),
-          threshold: S.optional(__S(144, __c9, 0)),
-          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
-          enabled: S.optional(S.Boolean),
-          schedule_start_time: S.optional(S.NullOr(S.String)),
-          config: S.optional(S.NullOr(S.Unknown)),
-          detector_config: S.optional(S.NullOr(S.Unknown)),
-          evaluation_delay_intervals: S.optional(S.Number),
-          calculation_interval: S.optional(S.String),
-          snoozed_until: S.optional(S.NullOr(S.String)),
-          skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
-          investigation_agent_enabled: S.optional(S.Boolean),
-          investigation_gates_notifications: S.optional(S.Boolean),
-          investigation_inconclusive_action: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateAlertRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          insight: S.optional(S.Number),
-          name: S.optional(S.String),
-          subscribed_users: S.optional(__S(160, __c10, 0)),
-          threshold: S.optional(__S(144, __c9, 0)),
-          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
-          enabled: S.optional(S.Boolean),
-          schedule_start_time: S.optional(S.NullOr(S.String)),
-          config: S.optional(S.NullOr(S.Unknown)),
-          detector_config: S.optional(S.NullOr(S.Unknown)),
-          evaluation_delay_intervals: S.optional(S.Number),
-          calculation_interval: S.optional(S.String),
-          snoozed_until: S.optional(S.NullOr(S.String)),
-          skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
-          investigation_agent_enabled: S.optional(S.Boolean),
-          investigation_gates_notifications: S.optional(S.Boolean),
-          investigation_inconclusive_action: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateAlertsPartialRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          hog_function_ids: __S(96, __c6, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/alerts/{id}/destinations/delete/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AlertsDestinationsDeleteCreateRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AlertsDestinationsDeleteCreateResponse",
-      });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
-        ),
-      ).annotate({ identifier: "AlertsDestroyRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          insight: S.optional(S.Number),
-          name: S.optional(S.String),
-          subscribed_users: S.optional(__S(160, __c10, 0)),
-          threshold: S.optional(__S(144, __c9, 0)),
-          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
-          enabled: S.optional(S.Boolean),
-          schedule_start_time: S.optional(S.NullOr(S.String)),
-          config: S.optional(S.NullOr(S.Unknown)),
-          detector_config: S.optional(S.NullOr(S.Unknown)),
-          evaluation_delay_intervals: S.optional(S.Number),
-          calculation_interval: S.optional(S.String),
-          snoozed_until: S.optional(S.NullOr(S.String)),
-          skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
-          investigation_agent_enabled: S.optional(S.Boolean),
-          investigation_gates_notifications: S.optional(S.Boolean),
-          investigation_inconclusive_action: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
-      ).annotate({ identifier: "CreateAlertRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          configuration: S.optional(__S(177, __c11, 1)),
-        }),
-      ).annotate({ identifier: "ThresholdInput" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-    case 1:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lower: S.optional(S.NullOr(S.Number)),
-          upper: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "InsightsThresholdBounds" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          bounds: S.optional(S.NullOr(__S(176, __c11, 0))),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InsightThreshold" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AlertCondition" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
-    case 4:
-      return S.Array(__S(179, __c11, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          blocked_windows: S.optional(__S(180, __c11, 4)),
-        }),
-      ).annotate({ identifier: "AlertScheduleRestriction" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          distinct_id: S.optional(S.NullOr(S.String)),
-          first_name: S.optional(S.String),
-          last_name: S.optional(S.String),
-          email: S.optional(S.String),
-          is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(161, __c10, 1))),
-          role_at_organization: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "UserBasic" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          created_at: S.optional(S.String),
-          name: S.optional(S.String),
-          configuration: S.optional(__S(177, __c11, 1)),
-        }),
-      ).annotate({ identifier: "Threshold" });
-    case 8:
-      return S.Record(S.String, S.String);
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          channel: S.String,
-          target: S.String,
-          target_id: S.optional(S.NullOr(S.String)),
-          template: S.optional(S.NullOr(S.String)),
-          status: S.String,
-          at: S.NullOr(S.String),
-          display_label: S.String,
-        }),
-      ).annotate({ identifier: "AlertDelivery" });
-    case 10:
-      return S.Array(__S(185, __c11, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          created_at: S.optional(S.String),
-          calculated_value: S.optional(S.NullOr(S.Number)),
-          state: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(184, __c11, 8))),
-          targets_notified: S.optional(S.Boolean),
-          anomaly_scores: S.optional(S.Unknown),
-          triggered_points: S.optional(S.Unknown),
-          triggered_dates: S.optional(S.Unknown),
-          interval: S.optional(S.NullOr(S.String)),
-          triggered_metadata: S.optional(S.Unknown),
-          investigation_status: S.optional(S.NullOr(S.String)),
-          investigation_verdict: S.optional(S.NullOr(S.String)),
-          investigation_summary: S.optional(S.NullOr(S.String)),
-          investigation_notebook_short_id: S.optional(S.NullOr(S.String)),
-          notification_sent_at: S.optional(S.NullOr(S.String)),
-          notification_suppressed_by_agent: S.optional(S.Boolean),
-          deliveries: S.optional(S.NullOr(__S(186, __c11, 10))),
-        }),
-      ).annotate({ identifier: "AlertCheck" });
-    case 12:
-      return S.Array(__S(187, __c11, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(182, __c11, 6))),
-          created_at: S.optional(S.String),
-          insight: S.optional(S.Number),
-          insight_short_id: S.optional(S.String),
-          insight_display_name: S.optional(S.String),
-          llm_detector_available: S.optional(S.NullOr(S.Boolean)),
-          name: S.optional(S.String),
-          subscribed_users: S.optional(__S(160, __c10, 0)),
-          threshold: S.optional(__S(183, __c11, 7)),
-          condition: S.optional(S.NullOr(__S(178, __c11, 2))),
-          state: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          last_notified_at: S.optional(S.NullOr(S.String)),
-          last_checked_at: S.optional(S.NullOr(S.String)),
-          schedule_start_time: S.optional(S.NullOr(S.String)),
-          next_check_at: S.optional(S.NullOr(S.String)),
-          checks: S.optional(__S(188, __c11, 12)),
-          checks_total: S.optional(S.NullOr(S.Number)),
-          config: S.optional(S.NullOr(S.Unknown)),
-          detector_config: S.optional(S.NullOr(S.Unknown)),
-          evaluation_delay_intervals: S.optional(S.Number),
-          calculation_interval: S.optional(S.String),
-          snoozed_until: S.optional(S.NullOr(S.String)),
-          skip_weekend: S.optional(S.NullOr(S.Boolean)),
-          schedule_restriction: S.optional(S.NullOr(__S(181, __c11, 5))),
-          last_value: S.optional(S.NullOr(S.Number)),
-          investigation_agent_enabled: S.optional(S.Boolean),
-          investigation_gates_notifications: S.optional(S.Boolean),
-          investigation_inconclusive_action: S.optional(S.String),
-          search_match_type: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "Alert" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          slack_workspace_id: S.Number,
-          slack_channel_id: S.String,
-          slack_channel_name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/alerts/{id}/destinations/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateAlertsDestinationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          hog_function_ids: __S(96, __c6, 0),
-        }),
-      ).annotate({ identifier: "AlertDestinationResponse" });
-  }
-}
-function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1355,53 +1306,69 @@ function __c13(j: number): any {
     case 1:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          lower_quantile: S.Number,
+          upper_quantile: S.Number,
+          expected: __S(17, __c1, 1),
+          lower: __S(17, __c1, 1),
+          upper: __S(17, __c1, 1),
+          fired_side: __S(19, __c1, 3),
+        }),
+      ).annotate({ identifier: "ForecastSimulation" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          data: S.optional(__S(160, __c10, 0)),
-          dates: S.optional(__S(96, __c6, 0)),
-          scores: S.optional(__S(209, __c13, 1)),
-          triggered_indices: S.optional(__S(160, __c10, 0)),
-          triggered_dates: S.optional(__S(96, __c6, 0)),
+          data: S.optional(__S(256, __c16, 0)),
+          dates: S.optional(__S(176, __c11, 0)),
+          scores: S.optional(__S(17, __c1, 1)),
+          triggered_indices: S.optional(__S(256, __c16, 0)),
+          triggered_dates: S.optional(__S(176, __c11, 0)),
           total_points: S.optional(S.Number),
           anomaly_count: S.optional(S.Number),
-          sub_detector_scores: S.optional(__S(210, __c13, 2)),
+          sub_detector_scores: S.optional(__S(18, __c1, 2)),
+          forecast: S.optional(__S(20, __c1, 4)),
         }),
       ).annotate({ identifier: "BreakdownSimulationResult" });
-    case 4:
-      return S.Array(__S(211, __c13, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(21, __c1, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           evaluation_delay_intervals: S.optional(S.Number),
           evaluated_interval_start: S.optional(S.String),
           evaluated_interval_end: S.optional(S.String),
           evaluated_interval_timezone: S.optional(S.String),
-          data: S.optional(__S(160, __c10, 0)),
-          dates: S.optional(__S(96, __c6, 0)),
-          scores: S.optional(__S(209, __c13, 1)),
-          triggered_indices: S.optional(__S(160, __c10, 0)),
-          triggered_dates: S.optional(__S(96, __c6, 0)),
+          data: S.optional(__S(256, __c16, 0)),
+          dates: S.optional(__S(176, __c11, 0)),
+          scores: S.optional(__S(17, __c1, 1)),
+          triggered_indices: S.optional(__S(256, __c16, 0)),
+          triggered_dates: S.optional(__S(176, __c11, 0)),
           interval: S.optional(S.NullOr(S.String)),
           total_points: S.optional(S.Number),
           anomaly_count: S.optional(S.Number),
-          sub_detector_scores: S.optional(__S(210, __c13, 2)),
+          sub_detector_scores: S.optional(__S(18, __c1, 2)),
+          forecast: S.optional(__S(20, __c1, 4)),
           rationale: S.optional(S.String),
           kind: S.optional(S.NullOr(S.String)),
-          breakdown_results: S.optional(__S(212, __c13, 4)),
+          breakdown_results: S.optional(__S(22, __c1, 6)),
         }),
       ).annotate({ identifier: "AlertSimulateResponse" });
   }
 }
-function __c14(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          user_uuid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1412,7 +1379,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateAlertsTakeOwnershipRequest" });
   }
 }
-function __c15(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1427,6 +1394,510 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAlertsTestDeliveryRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          checks_date_from: S.optional(S.String.pipe(T.Query())),
+          checks_date_to: S.optional(S.String.pipe(T.Query())),
+          checks_limit: S.optional(S.Number.pipe(T.Query())),
+          checks_offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetAlertRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          calculation_interval: S.String.pipe(T.Query()),
+          investigation_agent_enabled: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/alerts/pagerduty_availability/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAlertsPagerdutyAvailabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          available: S.Boolean,
+        }),
+      ).annotate({ identifier: "AlertPagerDutyAvailability" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          created_by: S.optional(S.String.pipe(T.Query())),
+          has_detector: S.optional(S.Boolean.pipe(T.Query())),
+          insight_id: S.optional(S.Number.pipe(T.Query())),
+          insight_tag: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
+      ).annotate({ identifier: "ListAlertsRequest" });
+    case 1:
+      return S.Array(__S(285, __c17, 13));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedAlertList" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAlertsDestinationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.NullOr(S.String),
+          hog_function_ids: __S(176, __c11, 0),
+          type: S.String,
+          enabled: S.Boolean,
+          hears_firing: S.Boolean,
+          message_customized: S.Boolean,
+          slack_workspace_id: S.optional(S.Number),
+          slack_channel_id: S.optional(S.String),
+          slack_channel_name: S.optional(S.String),
+          webhook_url: S.optional(S.String),
+          pagerduty_routing_key: S.optional(S.String),
+          pagerduty_severity: S.optional(S.String),
+          pagerduty_region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertDestinationListItem" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() => __S(114, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertsDestinationsResponse",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          insight: S.optional(S.Number),
+          name: S.optional(S.String),
+          subscribed_users: S.optional(__S(256, __c16, 0)),
+          threshold: S.optional(__S(288, __c18, 0)),
+          condition: S.optional(S.NullOr(__S(274, __c17, 2))),
+          enabled: S.optional(S.Boolean),
+          schedule_start_time: S.optional(S.NullOr(S.String)),
+          config: S.optional(S.NullOr(S.Unknown)),
+          detector_config: S.optional(S.NullOr(S.Unknown)),
+          evaluation_delay_intervals: S.optional(S.Number),
+          calculation_interval: S.optional(S.String),
+          snoozed_until: S.optional(S.NullOr(S.String)),
+          skip_weekend: S.optional(S.NullOr(S.Boolean)),
+          schedule_restriction: S.optional(S.NullOr(__S(277, __c17, 5))),
+          investigation_agent_enabled: S.optional(S.Boolean),
+          investigation_gates_notifications: S.optional(S.Boolean),
+          investigation_inconclusive_action: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateAlertRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          insight: S.optional(S.Number),
+          name: S.optional(S.String),
+          subscribed_users: S.optional(__S(256, __c16, 0)),
+          threshold: S.optional(__S(288, __c18, 0)),
+          condition: S.optional(S.NullOr(__S(274, __c17, 2))),
+          enabled: S.optional(S.Boolean),
+          schedule_start_time: S.optional(S.NullOr(S.String)),
+          config: S.optional(S.NullOr(S.Unknown)),
+          detector_config: S.optional(S.NullOr(S.Unknown)),
+          evaluation_delay_intervals: S.optional(S.Number),
+          calculation_interval: S.optional(S.String),
+          snoozed_until: S.optional(S.NullOr(S.String)),
+          skip_weekend: S.optional(S.NullOr(S.Boolean)),
+          schedule_restriction: S.optional(S.NullOr(__S(277, __c17, 5))),
+          investigation_agent_enabled: S.optional(S.Boolean),
+          investigation_gates_notifications: S.optional(S.Boolean),
+          investigation_inconclusive_action: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateAlertsPartialRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          hog_function_ids: S.optional(__S(176, __c11, 0)),
+          destination_ids: S.optional(__S(176, __c11, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/delete/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AlertsDestinationsDeleteCreateRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AlertsDestinationsDeleteCreateResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          hog_function_ids: __S(176, __c11, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/reset/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AlertsDestinationsResetCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "AlertResetDestinationResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/alerts/{id}/", code: 200 }),
+        ),
+      ).annotate({ identifier: "AlertsDestroyRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          insight: S.optional(S.Number),
+          name: S.optional(S.String),
+          subscribed_users: S.optional(__S(256, __c16, 0)),
+          threshold: S.optional(__S(288, __c18, 0)),
+          condition: S.optional(S.NullOr(__S(274, __c17, 2))),
+          enabled: S.optional(S.Boolean),
+          schedule_start_time: S.optional(S.NullOr(S.String)),
+          config: S.optional(S.NullOr(S.Unknown)),
+          detector_config: S.optional(S.NullOr(S.Unknown)),
+          evaluation_delay_intervals: S.optional(S.Number),
+          calculation_interval: S.optional(S.String),
+          snoozed_until: S.optional(S.NullOr(S.String)),
+          skip_weekend: S.optional(S.NullOr(S.Boolean)),
+          schedule_restriction: S.optional(S.NullOr(__S(277, __c17, 5))),
+          investigation_agent_enabled: S.optional(S.Boolean),
+          investigation_gates_notifications: S.optional(S.Boolean),
+          investigation_inconclusive_action: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/alerts/", code: 200 })),
+      ).annotate({ identifier: "CreateAlertRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          lower: S.optional(S.NullOr(S.Number)),
+          upper: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "InsightsThresholdBounds" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bounds: S.optional(S.NullOr(__S(272, __c17, 0))),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InsightThreshold" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertCondition" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.String),
+          end: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestrictionWindow" });
+    case 4:
+      return S.Array(__S(275, __c17, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          blocked_windows: S.optional(__S(276, __c17, 4)),
+        }),
+      ).annotate({ identifier: "AlertScheduleRestriction" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          distinct_id: S.optional(S.NullOr(S.String)),
+          first_name: S.optional(S.String),
+          last_name: S.optional(S.String),
+          email: S.optional(S.String),
+          is_email_verified: S.optional(S.NullOr(S.Boolean)),
+          hedgehog_config: S.optional(S.NullOr(__S(257, __c16, 1))),
+          role_at_organization: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UserBasic" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          created_at: S.optional(S.String),
+          name: S.optional(S.String),
+          configuration: S.optional(__S(273, __c17, 1)),
+        }),
+      ).annotate({ identifier: "Threshold" });
+    case 8:
+      return S.Record(S.String, S.String);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          channel: S.String,
+          target: S.String,
+          target_id: S.optional(S.NullOr(S.String)),
+          template: S.optional(S.NullOr(S.String)),
+          status: S.String,
+          at: S.NullOr(S.String),
+          display_label: S.String,
+        }),
+      ).annotate({ identifier: "AlertDelivery" });
+    case 10:
+      return S.Array(__S(281, __c17, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          created_at: S.optional(S.String),
+          calculated_value: S.optional(S.NullOr(S.Number)),
+          state: S.optional(S.String),
+          error: S.optional(S.NullOr(__S(280, __c17, 8))),
+          targets_notified: S.optional(S.Boolean),
+          anomaly_scores: S.optional(S.Unknown),
+          triggered_points: S.optional(S.Unknown),
+          triggered_dates: S.optional(S.Unknown),
+          interval: S.optional(S.NullOr(S.String)),
+          triggered_metadata: S.optional(S.Unknown),
+          investigation_status: S.optional(S.NullOr(S.String)),
+          investigation_verdict: S.optional(S.NullOr(S.String)),
+          investigation_summary: S.optional(S.NullOr(S.String)),
+          investigation_notebook_short_id: S.optional(S.NullOr(S.String)),
+          notification_sent_at: S.optional(S.NullOr(S.String)),
+          notification_suppressed_by_agent: S.optional(S.Boolean),
+          deliveries: S.optional(S.NullOr(__S(282, __c17, 10))),
+        }),
+      ).annotate({ identifier: "AlertCheck" });
+    case 12:
+      return S.Array(__S(283, __c17, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          created_by: S.optional(S.NullOr(__S(278, __c17, 6))),
+          created_at: S.optional(S.String),
+          insight: S.optional(S.Number),
+          insight_short_id: S.optional(S.String),
+          insight_display_name: S.optional(S.String),
+          llm_detector_available: S.optional(S.NullOr(S.Boolean)),
+          pagerduty_available: S.Boolean,
+          destination_count: S.Number,
+          name: S.optional(S.String),
+          subscribed_users: S.optional(__S(256, __c16, 0)),
+          threshold: S.optional(__S(279, __c17, 7)),
+          condition: S.optional(S.NullOr(__S(274, __c17, 2))),
+          state: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          last_notified_at: S.optional(S.NullOr(S.String)),
+          last_checked_at: S.optional(S.NullOr(S.String)),
+          schedule_start_time: S.optional(S.NullOr(S.String)),
+          next_check_at: S.optional(S.NullOr(S.String)),
+          checks: S.optional(__S(284, __c17, 12)),
+          checks_total: S.optional(S.NullOr(S.Number)),
+          config: S.optional(S.NullOr(S.Unknown)),
+          detector_config: S.optional(S.NullOr(S.Unknown)),
+          evaluation_delay_intervals: S.optional(S.Number),
+          calculation_interval: S.optional(S.String),
+          snoozed_until: S.optional(S.NullOr(S.String)),
+          skip_weekend: S.optional(S.NullOr(S.Boolean)),
+          schedule_restriction: S.optional(S.NullOr(__S(277, __c17, 5))),
+          last_value: S.optional(S.NullOr(S.Number)),
+          investigation_agent_enabled: S.optional(S.Boolean),
+          investigation_gates_notifications: S.optional(S.Boolean),
+          investigation_inconclusive_action: S.optional(S.String),
+          search_match_type: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "Alert" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          configuration: S.optional(__S(273, __c17, 1)),
+        }),
+      ).annotate({ identifier: "ThresholdInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          slack_workspace_id: S.Number,
+          slack_channel_id: S.String,
+          slack_channel_name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAlertsDestinationRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.NullOr(S.String),
+          hog_function_ids: __S(176, __c11, 0),
+        }),
+      ).annotate({ identifier: "AlertCreatedDestinationResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          destination_id: S.optional(S.NullOr(S.String)),
+          hog_function_ids: S.optional(__S(176, __c11, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/customize/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAlertsDestinationsCustomizeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hog_function_ids: __S(176, __c11, 0),
+        }),
+      ).annotate({ identifier: "AlertDestinationResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          pagerduty_routing_key: S.String,
+          pagerduty_severity: S.optional(S.String),
+          pagerduty_region: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/alerts/{id}/destinations/pagerduty/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAlertsDestinationsPagerdutyRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

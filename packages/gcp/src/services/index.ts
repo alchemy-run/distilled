@@ -171,7 +171,6 @@ export * as gkehub_v1 from "./gkehub_v1.ts";
 export * as gkehub_v2 from "./gkehub_v2.ts";
 export * as gkeonprem_v1 from "./gkeonprem_v1.ts";
 export * as gmail_v1 from "./gmail_v1.ts";
-export * as gmailpostmastertools_v1 from "./gmailpostmastertools_v1.ts";
 export * as gmailpostmastertools_v2 from "./gmailpostmastertools_v2.ts";
 export * as groupsmigration_v1 from "./groupsmigration_v1.ts";
 export * as groupssettings_v1 from "./groupssettings_v1.ts";

@@ -223,11 +223,13 @@ export interface HogQLQueryModifiers {
   mergeFederatedAggregateJoins?: boolean | null | undefined;
   /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
   negatedPersonFiltersNotIn?: boolean | null | undefined;
+  /** Move eligible non-nullable equality filters from CROSS JOIN queries into ALL INNER JOIN constraints */
+  optimizeCrossJoins?: boolean | null | undefined;
   optimizeJoinedFilters?: boolean | null | undefined;
   optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
   parserMode?: ParserMode | (string & {}) | null | undefined;
-  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. Unset, it applies to a persons join from `posthog.flag_evaluations` or from the union of events and flag_evaluations, and to no other join. */
   personIdPushdown?: boolean | null | undefined;
   personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
   personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
@@ -235,6 +237,8 @@ export interface HogQLQueryModifiers {
   propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
   pushDownPredicates?: boolean | null | undefined;
   s3TableUseInvalidColumns?: boolean | null | undefined;
+  /** Filter the sessions join of an events query by its session property filters and run it as a `GLOBAL LEFT JOIN`, so the sessions are read once instead of once per events shard. Applies only when every session filter is an equality or `IN` against non-empty strings, which are false for an event with no matching session. */
+  sessionFilterGlobalJoin?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
   sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
@@ -247,7 +251,7 @@ export interface HogQLQueryModifiers {
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null | undefined;
   useMaterializedViews?: boolean | null | undefined;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's tab switch or `ph_new_events_schema` cookie applies, then the project. A project reads the native table once PostHog has moved it there. Before that, it can opt in early by storing `true` here in its project settings. A stored `false` is ignored. */
   useNewEventsSchema?: boolean | null | undefined;
   usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
@@ -271,7 +275,13 @@ export type QueryScanFixLocation =
   | "view"
   | "insight_date_range"
   | "dashboard_date_filter";
-export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export type QueryScanFindingKind =
+  | "no_event_filter"
+  | "no_start_date"
+  | "persons_join"
+  | "repeated_cte_expansion"
+  | "cross_join_equality"
+  | "date_arrays_before_breakdown_limit";
 export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
@@ -371,6 +381,22 @@ export interface DataWarehouseSourceUsage {
   uses_history_table?: boolean | null | undefined;
 }
 export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type WarehouseSuggestionNoteKind = "materialize" | "unmaterialize";
+export interface WarehouseSuggestionNote {
+  /** Whether this user can edit the view, which accepting the suggestion needs. */
+  can_act: boolean;
+  /** The suggestion id to pass to `warehouse-suggestions-get`, `-accept-prepare` or `-dismiss`. */
+  id: string;
+  /** What the suggestion proposes. */
+  kind: WarehouseSuggestionNoteKind | (string & {});
+  /** Plain-language note for the person, with the next step. */
+  message: string;
+  /** Absolute link to the view's page in Models. */
+  url: string;
+  /** The view's current name. */
+  view_name: string;
+}
+export type ActorsQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export interface DataWarehouseSyncWarning {
   /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
   data_is_current?: boolean | null | undefined;
@@ -434,6 +460,8 @@ export interface ActorsQueryResponse {
   types?: ActorsQueryResponseTypesList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: ActorsQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ActorsQueryResponseWarningsList | null | undefined;
 }
@@ -1311,6 +1339,7 @@ export type TrendsQueryResponseResultsItemMap = { [key: string]: unknown | undef
 export type TrendsQueryResponseResultsList = Array<TrendsQueryResponseResultsItemMap>;
 export type TrendsQueryResponseTimingsList = Array<QueryTiming>;
 export type TrendsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type TrendsQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type TrendsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -1339,6 +1368,8 @@ export interface TrendsQueryResponse {
   timings?: TrendsQueryResponseTimingsList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: TrendsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: TrendsQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: TrendsQueryResponseWarningsList | null | undefined;
 }
@@ -1702,11 +1733,14 @@ export type DataColorToken =
   | "preset-13"
   | "preset-14"
   | "preset-15";
+export type YAxisPosition2 = "auto" | "left" | "right";
 export interface ResultCustomizationByValue {
   assignmentBy?: string | undefined;
   color?: DataColorToken | (string & {}) | null | undefined;
   customColor?: string | null | undefined;
   hidden?: boolean | null | undefined;
+  label?: string | null | undefined;
+  yAxisPosition?: YAxisPosition2 | (string & {}) | null | undefined;
 }
 export type TrendsFilterResultCustomizationsCase0Map = {
   [key: string]: ResultCustomizationByValue | undefined;
@@ -1715,6 +1749,7 @@ export interface ResultCustomizationByPosition {
   assignmentBy?: string | undefined;
   color?: DataColorToken | (string & {}) | null | undefined;
   hidden?: boolean | null | undefined;
+  yAxisPosition?: YAxisPosition2 | (string & {}) | null | undefined;
 }
 export type TrendsFilterResultCustomizationsCase1Map = {
   [key: string]: ResultCustomizationByPosition | undefined;
@@ -2075,6 +2110,7 @@ export interface FunnelsFilter {
   showAnnotations?: boolean | null | undefined;
   /** Whether to show a legend describing the series. The legend only renders when the funnel has multiple series. Only applies to historical-trends funnels. */
   showLegend?: boolean | null | undefined;
+  showSummaryOnDashboards?: boolean | null | undefined;
   /** Display linear regression trend lines on the chart (only for historical trends viz) */
   showTrendLines?: boolean | null | undefined;
   showValuesOnSeries?: boolean | null | undefined;
@@ -2110,6 +2146,7 @@ export type FunnelsQueryPropertiesCase0List = Array<FunnelsQueryPropertiesCase0I
 export type FunnelsQueryProperties = FunnelsQueryPropertiesCase0List | PropertyGroupFilter;
 export type FunnelsQueryResponseTimingsList = Array<QueryTiming>;
 export type FunnelsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type FunnelsQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type FunnelsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2135,6 +2172,8 @@ export interface FunnelsQueryResponse {
   total_median_conversion_time?: number | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: FunnelsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: FunnelsQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: FunnelsQueryResponseWarningsList | null | undefined;
 }
@@ -2312,6 +2351,7 @@ export interface RetentionResult {
 export type RetentionQueryResponseResultsList = Array<RetentionResult>;
 export type RetentionQueryResponseTimingsList = Array<QueryTiming>;
 export type RetentionQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type RetentionQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type RetentionQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2338,6 +2378,8 @@ export interface RetentionQueryResponse {
     | RetentionQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: RetentionQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: RetentionQueryResponseWarningsList | null | undefined;
 }
@@ -2543,6 +2585,7 @@ export interface PathsLink {
 export type PathsQueryResponseResultsList = Array<PathsLink>;
 export type PathsQueryResponseTimingsList = Array<QueryTiming>;
 export type PathsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type PathsQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type PathsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2566,6 +2609,8 @@ export interface PathsQueryResponse {
   timings?: PathsQueryResponseTimingsList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: PathsQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsQueryResponseWarningsList | null | undefined;
 }
@@ -2718,6 +2763,7 @@ export interface PathsV2Results {
 }
 export type PathsV2QueryResponseTimingsList = Array<QueryTiming>;
 export type PathsV2QueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type PathsV2QueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type PathsV2QueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2741,6 +2787,8 @@ export interface PathsV2QueryResponse {
   timings?: PathsV2QueryResponseTimingsList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: PathsV2QueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: PathsV2QueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: PathsV2QueryResponseWarningsList | null | undefined;
 }
@@ -2797,6 +2845,7 @@ export type StickinessQueryResponseResultsItemMap = { [key: string]: unknown | u
 export type StickinessQueryResponseResultsList = Array<StickinessQueryResponseResultsItemMap>;
 export type StickinessQueryResponseTimingsList = Array<QueryTiming>;
 export type StickinessQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type StickinessQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type StickinessQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2825,6 +2874,8 @@ export interface StickinessQueryResponse {
     | StickinessQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: StickinessQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: StickinessQueryResponseWarningsList | null | undefined;
 }
@@ -2940,6 +2991,7 @@ export type LifecycleQueryResponseResultsItemMap = { [key: string]: unknown | un
 export type LifecycleQueryResponseResultsList = Array<LifecycleQueryResponseResultsItemMap>;
 export type LifecycleQueryResponseTimingsList = Array<QueryTiming>;
 export type LifecycleQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type LifecycleQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type LifecycleQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -2968,6 +3020,8 @@ export interface LifecycleQueryResponse {
     | LifecycleQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: LifecycleQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: LifecycleQueryResponseWarningsList | null | undefined;
 }
@@ -3166,6 +3220,7 @@ export type WebStatsTableQueryResponseTimingsList = Array<QueryTiming>;
 export type WebStatsTableQueryResponseTypesList = Array<unknown>;
 export type WebStatsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
+export type WebStatsTableQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type WebStatsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -3205,6 +3260,8 @@ export interface WebStatsTableQueryResponse {
     | WebStatsTableQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: WebStatsTableQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebStatsTableQueryResponseWarningsList | null | undefined;
 }
@@ -3276,6 +3333,7 @@ export interface WebOverviewItem {
 export type WebOverviewQueryResponseResultsList = Array<WebOverviewItem>;
 export type WebOverviewQueryResponseTimingsList = Array<QueryTiming>;
 export type WebOverviewQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type WebOverviewQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export type WebOverviewQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
   | AccessControlFilterWarning
@@ -3312,6 +3370,8 @@ export interface WebOverviewQueryResponse {
     | WebOverviewQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: WebOverviewQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: WebOverviewQueryResponseWarningsList | null | undefined;
 }
@@ -3901,8 +3961,8 @@ export const createPersonsPropertiesTimeline: API.OperationMethod<
   CreatePersonsPropertiesTimelineError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(540, __c16, 28) as any as S.Schema<CreatePersonsPropertiesTimelineRequest>,
-  output: __S(543, __c16, 31) as any as S.Schema<PropertiesTimelineResponse>,
+  input: __S(542, __c16, 30) as any as S.Schema<CreatePersonsPropertiesTimelineRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<PropertiesTimelineResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3919,8 +3979,8 @@ export const createPersonsSplit: API.OperationMethod<
   CreatePersonsSplitError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreatePersonsSplitRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<PersonSplitResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreatePersonsSplitRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<PersonSplitResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3937,8 +3997,8 @@ export const getPerson: API.OperationMethod<
   GetPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetPersonRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetPersonRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3955,7 +4015,7 @@ export const getPersonsActivity: API.OperationMethod<
   GetPersonsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetPersonsActivityRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetPersonsActivityRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<GetPersonsActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -3973,7 +4033,7 @@ export const getPersonsAllActivity: API.OperationMethod<
   GetPersonsAllActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetPersonsAllActivityRequest>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetPersonsAllActivityRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<GetPersonsAllActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -4172,7 +4232,7 @@ export const updatePerson: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<UpdatePersonRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
+  output: __S(704, __c22, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4190,7 +4250,7 @@ export const updatePersonsPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<UpdatePersonsPartialRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<PersonRecord>,
+  output: __S(704, __c22, 0) as any as S.Schema<PersonRecord>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4259,7 +4319,7 @@ function __c1(j: number): any {
           distinct_id_used: S.optional(S.NullOr(S.String)),
           person_id_used: S.optional(S.NullOr(S.String)),
           query_mode: S.optional(S.String),
-          distinct_ids_queried: S.optional(__S(576, __c18, 0)),
+          distinct_ids_queried: S.optional(__S(608, __c19, 0)),
           distinct_ids_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PersonPropertiesAtTimeMetadata" });
@@ -4268,7 +4328,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(576, __c18, 0)),
+          distinct_ids: S.optional(__S(608, __c19, 0)),
           properties: S.optional(__S(33, __c1, 1)),
           created_at: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -4337,7 +4397,7 @@ function __c3(j: number): any {
         S.Struct({
           id: S.Number,
           name: S.String,
-          distinct_ids: __S(576, __c18, 0),
+          distinct_ids: __S(608, __c19, 0),
           properties: S.optional(S.Unknown),
           created_at: S.String,
           uuid: S.String,
@@ -4477,8 +4537,8 @@ function __c8(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(576, __c18, 0)),
-          distinct_ids: S.optional(__S(576, __c18, 0)),
+          ids: S.optional(__S(608, __c19, 0)),
+          distinct_ids: S.optional(__S(608, __c19, 0)),
           delete_events: S.optional(S.Boolean),
           delete_recordings: S.optional(S.Boolean),
           keep_person: S.optional(S.Boolean),
@@ -4521,7 +4581,7 @@ function __c10(j: number): any {
           format: S.optional(S.String.pipe(T.Query())),
           key: S.optional(S.String),
           value: S.optional(S.Unknown),
-          properties: S.optional(__S(544, __c17, 0)),
+          properties: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4675,7 +4735,7 @@ function __c16(j: number): any {
           customChannelTypeRules: S.optional(S.NullOr(__S(519, __c16, 7))),
           dataWarehouseEventsModifiers: S.optional(S.NullOr(__S(521, __c16, 9))),
           debug: S.optional(S.NullOr(S.Boolean)),
-          forceClickhouseDataSkippingIndexes: S.optional(S.NullOr(__S(576, __c18, 0))),
+          forceClickhouseDataSkippingIndexes: S.optional(S.NullOr(__S(608, __c19, 0))),
           formatCsvAllowDoubleQuotes: S.optional(S.NullOr(S.Boolean)),
           inCohortVia: S.optional(S.NullOr(S.String)),
           inlineCohortCalculation: S.optional(S.NullOr(S.String)),
@@ -4684,6 +4744,7 @@ function __c16(j: number): any {
           materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
           mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
           negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
+          optimizeCrossJoins: S.optional(S.NullOr(S.Boolean)),
           optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
           optimizeProjections: S.optional(S.NullOr(S.Boolean)),
           parserMode: S.optional(S.NullOr(S.String)),
@@ -4694,6 +4755,7 @@ function __c16(j: number): any {
           propertyGroupsMode: S.optional(S.NullOr(S.String)),
           pushDownPredicates: S.optional(S.NullOr(S.Boolean)),
           s3TableUseInvalidColumns: S.optional(S.NullOr(S.Boolean)),
+          sessionFilterGlobalJoin: S.optional(S.NullOr(S.Boolean)),
           sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
           sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
           sessionTableVersion: S.optional(S.NullOr(S.String)),
@@ -4770,7 +4832,7 @@ function __c16(j: number): any {
           expiration_time: S.optional(S.NullOr(S.String)),
           id: S.String,
           insight_id: S.optional(S.NullOr(S.Number)),
-          labels: S.optional(S.NullOr(__S(576, __c18, 0))),
+          labels: S.optional(S.NullOr(__S(608, __c19, 0))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
           query_progress: S.optional(S.NullOr(__S(524, __c16, 12))),
@@ -4812,8 +4874,21 @@ function __c16(j: number): any {
     case 23:
       return S.Array(__S(534, __c16, 22));
     case 24:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          can_act: S.Boolean,
+          id: S.String,
+          kind: S.String,
+          message: S.String,
+          url: S.String,
+          view_name: S.String,
+        }),
+      ).annotate({ identifier: "WarehouseSuggestionNote" });
     case 25:
+      return S.Array(__S(536, __c16, 24));
+    case 26:
+      return S.Array(S.Unknown);
+    case 27:
       return S.suspend(() =>
         S.Struct({
           columns: __S(523, __c16, 11),
@@ -4829,12 +4904,13 @@ function __c16(j: number): any {
           resolved_date_range: S.optional(S.NullOr(__S(530, __c16, 18))),
           results: __S(531, __c16, 19),
           timings: S.optional(S.NullOr(__S(533, __c16, 21))),
-          types: S.optional(S.NullOr(__S(576, __c18, 0))),
+          types: S.optional(S.NullOr(__S(608, __c19, 0))),
           used_data_warehouse_sources: S.optional(S.NullOr(__S(535, __c16, 23))),
-          warnings: S.optional(S.NullOr(__S(536, __c16, 24))),
+          warehouse_suggestions: S.optional(S.NullOr(__S(537, __c16, 25))),
+          warnings: S.optional(S.NullOr(__S(538, __c16, 26))),
         }),
       ).annotate({ identifier: "ActorsQueryResponse" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
@@ -4843,7 +4919,7 @@ function __c16(j: number): any {
           scene: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryLogTags" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           breakdown: S.optional(S.NullOr(S.Unknown)),
@@ -4853,21 +4929,21 @@ function __c16(j: number): any {
           interval: S.optional(S.NullOr(S.Number)),
           kind: S.optional(S.String),
           modifiers: S.optional(S.NullOr(__S(522, __c16, 10))),
-          response: S.optional(S.NullOr(__S(537, __c16, 25))),
+          response: S.optional(S.NullOr(__S(539, __c16, 27))),
           series: S.optional(S.NullOr(S.Number)),
           source: S.Unknown,
           status: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(538, __c16, 26))),
+          tags: S.optional(S.NullOr(__S(540, __c16, 28))),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "InsightActorsQuery" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
-          query: __S(539, __c16, 27),
+          query: __S(541, __c16, 29),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4876,40 +4952,44 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePersonsPropertiesTimelineRequest" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          timestamp: S.String,
-          properties: __S(544, __c17, 0),
-          relevant_event_count: S.Number,
-        }),
-      ).annotate({ identifier: "PropertiesTimelinePoint" });
-    case 30:
-      return S.Array(__S(541, __c16, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          points: __S(542, __c16, 30),
-          crucial_property_keys: __S(576, __c18, 0),
+          timestamp: S.String,
+          properties: __S(576, __c18, 0),
+          relevant_event_count: S.Number,
+        }),
+      ).annotate({ identifier: "PropertiesTimelinePoint" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(543, __c16, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          points: __S(544, __c17, 0),
+          crucial_property_keys: __S(608, __c19, 0),
           effective_date_from: S.String,
           effective_date_to: S.String,
         }),
       ).annotate({ identifier: "PropertiesTimelineResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4918,7 +4998,7 @@ function __c19(j: number): any {
           id: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
           main_distinct_id: S.optional(S.NullOr(S.String)),
-          distinct_ids_to_split: S.optional(S.NullOr(__S(576, __c18, 0))),
+          distinct_ids_to_split: S.optional(S.NullOr(__S(608, __c19, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4935,7 +5015,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PersonSplitResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4949,14 +5029,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetPersonRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          distinct_ids: S.optional(__S(576, __c18, 0)),
+          distinct_ids: S.optional(__S(608, __c19, 0)),
           properties: S.optional(S.Unknown),
           created_at: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -4965,7 +5045,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PersonRecord" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4983,7 +5063,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetPersonsActivityRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

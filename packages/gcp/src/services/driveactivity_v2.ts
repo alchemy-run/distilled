@@ -95,61 +95,63 @@ export interface ConsolidationStrategy {
 }
 /** The request message for querying Drive activity. */
 export interface QueryDriveActivityRequest {
-  /** The minimum number of activities desired in the response; the server attempts to return at least this quantity. The server may also return fewer activities if it has a partial response ready before the request times out. If not set, a default value is used. */
-  pageSize?: number | undefined;
-  /** Return activities for this Drive folder, plus all children and descendants. The format is `items/ITEM_ID`. */
-  ancestorName?: string | undefined;
   /** The token identifies which page of results to return. Set this to the next_page_token value returned from a previous query to obtain the following page of results. If not set, the first page of results is returned. */
   pageToken?: string | undefined;
-  /** Details on how to consolidate related actions that make up the activity. If not set, then related actions aren't consolidated. */
-  consolidationStrategy?: ConsolidationStrategy | undefined;
-  /** The filtering for items returned from this query request. The format of the filter string is a sequence of expressions, joined by an optional "AND", where each expression is of the form "field operator value". Supported fields: - `time`: Uses numerical operators on date values either in terms of milliseconds since Jan 1, 1970 or in RFC 3339 format. Examples: - `time > 1452409200000 AND time <= 1492812924310` - `time >= "2016-01-10T01:02:03-05:00"` - `detail.action_detail_case`: Uses the "has" operator (:) and either a singular value or a list of allowed action types enclosed in parentheses, separated by a space. To exclude a result from the response, prepend a hyphen (`-`) to the beginning of the filter string. Examples: - `detail.action_detail_case:RENAME` - `detail.action_detail_case:(CREATE RESTORE)` - `-detail.action_detail_case:MOVE` */
-  filter?: string | undefined;
   /** Return activities for this Drive item. The format is `items/ITEM_ID`. */
   itemName?: string | undefined;
+  /** The minimum number of activities desired in the response; the server attempts to return at least this quantity. The server may also return fewer activities if it has a partial response ready before the request times out. If not set, a default value is used. */
+  pageSize?: number | undefined;
+  /** The filtering for items returned from this query request. The format of the filter string is a sequence of expressions, joined by an optional "AND", where each expression is of the form "field operator value". Supported fields: - `time`: Uses numerical operators on date values either in terms of milliseconds since Jan 1, 1970 or in RFC 3339 format. Examples: - `time > 1452409200000 AND time <= 1492812924310` - `time >= "2016-01-10T01:02:03-05:00"` - `detail.action_detail_case`: Uses the "has" operator (:) and either a singular value or a list of allowed action types enclosed in parentheses, separated by a space. To exclude a result from the response, prepend a hyphen (`-`) to the beginning of the filter string. Examples: - `detail.action_detail_case:RENAME` - `detail.action_detail_case:(CREATE RESTORE)` - `-detail.action_detail_case:MOVE` */
+  filter?: string | undefined;
+  /** Return activities for this Drive folder, plus all children and descendants. The format is `items/ITEM_ID`. */
+  ancestorName?: string | undefined;
+  /** Details on how to consolidate related actions that make up the activity. If not set, then related actions aren't consolidated. */
+  consolidationStrategy?: ConsolidationStrategy | undefined;
 }
 export interface QueryActivityRequest extends QueryDriveActivityRequest {}
-export type RestoreTypeEnum = "TYPE_UNSPECIFIED" | "UNTRASH";
-/** A deleted object was restored. */
-export interface Restore {
-  /** The type of restore action taken. */
-  type?: RestoreTypeEnum | undefined;
+/** This item is deprecated; please see `DriveFile` instead. */
+export type File = NoConsolidation;
+export type DriveFolderTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "MY_DRIVE_ROOT"
+  | "SHARED_DRIVE_ROOT"
+  | "STANDARD_FOLDER";
+/** A Drive item which is a folder. */
+export interface DriveFolder {
+  /** The type of Drive folder. */
+  type?: DriveFolderTypeEnum | undefined;
 }
-/** An object was renamed. */
-export interface Rename {
-  /** The previous title of the drive object. */
-  oldTitle?: string | undefined;
-  /** The new title of the drive object. */
-  newTitle?: string | undefined;
-}
-/** Represents any user (including a logged out user). */
-export type Anyone = NoConsolidation;
-/** Information about a group. */
-export interface Group {
-  /** The email address of the group. */
-  email?: string | undefined;
-  /** The title of the group. */
+/** A lightweight reference to a shared drive. */
+export interface DriveReference {
+  /** The title of the shared drive. */
   title?: string | undefined;
+  /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
+  name?: string | undefined;
 }
-export type PermissionRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "OWNER"
-  | "ORGANIZER"
-  | "FILE_ORGANIZER"
-  | "EDITOR"
-  | "COMMENTER"
-  | "VIEWER"
-  | "PUBLISHED_VIEWER";
+/** Information about a domain. */
+export interface Domain {
+  /** An opaque string used to identify this domain. */
+  legacyId?: string | undefined;
+  /** The name of the domain, e.g. `google.com`. */
+  name?: string | undefined;
+}
+/** This item is deprecated; please see `DriveReference` instead. */
+export interface TeamDriveReference {
+  /** This field is deprecated; please see `DriveReference.title` instead. */
+  title?: string | undefined;
+  /** This field is deprecated; please see `DriveReference.name` instead. */
+  name?: string | undefined;
+}
 /** A user whose account has since been deleted. */
 export type DeletedUser = NoConsolidation;
 /** A user about whom nothing is currently known. */
 export type UnknownUser = NoConsolidation;
 /** A known user. */
 export interface KnownUser {
-  /** True if this is the user making the request. */
-  isCurrentUser?: boolean | undefined;
   /** The identifier for this user that can be used with the People API to get more information. The format is `people/ACCOUNT_ID`. See https://developers.google.com/people/. */
   personName?: string | undefined;
+  /** True if this is the user making the request. */
+  isCurrentUser?: boolean | undefined;
 }
 /** Information about an end user. */
 export interface User {
@@ -160,41 +162,324 @@ export interface User {
   /** A known user. */
   knownUser?: KnownUser | undefined;
 }
-/** Information about a domain. */
-export interface Domain {
-  /** The name of the domain, e.g. `google.com`. */
-  name?: string | undefined;
-  /** An opaque string used to identify this domain. */
-  legacyId?: string | undefined;
-}
-/** The permission setting of an object. */
-export interface Permission {
-  /** If set, this permission applies to anyone, even logged out users. */
-  anyone?: NoConsolidation | undefined;
-  /** The group to whom this permission applies. */
-  group?: Group | undefined;
-  /** If true, the item can be discovered (e.g. in the user's "Shared with me" collection) without needing a link to the item. */
-  allowDiscovery?: boolean | undefined;
-  /** Indicates the [Google Drive permissions role](https://developers.google.com/workspace/drive/web/manage-sharing#roles). The role determines a user's ability to read, write, and comment on items. */
-  role?: PermissionRoleEnum | undefined;
-  /** The user to whom this permission applies. */
-  user?: User | undefined;
-  /** The domain to whom this permission applies. */
+/** Information about the owner of a Drive item. */
+export interface Owner {
+  /** The drive that owns the item. */
+  drive?: DriveReference | undefined;
+  /** The domain of the Drive item owner. */
   domain?: Domain | undefined;
+  /** This field is deprecated; please use the `drive` field instead. */
+  teamDrive?: TeamDriveReference | undefined;
+  /** The user that owns the Drive item. */
+  user?: User | undefined;
 }
-export type PermissionList = Array<Permission>;
-/** A change of the permission setting on an item. */
-export interface PermissionChange {
-  /** The set of permissions removed by this change. */
-  removedPermissions?: PermissionList | undefined;
-  /** The set of permissions added by this change. */
-  addedPermissions?: PermissionList | undefined;
+export type FolderTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "MY_DRIVE_ROOT"
+  | "TEAM_DRIVE_ROOT"
+  | "STANDARD_FOLDER";
+/** This item is deprecated; please see `DriveFolder` instead. */
+export interface Folder {
+  /** This field is deprecated; please see `DriveFolder.type` instead. */
+  type?: FolderTypeEnum | undefined;
+}
+/** A Drive item which is a file. */
+export type DriveFile = NoConsolidation;
+/** A Drive item, such as a file or folder. */
+export interface DriveItem {
+  /** This field is deprecated; please use the `driveFile` field instead. */
+  file?: NoConsolidation | undefined;
+  /** The Drive item is a folder. Includes information about the type of folder. */
+  driveFolder?: DriveFolder | undefined;
+  /** The MIME type of the Drive item. See https://developers.google.com/workspace/drive/v3/web/mime-types. */
+  mimeType?: string | undefined;
+  /** The target Drive item. The format is `items/ITEM_ID`. */
+  name?: string | undefined;
+  /** Information about the owner of this Drive item. */
+  owner?: Owner | undefined;
+  /** This field is deprecated; please use the `driveFolder` field instead. */
+  folder?: Folder | undefined;
+  /** The title of the Drive item. */
+  title?: string | undefined;
+  /** The Drive item is a file. */
+  driveFile?: NoConsolidation | undefined;
+}
+/** This item is deprecated; please see `Drive` instead. */
+export interface TeamDrive {
+  /** This field is deprecated; please see `Drive.title` instead. */
+  title?: string | undefined;
+  /** This field is deprecated; please see `Drive.name` instead. */
+  name?: string | undefined;
+  /** This field is deprecated; please see `Drive.root` instead. */
+  root?: DriveItem | undefined;
+}
+/** Information about a shared drive. */
+export interface Drive {
+  /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
+  name?: string | undefined;
+  /** The root of this shared drive. */
+  root?: DriveItem | undefined;
+  /** The title of the shared drive. */
+  title?: string | undefined;
+}
+/** A comment on a file. */
+export interface FileComment {
+  /** The discussion thread to which the comment was added. This identifier is an opaque string compatible with the Drive API and references the first comment in a discussion; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
+  legacyDiscussionId?: string | undefined;
+  /** The comment in the discussion thread. This identifier is an opaque string compatible with the Drive API; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
+  legacyCommentId?: string | undefined;
+  /** The link to the discussion thread containing this comment, for example, `https://docs.google.com/DOCUMENT_ID/edit?disco=THREAD_ID`. */
+  linkToDiscussion?: string | undefined;
+  /** The Drive item containing this comment. */
+  parent?: DriveItem | undefined;
+}
+/** Information about the target of activity. For more information on how activity history is shared with users, see [Activity history visibility](https://developers.google.com/workspace/drive/activity/v2#activityhistory). */
+export interface Target {
+  /** This field is deprecated; please use the `drive` field instead. */
+  teamDrive?: TeamDrive | undefined;
+  /** The target is a shared drive. */
+  drive?: Drive | undefined;
+  /** The target is a Drive item. */
+  driveItem?: DriveItem | undefined;
+  /** The target is a comment on a Drive file. */
+  fileComment?: FileComment | undefined;
+}
+export type TargetList = Array<Target>;
+/** Information about time ranges. */
+export interface TimeRange {
+  /** The start of the time range. */
+  startTime?: string | undefined;
+  /** The end of the time range. */
+  endTime?: string | undefined;
+}
+/** Empty message representing an anonymous user or indicating the authenticated user should be anonymized. */
+export type AnonymousUser = NoConsolidation;
+/** Empty message representing an administrator. */
+export type Administrator = NoConsolidation;
+/** Information about an impersonation, where an admin acts on behalf of an end user. Information about the acting admin is not currently available. */
+export interface Impersonation {
+  /** The impersonated user. */
+  impersonatedUser?: User | undefined;
+}
+export type SystemEventTypeEnum = "TYPE_UNSPECIFIED" | "USER_DELETION" | "TRASH_AUTO_PURGE";
+/** Event triggered by system operations instead of end users. */
+export interface SystemEvent {
+  /** The type of the system event that may triggered activity. */
+  type?: SystemEventTypeEnum | undefined;
+}
+/** The actor of a Drive activity. */
+export interface Actor {
+  /** An anonymous user. */
+  anonymous?: NoConsolidation | undefined;
+  /** An administrator. */
+  administrator?: NoConsolidation | undefined;
+  /** An account acting on behalf of another. */
+  impersonation?: Impersonation | undefined;
+  /** An end user. */
+  user?: User | undefined;
+  /** A non-user actor (i.e. system triggered). */
+  system?: SystemEvent | undefined;
+}
+export type DataLeakPreventionChangeTypeEnum = "TYPE_UNSPECIFIED" | "FLAGGED" | "CLEARED";
+/** A change in the object's data leak prevention status. */
+export interface DataLeakPreventionChange {
+  /** The type of Data Leak Prevention (DLP) change. */
+  type?: DataLeakPreventionChangeTypeEnum | undefined;
 }
 export type ApplicationReferenceTypeEnum = "UNSPECIFIED_REFERENCE_TYPE" | "LINK" | "DISCUSS";
 /** Activity in applications other than Drive. */
 export interface ApplicationReference {
   /** The reference type corresponding to this event. */
   type?: ApplicationReferenceTypeEnum | undefined;
+}
+/** A lightweight reference to a Drive item, such as a file or folder. */
+export interface DriveItemReference {
+  /** The Drive item is a folder. Includes information about the type of folder. */
+  driveFolder?: DriveFolder | undefined;
+  /** This field is deprecated; please use the `driveFolder` field instead. */
+  folder?: Folder | undefined;
+  /** The title of the Drive item. */
+  title?: string | undefined;
+  /** The target Drive item. The format is `items/ITEM_ID`. */
+  name?: string | undefined;
+  /** This field is deprecated; please use the `driveFile` field instead. */
+  file?: NoConsolidation | undefined;
+  /** The Drive item is a file. */
+  driveFile?: NoConsolidation | undefined;
+}
+/** A lightweight reference to the target of activity. */
+export interface TargetReference {
+  /** The target is a Drive item. */
+  driveItem?: DriveItemReference | undefined;
+  /** The target is a shared drive. */
+  drive?: DriveReference | undefined;
+  /** This field is deprecated; please use the `drive` field instead. */
+  teamDrive?: TeamDriveReference | undefined;
+}
+export type TargetReferenceList = Array<TargetReference>;
+/** An object was moved. */
+export interface Move {
+  /** The removed parent object(s). */
+  removedParents?: TargetReferenceList | undefined;
+  /** The added parent object(s). */
+  addedParents?: TargetReferenceList | undefined;
+}
+export type AppliedLabelChangeDetailTypesItemEnum =
+  | "TYPE_UNSPECIFIED"
+  | "LABEL_ADDED"
+  | "LABEL_REMOVED"
+  | "LABEL_FIELD_VALUE_CHANGED"
+  | "LABEL_APPLIED_BY_ITEM_CREATE";
+export type AppliedLabelChangeDetailTypesItemEnumList =
+  Array<AppliedLabelChangeDetailTypesItemEnum>;
+/** Wrapper for Text Field value. */
+export interface Text {
+  /** Value of Text Field. */
+  value?: string | undefined;
+}
+export type TextList_ = Array<Text>;
+/** Wrapper for Text List Field value. */
+export interface TextList {
+  /** Text values. */
+  values?: TextList_ | undefined;
+}
+/** Wrapper for User Field value. */
+export interface SingleUser {
+  /** User value as email. */
+  value?: string | undefined;
+}
+/** Wrapper for Date Field value. */
+export interface Driveactivity_Date {
+  /** Date value. */
+  value?: string | undefined;
+}
+/** Wrapper for Selection Field value as combined value/display_name pair for selected choice. */
+export interface Selection {
+  /** Selection value as human-readable display string. */
+  displayName?: string | undefined;
+  /** Selection value as Field Choice ID. */
+  value?: string | undefined;
+}
+export type SelectionList_ = Array<Selection>;
+/** Wrapper for SelectionList Field value. */
+export interface SelectionList {
+  /** Selection values. */
+  values?: SelectionList_ | undefined;
+}
+/** Wrapper for Integer Field value. */
+export interface Integer {
+  /** Integer value. */
+  value?: string | undefined;
+}
+export type SingleUserList = Array<SingleUser>;
+/** Wrapper for UserList Field value. */
+export interface UserList {
+  /** User values. */
+  values?: SingleUserList | undefined;
+}
+/** Contains a value of a Field. */
+export interface FieldValue {
+  /** Text List Field value. */
+  textList?: TextList | undefined;
+  /** User Field value. */
+  user?: SingleUser | undefined;
+  /** Date Field value. */
+  date?: Driveactivity_Date | undefined;
+  /** Selection List Field value. */
+  selectionList?: SelectionList | undefined;
+  /** Integer Field value. */
+  integer?: Integer | undefined;
+  /** Selection Field value. */
+  selection?: Selection | undefined;
+  /** Text Field value. */
+  text?: Text | undefined;
+  /** User List Field value. */
+  userList?: UserList | undefined;
+}
+/** Change to a Field value. */
+export interface FieldValueChange {
+  /** The value that was previously set on the field. If not present, the field was newly set. At least one of {old_value|new_value} is always set. */
+  oldValue?: FieldValue | undefined;
+  /** The value that is now set on the field. If not present, the field was cleared. At least one of {old_value|new_value} is always set. */
+  newValue?: FieldValue | undefined;
+  /** The human-readable display name for this field. */
+  displayName?: string | undefined;
+  /** The ID of this field. Field IDs are unique within a Label. */
+  fieldId?: string | undefined;
+}
+export type FieldValueChangeList = Array<FieldValueChange>;
+/** A change made to a Label on the Target. */
+export interface AppliedLabelChangeDetail {
+  /** The Label name representing the Label that changed. This name always contains the revision of the Label that was used when this Action occurred. The format is `labels/id@revision`. */
+  label?: string | undefined;
+  /** The types of changes made to the Label on the Target. */
+  types?: AppliedLabelChangeDetailTypesItemEnumList | undefined;
+  /** Field Changes. Only present if `types` contains `LABEL_FIELD_VALUE_CHANGED`. */
+  fieldChanges?: FieldValueChangeList | undefined;
+  /** The human-readable title of the label that changed. */
+  title?: string | undefined;
+}
+export type AppliedLabelChangeDetailList = Array<AppliedLabelChangeDetail>;
+/** Label changes that were made on the Target. */
+export interface AppliedLabelChange {
+  /** Changes that were made to the Label on the Target. */
+  changes?: AppliedLabelChangeDetailList | undefined;
+}
+export type AssignmentSubtypeEnum =
+  | "SUBTYPE_UNSPECIFIED"
+  | "ADDED"
+  | "DELETED"
+  | "REPLY_ADDED"
+  | "REPLY_DELETED"
+  | "RESOLVED"
+  | "REOPENED"
+  | "REASSIGNED";
+/** A comment with an assignment. */
+export interface Assignment {
+  /** The user to whom the comment was assigned. */
+  assignedUser?: User | undefined;
+  /** The sub-type of this event. */
+  subtype?: AssignmentSubtypeEnum | undefined;
+}
+export type UserList_ = Array<User>;
+export type PostSubtypeEnum =
+  | "SUBTYPE_UNSPECIFIED"
+  | "ADDED"
+  | "DELETED"
+  | "REPLY_ADDED"
+  | "REPLY_DELETED"
+  | "RESOLVED"
+  | "REOPENED";
+/** A regular posted comment. */
+export interface Post {
+  /** The sub-type of this event. */
+  subtype?: PostSubtypeEnum | undefined;
+}
+export type SuggestionSubtypeEnum =
+  | "SUBTYPE_UNSPECIFIED"
+  | "ADDED"
+  | "DELETED"
+  | "REPLY_ADDED"
+  | "REPLY_DELETED"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "ACCEPT_DELETED"
+  | "REJECT_DELETED";
+/** A suggestion. */
+export interface Suggestion {
+  /** The sub-type of this event. */
+  subtype?: SuggestionSubtypeEnum | undefined;
+}
+/** A change about comments on an object. */
+export interface Comment {
+  /** A change on an assignment. */
+  assignment?: Assignment | undefined;
+  /** Users who are mentioned in this comment. */
+  mentionedUsers?: UserList_ | undefined;
+  /** A change on a regular posted comment. */
+  post?: Post | undefined;
+  /** A change on a suggestion. */
+  suggestion?: Suggestion | undefined;
 }
 export type RestrictionChangeFeatureEnum =
   | "FEATURE_UNSPECIFIED"
@@ -222,417 +507,132 @@ export interface SettingsChange {
   /** The set of changes made to restrictions. */
   restrictionChanges?: RestrictionChangeList | undefined;
 }
-/** An empty message indicating an object was edited. */
-export type Edit = NoConsolidation;
-/** An object was uploaded into Drive. */
-export type Upload = NoConsolidation;
-/** A lightweight reference to a shared drive. */
-export interface DriveReference {
-  /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
-  name?: string | undefined;
-  /** The title of the shared drive. */
-  title?: string | undefined;
-}
-/** This item is deprecated; please see `DriveFile` instead. */
-export type File = NoConsolidation;
-/** A Drive item which is a file. */
-export type DriveFile = NoConsolidation;
-export type DriveFolderTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "MY_DRIVE_ROOT"
-  | "SHARED_DRIVE_ROOT"
-  | "STANDARD_FOLDER";
-/** A Drive item which is a folder. */
-export interface DriveFolder {
-  /** The type of Drive folder. */
-  type?: DriveFolderTypeEnum | undefined;
-}
-export type FolderTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "MY_DRIVE_ROOT"
-  | "TEAM_DRIVE_ROOT"
-  | "STANDARD_FOLDER";
-/** This item is deprecated; please see `DriveFolder` instead. */
-export interface Folder {
-  /** This field is deprecated; please see `DriveFolder.type` instead. */
-  type?: FolderTypeEnum | undefined;
-}
-/** A lightweight reference to a Drive item, such as a file or folder. */
-export interface DriveItemReference {
-  /** This field is deprecated; please use the `driveFile` field instead. */
-  file?: NoConsolidation | undefined;
-  /** The Drive item is a file. */
-  driveFile?: NoConsolidation | undefined;
-  /** The Drive item is a folder. Includes information about the type of folder. */
-  driveFolder?: DriveFolder | undefined;
-  /** The target Drive item. The format is `items/ITEM_ID`. */
-  name?: string | undefined;
-  /** The title of the Drive item. */
-  title?: string | undefined;
-  /** This field is deprecated; please use the `driveFolder` field instead. */
-  folder?: Folder | undefined;
-}
-/** This item is deprecated; please see `DriveReference` instead. */
-export interface TeamDriveReference {
-  /** This field is deprecated; please see `DriveReference.name` instead. */
-  name?: string | undefined;
-  /** This field is deprecated; please see `DriveReference.title` instead. */
-  title?: string | undefined;
-}
-/** A lightweight reference to the target of activity. */
-export interface TargetReference {
-  /** The target is a shared drive. */
-  drive?: DriveReference | undefined;
-  /** The target is a Drive item. */
-  driveItem?: DriveItemReference | undefined;
-  /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDriveReference | undefined;
-}
-/** An object was created by copying an existing object. */
-export interface Copy {
-  /** The original object. */
-  originalObject?: TargetReference | undefined;
-}
-/** An object was created from scratch. */
-export type New = NoConsolidation;
-/** An object was created. */
-export interface Create {
-  /** If present, indicates the object originated externally and was uploaded to Drive. */
-  upload?: NoConsolidation | undefined;
-  /** If present, indicates the object was created by copying an existing Drive object. */
-  copy?: Copy | undefined;
-  /** If present, indicates the object was newly created (e.g. as a blank document), not derived from a Drive object or external object. */
-  new?: NoConsolidation | undefined;
-}
-export type PostSubtypeEnum =
-  | "SUBTYPE_UNSPECIFIED"
-  | "ADDED"
-  | "DELETED"
-  | "REPLY_ADDED"
-  | "REPLY_DELETED"
-  | "RESOLVED"
-  | "REOPENED";
-/** A regular posted comment. */
-export interface Post {
-  /** The sub-type of this event. */
-  subtype?: PostSubtypeEnum | undefined;
-}
-export type AssignmentSubtypeEnum =
-  | "SUBTYPE_UNSPECIFIED"
-  | "ADDED"
-  | "DELETED"
-  | "REPLY_ADDED"
-  | "REPLY_DELETED"
-  | "RESOLVED"
-  | "REOPENED"
-  | "REASSIGNED";
-/** A comment with an assignment. */
-export interface Assignment {
-  /** The sub-type of this event. */
-  subtype?: AssignmentSubtypeEnum | undefined;
-  /** The user to whom the comment was assigned. */
-  assignedUser?: User | undefined;
-}
-export type SuggestionSubtypeEnum =
-  | "SUBTYPE_UNSPECIFIED"
-  | "ADDED"
-  | "DELETED"
-  | "REPLY_ADDED"
-  | "REPLY_DELETED"
-  | "ACCEPTED"
-  | "REJECTED"
-  | "ACCEPT_DELETED"
-  | "REJECT_DELETED";
-/** A suggestion. */
-export interface Suggestion {
-  /** The sub-type of this event. */
-  subtype?: SuggestionSubtypeEnum | undefined;
-}
-export type UserList_ = Array<User>;
-/** A change about comments on an object. */
-export interface Comment {
-  /** A change on a regular posted comment. */
-  post?: Post | undefined;
-  /** A change on an assignment. */
-  assignment?: Assignment | undefined;
-  /** A change on a suggestion. */
-  suggestion?: Suggestion | undefined;
-  /** Users who are mentioned in this comment. */
-  mentionedUsers?: UserList_ | undefined;
-}
-export type AppliedLabelChangeDetailTypesItemEnum =
-  | "TYPE_UNSPECIFIED"
-  | "LABEL_ADDED"
-  | "LABEL_REMOVED"
-  | "LABEL_FIELD_VALUE_CHANGED"
-  | "LABEL_APPLIED_BY_ITEM_CREATE";
-export type AppliedLabelChangeDetailTypesItemEnumList =
-  Array<AppliedLabelChangeDetailTypesItemEnum>;
-/** Wrapper for User Field value. */
-export interface SingleUser {
-  /** User value as email. */
-  value?: string | undefined;
-}
-/** Wrapper for Text Field value. */
-export interface Text {
-  /** Value of Text Field. */
-  value?: string | undefined;
-}
-export type TextList_ = Array<Text>;
-/** Wrapper for Text List Field value. */
-export interface TextList {
-  /** Text values. */
-  values?: TextList_ | undefined;
-}
-/** Wrapper for Integer Field value. */
-export interface Integer {
-  /** Integer value. */
-  value?: string | undefined;
-}
-/** Wrapper for Date Field value. */
-export interface Driveactivity_Date {
-  /** Date value. */
-  value?: string | undefined;
-}
-/** Wrapper for Selection Field value as combined value/display_name pair for selected choice. */
-export interface Selection {
-  /** Selection value as Field Choice ID. */
-  value?: string | undefined;
-  /** Selection value as human-readable display string. */
-  displayName?: string | undefined;
-}
-export type SelectionList_ = Array<Selection>;
-/** Wrapper for SelectionList Field value. */
-export interface SelectionList {
-  /** Selection values. */
-  values?: SelectionList_ | undefined;
-}
-export type SingleUserList = Array<SingleUser>;
-/** Wrapper for UserList Field value. */
-export interface UserList {
-  /** User values. */
-  values?: SingleUserList | undefined;
-}
-/** Contains a value of a Field. */
-export interface FieldValue {
-  /** User Field value. */
-  user?: SingleUser | undefined;
-  /** Text List Field value. */
-  textList?: TextList | undefined;
-  /** Integer Field value. */
-  integer?: Integer | undefined;
-  /** Date Field value. */
-  date?: Driveactivity_Date | undefined;
-  /** Selection List Field value. */
-  selectionList?: SelectionList | undefined;
-  /** Text Field value. */
-  text?: Text | undefined;
-  /** User List Field value. */
-  userList?: UserList | undefined;
-  /** Selection Field value. */
-  selection?: Selection | undefined;
-}
-/** Change to a Field value. */
-export interface FieldValueChange {
-  /** The ID of this field. Field IDs are unique within a Label. */
-  fieldId?: string | undefined;
-  /** The human-readable display name for this field. */
-  displayName?: string | undefined;
-  /** The value that was previously set on the field. If not present, the field was newly set. At least one of {old_value|new_value} is always set. */
-  oldValue?: FieldValue | undefined;
-  /** The value that is now set on the field. If not present, the field was cleared. At least one of {old_value|new_value} is always set. */
-  newValue?: FieldValue | undefined;
-}
-export type FieldValueChangeList = Array<FieldValueChange>;
-/** A change made to a Label on the Target. */
-export interface AppliedLabelChangeDetail {
-  /** The Label name representing the Label that changed. This name always contains the revision of the Label that was used when this Action occurred. The format is `labels/id@revision`. */
-  label?: string | undefined;
-  /** The types of changes made to the Label on the Target. */
-  types?: AppliedLabelChangeDetailTypesItemEnumList | undefined;
-  /** Field Changes. Only present if `types` contains `LABEL_FIELD_VALUE_CHANGED`. */
-  fieldChanges?: FieldValueChangeList | undefined;
-  /** The human-readable title of the label that changed. */
-  title?: string | undefined;
-}
-export type AppliedLabelChangeDetailList = Array<AppliedLabelChangeDetail>;
-/** Label changes that were made on the Target. */
-export interface AppliedLabelChange {
-  /** Changes that were made to the Label on the Target. */
-  changes?: AppliedLabelChangeDetailList | undefined;
-}
 export type DeleteTypeEnum = "TYPE_UNSPECIFIED" | "TRASH" | "PERMANENT_DELETE";
 /** An object was deleted. */
 export interface Delete {
   /** The type of delete action taken. */
   type?: DeleteTypeEnum | undefined;
 }
-export type TargetReferenceList = Array<TargetReference>;
-/** An object was moved. */
-export interface Move {
-  /** The added parent object(s). */
-  addedParents?: TargetReferenceList | undefined;
-  /** The removed parent object(s). */
-  removedParents?: TargetReferenceList | undefined;
+export type PermissionRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "OWNER"
+  | "ORGANIZER"
+  | "FILE_ORGANIZER"
+  | "EDITOR"
+  | "COMMENTER"
+  | "VIEWER"
+  | "PUBLISHED_VIEWER";
+/** Information about a group. */
+export interface Group {
+  /** The title of the group. */
+  title?: string | undefined;
+  /** The email address of the group. */
+  email?: string | undefined;
 }
-export type DataLeakPreventionChangeTypeEnum = "TYPE_UNSPECIFIED" | "FLAGGED" | "CLEARED";
-/** A change in the object's data leak prevention status. */
-export interface DataLeakPreventionChange {
-  /** The type of Data Leak Prevention (DLP) change. */
-  type?: DataLeakPreventionChangeTypeEnum | undefined;
+/** Represents any user (including a logged out user). */
+export type Anyone = NoConsolidation;
+/** The permission setting of an object. */
+export interface Permission {
+  /** Indicates the [Google Drive permissions role](https://developers.google.com/workspace/drive/web/manage-sharing#roles). The role determines a user's ability to read, write, and comment on items. */
+  role?: PermissionRoleEnum | undefined;
+  /** If true, the item can be discovered (e.g. in the user's "Shared with me" collection) without needing a link to the item. */
+  allowDiscovery?: boolean | undefined;
+  /** The domain to whom this permission applies. */
+  domain?: Domain | undefined;
+  /** The group to whom this permission applies. */
+  group?: Group | undefined;
+  /** The user to whom this permission applies. */
+  user?: User | undefined;
+  /** If set, this permission applies to anyone, even logged out users. */
+  anyone?: NoConsolidation | undefined;
+}
+export type PermissionList = Array<Permission>;
+/** A change of the permission setting on an item. */
+export interface PermissionChange {
+  /** The set of permissions removed by this change. */
+  removedPermissions?: PermissionList | undefined;
+  /** The set of permissions added by this change. */
+  addedPermissions?: PermissionList | undefined;
+}
+export type RestoreTypeEnum = "TYPE_UNSPECIFIED" | "UNTRASH";
+/** A deleted object was restored. */
+export interface Restore {
+  /** The type of restore action taken. */
+  type?: RestoreTypeEnum | undefined;
+}
+/** An object was renamed. */
+export interface Rename {
+  /** The previous title of the drive object. */
+  oldTitle?: string | undefined;
+  /** The new title of the drive object. */
+  newTitle?: string | undefined;
+}
+/** An empty message indicating an object was edited. */
+export type Edit = NoConsolidation;
+/** An object was created by copying an existing object. */
+export interface Copy {
+  /** The original object. */
+  originalObject?: TargetReference | undefined;
+}
+/** An object was uploaded into Drive. */
+export type Upload = NoConsolidation;
+/** An object was created from scratch. */
+export type New = NoConsolidation;
+/** An object was created. */
+export interface Create {
+  /** If present, indicates the object was created by copying an existing Drive object. */
+  copy?: Copy | undefined;
+  /** If present, indicates the object originated externally and was uploaded to Drive. */
+  upload?: NoConsolidation | undefined;
+  /** If present, indicates the object was newly created (e.g. as a blank document), not derived from a Drive object or external object. */
+  new?: NoConsolidation | undefined;
 }
 /** Data describing the type and additional information of an action. */
 export interface ActionDetail {
+  /** A change happened in data leak prevention status. */
+  dlpChange?: DataLeakPreventionChange | undefined;
+  /** An object was referenced in an application outside of Drive/Docs. */
+  reference?: ApplicationReference | undefined;
+  /** An object was moved. */
+  move?: Move | undefined;
+  /** Label was changed. */
+  appliedLabelChange?: AppliedLabelChange | undefined;
+  /** A change about comments was made. */
+  comment?: Comment | undefined;
+  /** Settings were changed. */
+  settingsChange?: SettingsChange | undefined;
+  /** An object was deleted. */
+  delete?: Delete | undefined;
+  /** The permission on an object was changed. */
+  permissionChange?: PermissionChange | undefined;
   /** A deleted object was restored. */
   restore?: Restore | undefined;
   /** An object was renamed. */
   rename?: Rename | undefined;
-  /** The permission on an object was changed. */
-  permissionChange?: PermissionChange | undefined;
-  /** An object was referenced in an application outside of Drive/Docs. */
-  reference?: ApplicationReference | undefined;
-  /** Settings were changed. */
-  settingsChange?: SettingsChange | undefined;
   /** An object was edited. */
   edit?: NoConsolidation | undefined;
   /** An object was created. */
   create?: Create | undefined;
-  /** A change about comments was made. */
-  comment?: Comment | undefined;
-  /** Label was changed. */
-  appliedLabelChange?: AppliedLabelChange | undefined;
-  /** An object was deleted. */
-  delete?: Delete | undefined;
-  /** An object was moved. */
-  move?: Move | undefined;
-  /** A change happened in data leak prevention status. */
-  dlpChange?: DataLeakPreventionChange | undefined;
-}
-/** Information about time ranges. */
-export interface TimeRange {
-  /** The start of the time range. */
-  startTime?: string | undefined;
-  /** The end of the time range. */
-  endTime?: string | undefined;
-}
-/** Information about the owner of a Drive item. */
-export interface Owner {
-  /** The user that owns the Drive item. */
-  user?: User | undefined;
-  /** The domain of the Drive item owner. */
-  domain?: Domain | undefined;
-  /** The drive that owns the item. */
-  drive?: DriveReference | undefined;
-  /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDriveReference | undefined;
-}
-/** A Drive item, such as a file or folder. */
-export interface DriveItem {
-  /** The Drive item is a folder. Includes information about the type of folder. */
-  driveFolder?: DriveFolder | undefined;
-  /** The target Drive item. The format is `items/ITEM_ID`. */
-  name?: string | undefined;
-  /** This field is deprecated; please use the `driveFolder` field instead. */
-  folder?: Folder | undefined;
-  /** The Drive item is a file. */
-  driveFile?: NoConsolidation | undefined;
-  /** The title of the Drive item. */
-  title?: string | undefined;
-  /** Information about the owner of this Drive item. */
-  owner?: Owner | undefined;
-  /** This field is deprecated; please use the `driveFile` field instead. */
-  file?: NoConsolidation | undefined;
-  /** The MIME type of the Drive item. See https://developers.google.com/workspace/drive/v3/web/mime-types. */
-  mimeType?: string | undefined;
-}
-/** Information about a shared drive. */
-export interface Drive {
-  /** The title of the shared drive. */
-  title?: string | undefined;
-  /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
-  name?: string | undefined;
-  /** The root of this shared drive. */
-  root?: DriveItem | undefined;
-}
-/** A comment on a file. */
-export interface FileComment {
-  /** The Drive item containing this comment. */
-  parent?: DriveItem | undefined;
-  /** The comment in the discussion thread. This identifier is an opaque string compatible with the Drive API; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
-  legacyCommentId?: string | undefined;
-  /** The link to the discussion thread containing this comment, for example, `https://docs.google.com/DOCUMENT_ID/edit?disco=THREAD_ID`. */
-  linkToDiscussion?: string | undefined;
-  /** The discussion thread to which the comment was added. This identifier is an opaque string compatible with the Drive API and references the first comment in a discussion; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
-  legacyDiscussionId?: string | undefined;
-}
-/** This item is deprecated; please see `Drive` instead. */
-export interface TeamDrive {
-  /** This field is deprecated; please see `Drive.name` instead. */
-  name?: string | undefined;
-  /** This field is deprecated; please see `Drive.root` instead. */
-  root?: DriveItem | undefined;
-  /** This field is deprecated; please see `Drive.title` instead. */
-  title?: string | undefined;
-}
-/** Information about the target of activity. For more information on how activity history is shared with users, see [Activity history visibility](https://developers.google.com/workspace/drive/activity/v2#activityhistory). */
-export interface Target {
-  /** The target is a shared drive. */
-  drive?: Drive | undefined;
-  /** The target is a comment on a Drive file. */
-  fileComment?: FileComment | undefined;
-  /** The target is a Drive item. */
-  driveItem?: DriveItem | undefined;
-  /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDrive | undefined;
-}
-export type SystemEventTypeEnum = "TYPE_UNSPECIFIED" | "USER_DELETION" | "TRASH_AUTO_PURGE";
-/** Event triggered by system operations instead of end users. */
-export interface SystemEvent {
-  /** The type of the system event that may triggered activity. */
-  type?: SystemEventTypeEnum | undefined;
-}
-/** Empty message representing an administrator. */
-export type Administrator = NoConsolidation;
-/** Empty message representing an anonymous user or indicating the authenticated user should be anonymized. */
-export type AnonymousUser = NoConsolidation;
-/** Information about an impersonation, where an admin acts on behalf of an end user. Information about the acting admin is not currently available. */
-export interface Impersonation {
-  /** The impersonated user. */
-  impersonatedUser?: User | undefined;
-}
-/** The actor of a Drive activity. */
-export interface Actor {
-  /** A non-user actor (i.e. system triggered). */
-  system?: SystemEvent | undefined;
-  /** An administrator. */
-  administrator?: NoConsolidation | undefined;
-  /** An anonymous user. */
-  anonymous?: NoConsolidation | undefined;
-  /** An account acting on behalf of another. */
-  impersonation?: Impersonation | undefined;
-  /** An end user. */
-  user?: User | undefined;
 }
 /** Information about the action. */
 export interface Action {
   /** The action occurred over this time range. */
   timeRange?: TimeRange | undefined;
-  /** The type and detailed information about the action. */
-  detail?: ActionDetail | undefined;
-  /** The target this action affects (or empty if affecting all targets). This represents the state of the target immediately after this action occurred. */
-  target?: Target | undefined;
   /** The actor responsible for this action (or empty if all actors are responsible). */
   actor?: Actor | undefined;
+  /** The type and detailed information about the action. */
+  detail?: ActionDetail | undefined;
   /** The action occurred at this specific time. */
   timestamp?: string | undefined;
+  /** The target this action affects (or empty if affecting all targets). This represents the state of the target immediately after this action occurred. */
+  target?: Target | undefined;
 }
 export type ActionList = Array<Action>;
 export type ActorList = Array<Actor>;
-export type TargetList = Array<Target>;
 /** A single Drive activity comprising one or more Actions by one or more Actors on one or more Targets. Some Action groupings occur spontaneously, such as moving an item into a shared folder triggering a permission change. Other groupings of related Actions, such as multiple Actors editing one item or moving multiple files into a new folder, are controlled by the selection of a ConsolidationStrategy in the QueryDriveActivityRequest. */
 export interface DriveActivity {
-  /** Key information about the primary action for this activity. This is either representative, or the most important, of all actions in the activity, according to the ConsolidationStrategy in the request. */
-  primaryActionDetail?: ActionDetail | undefined;
+  /** All Google Drive objects this activity is about (e.g. file, folder, drive). This represents the state of the target immediately after the actions occurred. */
+  targets?: TargetList | undefined;
   /** Details on all actions in this activity. */
   actions?: ActionList | undefined;
   /** All actor(s) responsible for the activity. */
@@ -641,8 +641,8 @@ export interface DriveActivity {
   timestamp?: string | undefined;
   /** The activity occurred over this time range. */
   timeRange?: TimeRange | undefined;
-  /** All Google Drive objects this activity is about (e.g. file, folder, drive). This represents the state of the target immediately after the actions occurred. */
-  targets?: TargetList | undefined;
+  /** Key information about the primary action for this activity. This is either representative, or the most important, of all actions in the activity, according to the ConsolidationStrategy in the request. */
+  primaryActionDetail?: ActionDetail | undefined;
 }
 export type DriveActivityList = Array<DriveActivity>;
 /** Response message for querying Drive activity. */
@@ -685,12 +685,12 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number),
-          ancestorName: S.optional(S.String),
           pageToken: S.optional(S.String),
-          consolidationStrategy: S.optional(__S(1, __c0, 1)),
-          filter: S.optional(S.String),
           itemName: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          filter: S.optional(S.String),
+          ancestorName: S.optional(S.String),
+          consolidationStrategy: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "QueryDriveActivityRequest" });
     case 3:
@@ -708,26 +708,26 @@ function __c0(j: number): any {
         S.Struct({
           type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Restore" });
+      ).annotate({ identifier: "DriveFolder" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          oldTitle: S.optional(S.String),
-          newTitle: S.optional(S.String),
+          title: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Rename" });
+      ).annotate({ identifier: "DriveReference" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
-          title: S.optional(S.String),
+          legacyId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Group" });
+      ).annotate({ identifier: "Domain" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          isCurrentUser: S.optional(S.Boolean),
           personName: S.optional(S.String),
+          isCurrentUser: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "KnownUser" });
     case 8:
@@ -741,315 +741,315 @@ function __c0(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          legacyId: S.optional(S.String),
+          drive: S.optional(__S(5, __c0, 5)),
+          domain: S.optional(__S(6, __c0, 6)),
+          teamDrive: S.optional(__S(5, __c0, 5)),
+          user: S.optional(__S(8, __c0, 8)),
         }),
-      ).annotate({ identifier: "Domain" });
+      ).annotate({ identifier: "Owner" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          anyone: S.optional(__S(0, __c0, 0)),
-          group: S.optional(__S(6, __c0, 6)),
-          allowDiscovery: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          user: S.optional(__S(8, __c0, 8)),
-          domain: S.optional(__S(9, __c0, 9)),
+          file: S.optional(__S(0, __c0, 0)),
+          driveFolder: S.optional(__S(4, __c0, 4)),
+          mimeType: S.optional(S.String),
+          name: S.optional(S.String),
+          owner: S.optional(__S(9, __c0, 9)),
+          folder: S.optional(__S(4, __c0, 4)),
+          title: S.optional(S.String),
+          driveFile: S.optional(__S(0, __c0, 0)),
         }),
-      ).annotate({ identifier: "Permission" });
+      ).annotate({ identifier: "DriveItem" });
     case 11:
-      return S.Array(__S(10, __c0, 10));
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          name: S.optional(S.String),
+          root: S.optional(__S(10, __c0, 10)),
+        }),
+      ).annotate({ identifier: "TeamDrive" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          removedPermissions: S.optional(__S(11, __c0, 11)),
-          addedPermissions: S.optional(__S(11, __c0, 11)),
+          name: S.optional(S.String),
+          root: S.optional(__S(10, __c0, 10)),
+          title: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PermissionChange" });
+      ).annotate({ identifier: "Drive" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          feature: S.optional(S.String),
-          newRestriction: S.optional(S.String),
+          legacyDiscussionId: S.optional(S.String),
+          legacyCommentId: S.optional(S.String),
+          linkToDiscussion: S.optional(S.String),
+          parent: S.optional(__S(10, __c0, 10)),
         }),
-      ).annotate({ identifier: "RestrictionChange" });
+      ).annotate({ identifier: "FileComment" });
     case 14:
-      return S.Array(__S(13, __c0, 13));
+      return S.suspend(() =>
+        S.Struct({
+          teamDrive: S.optional(__S(11, __c0, 11)),
+          drive: S.optional(__S(12, __c0, 12)),
+          driveItem: S.optional(__S(10, __c0, 10)),
+          fileComment: S.optional(__S(13, __c0, 13)),
+        }),
+      ).annotate({ identifier: "Target" });
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          restrictionChanges: S.optional(__S(14, __c0, 14)),
-        }),
-      ).annotate({ identifier: "SettingsChange" });
+      return S.Array(__S(14, __c0, 14));
     case 16:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DriveReference" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          file: S.optional(__S(0, __c0, 0)),
-          driveFile: S.optional(__S(0, __c0, 0)),
-          driveFolder: S.optional(__S(4, __c0, 4)),
-          name: S.optional(S.String),
-          title: S.optional(S.String),
-          folder: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "DriveItemReference" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          drive: S.optional(__S(16, __c0, 16)),
-          driveItem: S.optional(__S(17, __c0, 17)),
-          teamDrive: S.optional(__S(16, __c0, 16)),
-        }),
-      ).annotate({ identifier: "TargetReference" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          originalObject: S.optional(__S(18, __c0, 18)),
-        }),
-      ).annotate({ identifier: "Copy" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          upload: S.optional(__S(0, __c0, 0)),
-          copy: S.optional(__S(19, __c0, 19)),
-          new: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "Create" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          subtype: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Post" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          subtype: S.optional(S.String),
-          assignedUser: S.optional(__S(8, __c0, 8)),
-        }),
-      ).annotate({ identifier: "Assignment" });
-    case 23:
-      return S.Array(__S(8, __c0, 8));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          post: S.optional(__S(21, __c0, 21)),
-          assignment: S.optional(__S(22, __c0, 22)),
-          suggestion: S.optional(__S(21, __c0, 21)),
-          mentionedUsers: S.optional(__S(23, __c0, 23)),
-        }),
-      ).annotate({ identifier: "Comment" });
-    case 25:
-      return S.Array(S.String);
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SingleUser" });
-    case 27:
-      return S.Array(__S(26, __c0, 26));
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(27, __c0, 27)),
-        }),
-      ).annotate({ identifier: "TextList" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Selection" });
-    case 30:
-      return S.Array(__S(29, __c0, 29));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(30, __c0, 30)),
-        }),
-      ).annotate({ identifier: "SelectionList" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(__S(26, __c0, 26)),
-          textList: S.optional(__S(28, __c0, 28)),
-          integer: S.optional(__S(26, __c0, 26)),
-          date: S.optional(__S(26, __c0, 26)),
-          selectionList: S.optional(__S(31, __c0, 31)),
-          text: S.optional(__S(26, __c0, 26)),
-          userList: S.optional(__S(28, __c0, 28)),
-          selection: S.optional(__S(29, __c0, 29)),
-        }),
-      ).annotate({ identifier: "FieldValue" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          fieldId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          oldValue: S.optional(__S(32, __c1, 0)),
-          newValue: S.optional(__S(32, __c1, 0)),
-        }),
-      ).annotate({ identifier: "FieldValueChange" });
-    case 2:
-      return S.Array(__S(33, __c1, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          label: S.optional(S.String),
-          types: S.optional(__S(25, __c0, 25)),
-          fieldChanges: S.optional(__S(34, __c1, 2)),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppliedLabelChangeDetail" });
-    case 4:
-      return S.Array(__S(35, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          changes: S.optional(__S(36, __c1, 4)),
-        }),
-      ).annotate({ identifier: "AppliedLabelChange" });
-    case 6:
-      return S.Array(__S(18, __c0, 18));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          addedParents: S.optional(__S(38, __c1, 6)),
-          removedParents: S.optional(__S(38, __c1, 6)),
-        }),
-      ).annotate({ identifier: "Move" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          restore: S.optional(__S(4, __c0, 4)),
-          rename: S.optional(__S(5, __c0, 5)),
-          permissionChange: S.optional(__S(12, __c0, 12)),
-          reference: S.optional(__S(4, __c0, 4)),
-          settingsChange: S.optional(__S(15, __c0, 15)),
-          edit: S.optional(__S(0, __c0, 0)),
-          create: S.optional(__S(20, __c0, 20)),
-          comment: S.optional(__S(24, __c0, 24)),
-          appliedLabelChange: S.optional(__S(37, __c1, 5)),
-          delete: S.optional(__S(4, __c0, 4)),
-          move: S.optional(__S(39, __c1, 7)),
-          dlpChange: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "ActionDetail" });
-    case 9:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeRange" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(__S(8, __c0, 8)),
-          domain: S.optional(__S(9, __c0, 9)),
-          drive: S.optional(__S(16, __c0, 16)),
-          teamDrive: S.optional(__S(16, __c0, 16)),
-        }),
-      ).annotate({ identifier: "Owner" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          driveFolder: S.optional(__S(4, __c0, 4)),
-          name: S.optional(S.String),
-          folder: S.optional(__S(4, __c0, 4)),
-          driveFile: S.optional(__S(0, __c0, 0)),
-          title: S.optional(S.String),
-          owner: S.optional(__S(42, __c1, 10)),
-          file: S.optional(__S(0, __c0, 0)),
-          mimeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DriveItem" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          name: S.optional(S.String),
-          root: S.optional(__S(43, __c1, 11)),
-        }),
-      ).annotate({ identifier: "Drive" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(__S(43, __c1, 11)),
-          legacyCommentId: S.optional(S.String),
-          linkToDiscussion: S.optional(S.String),
-          legacyDiscussionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FileComment" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          root: S.optional(__S(43, __c1, 11)),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TeamDrive" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          drive: S.optional(__S(44, __c1, 12)),
-          fileComment: S.optional(__S(45, __c1, 13)),
-          driveItem: S.optional(__S(43, __c1, 11)),
-          teamDrive: S.optional(__S(46, __c1, 14)),
-        }),
-      ).annotate({ identifier: "Target" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           impersonatedUser: S.optional(__S(8, __c0, 8)),
         }),
       ).annotate({ identifier: "Impersonation" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          system: S.optional(__S(4, __c0, 4)),
-          administrator: S.optional(__S(0, __c0, 0)),
-          anonymous: S.optional(__S(0, __c0, 0)),
-          impersonation: S.optional(__S(48, __c1, 16)),
-          user: S.optional(__S(8, __c0, 8)),
-        }),
-      ).annotate({ identifier: "Actor" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          timeRange: S.optional(__S(41, __c1, 9)),
-          detail: S.optional(__S(40, __c1, 8)),
-          target: S.optional(__S(47, __c1, 15)),
-          actor: S.optional(__S(49, __c1, 17)),
-          timestamp: S.optional(S.String),
+          anonymous: S.optional(__S(0, __c0, 0)),
+          administrator: S.optional(__S(0, __c0, 0)),
+          impersonation: S.optional(__S(17, __c0, 17)),
+          user: S.optional(__S(8, __c0, 8)),
+          system: S.optional(__S(4, __c0, 4)),
         }),
-      ).annotate({ identifier: "Action" });
+      ).annotate({ identifier: "Actor" });
     case 19:
-      return S.Array(__S(50, __c1, 18));
+      return S.suspend(() =>
+        S.Struct({
+          driveFolder: S.optional(__S(4, __c0, 4)),
+          folder: S.optional(__S(4, __c0, 4)),
+          title: S.optional(S.String),
+          name: S.optional(S.String),
+          file: S.optional(__S(0, __c0, 0)),
+          driveFile: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "DriveItemReference" });
     case 20:
-      return S.Array(__S(49, __c1, 17));
+      return S.suspend(() =>
+        S.Struct({
+          driveItem: S.optional(__S(19, __c0, 19)),
+          drive: S.optional(__S(5, __c0, 5)),
+          teamDrive: S.optional(__S(5, __c0, 5)),
+        }),
+      ).annotate({ identifier: "TargetReference" });
     case 21:
-      return S.Array(__S(47, __c1, 15));
+      return S.Array(__S(20, __c0, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          primaryActionDetail: S.optional(__S(40, __c1, 8)),
-          actions: S.optional(__S(51, __c1, 19)),
-          actors: S.optional(__S(52, __c1, 20)),
+          removedParents: S.optional(__S(21, __c0, 21)),
+          addedParents: S.optional(__S(21, __c0, 21)),
+        }),
+      ).annotate({ identifier: "Move" });
+    case 23:
+      return S.Array(S.String);
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Text" });
+    case 25:
+      return S.Array(__S(24, __c0, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(25, __c0, 25)),
+        }),
+      ).annotate({ identifier: "TextList" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Selection" });
+    case 28:
+      return S.Array(__S(27, __c0, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(28, __c0, 28)),
+        }),
+      ).annotate({ identifier: "SelectionList" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          textList: S.optional(__S(26, __c0, 26)),
+          user: S.optional(__S(24, __c0, 24)),
+          date: S.optional(__S(24, __c0, 24)),
+          selectionList: S.optional(__S(29, __c0, 29)),
+          integer: S.optional(__S(24, __c0, 24)),
+          selection: S.optional(__S(27, __c0, 27)),
+          text: S.optional(__S(24, __c0, 24)),
+          userList: S.optional(__S(26, __c0, 26)),
+        }),
+      ).annotate({ identifier: "FieldValue" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          oldValue: S.optional(__S(30, __c0, 30)),
+          newValue: S.optional(__S(30, __c0, 30)),
+          displayName: S.optional(S.String),
+          fieldId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FieldValueChange" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(31, __c0, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          types: S.optional(__S(23, __c0, 23)),
+          fieldChanges: S.optional(__S(32, __c1, 0)),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppliedLabelChangeDetail" });
+    case 2:
+      return S.Array(__S(33, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          changes: S.optional(__S(34, __c1, 2)),
+        }),
+      ).annotate({ identifier: "AppliedLabelChange" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          assignedUser: S.optional(__S(8, __c0, 8)),
+          subtype: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Assignment" });
+    case 5:
+      return S.Array(__S(8, __c0, 8));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          subtype: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Post" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          assignment: S.optional(__S(36, __c1, 4)),
+          mentionedUsers: S.optional(__S(37, __c1, 5)),
+          post: S.optional(__S(38, __c1, 6)),
+          suggestion: S.optional(__S(38, __c1, 6)),
+        }),
+      ).annotate({ identifier: "Comment" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          feature: S.optional(S.String),
+          newRestriction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestrictionChange" });
+    case 9:
+      return S.Array(__S(40, __c1, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          restrictionChanges: S.optional(__S(41, __c1, 9)),
+        }),
+      ).annotate({ identifier: "SettingsChange" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          email: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Group" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          allowDiscovery: S.optional(S.Boolean),
+          domain: S.optional(__S(6, __c0, 6)),
+          group: S.optional(__S(43, __c1, 11)),
+          user: S.optional(__S(8, __c0, 8)),
+          anyone: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "Permission" });
+    case 13:
+      return S.Array(__S(44, __c1, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          removedPermissions: S.optional(__S(45, __c1, 13)),
+          addedPermissions: S.optional(__S(45, __c1, 13)),
+        }),
+      ).annotate({ identifier: "PermissionChange" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          oldTitle: S.optional(S.String),
+          newTitle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Rename" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          originalObject: S.optional(__S(20, __c0, 20)),
+        }),
+      ).annotate({ identifier: "Copy" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          copy: S.optional(__S(48, __c1, 16)),
+          upload: S.optional(__S(0, __c0, 0)),
+          new: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "Create" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          dlpChange: S.optional(__S(4, __c0, 4)),
+          reference: S.optional(__S(4, __c0, 4)),
+          move: S.optional(__S(22, __c0, 22)),
+          appliedLabelChange: S.optional(__S(35, __c1, 3)),
+          comment: S.optional(__S(39, __c1, 7)),
+          settingsChange: S.optional(__S(42, __c1, 10)),
+          delete: S.optional(__S(4, __c0, 4)),
+          permissionChange: S.optional(__S(46, __c1, 14)),
+          restore: S.optional(__S(4, __c0, 4)),
+          rename: S.optional(__S(47, __c1, 15)),
+          edit: S.optional(__S(0, __c0, 0)),
+          create: S.optional(__S(49, __c1, 17)),
+        }),
+      ).annotate({ identifier: "ActionDetail" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          timeRange: S.optional(__S(16, __c0, 16)),
+          actor: S.optional(__S(18, __c0, 18)),
+          detail: S.optional(__S(50, __c1, 18)),
           timestamp: S.optional(S.String),
-          timeRange: S.optional(__S(41, __c1, 9)),
-          targets: S.optional(__S(53, __c1, 21)),
+          target: S.optional(__S(14, __c0, 14)),
+        }),
+      ).annotate({ identifier: "Action" });
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
+      return S.Array(__S(18, __c0, 18));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          targets: S.optional(__S(15, __c0, 15)),
+          actions: S.optional(__S(52, __c1, 20)),
+          actors: S.optional(__S(53, __c1, 21)),
+          timestamp: S.optional(S.String),
+          timeRange: S.optional(__S(16, __c0, 16)),
+          primaryActionDetail: S.optional(__S(50, __c1, 18)),
         }),
       ).annotate({ identifier: "DriveActivity" });
     case 23:

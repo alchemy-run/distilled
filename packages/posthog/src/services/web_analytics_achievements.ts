@@ -50,8 +50,6 @@ export interface WebAnalyticsAchievementsOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
 }
-/** * `user` - user * `team` - team */
-export type AchievementDefinitionScopeEnum = "user" | "team";
 export interface AchievementStage {
   /** Stage number within the track, 1-5. */
   stage: number;
@@ -69,8 +67,6 @@ export interface AchievementDefinition {
   display_name: string;
   /** One-line description of what the track rewards. */
   description: string;
-  /** Whether the track is tracked per user or per team. * `user` - user * `team` - team */
-  scope: AchievementDefinitionScopeEnum;
   /** True for the streak track, whose thresholds vary by the streak-cadence experiment arm. */
   is_experiment_track: boolean;
   /** The five stages of this track, in ascending threshold order. */
@@ -92,10 +88,8 @@ export interface AchievementProgress {
   /** Map of unlocked stage number (as a string, '1'-'5') to the ISO timestamp it was unlocked. */
   unlocked_at: AchievementProgressUnlockedAtMap;
 }
-/** The requesting user's progress on per-user tracks. */
+/** The requesting user's progress on each track. */
 export type AchievementsListResponseUserProgressList = Array<AchievementProgress>;
-/** The team's progress on per-team tracks. */
-export type AchievementsListResponseTeamProgressList = Array<AchievementProgress>;
 export interface PendingCelebration {
   /** Track whose stage was newly unlocked. */
   track_key: string;
@@ -109,10 +103,8 @@ export type AchievementsListResponsePendingCelebrationsList = Array<PendingCeleb
 export interface AchievementsListResponse {
   /** All Wave-1 track definitions, thresholds resolved for the user's streak arm. */
   definitions: AchievementsListResponseDefinitionsList;
-  /** The requesting user's progress on per-user tracks. */
+  /** The requesting user's progress on each track. */
   user_progress: AchievementsListResponseUserProgressList;
-  /** The team's progress on per-team tracks. */
-  team_progress: AchievementsListResponseTeamProgressList;
   /** Newly unlocked stages awaiting an in-session celebration; acknowledge each to clear it. */
   pending_celebrations: AchievementsListResponsePendingCelebrationsList;
 }
@@ -177,7 +169,7 @@ export const updateWebAnalyticsAchievementPreferences: API.OperationMethod<
 }));
 
 export type WebAnalyticsAchievementsOverviewError = PosthogOpError;
-/** Get Web analytics achievements overview Returns the achievement track definitions (thresholds resolved for the requesting user's streak-cadence arm), the user's and team's progress, and any newly unlocked stages awaiting an in-session celebration. */
+/** Get Web analytics achievements overview Returns the achievement track definitions (thresholds resolved for the requesting user's streak-cadence arm), the user's progress, and any newly unlocked stages awaiting an in-session celebration. */
 export const webAnalyticsAchievementsOverview: API.OperationMethod<
   WebAnalyticsAchievementsOverviewRequest,
   AchievementsListResponse,
@@ -330,7 +322,6 @@ function __c3(j: number): any {
           key: S.String,
           display_name: S.String,
           description: S.String,
-          scope: S.String,
           is_experiment_track: S.Boolean,
           stages: __S(50, __c3, 2),
         }),
@@ -366,7 +357,6 @@ function __c3(j: number): any {
         S.Struct({
           definitions: __S(52, __c3, 4),
           user_progress: __S(55, __c3, 7),
-          team_progress: __S(55, __c3, 7),
           pending_celebrations: __S(57, __c3, 9),
         }),
       ).annotate({ identifier: "AchievementsListResponse" });

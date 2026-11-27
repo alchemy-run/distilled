@@ -108,13 +108,12 @@ export interface UserBasic {
   hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
   role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
-/** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+/** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed * `team_secret_token` - team_secret_token */
 export type ActivityLogCredentialTypeEnum =
   | "session"
   | "personal_api_key"
   | "oauth"
   | "project_secret_key"
-  | "team_secret_token"
   | "id_jag"
   | "oidc_workload"
   | "internal_jwt"
@@ -131,7 +130,8 @@ export type ActivityLogCredentialTypeEnum =
   | "export_renderer"
   | "webhook"
   | "cross_region_signature"
-  | "unattributed";
+  | "unattributed"
+  | "team_secret_token";
 export interface ActivityLog {
   id?: string | undefined;
   user?: UserBasic | null | undefined;
@@ -143,7 +143,7 @@ export interface ActivityLog {
   is_system?: boolean | null | undefined;
   client?: string | null | undefined;
   ip_address?: string | null | undefined;
-  /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+  /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed * `team_secret_token` - team_secret_token */
   credential_type: ActivityLogCredentialTypeEnum | null;
   /** Id of the credential that authenticated the change: the login session id for 'session', or the key id for 'personal_api_key' and 'project_secret_key'. Null for every other credential type and for impersonated changes. */
   credential_id: string | null;
@@ -207,7 +207,7 @@ export interface ListAdvancedActivityLogsRequest {
   cursor?: string | undefined;
   /** JSON-encoded map of `detail` field paths to {operation, value} filters. Allowed operations: exact, contains, in. */
   detail_filters?: string | undefined;
-  /** Upper bound on `created_at` (inclusive), ISO-8601. */
+  /** Upper bound on `created_at` (inclusive), as an ISO 8601 timestamp with a UTC offset, such as `2026-01-15T11:30:00Z`. */
   end_date?: string | undefined;
   /** Keep the next link valid after the last entry, so the same cursor can be re-polled as new entries arrive. Only applies with oldest-first ordering. When following, stop on an empty results list rather than on a null next link. */
   follow?: boolean | undefined;
@@ -233,7 +233,7 @@ export interface ListAdvancedActivityLogsRequest {
   scopes?: ListAdvancedActivityLogsRequestScopesList | undefined;
   /** Free-text search across the `detail` JSON column. */
   search_text?: string | undefined;
-  /** Lower bound on `created_at` (inclusive), ISO-8601. */
+  /** Lower bound on `created_at` (inclusive), as an ISO 8601 timestamp with a UTC offset, such as `2026-01-15T10:30:00Z`. */
   start_date?: string | undefined;
   /** Filter by project (team) IDs. Only honored on the organization-scoped endpoint; ignored on the project-scoped endpoint. */
   team_ids?: ListAdvancedActivityLogsRequestTeamIdsList | undefined;

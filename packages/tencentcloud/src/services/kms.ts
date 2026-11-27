@@ -620,6 +620,8 @@ export interface GetServiceStatusRequest {
 export interface ExclusiveHSM {
   HsmClusterId?: string | undefined;
   HsmClusterName?: string | undefined;
+  CmkUserCount?: number | undefined;
+  CmkLimit?: number | undefined;
 }
 export type ExclusiveHSMList = Array<ExclusiveHSM>;
 export interface DestinationSyncConfig {
@@ -3014,6 +3016,8 @@ function __c54(j: number): any {
         S.Struct({
           HsmClusterId: S.optional(S.String),
           HsmClusterName: S.optional(S.String),
+          CmkUserCount: S.optional(S.Number),
+          CmkLimit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExclusiveHSM" });
     case 2:

@@ -77,25 +77,25 @@ export class ZoneTagResourceNotFound
 export interface DeleteAccountTagRequest {
   /** Identifier. */
   accountId: string;
-  ifMatch?: string | undefined;
   /** Identifier of the resource to remove tags from. */
   resourceId?: string | undefined;
   /** Type of the resource to remove tags from. */
   resourceType?: string | undefined;
   /** Identifier of the Worker to remove tags from. */
   workerId?: string | undefined;
+  ifMatch?: string | undefined;
 }
 export interface DeleteAccountTagResponse {}
 export interface DeleteZoneTagRequest {
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
-  ifMatch?: string | undefined;
   /** Identifier of the resource to remove tags from. */
   resourceId?: string | undefined;
   /** Type of the resource to remove tags from. */
   resourceType?: string | undefined;
   /** Identifier of the Access application to remove tags from. */
   accessApplicationId?: string | undefined;
+  ifMatch?: string | undefined;
 }
 export interface DeleteZoneTagResponse {}
 export type AccountTagsGetRequestResourceType =
@@ -109,6 +109,7 @@ export type AccountTagsGetRequestResourceType =
   | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
+  | "app_library_application"
   | "cloudflared_tunnel"
   | "cws_deployment"
   | "cws_policy"
@@ -329,6 +330,23 @@ export interface AccountTagsGetResultAPIGatewayOperation {
   type: AccountTagsGetResultAPIGatewayOperationType;
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null | undefined;
+}
+export type AccountTagsGetResultAppLibraryApplicationTagsMap = {
+  [key: string]: string | undefined;
+};
+export type AccountTagsGetResultAppLibraryApplicationType = "app_library_application";
+export interface AccountTagsGetResultAppLibraryApplication {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: AccountTagsGetResultAppLibraryApplicationTagsMap;
+  type: AccountTagsGetResultAppLibraryApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null | undefined;
 }
@@ -886,6 +904,7 @@ export type AccountTagsGetResult =
   | AccountTagsGetResultAlertingPolicy
   | AccountTagsGetResultAlertingWebhook
   | AccountTagsGetResultAPIGatewayOperation
+  | AccountTagsGetResultAppLibraryApplication
   | AccountTagsGetResultCloudflaredTunnel
   | AccountTagsGetResultCustomCertificate
   | AccountTagsGetResultCustomHostname
@@ -1141,6 +1160,21 @@ export interface ZoneTagsGetResultAPIGatewayOperation {
   type: ZoneTagsGetResultAPIGatewayOperationType;
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null | undefined;
+}
+export type ZoneTagsGetResultAppLibraryApplicationTagsMap = { [key: string]: string | undefined };
+export type ZoneTagsGetResultAppLibraryApplicationType = "app_library_application";
+export interface ZoneTagsGetResultAppLibraryApplication {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ZoneTagsGetResultAppLibraryApplicationTagsMap;
+  type: ZoneTagsGetResultAppLibraryApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null | undefined;
 }
@@ -1693,6 +1727,7 @@ export type ZoneTagsGetResult =
   | ZoneTagsGetResultAlertingPolicy
   | ZoneTagsGetResultAlertingWebhook
   | ZoneTagsGetResultAPIGatewayOperation
+  | ZoneTagsGetResultAppLibraryApplication
   | ZoneTagsGetResultCloudflaredTunnel
   | ZoneTagsGetResultCustomCertificate
   | ZoneTagsGetResultCustomHostname
@@ -1756,6 +1791,7 @@ export type ListRequestType =
   | "alerting_policy"
   | "alerting_webhook"
   | "api_gateway_operation"
+  | "app_library_application"
   | "cloudflared_tunnel"
   | "custom_certificate"
   | "custom_hostname"
@@ -1992,6 +2028,21 @@ export interface ListResultItemAPIGatewayOperation {
   type: ListResultItemAPIGatewayOperationType;
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null | undefined;
+}
+export type ListResultItemAppLibraryApplicationTagsMap = { [key: string]: string | undefined };
+export type ListResultItemAppLibraryApplicationType = "app_library_application";
+export interface ListResultItemAppLibraryApplication {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ListResultItemAppLibraryApplicationTagsMap;
+  type: ListResultItemAppLibraryApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null | undefined;
 }
@@ -2541,6 +2592,7 @@ export type ListResultItem =
   | ListResultItemAlertingPolicy
   | ListResultItemAlertingWebhook
   | ListResultItemAPIGatewayOperation
+  | ListResultItemAppLibraryApplication
   | ListResultItemCloudflaredTunnel
   | ListResultItemCustomCertificate
   | ListResultItemCustomHostname
@@ -2595,6 +2647,7 @@ export type ValuesListRequestType =
   | "alerting_policy"
   | "alerting_webhook"
   | "api_gateway_operation"
+  | "app_library_application"
   | "cloudflared_tunnel"
   | "custom_certificate"
   | "custom_hostname"
@@ -2657,6 +2710,7 @@ export type AccountTagsUpdateRequestResourceType =
   | "ai_search_namespace"
   | "alerting_policy"
   | "alerting_webhook"
+  | "app_library_application"
   | "cloudflared_tunnel"
   | "cws_deployment"
   | "cws_policy"
@@ -2884,6 +2938,23 @@ export interface AccountTagsUpdateResultAPIGatewayOperation {
   type: AccountTagsUpdateResultAPIGatewayOperationType;
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null | undefined;
+}
+export type AccountTagsUpdateResultAppLibraryApplicationTagsMap = {
+  [key: string]: string | undefined;
+};
+export type AccountTagsUpdateResultAppLibraryApplicationType = "app_library_application";
+export interface AccountTagsUpdateResultAppLibraryApplication {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: AccountTagsUpdateResultAppLibraryApplicationTagsMap;
+  type: AccountTagsUpdateResultAppLibraryApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null | undefined;
 }
@@ -3442,6 +3513,7 @@ export type AccountTagsUpdateResult =
   | AccountTagsUpdateResultAlertingPolicy
   | AccountTagsUpdateResultAlertingWebhook
   | AccountTagsUpdateResultAPIGatewayOperation
+  | AccountTagsUpdateResultAppLibraryApplication
   | AccountTagsUpdateResultCloudflaredTunnel
   | AccountTagsUpdateResultCustomCertificate
   | AccountTagsUpdateResultCustomHostname
@@ -3688,6 +3760,23 @@ export interface ZoneTagsUpdateResultAPIGatewayOperation {
   type: ZoneTagsUpdateResultAPIGatewayOperationType;
   /** Zone ID is required only for zone-level resources */
   zoneId: string;
+  /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
+  tagsUpdatedAt?: string | null | undefined;
+}
+export type ZoneTagsUpdateResultAppLibraryApplicationTagsMap = {
+  [key: string]: string | undefined;
+};
+export type ZoneTagsUpdateResultAppLibraryApplicationType = "app_library_application";
+export interface ZoneTagsUpdateResultAppLibraryApplication {
+  /** Identifies the unique resource. */
+  id: string;
+  /** ETag identifier for optimistic concurrency control. Formatted as "v1:" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations. */
+  etag: string;
+  /** Human-readable name of the resource. */
+  name: string;
+  /** Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags. */
+  tags: ZoneTagsUpdateResultAppLibraryApplicationTagsMap;
+  type: ZoneTagsUpdateResultAppLibraryApplicationType;
   /** Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version. */
   tagsUpdatedAt?: string | null | undefined;
 }
@@ -4242,6 +4331,7 @@ export type ZoneTagsUpdateResult =
   | ZoneTagsUpdateResultAlertingPolicy
   | ZoneTagsUpdateResultAlertingWebhook
   | ZoneTagsUpdateResultAPIGatewayOperation
+  | ZoneTagsUpdateResultAppLibraryApplication
   | ZoneTagsUpdateResultCloudflaredTunnel
   | ZoneTagsUpdateResultCustomCertificate
   | ZoneTagsUpdateResultCustomHostname
@@ -4554,6 +4644,7 @@ function __c1(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
@@ -4603,6 +4694,7 @@ function __c1(j: number): any {
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
+              "app_library_application",
               "cloudflared_tunnel",
               "custom_certificate",
               "custom_hostname",
@@ -4694,6 +4786,7 @@ function __c3(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
@@ -4743,6 +4836,7 @@ function __c3(j: number): any {
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
+              "app_library_application",
               "cloudflared_tunnel",
               "custom_certificate",
               "custom_hostname",
@@ -4793,10 +4887,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
           resourceId: S.optional(S.String.pipe(T.Body("resource_id"))),
           resourceType: S.optional(S.String.pipe(T.Body("resource_type"))),
           workerId: S.optional(S.String.pipe(T.Body("worker_id"))),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
         })
           .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/tags", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -4817,10 +4911,10 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
           resourceId: S.optional(S.String.pipe(T.Body("resource_id"))),
           resourceType: S.optional(S.String.pipe(T.Body("resource_type"))),
           accessApplicationId: S.optional(S.String.pipe(T.Body("access_application_id"))),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
         })
           .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/tags", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -4865,6 +4959,7 @@ function __c7(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
@@ -4915,6 +5010,7 @@ function __c7(j: number): any {
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
+              "app_library_application",
               "cloudflared_tunnel",
               "custom_certificate",
               "custom_hostname",
@@ -5030,6 +5126,7 @@ function __c10(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
@@ -5079,6 +5176,7 @@ function __c10(j: number): any {
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
+              "app_library_application",
               "cloudflared_tunnel",
               "custom_certificate",
               "custom_hostname",
@@ -5192,6 +5290,7 @@ function __c13(j: number): any {
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
+            ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "zoneId", "tagsUpdatedAt"],
             ["id", "etag", "name", "tags", "type", "tagsUpdatedAt"],
@@ -5241,6 +5340,7 @@ function __c13(j: number): any {
               "alerting_policy",
               "alerting_webhook",
               "api_gateway_operation",
+              "app_library_application",
               "cloudflared_tunnel",
               "custom_certificate",
               "custom_hostname",

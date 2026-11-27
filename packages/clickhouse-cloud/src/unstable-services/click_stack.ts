@@ -41,6 +41,16 @@ export class FeatureUnavailable
     [{ status: 403, message: { includes: "ClickStack has not been setup" } }],
   ) {}
 
+export interface ClickStackSilenceAlertRequest {
+  /** ID of the organization that owns the service. */
+  organizationId: string;
+  /** ID of the ClickStack service. */
+  serviceId: string;
+  /** ClickStack Alert ID */
+  clickStackAlertId: string;
+  /** ISO 8601 timestamp, in the future, until which the alert is silenced. */
+  mutedUntil: string;
+}
 /** Display type discriminator. Must be "line" for line charts. */
 export type ClickStackAlertLineBuilderChartConfigDisplayType = "line";
 /** Aggregation function to apply. "count" does not require a valueExpression; "quantile" requires a level field indicating the desired percentile (e.g., 0.95). */
@@ -186,7 +196,7 @@ export type ClickStackAlertLineBuilderChartConfigWhereLanguage = "sql" | "lucene
 export interface ClickStackAlertLineBuilderChartConfig {
   /** Display type discriminator. Must be "line" for line charts. */
   displayType: ClickStackAlertLineBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackAlertLineBuilderChartConfigSelectList;
@@ -232,11 +242,11 @@ export type ClickStackAlertLineRawSqlChartConfigWhereLanguage = "sql" | "lucene"
 export interface ClickStackAlertLineRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackAlertLineRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a line time-series chart. */
@@ -327,7 +337,7 @@ export type ClickStackAlertBarBuilderChartConfigWhereLanguage = "sql" | "lucene"
 export interface ClickStackAlertBarBuilderChartConfig {
   /** Display type discriminator. Must be "stacked_bar" for stacked-bar charts. */
   displayType: ClickStackAlertBarBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackAlertBarBuilderChartConfigSelectList;
@@ -362,11 +372,11 @@ export type ClickStackAlertBarRawSqlChartConfigWhereLanguage = "sql" | "lucene";
 export interface ClickStackAlertBarRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackAlertBarRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a stacked-bar time-series chart. */
@@ -438,7 +448,7 @@ export type ClickStackAlertStackedLineBuilderChartConfigWhereLanguage = "sql" | 
 export interface ClickStackAlertStackedLineBuilderChartConfig {
   /** Display type discriminator. Must be "stacked_line" for stacked-line charts. */
   displayType: ClickStackAlertStackedLineBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackAlertStackedLineBuilderChartConfigSelectList;
@@ -486,11 +496,11 @@ export type ClickStackAlertStackedLineRawSqlChartConfigWhereLanguage = "sql" | "
 export interface ClickStackAlertStackedLineRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackAlertStackedLineRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a stacked-line time-series chart. */
@@ -708,7 +718,7 @@ export type ClickStackAlertNumberBuilderChartConfigWhereLanguage = "sql" | "luce
 export interface ClickStackAlertNumberBuilderChartConfig {
   /** Display type discriminator. Must be "number" for single big-number charts. */
   displayType: ClickStackAlertNumberBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one aggregated value to display as a single number -- unless "formulas" is set, in which case the select items are the formula's operands and the (single) formula value is displayed instead. */
   select: ClickStackAlertNumberBuilderChartConfigSelectList;
@@ -754,11 +764,11 @@ export type ClickStackAlertNumberRawSqlChartConfigWhereLanguage = "sql" | "lucen
 export interface ClickStackAlertNumberRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackAlertNumberRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a single big-number chart. */
@@ -855,7 +865,7 @@ export type ClickStackAlertChartConfig =
   | ClickStackAlertStackedLineChartConfig
   | ClickStackAlertNumberChartConfig;
 /** Evaluation interval for the alert. `30s` requires the 30s alert interval feature to be enabled for your team. Anomaly alerts (detectionMode "anomaly") support only `5m`, `15m`, `30m`, and `1h`; other intervals are rejected with 400. */
-export type CreateClickStackAlertRequestInterval =
+export type ClickStackAlertResponseInterval =
   | "30s"
   | "1m"
   | "5m"
@@ -866,9 +876,9 @@ export type CreateClickStackAlertRequestInterval =
   | "12h"
   | "1d";
 /** Alert source type (tile-based or saved search). */
-export type CreateClickStackAlertRequestSource = "saved_search" | "tile" | "inline";
+export type ClickStackAlertResponseSource = "saved_search" | "tile" | "inline";
 /** Threshold comparison direction. */
-export type CreateClickStackAlertRequestThresholdType =
+export type ClickStackAlertResponseThresholdType =
   | "above"
   | "below"
   | "above_exclusive"
@@ -906,74 +916,6 @@ export interface ClickStackAlertChannelWebhook {
 export type ClickStackAlertChannel = ClickStackAlertChannelEmail | ClickStackAlertChannelWebhook;
 /** Notification channels to trigger when the alert fires or resolves. Between 1 and 10 channels; duplicates are rejected. */
 export type ClickStackAlertChannels = Array<ClickStackAlertChannel>;
-/** Tags for the alert. Defaults to the tags of the referenced saved search or dashboard when omitted or null; inline alerts have no parent to inherit from and default to an empty list. */
-export type CreateClickStackAlertRequestTagsList = Array<string>;
-export interface CreateClickStackAlertRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the ClickStack service. */
-  serviceId: string;
-  /** Dashboard ID for tile-based alerts. */
-  dashboardId?: string | null | undefined;
-  /** Tile ID for tile-based alerts. Must be a line, stacked bar, or number type tile. */
-  tileId?: string | null | undefined;
-  /** Saved search ID for saved_search alerts. */
-  savedSearchId?: string | null | undefined;
-  /** Group-by key for saved search alerts. */
-  groupBy?: string | null | undefined;
-  chartConfig?: ClickStackAlertChartConfig | undefined;
-  /** Threshold value for triggering the alert. For between and not_between threshold types, this is the lower bound. */
-  threshold: number;
-  /** Upper bound for between and not_between threshold types. Required when thresholdType is between or not_between, must be >= threshold. */
-  thresholdMax?: number | null | undefined;
-  /** Evaluation interval for the alert. `30s` requires the 30s alert interval feature to be enabled for your team. Anomaly alerts (detectionMode "anomaly") support only `5m`, `15m`, `30m`, and `1h`; other intervals are rejected with 400. */
-  interval: CreateClickStackAlertRequestInterval | (string & {});
-  /** Offset from the interval boundary in minutes. For example, 2 with a 5m interval evaluates windows at :02, :07, :12, etc. (UTC). */
-  scheduleOffsetMinutes?: number | null | undefined;
-  /** Absolute UTC start time anchor. Alert windows start from this timestamp and repeat every interval. */
-  scheduleStartAt?: string | null | undefined;
-  /** Alert source type (tile-based or saved search). */
-  source?: CreateClickStackAlertRequestSource | (string & {}) | undefined;
-  /** Threshold comparison direction. */
-  thresholdType: CreateClickStackAlertRequestThresholdType | (string & {});
-  channel?: ClickStackAlertChannel | undefined;
-  channels?: ClickStackAlertChannels | undefined;
-  /** Alert name template (Handlebars), rendered as the notification title. When omitted, a default title is generated from the display name, value and threshold. */
-  name?: string | null | undefined;
-  /** Display name shown in the alerts list and in notification titles. Defaults to the name of the referenced saved search, dashboard tile, or inline chart when omitted or null. */
-  displayName?: string | null | undefined;
-  /** Tags for the alert. Defaults to the tags of the referenced saved search or dashboard when omitted or null; inline alerts have no parent to inherit from and default to an empty list. */
-  tags?: CreateClickStackAlertRequestTagsList | undefined;
-  /** Alert message template. */
-  message?: string | null | undefined;
-  /** Freeform note for the alert. Supports markdown formatting. */
-  note?: string | null | undefined;
-  /** Fire the alert only after its condition has been met for this many consecutive evaluation windows. While the condition is met but fewer than this many consecutive windows have violated, the alert is in the PENDING state. */
-  numConsecutiveWindows?: number | null | undefined;
-}
-/** Evaluation interval for the alert. `30s` requires the 30s alert interval feature to be enabled for your team. Anomaly alerts (detectionMode "anomaly") support only `5m`, `15m`, `30m`, and `1h`; other intervals are rejected with 400. */
-export type ClickStackAlertResponseInterval =
-  | "30s"
-  | "1m"
-  | "5m"
-  | "15m"
-  | "30m"
-  | "1h"
-  | "6h"
-  | "12h"
-  | "1d";
-/** Alert source type (tile-based or saved search). */
-export type ClickStackAlertResponseSource = "saved_search" | "tile" | "inline";
-/** Threshold comparison direction. */
-export type ClickStackAlertResponseThresholdType =
-  | "above"
-  | "below"
-  | "above_exclusive"
-  | "below_or_equal"
-  | "equal"
-  | "not_equal"
-  | "between"
-  | "not_between";
 /** The tags for the alert. Derived from the tags of the referenced saved search or dashboard when not explicitly set; inline alerts default to an empty list. */
 export type ClickStackAlertResponseTagsList = Array<string>;
 /** Current alert state. */
@@ -1060,6 +1002,88 @@ export interface ClickStackAlertResponse {
   /** Last update timestamp. */
   updatedAt?: string | null | undefined;
 }
+export interface ClickStackUnsilenceAlertRequest {
+  /** ID of the organization that owns the service. */
+  organizationId: string;
+  /** ID of the ClickStack service. */
+  serviceId: string;
+  /** ClickStack Alert ID */
+  clickStackAlertId: string;
+}
+export interface ClickStackUnsilenceAlertResponse {
+  /** HTTP status code. */
+  status?: number | undefined;
+  /** Unique id assigned to every request. UUIDv4 */
+  requestId?: string | undefined;
+}
+/** Evaluation interval for the alert. `30s` requires the 30s alert interval feature to be enabled for your team. Anomaly alerts (detectionMode "anomaly") support only `5m`, `15m`, `30m`, and `1h`; other intervals are rejected with 400. */
+export type CreateClickStackAlertRequestInterval =
+  | "30s"
+  | "1m"
+  | "5m"
+  | "15m"
+  | "30m"
+  | "1h"
+  | "6h"
+  | "12h"
+  | "1d";
+/** Alert source type (tile-based or saved search). */
+export type CreateClickStackAlertRequestSource = "saved_search" | "tile" | "inline";
+/** Threshold comparison direction. */
+export type CreateClickStackAlertRequestThresholdType =
+  | "above"
+  | "below"
+  | "above_exclusive"
+  | "below_or_equal"
+  | "equal"
+  | "not_equal"
+  | "between"
+  | "not_between";
+/** Tags for the alert. Defaults to the tags of the referenced saved search or dashboard when omitted or null; inline alerts have no parent to inherit from and default to an empty list. */
+export type CreateClickStackAlertRequestTagsList = Array<string>;
+export interface CreateClickStackAlertRequest {
+  /** ID of the organization that owns the service. */
+  organizationId: string;
+  /** ID of the ClickStack service. */
+  serviceId: string;
+  /** Dashboard ID for tile-based alerts. */
+  dashboardId?: string | null | undefined;
+  /** Tile ID for tile-based alerts. Must be a line, stacked bar, or number type tile. */
+  tileId?: string | null | undefined;
+  /** Saved search ID for saved_search alerts. */
+  savedSearchId?: string | null | undefined;
+  /** Group-by key for saved search alerts. */
+  groupBy?: string | null | undefined;
+  chartConfig?: ClickStackAlertChartConfig | undefined;
+  /** Threshold value for triggering the alert. For between and not_between threshold types, this is the lower bound. */
+  threshold: number;
+  /** Upper bound for between and not_between threshold types. Required when thresholdType is between or not_between, must be >= threshold. */
+  thresholdMax?: number | null | undefined;
+  /** Evaluation interval for the alert. `30s` requires the 30s alert interval feature to be enabled for your team. Anomaly alerts (detectionMode "anomaly") support only `5m`, `15m`, `30m`, and `1h`; other intervals are rejected with 400. */
+  interval: CreateClickStackAlertRequestInterval | (string & {});
+  /** Offset from the interval boundary in minutes. For example, 2 with a 5m interval evaluates windows at :02, :07, :12, etc. (UTC). */
+  scheduleOffsetMinutes?: number | null | undefined;
+  /** Absolute UTC start time anchor. Alert windows start from this timestamp and repeat every interval. */
+  scheduleStartAt?: string | null | undefined;
+  /** Alert source type (tile-based or saved search). */
+  source?: CreateClickStackAlertRequestSource | (string & {}) | undefined;
+  /** Threshold comparison direction. */
+  thresholdType: CreateClickStackAlertRequestThresholdType | (string & {});
+  channel?: ClickStackAlertChannel | undefined;
+  channels?: ClickStackAlertChannels | undefined;
+  /** Alert name template (Handlebars), rendered as the notification title. When omitted, a default title is generated from the display name, value and threshold. */
+  name?: string | null | undefined;
+  /** Display name shown in the alerts list and in notification titles. Defaults to the name of the referenced saved search, dashboard tile, or inline chart when omitted or null. */
+  displayName?: string | null | undefined;
+  /** Tags for the alert. Defaults to the tags of the referenced saved search or dashboard when omitted or null; inline alerts have no parent to inherit from and default to an empty list. */
+  tags?: CreateClickStackAlertRequestTagsList | undefined;
+  /** Alert message template. */
+  message?: string | null | undefined;
+  /** Freeform note for the alert. Supports markdown formatting. */
+  note?: string | null | undefined;
+  /** Fire the alert only after its condition has been met for this many consecutive evaluation windows. While the condition is met but fewer than this many consecutive windows have violated, the alert is in the PENDING state. */
+  numConsecutiveWindows?: number | null | undefined;
+}
 /** Display type discriminator. Must be "line" for line charts. */
 export type ClickStackLineBuilderChartConfigDisplayType = "line";
 /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
@@ -1071,7 +1095,7 @@ export type ClickStackLineBuilderChartConfigFormulasList = Array<ClickStackFormu
 export interface ClickStackLineBuilderChartConfig {
   /** Display type discriminator. Must be "line" for line charts. */
   displayType: ClickStackLineBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackLineBuilderChartConfigSelectList;
@@ -1106,11 +1130,11 @@ export type ClickStackLineRawSqlChartConfigLineInterpolation = "smooth" | "linea
 export interface ClickStackLineRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackLineRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a line time-series chart. */
@@ -1172,7 +1196,7 @@ export type ClickStackBarBuilderChartConfigFormulasList = Array<ClickStackFormul
 export interface ClickStackBarBuilderChartConfig {
   /** Display type discriminator. Must be "stacked_bar" for stacked-bar charts. */
   displayType: ClickStackBarBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackBarBuilderChartConfigSelectList;
@@ -1199,11 +1223,11 @@ export type ClickStackBarRawSqlChartConfigDisplayType = "stacked_bar";
 export interface ClickStackBarRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackBarRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a stacked-bar time-series chart. */
@@ -1255,7 +1279,7 @@ export type ClickStackStackedLineBuilderChartConfigFormulasList = Array<ClickSta
 export interface ClickStackStackedLineBuilderChartConfig {
   /** Display type discriminator. Must be "stacked_line" for stacked-line charts. */
   displayType: ClickStackStackedLineBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to plot. When asRatio is true, exactly two select items are required. */
   select: ClickStackStackedLineBuilderChartConfigSelectList;
@@ -1289,11 +1313,11 @@ export type ClickStackStackedLineRawSqlChartConfigLineInterpolation = "smooth" |
 export interface ClickStackStackedLineRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackStackedLineRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a stacked-line time-series chart. */
@@ -1431,7 +1455,7 @@ export type ClickStackTableBuilderChartConfigFormulasList = Array<ClickStackForm
 export interface ClickStackTableBuilderChartConfig {
   /** Display type discriminator. Must be "table" for table charts. */
   displayType: ClickStackTableBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** One or more aggregated values to display as table columns. When asRatio is true, exactly two select items are required. */
   select: ClickStackTableBuilderChartConfigSelectList;
@@ -1459,11 +1483,11 @@ export type ClickStackTableRawSqlChartConfigDisplayType = "table";
 export interface ClickStackTableRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackTableRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a table chart. */
@@ -1531,7 +1555,7 @@ export type ClickStackNumberBuilderChartConfigColorRulesList =
 export interface ClickStackNumberBuilderChartConfig {
   /** Display type discriminator. Must be "number" for single big-number charts. */
   displayType: ClickStackNumberBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one aggregated value to display as a single number -- unless "formulas" is set, in which case the select items are the formula's operands and the (single) formula value is displayed instead. */
   select: ClickStackNumberBuilderChartConfigSelectList;
@@ -1569,11 +1593,11 @@ export type ClickStackNumberRawSqlChartConfigColorRulesList =
 export interface ClickStackNumberRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackNumberRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a single big-number chart. */
@@ -1637,7 +1661,7 @@ export type ClickStackPieBuilderChartConfigSelectList = Array<ClickStackSelectIt
 export interface ClickStackPieBuilderChartConfig {
   /** Display type discriminator. Must be "pie" for pie charts. */
   displayType: ClickStackPieBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one aggregated value used to size each pie slice. */
   select: ClickStackPieBuilderChartConfigSelectList;
@@ -1656,11 +1680,11 @@ export type ClickStackPieRawSqlChartConfigDisplayType = "pie";
 export interface ClickStackPieRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackPieRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a pie chart. */
@@ -1701,7 +1725,7 @@ export type ClickStackCategoricalBarBuilderChartConfigSelectList = Array<ClickSt
 export interface ClickStackCategoricalBarBuilderChartConfig {
   /** Display type discriminator. Must be "bar" for categorical bar charts. */
   displayType: ClickStackCategoricalBarBuilderChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one aggregated value used to size each bar. */
   select: ClickStackCategoricalBarBuilderChartConfigSelectList;
@@ -1720,11 +1744,11 @@ export type ClickStackCategoricalBarRawSqlChartConfigDisplayType = "bar";
 export interface ClickStackCategoricalBarRawSqlChartConfig {
   /** Must be "sql" to use the Raw SQL chart config variant. */
   configType: ClickStackCategoricalBarRawSqlChartConfigConfigType;
-  /** ID of the ClickHouse connection to execute the query against. */
+  /** ID of the ClickHouse connection to execute the query against, or `$connectionVariable` of a CONNECTION filter on the dashboard. */
   connectionId: string;
   /** SQL query template to execute. Supports HyperDX template variables. */
   sqlTemplate: string;
-  /** Optional ID of the data source associated with this Raw SQL chart. Used for applying dashboard filters. */
+  /** Optional ID of the data source associated with this Raw SQL chart, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. Used for applying dashboard filters. */
   sourceId?: string | undefined;
   numberFormat?: ClickStackNumberFormat | undefined;
   /** Display as a categorical bar chart. */
@@ -1781,7 +1805,7 @@ export interface ClickStackHeatmapDistributionChartConfig {
   displayType: ClickStackHeatmapDistributionChartConfigDisplayType;
   /** Heatmap mode. "distribution" is the default when omitted. */
   heatmapMode?: ClickStackHeatmapDistributionChartConfigHeatmapMode | (string & {}) | undefined;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one heatmap select item. */
   select: ClickStackHeatmapDistributionChartConfigSelectList;
@@ -1802,7 +1826,7 @@ export interface ClickStackHeatmapSeriesChartConfig {
   displayType: ClickStackHeatmapSeriesChartConfigDisplayType;
   /** Heatmap mode. Must be "series" for series heatmaps. */
   heatmapMode: ClickStackHeatmapSeriesChartConfigHeatmapMode;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Exactly one aggregated value used to color each cell. */
   select: ClickStackHeatmapSeriesChartConfigSelectList;
@@ -1851,7 +1875,7 @@ export type ClickStackSearchChartConfigWhereLanguage = "sql" | "lucene";
 export interface ClickStackSearchChartConfig {
   /** Display type discriminator. Must be "search" for search/log viewer tiles. */
   displayType: ClickStackSearchChartConfigDisplayType;
-  /** ID of the data source to query. */
+  /** ID of the data source to query, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Comma-separated list of expressions to display. */
   select: string;
@@ -1867,7 +1891,7 @@ export type ClickStackEventPatternsChartConfigWhereLanguage = "sql" | "lucene";
 export interface ClickStackEventPatternsChartConfig {
   /** Display type discriminator. Must be "event_patterns" for pattern mining tiles. */
   displayType: ClickStackEventPatternsChartConfigDisplayType;
-  /** ID of the data source to mine patterns from. */
+  /** ID of the data source to mine patterns from, or `$sourceVariable` of a DATA_SOURCE filter on the dashboard. */
   sourceId: string;
   /** Column or expression to mine patterns from. Leave empty to use the source default (Body for logs, SpanName for traces). */
   select?: string | undefined;
@@ -2137,7 +2161,7 @@ export interface ClickStackQueryExpressionFilterInput {
   name: string;
   /** SQL expression used when querying values for this filter, and when applying this dashboard filter to tiles. */
   expression: string;
-  /** Source ID this dashboard filter key applies to */
+  /** Source ID this dashboard filter key applies to, or `$name` of a DATA_SOURCE filter on the dashboard */
   sourceId: string;
   /** Metric type when source is metrics */
   sourceMetricType?:
@@ -2253,11 +2277,127 @@ export interface ClickStackSourceFilterInput {
   /** Maximum number of values that can be selected at once. Set to 1 to make the filter single-select. Omit the field for the default multi-select behavior. */
   maxSelections?: ClickStackSourceFilterInputMaxSelections | (number & {}) | undefined;
 }
+/** Filter type discriminator. Must be "DATA_SOURCE". */
+export type ClickStackDataSourceFilterInputType = "DATA_SOURCE";
+/** Must be 1 if provided. The variable always requires a selection. */
+export type ClickStackDataSourceFilterInputMinSelections = 1;
+/** Must be 1 if provided. The variable is always single-select. */
+export type ClickStackDataSourceFilterInputMaxSelections = 1;
+/** Kinds of sources offered. A field can reference the variable if it accepts at least one listed kind. A tile whose selected source is a kind it cannot use shows an error instead of running. */
+export type ClickStackDataSourceFilterInputAllowedSourceKindsList = Array<string>;
+export interface ClickStackDataSourceFilterInput {
+  /** Filter type discriminator. Must be "DATA_SOURCE". */
+  type: ClickStackDataSourceFilterInputType;
+  /** Display name of the variable's dropdown */
+  name: string;
+  /** Token tiles and filters reference the selected source by, as `$variableName`. */
+  variableName?: string | undefined;
+  /** Blocks every tile on the dashboard until a value is selected. False (the default) blocks only the tiles that reference the variable. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Must be 1 if provided. The variable always requires a selection. */
+  minSelections?: ClickStackDataSourceFilterInputMinSelections | (number & {}) | undefined;
+  /** Must be 1 if provided. The variable is always single-select. */
+  maxSelections?: ClickStackDataSourceFilterInputMaxSelections | (number & {}) | undefined;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Kinds of sources offered. A field can reference the variable if it accepts at least one listed kind. A tile whose selected source is a kind it cannot use shows an error instead of running. */
+  allowedSourceKinds: ClickStackDataSourceFilterInputAllowedSourceKindsList;
+  /** Optional connection the offered sources are limited to: a connection ID, or `$name` of a CONNECTION filter on the dashboard. */
+  connectionId?: string | undefined;
+}
+/** Filter type discriminator. Must be "CONNECTION". */
+export type ClickStackConnectionFilterInputType = "CONNECTION";
+/** Must be 1 if provided. The variable always requires a selection. */
+export type ClickStackConnectionFilterInputMinSelections = 1;
+/** Must be 1 if provided. The variable is always single-select. */
+export type ClickStackConnectionFilterInputMaxSelections = 1;
+export interface ClickStackConnectionFilterInput {
+  /** Filter type discriminator. Must be "CONNECTION". */
+  type: ClickStackConnectionFilterInputType;
+  /** Display name of the variable's dropdown */
+  name: string;
+  /** Token raw SQL tiles reference the selected connection by, as `$variableName`. */
+  variableName?: string | undefined;
+  /** Blocks every tile on the dashboard until a value is selected. False (the default) blocks only the tiles that reference the variable. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Must be 1 if provided. The variable always requires a selection. */
+  minSelections?: ClickStackConnectionFilterInputMinSelections | (number & {}) | undefined;
+  /** Must be 1 if provided. The variable is always single-select. */
+  maxSelections?: ClickStackConnectionFilterInputMaxSelections | (number & {}) | undefined;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+}
+/** Discriminator. Must be "SQL_QUERY". */
+export type ClickStackSqlQueryFilterInputType = "SQL_QUERY";
+/** Set to 1 to make the filter required. */
+export type ClickStackSqlQueryFilterInputMinSelections = 0 | 1;
+/** Set to 1 to make the filter single-select. */
+export type ClickStackSqlQueryFilterInputMaxSelections = 1;
+export interface ClickStackSqlQueryFilterInput {
+  /** Discriminator. Must be "SQL_QUERY". */
+  type: ClickStackSqlQueryFilterInputType;
+  /** Display name for the dashboard filter */
+  name: string;
+  /** ClickHouse connection the query runs on: a connection ID, or `$name` of a CONNECTION filter on the dashboard. */
+  connectionId: string;
+  /** Optional Log, Trace, Session, or Metric source on the same connection, or `$name` of a DATA_SOURCE filter on this dashboard. Lets `sqlTemplate` use `$__sourceTable` and `$__filters`. */
+  sourceId?: string | undefined;
+  /** Query whose first column populates the dropdown. May use the time macros and other filters' variables. `$__sourceTable` and `$__filters` need a `sourceId`; `$__filters` expands to the dashboard's broadcast filter selections for that source. */
+  sqlTemplate: string;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Tiles reference the selection as `$variableName`. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Token that tiles reference this filter's selected value by, as `$variableName`. Defaults to the display name with whitespace replaced by underscores and remaining illegal characters removed. Must be unique across a dashboard's variable-enabled filters. */
+  variableName?: string | undefined;
+  /** Set to 1 to make the filter required. */
+  minSelections?: ClickStackSqlQueryFilterInputMinSelections | (number & {}) | undefined;
+  /** Widens a required filter's block to every tile on the dashboard. Ignored unless minSelections is 1. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Set to 1 to make the filter single-select. */
+  maxSelections?: ClickStackSqlQueryFilterInputMaxSelections | (number & {}) | undefined;
+}
+/** Discriminator. Must be "ADHOC". */
+export type ClickStackAdhocFilterInputType = "ADHOC";
+/** IDs of the sources whose keys and values the filter suggests, all of sourceType, or `$name` of data source variables. */
+export type ClickStackAdhocFilterInputSourcesList = Array<string>;
+/** IDs of the sources whose tiles the conditions apply to, all of sourceType, or `$name` of data source variables. Omit or send an empty array to apply to the tiles of the filter's sources. */
+export type ClickStackAdhocFilterInputAppliesToSourceIdsList = Array<string>;
+export interface ClickStackAdhocFilterInput {
+  /** Discriminator. Must be "ADHOC". */
+  type: ClickStackAdhocFilterInputType;
+  /** Display name for the dashboard filter */
+  name: string;
+  /** The kind of sources the filter reads keys from and applies to: Log, Trace, or Session sources for sql, PromQL sources for promql. Allowed values: 'sql', 'promql'. */
+  sourceType: string;
+  /** IDs of the sources whose keys and values the filter suggests, all of sourceType, or `$name` of data source variables. */
+  sources: ClickStackAdhocFilterInputSourcesList;
+  /** Optional condition narrowing the rows keys and values are suggested from. Never applied to tiles. May reference the dashboard's variables. sql filters only: rejected when sourceType is promql. */
+  where?: string | undefined;
+  /** Language of the where condition. Rejected when sourceType is promql. Allowed values: 'sql', 'lucene'. */
+  whereLanguage?: string | undefined;
+  /** IDs of the sources whose tiles the conditions apply to, all of sourceType, or `$name` of data source variables. Omit or send an empty array to apply to the tiles of the filter's sources. */
+  appliesToSourceIds?: ClickStackAdhocFilterInputAppliesToSourceIdsList | undefined;
+  /** Must be true or omitted. Allowed values: true. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true or omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Unique name the filter's conditions are saved under, in savedFilterValues and the dashboard URL. Tiles can't reference it as a variable. Defaults to the display name with whitespace replaced by underscores and remaining illegal characters removed. Must be unique across a dashboard's variable-enabled filters. */
+  variableName?: string | undefined;
+}
 export type ClickStackFilterInput =
   | ClickStackQueryExpressionFilterInput
   | ClickStackStaticListFilterInput
   | ClickStackPrometheusLabelFilterInput
-  | ClickStackSourceFilterInput;
+  | ClickStackSourceFilterInput
+  | ClickStackDataSourceFilterInput
+  | ClickStackConnectionFilterInput
+  | ClickStackSqlQueryFilterInput
+  | ClickStackAdhocFilterInput;
 /** Dropdown filters added to the dashboard. Each one broadcasts its selected value as a condition, acts as a variable which can be referenced in tile queries, or both. */
 export type CreateClickStackDashboardRequestFiltersList = Array<ClickStackFilterInput>;
 /** Query language used by savedQuery. */
@@ -2284,9 +2424,30 @@ export interface ClickStackVariableSavedFilterValue {
   /** Set to true to select every available value rather than a fixed list, which only SOURCE_FILTER filters offer (and only for columns their source declares with allowAll). Send an empty "values" alongside it. Allowed values: true. */
   all?: boolean | undefined;
 }
+/** Filter type. */
+export type ClickStackAdhocSavedFilterValueType = "adhoc";
+export interface ClickStackAdhocFilterCondition {
+  /** A SQL expression (column or map access) for sql filters, or a label name for promql filters. */
+  key: string;
+  /** Comparison operator. =~ and !~ match a regular expression. IN takes one value per condition. LIKE and NOT LIKE apply to sql filters only; a condition its filter's sourceType can't express is not applied. Allowed values: '=', '!=', '=~', '!~', 'LIKE', 'NOT LIKE', 'IN'. */
+  operator: string;
+  /** Value, pattern, or regular expression to compare against. */
+  value: string;
+}
+/** The filter's conditions. */
+export type ClickStackAdhocSavedFilterValueConditionsList = Array<ClickStackAdhocFilterCondition>;
+export interface ClickStackAdhocSavedFilterValue {
+  /** Filter type. */
+  type: ClickStackAdhocSavedFilterValueType;
+  /** The variableName of the ADHOC filter these conditions belong to. */
+  name: string;
+  /** The filter's conditions. */
+  conditions: ClickStackAdhocSavedFilterValueConditionsList;
+}
 export type ClickStackSavedFilterValue =
   | ClickStackSqlSavedFilterValue
-  | ClickStackVariableSavedFilterValue;
+  | ClickStackVariableSavedFilterValue
+  | ClickStackAdhocSavedFilterValue;
 /** Optional default dashboard filter values to persist on the dashboard. */
 export type CreateClickStackDashboardRequestSavedFilterValuesList =
   Array<ClickStackSavedFilterValue>;
@@ -2389,7 +2550,7 @@ export interface ClickStackQueryExpressionFilter {
   name: string;
   /** SQL expression used when querying values for this filter, and when applying this dashboard filter to tiles. */
   expression: string;
-  /** Source ID this dashboard filter key applies to */
+  /** Source ID this dashboard filter key applies to, or `$name` of a DATA_SOURCE filter on the dashboard */
   sourceId: string;
   /** Metric type when source is metrics */
   sourceMetricType?: ClickStackQueryExpressionFilterSourceMetricType | (string & {}) | undefined;
@@ -2510,11 +2671,135 @@ export interface ClickStackSourceFilter {
   /** Unique dashboard filter key ID */
   id: string;
 }
+/** Filter type discriminator. Must be "DATA_SOURCE". */
+export type ClickStackDataSourceFilterType = "DATA_SOURCE";
+/** Must be 1 if provided. The variable always requires a selection. */
+export type ClickStackDataSourceFilterMinSelections = 1;
+/** Must be 1 if provided. The variable is always single-select. */
+export type ClickStackDataSourceFilterMaxSelections = 1;
+/** Kinds of sources offered. A field can reference the variable if it accepts at least one listed kind. A tile whose selected source is a kind it cannot use shows an error instead of running. */
+export type ClickStackDataSourceFilterAllowedSourceKindsList = Array<string>;
+export interface ClickStackDataSourceFilter {
+  /** Filter type discriminator. Must be "DATA_SOURCE". */
+  type: ClickStackDataSourceFilterType;
+  /** Display name of the variable's dropdown */
+  name: string;
+  /** Token tiles and filters reference the selected source by, as `$variableName`. */
+  variableName?: string | undefined;
+  /** Blocks every tile on the dashboard until a value is selected. False (the default) blocks only the tiles that reference the variable. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Must be 1 if provided. The variable always requires a selection. */
+  minSelections?: ClickStackDataSourceFilterMinSelections | (number & {}) | undefined;
+  /** Must be 1 if provided. The variable is always single-select. */
+  maxSelections?: ClickStackDataSourceFilterMaxSelections | (number & {}) | undefined;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Kinds of sources offered. A field can reference the variable if it accepts at least one listed kind. A tile whose selected source is a kind it cannot use shows an error instead of running. */
+  allowedSourceKinds: ClickStackDataSourceFilterAllowedSourceKindsList;
+  /** Optional connection the offered sources are limited to: a connection ID, or `$name` of a CONNECTION filter on the dashboard. */
+  connectionId?: string | undefined;
+  /** Unique dashboard filter key ID */
+  id: string;
+}
+/** Filter type discriminator. Must be "CONNECTION". */
+export type ClickStackConnectionFilterType = "CONNECTION";
+/** Must be 1 if provided. The variable always requires a selection. */
+export type ClickStackConnectionFilterMinSelections = 1;
+/** Must be 1 if provided. The variable is always single-select. */
+export type ClickStackConnectionFilterMaxSelections = 1;
+export interface ClickStackConnectionFilter {
+  /** Filter type discriminator. Must be "CONNECTION". */
+  type: ClickStackConnectionFilterType;
+  /** Display name of the variable's dropdown */
+  name: string;
+  /** Token raw SQL tiles reference the selected connection by, as `$variableName`. */
+  variableName?: string | undefined;
+  /** Blocks every tile on the dashboard until a value is selected. False (the default) blocks only the tiles that reference the variable. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Must be 1 if provided. The variable always requires a selection. */
+  minSelections?: ClickStackConnectionFilterMinSelections | (number & {}) | undefined;
+  /** Must be 1 if provided. The variable is always single-select. */
+  maxSelections?: ClickStackConnectionFilterMaxSelections | (number & {}) | undefined;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Unique dashboard filter key ID */
+  id: string;
+}
+/** Discriminator. Must be "SQL_QUERY". */
+export type ClickStackSqlQueryFilterType = "SQL_QUERY";
+/** Set to 1 to make the filter required. */
+export type ClickStackSqlQueryFilterMinSelections = 0 | 1;
+/** Set to 1 to make the filter single-select. */
+export type ClickStackSqlQueryFilterMaxSelections = 1;
+export interface ClickStackSqlQueryFilter {
+  /** Discriminator. Must be "SQL_QUERY". */
+  type: ClickStackSqlQueryFilterType;
+  /** Display name for the dashboard filter */
+  name: string;
+  /** ClickHouse connection the query runs on: a connection ID, or `$name` of a CONNECTION filter on the dashboard. */
+  connectionId: string;
+  /** Optional Log, Trace, Session, or Metric source on the same connection, or `$name` of a DATA_SOURCE filter on this dashboard. Lets `sqlTemplate` use `$__sourceTable` and `$__filters`. */
+  sourceId?: string | undefined;
+  /** Query whose first column populates the dropdown. May use the time macros and other filters' variables. `$__sourceTable` and `$__filters` need a `sourceId`; `$__filters` expands to the dashboard's broadcast filter selections for that source. */
+  sqlTemplate: string;
+  /** Must be false or omitted. Allowed values: false. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true if provided, and is true when omitted. Tiles reference the selection as `$variableName`. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Token that tiles reference this filter's selected value by, as `$variableName`. Defaults to the display name with whitespace replaced by underscores and remaining illegal characters removed. Must be unique across a dashboard's variable-enabled filters. */
+  variableName?: string | undefined;
+  /** Set to 1 to make the filter required. */
+  minSelections?: ClickStackSqlQueryFilterMinSelections | (number & {}) | undefined;
+  /** Widens a required filter's block to every tile on the dashboard. Ignored unless minSelections is 1. */
+  isGlobalRequirement?: boolean | undefined;
+  /** Set to 1 to make the filter single-select. */
+  maxSelections?: ClickStackSqlQueryFilterMaxSelections | (number & {}) | undefined;
+  /** Unique dashboard filter key ID */
+  id: string;
+}
+/** Discriminator. Must be "ADHOC". */
+export type ClickStackAdhocFilterType = "ADHOC";
+/** IDs of the sources whose keys and values the filter suggests, all of sourceType, or `$name` of data source variables. */
+export type ClickStackAdhocFilterSourcesList = Array<string>;
+/** IDs of the sources whose tiles the conditions apply to, all of sourceType, or `$name` of data source variables. Omit or send an empty array to apply to the tiles of the filter's sources. */
+export type ClickStackAdhocFilterAppliesToSourceIdsList = Array<string>;
+export interface ClickStackAdhocFilter {
+  /** Discriminator. Must be "ADHOC". */
+  type: ClickStackAdhocFilterType;
+  /** Display name for the dashboard filter */
+  name: string;
+  /** The kind of sources the filter reads keys from and applies to: Log, Trace, or Session sources for sql, PromQL sources for promql. Allowed values: 'sql', 'promql'. */
+  sourceType: string;
+  /** IDs of the sources whose keys and values the filter suggests, all of sourceType, or `$name` of data source variables. */
+  sources: ClickStackAdhocFilterSourcesList;
+  /** Optional condition narrowing the rows keys and values are suggested from. Never applied to tiles. May reference the dashboard's variables. sql filters only: rejected when sourceType is promql. */
+  where?: string | undefined;
+  /** Language of the where condition. Rejected when sourceType is promql. Allowed values: 'sql', 'lucene'. */
+  whereLanguage?: string | undefined;
+  /** IDs of the sources whose tiles the conditions apply to, all of sourceType, or `$name` of data source variables. Omit or send an empty array to apply to the tiles of the filter's sources. */
+  appliesToSourceIds?: ClickStackAdhocFilterAppliesToSourceIdsList | undefined;
+  /** Must be true or omitted. Allowed values: true. */
+  isBroadcastEnabled?: boolean | undefined;
+  /** Must be true or omitted. Allowed values: true. */
+  isVariableEnabled?: boolean | undefined;
+  /** Unique name the filter's conditions are saved under, in savedFilterValues and the dashboard URL. Tiles can't reference it as a variable. Defaults to the display name with whitespace replaced by underscores and remaining illegal characters removed. Must be unique across a dashboard's variable-enabled filters. */
+  variableName?: string | undefined;
+  /** Unique dashboard filter key ID */
+  id: string;
+}
 export type ClickStackFilter =
   | ClickStackQueryExpressionFilter
   | ClickStackStaticListFilter
   | ClickStackPrometheusLabelFilter
-  | ClickStackSourceFilter;
+  | ClickStackSourceFilter
+  | ClickStackDataSourceFilter
+  | ClickStackConnectionFilter
+  | ClickStackSqlQueryFilter
+  | ClickStackAdhocFilter;
 /** Dropdown filters added to the dashboard. Each one broadcasts its selected value as a condition, acts as a variable which can be referenced in tile queries, or both. */
 export type ClickStackDashboardResponseFiltersList = Array<ClickStackFilter>;
 /** Query language used by savedQuery. */
@@ -2888,12 +3173,18 @@ export interface ClickStackLogSource {
   implicitColumnExpression?: string | null | undefined;
   /** For Distributed table sources whose target tables have non-matching column sets. A list of columns supported across all target tables, used instead of SELECT * when fetching full row data. Leave blank to select all columns. */
   knownColumnsListExpression?: string | null | undefined;
+  /** Comma-separated expressions that together identify one row, e.g. the partition key, primary key, _block_number and _block_offset. When set, row details are looked up by these columns only. Leave blank to detect keys from table metadata. */
+  rowKeyExpression?: string | null | undefined;
   /** Controls whether lucene rendering uses ClickHouse text indices via hasAllTokens() against the implicit column. "auto" detects a covering index at query time, "enabled" forces text index usage, "disabled" forces a LIKE/hasToken fallback. */
   useTextIndexForImplicitColumn?:
     | ClickStackLogSourceUseTextIndexForImplicitColumn
     | (string & {})
     | null
     | undefined;
+  /** How many data parts are read from text indexes to discover attribute keys and filter values, chosen by mapKeyIndexPartSelection. Raise it if keys or values are missing from filters; lower it if they load slowly. Defaults to 20. */
+  mapKeyIndexMaxParts?: number | null | undefined;
+  /** Which data parts, by row count, are read from text indexes to discover attribute keys and filter values. "median" (the default) balances coverage and cost, "smallest" reads the newest unmerged parts, "largest" reads the most merged data. Allowed values: 'median', 'smallest', 'largest'. */
+  mapKeyIndexPartSelection?: string | null | undefined;
   /** Expressions defining trace-level attributes which are displayed in the trace view for the selected trace. */
   highlightedTraceAttributeExpressions?:
     | ClickStackLogSourceHighlightedTraceAttributeExpressionsList
@@ -2985,12 +3276,18 @@ export interface ClickStackTraceSource {
   implicitColumnExpression?: string | null | undefined;
   /** For Distributed table sources whose target tables have non-matching column sets. A list of columns supported across all target tables, used instead of SELECT * when fetching full row data. Leave blank to select all columns. */
   knownColumnsListExpression?: string | null | undefined;
+  /** Comma-separated expressions that together identify one row, e.g. the partition key, primary key, _block_number and _block_offset. When set, row details are looked up by these columns only. Leave blank to detect keys from table metadata. */
+  rowKeyExpression?: string | null | undefined;
   /** Controls whether lucene rendering uses ClickHouse text indices via hasAllTokens() against the implicit column. "auto" detects a covering index at query time, "enabled" forces text index usage, "disabled" forces a LIKE/hasToken fallback. */
   useTextIndexForImplicitColumn?:
     | ClickStackTraceSourceUseTextIndexForImplicitColumn
     | (string & {})
     | null
     | undefined;
+  /** How many data parts are read from text indexes to discover attribute keys and filter values, chosen by mapKeyIndexPartSelection. Raise it if keys or values are missing from filters; lower it if they load slowly. Defaults to 20. */
+  mapKeyIndexMaxParts?: number | null | undefined;
+  /** Which data parts, by row count, are read from text indexes to discover attribute keys and filter values. "median" (the default) balances coverage and cost, "smallest" reads the newest unmerged parts, "largest" reads the most merged data. Allowed values: 'median', 'smallest', 'largest'. */
+  mapKeyIndexPartSelection?: string | null | undefined;
   /** Expressions defining trace-level attributes which are displayed in the trace view for the selected trace. */
   highlightedTraceAttributeExpressions?:
     | ClickStackTraceSourceHighlightedTraceAttributeExpressionsList
@@ -3086,6 +3383,8 @@ export interface ClickStackSessionSource {
 export type ClickStackPromqlSourceKind = "promql";
 /** Optional ClickHouse query settings applied when querying this source. */
 export type ClickStackPromqlSourceQuerySettingsList = Array<ClickStackQuerySetting>;
+/** How PromQL is evaluated on a ClickHouse connection. "clickhouse-http" uses ClickHouse's Prometheus HTTP API, which needs ClickHouse 26.6+ with the prometheus_api_v1 handler configured; queries fail with an error when the server does not serve it. "table-function" uses the prometheusQuery table functions. "auto" (the default when omitted) checks the server and prefers the HTTP API. Ignored when the connection is a Prometheus-compatible endpoint. */
+export type ClickStackPromqlSourcePromqlBackend = "auto" | "clickhouse-http" | "table-function";
 export interface ClickStackPromqlSource {
   /** Unique source ID. Server-generated; ignored if sent in create/update requests. */
   id?: string | undefined;
@@ -3106,6 +3405,8 @@ export interface ClickStackPromqlSource {
   timestampValueExpression: string;
   /** Floor for the auto-inferred chart granularity, and the scrape interval that `$__rate_interval` is computed from. Set it to the Prometheus scrape interval so a short time range does not produce buckets smaller than that interval. Only constrains "Auto" granularity; an explicit granularity picked on a tile is never overridden. Omit for no minimum. Uses the SQL interval format (a positive integer followed by second, minute, hour, or day), not the short form of the materialized view granularity fields. */
   minAutoGranularity?: string | undefined;
+  /** How PromQL is evaluated on a ClickHouse connection. "clickhouse-http" uses ClickHouse's Prometheus HTTP API, which needs ClickHouse 26.6+ with the prometheus_api_v1 handler configured; queries fail with an error when the server does not serve it. "table-function" uses the prometheusQuery table functions. "auto" (the default when omitted) checks the server and prefers the HTTP API. Ignored when the connection is a Prometheus-compatible endpoint. */
+  promqlBackend?: ClickStackPromqlSourcePromqlBackend | (string & {}) | undefined;
 }
 export type ClickStackSource =
   | ClickStackLogSource
@@ -3723,6 +4024,42 @@ export interface ClickStackValidateWebhookResponse {
   errors: ClickStackValidateWebhookResponseErrorsList;
   normalized: unknown | null;
 }
+export type ClickStackSilenceAlertError = ClickHouseCloudOpError;
+/** ClickStack: Silence Alert **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> ClickStack: Silences an alert until the given time. Notifications are suppressed while the alert is silenced. */
+export const clickStackSilenceAlert: API.OperationMethod<
+  ClickStackSilenceAlertRequest,
+  ClickStackAlertResponse,
+  ClickStackSilenceAlertError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<ClickStackSilenceAlertRequest>,
+  output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
+  protocol: ClickHouseCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClickStackSilenceAlert",
+}));
+
+export type ClickStackUnsilenceAlertError = ClickHouseCloudOpError;
+/** ClickStack: Unsilence Alert **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> ClickStack: Clears the silence on an alert so notifications resume */
+export const clickStackUnsilenceAlert: API.OperationMethod<
+  ClickStackUnsilenceAlertRequest,
+  ClickStackUnsilenceAlertResponse,
+  ClickStackUnsilenceAlertError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<ClickStackUnsilenceAlertRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<ClickStackUnsilenceAlertResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
+  protocol: ClickHouseCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClickStackUnsilenceAlert",
+}));
+
 export type CreateClickStackAlertError = FeatureUnavailable | ClickHouseCloudOpError;
 /** ClickStack: Create Alert **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> ClickStack: Creates a new alert */
 export const createClickStackAlert: API.OperationMethod<
@@ -3731,7 +4068,7 @@ export const createClickStackAlert: API.OperationMethod<
   CreateClickStackAlertError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateClickStackAlertRequest>,
+  input: __S(832, __c26, 0) as any as S.Schema<CreateClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
@@ -3749,8 +4086,8 @@ export const createClickStackDashboard: API.OperationMethod<
   CreateClickStackDashboardError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateClickStackDashboardRequest>,
-  output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateClickStackDashboardRequest>,
+  output: __S(1068, __c33, 12) as any as S.Schema<ClickStackDashboardResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3767,8 +4104,8 @@ export const createClickStackRole: API.OperationMethod<
   CreateClickStackRoleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateClickStackRoleRequest>,
-  output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateClickStackRoleRequest>,
+  output: __S(1288, __c40, 8) as any as S.Schema<ClickStackRole>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3785,8 +4122,8 @@ export const createClickStackSavedSearch: API.OperationMethod<
   CreateClickStackSavedSearchError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateClickStackSavedSearchRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateClickStackSavedSearchRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ClickStackSavedSearch>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3803,8 +4140,8 @@ export const createClickStackSource: API.OperationMethod<
   CreateClickStackSourceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateClickStackSourceRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<CreateClickStackSourceResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreateClickStackSourceRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<CreateClickStackSourceResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3821,8 +4158,8 @@ export const createClickStackWebhook: API.OperationMethod<
   CreateClickStackWebhookError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<CreateClickStackWebhookRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<CreateClickStackWebhookResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateClickStackWebhookRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<CreateClickStackWebhookResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3839,8 +4176,8 @@ export const deleteClickStackAlert: API.OperationMethod<
   DeleteClickStackAlertError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteClickStackAlertRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackAlertResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteClickStackAlertRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackAlertResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3857,8 +4194,8 @@ export const deleteClickStackDashboard: API.OperationMethod<
   DeleteClickStackDashboardError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteClickStackDashboardRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackDashboardResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteClickStackDashboardRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackDashboardResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3875,8 +4212,8 @@ export const deleteClickStackRole: API.OperationMethod<
   DeleteClickStackRoleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteClickStackRoleRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackRoleResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteClickStackRoleRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackRoleResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3893,8 +4230,8 @@ export const deleteClickStackSavedSearch: API.OperationMethod<
   DeleteClickStackSavedSearchError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteClickStackSavedSearchRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackSavedSearchResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteClickStackSavedSearchRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackSavedSearchResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3911,8 +4248,8 @@ export const deleteClickStackSource: API.OperationMethod<
   DeleteClickStackSourceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteClickStackSourceRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackSourceResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteClickStackSourceRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackSourceResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3929,8 +4266,8 @@ export const deleteClickStackWebhook: API.OperationMethod<
   DeleteClickStackWebhookError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteClickStackWebhookRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackWebhookResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteClickStackWebhookRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<DeleteClickStackWebhookResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3947,7 +4284,7 @@ export const getClickStackAlert: API.OperationMethod<
   GetClickStackAlertError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetClickStackAlertRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
@@ -3965,8 +4302,8 @@ export const getClickStackDashboard: API.OperationMethod<
   GetClickStackDashboardError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetClickStackDashboardRequest>,
-  output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetClickStackDashboardRequest>,
+  output: __S(1068, __c33, 12) as any as S.Schema<ClickStackDashboardResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -3983,8 +4320,8 @@ export const getClickStackRole: API.OperationMethod<
   GetClickStackRoleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetClickStackRoleRequest>,
-  output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetClickStackRoleRequest>,
+  output: __S(1288, __c40, 8) as any as S.Schema<ClickStackRole>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4001,8 +4338,8 @@ export const getClickStackSavedSearch: API.OperationMethod<
   GetClickStackSavedSearchError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetClickStackSavedSearchRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetClickStackSavedSearchRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ClickStackSavedSearch>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4019,8 +4356,8 @@ export const getClickStackSource: API.OperationMethod<
   GetClickStackSourceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetClickStackSourceRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<GetClickStackSourceResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetClickStackSourceRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<GetClickStackSourceResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4037,8 +4374,8 @@ export const listClickStackAlerts: API.OperationMethod<
   ListClickStackAlertsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c12, 1) as any as S.Schema<ListClickStackAlertsRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<ListClickStackAlertsResponse>,
+  input: __S(513, __c16, 1) as any as S.Schema<ListClickStackAlertsRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<ListClickStackAlertsResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4055,8 +4392,8 @@ export const listClickStackDashboards: API.OperationMethod<
   ListClickStackDashboardsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListClickStackDashboardsRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListClickStackDashboardsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListClickStackDashboardsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListClickStackDashboardsResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4073,8 +4410,8 @@ export const listClickStackRoles: API.OperationMethod<
   ListClickStackRolesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListClickStackRolesRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListClickStackRolesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListClickStackRolesRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ListClickStackRolesResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4091,8 +4428,8 @@ export const listClickStackSavedSearches: API.OperationMethod<
   ListClickStackSavedSearchesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListClickStackSavedSearchesRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListClickStackSavedSearchesResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListClickStackSavedSearchesRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListClickStackSavedSearchesResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4109,8 +4446,8 @@ export const listClickStackSources: API.OperationMethod<
   ListClickStackSourcesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListClickStackSourcesRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListClickStackSourcesResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListClickStackSourcesRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListClickStackSourcesResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4127,8 +4464,8 @@ export const listClickStackWebhooks: API.OperationMethod<
   ListClickStackWebhooksError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListClickStackWebhooksRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<ListClickStackWebhooksResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListClickStackWebhooksRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ListClickStackWebhooksResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4145,7 +4482,7 @@ export const updateClickStackAlert: API.OperationMethod<
   UpdateClickStackAlertError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<UpdateClickStackAlertRequest>,
+  input: __S(704, __c22, 0) as any as S.Schema<UpdateClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
@@ -4163,8 +4500,8 @@ export const updateClickStackDashboard: API.OperationMethod<
   UpdateClickStackDashboardError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<UpdateClickStackDashboardRequest>,
-  output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<UpdateClickStackDashboardRequest>,
+  output: __S(1068, __c33, 12) as any as S.Schema<ClickStackDashboardResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4181,8 +4518,8 @@ export const updateClickStackRole: API.OperationMethod<
   UpdateClickStackRoleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateClickStackRoleRequest>,
-  output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
+  input: __S(768, __c24, 0) as any as S.Schema<UpdateClickStackRoleRequest>,
+  output: __S(1288, __c40, 8) as any as S.Schema<ClickStackRole>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4199,8 +4536,8 @@ export const updateClickStackSavedSearch: API.OperationMethod<
   UpdateClickStackSavedSearchError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateClickStackSavedSearchRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
+  input: __S(800, __c25, 0) as any as S.Schema<UpdateClickStackSavedSearchRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ClickStackSavedSearch>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4217,8 +4554,8 @@ export const updateClickStackSource: API.OperationMethod<
   UpdateClickStackSourceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<UpdateClickStackSourceRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<UpdateClickStackSourceResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<UpdateClickStackSourceRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<UpdateClickStackSourceResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4235,8 +4572,8 @@ export const updateClickStackWebhook: API.OperationMethod<
   UpdateClickStackWebhookError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<UpdateClickStackWebhookRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<UpdateClickStackWebhookResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateClickStackWebhookRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<UpdateClickStackWebhookResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4253,8 +4590,8 @@ export const validateClickStackDashboard: API.OperationMethod<
   ValidateClickStackDashboardError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ValidateClickStackDashboardRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ClickStackValidateDashboardResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ValidateClickStackDashboardRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ClickStackValidateDashboardResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4271,8 +4608,8 @@ export const validateClickStackWebhook: API.OperationMethod<
   ValidateClickStackWebhookError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ValidateClickStackWebhookRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ClickStackValidateWebhookResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ValidateClickStackWebhookRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ClickStackValidateWebhookResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -4289,34 +4626,16 @@ function __c0(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          dashboardId: S.optional(S.NullOr(S.String)),
-          tileId: S.optional(S.NullOr(S.String)),
-          savedSearchId: S.optional(S.NullOr(S.String)),
-          groupBy: S.optional(S.NullOr(S.String)),
-          chartConfig: S.optional(__S(48, __c1, 16)),
-          threshold: S.Number,
-          thresholdMax: S.optional(S.NullOr(S.Number)),
-          interval: S.String,
-          scheduleOffsetMinutes: S.optional(S.NullOr(S.Number)),
-          scheduleStartAt: S.optional(S.NullOr(S.String)),
-          source: S.optional(S.String),
-          thresholdType: S.String,
-          channel: S.optional(__S(51, __c1, 19)),
-          channels: S.optional(__S(52, __c1, 20)),
-          name: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(96, __c3, 0)),
-          message: S.optional(S.NullOr(S.String)),
-          note: S.optional(S.NullOr(S.String)),
-          numConsecutiveWindows: S.optional(S.NullOr(S.Number)),
+          clickStackAlertId: S.String.pipe(T.Label()),
+          mutedUntil: S.String,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts/{clickStackAlertId}/silenced",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateClickStackAlertRequest" });
+      ).annotate({ identifier: "ClickStackSilenceAlertRequest" });
   }
 }
 function __c1(j: number): any {
@@ -4743,6 +5062,42 @@ function __c4(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
+          clickStackDashboardId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/{clickStackDashboardId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteClickStackDashboardRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackRoleId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles/{clickStackRoleId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteClickStackRoleRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
           clickStackSavedSearchId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -4754,7 +5109,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteClickStackSavedSearchRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4772,7 +5127,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteClickStackSourceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4790,7 +5145,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteClickStackWebhookRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4808,7 +5163,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetClickStackAlertRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4826,7 +5181,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetClickStackDashboardRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4844,7 +5199,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetClickStackRoleRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4862,7 +5217,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetClickStackSavedSearchRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4880,7 +5235,36 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetClickStackSourceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackAlertId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts/{clickStackAlertId}/silenced",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ClickStackUnsilenceAlertRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClickStackUnsilenceAlertResponse" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -4893,8 +5277,8 @@ function __c12(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           tag: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          source: S.optional(__S(384, __c12, 0).pipe(T.Query())),
-          state: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          source: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          state: S.optional(__S(512, __c16, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4906,12 +5290,12 @@ function __c12(j: number): any {
     case 2:
       return S.Array(__S(56, __c1, 24));
     case 3:
-      return S.suspend(() => __S(386, __c12, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(514, __c16, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListClickStackAlertsResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4927,14 +5311,302 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListClickStackDashboardsRequest" });
     case 1:
-      return S.Array(__S(488, __c15, 8));
+      return S.Array(__S(1068, __c33, 12));
     case 2:
-      return S.suspend(() => __S(417, __c13, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(545, __c17, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListClickStackDashboardsResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClickStackRolesRequest" });
+    case 1:
+      return S.Array(__S(1288, __c40, 8));
+    case 2:
+      return S.suspend(() => __S(577, __c18, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListClickStackRolesResponse",
+      });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/saved-searches",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClickStackSavedSearchesRequest" });
+    case 1:
+      return S.Array(__S(1377, __c43, 1));
+    case 2:
+      return S.suspend(() => __S(609, __c19, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListClickStackSavedSearchesResponse",
+      });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/sources",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClickStackSourcesRequest" });
+    case 1:
+      return S.Array(__S(1459, __c45, 19));
+    case 2:
+      return S.suspend(() => __S(641, __c20, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListClickStackSourcesResponse",
+      });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClickStackWebhooksRequest" });
+    case 1:
+      return S.Array(__S(1538, __c48, 2));
+    case 2:
+      return S.suspend(() => __S(673, __c21, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListClickStackWebhooksResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackAlertId: S.String.pipe(T.Label()),
+          dashboardId: S.optional(S.NullOr(S.String)),
+          tileId: S.optional(S.NullOr(S.String)),
+          savedSearchId: S.optional(S.NullOr(S.String)),
+          groupBy: S.optional(S.NullOr(S.String)),
+          chartConfig: S.optional(__S(48, __c1, 16)),
+          threshold: S.Number,
+          thresholdMax: S.optional(S.NullOr(S.Number)),
+          interval: S.String,
+          scheduleOffsetMinutes: S.optional(S.NullOr(S.Number)),
+          scheduleStartAt: S.optional(S.NullOr(S.String)),
+          source: S.optional(S.String),
+          thresholdType: S.String,
+          channel: S.optional(__S(51, __c1, 19)),
+          channels: S.optional(__S(52, __c1, 20)),
+          name: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(96, __c3, 0)),
+          message: S.optional(S.NullOr(S.String)),
+          note: S.optional(S.NullOr(S.String)),
+          numConsecutiveWindows: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts/{clickStackAlertId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackAlertRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackDashboardId: S.String.pipe(T.Label()),
+          name: S.String,
+          tiles: __S(1160, __c36, 8),
+          tags: S.optional(__S(96, __c3, 0)),
+          filters: S.optional(__S(1067, __c33, 11)),
+          savedQuery: S.optional(S.NullOr(S.String)),
+          savedQueryLanguage: S.optional(S.NullOr(S.String)),
+          savedFilterValues: S.optional(__S(1137, __c35, 17)),
+          containers: S.optional(__S(1141, __c35, 21)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/{clickStackDashboardId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackDashboardRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackRoleId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          permissions: __S(1287, __c40, 7),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles/{clickStackRoleId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackRoleRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackSavedSearchId: S.String.pipe(T.Label()),
+          name: S.String,
+          sourceId: S.String,
+          select: S.optional(S.String),
+          where: S.optional(S.String),
+          whereLanguage: S.optional(S.String),
+          orderBy: S.optional(S.String),
+          tags: S.optional(__S(96, __c3, 0)),
+          filters: S.optional(__S(1376, __c43, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/saved-searches/{clickStackSavedSearchId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackSavedSearchRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          dashboardId: S.optional(S.NullOr(S.String)),
+          tileId: S.optional(S.NullOr(S.String)),
+          savedSearchId: S.optional(S.NullOr(S.String)),
+          groupBy: S.optional(S.NullOr(S.String)),
+          chartConfig: S.optional(__S(48, __c1, 16)),
+          threshold: S.Number,
+          thresholdMax: S.optional(S.NullOr(S.Number)),
+          interval: S.String,
+          scheduleOffsetMinutes: S.optional(S.NullOr(S.Number)),
+          scheduleStartAt: S.optional(S.NullOr(S.String)),
+          source: S.optional(S.String),
+          thresholdType: S.String,
+          channel: S.optional(__S(51, __c1, 19)),
+          channels: S.optional(__S(52, __c1, 20)),
+          name: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(96, __c3, 0)),
+          message: S.optional(S.NullOr(S.String)),
+          note: S.optional(S.NullOr(S.String)),
+          numConsecutiveWindows: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateClickStackAlertRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackSourceId: S.String.pipe(T.Label()),
+          body: S.optional(__S(1459, __c45, 19).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/sources/{clickStackSourceId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackSourceRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          clickStackWebhookId: S.String.pipe(T.Label()),
+          name: S.String,
+          service: S.String,
+          url: S.String.pipe(T.SensitiveValue({})),
+          description: S.optional(S.String),
+          body: S.optional(S.String),
+          headers: S.optional(__S(1600, __c50, 0)),
+          queryParams: S.optional(__S(1600, __c50, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks/{clickStackWebhookId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateClickStackWebhookRequest" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4942,13 +5614,83 @@ function __c14(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           name: S.String,
-          tiles: __S(584, __c18, 8),
+          tiles: __S(1160, __c36, 8),
           tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(613, __c19, 5)),
+          filters: S.optional(__S(1193, __c37, 9)),
           savedQuery: S.optional(S.NullOr(S.String)),
           savedQueryLanguage: S.optional(S.NullOr(S.String)),
-          savedFilterValues: S.optional(__S(558, __c17, 14)),
-          containers: S.optional(__S(562, __c17, 18)),
+          savedFilterValues: S.optional(__S(1137, __c35, 17)),
+          containers: S.optional(__S(1141, __c35, 21)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/validate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ValidateClickStackDashboardRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackValidateDashboardError" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          valid: S.Boolean,
+          errors: __S(961, __c30, 1),
+          normalized: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "ClickStackValidateDashboardResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          name: S.String,
+          service: S.String,
+          url: S.String.pipe(T.SensitiveValue({})),
+          description: S.optional(S.String),
+          body: S.optional(S.String),
+          headers: S.optional(__S(1600, __c50, 0)),
+          queryParams: S.optional(__S(1600, __c50, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks/validate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ValidateClickStackWebhookRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+          name: S.String,
+          tiles: __S(1160, __c36, 8),
+          tags: S.optional(__S(96, __c3, 0)),
+          filters: S.optional(__S(1193, __c37, 9)),
+          savedQuery: S.optional(S.NullOr(S.String)),
+          savedQueryLanguage: S.optional(S.NullOr(S.String)),
+          savedFilterValues: S.optional(__S(1137, __c35, 17)),
+          containers: S.optional(__S(1141, __c35, 21)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4959,7 +5701,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateClickStackDashboardRequest" });
   }
 }
-function __c15(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4969,7 +5711,7 @@ function __c15(j: number): any {
           y: S.Number,
           w: S.Number,
           h: S.Number,
-          config: S.optional(__S(555, __c17, 11)),
+          config: S.optional(__S(1131, __c35, 11)),
           containerId: S.optional(S.String),
           tabId: S.optional(S.String),
           description: S.optional(S.String),
@@ -4977,7 +5719,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackTileOutput" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5048,31 +5790,98 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackSourceFilter" });
     case 6:
-      return S.Union([
-        __S(482, __c15, 2),
-        __S(483, __c15, 3),
-        __S(484, __c15, 4),
-        __S(485, __c15, 5),
-      ]);
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          variableName: S.optional(S.String),
+          isGlobalRequirement: S.optional(S.Boolean),
+          minSelections: S.optional(S.Number),
+          maxSelections: S.optional(S.Number),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          allowedSourceKinds: __S(96, __c3, 0),
+          connectionId: S.optional(S.String),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackDataSourceFilter" });
     case 7:
-      return S.Array(__S(486, __c15, 6));
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          variableName: S.optional(S.String),
+          isGlobalRequirement: S.optional(S.Boolean),
+          minSelections: S.optional(S.Number),
+          maxSelections: S.optional(S.Number),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackConnectionFilter" });
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          connectionId: S.String,
+          sourceId: S.optional(S.String),
+          sqlTemplate: S.String,
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          variableName: S.optional(S.String),
+          minSelections: S.optional(S.Number),
+          isGlobalRequirement: S.optional(S.Boolean),
+          maxSelections: S.optional(S.Number),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackSqlQueryFilter" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          sourceType: S.String,
+          sources: __S(96, __c3, 0),
+          where: S.optional(S.String),
+          whereLanguage: S.optional(S.String),
+          appliesToSourceIds: S.optional(__S(96, __c3, 0)),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          variableName: S.optional(S.String),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackAdhocFilter" });
+    case 10:
+      return S.Union([
+        __S(1058, __c33, 2),
+        __S(1059, __c33, 3),
+        __S(1060, __c33, 4),
+        __S(1061, __c33, 5),
+        __S(1062, __c33, 6),
+        __S(1063, __c33, 7),
+        __S(1064, __c33, 8),
+        __S(1065, __c33, 9),
+      ]);
+    case 11:
+      return S.Array(__S(1066, __c33, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          tiles: S.optional(__S(481, __c15, 1)),
+          tiles: S.optional(__S(1057, __c33, 1)),
           tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(487, __c15, 7)),
+          filters: S.optional(__S(1067, __c33, 11)),
           savedQuery: S.optional(S.NullOr(S.String)),
           savedQueryLanguage: S.optional(S.NullOr(S.String)),
-          savedFilterValues: S.optional(__S(558, __c17, 14)),
-          containers: S.optional(__S(562, __c17, 18)),
+          savedFilterValues: S.optional(__S(1137, __c35, 17)),
+          containers: S.optional(__S(1141, __c35, 21)),
         }),
       ).annotate({ identifier: "ClickStackDashboardResponse" });
   }
 }
-function __c16(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5127,7 +5936,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackLinePromqlChartConfig" });
     case 3:
-      return S.Union([__S(512, __c16, 0), __S(513, __c16, 1), __S(514, __c16, 2)]);
+      return S.Union([__S(1088, __c34, 0), __S(1089, __c34, 1), __S(1090, __c34, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5173,7 +5982,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackBarPromqlChartConfig" });
     case 7:
-      return S.Union([__S(516, __c16, 4), __S(517, __c16, 5), __S(518, __c16, 6)]);
+      return S.Union([__S(1092, __c34, 4), __S(1093, __c34, 5), __S(1094, __c34, 6)]);
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5222,7 +6031,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackStackedLinePromqlChartConfig" });
     case 11:
-      return S.Union([__S(520, __c16, 8), __S(521, __c16, 9), __S(522, __c16, 10)]);
+      return S.Union([__S(1096, __c34, 8), __S(1097, __c34, 9), __S(1098, __c34, 10)]);
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -5238,7 +6047,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackOnClickTargetTemplateVariant" });
     case 14:
-      return S.Union([__S(524, __c16, 12), __S(525, __c16, 13)]);
+      return S.Union([__S(1100, __c34, 12), __S(1101, __c34, 13)]);
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -5248,15 +6057,15 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackOnClickFilterTemplate" });
     case 16:
-      return S.Array(__S(527, __c16, 15));
+      return S.Array(__S(1103, __c34, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          target: __S(526, __c16, 14),
+          target: __S(1102, __c34, 14),
           whereTemplate: S.optional(S.String),
           whereLanguage: S.optional(S.String),
-          filters: S.optional(__S(528, __c16, 16)),
+          filters: S.optional(__S(1104, __c34, 16)),
         }),
       ).annotate({ identifier: "ClickStackOnClickSearch" });
     case 18:
@@ -5267,7 +6076,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackOnClickExternal" });
     case 19:
-      return S.Union([__S(529, __c16, 17), __S(529, __c16, 17), __S(530, __c16, 18)]);
+      return S.Union([__S(1105, __c34, 17), __S(1105, __c34, 17), __S(1106, __c34, 18)]);
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -5280,7 +6089,7 @@ function __c16(j: number): any {
           asRatio: S.optional(S.Boolean),
           numberFormat: S.optional(__S(64, __c2, 0)),
           groupByColumnsOnLeft: S.optional(S.Boolean),
-          onClick: S.optional(__S(531, __c16, 19)),
+          onClick: S.optional(__S(1107, __c34, 19)),
           formulas: S.optional(__S(68, __c2, 4)),
           showOperandSeries: S.optional(S.Boolean),
         }),
@@ -5294,7 +6103,7 @@ function __c16(j: number): any {
           sourceId: S.optional(S.String),
           numberFormat: S.optional(__S(64, __c2, 0)),
           displayType: S.String,
-          onClick: S.optional(__S(531, __c16, 19)),
+          onClick: S.optional(__S(1107, __c34, 19)),
         }),
       ).annotate({ identifier: "ClickStackTableRawSqlChartConfig" });
     case 22:
@@ -5306,7 +6115,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackPromqlInstantExpression" });
     case 23:
-      return S.Array(__S(534, __c16, 22));
+      return S.Array(__S(1110, __c34, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -5315,11 +6124,11 @@ function __c16(j: number): any {
           granularity: S.optional(S.String),
           numberFormat: S.optional(__S(64, __c2, 0)),
           displayType: S.String,
-          expressions: __S(535, __c16, 23),
+          expressions: __S(1111, __c34, 23),
         }),
       ).annotate({ identifier: "ClickStackTablePromqlChartConfig" });
     case 25:
-      return S.Union([__S(532, __c16, 20), __S(533, __c16, 21), __S(536, __c16, 24)]);
+      return S.Union([__S(1108, __c34, 20), __S(1109, __c34, 21), __S(1112, __c34, 24)]);
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -5361,7 +6170,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackNumberPromqlChartConfig" });
     case 29:
-      return S.Union([__S(538, __c16, 26), __S(539, __c16, 27), __S(540, __c16, 28)]);
+      return S.Union([__S(1114, __c34, 26), __S(1115, __c34, 27), __S(1116, __c34, 28)]);
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -5387,7 +6196,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ClickStackPieRawSqlChartConfig" });
   }
 }
-function __c17(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5403,7 +6212,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackPiePromqlChartConfig" });
     case 1:
-      return S.Union([__S(542, __c16, 30), __S(543, __c16, 31), __S(544, __c17, 0)]);
+      return S.Union([__S(1118, __c34, 30), __S(1119, __c34, 31), __S(1120, __c35, 0)]);
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5413,14 +6222,14 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackHeatmapSelectItem" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           displayType: S.String,
           heatmapMode: S.optional(S.String),
           sourceId: S.String,
-          select: __S(547, __c17, 3),
+          select: __S(1123, __c35, 3),
           where: S.optional(S.String),
           whereLanguage: S.optional(S.String),
           numberFormat: S.optional(__S(64, __c2, 0)),
@@ -5452,7 +6261,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackHeatmapPromqlChartConfig" });
     case 7:
-      return S.Union([__S(548, __c17, 4), __S(549, __c17, 5), __S(550, __c17, 6)]);
+      return S.Union([__S(1124, __c35, 4), __S(1125, __c35, 5), __S(1126, __c35, 6)]);
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5482,17 +6291,17 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ClickStackMarkdownChartConfig" });
     case 11:
       return S.Union([
-        __S(515, __c16, 3),
-        __S(519, __c16, 7),
-        __S(523, __c16, 11),
-        __S(537, __c16, 25),
-        __S(541, __c16, 29),
-        __S(545, __c17, 1),
-        __S(545, __c17, 1),
-        __S(551, __c17, 7),
-        __S(552, __c17, 8),
-        __S(553, __c17, 9),
-        __S(554, __c17, 10),
+        __S(1091, __c34, 3),
+        __S(1095, __c34, 7),
+        __S(1099, __c34, 11),
+        __S(1113, __c34, 25),
+        __S(1117, __c34, 29),
+        __S(1121, __c35, 1),
+        __S(1121, __c35, 1),
+        __S(1127, __c35, 7),
+        __S(1128, __c35, 8),
+        __S(1129, __c35, 9),
+        __S(1130, __c35, 10),
       ]);
     case 12:
       return S.suspend(() =>
@@ -5504,19 +6313,37 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackVariableSavedFilterValue" });
     case 13:
-      return S.Union([__S(640, __c20, 0), __S(556, __c17, 12)]);
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          operator: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "ClickStackAdhocFilterCondition" });
     case 14:
-      return S.Array(__S(557, __c17, 13));
+      return S.Array(__S(1133, __c35, 13));
     case 15:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          conditions: __S(1134, __c35, 14),
+        }),
+      ).annotate({ identifier: "ClickStackAdhocSavedFilterValue" });
+    case 16:
+      return S.Union([__S(1216, __c38, 0), __S(1132, __c35, 12), __S(1135, __c35, 15)]);
+    case 17:
+      return S.Array(__S(1136, __c35, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.String,
         }),
       ).annotate({ identifier: "ClickStackDashboardContainerTab" });
-    case 16:
-      return S.Array(__S(559, __c17, 15));
-    case 17:
+    case 19:
+      return S.Array(__S(1138, __c35, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -5524,14 +6351,14 @@ function __c17(j: number): any {
           collapsed: S.Boolean,
           collapsible: S.optional(S.Boolean),
           bordered: S.optional(S.Boolean),
-          tabs: S.optional(__S(560, __c17, 16)),
+          tabs: S.optional(__S(1139, __c35, 19)),
         }),
       ).annotate({ identifier: "ClickStackDashboardContainer" });
-    case 18:
-      return S.Array(__S(561, __c17, 17));
+    case 21:
+      return S.Array(__S(1140, __c35, 20));
   }
 }
-function __c18(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5604,14 +6431,14 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ClickStackMarkdownChartSeries" });
     case 5:
       return S.Union([
-        __S(576, __c18, 0),
-        __S(577, __c18, 1),
-        __S(578, __c18, 2),
-        __S(579, __c18, 3),
-        __S(580, __c18, 4),
+        __S(1152, __c36, 0),
+        __S(1153, __c36, 1),
+        __S(1154, __c36, 2),
+        __S(1155, __c36, 3),
+        __S(1156, __c36, 4),
       ]);
     case 6:
-      return S.Array(__S(581, __c18, 5));
+      return S.Array(__S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -5620,20 +6447,20 @@ function __c18(j: number): any {
           y: S.Number,
           w: S.Number,
           h: S.Number,
-          config: S.optional(__S(555, __c17, 11)),
+          config: S.optional(__S(1131, __c35, 11)),
           containerId: S.optional(S.String),
           tabId: S.optional(S.String),
           description: S.optional(S.String),
           id: S.optional(S.String),
           asRatio: S.optional(S.Boolean),
-          series: S.optional(__S(582, __c18, 6)),
+          series: S.optional(__S(1158, __c36, 6)),
         }),
       ).annotate({ identifier: "ClickStackTileInput" });
     case 8:
-      return S.Array(__S(583, __c18, 7));
+      return S.Array(__S(1159, __c36, 7));
   }
 }
-function __c19(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5701,17 +6528,80 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackSourceFilterInput" });
     case 4:
-      return S.Union([
-        __S(608, __c19, 0),
-        __S(609, __c19, 1),
-        __S(610, __c19, 2),
-        __S(611, __c19, 3),
-      ]);
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          variableName: S.optional(S.String),
+          isGlobalRequirement: S.optional(S.Boolean),
+          minSelections: S.optional(S.Number),
+          maxSelections: S.optional(S.Number),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          allowedSourceKinds: __S(96, __c3, 0),
+          connectionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClickStackDataSourceFilterInput" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          variableName: S.optional(S.String),
+          isGlobalRequirement: S.optional(S.Boolean),
+          minSelections: S.optional(S.Number),
+          maxSelections: S.optional(S.Number),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClickStackConnectionFilterInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          connectionId: S.String,
+          sourceId: S.optional(S.String),
+          sqlTemplate: S.String,
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          variableName: S.optional(S.String),
+          minSelections: S.optional(S.Number),
+          isGlobalRequirement: S.optional(S.Boolean),
+          maxSelections: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClickStackSqlQueryFilterInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          sourceType: S.String,
+          sources: __S(96, __c3, 0),
+          where: S.optional(S.String),
+          whereLanguage: S.optional(S.String),
+          appliesToSourceIds: S.optional(__S(96, __c3, 0)),
+          isBroadcastEnabled: S.optional(S.Boolean),
+          isVariableEnabled: S.optional(S.Boolean),
+          variableName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClickStackAdhocFilterInput" });
+    case 8:
+      return S.Union([
+        __S(1184, __c37, 0),
+        __S(1185, __c37, 1),
+        __S(1186, __c37, 2),
+        __S(1187, __c37, 3),
+        __S(1188, __c37, 4),
+        __S(1189, __c37, 5),
+        __S(1190, __c37, 6),
+        __S(1191, __c37, 7),
+      ]);
+    case 9:
+      return S.Array(__S(1192, __c37, 8));
   }
 }
-function __c20(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5722,258 +6612,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ClickStackSqlSavedFilterValue" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListClickStackRolesRequest" });
-    case 1:
-      return S.Array(__S(1032, __c32, 8));
-    case 2:
-      return S.suspend(() => __S(673, __c21, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListClickStackRolesResponse",
-      });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/saved-searches",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListClickStackSavedSearchesRequest" });
-    case 1:
-      return S.Array(__S(1217, __c38, 1));
-    case 2:
-      return S.suspend(() => __S(705, __c22, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListClickStackSavedSearchesResponse",
-      });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/sources",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListClickStackSourcesRequest" });
-    case 1:
-      return S.Array(__S(1299, __c40, 19));
-    case 2:
-      return S.suspend(() => __S(737, __c23, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListClickStackSourcesResponse",
-      });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListClickStackWebhooksRequest" });
-    case 1:
-      return S.Array(__S(1378, __c43, 2));
-    case 2:
-      return S.suspend(() => __S(769, __c24, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListClickStackWebhooksResponse",
-      });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackAlertId: S.String.pipe(T.Label()),
-          dashboardId: S.optional(S.NullOr(S.String)),
-          tileId: S.optional(S.NullOr(S.String)),
-          savedSearchId: S.optional(S.NullOr(S.String)),
-          groupBy: S.optional(S.NullOr(S.String)),
-          chartConfig: S.optional(__S(48, __c1, 16)),
-          threshold: S.Number,
-          thresholdMax: S.optional(S.NullOr(S.Number)),
-          interval: S.String,
-          scheduleOffsetMinutes: S.optional(S.NullOr(S.Number)),
-          scheduleStartAt: S.optional(S.NullOr(S.String)),
-          source: S.optional(S.String),
-          thresholdType: S.String,
-          channel: S.optional(__S(51, __c1, 19)),
-          channels: S.optional(__S(52, __c1, 20)),
-          name: S.optional(S.NullOr(S.String)),
-          displayName: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(96, __c3, 0)),
-          message: S.optional(S.NullOr(S.String)),
-          note: S.optional(S.NullOr(S.String)),
-          numConsecutiveWindows: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/alerts/{clickStackAlertId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackAlertRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackDashboardId: S.String.pipe(T.Label()),
-          name: S.String,
-          tiles: __S(584, __c18, 8),
-          tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(487, __c15, 7)),
-          savedQuery: S.optional(S.NullOr(S.String)),
-          savedQueryLanguage: S.optional(S.NullOr(S.String)),
-          savedFilterValues: S.optional(__S(558, __c17, 14)),
-          containers: S.optional(__S(562, __c17, 18)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/{clickStackDashboardId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackDashboardRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackRoleId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          permissions: __S(1031, __c32, 7),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles/{clickStackRoleId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackRoleRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackSavedSearchId: S.String.pipe(T.Label()),
-          name: S.String,
-          sourceId: S.String,
-          select: S.optional(S.String),
-          where: S.optional(S.String),
-          whereLanguage: S.optional(S.String),
-          orderBy: S.optional(S.String),
-          tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(1216, __c38, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/saved-searches/{clickStackSavedSearchId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackSavedSearchRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackSourceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1299, __c40, 19).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/sources/{clickStackSourceId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackSourceRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackWebhookId: S.String.pipe(T.Label()),
-          name: S.String,
-          service: S.String,
-          url: S.String.pipe(T.SensitiveValue({})),
-          description: S.optional(S.String),
-          body: S.optional(S.String),
-          headers: S.optional(__S(1440, __c45, 0)),
-          queryParams: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks/{clickStackWebhookId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateClickStackWebhookRequest" });
-  }
-}
-function __c31(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5982,7 +6621,7 @@ function __c31(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          permissions: __S(1031, __c32, 7),
+          permissions: __S(1287, __c40, 7),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5993,7 +6632,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateClickStackRoleRequest" });
   }
 }
-function __c32(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6003,9 +6642,9 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackMongoDBCASLRegexCondition" });
     case 1:
-      return S.Union([S.String, __S(1024, __c32, 0)]);
+      return S.Union([S.String, __S(1280, __c40, 0)]);
     case 2:
-      return S.Record(S.String, __S(1025, __c32, 1));
+      return S.Record(S.String, __S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6014,14 +6653,14 @@ function __c32(j: number): any {
           fields: S.optional(__S(96, __c3, 0)),
           inverted: S.optional(S.Boolean),
           integration: S.String,
-          conditions: S.optional(__S(1026, __c32, 2)),
+          conditions: S.optional(__S(1282, __c40, 2)),
         }),
       ).annotate({ identifier: "ClickStackMongoDBCASLPermission" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           connection: S.String,
-          from: __S(1056, __c33, 0),
+          from: __S(1312, __c41, 0),
           where: S.String,
           whereLanguage: S.String,
         }),
@@ -6034,20 +6673,20 @@ function __c32(j: number): any {
           fields: S.optional(__S(96, __c3, 0)),
           inverted: S.optional(S.Boolean),
           integration: S.String,
-          conditions: S.optional(__S(1028, __c32, 4)),
+          conditions: S.optional(__S(1284, __c40, 4)),
         }),
       ).annotate({ identifier: "ClickStackClickHouseCASLPermission" });
     case 6:
-      return S.Union([__S(1027, __c32, 3), __S(1029, __c32, 5)]);
+      return S.Union([__S(1283, __c40, 3), __S(1285, __c40, 5)]);
     case 7:
-      return S.Array(__S(1030, __c32, 6));
+      return S.Array(__S(1286, __c40, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
-          permissions: __S(1031, __c32, 7),
+          permissions: __S(1287, __c40, 7),
           isPredefined: S.Boolean,
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -6055,7 +6694,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ClickStackRole" });
   }
 }
-function __c33(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6066,77 +6705,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ClickStackClickHouseCASLPermissionConditionsFrom" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          name: S.String,
-          tiles: __S(584, __c18, 8),
-          tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(613, __c19, 5)),
-          savedQuery: S.optional(S.NullOr(S.String)),
-          savedQueryLanguage: S.optional(S.NullOr(S.String)),
-          savedFilterValues: S.optional(__S(558, __c17, 14)),
-          containers: S.optional(__S(562, __c17, 18)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/validate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ValidateClickStackDashboardRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ClickStackValidateDashboardError" });
-    case 1:
-      return S.Array(__S(1120, __c35, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          valid: S.Boolean,
-          errors: __S(1121, __c35, 1),
-          normalized: S.NullOr(S.Unknown),
-        }),
-      ).annotate({ identifier: "ClickStackValidateDashboardResponse" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          name: S.String,
-          service: S.String,
-          url: S.String.pipe(T.SensitiveValue({})),
-          description: S.optional(S.String),
-          body: S.optional(S.String),
-          headers: S.optional(__S(1440, __c45, 0)),
-          queryParams: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/webhooks/validate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ValidateClickStackWebhookRequest" });
-  }
-}
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6150,7 +6719,7 @@ function __c37(j: number): any {
           whereLanguage: S.optional(S.String),
           orderBy: S.optional(S.String),
           tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(1216, __c38, 0)),
+          filters: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6161,10 +6730,10 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateClickStackSavedSearchRequest" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6176,7 +6745,7 @@ function __c38(j: number): any {
           whereLanguage: S.optional(S.String),
           orderBy: S.optional(S.String),
           tags: S.optional(__S(96, __c3, 0)),
-          filters: S.optional(__S(1216, __c38, 0)),
+          filters: S.optional(__S(1376, __c43, 0)),
           teamId: S.optional(S.String),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -6184,14 +6753,14 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ClickStackSavedSearch" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1299, __c40, 19).pipe(T.HttpBody())),
+          body: S.optional(__S(1459, __c45, 19).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6202,7 +6771,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateClickStackSourceRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6212,7 +6781,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackQuerySetting" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6223,13 +6792,13 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackFilterSettingsColumn" });
     case 3:
-      return S.Array(__S(1282, __c40, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.String,
           tableName: S.String,
-          columns: __S(1283, __c40, 3),
+          columns: __S(1443, __c45, 3),
         }),
       ).annotate({ identifier: "ClickStackSourceFilterSettings" });
     case 5:
@@ -6241,7 +6810,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackHighlightedAttributeExpression" });
     case 6:
-      return S.Array(__S(1285, __c40, 5));
+      return S.Array(__S(1445, __c45, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6251,7 +6820,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ClickStackAggregatedColumn" });
     case 8:
-      return S.Array(__S(1287, __c40, 7));
+      return S.Array(__S(1447, __c45, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -6261,11 +6830,11 @@ function __c40(j: number): any {
           minGranularity: S.String,
           minDate: S.optional(S.NullOr(S.String)),
           timestampColumn: S.String,
-          aggregatedColumns: __S(1288, __c40, 8),
+          aggregatedColumns: __S(1448, __c45, 8),
         }),
       ).annotate({ identifier: "ClickStackMaterializedView" });
     case 10:
-      return S.Array(__S(1289, __c40, 9));
+      return S.Array(__S(1449, __c45, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -6283,9 +6852,9 @@ function __c40(j: number): any {
           disabled: S.optional(S.NullOr(S.Boolean)),
           kind: S.String,
           connection: S.String,
-          from: __S(1056, __c33, 0),
-          querySettings: S.optional(__S(1281, __c40, 1)),
-          filterSettings: S.optional(S.NullOr(__S(1284, __c40, 4))),
+          from: __S(1312, __c41, 0),
+          querySettings: S.optional(__S(1441, __c45, 1)),
+          filterSettings: S.optional(S.NullOr(__S(1444, __c45, 4))),
           defaultTableSelectExpression: S.String,
           timestampValueExpression: S.String,
           serviceNameExpression: S.optional(S.NullOr(S.String)),
@@ -6304,11 +6873,14 @@ function __c40(j: number): any {
           spanIdExpression: S.optional(S.NullOr(S.String)),
           implicitColumnExpression: S.optional(S.NullOr(S.String)),
           knownColumnsListExpression: S.optional(S.NullOr(S.String)),
+          rowKeyExpression: S.optional(S.NullOr(S.String)),
           useTextIndexForImplicitColumn: S.optional(S.NullOr(S.String)),
-          highlightedTraceAttributeExpressions: S.optional(__S(1286, __c40, 6)),
-          highlightedRowAttributeExpressions: S.optional(__S(1286, __c40, 6)),
-          materializedViews: S.optional(__S(1290, __c40, 10)),
-          metadataMaterializedViews: S.optional(S.NullOr(__S(1291, __c40, 11))),
+          mapKeyIndexMaxParts: S.optional(S.NullOr(S.Number)),
+          mapKeyIndexPartSelection: S.optional(S.NullOr(S.String)),
+          highlightedTraceAttributeExpressions: S.optional(__S(1446, __c45, 6)),
+          highlightedRowAttributeExpressions: S.optional(__S(1446, __c45, 6)),
+          materializedViews: S.optional(__S(1450, __c45, 10)),
+          metadataMaterializedViews: S.optional(S.NullOr(__S(1451, __c45, 11))),
         }),
       ).annotate({ identifier: "ClickStackLogSource" });
     case 13:
@@ -6320,9 +6892,9 @@ function __c40(j: number): any {
           disabled: S.optional(S.NullOr(S.Boolean)),
           kind: S.String,
           connection: S.String,
-          from: __S(1056, __c33, 0),
-          querySettings: S.optional(__S(1281, __c40, 1)),
-          filterSettings: S.optional(S.NullOr(__S(1284, __c40, 4))),
+          from: __S(1312, __c41, 0),
+          querySettings: S.optional(__S(1441, __c45, 1)),
+          filterSettings: S.optional(S.NullOr(__S(1444, __c45, 4))),
           defaultTableSelectExpression: S.String,
           timestampValueExpression: S.String,
           durationExpression: S.String,
@@ -6346,13 +6918,16 @@ function __c40(j: number): any {
           spanLinksValueExpression: S.optional(S.String),
           implicitColumnExpression: S.optional(S.NullOr(S.String)),
           knownColumnsListExpression: S.optional(S.NullOr(S.String)),
+          rowKeyExpression: S.optional(S.NullOr(S.String)),
           useTextIndexForImplicitColumn: S.optional(S.NullOr(S.String)),
-          highlightedTraceAttributeExpressions: S.optional(__S(1286, __c40, 6)),
-          highlightedRowAttributeExpressions: S.optional(__S(1286, __c40, 6)),
+          mapKeyIndexMaxParts: S.optional(S.NullOr(S.Number)),
+          mapKeyIndexPartSelection: S.optional(S.NullOr(S.String)),
+          highlightedTraceAttributeExpressions: S.optional(__S(1446, __c45, 6)),
+          highlightedRowAttributeExpressions: S.optional(__S(1446, __c45, 6)),
           displayedTimestampValueExpression: S.optional(S.String),
           orderByExpression: S.optional(S.String),
-          materializedViews: S.optional(__S(1290, __c40, 10)),
-          metadataMaterializedViews: S.optional(S.NullOr(__S(1291, __c40, 11))),
+          materializedViews: S.optional(__S(1450, __c45, 10)),
+          metadataMaterializedViews: S.optional(S.NullOr(__S(1451, __c45, 11))),
         }),
       ).annotate({ identifier: "ClickStackTraceSource" });
     case 14:
@@ -6381,9 +6956,9 @@ function __c40(j: number): any {
           disabled: S.optional(S.NullOr(S.Boolean)),
           kind: S.String,
           connection: S.String,
-          from: __S(1294, __c40, 14),
-          querySettings: S.optional(__S(1281, __c40, 1)),
-          metricTables: __S(1295, __c40, 15),
+          from: __S(1454, __c45, 14),
+          querySettings: S.optional(__S(1441, __c45, 1)),
+          metricTables: __S(1455, __c45, 15),
           timestampValueExpression: S.String,
           resourceAttributesExpression: S.String,
           logSourceId: S.optional(S.NullOr(S.String)),
@@ -6399,8 +6974,8 @@ function __c40(j: number): any {
           disabled: S.optional(S.NullOr(S.Boolean)),
           kind: S.String,
           connection: S.String,
-          from: __S(1056, __c33, 0),
-          querySettings: S.optional(__S(1281, __c40, 1)),
+          from: __S(1312, __c41, 0),
+          querySettings: S.optional(__S(1441, __c45, 1)),
           timestampValueExpression: S.optional(S.NullOr(S.String)),
           traceSourceId: S.String,
           resourceAttributesExpression: S.optional(S.String),
@@ -6415,31 +6990,32 @@ function __c40(j: number): any {
           disabled: S.optional(S.NullOr(S.Boolean)),
           kind: S.String,
           connection: S.String,
-          from: __S(1056, __c33, 0),
-          querySettings: S.optional(__S(1281, __c40, 1)),
+          from: __S(1312, __c41, 0),
+          querySettings: S.optional(__S(1441, __c45, 1)),
           timestampValueExpression: S.String,
           minAutoGranularity: S.optional(S.String),
+          promqlBackend: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickStackPromqlSource" });
     case 19:
       return S.Union([
-        __S(1292, __c40, 12),
-        __S(1293, __c40, 13),
-        __S(1296, __c40, 16),
-        __S(1297, __c40, 17),
-        __S(1298, __c40, 18),
+        __S(1452, __c45, 12),
+        __S(1453, __c45, 13),
+        __S(1456, __c45, 16),
+        __S(1457, __c45, 17),
+        __S(1458, __c45, 18),
       ]);
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1299, __c40, 19).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1459, __c45, 19).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateClickStackSourceResponse",
       });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,8 +7027,8 @@ function __c42(j: number): any {
           url: S.String.pipe(T.SensitiveValue({})),
           description: S.optional(S.String),
           body: S.optional(S.String),
-          headers: S.optional(__S(1440, __c45, 0)),
-          queryParams: S.optional(__S(1440, __c45, 0)),
+          headers: S.optional(__S(1600, __c50, 0)),
+          queryParams: S.optional(__S(1600, __c50, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6463,7 +7039,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CreateClickStackWebhookRequest" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6492,29 +7068,29 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ClickStackGenericWebhook" });
     case 2:
       return S.Union([
-        __S(1376, __c43, 0),
-        __S(1376, __c43, 0),
-        __S(1377, __c43, 1),
-        __S(1376, __c43, 0),
-        __S(1376, __c43, 0),
+        __S(1536, __c48, 0),
+        __S(1536, __c48, 0),
+        __S(1537, __c48, 1),
+        __S(1536, __c48, 0),
+        __S(1536, __c48, 0),
       ]);
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1378, __c43, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1538, __c48, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateClickStackWebhookResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6530,53 +7106,6 @@ function __c46(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteClickStackAlertRequest" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.Number),
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteClickStackAlertResponse" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackDashboardId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/dashboards/{clickStackDashboardId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteClickStackDashboardRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          clickStackRoleId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickstack/roles/{clickStackRoleId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteClickStackRoleRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

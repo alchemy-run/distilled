@@ -263,9 +263,10 @@ export interface GetRegionsResponse {
 }
 export interface GetSecretValueRequest {
   SecretName: string;
-  VersionId: string;
+  VersionId?: string | undefined;
   EncryptionPublicKey?: string | undefined;
   EncryptionAlgorithm?: string | undefined;
+  VersionStage?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -367,6 +368,7 @@ export interface ListSecretVersionIdsRequest {
 export interface VersionInfo {
   VersionId?: string | undefined;
   CreateTime?: number | undefined;
+  VersionStages?: StringList | undefined;
 }
 export type VersionInfoList = Array<VersionInfo>;
 export interface ListSecretVersionIdsResponse {
@@ -376,9 +378,10 @@ export interface ListSecretVersionIdsResponse {
 }
 export interface PutSecretValueRequest {
   SecretName: string;
-  VersionId: string;
+  VersionId?: string | undefined;
   SecretBinary?: string | undefined;
   SecretString?: string | Redacted.Redacted<string> | undefined;
+  VersionStage?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -431,6 +434,7 @@ export interface UpdateSecretRequest {
   VersionId: string;
   SecretBinary?: string | undefined;
   SecretString?: string | Redacted.Redacted<string> | undefined;
+  VersionStage?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1046,9 +1050,10 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SecretName: S.String,
-          VersionId: S.String,
+          VersionId: S.optional(S.String),
           EncryptionPublicKey: S.optional(S.String),
           EncryptionAlgorithm: S.optional(S.String),
+          VersionStage: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ssm", version: "2019-09-23", action: "GetSecretValue" })),
       ).annotate({ identifier: "GetSecretValueRequest" });
@@ -1198,6 +1203,7 @@ function __c13(j: number): any {
         S.Struct({
           VersionId: S.optional(S.String),
           CreateTime: S.optional(S.Number),
+          VersionStages: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "VersionInfo" });
     case 2:
@@ -1218,9 +1224,10 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SecretName: S.String,
-          VersionId: S.String,
+          VersionId: S.optional(S.String),
           SecretBinary: S.optional(S.String),
           SecretString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          VersionStage: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ssm", version: "2019-09-23", action: "PutSecretValue" })),
       ).annotate({ identifier: "PutSecretValueRequest" });
@@ -1318,6 +1325,7 @@ function __c20(j: number): any {
           VersionId: S.String,
           SecretBinary: S.optional(S.String),
           SecretString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          VersionStage: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ssm", version: "2019-09-23", action: "UpdateSecret" })),
       ).annotate({ identifier: "UpdateSecretRequest" });

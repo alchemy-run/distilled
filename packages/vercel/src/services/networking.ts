@@ -97,14 +97,25 @@ export interface CreateNetworkRequest {
 }
 /** The IDs of the AWS Availability Zones in which the network exists. */
 export type NetworkAwsAvailabilityZoneIdsList = Array<string>;
+/** Whether both dedicated connection test sources are provisioned and ready. Feature flag access and management permission are checked on submission. */
+export interface NetworkConnectionTesting {
+  available: boolean;
+}
 export type NetworkEgressIpAddressesList = Array<string>;
-/** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
+/** Metadata about customer-managed AWS Route53 Hosted Zones associated with the Network. */
 export interface NetworkHostedZones {
-  /** The number of AWS Route53 Hosted Zones associated with the Network. */
+  /** The number of customer-managed AWS Route53 Hosted Zones associated with the Network. */
   count: number;
 }
 /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
-export type NetworkPeeringConnections = NetworkHostedZones;
+export interface NetworkPeeringConnections {
+  /** The number of AWS VPC Peering Connections associated with the Network. */
+  count: number;
+}
+/** The number of PrivateLink endpoints on the Network, when listing networks. */
+export interface NetworkPrivateLinks {
+  count: number;
+}
 export type NetworkProjectsIdsList = Array<string>;
 /** Metadata about any projects associated with the Network. */
 export interface NetworkProjects {
@@ -122,17 +133,21 @@ export interface Network {
   awsRegion: string;
   /** The CIDR range of the Network. */
   cidr: string;
+  /** Whether both dedicated connection test sources are provisioned and ready. Feature flag access and management permission are checked on submission. */
+  connectionTesting?: NetworkConnectionTesting | undefined;
   /** The date at which the Network was created, represented as a UNIX timestamp since EPOCH. */
   createdAt: number;
   egressIpAddresses?: NetworkEgressIpAddressesList | undefined;
-  /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
+  /** Metadata about customer-managed AWS Route53 Hosted Zones associated with the Network. */
   hostedZones?: NetworkHostedZones | undefined;
   /** The unique identifier of the Network. */
   id: string;
   /** The name of the network. */
   name: string;
   /** Metadata about any AWS Route53 Hosted Zones associated with the Network. */
-  peeringConnections?: NetworkHostedZones | undefined;
+  peeringConnections?: NetworkPeeringConnections | undefined;
+  /** The number of PrivateLink endpoints on the Network, when listing networks. */
+  privateLinks?: NetworkPrivateLinks | undefined;
   /** Metadata about any projects associated with the Network. */
   projects?: NetworkProjects | undefined;
   /** The Vercel region in which the Network exists. */
@@ -338,7 +353,7 @@ export const createNetwork: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<Network>,
+  output: __S(67, __c8, 3) as any as S.Schema<Network>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -462,7 +477,7 @@ export const readNetwork: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ReadNetworkRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<Network>,
+  output: __S(67, __c8, 3) as any as S.Schema<Network>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -498,7 +513,7 @@ export const updateNetwork: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<UpdateNetworkRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<Network>,
+  output: __S(67, __c8, 3) as any as S.Schema<Network>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -710,30 +725,38 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          available: S.Boolean,
+        }),
+      ).annotate({ identifier: "NetworkConnectionTesting" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           count: S.Number,
         }),
       ).annotate({ identifier: "NetworkHostedZones" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           ids: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "NetworkProjects" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           awsAccountId: S.String,
           awsAvailabilityZoneIds: S.optional(__S(56, __c7, 0)),
           awsRegion: S.String,
           cidr: S.String,
+          connectionTesting: S.optional(__S(64, __c8, 0)),
           createdAt: S.Number,
           egressIpAddresses: S.optional(__S(56, __c7, 0)),
-          hostedZones: S.optional(__S(64, __c8, 0)),
+          hostedZones: S.optional(__S(65, __c8, 1)),
           id: S.String,
           name: S.String,
-          peeringConnections: S.optional(__S(64, __c8, 0)),
-          projects: S.optional(__S(65, __c8, 1)),
+          peeringConnections: S.optional(__S(65, __c8, 1)),
+          privateLinks: S.optional(__S(65, __c8, 1)),
+          projects: S.optional(__S(66, __c8, 2)),
           region: S.optional(S.String),
           status: S.String,
           teamId: S.String,
@@ -831,7 +854,7 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/connect/networks", code: 200 })),
       ).annotate({ identifier: "ListNetworksRequest" });
     case 1:
-      return S.Array(__S(66, __c8, 2));
+      return S.Array(__S(67, __c8, 3));
     case 2:
       return S.suspend(() => __S(105, __c13, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNetworksResponse",

@@ -453,6 +453,7 @@ export interface GetDomainVerificationRecordRequest {
   slug?: string | undefined;
 }
 export interface GetDomainVerificationRecordResponse {
+  expiresAt: number;
   txtRecord: string;
   verificationDomain: string;
 }
@@ -507,8 +508,13 @@ export type UpdateDomainResponseBody =
   | UpdateDomainResponseBodyCase1
   | UpdateDomainResponseBodyCase2;
 export type UpdateDomainResponse = UpdateDomainResponseBody;
-export type ClaimDomainOwnershipError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Claim Domain Ownership Claim ownership of a domain for the authenticated team by verifying a TXT record. The caller must first add a TXT record to `_vercel.{domain}` (obtained from GET /domains/:domain/verification), then call this endpoint to complete the ownership transfer. If the TXT record is verified, the domain ownership will be transferred to the caller's team, even if the domain is currently owned by another user or team. */
+export type ClaimDomainOwnershipError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Claim Domain Ownership Claim ownership of a domain for the authenticated team by verifying a TXT record. The caller must first add a TXT record to `_vercel.{domain}` (obtained from GET /domains/:domain/verification), then call this endpoint to complete the ownership transfer. Proof must be unexpired and issued for the domain's current ownership. If the TXT record is verified, the domain ownership will be transferred to the caller's team, even if the domain is currently owned by another user or team. */
 export const claimDomainOwnership: API.OperationMethod<
   ClaimDomainOwnershipRequest,
   ClaimDomainOwnershipResponse,
@@ -517,7 +523,7 @@ export const claimDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ClaimDomainOwnershipRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ClaimDomainOwnershipResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -639,8 +645,13 @@ export const getDomains: API.OperationMethod<
   span: "GetDomains",
 }));
 
-export type GetDomainVerificationRecordError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get Domain Verification Record Get the TXT verification record needed to claim ownership of a domain for the authenticated team. The caller must add this TXT record to `_vercel.{domain}` in their DNS configuration, then call POST /domains/:domain/claim to complete the ownership transfer. */
+export type GetDomainVerificationRecordError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Get Domain Verification Record Get the TXT verification record needed to claim ownership of a domain for the authenticated team. The caller must add this TXT record to `_vercel.{domain}` in their DNS configuration, then call POST /domains/:domain/claim to complete the ownership transfer. Records expire at the returned expiresAt (at most 24 hours) or when ownership changes. */
 export const getDomainVerificationRecord: API.OperationMethod<
   GetDomainVerificationRecordRequest,
   GetDomainVerificationRecordResponse,
@@ -649,7 +660,7 @@ export const getDomainVerificationRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetDomainVerificationRecordRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<GetDomainVerificationRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -777,6 +788,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          expiresAt: S.Number,
           txtRecord: S.String,
           verificationDomain: S.String,
         }),

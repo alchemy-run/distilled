@@ -36,7 +36,8 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     });
     const _p0 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }] });
     const _p1 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }] });
-    const _p2 = (_0: unknown) => ({
+    const _p2 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }] });
+    const _p3 = (_0: unknown) => ({
       authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
     });
     if (Endpoint != null) {
@@ -80,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
           ) {
             return e("https://cloudfront-fips.cn-northwest-1.amazonaws.com.cn", _p1(), {});
           }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://cloudfront.amazonaws.eu", _p2(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://cloudfront.global.api.amazonwebservices.eu", _p2(), {});
+          }
           if (UseFIPS === true && UseDualStack === true) {
             if (
               true === _.getAttr(PartitionResult, "supportsFIPS") &&
@@ -87,7 +102,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
             ) {
               return e(
                 `https://cloudfront-fips.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                _p2(PartitionResult),
+                _p3(PartitionResult),
                 {},
               );
             }
@@ -99,7 +114,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
                 `https://cloudfront-fips.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                _p2(PartitionResult),
+                _p3(PartitionResult),
                 {},
               );
             }
@@ -109,7 +124,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
             if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
               return e(
                 `https://cloudfront.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                _p2(PartitionResult),
+                _p3(PartitionResult),
                 {},
               );
             }
@@ -117,7 +132,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
           }
           return e(
             `https://cloudfront.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            _p2(PartitionResult),
+            _p3(PartitionResult),
             {},
           );
         }
@@ -1158,6 +1173,7 @@ export type IpAddressType = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export interface OriginMtlsConfig {
   ClientCertificateArn: string;
 }
+export type OriginHttpVersion = "http1.1" | "http2" | (string & {});
 export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
@@ -1167,12 +1183,14 @@ export interface CustomOriginConfig {
   OriginKeepaliveTimeout?: number | undefined;
   IpAddressType?: IpAddressType | undefined;
   OriginMtlsConfig?: OriginMtlsConfig | undefined;
+  OriginHttpVersion?: OriginHttpVersion | undefined;
 }
 export interface VpcOriginConfig {
   VpcOriginId: string;
   OwnerAccountId?: string | undefined;
   OriginReadTimeout?: number | undefined;
   OriginKeepaliveTimeout?: number | undefined;
+  OriginHttpVersion?: OriginHttpVersion | undefined;
 }
 export type OriginShieldRegion = string;
 export interface OriginShield {
@@ -10053,6 +10071,7 @@ function __c9(j: number): any {
           OriginKeepaliveTimeout: S.optional(S.Number),
           IpAddressType: S.optional(S.String),
           OriginMtlsConfig: S.optional(__S(292, __c9, 4)),
+          OriginHttpVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomOriginConfig" });
     case 6:
@@ -10062,6 +10081,7 @@ function __c9(j: number): any {
           OwnerAccountId: S.optional(S.String),
           OriginReadTimeout: S.optional(S.Number),
           OriginKeepaliveTimeout: S.optional(S.Number),
+          OriginHttpVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcOriginConfig" });
     case 7:

@@ -80,7 +80,6 @@ export interface CreateUserRequest {
   /** Default role (read only) */
   roleId: string;
 }
-/** Principal type */
 export type PrincipalType = "User" | "Role" | "Group";
 /** Principal (read only) */
 export interface Principal {

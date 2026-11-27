@@ -427,6 +427,7 @@ export interface InstanceInfo {
   InstallControlPolicy?: string | null | undefined;
   AnonymousAccess?: boolean | null | undefined;
   Tags?: TagList | null | undefined;
+  UnderwriteDeadline?: string | undefined;
 }
 export type InstanceInfoList = Array<InstanceInfo>;
 export interface DescribeInstancesResponse {
@@ -614,6 +615,7 @@ export interface User {
   StrategyId?: string | undefined;
   StrategyName?: string | undefined;
   BindStatus?: boolean | undefined;
+  LockRemainMs?: number | undefined;
 }
 export type UserList = Array<User>;
 export interface DescribeUsersResponse {
@@ -2065,6 +2067,7 @@ function __c12(j: number): any {
           InstallControlPolicy: S.optional(S.NullOr(S.String)),
           AnonymousAccess: S.optional(S.NullOr(S.Boolean)),
           Tags: S.optional(S.NullOr(__S(801, __c50, 1))),
+          UnderwriteDeadline: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceInfo" });
     case 2:
@@ -2394,6 +2397,7 @@ function __c23(j: number): any {
           StrategyId: S.optional(S.String),
           StrategyName: S.optional(S.String),
           BindStatus: S.optional(S.Boolean),
+          LockRemainMs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "User" });
     case 2:

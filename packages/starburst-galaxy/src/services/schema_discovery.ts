@@ -84,7 +84,6 @@ export interface ApplySchemaDiscoveryRequest {
   /** A schema discovery run */
   schemaDiscoveryId: string;
 }
-/** Status of schema discovery (read only) */
 export type SchemaDiscoveryStatus =
   | "Scheduled"
   | "Running"
@@ -101,19 +100,13 @@ export type SchemaDiscoveryStatus =
 export type SchemaDiscoveryErrorsList = Array<string>;
 /** Configuration options (read only) */
 export type SchemaDiscoveryOptionsMap = { [key: string]: string | undefined };
-/** Status of the statement (read only) */
-export type DiscoveredSqlStatementStatus =
-  | "Waiting"
-  | "Applying"
-  | "Success"
-  | "Errored"
-  | "Canceled";
+export type StatementStatus = "Waiting" | "Applying" | "Success" | "Errored" | "Canceled";
 /** Generated SQL statements (read only) */
 export interface DiscoveredSqlStatement {
   /** Raw generated SQL (read only) */
   sql: string;
   /** Status of the statement (read only) */
-  status: DiscoveredSqlStatementStatus;
+  status: StatementStatus;
   /** Message describing statement or error message in case of execution failure (read only) */
   message?: string | undefined;
 }
@@ -235,12 +228,11 @@ export interface NotFound2 {
   /** Any fields/values that weren't found */
   fields?: NotFoundFieldsList | undefined;
 }
-/** Violation type */
-export type ViolationType = "TermsOfService";
+export type TypeEnum = "TermsOfService";
 /** Field violations (read only) */
 export interface Violation {
   /** Violation type */
-  type: ViolationType;
+  type: TypeEnum;
   /** Violation subject */
   subject: string;
   /** Violation description */

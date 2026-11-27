@@ -68,6 +68,7 @@ export interface ApplyRegistrationCodeResponse {
   RegistrationCode?: string | undefined;
   RequestId?: string | undefined;
 }
+export type StringList = Array<string>;
 export interface CreateAuthorizationPolicyRequest {
   InstanceId: string;
   PolicyName: string;
@@ -82,6 +83,7 @@ export interface CreateAuthorizationPolicyRequest {
   ClientId?: string | undefined;
   Ip?: string | undefined;
   Remark?: string | undefined;
+  ResourceItems?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -90,7 +92,6 @@ export interface CreateAuthorizationPolicyResponse {
   Id?: number | undefined;
   RequestId?: string | undefined;
 }
-export type StringList = Array<string>;
 export interface CreateBlockRuleRequest {
   InstanceId: string;
   Name: string;
@@ -426,6 +427,7 @@ export interface AuthorizationPolicyItem {
   Actions?: string | undefined;
   Resources?: string | undefined;
   ClientId?: string | undefined;
+  ResourceItems?: StringList | undefined;
   Username?: string | undefined;
   Ip?: string | undefined;
   Qos?: string | undefined;
@@ -1153,6 +1155,7 @@ export interface ModifyAuthorizationPolicyRequest {
   Ip?: string | undefined;
   Qos?: string | undefined;
   Remark?: string | undefined;
+  ResourceItems?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1487,8 +1490,8 @@ export const createBlockRule: API.OperationMethod<
   CreateBlockRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<CreateBlockRuleRequest>,
-  output: __S(401, __c50, 1) as any as S.Schema<CreateBlockRuleResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<CreateBlockRuleRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<CreateBlockRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2082,8 +2085,8 @@ export const describeDeviceIdentity: API.OperationMethod<
   DescribeDeviceIdentityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DescribeDeviceIdentityRequest>,
-  output: __S(313, __c39, 1) as any as S.Schema<DescribeDeviceIdentityResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<DescribeDeviceIdentityRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<DescribeDeviceIdentityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2099,8 +2102,8 @@ export const describeDeviceIdentityBackupHistory: API.OperationMethod<
   DescribeDeviceIdentityBackupHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DescribeDeviceIdentityBackupHistoryRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<DescribeDeviceIdentityBackupHistoryResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<DescribeDeviceIdentityBackupHistoryRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<DescribeDeviceIdentityBackupHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2116,8 +2119,8 @@ export const describeInsPublicEndpoints: API.OperationMethod<
   DescribeInsPublicEndpointsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DescribeInsPublicEndpointsRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<DescribeInsPublicEndpointsResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<DescribeInsPublicEndpointsRequest>,
+  output: __S(337, __c42, 1) as any as S.Schema<DescribeInsPublicEndpointsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2133,8 +2136,8 @@ export const describeInstance: API.OperationMethod<
   DescribeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DescribeInstanceRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<DescribeInstanceResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<DescribeInstanceRequest>,
+  output: __S(353, __c44, 1) as any as S.Schema<DescribeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2150,8 +2153,8 @@ export const describeInstanceList: API.OperationMethod<
   DescribeInstanceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(354, __c44, 2) as any as S.Schema<DescribeInstanceListRequest>,
-  output: __S(357, __c44, 5) as any as S.Schema<DescribeInstanceListResponse>,
+  input: __S(362, __c45, 2) as any as S.Schema<DescribeInstanceListRequest>,
+  output: __S(365, __c45, 5) as any as S.Schema<DescribeInstanceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2167,8 +2170,8 @@ export const describeInsVPCEndpoints: API.OperationMethod<
   DescribeInsVPCEndpointsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<DescribeInsVPCEndpointsRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<DescribeInsVPCEndpointsResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<DescribeInsVPCEndpointsRequest>,
+  output: __S(369, __c46, 1) as any as S.Schema<DescribeInsVPCEndpointsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2184,8 +2187,8 @@ export const describeMessageByTopic: API.OperationMethod<
   DescribeMessageByTopicError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<DescribeMessageByTopicRequest>,
-  output: __S(371, __c46, 3) as any as S.Schema<DescribeMessageByTopicResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<DescribeMessageByTopicRequest>,
+  output: __S(379, __c47, 3) as any as S.Schema<DescribeMessageByTopicResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2201,8 +2204,8 @@ export const describeMessageDetails: API.OperationMethod<
   DescribeMessageDetailsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<DescribeMessageDetailsRequest>,
-  output: __S(377, __c47, 1) as any as S.Schema<DescribeMessageDetailsResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<DescribeMessageDetailsRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<DescribeMessageDetailsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2218,8 +2221,8 @@ export const describeMessageEnrichmentRules: API.OperationMethod<
   DescribeMessageEnrichmentRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<DescribeMessageEnrichmentRulesRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<DescribeMessageEnrichmentRulesResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<DescribeMessageEnrichmentRulesRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<DescribeMessageEnrichmentRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2235,8 +2238,8 @@ export const describeMessageList: API.OperationMethod<
   DescribeMessageListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<DescribeMessageListRequest>,
-  output: __S(395, __c49, 3) as any as S.Schema<DescribeMessageListResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<DescribeMessageListRequest>,
+  output: __S(403, __c50, 3) as any as S.Schema<DescribeMessageListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3190,6 +3193,7 @@ function __c25(j: number): any {
           Actions: S.optional(S.String),
           Resources: S.optional(S.String),
           ClientId: S.optional(S.String),
+          ResourceItems: S.optional(__S(312, __c39, 0)),
           Username: S.optional(S.String),
           Ip: S.optional(S.String),
           Qos: S.optional(S.String),
@@ -3228,7 +3232,7 @@ function __c26(j: number): any {
           Type: S.optional(S.Number),
           Remark: S.optional(S.String),
           Include: S.optional(S.String),
-          Excludes: S.optional(__S(408, __c51, 0)),
+          Excludes: S.optional(__S(312, __c39, 0)),
           ExpireTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           CreateTime: S.optional(S.Number),
@@ -3570,7 +3574,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Values: __S(408, __c51, 0),
+          Values: __S(312, __c39, 0),
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
@@ -3631,6 +3635,7 @@ function __c37(j: number): any {
           ClientId: S.optional(S.String),
           Ip: S.optional(S.String),
           Remark: S.optional(S.String),
+          ResourceItems: S.optional(__S(312, __c39, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "mqtt", version: "2024-05-16", action: "CreateAuthorizationPolicy" }),
@@ -3651,6 +3656,12 @@ function __c38(j: number): any {
   }
 }
 function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3677,7 +3688,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DescribeDeviceIdentityResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3710,17 +3721,17 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DeviceIdentityBackupHistoryItem" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(329, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(322, __c40, 2)),
+          Data: S.optional(__S(330, __c41, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeviceIdentityBackupHistoryResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3738,7 +3749,7 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Endpoints: S.optional(__S(337, __c42, 1)),
+          Endpoints: S.optional(__S(345, __c43, 1)),
           InstanceId: S.optional(S.String),
           Bandwidth: S.optional(S.Number),
           Rules: S.optional(__S(697, __c87, 1)),
@@ -3748,7 +3759,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DescribeInsPublicEndpointsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3765,10 +3776,10 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "MQTTEndpointItem" });
     case 1:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(344, __c43, 0));
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3823,24 +3834,24 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DescribeInstanceResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TagKey: S.optional(S.String),
-          TagValues: S.optional(__S(408, __c51, 0)),
+          TagValues: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "TagFilter" });
     case 1:
-      return S.Array(__S(352, __c44, 0));
+      return S.Array(__S(360, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Filters: S.optional(__S(281, __c35, 1)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          TagFilters: S.optional(__S(353, __c44, 1)),
+          TagFilters: S.optional(__S(361, __c45, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "mqtt", version: "2024-05-16", action: "DescribeInstanceList" }),
@@ -3876,18 +3887,18 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "MQTTInstanceItem" });
     case 4:
-      return S.Array(__S(355, __c44, 3));
+      return S.Array(__S(363, __c45, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Data: S.optional(__S(356, __c44, 4)),
+          Data: S.optional(__S(364, __c45, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceListResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3901,13 +3912,13 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Endpoints: S.optional(__S(337, __c42, 1)),
+          Endpoints: S.optional(__S(345, __c43, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInsVPCEndpointsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3933,17 +3944,17 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "MQTTMessage" });
     case 2:
-      return S.Array(__S(369, __c46, 1));
+      return S.Array(__S(377, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(370, __c46, 2)),
+          Data: S.optional(__S(378, __c47, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMessageByTopicResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3978,7 +3989,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DescribeMessageDetailsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4009,17 +4020,17 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "MessageEnrichmentRuleItem" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(393, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(386, __c48, 2)),
+          Data: S.optional(__S(394, __c49, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMessageEnrichmentRulesResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4048,19 +4059,19 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "MQTTMessageItem" });
     case 2:
-      return S.Array(__S(393, __c49, 1));
+      return S.Array(__S(401, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Data: S.optional(__S(394, __c49, 2)),
+          Data: S.optional(__S(402, __c50, 2)),
           TaskRequestId: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMessageListResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4069,7 +4080,7 @@ function __c50(j: number): any {
           Name: S.String,
           Type: S.optional(S.Number),
           Include: S.optional(S.String),
-          Excludes: S.optional(__S(408, __c51, 0)),
+          Excludes: S.optional(__S(312, __c39, 0)),
           ExpireTime: S.optional(S.Number),
           Remark: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -4083,12 +4094,6 @@ function __c50(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateBlockRuleResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c52(j: number): any {
@@ -4236,7 +4241,7 @@ function __c55(j: number): any {
           SharedName: S.optional(S.String),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
-          TopicFilters: S.optional(__S(408, __c51, 0)),
+          TopicFilters: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "SharedSubscriptionGroupWithSubscriptions" });
     case 2:
@@ -4297,7 +4302,7 @@ function __c57(j: number): any {
         S.Struct({
           InstanceId: S.optional(S.String),
           SharedName: S.optional(S.String),
-          TopicFilter: S.optional(__S(408, __c51, 0)),
+          TopicFilter: S.optional(__S(312, __c39, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSharedSubscriptionsResponse" });
@@ -4488,6 +4493,7 @@ function __c65(j: number): any {
           Ip: S.optional(S.String),
           Qos: S.optional(S.String),
           Remark: S.optional(S.String),
+          ResourceItems: S.optional(__S(312, __c39, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "mqtt", version: "2024-05-16", action: "ModifyAuthorizationPolicy" }),
@@ -4503,7 +4509,7 @@ function __c66(j: number): any {
           InstanceId: S.String,
           Name: S.String,
           Include: S.optional(S.String),
-          Excludes: S.optional(__S(408, __c51, 0)),
+          Excludes: S.optional(__S(312, __c39, 0)),
           ExpireTime: S.optional(S.Number),
           Remark: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),

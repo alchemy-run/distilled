@@ -103,38 +103,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateWebhookCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesCreateWebhookCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDeleteWebhookCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDeleteWebhookCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDisableCdcCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesDisableCdcCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesEnableCdcCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesEnableCdcCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesRefreshSchemasCreateRequest/members/client_secret/traits/smithy.api#required"
     },
     {
@@ -148,22 +116,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesReloadCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateCdcSettingsCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateCdcSettingsCreateRequest/members/account_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateWebhookInputsCreateRequest/members/client_secret/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.external_data_sources#ExternalDataSourcesUpdateWebhookInputsCreateRequest/members/account_id/traits"
     },
     {
       "op": "remove",

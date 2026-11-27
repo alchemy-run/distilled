@@ -86,30 +86,30 @@ export class NotFound
 export type StringList = Array<string>;
 /** A request to perform batch delete on alerts. */
 export interface BatchDeleteAlertsRequest {
-  /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
-  customerId?: string | undefined;
   /** Required. The list of alert IDs to delete. */
   alertId?: StringList | undefined;
+  /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
+  customerId?: string | undefined;
 }
 export interface BatchDeleteAlertsRequest_ extends BatchDeleteAlertsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 export type StatusMap = { [key: string]: Status | undefined };
 /** Response to batch delete operation on alerts. */
 export interface BatchDeleteAlertsResponse {
-  /** The status details for each failed `alert_id`. */
-  failedAlertStatus?: StatusMap | undefined;
   /** The successful list of alert IDs. */
   successAlertIds?: StringList | undefined;
+  /** The status details for each failed `alert_id`. */
+  failedAlertStatus?: StatusMap | undefined;
 }
 /** A request to perform batch undelete on alerts. */
 export interface BatchUndeleteAlertsRequest {
@@ -121,10 +121,10 @@ export interface BatchUndeleteAlertsRequest {
 export interface BatchUndeleteAlertsRequest_ extends BatchUndeleteAlertsRequest {}
 /** Response to batch undelete operation on alerts. */
 export interface BatchUndeleteAlertsResponse {
-  /** The successful list of alert IDs. */
-  successAlertIds?: StringList | undefined;
   /** The status details for each failed `alert_id`. */
   failedAlertStatus?: StatusMap | undefined;
+  /** The successful list of alert IDs. */
+  successAlertIds?: StringList | undefined;
 }
 export type AlertFeedbackTypeEnum =
   | "ALERT_FEEDBACK_TYPE_UNSPECIFIED"
@@ -133,30 +133,30 @@ export type AlertFeedbackTypeEnum =
   | "VERY_USEFUL";
 /** A customer feedback about an alert. */
 export interface AlertFeedback {
-  /** Required. The type of the feedback. */
-  type?: AlertFeedbackTypeEnum | (string & {}) | undefined;
-  /** Output only. The unique identifier for the feedback. */
-  feedbackId?: string | undefined;
-  /** Output only. The email of the user that provided the feedback. */
-  email?: string | undefined;
-  /** Output only. The alert identifier. */
-  alertId?: string | undefined;
   /** Output only. The unique identifier of the Google Workspace account of the customer. */
   customerId?: string | undefined;
+  /** Output only. The unique identifier for the feedback. */
+  feedbackId?: string | undefined;
   /** Output only. The time this feedback was created. */
   createTime?: string | undefined;
+  /** Output only. The alert identifier. */
+  alertId?: string | undefined;
+  /** Output only. The email of the user that provided the feedback. */
+  email?: string | undefined;
+  /** Required. The type of the feedback. */
+  type?: AlertFeedbackTypeEnum | (string & {}) | undefined;
 }
-export interface CreateAlertsFeedbackRequest extends Omit<AlertFeedback, "alertId" | "customerId"> {
+export interface CreateAlertsFeedbackRequest extends Omit<AlertFeedback, "customerId" | "alertId"> {
   /** Required. The identifier of the alert this feedback belongs to. */
   alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
 }
 export interface DeleteAlertsRequest {
-  /** Required. The identifier of the alert to delete. */
-  alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
+  /** Required. The identifier of the alert to delete. */
+  alertId: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -168,55 +168,55 @@ export interface GetAlertsRequest {
 }
 /** An alert metadata. */
 export interface AlertMetadata {
-  /** Output only. The unique identifier of the Google Workspace account of the customer. */
-  customerId?: string | undefined;
   /** The current status of the alert. The supported values are the following: * NOT_STARTED * IN_PROGRESS * CLOSED */
   status?: string | undefined;
-  /** Output only. The alert identifier. */
-  alertId?: string | undefined;
   /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert metadata from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform metadata updates in order to avoid race conditions: An `etag` is returned in the response which contains alert metadata, and systems are expected to put that etag in the request to update alert metadata to ensure that their change will be applied to the same version of the alert metadata. If no `etag` is provided in the call to update alert metadata, then the existing alert metadata is overwritten blindly. */
   etag?: string | undefined;
+  /** Output only. The unique identifier of the Google Workspace account of the customer. */
+  customerId?: string | undefined;
   /** The email address of the user assigned to the alert. */
   assignee?: string | undefined;
   /** The severity value of the alert. Alert Center will set this field at alert creation time, default's to an empty string when it could not be determined. The supported values for update actions on this field are the following: * HIGH * MEDIUM * LOW */
   severity?: string | undefined;
   /** Output only. The time this metadata was last updated. */
   updateTime?: string | undefined;
+  /** Output only. The alert identifier. */
+  alertId?: string | undefined;
 }
 /** An alert affecting a customer. */
 export interface Alert {
-  /** Output only. The unique identifier for the alert. */
-  alertId?: string | undefined;
-  /** Required. A unique identifier for the system that reported the alert. This is output only after alert is created. Supported sources are any of the following: * Google Operations * Mobile device management * Gmail phishing * Data Loss Prevention * Domain wide takeout * State sponsored attack * Google identity * Apps outage */
-  source?: string | undefined;
-  /** Output only. An optional [Security Investigation Tool](https://support.google.com/a/answer/7575955) query for this alert. */
-  securityInvestigationToolLink?: string | undefined;
-  /** Output only. The unique identifier of the Google Workspace account of the customer. */
-  customerId?: string | undefined;
-  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform alert updates in order to avoid race conditions: An `etag` is returned in the response which contains alerts, and systems are expected to put that etag in the request to update alert to ensure that their change will be applied to the same version of the alert. If no `etag` is provided in the call to update alert, then the existing alert is overwritten blindly. */
-  etag?: string | undefined;
   /** Output only. The metadata associated with this alert. */
   metadata?: AlertMetadata | undefined;
+  /** Output only. The unique identifier of the Google Workspace account of the customer. */
+  customerId?: string | undefined;
   /** Output only. `True` if this alert is marked for deletion. */
   deleted?: boolean | undefined;
-  /** Output only. The time this alert was last updated. */
-  updateTime?: string | undefined;
-  /** Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](https://developers.google.com/workspace/admin/alertcenter/reference/alert-types). */
-  type?: string | undefined;
-  /** Required. The time the event that caused this alert was started or detected. */
-  startTime?: string | undefined;
-  /** Optional. The data associated with this alert, for example google.apps.alertcenter.type.DeviceCompromised. */
-  data?: DocumentMap | undefined;
   /** Output only. The time this alert was created. */
   createTime?: string | undefined;
+  /** Output only. The unique identifier for the alert. */
+  alertId?: string | undefined;
+  /** Required. The time the event that caused this alert was started or detected. */
+  startTime?: string | undefined;
+  /** Required. A unique identifier for the system that reported the alert. This is output only after alert is created. Supported sources are any of the following: * Google Operations * Mobile device management * Gmail phishing * Data Loss Prevention * Domain wide takeout * State sponsored attack * Google identity * Apps outage */
+  source?: string | undefined;
+  /** Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](https://developers.google.com/workspace/admin/alertcenter/reference/alert-types). */
+  type?: string | undefined;
+  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform alert updates in order to avoid race conditions: An `etag` is returned in the response which contains alerts, and systems are expected to put that etag in the request to update alert to ensure that their change will be applied to the same version of the alert. If no `etag` is provided in the call to update alert, then the existing alert is overwritten blindly. */
+  etag?: string | undefined;
+  /** Output only. An optional [Security Investigation Tool](https://support.google.com/a/answer/7575955) query for this alert. */
+  securityInvestigationToolLink?: string | undefined;
   /** Optional. The time the event that caused this alert ceased being active. If provided, the end time must not be earlier than the start time. If not provided, it indicates an ongoing alert. */
   endTime?: string | undefined;
+  /** Output only. The time this alert was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. The data associated with this alert, for example google.apps.alertcenter.type.DeviceCompromised. */
+  data?: DocumentMap | undefined;
 }
 export interface GetMetadataAlertsRequest {
-  /** Required. The identifier of the alert this metadata belongs to. */
-  alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert metadata is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
+  /** Required. The identifier of the alert this metadata belongs to. */
+  alertId: string;
 }
 export interface GetSettingsV1beta1Request {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert settings are associated with. The `customer_id` must/ have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -242,16 +242,16 @@ export interface Settings {
   notifications?: NotificationList | undefined;
 }
 export interface ListAlertsRequest {
+  /** Optional. A query string for filtering alert results. For more details, see [Query filters](https://developers.google.com/workspace/admin/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/workspace/admin/alertcenter/reference/filter-fields#alerts.list). */
+  filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. If empty, a new iteration is started. To continue an iteration, pass in the value from the previous ListAlertsResponse's next_page_token field. */
+  pageToken?: string | undefined;
   /** Optional. The sort order of the list results. If not specified results may be returned in arbitrary order. You can sort the results in descending order based on the creation timestamp using `order_by="create_time desc"`. Currently, supported sorting are `create_time asc`, `create_time desc`, `update_time desc` */
   orderBy?: string | undefined;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
-  /** Optional. A query string for filtering alert results. For more details, see [Query filters](https://developers.google.com/workspace/admin/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/workspace/admin/alertcenter/reference/filter-fields#alerts.list). */
-  filter?: string | undefined;
   /** Optional. The requested page size. Server may return fewer items than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results the server should return. If empty, a new iteration is started. To continue an iteration, pass in the value from the previous ListAlertsResponse's next_page_token field. */
-  pageToken?: string | undefined;
 }
 export type AlertList = Array<Alert>;
 /** Response message for an alert listing request. */
@@ -296,8 +296,8 @@ export const batchDeleteAlerts: API.OperationMethod<
   BatchDeleteAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c6, 1) as any as S.Schema<BatchDeleteAlertsRequest_>,
-  output: __S(26, __c6, 2) as any as S.Schema<BatchDeleteAlertsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<BatchDeleteAlertsRequest_>,
+  output: __S(49, __c6, 1) as any as S.Schema<BatchDeleteAlertsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -314,8 +314,8 @@ export const batchUndeleteAlerts: API.OperationMethod<
   BatchUndeleteAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37, __c9, 1) as any as S.Schema<BatchUndeleteAlertsRequest_>,
-  output: __S(38, __c9, 2) as any as S.Schema<BatchUndeleteAlertsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<BatchUndeleteAlertsRequest_>,
+  output: __S(73, __c9, 1) as any as S.Schema<BatchUndeleteAlertsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -332,8 +332,8 @@ export const createAlertsFeedback: API.OperationMethod<
   CreateAlertsFeedbackError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<CreateAlertsFeedbackRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<AlertFeedback>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateAlertsFeedbackRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<AlertFeedback>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -350,8 +350,8 @@ export const deleteAlerts: API.OperationMethod<
   DeleteAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<DeleteAlertsRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<Empty>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteAlertsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -364,8 +364,8 @@ export type GetAlertsError = NotFound | Forbidden | GcpOpError;
 /** Gets the specified alert. Attempting to get a nonexistent alert returns `NOT_FOUND` error. */
 export const getAlerts: API.OperationMethod<GetAlertsRequest, Alert, GetAlertsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(52, __c13, 0) as any as S.Schema<GetAlertsRequest>,
-    output: __S(56, __c14, 0) as any as S.Schema<Alert>,
+    input: __S(104, __c13, 0) as any as S.Schema<GetAlertsRequest>,
+    output: __S(112, __c14, 0) as any as S.Schema<Alert>,
     errors: [NotFound, Forbidden],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -382,8 +382,8 @@ export const getMetadataAlerts: API.OperationMethod<
   GetMetadataAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetMetadataAlertsRequest>,
-  output: __S(60, __c15, 0) as any as S.Schema<AlertMetadata>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetMetadataAlertsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<AlertMetadata>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -401,7 +401,7 @@ export const getSettingsV1beta1: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetSettingsV1beta1Request>,
-  output: __S(7, __c1, 3) as any as S.Schema<Settings>,
+  output: __S(11, __c1, 3) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -419,8 +419,8 @@ export const listAlerts: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAlertsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListAlertsRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<ListAlertsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListAlertsRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ListAlertsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -438,8 +438,8 @@ export const listAlertsFeedback: API.OperationMethod<
   ListAlertsFeedbackError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListAlertsFeedbackRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListAlertFeedbackResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListAlertsFeedbackRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<ListAlertFeedbackResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -456,8 +456,8 @@ export const undeleteAlerts: API.OperationMethod<
   UndeleteAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c4, 1) as any as S.Schema<UndeleteAlertsRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<Alert>,
+  input: __S(33, __c4, 1) as any as S.Schema<UndeleteAlertsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -474,8 +474,8 @@ export const updateSettingsV1beta1: API.OperationMethod<
   UpdateSettingsV1beta1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateSettingsV1beta1Request>,
-  output: __S(7, __c1, 3) as any as S.Schema<Settings>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateSettingsV1beta1Request>,
+  output: __S(11, __c1, 3) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -513,15 +513,15 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cloudPubsubTopic: S.optional(__S(4, __c1, 0)),
+          cloudPubsubTopic: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "Notification" });
     case 2:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notifications: S.optional(__S(6, __c1, 2)),
+          notifications: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "Settings" });
   }
@@ -531,11 +531,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           customerId: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -545,11 +545,11 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListAlertsRequest" });
     case 1:
-      return S.Array(__S(56, __c14, 0));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alerts: S.optional(__S(9, __c2, 1)),
+          alerts: S.optional(__S(17, __c2, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAlertsResponse" });
@@ -572,11 +572,11 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListAlertsFeedbackRequest" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          feedback: S.optional(__S(13, __c3, 1)),
+          feedback: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "ListAlertFeedbackResponse" });
   }
@@ -592,7 +592,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(16, __c4, 0),
+          __S(32, __c4, 0),
           S.Struct({
             alertId: S.String.pipe(T.Label()),
           }),
@@ -611,7 +611,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7, __c1, 3),
+          __S(11, __c1, 3),
           S.Struct({
             customerId: S.optional(S.String.pipe(T.Query())),
           }),
@@ -629,14 +629,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customerId: S.optional(S.String),
-          alertId: S.optional(__S(28, __c7, 0)),
-        }),
-      ).annotate({ identifier: "BatchDeleteAlertsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Extend(__S(24, __c6, 0), S.Struct({})).pipe(
+        S.Extend(__S(57, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts:batchDelete",
@@ -644,11 +637,11 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchDeleteAlertsRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          failedAlertStatus: S.optional(__S(31, __c7, 3)),
-          successAlertIds: S.optional(__S(28, __c7, 0)),
+          successAlertIds: S.optional(__S(56, __c7, 0)),
+          failedAlertStatus: S.optional(__S(60, __c7, 4)),
         }),
       ).annotate({ identifier: "BatchDeleteAlertsResponse" });
   }
@@ -658,17 +651,24 @@ function __c7(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.Array(__S(32, __c8, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(29, __c7, 1)),
+          alertId: S.optional(__S(56, __c7, 0)),
+          customerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchDeleteAlertsRequest" });
+    case 2:
+      return S.Array(__S(64, __c8, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
+          details: S.optional(__S(58, __c7, 2)),
         }),
       ).annotate({ identifier: "Status" });
-    case 3:
-      return S.Record(S.String, __S(30, __c7, 2));
+    case 4:
+      return S.Record(S.String, __S(59, __c7, 3));
   }
 }
 function __c8(j: number): any {
@@ -681,14 +681,7 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          alertId: S.optional(__S(28, __c7, 0)),
-          customerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchUndeleteAlertsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Extend(__S(36, __c9, 0), S.Struct({})).pipe(
+        S.Extend(__S(57, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/alerts:batchUndelete",
@@ -696,11 +689,11 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUndeleteAlertsRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          successAlertIds: S.optional(__S(28, __c7, 0)),
-          failedAlertStatus: S.optional(__S(31, __c7, 3)),
+          failedAlertStatus: S.optional(__S(60, __c7, 4)),
+          successAlertIds: S.optional(__S(56, __c7, 0)),
         }),
       ).annotate({ identifier: "BatchUndeleteAlertsResponse" });
   }
@@ -710,7 +703,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(44, __c11, 0),
+          __S(88, __c11, 0),
           S.Struct({
             alertId: S.String.pipe(T.Label()),
             customerId: S.optional(S.String.pipe(T.Query())),
@@ -730,12 +723,12 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          feedbackId: S.optional(S.String),
-          email: S.optional(S.String),
-          alertId: S.optional(S.String),
           customerId: S.optional(S.String),
+          feedbackId: S.optional(S.String),
           createTime: S.optional(S.String),
+          alertId: S.optional(S.String),
+          email: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertFeedback" });
   }
@@ -745,8 +738,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alertId: S.String.pipe(T.Label()),
           customerId: S.optional(S.String.pipe(T.Query())),
+          alertId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -781,19 +774,19 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alertId: S.optional(S.String),
-          source: S.optional(S.String),
-          securityInvestigationToolLink: S.optional(S.String),
+          metadata: S.optional(__S(120, __c15, 0)),
           customerId: S.optional(S.String),
-          etag: S.optional(S.String),
-          metadata: S.optional(__S(60, __c15, 0)),
           deleted: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          startTime: S.optional(S.String),
-          data: S.optional(__S(32, __c8, 0)),
           createTime: S.optional(S.String),
+          alertId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          source: S.optional(S.String),
+          type: S.optional(S.String),
+          etag: S.optional(S.String),
+          securityInvestigationToolLink: S.optional(S.String),
           endTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          data: S.optional(__S(64, __c8, 0)),
         }),
       ).annotate({ identifier: "Alert" });
   }
@@ -803,13 +796,13 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customerId: S.optional(S.String),
           status: S.optional(S.String),
-          alertId: S.optional(S.String),
           etag: S.optional(S.String),
+          customerId: S.optional(S.String),
           assignee: S.optional(S.String),
           severity: S.optional(S.String),
           updateTime: S.optional(S.String),
+          alertId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertMetadata" });
   }
@@ -819,8 +812,8 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alertId: S.String.pipe(T.Label()),
           customerId: S.optional(S.String.pipe(T.Query())),
+          alertId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",

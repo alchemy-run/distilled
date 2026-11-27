@@ -65,6 +65,8 @@ export interface CreateServiceUserRequest {
   name?: string | undefined;
   scoped?: boolean | undefined;
   expiresInSeconds?: number | undefined;
+  /** Create the service user with no standing API token. */
+  skipToken?: boolean | undefined;
 }
 export interface CreateServiceUserResponse {
   tokenId: string;
@@ -104,8 +106,14 @@ export interface ServiceUserEnvironmentRoleEntry {
   environmentRoleDefinition?: EnvironmentRoleDefinition | undefined;
 }
 export type ServiceUserEnvironmentRoleEntryList = Array<ServiceUserEnvironmentRoleEntry>;
+export interface ServiceUserTokenMetadata {
+  tokenId: string;
+  expiresAt?: string | undefined;
+}
+export type ServiceUserTokenMetadataList = Array<ServiceUserTokenMetadata>;
 export interface ServiceUser {
   name: string;
+  /** Deprecated: use tokens instead */
   tokenId: string;
   createdBy: string;
   createdAt: number;
@@ -117,10 +125,30 @@ export interface ServiceUser {
   environmentRoles: ServiceUserEnvironmentRoleEntryList;
   /** This should be a TImestamp type, but keeping as a double for compatibility with public_api.proto */
   expiresAt?: number | undefined;
+  tokenless: boolean;
+  boundService: string;
+  tokens: ServiceUserTokenMetadataList;
 }
 export type ServiceUserList2 = Array<ServiceUser>;
 export interface ListServiceUserResponse {
   serviceUsers: ServiceUserList2;
+}
+export interface RotateServiceUserRequest {
+  serviceUserNames?: StringList | undefined;
+  gracePeriodSeconds?: number | undefined;
+  allowMissing?: boolean | undefined;
+  expiresInSeconds?: number | undefined;
+}
+export interface RotateServiceUserResponseRotationInfo {
+  serviceUserName: string;
+  tokenId: string;
+  tokenSecret: string | Redacted.Redacted<string>;
+  expiresAt?: string | undefined;
+}
+export type RotateServiceUserResponseRotationInfoList =
+  Array<RotateServiceUserResponseRotationInfo>;
+export interface RotateServiceUserResponse {
+  rotated: RotateServiceUserResponseRotationInfoList;
 }
 export interface ServiceUserInfoRequest {
   serviceUserName?: string | undefined;
@@ -183,6 +211,23 @@ export const listServiceUser: API.OperationMethod<
   span: "ListServiceUser",
 }));
 
+export type RotateServiceUserError = ModalOpError;
+export const rotateServiceUser: API.OperationMethod<
+  RotateServiceUserRequest & MaxMessageBytesInput,
+  RotateServiceUserResponse,
+  RotateServiceUserError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<RotateServiceUserRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<RotateServiceUserResponse>,
+  errors: [],
+  serviceErrors: ModalServiceErrors,
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateServiceUser",
+}));
+
 export type ServiceUserInfoError = ServiceUserNotFound | ModalOpError;
 export const serviceUserInfo: API.OperationMethod<
   ServiceUserInfoRequest & MaxMessageBytesInput,
@@ -190,8 +235,8 @@ export const serviceUserInfo: API.OperationMethod<
   ServiceUserInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ServiceUserInfoRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<ServiceUserInfoResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ServiceUserInfoRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<ServiceUserInfoResponse>,
   errors: [ServiceUserNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
@@ -209,6 +254,7 @@ function __c0(j: number): any {
           name: S.optional(S.String),
           scoped: S.optional(S.Boolean),
           expiresInSeconds: S.optional(S.Number),
+          skipToken: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/ServiceUserCreate", code: 200 }),
         ),
@@ -248,7 +294,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListServiceUserRequest" });
     case 1:
-      return S.Array(__S(28, __c3, 4));
+      return S.Array(__S(37, __c4, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -261,7 +307,11 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
-    case 1:
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           environmentRoleDefinitionId: S.String,
@@ -271,19 +321,28 @@ function __c3(j: number): any {
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "EnvironmentRoleDefinition" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           environmentId: S.String,
           role: S.String,
           environmentName: S.String,
           roleStr: S.String,
-          environmentRoleDefinition: S.optional(__S(25, __c3, 1)),
+          environmentRoleDefinition: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "ServiceUserEnvironmentRoleEntry" });
+    case 2:
+      return S.Array(__S(33, __c4, 1));
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.suspend(() =>
+        S.Struct({
+          tokenId: S.String,
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceUserTokenMetadata" });
     case 4:
+      return S.Array(__S(35, __c4, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -295,13 +354,48 @@ function __c3(j: number): any {
           serviceUserId: S.String,
           status: S.String,
           scoped: S.Boolean,
-          environmentRoles: __S(27, __c3, 3),
+          environmentRoles: __S(34, __c4, 2),
           expiresAt: S.optional(S.Number),
+          tokenless: S.Boolean,
+          boundService: S.String,
+          tokens: __S(36, __c4, 4),
         }),
       ).annotate({ identifier: "ServiceUser" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceUserNames: S.optional(__S(24, __c3, 0)),
+          gracePeriodSeconds: S.optional(S.Number),
+          allowMissing: S.optional(S.Boolean),
+          expiresInSeconds: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/ServiceUserRotate", code: 200 }),
+        ),
+      ).annotate({ identifier: "RotateServiceUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          serviceUserName: S.String,
+          tokenId: S.String,
+          tokenSecret: S.String.pipe(T.SensitiveValue({})),
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RotateServiceUserResponseRotationInfo" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          rotated: __S(42, __c5, 2),
+        }),
+      ).annotate({ identifier: "RotateServiceUserResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -314,7 +408,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceUser: S.optional(__S(28, __c3, 4)),
+          serviceUser: S.optional(__S(37, __c4, 5)),
         }),
       ).annotate({ identifier: "ServiceUserInfoResponse" });
   }

@@ -66,8 +66,6 @@ export class WidgetNotFound
     [{ code: 10404 }, { code: 10407 }, { status: 404 }],
   ) {}
 
-export type WidgetsCreateRequestDirection = "asc" | "desc";
-export type WidgetsCreateRequestOrder = "id" | "sitekey" | "name" | "created_on" | "modified_on";
 export type WidgetsCreateRequestDomainsList = Array<string>;
 export type WidgetsCreateRequestMode = "non-interactive" | "invisible" | "managed";
 export type WidgetsCreateRequestClearanceLevel =
@@ -79,16 +77,6 @@ export type WidgetsCreateRequestRegion = "world" | "china";
 export interface CreateWidgetRequest {
   /** Identifier */
   accountId: string;
-  /** Direction to order widgets. */
-  direction?: WidgetsCreateRequestDirection | (string & {}) | undefined;
-  /** Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value` */
-  filter?: string | undefined;
-  /** Field to order widgets by. */
-  order?: WidgetsCreateRequestOrder | (string & {}) | undefined;
-  /** Page number of paginated results. */
-  page?: number | undefined;
-  /** Number of items per page. */
-  perPage?: number | undefined;
   domains: WidgetsCreateRequestDomainsList;
   /** Widget Mode */
   mode: WidgetsCreateRequestMode | (string & {});
@@ -397,7 +385,6 @@ export type WidgetsUpdateRequestClearanceLevel =
   | "jschallenge"
   | "managed"
   | "interactive";
-export type WidgetsUpdateRequestRegion = "world" | "china";
 export interface UpdateWidgetRequest {
   /** Identifier */
   accountId: string;
@@ -416,8 +403,6 @@ export interface UpdateWidgetRequest {
   ephemeralId?: boolean | undefined;
   /** Do not show any Cloudflare branding on the widget (ENT only). */
   offlabel?: boolean | undefined;
-  /** Region where this widget can be used. This cannot be changed after creation. */
-  region?: WidgetsUpdateRequestRegion | (string & {}) | undefined;
 }
 export type WidgetsUpdateResponseClearanceLevel =
   | "no_clearance"
@@ -595,11 +580,6 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          direction: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           domains: __S(4, __c1, 0),
           mode: S.String,
           name: S.String,
@@ -763,7 +743,6 @@ function __c7(j: number): any {
           clearanceLevel: S.optional(S.String.pipe(T.Body("clearance_level"))),
           ephemeralId: S.optional(S.Boolean.pipe(T.Body("ephemeral_id"))),
           offlabel: S.optional(S.Boolean),
-          region: S.optional(S.String),
         })
           .pipe(
             T.Http({

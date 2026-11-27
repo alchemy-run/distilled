@@ -99,22 +99,6 @@ export interface ProxyAddIpRequest {
 export interface ProxyAddIpResponse {
   proxyIp?: ProxyIp | undefined;
 }
-export type ObjectCreationType =
-  | "OBJECT_CREATION_TYPE_UNSPECIFIED"
-  | "OBJECT_CREATION_TYPE_CREATE_IF_MISSING"
-  | "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS"
-  | "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
-  | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
-  | "OBJECT_CREATION_TYPE_EPHEMERAL";
-export interface ProxyGetOrCreateRequest {
-  deploymentName?: string | undefined;
-  environmentName?: string | undefined;
-  /** must be UNSPECIFIED */
-  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
-}
-export interface ProxyGetOrCreateResponse {
-  proxyId: string;
-}
 export interface ProxyRemoveIpRequest {
   proxyIp?: string | undefined;
 }
@@ -205,23 +189,6 @@ export const proxyAddIp: API.OperationMethod<
   span: "ProxyAddIp",
 }));
 
-export type ProxyGetOrCreateError = ProxyNotFound | ProxyAlreadyExists | ModalOpError;
-export const proxyGetOrCreate: API.OperationMethod<
-  ProxyGetOrCreateRequest & MaxMessageBytesInput,
-  ProxyGetOrCreateResponse,
-  ProxyGetOrCreateError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ProxyGetOrCreateRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<ProxyGetOrCreateResponse>,
-  errors: [ProxyNotFound, ProxyAlreadyExists],
-  serviceErrors: ModalServiceErrors,
-  protocol: ModalProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ProxyGetOrCreate",
-}));
-
 export type ProxyRemoveIpError = ProxyNotFound | ModalOpError;
 export const proxyRemoveIp: API.OperationMethod<
   ProxyRemoveIpRequest & MaxMessageBytesInput,
@@ -229,7 +196,7 @@ export const proxyRemoveIp: API.OperationMethod<
   ProxyRemoveIpError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ProxyRemoveIpRequest>,
+  input: __S(36, __c9, 0) as any as S.Schema<ProxyRemoveIpRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<ProxyRemoveIpResponse>,
   errors: [ProxyNotFound],
   serviceErrors: ModalServiceErrors,
@@ -358,26 +325,6 @@ function __c8(j: number): any {
   }
 }
 function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentName: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          objectCreationType: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/ProxyGetOrCreate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ProxyGetOrCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          proxyId: S.String,
-        }),
-      ).annotate({ identifier: "ProxyGetOrCreateResponse" });
-  }
-}
-function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

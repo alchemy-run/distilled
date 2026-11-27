@@ -1199,10 +1199,17 @@ export interface InterceptorInputConfiguration {
   passRequestHeaders: boolean;
   payloadFilter?: InterceptorPayloadFilter | undefined;
 }
+export type ResponseInterceptionMode = "BUFFERED" | "STREAM" | (string & {});
+export type MaxEventsPerInvocation = number;
+export interface ResponseStreamingConfiguration {
+  maxEventsPerInvocation?: number | undefined;
+}
 export interface GatewayInterceptorConfiguration {
   interceptor: InterceptorConfiguration;
   interceptionPoints: GatewayInterceptionPoint[];
   inputConfiguration?: InterceptorInputConfiguration | undefined;
+  responseInterceptionMode?: ResponseInterceptionMode | undefined;
+  responseStreamingConfiguration?: ResponseStreamingConfiguration | undefined;
 }
 export type GatewayInterceptorConfigurations = GatewayInterceptorConfiguration[];
 export type GatewayPolicyEngineArn = string;
@@ -6758,7 +6765,7 @@ export const createGateway: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(4688, __c146, 16) as any as S.Schema<CreateGatewayResponse>,
+  output: __S(4689, __c146, 17) as any as S.Schema<CreateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8893,7 +8900,7 @@ export const getGateway: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(4688, __c146, 16) as any as S.Schema<GetGatewayResponse>,
+  output: __S(4689, __c146, 17) as any as S.Schema<GetGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11995,7 +12002,7 @@ export const updateGateway: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<UpdateGatewayRequest>,
-  output: __S(4688, __c146, 16) as any as S.Schema<UpdateGatewayResponse>,
+  output: __S(4689, __c146, 17) as any as S.Schema<UpdateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -15175,12 +15182,12 @@ function __c95(j: number): any {
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4686, __c146, 14)),
-          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
-          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
+          customTransformConfiguration: S.optional(__S(4687, __c146, 15)),
+          interceptorConfigurations: S.optional(__S(4683, __c146, 11)),
+          policyEngineConfiguration: S.optional(__S(4684, __c146, 12)),
           exceptionLevel: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4687, __c146, 15)),
-          domainOverride: S.optional(__S(4684, __c146, 12)),
+          wafConfiguration: S.optional(__S(4688, __c146, 16)),
+          domainOverride: S.optional(__S(4685, __c146, 13)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
@@ -16807,11 +16814,11 @@ function __c144(j: number): any {
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
-          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
+          interceptorConfigurations: S.optional(__S(4683, __c146, 11)),
+          policyEngineConfiguration: S.optional(__S(4684, __c146, 12)),
           exceptionLevel: S.optional(S.String),
           tags: S.optional(__S(2880, __c90, 0)),
-          domainOverride: S.optional(__S(4684, __c146, 12)),
+          domainOverride: S.optional(__S(4685, __c146, 13)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/gateways/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
@@ -16863,39 +16870,45 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "InterceptorInputConfiguration" });
     case 9:
+      return S.suspend(() => S.Struct({ maxEventsPerInvocation: S.optional(S.Number) })).annotate({
+        identifier: "ResponseStreamingConfiguration",
+      });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           interceptor: __S(4676, __c146, 4),
           interceptionPoints: __S(4640, __c145, 0),
           inputConfiguration: S.optional(__S(4680, __c146, 8)),
+          responseInterceptionMode: S.optional(S.String),
+          responseStreamingConfiguration: S.optional(__S(4681, __c146, 9)),
         }),
       ).annotate({ identifier: "GatewayInterceptorConfiguration" });
-    case 10:
-      return S.Array(__S(4681, __c146, 9));
     case 11:
+      return S.Array(__S(4682, __c146, 10));
+    case 12:
       return S.suspend(() => S.Struct({ arn: S.String, mode: S.String })).annotate({
         identifier: "GatewayPolicyEngineConfiguration",
       });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           defaultDomain: S.String,
           alternateDomains: S.optional(__S(2368, __c74, 0)),
         }).pipe(S.encodeKeys({ defaultDomain: "default" })),
       ).annotate({ identifier: "DomainOverride" });
-    case 13:
+    case 14:
       return S.suspend(() => S.Struct({ arn: S.optional(S.String) })).annotate({
         identifier: "LambdaTransformConfiguration",
       });
-    case 14:
-      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4685, __c146, 13)) })).annotate({
+    case 15:
+      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4686, __c146, 14)) })).annotate({
         identifier: "CustomTransformConfiguration",
       });
-    case 15:
+    case 16:
       return S.suspend(() => S.Struct({ failureMode: S.optional(S.String) })).annotate({
         identifier: "WafConfiguration",
       });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           gatewayArn: S.String,
@@ -16913,14 +16926,14 @@ function __c146(j: number): any {
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4686, __c146, 14)),
-          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
-          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
+          customTransformConfiguration: S.optional(__S(4687, __c146, 15)),
+          interceptorConfigurations: S.optional(__S(4683, __c146, 11)),
+          policyEngineConfiguration: S.optional(__S(4684, __c146, 12)),
           workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           exceptionLevel: S.optional(S.String),
           webAclArn: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4687, __c146, 15)),
-          domainOverride: S.optional(__S(4684, __c146, 12)),
+          wafConfiguration: S.optional(__S(4688, __c146, 16)),
+          domainOverride: S.optional(__S(4685, __c146, 13)),
         }),
       ).annotate({ identifier: "CreateGatewayResponse" });
   }

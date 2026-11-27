@@ -1106,9 +1106,17 @@ export interface EmbeddedCaptionPositionSettings {
   YPositionLine?: number | undefined;
 }
 export type EmbeddedDestinationStyleControl = "MANUAL" | "PASSTHROUGH" | (string & {});
+export type __integerMin1Max63 = number;
+export type EmbeddedModeType =
+  | "EMBEDDED_608_AND_708"
+  | "EMBEDDED_608_ONLY"
+  | "EMBEDDED_708_ONLY"
+  | (string & {});
 export interface EmbeddedDestinationSettings {
   Position?: EmbeddedCaptionPositionSettings | undefined;
   StyleControl?: EmbeddedDestinationStyleControl | undefined;
+  CaptionServiceChannel?: number | undefined;
+  EmbeddedMode?: EmbeddedModeType | undefined;
 }
 export interface EmbeddedPlusScte20DestinationSettings {}
 export interface RtmpCaptionInfoDestinationSettings {}
@@ -2581,6 +2589,10 @@ export interface SmartSubtitleSourceSettings {
   CaptionSynchronizationMode?: CaptionSynchronizationMode | undefined;
   InferenceFeedOutput?: string | undefined;
 }
+export interface WebvttSourceSettings {
+  GroupId?: string | undefined;
+  Name?: string | undefined;
+}
 export interface CaptionSelectorSettings {
   AncillarySourceSettings?: AncillarySourceSettings | undefined;
   AribSourceSettings?: AribSourceSettings | undefined;
@@ -2590,6 +2602,7 @@ export interface CaptionSelectorSettings {
   Scte27SourceSettings?: Scte27SourceSettings | undefined;
   TeletextSourceSettings?: TeletextSourceSettings | undefined;
   SmartSubtitleSourceSettings?: SmartSubtitleSourceSettings | undefined;
+  WebvttSourceSettings?: WebvttSourceSettings | undefined;
 }
 export interface CaptionSelector {
   LanguageCode?: string | undefined;
@@ -15460,7 +15473,16 @@ function __c50(j: number): any {
         S.Struct({
           Position: S.optional(__S(1621, __c50, 21)),
           StyleControl: S.optional(S.String),
-        }).pipe(S.encodeKeys({ Position: "position", StyleControl: "styleControl" })),
+          CaptionServiceChannel: S.optional(S.Number),
+          EmbeddedMode: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            Position: "position",
+            StyleControl: "styleControl",
+            CaptionServiceChannel: "captionServiceChannel",
+            EmbeddedMode: "embeddedMode",
+          }),
+        ),
       ).annotate({ identifier: "EmbeddedDestinationSettings" });
     case 23:
       return S.suspend(() =>
@@ -17821,6 +17843,7 @@ function __c57(j: number): any {
           Scte27SourceSettings: S.optional(__S(1833, __c57, 9)),
           TeletextSourceSettings: S.optional(__S(1837, __c57, 13)),
           SmartSubtitleSourceSettings: S.optional(__S(1838, __c57, 14)),
+          WebvttSourceSettings: S.optional(__S(1819, __c56, 27)),
         }).pipe(
           S.encodeKeys({
             AncillarySourceSettings: "ancillarySourceSettings",
@@ -17831,6 +17854,7 @@ function __c57(j: number): any {
             Scte27SourceSettings: "scte27SourceSettings",
             TeletextSourceSettings: "teletextSourceSettings",
             SmartSubtitleSourceSettings: "smartSubtitleSourceSettings",
+            WebvttSourceSettings: "webvttSourceSettings",
           }),
         ),
       ).annotate({ identifier: "CaptionSelectorSettings" });

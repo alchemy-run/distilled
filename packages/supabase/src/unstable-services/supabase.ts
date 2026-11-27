@@ -154,6 +154,8 @@ export interface V1AuthorizeUserRequest {
   code_challenge_method?: V1AuthorizeUserRequestCodeChallengeMethod | (string & {}) | undefined;
   /** Organization slug */
   organization_slug?: string | undefined;
+  /** Project ref */
+  project_ref?: string | undefined;
   target_flow?: string | undefined;
   /** Resource indicator for MCP (Model Context Protocol) clients */
   resource?: string | undefined;
@@ -897,6 +899,8 @@ export interface V1ReadOnlyQueryRequest {
   ref: string;
   query: string;
   parameters?: V1ReadOnlyQueryRequestParametersList | undefined;
+  /** Disable statement timeout for the query. Role-based or global timeout still apply https://supabase.com/docs/guides/database/postgres/timeouts */
+  disable_statement_timeout?: boolean | undefined;
 }
 export interface V1ReadOnlyQueryResponse {}
 export interface V1RemoveAReadReplicaRequest {
@@ -928,6 +932,8 @@ export interface V1RunAQueryRequest {
   query: string;
   parameters?: V1RunAQueryRequestParametersList | undefined;
   read_only?: boolean | undefined;
+  /** Disable statement timeout for the query. Role-based or global timeout still apply https://supabase.com/docs/guides/database/postgres/timeouts */
+  disable_statement_timeout?: boolean | undefined;
 }
 export interface V1RunAQueryResponse {}
 /** Region you want your read replica to reside in */
@@ -2475,6 +2481,7 @@ function __c29(j: number): any {
           ref: S.String.pipe(T.Label()),
           query: S.String,
           parameters: S.optional(__S(480, __c30, 0)),
+          disable_statement_timeout: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/projects/{ref}/database/query/read-only", code: 200 }),
         ),
@@ -2539,6 +2546,7 @@ function __c34(j: number): any {
           query: S.String,
           parameters: S.optional(__S(480, __c30, 0)),
           read_only: S.optional(S.Boolean),
+          disable_statement_timeout: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{ref}/database/query", code: 200 })),
       ).annotate({ identifier: "V1RunAQueryRequest" });
   }
@@ -2702,6 +2710,7 @@ function __c44(j: number): any {
           code_challenge: S.optional(S.String.pipe(T.Query())),
           code_challenge_method: S.optional(S.String.pipe(T.Query())),
           organization_slug: S.optional(S.String.pipe(T.Query())),
+          project_ref: S.optional(S.String.pipe(T.Query())),
           target_flow: S.optional(S.String.pipe(T.Query())),
           resource: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/oauth/authorize", code: 200 })),

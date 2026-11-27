@@ -1,9 +1,0 @@
-{
-  "description": "The stream webhook request carries BOTH `notification_url` and `notificationUrl` wire keys (the API is mid-rename; the docs list both with the identical description). They camel-collide into `notificationUrl`/`notificationUrl2`. Keep ONE member bound to the camelCase wire key — the form v0 distilled used, runtime-verified, and the only one the response documents — and drop the snake_case duplicate.",
-  "patches": [
-    {
-      "op": "remove",
-      "path": "/shapes/com.cloudflare.stream#PutWebhookRequest/members/notification_url"
-    }
-  ]
-}

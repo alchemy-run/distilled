@@ -291,7 +291,7 @@ export interface TrailDiscussionMessageResponseBody {
   _schema?: string | undefined;
   message: TrailDiscussionMessageJSON;
 }
-/** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
+/** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). Left out, a person's Trail is assigned to them; send [] to leave it unassigned. Automation-created Trails start unassigned. */
 export type CreateProjectTrailRequestAssigneesList = Array<string>;
 export interface InitialTrailChangeBody {
   base?: unknown | undefined;
@@ -318,7 +318,7 @@ export interface CreateProjectTrailRequest {
   project_id?: string | undefined;
   /** Required when changes is non-empty; reuse for retries (24-hour retention) */
   idempotencyKey?: string | undefined;
-  /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). */
+  /** Actor references: ulid:ACCOUNT_ID or @username. A bare string is a GitHub login (legacy). Left out, a person's Trail is assigned to them; send [] to leave it unassigned. Automation-created Trails start unassigned. */
   assignees?: CreateProjectTrailRequestAssigneesList | null | undefined;
   /** Markdown, stored as written. A line holding only ![alt](attachment:<attachment ULID>) is an inline image when the ULID names an inline-safe image (PNG, JPEG, GIF, WebP) attachment of this Trail; any other reference stays literal text. References are checked whenever the body is converted to rich content (detail reads, editor initialization), so attachments uploaded after creation count. Alt text is not stored. See docs/project-trail-attachments.md. */
   body?: string | undefined;
@@ -658,7 +658,7 @@ export interface TrailAgentHistoryEntryJSON {
 /** At most six entries, newest first. By default, finished readings of the current value type. With agent_history=runs, includes preserved canceled runs and a kind discriminator on every entry. */
 export type TrailAgentJSONHistoryList = Array<TrailAgentHistoryEntryJSON>;
 export interface TrailAgentJSONLatestRunError {
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance; null otherwise. */
+  /** Set when the run was refused for billing (billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance) or failed on the repository's own model key (llm_key_quota_exhausted or llm_key_rejected); null otherwise. */
   code: string | null;
   message: string;
 }
@@ -954,6 +954,8 @@ export interface ChangeResponse {
   agents: ChangeResponseAgentsList | null;
   author: TrailAuthor;
   base: string;
+  /** True when the base branch doesn't exist in the repository, so the Change can't be compared, gated or reviewed until someone pushes the base or changes the Change's base. False on a merged or closed Change. */
+  base_missing: boolean;
   base_sha: string | null;
   body_document: TrailResponseBodyDocument;
   branch: string | null;
@@ -2386,6 +2388,7 @@ function __c7(j: number): any {
           agents: S.NullOr(__S(205, __c6, 13)),
           author: __S(206, __c6, 14),
           base: S.String,
+          base_missing: S.Boolean,
           base_sha: S.NullOr(S.String),
           body_document: __S(640, __c20, 0),
           branch: S.NullOr(S.String),

@@ -238,18 +238,19 @@ export interface ActiveSessionMuteAllParticipantsRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  /** if false, participants won't be able to unmute themselves after they are muted */
+  /** This field is ignored. Muted participants can unmute themselves if their preset allows them to produce audio. */
   allowUnmute?: boolean | undefined;
 }
+export type ActiveSessionMuteAllParticipantsResponseDataAction = "mute-all";
 export interface ActiveSessionMuteAllParticipantsResponseData {
-  action?: string | null | undefined;
+  action?: ActiveSessionMuteAllParticipantsResponseDataAction | null | undefined;
+  /** Number of connections (peers) whose microphone was unmuted and has been muted by this request. */
   mutedParticipantsCount?: number | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ActiveSessionMuteAllParticipantsResponse {
   data?: ActiveSessionMuteAllParticipantsResponseData | null | undefined;
 }
-export type ActiveSessionMuteParticipantsRequestCustomParticipantIdsList = Array<string>;
 export type ActiveSessionMuteParticipantsRequestParticipantIdsList = Array<string>;
 export interface ActiveSessionMuteParticipantsRequest {
   /** The account identifier tag. */
@@ -257,25 +258,19 @@ export interface ActiveSessionMuteParticipantsRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  customParticipantIds?: ActiveSessionMuteParticipantsRequestCustomParticipantIdsList | undefined;
-  participantIds?: ActiveSessionMuteParticipantsRequestParticipantIdsList | undefined;
+  /** IDs of the participants to mute, as returned when the participants were added to the meeting. */
+  participantIds: ActiveSessionMuteParticipantsRequestParticipantIdsList;
 }
+export type ActiveSessionMuteParticipantsResponseDataAction = "mute";
 export interface ActiveSessionMuteParticipantsResponseDataParticipantsItem {
-  /** ID of the session participant */
+  /** ID of the participant */
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  /** Email of the session participant. */
-  email?: string | null | undefined;
-  /** Name of the session participant. */
-  name?: string | null | undefined;
-  /** A URL pointing to a picture of the participant. */
-  picture?: string | null | undefined;
 }
 export type ActiveSessionMuteParticipantsResponseDataParticipantsList =
   Array<ActiveSessionMuteParticipantsResponseDataParticipantsItem>;
 export interface ActiveSessionMuteParticipantsResponseData {
-  action?: string | null | undefined;
+  action?: ActiveSessionMuteParticipantsResponseDataAction | null | undefined;
+  /** Participants the mute was requested for. */
   participants?: ActiveSessionMuteParticipantsResponseDataParticipantsList | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -432,6 +427,8 @@ export type MeetingsCreateRequestRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsCreateRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod
@@ -451,20 +448,20 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase0 {
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
   type?: MeetingsCreateRequestRecordingConfigStorageConfigCase0Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
-export type MeetingsCreateRequestRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsCreateRequestRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod
@@ -482,24 +479,18 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase1 {
   port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
   type?: MeetingsCreateRequestRecordingConfigStorageConfigCase1Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
-export type MeetingsCreateRequestRecordingConfigStorageConfigCase2Type =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY" | "PASSWORD";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase2Type = "azure" | "digitalocean";
 export interface MeetingsCreateRequestRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod
     | (string & {})
@@ -514,29 +505,69 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase2 {
   path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | undefined;
-  /** Region of the storage medium. */
-  region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
-  /** Type of storage media. */
   type?: MeetingsCreateRequestRecordingConfigStorageConfigCase2Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsCreateRequestRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Type of storage media. */
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase3Type | (string & {}) | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase4AuthMethod = "PASSWORD";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   authMethod?:
-    | MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase4AuthMethod
     | (string & {})
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -551,10 +582,42 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase3 {
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase3Type | (string & {}) | undefined;
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase4Type | (string & {}) | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase5AuthMethod = "KEY" | "PASSWORD";
+export type MeetingsCreateRequestRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsCreateRequestRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase5AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase5Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
@@ -562,7 +625,9 @@ export type MeetingsCreateRequestRecordingConfigStorageConfig =
   | MeetingsCreateRequestRecordingConfigStorageConfigCase0
   | MeetingsCreateRequestRecordingConfigStorageConfigCase1
   | MeetingsCreateRequestRecordingConfigStorageConfigCase2
-  | MeetingsCreateRequestRecordingConfigStorageConfigCase3;
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase3
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase4
+  | MeetingsCreateRequestRecordingConfigStorageConfigCase5;
 export type MeetingsCreateRequestRecordingConfigVideoConfigCodec = "H264" | "VP8" | "VP9";
 export type MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition =
   | "left top"
@@ -617,6 +682,8 @@ export interface CreateMeetingRequest {
   appId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
   aiConfig?: MeetingsCreateRequestAiConfig | undefined;
+  /** Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`. */
+  enableSip?: boolean | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
   liveStreamOnStart?: boolean | undefined;
   /** If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space. */
@@ -702,6 +769,8 @@ export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type = "g
 export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod
@@ -721,7 +790,7 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -730,13 +799,13 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 {
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod
@@ -754,24 +823,22 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase1 {
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod = "KEY";
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -786,29 +853,69 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase2 {
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase4AuthMethod = "PASSWORD";
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -823,10 +930,44 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase3 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -834,7 +975,9 @@ export type MeetingsCreateResponseDataRecordingConfigStorageConfig =
   | MeetingsCreateResponseDataRecordingConfigStorageConfigCase0
   | MeetingsCreateResponseDataRecordingConfigStorageConfigCase1
   | MeetingsCreateResponseDataRecordingConfigStorageConfigCase2
-  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3;
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase4
+  | MeetingsCreateResponseDataRecordingConfigStorageConfigCase5;
 export type MeetingsCreateResponseDataRecordingConfigVideoConfigCodec = "H264" | "VP8" | "VP9";
 export type MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPosition =
   | "left top"
@@ -888,6 +1031,14 @@ export interface MeetingsCreateResponseDataRecordingConfig {
   storageConfig?: MeetingsCreateResponseDataRecordingConfigStorageConfig | null | undefined;
   videoConfig?: MeetingsCreateResponseDataRecordingConfigVideoConfig | null | undefined;
 }
+export interface MeetingsCreateResponseDataSip {
+  /** Password for SIP digest authentication. Keep it secret. */
+  password: string;
+  /** SIP URI to dial. Configure it in your SIP provider or PBX. */
+  sipUri: string;
+  /** Username for SIP digest authentication. */
+  username: string;
+}
 export type MeetingsCreateResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsCreateResponseData {
   /** ID of the meeting. */
@@ -908,6 +1059,8 @@ export interface MeetingsCreateResponseData {
   recordingConfig?: MeetingsCreateResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: MeetingsCreateResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -1141,6 +1294,8 @@ export interface PresetsCreateRequestPermissions {
   /** Waiting room type */
   waitingRoomType: PresetsCreateRequestPermissionsWaitingRoomType | (string & {});
   acceptStageRequests?: boolean | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | undefined;
   isRecorder?: boolean | undefined;
   stageAccess?: PresetsCreateRequestPermissionsStageAccess | (string & {}) | undefined;
   stageEnabled?: boolean | undefined;
@@ -1344,6 +1499,8 @@ export interface PresetsCreateResponseDataPermissions {
   /** Waiting room type */
   waitingRoomType: PresetsCreateResponseDataPermissionsWaitingRoomType;
   acceptStageRequests?: boolean | null | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | null | undefined;
   isRecorder?: boolean | null | undefined;
   stageAccess?: PresetsCreateResponseDataPermissionsStageAccess | null | undefined;
   stageEnabled?: boolean | null | undefined;
@@ -1620,6 +1777,8 @@ export interface PresetsDeleteResponseDataPermissions {
   /** Waiting room type */
   waitingRoomType: PresetsDeleteResponseDataPermissionsWaitingRoomType;
   acceptStageRequests?: boolean | null | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | null | undefined;
   isRecorder?: boolean | null | undefined;
   stageAccess?: PresetsDeleteResponseDataPermissionsStageAccess | null | undefined;
   stageEnabled?: boolean | null | undefined;
@@ -1747,6 +1906,7 @@ export interface EditWebhookWebhookRequest {
   /** The app identifier tag. */
   appId: string;
   webhookId: string;
+  /** Omit to keep the current value. */
   enabled?: boolean | undefined;
   /** Events that the webhook will get triggered by */
   events?: WebhooksEditWebhookRequestEventsList | undefined;
@@ -2317,6 +2477,8 @@ export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type = "
 export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod
@@ -2336,7 +2498,7 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -2345,13 +2507,13 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 {
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod
@@ -2369,24 +2531,22 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1 {
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod = "KEY";
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -2401,29 +2561,69 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2 {
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4AuthMethod = "PASSWORD";
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -2438,10 +2638,44 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type | null | undefined;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -2449,7 +2683,9 @@ export type MeetingsGetResponseDataItemRecordingConfigStorageConfig =
   | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0
   | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1
   | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2
-  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3;
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase4
+  | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase5;
 export type MeetingsGetResponseDataItemRecordingConfigVideoConfigCodec = "H264" | "VP8" | "VP9";
 export type MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkPosition =
   | "left top"
@@ -2499,6 +2735,7 @@ export interface MeetingsGetResponseDataItemRecordingConfig {
   storageConfig?: MeetingsGetResponseDataItemRecordingConfigStorageConfig | null | undefined;
   videoConfig?: MeetingsGetResponseDataItemRecordingConfigVideoConfig | null | undefined;
 }
+export type MeetingsGetResponseDataItemSip = MeetingsCreateResponseDataSip;
 export type MeetingsGetResponseDataItemStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsGetResponseDataItem {
   /** ID of the meeting. */
@@ -2517,6 +2754,8 @@ export interface MeetingsGetResponseDataItem {
   recordingConfig?: MeetingsGetResponseDataItemRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: MeetingsGetResponseDataItemStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -2655,6 +2894,8 @@ export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0T
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
@@ -2674,7 +2915,7 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -2683,13 +2924,13 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
@@ -2707,24 +2948,22 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod = "KEY";
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -2739,30 +2978,70 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -2777,10 +3056,44 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -2788,7 +3101,9 @@ export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0
   | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1
   | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2
-  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase4
+  | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase5;
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -2844,6 +3159,7 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfig {
   storageConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig | null | undefined;
   videoConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
+export type MeetingsGetMeetingByIdResponseDataSip = MeetingsCreateResponseDataSip;
 export type MeetingsGetMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsGetMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -2864,6 +3180,8 @@ export interface MeetingsGetMeetingByIdResponseData {
   recordingConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: MeetingsGetMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -2981,6 +3299,8 @@ export type RecordingsGetOneRecordingResponseDataStorageConfigCase0Type = "gcs";
 export interface RecordingsGetOneRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
@@ -2997,20 +3317,20 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase0 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsGetOneRecordingResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
-export type RecordingsGetOneRecordingResponseDataStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase1Type = "aws";
 export interface RecordingsGetOneRecordingResponseDataStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
@@ -3025,25 +3345,53 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase1 {
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsGetOneRecordingResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod = "KEY";
-export type RecordingsGetOneRecordingResponseDataStorageConfigCase2Type =
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase2Type = "azure" | "digitalocean";
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase2 {
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod | null | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase2Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod = "KEY";
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
-export interface RecordingsGetOneRecordingResponseDataStorageConfigCase2 {
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase3 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
   bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
@@ -3056,26 +3404,29 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase2 {
   port?: number | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase2Type | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
-export type RecordingsGetOneRecordingResponseDataStorageConfigCase3Type =
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase4AuthMethod = "PASSWORD";
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase4Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
-export interface RecordingsGetOneRecordingResponseDataStorageConfigCase3 {
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase4AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
   bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
@@ -3088,10 +3439,39 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase3 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase3Type | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase5AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsGetOneRecordingResponseDataStorageConfigCase5Type = "cloudflare";
+export interface RecordingsGetOneRecordingResponseDataStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase5AuthMethod | null | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -3099,7 +3479,9 @@ export type RecordingsGetOneRecordingResponseDataStorageConfig =
   | RecordingsGetOneRecordingResponseDataStorageConfigCase0
   | RecordingsGetOneRecordingResponseDataStorageConfigCase1
   | RecordingsGetOneRecordingResponseDataStorageConfigCase2
-  | RecordingsGetOneRecordingResponseDataStorageConfigCase3;
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase3
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase4
+  | RecordingsGetOneRecordingResponseDataStorageConfigCase5;
 export interface RecordingsGetOneRecordingResponseData {
   /** ID of the recording */
   id: string;
@@ -4158,6 +4540,8 @@ export interface PresetsGetPresetByIdResponseDataPermissions {
   /** Waiting room type */
   waitingRoomType: PresetsGetPresetByIdResponseDataPermissionsWaitingRoomType;
   acceptStageRequests?: boolean | null | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | null | undefined;
   isRecorder?: boolean | null | undefined;
   stageAccess?: PresetsGetPresetByIdResponseDataPermissionsStageAccess | null | undefined;
   stageEnabled?: boolean | null | undefined;
@@ -4284,6 +4668,8 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorage
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod
@@ -4303,7 +4689,7 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type
@@ -4316,12 +4702,13 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorage
   | "KEY"
   | "PASSWORD";
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+  "aws";
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod
@@ -4339,8 +4726,6 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type
     | null
@@ -4349,18 +4734,17 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod =
-  "KEY";
+  | "KEY"
+  | "PASSWORD";
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -4375,11 +4759,10 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?:
     | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type
     | null
@@ -4388,20 +4771,65 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+  "KEY";
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -4416,11 +4844,49 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
   type?:
-    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5Type =
+  "cloudflare";
+export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5Type
     | null
     | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -4430,7 +4896,9 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorage
   | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0
   | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1
   | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2
-  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3;
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase4
+  | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase5;
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -4498,6 +4966,7 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig {
     | null
     | undefined;
 }
+export type RecordingsGetRecordingsResponseDataItemMeetingSip = MeetingsCreateResponseDataSip;
 export type RecordingsGetRecordingsResponseDataItemMeetingStatus = "ACTIVE" | "INACTIVE";
 export interface RecordingsGetRecordingsResponseDataItemMeeting {
   /** ID of the meeting. */
@@ -4519,6 +4988,8 @@ export interface RecordingsGetRecordingsResponseDataItemMeeting {
     | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: RecordingsGetRecordingsResponseDataItemMeetingStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -4535,6 +5006,8 @@ export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type = "gcs
 export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod
@@ -4554,7 +5027,7 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase0 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -4563,13 +5036,13 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase0 {
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type = "aws";
 export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod
@@ -4587,24 +5060,22 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase1 {
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod = "KEY";
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod
     | null
@@ -4619,29 +5090,69 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase2 {
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod = "PASSWORD";
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod = "KEY";
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase4AuthMethod = "PASSWORD";
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -4656,10 +5167,44 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase3 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type | null | undefined;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type RecordingsGetRecordingsResponseDataItemStorageConfigCase5Type = "cloudflare";
+export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -4667,7 +5212,9 @@ export type RecordingsGetRecordingsResponseDataItemStorageConfig =
   | RecordingsGetRecordingsResponseDataItemStorageConfigCase0
   | RecordingsGetRecordingsResponseDataItemStorageConfigCase1
   | RecordingsGetRecordingsResponseDataItemStorageConfigCase2
-  | RecordingsGetRecordingsResponseDataItemStorageConfigCase3;
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase3
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase4
+  | RecordingsGetRecordingsResponseDataItemStorageConfigCase5;
 export interface RecordingsGetRecordingsResponseDataItem {
   /** ID of the recording */
   id: string;
@@ -5143,15 +5690,16 @@ export interface KickAllParticipantsActiveSessionRequest {
   appId: string;
   meetingId: string;
 }
+export type ActiveSessionKickAllParticipantsResponseDataAction = "kick-all";
 export interface ActiveSessionKickAllParticipantsResponseData {
-  action?: string | null | undefined;
+  action?: ActiveSessionKickAllParticipantsResponseDataAction | null | undefined;
+  /** Number of connections (peers) that were in the session when it was ended. */
   kickedParticipantsCount?: number | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface KickAllParticipantsActiveSessionResponse {
   data?: ActiveSessionKickAllParticipantsResponseData | null | undefined;
 }
-export type ActiveSessionKickParticipantsRequestCustomParticipantIdsList = Array<string>;
 export type ActiveSessionKickParticipantsRequestParticipantIdsList = Array<string>;
 export interface KickParticipantsActiveSessionRequest {
   /** The account identifier tag. */
@@ -5159,15 +5707,17 @@ export interface KickParticipantsActiveSessionRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  customParticipantIds?: ActiveSessionKickParticipantsRequestCustomParticipantIdsList | undefined;
-  participantIds?: ActiveSessionKickParticipantsRequestParticipantIdsList | undefined;
+  /** IDs of the participants to kick, as returned when the participants were added to the meeting. */
+  participantIds: ActiveSessionKickParticipantsRequestParticipantIdsList;
 }
+export type ActiveSessionKickParticipantsResponseDataAction = "kick";
 export type ActiveSessionKickParticipantsResponseDataParticipantsItem =
   ActiveSessionMuteParticipantsResponseDataParticipantsItem;
 export type ActiveSessionKickParticipantsResponseDataParticipantsList =
   Array<ActiveSessionMuteParticipantsResponseDataParticipantsItem>;
 export interface ActiveSessionKickParticipantsResponseData {
-  action?: string | null | undefined;
+  action?: ActiveSessionKickParticipantsResponseDataAction | null | undefined;
+  /** Participants the kick was requested for. */
   participants?: ActiveSessionKickParticipantsResponseDataParticipantsList | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -5400,6 +5950,8 @@ export interface PresetsUpdateRequestPermissions {
   canAcceptProductionRequests?: boolean | undefined;
   canChangeParticipantPermissions?: boolean | undefined;
   canEditDisplayName?: boolean | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | undefined;
   canLivestream?: boolean | undefined;
   canRecord?: boolean | undefined;
   canSpotlight?: boolean | undefined;
@@ -5622,6 +6174,8 @@ export interface PresetsUpdateResponseDataPermissions {
   /** Waiting room type */
   waitingRoomType: PresetsUpdateResponseDataPermissionsWaitingRoomType;
   acceptStageRequests?: boolean | null | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | null | undefined;
   isRecorder?: boolean | null | undefined;
   stageAccess?: PresetsUpdateResponseDataPermissionsStageAccess | null | undefined;
   stageEnabled?: boolean | null | undefined;
@@ -5733,6 +6287,8 @@ export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type
 export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod
@@ -5752,7 +6308,7 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -5761,13 +6317,13 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type = "aws";
 export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod
@@ -5785,24 +6341,22 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod = "KEY";
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod
     | null
@@ -5817,29 +6371,69 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod = "KEY";
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4AuthMethod = "PASSWORD";
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -5854,10 +6448,44 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type | null | undefined;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5Type = "cloudflare";
+export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -5865,7 +6493,9 @@ export type RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
   | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0
   | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1
   | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2
-  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3;
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase4
+  | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase5;
 export interface RecordingsPauseResumeStopRecordingResponseData {
   /** ID of the recording */
   id: string;
@@ -6021,6 +6651,8 @@ export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Ty
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
@@ -6040,7 +6672,7 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
   type?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type
@@ -6052,13 +6684,13 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
@@ -6076,8 +6708,6 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
   type?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type
     | (string & {})
@@ -6085,18 +6715,18 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
     | (string & {})
@@ -6111,11 +6741,10 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | undefined;
-  /** Region of the storage medium. */
-  region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
-  /** Type of storage media. */
   type?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type
     | (string & {})
@@ -6123,21 +6752,65 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Type of storage media. */
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {})
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   authMethod?:
-    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4AuthMethod
     | (string & {})
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -6152,11 +6825,48 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
   /** Type of storage media. */
   type?:
-    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4Type
+    | (string & {})
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5Type
     | (string & {})
     | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -6166,7 +6876,9 @@ export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
   | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0
   | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1
   | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2
-  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3;
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase4
+  | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase5;
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -6224,6 +6936,8 @@ export interface ReplaceMeetingByIdMeetingRequest {
   meetingId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
   aiConfig?: MeetingsReplaceMeetingByIdRequestAiConfig | undefined;
+  /** Lets phones and SIP systems dial in to the meeting. The response includes the SIP URI and credentials in `sip`. Ignored when replacing a meeting with `PUT`. */
+  enableSip?: boolean | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
   liveStreamOnStart?: boolean | undefined;
   /** If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space. */
@@ -6323,6 +7037,8 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCa
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
@@ -6342,7 +7058,7 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type
@@ -6354,13 +7070,13 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
@@ -6378,8 +7094,6 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type
     | null
@@ -6388,18 +7102,17 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
-  "KEY";
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -6414,11 +7127,10 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?:
     | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type
     | null
@@ -6427,20 +7139,65 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+  "KEY";
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -6455,11 +7212,49 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
   type?:
-    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type =
+  "cloudflare";
+export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type
     | null
     | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -6469,7 +7264,9 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0
   | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1
   | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2
-  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase4
+  | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase5;
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -6528,6 +7325,7 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfig {
     | undefined;
   videoConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
+export type MeetingsReplaceMeetingByIdResponseDataSip = MeetingsCreateResponseDataSip;
 export type MeetingsReplaceMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsReplaceMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -6548,6 +7346,8 @@ export interface MeetingsReplaceMeetingByIdResponseData {
   recordingConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: MeetingsReplaceMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -6716,6 +7516,8 @@ export interface ReplacePresetByIdRequestPermissions {
   /** Waiting room type */
   waitingRoomType: ReplacePresetByIdRequestPermissionsWaitingRoomType | (string & {});
   acceptStageRequests?: boolean | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | undefined;
   isRecorder?: boolean | undefined;
   stageAccess?: ReplacePresetByIdRequestPermissionsStageAccess | (string & {}) | undefined;
   stageEnabled?: boolean | undefined;
@@ -6922,6 +7724,8 @@ export interface ReplacePresetByIdResponseDataPermissions {
   /** Waiting room type */
   waitingRoomType: ReplacePresetByIdResponseDataPermissionsWaitingRoomType;
   acceptStageRequests?: boolean | null | undefined;
+  /** Allows renaming the meeting for the current session */
+  canEditMeetingTitle?: boolean | null | undefined;
   isRecorder?: boolean | null | undefined;
   stageAccess?: ReplacePresetByIdResponseDataPermissionsStageAccess | null | undefined;
   stageEnabled?: boolean | null | undefined;
@@ -7096,6 +7900,8 @@ export type RecordingsStartRecordingsRequestStorageConfigCase0Type = "gcs";
 export interface RecordingsStartRecordingsRequestStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod
@@ -7115,20 +7921,20 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase0 {
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
   type?: RecordingsStartRecordingsRequestStorageConfigCase0Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
 export type RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
-export type RecordingsStartRecordingsRequestStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type RecordingsStartRecordingsRequestStorageConfigCase1Type = "aws";
 export interface RecordingsStartRecordingsRequestStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod
@@ -7146,24 +7952,18 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase1 {
   port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
   type?: RecordingsStartRecordingsRequestStorageConfigCase1Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod = "KEY";
-export type RecordingsStartRecordingsRequestStorageConfigCase2Type =
-  | "aws"
-  | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+export type RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsStartRecordingsRequestStorageConfigCase2Type = "azure" | "digitalocean";
 export interface RecordingsStartRecordingsRequestStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod
     | (string & {})
@@ -7178,29 +7978,69 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase2 {
   path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | undefined;
-  /** Region of the storage medium. */
-  region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
-  /** Type of storage media. */
   type?: RecordingsStartRecordingsRequestStorageConfigCase2Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod = "PASSWORD";
+export type RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod = "KEY";
 export type RecordingsStartRecordingsRequestStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface RecordingsStartRecordingsRequestStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Type of storage media. */
+  type?: RecordingsStartRecordingsRequestStorageConfigCase3Type | (string & {}) | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type RecordingsStartRecordingsRequestStorageConfigCase4AuthMethod = "PASSWORD";
+export type RecordingsStartRecordingsRequestStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsStartRecordingsRequestStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   authMethod?:
-    | RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod
+    | RecordingsStartRecordingsRequestStorageConfigCase4AuthMethod
     | (string & {})
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -7215,10 +8055,42 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase3 {
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsRequestStorageConfigCase3Type | (string & {}) | undefined;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase4Type | (string & {}) | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type RecordingsStartRecordingsRequestStorageConfigCase5AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsStartRecordingsRequestStorageConfigCase5Type = "cloudflare";
+export interface RecordingsStartRecordingsRequestStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase5AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase5Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
@@ -7226,7 +8098,9 @@ export type RecordingsStartRecordingsRequestStorageConfig =
   | RecordingsStartRecordingsRequestStorageConfigCase0
   | RecordingsStartRecordingsRequestStorageConfigCase1
   | RecordingsStartRecordingsRequestStorageConfigCase2
-  | RecordingsStartRecordingsRequestStorageConfigCase3;
+  | RecordingsStartRecordingsRequestStorageConfigCase3
+  | RecordingsStartRecordingsRequestStorageConfigCase4
+  | RecordingsStartRecordingsRequestStorageConfigCase5;
 export type RecordingsStartRecordingsRequestVideoConfigCodec = "H264" | "VP8" | "VP9";
 export type RecordingsStartRecordingsRequestVideoConfigWatermarkPosition =
   | "left top"
@@ -7327,6 +8201,8 @@ export type RecordingsStartRecordingsResponseDataStorageConfigCase0Type = "gcs";
 export interface RecordingsStartRecordingsResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
@@ -7343,20 +8219,20 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase0 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsStartRecordingsResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
-export type RecordingsStartRecordingsResponseDataStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type RecordingsStartRecordingsResponseDataStorageConfigCase1Type = "aws";
 export interface RecordingsStartRecordingsResponseDataStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
@@ -7371,25 +8247,53 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase1 {
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?: RecordingsStartRecordingsResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod = "KEY";
-export type RecordingsStartRecordingsResponseDataStorageConfigCase2Type =
+export type RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsStartRecordingsResponseDataStorageConfigCase2Type = "azure" | "digitalocean";
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase2 {
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod | null | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase2Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod = "KEY";
+export type RecordingsStartRecordingsResponseDataStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
-export interface RecordingsStartRecordingsResponseDataStorageConfigCase2 {
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase3 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
   bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
@@ -7402,26 +8306,29 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase2 {
   port?: number | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase2Type | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
-export type RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
-export type RecordingsStartRecordingsResponseDataStorageConfigCase3Type =
+export type RecordingsStartRecordingsResponseDataStorageConfigCase4AuthMethod = "PASSWORD";
+export type RecordingsStartRecordingsResponseDataStorageConfigCase4Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
-export interface RecordingsStartRecordingsResponseDataStorageConfigCase3 {
+  | "sftp"
+  | "cloudflare";
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase4AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
   bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
@@ -7434,10 +8341,39 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase3 {
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase3Type | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase4Type | null | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type RecordingsStartRecordingsResponseDataStorageConfigCase5AuthMethod = "KEY" | "PASSWORD";
+export type RecordingsStartRecordingsResponseDataStorageConfigCase5Type = "cloudflare";
+export interface RecordingsStartRecordingsResponseDataStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase5AuthMethod | null | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase5Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
   username?: string | null | undefined;
 }
@@ -7445,7 +8381,9 @@ export type RecordingsStartRecordingsResponseDataStorageConfig =
   | RecordingsStartRecordingsResponseDataStorageConfigCase0
   | RecordingsStartRecordingsResponseDataStorageConfigCase1
   | RecordingsStartRecordingsResponseDataStorageConfigCase2
-  | RecordingsStartRecordingsResponseDataStorageConfigCase3;
+  | RecordingsStartRecordingsResponseDataStorageConfigCase3
+  | RecordingsStartRecordingsResponseDataStorageConfigCase4
+  | RecordingsStartRecordingsResponseDataStorageConfigCase5;
 export interface RecordingsStartRecordingsResponseData {
   /** ID of the recording */
   id: string;
@@ -7565,16 +8503,10 @@ export interface UpdateAppByIdRequest {
   /** The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character. */
   name: string;
 }
-export interface UpdateAppByIdResponseData {
-  id?: string | null | undefined;
-  cfAccountTag?: string | null | undefined;
-  createdAt?: string | null | undefined;
-  isOrgOnKv?: boolean | null | undefined;
-  name?: string | null | undefined;
-}
+export type UpdateAppByIdResponseData = AppsGetResponseDataItem;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface UpdateAppByIdResponse {
-  data: UpdateAppByIdResponseData;
+  data: AppsGetResponseDataItem;
 }
 export type MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType =
   | "general"
@@ -7659,6 +8591,8 @@ export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Typ
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
@@ -7678,7 +8612,7 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
   type?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type
@@ -7690,13 +8624,13 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
@@ -7714,8 +8648,6 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
   type?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type
     | (string & {})
@@ -7723,18 +8655,18 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod =
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
     | (string & {})
@@ -7749,11 +8681,10 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | undefined;
-  /** Region of the storage medium. */
-  region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | undefined;
-  /** Type of storage media. */
   type?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type
     | (string & {})
@@ -7761,21 +8692,65 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   /** SSH destination server username for SFTP type storage medium */
   username?: string | undefined;
 }
-export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod = "KEY";
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Type of storage media. */
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {})
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | undefined;
   authMethod?:
-    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4AuthMethod
     | (string & {})
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -7790,11 +8765,48 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   privateKey?: string | undefined;
   /** Region of the storage medium. */
   region?: string | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
   /** Type of storage media. */
   type?:
-    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4Type
+    | (string & {})
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | undefined;
+}
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5Type = "cloudflare";
+export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5AuthMethod
+    | (string & {})
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | undefined;
+  /** Region of the storage medium. */
+  region?: string | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5Type
     | (string & {})
     | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -7804,7 +8816,9 @@ export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
   | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0
   | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1
   | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2
-  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3;
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase4
+  | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase5;
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -7863,6 +8877,8 @@ export interface UpdateMeetingByIdMeetingRequest {
   meetingId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
   aiConfig?: MeetingsUpdateMeetingByIdRequestAiConfig | undefined;
+  /** Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials. */
+  enableSip?: boolean | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
   liveStreamOnStart?: boolean | undefined;
   /** If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space. */
@@ -7964,6 +8980,8 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCas
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
@@ -7983,7 +9001,7 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type
@@ -7995,13 +9013,13 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
   | "PASSWORD";
-export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type =
-  | "aws"
-  | "azure"
-  | "digitalocean";
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type = "aws";
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
+  secret: string | Redacted.Redacted<string>;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
@@ -8019,8 +9037,6 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
   type?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type
     | null
@@ -8029,18 +9045,17 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
-  "KEY";
+  | "KEY"
+  | "PASSWORD";
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
-  | "aws"
   | "azure"
-  | "digitalocean"
-  | "gcs"
-  | "sftp";
+  | "digitalocean";
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2 {
-  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey: string;
-  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null | undefined;
+  accessKey: unknown;
+  region: unknown;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
     | null
@@ -8055,11 +9070,10 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
   port?: number | null | undefined;
-  /** Region of the storage medium. */
-  region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
   secret?: string | Redacted.Redacted<string> | null | undefined;
-  /** Type of storage media. */
   type?:
     | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type
     | null
@@ -8068,20 +9082,65 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
-  "PASSWORD";
+  "KEY";
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type =
   | "aws"
   | "azure"
   | "digitalocean"
   | "gcs"
-  | "sftp";
+  | "sftp"
+  | "cloudflare";
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3 {
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey: string;
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Type of storage media. */
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod =
+  "PASSWORD";
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type =
+  | "aws"
+  | "azure"
+  | "digitalocean"
+  | "gcs"
+  | "sftp"
+  | "cloudflare";
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
   accessKey?: string | null | undefined;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId?: string | null | undefined;
   authMethod?:
-    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4AuthMethod
     | null
     | undefined;
   /** Name of the storage medium's bucket. */
@@ -8096,11 +9155,49 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   privateKey?: string | null | undefined;
   /** Region of the storage medium. */
   region?: string | null | undefined;
-  /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | Redacted.Redacted<string> | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
   /** Type of storage media. */
   type?:
-    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4Type
+    | null
+    | undefined;
+  /** SSH destination server username for SFTP type storage medium */
+  username?: string | null | undefined;
+}
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod =
+  | "KEY"
+  | "PASSWORD";
+export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type =
+  "cloudflare";
+export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5 {
+  /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
+  accessKey: string;
+  /** Cloudflare account ID, a 32-character hexadecimal string. Required for `cloudflare` storage. */
+  accountId: string;
+  /** Authentication method used for "sftp" type storage medium */
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5AuthMethod
+    | null
+    | undefined;
+  /** Name of the storage medium's bucket. */
+  bucket?: string | null | undefined;
+  /** SSH destination server host for SFTP type storage medium */
+  host?: string | null | undefined;
+  /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
+  password?: string | null | undefined;
+  /** Path relative to the bucket root at which the recording will be placed. */
+  path?: string | null | undefined;
+  /** SSH destination server port for SFTP type storage medium */
+  port?: number | null | undefined;
+  /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
+  privateKey?: string | null | undefined;
+  /** Region of the storage medium. */
+  region?: string | null | undefined;
+  /** Secret key of the storage medium. Required for `aws` storage. Similar to `access_key`, it is only writeable by clients, not readable. */
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5Type
     | null
     | undefined;
   /** SSH destination server username for SFTP type storage medium */
@@ -8110,7 +9207,9 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0
   | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1
   | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2
-  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3;
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase4
+  | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase5;
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigCodec =
   | "H264"
   | "VP8"
@@ -8169,6 +9268,7 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfig {
     | undefined;
   videoConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
+export type MeetingsUpdateMeetingByIdResponseDataSip = MeetingsCreateResponseDataSip;
 export type MeetingsUpdateMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsUpdateMeetingByIdResponseData {
   /** ID of the meeting. */
@@ -8189,6 +9289,8 @@ export interface MeetingsUpdateMeetingByIdResponseData {
   recordingConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
   sessionKeepAliveTimeInSecs?: number | null | undefined;
+  /** SIP dial-in details. `null` if SIP is not enabled for the meeting. */
+  sip?: MeetingsCreateResponseDataSip | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
   status?: MeetingsUpdateMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
@@ -8225,7 +9327,7 @@ export interface WebhooksGetAllWebhooksResponse {
   data: WebhooksGetAllWebhooksResponseDataList;
 }
 export type ActiveSessionMuteAllParticipantsError = CloudflareOpError;
-/** Mutes all participants of an active session for the given meeting ID. */
+/** Mutes the microphone of all participants of an active session for the given meeting ID. */
 export const activeSessionMuteAllParticipants: API.OperationMethod<
   ActiveSessionMuteAllParticipantsRequest,
   ActiveSessionMuteAllParticipantsResponse,
@@ -8243,7 +9345,7 @@ export const activeSessionMuteAllParticipants: API.OperationMethod<
 }));
 
 export type ActiveSessionMuteParticipantsError = CloudflareOpError;
-/** Mutes one or more participants from an active session using user ID or custom participant ID. */
+/** Mutes the microphone of one or more participants of an active session using their participant IDs. */
 export const activeSessionMuteParticipants: API.OperationMethod<
   ActiveSessionMuteParticipantsRequest,
   ActiveSessionMuteParticipantsResponse,
@@ -9023,7 +10125,7 @@ export const getSessionSummarySession: API.OperationMethod<
 }));
 
 export type GetSessionTranscriptsSessionError = CloudflareOpError;
-/** Returns a URL to download the transcript for the session ID in CSV format. */
+/** Returns a URL to download the transcript for the session ID in the requested format. */
 export const getSessionTranscriptsSession: API.OperationMethod<
   GetSessionTranscriptsSessionRequest,
   GetSessionTranscriptsSessionResponse,
@@ -9077,7 +10179,7 @@ export const getWebhooksWebhook: API.OperationMethod<
 }));
 
 export type KickAllParticipantsActiveSessionError = CloudflareOpError;
-/** Kicks all participants from an active session for the given meeting ID. */
+/** Kicks all participants from an active session for the given meeting ID and ends the session. Participants in connected breakout rooms are kicked as well. */
 export const kickAllParticipantsActiveSession: API.OperationMethod<
   KickAllParticipantsActiveSessionRequest,
   KickAllParticipantsActiveSessionResponse,
@@ -9095,7 +10197,7 @@ export const kickAllParticipantsActiveSession: API.OperationMethod<
 }));
 
 export type KickParticipantsActiveSessionError = CloudflareOpError;
-/** Kicks one or more participants from an active session using user ID or custom participant ID. */
+/** Kicks one or more participants from an active session using their participant IDs. Every connection of each participant is removed from the session. */
 export const kickParticipantsActiveSession: API.OperationMethod<
   KickParticipantsActiveSessionRequest,
   KickParticipantsActiveSessionResponse,
@@ -9185,7 +10287,7 @@ export const patchPreset: API.OperationMethod<
 }));
 
 export type PauseResumeStopRecordingRecordingError = CloudflareOpError;
-/** Pause/Resume/Stop a given recording ID. */
+/** Pause/Resume/Stop a given recording ID. **Note:** A recording can stay paused for a maximum of 12 hours. After that, it automatically resumes and finishes. */
 export const pauseResumeStopRecordingRecording: API.OperationMethod<
   PauseResumeStopRecordingRecordingRequest,
   PauseResumeStopRecordingRecordingResponse,
@@ -9373,7 +10475,7 @@ export const updateAppById: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateAppByIdRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<UpdateAppByIdResponse>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateAppByIdResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -9524,6 +10626,7 @@ function __c1(j: number): any {
           showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
           acceptStageRequests: S.optional(S.Boolean.pipe(T.Body("accept_stage_requests"))),
+          canEditMeetingTitle: S.optional(S.Boolean.pipe(T.Body("can_edit_meeting_title"))),
           isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
           stageAccess: S.optional(S.String.pipe(T.Body("stage_access"))),
           stageEnabled: S.optional(S.Boolean.pipe(T.Body("stage_enabled"))),
@@ -9592,6 +10695,9 @@ function __c2(j: number): any {
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
           acceptStageRequests: S.optional(
             S.NullOr(S.Boolean).pipe(T.Body("accept_stage_requests")),
+          ),
+          canEditMeetingTitle: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("can_edit_meeting_title")),
           ),
           isRecorder: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_recorder"))),
           stageAccess: S.optional(S.NullOr(S.String).pipe(T.Body("stage_access"))),
@@ -10611,6 +11717,7 @@ function __c40(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10626,6 +11733,22 @@ function __c40(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10640,6 +11763,7 @@ function __c40(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10654,9 +11778,25 @@ function __c40(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -10698,6 +11838,7 @@ function __c40(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -10765,6 +11906,7 @@ function __c42(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10780,6 +11922,22 @@ function __c42(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10794,6 +11952,7 @@ function __c42(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10808,9 +11967,25 @@ function __c42(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -10853,6 +12028,7 @@ function __c42(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -10964,6 +12140,7 @@ function __c46(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10979,6 +12156,22 @@ function __c46(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -10993,6 +12186,7 @@ function __c46(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -11007,9 +12201,25 @@ function __c46(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -11929,6 +13139,7 @@ function __c55(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -11944,6 +13155,22 @@ function __c55(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -11958,6 +13185,7 @@ function __c55(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -11972,9 +13200,25 @@ function __c55(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -12016,6 +13260,7 @@ function __c55(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -12027,6 +13272,7 @@ function __c55(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12042,6 +13288,22 @@ function __c55(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12056,6 +13318,7 @@ function __c55(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12070,9 +13333,25 @@ function __c55(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -12362,7 +13641,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sessionId: S.String,
+          sessionId: S.String.pipe(T.Body("session_id")),
           transcriptDownloadUrl: S.String.pipe(T.Body("transcript_download_url")),
           transcriptDownloadUrlExpiry: S.String.pipe(T.Body("transcript_download_url_expiry")),
         }),
@@ -12501,10 +13780,7 @@ function __c68(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
-          customParticipantIds: S.optional(
-            __S(2496, __c78, 0).pipe(T.Body("custom_participant_ids")),
-          ),
-          participantIds: S.optional(__S(2496, __c78, 0).pipe(T.Body("participant_ids"))),
+          participantIds: __S(2496, __c78, 0).pipe(T.Body("participant_ids")),
         })
           .pipe(
             T.Http({
@@ -12721,6 +13997,7 @@ function __c72(j: number): any {
             S.Boolean.pipe(T.Body("can_change_participant_permissions")),
           ),
           canEditDisplayName: S.optional(S.Boolean.pipe(T.Body("can_edit_display_name"))),
+          canEditMeetingTitle: S.optional(S.Boolean.pipe(T.Body("can_edit_meeting_title"))),
           canLivestream: S.optional(S.Boolean.pipe(T.Body("can_livestream"))),
           canRecord: S.optional(S.Boolean.pipe(T.Body("can_record"))),
           canSpotlight: S.optional(S.Boolean.pipe(T.Body("can_spotlight"))),
@@ -12844,6 +14121,7 @@ function __c73(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12859,6 +14137,22 @@ function __c73(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12873,6 +14167,7 @@ function __c73(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -12887,9 +14182,25 @@ function __c73(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13000,10 +14311,7 @@ function __c76(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
-          customParticipantIds: S.optional(
-            __S(2496, __c78, 0).pipe(T.Body("custom_participant_ids")),
-          ),
-          participantIds: S.optional(__S(2496, __c78, 0).pipe(T.Body("participant_ids"))),
+          participantIds: __S(2496, __c78, 0).pipe(T.Body("participant_ids")),
         })
           .pipe(
             T.Http({
@@ -13022,11 +14330,6 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          createdAt: S.String.pipe(T.Body("created_at")),
-          updatedAt: S.String.pipe(T.Body("updated_at")),
-          email: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          picture: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ActiveSessionMuteParticipantsResponseDataParticipantsItem" });
     case 1:
@@ -13059,6 +14362,7 @@ function __c79(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13074,6 +14378,22 @@ function __c79(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13088,6 +14408,7 @@ function __c79(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13102,9 +14423,25 @@ function __c79(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13138,6 +14475,7 @@ function __c79(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
+          enableSip: S.optional(S.Boolean.pipe(T.Body("enable_sip"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
@@ -13163,6 +14501,7 @@ function __c79(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13178,6 +14517,22 @@ function __c79(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13192,6 +14547,7 @@ function __c79(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13206,9 +14562,25 @@ function __c79(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13251,6 +14623,7 @@ function __c79(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -13314,6 +14687,7 @@ function __c80(j: number): any {
           showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
           acceptStageRequests: S.optional(S.Boolean.pipe(T.Body("accept_stage_requests"))),
+          canEditMeetingTitle: S.optional(S.Boolean.pipe(T.Body("can_edit_meeting_title"))),
           isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
           stageAccess: S.optional(S.String.pipe(T.Body("stage_access"))),
           stageEnabled: S.optional(S.Boolean.pipe(T.Body("stage_enabled"))),
@@ -13388,6 +14762,9 @@ function __c80(j: number): any {
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
           acceptStageRequests: S.optional(
             S.NullOr(S.Boolean).pipe(T.Body("accept_stage_requests")),
+          ),
+          canEditMeetingTitle: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("can_edit_meeting_title")),
           ),
           isRecorder: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_recorder"))),
           stageAccess: S.optional(S.NullOr(S.String).pipe(T.Body("stage_access"))),
@@ -13494,6 +14871,7 @@ function __c83(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13509,6 +14887,22 @@ function __c83(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13523,6 +14917,7 @@ function __c83(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13537,9 +14932,25 @@ function __c83(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13583,6 +14994,7 @@ function __c83(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13598,6 +15010,22 @@ function __c83(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13612,6 +15040,7 @@ function __c83(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13626,9 +15055,25 @@ function __c83(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13763,17 +15208,7 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          cfAccountTag: S.optional(S.NullOr(S.String).pipe(T.Body("cf_account_tag"))),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          isOrgOnKv: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_org_on_kv"))),
-          name: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "UpdateAppByIdResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2753, __c86, 1),
+          data: __S(928, __c29, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateAppByIdResponse" });
   }
@@ -13785,6 +15220,7 @@ function __c87(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13800,6 +15236,22 @@ function __c87(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13814,6 +15266,7 @@ function __c87(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13828,9 +15281,25 @@ function __c87(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13864,6 +15333,7 @@ function __c87(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
+          enableSip: S.optional(S.Boolean.pipe(T.Body("enable_sip"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
@@ -13890,6 +15360,7 @@ function __c87(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13905,6 +15376,22 @@ function __c87(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13919,6 +15406,7 @@ function __c87(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -13933,9 +15421,25 @@ function __c87(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -13978,6 +15482,7 @@ function __c87(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -14120,6 +15625,7 @@ function __c92(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14135,6 +15641,22 @@ function __c92(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14149,6 +15671,7 @@ function __c92(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14163,9 +15686,25 @@ function __c92(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -14198,6 +15737,7 @@ function __c92(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
+          enableSip: S.optional(S.Boolean.pipe(T.Body("enable_sip"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
@@ -14223,6 +15763,7 @@ function __c92(j: number): any {
         /*@__PURE__*/ T.UnionCases([
           [
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14238,6 +15779,22 @@ function __c92(j: number): any {
           [
             "accessKey",
             "region",
+            "secret",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
+            "path",
+            "port",
+            "privateKey",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "region",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14252,6 +15809,7 @@ function __c92(j: number): any {
           [
             "privateKey",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
@@ -14266,9 +15824,25 @@ function __c92(j: number): any {
           [
             "password",
             "accessKey",
+            "accountId",
             "authMethod",
             "bucket",
             "host",
+            "path",
+            "port",
+            "privateKey",
+            "region",
+            "secret",
+            "type",
+            "username",
+          ],
+          [
+            "accessKey",
+            "accountId",
+            "authMethod",
+            "bucket",
+            "host",
+            "password",
             "path",
             "port",
             "privateKey",
@@ -14311,6 +15885,7 @@ function __c92(j: number): any {
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
+          sip: S.optional(S.NullOr(__S(3013, __c94, 5))),
           status: S.optional(S.NullOr(S.String)),
           summarizeOnEnd: S.optional(S.NullOr(S.Boolean).pipe(T.Body("summarize_on_end"))),
           title: S.optional(S.NullOr(S.String)),
@@ -14378,6 +15953,14 @@ function __c94(j: number): any {
           width: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "MeetingsCreateResponseDataRecordingConfigVideoConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.String,
+          sipUri: S.String.pipe(T.Body("sip_uri")),
+          username: S.String,
+        }),
+      ).annotate({ identifier: "MeetingsCreateResponseDataSip" });
   }
 }
 function __c95(j: number): any {

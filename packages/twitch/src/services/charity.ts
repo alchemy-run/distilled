@@ -53,7 +53,7 @@ export interface GetCharityCampaignResponseDataItem {
   charity_name?: string | undefined;
   /** A description of the charity. */
   charity_description?: string | undefined;
-  /** A URL to an image of the charity's logo. The image's type is PNG and its size is 100px X 100px. */
+  /** A URL to an image of the charity's logo. The image is typically a PNG that's 100px X 100px. If larger, it is recommended to squash the image and present as a square size. */
   charity_logo?: string | undefined;
   /** A URL to the charity's website. */
   charity_website?: string | undefined;

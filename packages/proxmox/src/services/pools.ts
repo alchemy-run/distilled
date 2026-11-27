@@ -31,16 +31,20 @@ export interface DeletePoolsByPoolidRequest {
   poolid: string;
 }
 export type DeletePoolsByPoolidResponse = null;
-export type GetPoolsRequestType = "qemu" | "lxc" | "storage";
+export type GetPoolsRequestType = "qemu" | "lxc" | "storage" | "network";
 export interface GetPoolsRequest {
   poolid?: string | undefined;
   type?: GetPoolsRequestType | (string & {}) | undefined;
 }
-export type GetPoolsResultItemMembersItemType = "qemu" | "lxc" | "openvz" | "storage";
+export type GetPoolsResultItemMembersItemNetworkType = "vnet";
+export type GetPoolsResultItemMembersItemType = "qemu" | "lxc" | "openvz" | "storage" | "network";
 export interface GetPoolsResultItemMembersItem {
   id: string;
-  node: string;
+  network?: string | undefined;
+  "network-type"?: GetPoolsResultItemMembersItemNetworkType | undefined;
+  node?: string | undefined;
   storage?: string | undefined;
+  text?: string | undefined;
   type: GetPoolsResultItemMembersItemType;
   vmid?: number | undefined;
 }
@@ -52,16 +56,25 @@ export interface GetPoolsResultItem {
 }
 export type GetPoolsResult = Array<GetPoolsResultItem>;
 export type GetPoolsResponse = GetPoolsResult;
-export type GetPoolsByPoolidRequestType = "qemu" | "lxc" | "storage";
+export type GetPoolsByPoolidRequestType = "qemu" | "lxc" | "storage" | "network";
 export interface GetPoolsByPoolidRequest {
   poolid: string;
   type?: GetPoolsByPoolidRequestType | (string & {}) | undefined;
 }
-export type GetPoolsByPoolidResultMembersItemType = "qemu" | "lxc" | "openvz" | "storage";
+export type GetPoolsByPoolidResultMembersItemNetworkType = "vnet";
+export type GetPoolsByPoolidResultMembersItemType =
+  | "qemu"
+  | "lxc"
+  | "openvz"
+  | "storage"
+  | "network";
 export interface GetPoolsByPoolidResultMembersItem {
   id: string;
-  node: string;
+  network?: string | undefined;
+  "network-type"?: GetPoolsByPoolidResultMembersItemNetworkType | undefined;
+  node?: string | undefined;
   storage?: string | undefined;
+  text?: string | undefined;
   type: GetPoolsByPoolidResultMembersItemType;
   vmid?: number | undefined;
 }
@@ -80,6 +93,7 @@ export interface PutPoolsRequest {
   "allow-move"?: boolean | 0 | 1 | undefined;
   comment?: string | undefined;
   delete?: boolean | 0 | 1 | undefined;
+  network?: string | undefined;
   poolid: string;
   storage?: string | undefined;
   vms?: string | undefined;
@@ -89,6 +103,7 @@ export interface PutPoolsByPoolidRequest {
   "allow-move"?: boolean | 0 | 1 | undefined;
   comment?: string | undefined;
   delete?: boolean | 0 | 1 | undefined;
+  network?: string | undefined;
   poolid: string;
   storage?: string | undefined;
   vms?: string | undefined;
@@ -273,8 +288,11 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          node: S.String,
+          network: S.optional(S.String),
+          "network-type": S.optional(S.String),
+          node: S.optional(S.String),
           storage: S.optional(S.String),
+          text: S.optional(S.String),
           type: S.String,
           vmid: S.optional(S.Number),
         }),
@@ -324,6 +342,7 @@ function __c7(j: number): any {
           "allow-move": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           comment: S.optional(S.String),
           delete: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          network: S.optional(S.String),
           poolid: S.String,
           storage: S.optional(S.String),
           vms: S.optional(S.String),
@@ -339,6 +358,7 @@ function __c8(j: number): any {
           "allow-move": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           comment: S.optional(S.String),
           delete: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          network: S.optional(S.String),
           poolid: S.String.pipe(T.Label()),
           storage: S.optional(S.String),
           vms: S.optional(S.String),

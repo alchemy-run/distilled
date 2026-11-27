@@ -126,9 +126,13 @@ describe("request encoding", () => {
       }),
       gmail.layer,
     );
-    expect(gmail.calls[0].url.search).toBe(
-      "?includeSpamTrash=false&labelIds=INBOX&labelIds=UNREAD&maxResults=5",
-    );
+    // Upstream reorders query members between spec updates; compare as a set.
+    expect([...gmail.calls[0].url.searchParams].sort()).toEqual([
+      ["includeSpamTrash", "false"],
+      ["labelIds", "INBOX"],
+      ["labelIds", "UNREAD"],
+      ["maxResults", "5"],
+    ]);
 
     const people = fakeGoogle();
     await run(

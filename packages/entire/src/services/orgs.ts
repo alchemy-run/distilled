@@ -106,11 +106,20 @@ export interface AcceptInvitationResponse {
 export type AddOrgMemberRequestRole = "owner" | "admin" | "member";
 export interface AddOrgMemberRequest {
   orgId: string;
+  /** Set true to let the add invite an account that is outside the organization. The add then answers 202 with an invitation, unless the organization refuses invitations; the operation names that refusal. Without it, that add answers 409 with type https://entire.com/errors/invitation/required and writes nothing. The platform-admin routes ignore it: they always add directly. */
+  allow_invitation?: boolean | undefined;
   provider: string;
   providerUserId: string;
   /** Role at the org; defaults to member. */
   role?: AddOrgMemberRequestRole | (string & {}) | undefined;
 }
+export interface AddTeamMemberRequest {
+  orgId: string;
+  team_id: string;
+  /** The account's ID. */
+  account_id: string;
+}
+export interface AddTeamMemberResponse {}
 export interface CreateOrgRequest {
   /** Display name. */
   name: string;
@@ -200,6 +209,23 @@ export interface Invitation {
   status: InvitationStatus;
   [key: string]: unknown;
 }
+export interface CreateTeamRequest {
+  orgId: string;
+  /** Lowercase letters, digits, and '-'. Unique in the organization. */
+  name: string;
+}
+export interface Team {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  created_at: string;
+  /** True when directory sync owns the team. Such a team is read-only here. */
+  directory_managed: boolean;
+  id: string;
+  name: string;
+  org_id: string;
+  updated_at: string;
+  [key: string]: unknown;
+}
 export interface DeclineInvitationRequest {
   token: string | Redacted.Redacted<string>;
 }
@@ -208,6 +234,11 @@ export interface DeleteOrgRequest {
   orgId: string;
 }
 export interface DeleteOrgResponse {}
+export interface DeleteTeamRequest {
+  orgId: string;
+  team_id: string;
+}
+export interface DeleteTeamResponse {}
 export interface GetOrgRequest {
   orgId: string;
 }
@@ -288,6 +319,10 @@ export interface OrgPerson {
   /** The account's Entire username. Omitted until claimed. */
   username?: string | undefined;
   [key: string]: unknown;
+}
+export interface GetTeamRequest {
+  orgId: string;
+  team_id: string;
 }
 /** Lifecycle state to return; all returns every state. */
 export type ListOrgInvitationsRequestStatus =
@@ -400,7 +435,7 @@ export interface ListOrgPeopleRequest {
   /** Exact recorded grant role, including organization membership and weaker independent grants. */
   role?: ListOrgPeopleRequestRole | (string & {}) | undefined;
 }
-/** Outstanding (open and expired) invitations, only on the first page of an unfiltered request and only when the caller passes the SSO check. They are never joined to an account. */
+/** Outstanding (open and expired) invitations, only on the first page of an unfiltered request. They are never joined to an account. */
 export type ListOrgPeopleOutputBodyInvitationsList = Array<Invitation>;
 export type OrgPersonSummaryAccessScopesItem = "organization" | "project" | "repository";
 /** Recorded grant levels, not effective permissions. */
@@ -422,7 +457,7 @@ export type ListOrgPeopleOutputBodyItemsList = Array<OrgPersonSummary>;
 export interface ListOrgPeopleOutputBody {
   /** A URL to the JSON Schema for this object. */
   _schema?: string | undefined;
-  /** Outstanding (open and expired) invitations, only on the first page of an unfiltered request and only when the caller passes the SSO check. They are never joined to an account. */
+  /** Outstanding (open and expired) invitations, only on the first page of an unfiltered request. They are never joined to an account. */
   invitations?: ListOrgPeopleOutputBodyInvitationsList | undefined;
   items: ListOrgPeopleOutputBodyItemsList;
   /** Pass back to fetch the next page; empty when no more entries. */
@@ -449,6 +484,55 @@ export interface ListOrgsOutputBody {
   nextPageToken?: string | undefined;
   org?: Org | undefined;
   orgs: ListOrgsOutputBodyOrgsList;
+  [key: string]: unknown;
+}
+export interface ListTeamMembersRequest {
+  orgId: string;
+  team_id: string;
+  /** Opaque cursor from a previous response's next_cursor. */
+  cursor?: string | undefined;
+  /** Members per page. */
+  per_page?: number | undefined;
+}
+/** Membership status in the organization. */
+export type TeamMemberStatus = "active" | "inactive" | "pending";
+export interface TeamMember {
+  account_id: string;
+  /** Public avatar URL. */
+  avatar_url?: string | undefined;
+  /** Account-level public display name. */
+  display_name?: string | undefined;
+  handle?: string | undefined;
+  provider?: string | undefined;
+  /** Membership status in the organization. */
+  status: TeamMemberStatus;
+  /** The member's Entire username. Omitted until claimed. */
+  username?: string | undefined;
+  [key: string]: unknown;
+}
+export type ListTeamMembersOutputBodyMembersList = Array<TeamMember>;
+export interface ListTeamMembersOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  members: ListTeamMembersOutputBodyMembersList;
+  /** Present only when more members remain. */
+  next_cursor?: string | undefined;
+  [key: string]: unknown;
+}
+export interface ListTeamsRequest {
+  orgId: string;
+  /** Opaque cursor from a previous response's next_cursor. */
+  cursor?: string | undefined;
+  /** Teams per page. */
+  per_page?: number | undefined;
+}
+export type ListTeamsOutputBodyTeamsList = Array<Team>;
+export interface ListTeamsOutputBody {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
+  /** Present only when more teams remain. */
+  next_cursor?: string | undefined;
+  teams: ListTeamsOutputBodyTeamsList;
   [key: string]: unknown;
 }
 export interface PreviewInvitationRequest {
@@ -483,6 +567,13 @@ export interface RemoveOrgMemberByMembershipIDRequest {
   membershipId: string;
 }
 export interface RemoveOrgMemberByMembershipIDResponse {}
+export interface RemoveTeamMemberRequest {
+  orgId: string;
+  team_id: string;
+  /** The account's ID. */
+  account_id: string;
+}
+export interface RemoveTeamMemberResponse {}
 export interface RevokeOrgInvitationRequest {
   orgId: string;
   id: string;
@@ -495,6 +586,12 @@ export interface UpdateOrgMemberRoleRequest {
   membershipId: string;
   /** Replacement organization role. */
   role: UpdateOrgMemberRoleRequestRole | (string & {});
+}
+export interface UpdateTeamRequest {
+  orgId: string;
+  team_id: string;
+  /** Lowercase letters, digits, and '-'. Unique in the organization. Omitted keeps the name. */
+  name?: string | undefined;
 }
 export interface ErrorDetail {
   /** Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id' */
@@ -532,8 +629,8 @@ export const acceptInvitation: API.OperationMethod<
   AcceptInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<AcceptInvitationRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<AcceptInvitationResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<AcceptInvitationRequest>,
+  output: __S(114, __c14, 2) as any as S.Schema<AcceptInvitationResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -543,21 +640,39 @@ export const acceptInvitation: API.OperationMethod<
 }));
 
 export type AddOrgMemberError = EntireOpError;
-/** Add a member to an organization */
+/** Add a member to an organization, or invite the account The add is direct, and answers 201, when no invitation is needed. On /api/v1 no add to an organization is direct. Any other account is outside this organization and joins only by an invitation that it accepts. Set allow_invitation to create that invitation: the add then answers 202 with invitation_id and expires_at, and the account holds no access until it accepts. Without allow_invitation, that add answers 409 with type https://entire.com/errors/invitation/required and writes nothing. The add checks allow_invitation before the refusals that apply only to an invitation. A retry with allow_invitation therefore invites the account unless this organization refuses invitations; the sentences below name those refusals. 201 never carries an invitation. A repeat add reuses an open invitation for the same role and sends no second mail; another role answers 409 with type https://entire.com/errors/invitation/role-mismatch until the invitation is revoked. An organization that enforces single sign-on admits no account by invitation: an add that would invite into it answers 403 with type https://entire.com/errors/invitation/sso-required, and the account joins by signing in through that single sign-on. Invitation mail to one account is limited: 429 carries Retry-After. The invitation is created on the organization's home core: another core answers 421. */
 export const addOrgMember: API.OperationMethod<
   AddOrgMemberRequest,
   Membership,
   AddOrgMemberError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<AddOrgMemberRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Membership>,
+  input: __S(184, __c23, 0) as any as S.Schema<AddOrgMemberRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<Membership>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddOrgMember",
+}));
+
+export type AddTeamMemberError = EntireOpError;
+/** Add an account to a team Requires organization management permission. The add is idempotent and answers 204. Only an active member of the organization can be added: any other account answers 409 with type https://entire.com/errors/invitation/required and nothing is written. A service account answers 403. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
+export const addTeamMember: API.OperationMethod<
+  AddTeamMemberRequest,
+  AddTeamMemberResponse,
+  AddTeamMemberError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c24, 0) as any as S.Schema<AddTeamMemberRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<AddTeamMemberResponse>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamMember",
 }));
 
 export type CreateOrgError = OrgCreationLimitReached | OrgNameInvalid | EntireOpError;
@@ -568,8 +683,8 @@ export const createOrg: API.OperationMethod<
   CreateOrgError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateOrgRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<CreatedOrg>,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateOrgRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<CreatedOrg>,
   errors: [OrgCreationLimitReached, OrgNameInvalid],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -586,14 +701,32 @@ export const createOrgInvitation: API.OperationMethod<
   CreateOrgInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateOrgInvitationRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<Invitation>,
+  input: __S(224, __c28, 0) as any as S.Schema<CreateOrgInvitationRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<Invitation>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrgInvitation",
+}));
+
+export type CreateTeamError = EntireOpError;
+/** Create a team in an organization Requires organization management permission. The name holds lowercase letters, digits, and '-', and is unique in the organization: a taken name answers 409 with type https://entire.com/errors/team/name-in-use. */
+export const createTeam: API.OperationMethod<
+  CreateTeamRequest,
+  Team,
+  CreateTeamError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c30, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Team>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type DeclineInvitationError = EntireOpError;
@@ -604,8 +737,8 @@ export const declineInvitation: API.OperationMethod<
   DeclineInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeclineInvitationRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<DeclineInvitationResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<DeclineInvitationRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<DeclineInvitationResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -622,8 +755,8 @@ export const deleteOrg: API.OperationMethod<
   DeleteOrgError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteOrgRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<DeleteOrgResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<DeleteOrgRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<DeleteOrgResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -632,12 +765,30 @@ export const deleteOrg: API.OperationMethod<
   span: "DeleteOrg",
 }));
 
+export type DeleteTeamError = EntireOpError;
+/** Delete a team Requires organization management permission. Removes the team's members with the team. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
+export const deleteTeam: API.OperationMethod<
+  DeleteTeamRequest,
+  DeleteTeamResponse,
+  DeleteTeamError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<DeleteTeamResponse>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
+}));
+
 export type GetOrgError = EntireOpError;
 /** Get an organization **Accepted credentials:** User token. */
 export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, EntireOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(168, __c21, 0) as any as S.Schema<GetOrgRequest>,
-    output: __S(176, __c22, 0) as any as S.Schema<Org>,
+    input: __S(16, __c2, 0) as any as S.Schema<GetOrgRequest>,
+    output: __S(24, __c3, 0) as any as S.Schema<Org>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
@@ -654,8 +805,8 @@ export const getOrgPersonAccess: API.OperationMethod<
   GetOrgPersonAccessError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetOrgPersonAccessRequest>,
-  output: __S(188, __c23, 4) as any as S.Schema<OrgPerson>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetOrgPersonAccessRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<OrgPerson>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -663,6 +814,20 @@ export const getOrgPersonAccess: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "GetOrgPersonAccess",
 }));
+
+export type GetTeamError = EntireOpError;
+/** Get a team Requires organization view permission. A team of another organization answers 404. */
+export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, EntireOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: __S(48, __c6, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(248, __c31, 0) as any as S.Schema<Team>,
+    errors: [],
+    serviceErrors: EntireServiceErrors,
+    protocol: EntireCoreProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTeam",
+  }));
 
 export type ListOrgInvitationsError = EntireOpError;
 /** List an organization's invitations */
@@ -674,8 +839,8 @@ export const listOrgInvitations: API.PaginatedOperationMethod<
   Invitation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c1, 0) as any as S.Schema<ListOrgInvitationsRequest>,
-    output: __S(9, __c1, 1) as any as S.Schema<ListOrgInvitationsOutputBody>,
+    input: __S(56, __c7, 0) as any as S.Schema<ListOrgInvitationsRequest>,
+    output: __S(57, __c7, 1) as any as S.Schema<ListOrgInvitationsOutputBody>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
@@ -702,8 +867,8 @@ export const listOrgMembers: API.PaginatedOperationMethod<
   OrgMemberListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24, __c3, 0) as any as S.Schema<ListOrgMembersRequest>,
-    output: __S(27, __c3, 3) as any as S.Schema<ListOrgMembersOutputBody>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListOrgMembersRequest>,
+    output: __S(75, __c9, 3) as any as S.Schema<ListOrgMembersOutputBody>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
@@ -730,8 +895,8 @@ export const listOrgPeople: API.PaginatedOperationMethod<
   OrgPersonSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListOrgPeopleRequest>,
-    output: __S(35, __c4, 3) as any as S.Schema<ListOrgPeopleOutputBody>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListOrgPeopleRequest>,
+    output: __S(83, __c10, 3) as any as S.Schema<ListOrgPeopleOutputBody>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
@@ -758,8 +923,8 @@ export const listOrgs: API.PaginatedOperationMethod<
   Org
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListOrgsRequest>,
-    output: __S(42, __c5, 2) as any as S.Schema<ListOrgsOutputBody>,
+    input: __S(88, __c11, 0) as any as S.Schema<ListOrgsRequest>,
+    output: __S(90, __c11, 2) as any as S.Schema<ListOrgsOutputBody>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCoreProtocol,
@@ -776,6 +941,62 @@ export const listOrgs: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type ListTeamMembersError = EntireOpError;
+/** List members of a team Requires organization view permission. Returns members with their global public profile. Each member carries the status of its organization membership: a pending or inactive member stays listed and can be removed. */
+export const listTeamMembers: API.PaginatedOperationMethod<
+  ListTeamMembersRequest,
+  ListTeamMembersOutputBody,
+  ListTeamMembersError,
+  EntireOpContext,
+  TeamMember
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(96, __c12, 0) as any as S.Schema<ListTeamMembersRequest>,
+    output: __S(99, __c12, 3) as any as S.Schema<ListTeamMembersOutputBody>,
+    errors: [],
+    serviceErrors: EntireServiceErrors,
+    protocol: EntireCoreProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeamMembers",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "members",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
+export type ListTeamsError = EntireOpError;
+/** List teams of an organization Requires organization view permission. Returns teams in name order, directory-sync teams included. */
+export const listTeams: API.PaginatedOperationMethod<
+  ListTeamsRequest,
+  ListTeamsOutputBody,
+  ListTeamsError,
+  EntireOpContext,
+  Team
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(104, __c13, 0) as any as S.Schema<ListTeamsRequest>,
+    output: __S(106, __c13, 2) as any as S.Schema<ListTeamsOutputBody>,
+    errors: [],
+    serviceErrors: EntireServiceErrors,
+    protocol: EntireCoreProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeams",
+    pagination: {
+      inputToken: "cursor",
+      outputToken: "next_cursor",
+      items: "teams",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type PreviewInvitationError = EntireOpError;
 /** Preview an invitation */
 export const previewInvitation: API.OperationMethod<
@@ -784,8 +1005,8 @@ export const previewInvitation: API.OperationMethod<
   PreviewInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<PreviewInvitationRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<PreviewInvitationResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<PreviewInvitationRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<PreviewInvitationResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -802,8 +1023,8 @@ export const removeOrgMember: API.OperationMethod<
   RemoveOrgMemberError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<RemoveOrgMemberRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<RemoveOrgMemberResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<RemoveOrgMemberRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<RemoveOrgMemberResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -820,14 +1041,32 @@ export const removeOrgMemberByMembershipID: API.OperationMethod<
   RemoveOrgMemberByMembershipIDError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<RemoveOrgMemberByMembershipIDRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<RemoveOrgMemberByMembershipIDResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<RemoveOrgMemberByMembershipIDRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<RemoveOrgMemberByMembershipIDResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveOrgMemberByMembershipID",
+}));
+
+export type RemoveTeamMemberError = EntireOpError;
+/** Remove an account from a team Requires organization management permission. The removal is idempotent and answers 204. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
+export const removeTeamMember: API.OperationMethod<
+  RemoveTeamMemberRequest,
+  RemoveTeamMemberResponse,
+  RemoveTeamMemberError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(152, __c19, 0) as any as S.Schema<RemoveTeamMemberRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<RemoveTeamMemberResponse>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamMember",
 }));
 
 export type RevokeOrgInvitationError = EntireOpError;
@@ -838,8 +1077,8 @@ export const revokeOrgInvitation: API.OperationMethod<
   RevokeOrgInvitationError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RevokeOrgInvitationRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<RevokeOrgInvitationResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RevokeOrgInvitationRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<RevokeOrgInvitationResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -856,14 +1095,32 @@ export const updateOrgMemberRole: API.OperationMethod<
   UpdateOrgMemberRoleError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateOrgMemberRoleRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Membership>,
+  input: __S(168, __c21, 0) as any as S.Schema<UpdateOrgMemberRoleRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<Membership>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrgMemberRole",
+}));
+
+export type UpdateTeamError = EntireOpError;
+/** Update a team Requires organization management permission. The body is a JSON Merge Patch (RFC 7396) of name: an omitted or null field keeps its value, and an empty patch returns the team unchanged. The name holds lowercase letters, digits, and '-', and is unique in the organization: a taken name answers 409 with type https://entire.com/errors/team/name-in-use. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
+export const updateTeam: API.OperationMethod<
+  UpdateTeamRequest,
+  Team,
+  UpdateTeamError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Team>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCoreProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -905,6 +1162,138 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/orgs/{orgId}/teams/{team_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteTeamRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{orgId}", code: 200 })),
+      ).annotate({ identifier: "GetOrgRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            capabilities: __S(216, __c27, 0),
+            createdAt: S.String,
+            id: S.String,
+            name: S.String,
+            provider: S.optional(S.String),
+            region: S.String,
+            workosOrganizationId: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Org" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          accountId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/orgs/{orgId}/people/{accountId}/access",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrgPersonAccessRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            allowedRoles: __S(40, __c5, 0),
+            targetId: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrgPersonGrantCapabilities" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            capabilities: __S(33, __c4, 1),
+            resourceId: S.String,
+            resourceName: S.String,
+            resourceType: S.String,
+            role: S.String,
+            source: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrgPersonGrant" });
+    case 3:
+      return S.Array(__S(34, __c4, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            accountId: S.String,
+            avatarUrl: S.optional(S.String),
+            displayName: S.optional(S.String),
+            grants: __S(35, __c4, 3),
+            handle: S.optional(S.String),
+            membership: __S(41, __c5, 1),
+            provider: S.optional(S.String),
+            username: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrgPerson" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            createdAt: S.String,
+            id: S.String,
+            role: S.String,
+            status: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrgPersonMembership" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{orgId}/teams/{team_id}", code: 200 })),
+      ).annotate({ identifier: "GetTeamRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
@@ -915,7 +1304,7 @@ function __c1(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: __S(16, __c2, 0),
+            invitations: __S(64, __c8, 0),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -923,13 +1312,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListOrgInvitationsOutputBody" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(139, __c17, 3));
+      return S.Array(__S(235, __c29, 3));
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -962,13 +1351,13 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "OrgMemberListItem" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(73, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            members: __S(26, __c3, 2),
+            members: __S(74, __c9, 2),
             nextPageToken: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -976,7 +1365,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListOrgMembersOutputBody" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -997,12 +1386,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accessScopes: __S(192, __c24, 0),
+            accessScopes: __S(40, __c5, 0),
             accountId: S.String,
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
             handle: S.optional(S.String),
-            membership: __S(193, __c24, 1),
+            membership: __S(41, __c5, 1),
             provider: S.optional(S.String),
             username: S.optional(S.String),
           }),
@@ -1010,14 +1399,14 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "OrgPersonSummary" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            invitations: S.optional(__S(16, __c2, 0)),
-            items: __S(34, __c4, 2),
+            invitations: S.optional(__S(64, __c8, 0)),
+            items: __S(82, __c10, 2),
             nextPageToken: S.optional(S.String),
             totalCount: S.Number,
           }),
@@ -1026,7 +1415,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListOrgPeopleOutputBody" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1039,22 +1428,149 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs", code: 200 })),
       ).annotate({ identifier: "ListOrgsRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             nextPageToken: S.optional(S.String),
-            org: S.optional(__S(176, __c22, 0)),
-            orgs: __S(41, __c5, 1),
+            org: S.optional(__S(24, __c3, 0)),
+            orgs: __S(89, __c11, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ListOrgsOutputBody" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/orgs/{orgId}/teams/{team_id}/members", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListTeamMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            avatar_url: S.optional(S.String),
+            display_name: S.optional(S.String),
+            handle: S.optional(S.String),
+            provider: S.optional(S.String),
+            status: S.String,
+            username: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TeamMember" });
+    case 2:
+      return S.Array(__S(97, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            members: __S(98, __c12, 2),
+            next_cursor: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListTeamMembersOutputBody" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{orgId}/teams", code: 200 })),
+      ).annotate({ identifier: "ListTeamsRequest" });
+    case 1:
+      return S.Array(__S(248, __c31, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            next_cursor: S.optional(S.String),
+            teams: __S(105, __c13, 1),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListTeamsOutputBody" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/invitations/accept", code: 200 })),
+      ).annotate({ identifier: "AcceptInvitationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            host: S.String,
+            project: S.String,
+            repo: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "InvitationReference" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          membership: S.optional(__S(120, __c15, 0)),
+          orgId: S.String,
+          orgName: S.String,
+          projectId: S.optional(S.String),
+          projectName: S.optional(S.String),
+          reference: S.optional(__S(113, __c14, 1)),
+          repoId: S.optional(S.String),
+          repoName: S.optional(S.String),
+          role: S.String,
+          scope: S.String,
+        }),
+      ).annotate({ identifier: "AcceptInvitationResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            accountId: S.String,
+            createdAt: S.String,
+            handle: S.optional(S.String),
+            id: S.String,
+            orgId: S.String,
+            provider: S.optional(S.String),
+            role: S.String,
+            status: S.String,
+            username: S.optional(S.String),
+            workosOrgMembershipId: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Membership" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1080,7 +1596,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PreviewInvitationResponse" });
   }
 }
-function __c7(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1098,7 +1614,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RemoveOrgMemberRequest" });
   }
 }
-function __c8(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1115,7 +1631,25 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RemoveOrgMemberByMembershipIDRequest" });
   }
 }
-function __c9(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+          account_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/orgs/{orgId}/teams/{team_id}/members/{account_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveTeamMemberRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1128,7 +1662,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RevokeOrgInvitationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1146,71 +1680,27 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateOrgMemberRoleRequest" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/invitations/accept", code: 200 })),
-      ).annotate({ identifier: "AcceptInvitationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            host: S.String,
-            project: S.String,
-            repo: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "InvitationReference" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          membership: S.optional(__S(96, __c12, 0)),
-          orgId: S.String,
-          orgName: S.String,
-          projectId: S.optional(S.String),
-          projectName: S.optional(S.String),
-          reference: S.optional(__S(89, __c11, 1)),
-          repoId: S.optional(S.String),
-          repoName: S.optional(S.String),
-          role: S.String,
-          scope: S.String,
-        }),
-      ).annotate({ identifier: "AcceptInvitationResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            accountId: S.String,
-            createdAt: S.String,
-            handle: S.optional(S.String),
-            id: S.String,
-            orgId: S.String,
-            provider: S.optional(S.String),
-            role: S.String,
-            status: S.String,
-            username: S.optional(S.String),
-            workosOrgMembershipId: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Membership" });
-  }
-}
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/v1/orgs/{orgId}/teams/{team_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateTeamRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          allow_invitation: S.optional(S.Boolean),
           provider: S.String,
           providerUserId: S.String,
           role: S.optional(S.String),
@@ -1218,7 +1708,31 @@ function __c13(j: number): any {
       ).annotate({ identifier: "AddOrgMemberRequest" });
   }
 }
-function __c14(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          team_id: S.String.pipe(T.Label()),
+          account_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/orgs/{orgId}/teams/{team_id}/members/{account_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddTeamMemberRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AddTeamMemberResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1232,7 +1746,7 @@ function __c14(j: number): any {
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            capabilities: __S(120, __c15, 0),
+            capabilities: __S(216, __c27, 0),
             commitToken: S.optional(S.String),
             createdAt: S.String,
             id: S.String,
@@ -1246,7 +1760,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreatedOrg" });
   }
 }
-function __c15(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1265,7 +1779,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "OrgCapabilities" });
   }
 }
-function __c16(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1277,7 +1791,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateOrgInvitationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1291,14 +1805,14 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "AccountProfileHandle" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(232, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             avatarUrl: S.optional(S.String),
             displayName: S.optional(S.String),
-            handles: __S(137, __c17, 1),
+            handles: __S(233, __c29, 1),
             username: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -1311,16 +1825,16 @@ function __c17(j: number): any {
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             acceptedAt: S.optional(S.String),
             acceptedBy: S.optional(S.String),
-            acceptedByIdentity: S.optional(__S(138, __c17, 2)),
+            acceptedByIdentity: S.optional(__S(234, __c29, 2)),
             createdAt: S.String,
             declinedAt: S.optional(S.String),
             email: S.optional(S.String),
             expiresAt: S.String,
             id: S.String,
             invitedBy: S.String,
-            invitedByIdentity: S.optional(__S(138, __c17, 2)),
+            invitedByIdentity: S.optional(__S(234, __c29, 2)),
             inviteeAccountId: S.optional(S.String),
-            inviteeIdentity: S.optional(__S(138, __c17, 2)),
+            inviteeIdentity: S.optional(__S(234, __c29, 2)),
             revokedAt: S.optional(S.String),
             role: S.String,
             status: S.String,
@@ -1330,7 +1844,37 @@ function __c17(j: number): any {
       ).annotate({ identifier: "Invitation" });
   }
 }
-function __c18(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.String.pipe(T.Label()),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/orgs/{orgId}/teams", code: 200 })),
+      ).annotate({ identifier: "CreateTeamRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            created_at: S.String,
+            directory_managed: S.Boolean,
+            id: S.String,
+            name: S.String,
+            org_id: S.String,
+            updated_at: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Team" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1340,13 +1884,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeclineInvitationRequest" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeclineInvitationResponse" });
-  }
-}
-function __c20(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1354,114 +1892,6 @@ function __c20(j: number): any {
           orgId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/orgs/{orgId}", code: 200 })),
       ).annotate({ identifier: "DeleteOrgRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/orgs/{orgId}", code: 200 })),
-      ).annotate({ identifier: "GetOrgRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            capabilities: __S(120, __c15, 0),
-            createdAt: S.String,
-            id: S.String,
-            name: S.String,
-            provider: S.optional(S.String),
-            region: S.String,
-            workosOrganizationId: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Org" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.String.pipe(T.Label()),
-          accountId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/orgs/{orgId}/people/{accountId}/access",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrgPersonAccessRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            allowedRoles: __S(192, __c24, 0),
-            targetId: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrgPersonGrantCapabilities" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            capabilities: __S(185, __c23, 1),
-            resourceId: S.String,
-            resourceName: S.String,
-            resourceType: S.String,
-            role: S.String,
-            source: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrgPersonGrant" });
-    case 3:
-      return S.Array(__S(186, __c23, 2));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            accountId: S.String,
-            avatarUrl: S.optional(S.String),
-            displayName: S.optional(S.String),
-            grants: __S(187, __c23, 3),
-            handle: S.optional(S.String),
-            membership: __S(193, __c24, 1),
-            provider: S.optional(S.String),
-            username: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrgPerson" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            createdAt: S.String,
-            id: S.String,
-            role: S.String,
-            status: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrgPersonMembership" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

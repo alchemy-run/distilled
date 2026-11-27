@@ -135,22 +135,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.posthog.product_tours#ProductToursGenerateCreate/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.posthog.product_tours#BadRequest"
-        },
-        {
-          "target": "com.posthog.product_tours#Forbidden"
-        },
-        {
-          "target": "com.posthog.product_tours#NotFound"
-        }
-      ]
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.posthog.product_tours#ProductToursPublishDraftCreate/errors",
       "before": "traits",
       "value": [
